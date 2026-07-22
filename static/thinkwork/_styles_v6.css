@@ -252,3 +252,36 @@ footer .footer-base { max-width: 1280px; margin: 0 auto; padding: 32px 32px 0; d
   .phase-grid { grid-template-columns: 1fr 1fr; }
   .phase:nth-child(2n) { border-right: 0; }
 }
+
+
+/* ── burger nav (mobile) — added 2026-07-22 ──────────────────
+   CSS-only toggle. <=820px the nav collapses behind a hamburger
+   that animates to an X and drops a full-width panel. No JS.
+   The display:block below overrides the <=600px hide rule so all
+   links show inside the open panel. */
+.tw-nav-toggle { display: none; }
+.tw-burger { display: none; }
+@media (max-width: 820px) {
+  .tw-burger {
+    display: inline-flex; flex-direction: column; justify-content: center; gap: 5px;
+    width: 44px; height: 38px; padding: 8px 9px; margin-left: auto; cursor: pointer;
+    background: transparent; border: 1px solid var(--line); border-radius: 8px;
+  }
+  .tw-burger span {
+    display: block; width: 100%; height: 1.5px; border-radius: 2px; background: var(--ink);
+    transition: transform .22s ease, opacity .18s ease;
+  }
+  .mast-nav {
+    display: none; position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: var(--bg); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    padding: 8px 24px 18px; box-shadow: 0 24px 48px rgba(0,0,0,.10); z-index: 60;
+  }
+  .mast-nav a { padding: 14px 4px; font-size: 15.5px; }
+  .mast-nav a:not(.cta) { display: block; }
+  .mast-nav .cta { text-align: center; margin-top: 10px; padding: 12px 18px; }
+  .tw-nav-toggle:checked ~ .mast-nav { display: flex; }
+  .tw-nav-toggle:checked ~ .tw-burger span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .tw-nav-toggle:checked ~ .tw-burger span:nth-child(2) { opacity: 0; }
+  .tw-nav-toggle:checked ~ .tw-burger span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+}

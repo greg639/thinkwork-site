@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/static/thinkwork/_styles_v6.css">
+<link rel="stylesheet" href="/static/thinkwork/_styles_v6.css?v=2">
 <style>
   /* v7-specific additions on top of v6 styles */
   .layer-stack-card { max-width: 1080px; margin: 56px auto 0; background: var(--bg-paper); border: 1px solid var(--line); padding: 48px; }
@@ -63,6 +63,8 @@
 <header class="masthead">
   <div class="masthead-inner">
     <a href="/" class="mast-brand">Think<span class="mark">Work</span></a>
+    <input type="checkbox" id="tw-nav-toggle" class="tw-nav-toggle" aria-hidden="true">
+    <label for="tw-nav-toggle" class="tw-burger" aria-label="Toggle menu"><span></span><span></span><span></span></label>
     <nav class="mast-nav">
       <a href="#layer">The Mastery Layer</a>
       <a href="#programs">Programs</a>

@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Thu, 23 Jul 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Wed, 29 Jul 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>Week One of Onboarding Is Mostly Wasted. Here&#x27;s the Evidence.</title>
+    <link>https://thinkwork.info/blog/what-new-reps-actually-do-in-week-one-vs-what-helps/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/what-new-reps-actually-do-in-week-one-vs-what-helps/</guid>
+    <description>What new reps actually do in their first five days, what any of it predicts, and where the real ramp damage gets baked in.</description>
+    <category>Onboarding &amp; Ramp</category>
+    <pubDate>Wed, 29 Jul 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>The 90-Day Ramp Curriculum, Ranked by What Actually Predicts Quota Attainment</title>
     <link>https://thinkwork.info/blog/ramp-curriculum-ranked-by-quota-attainment/</link>
@@ -398,13 +406,5 @@
     <description>The debate about whether cold calling still works is a distraction from the one that matters: most outbound programs are optimizing for a metric that has nothing to do with skill.</description>
     <category>Prospecting &amp; Outbound</category>
     <pubDate>Thu, 02 Apr 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>Nine Cold-Call Openers We&#x27;ve Graded — Ranked by What Actually Earns a Second Sentence</title>
-    <link>https://thinkwork.info/blog/nine-cold-call-openers-ranked-second-sentence/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/nine-cold-call-openers-ranked-second-sentence/</guid>
-    <description>We pulled graded observations from live calls and ranked the openers by whether the prospect kept talking — not by what sounds smart in a training deck.</description>
-    <category>Prospecting &amp; Outbound</category>
-    <pubDate>Wed, 01 Apr 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

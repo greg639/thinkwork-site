@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lead Scoring Model Template | Free Template | ThinkWork</title>
+<meta name="description" content="A weighted fit-plus-intent scoring model you build and stress-test in a spreadsheet first, so you catch a broken model before it silently mis-routes leads ins">
+<link rel="canonical" href="https://thinkwork.info/library/lead-scoring-model-template/">
+<meta property="og:title" content="Lead Scoring Model Template | Free Template | ThinkWork">
+<meta property="og:description" content="A weighted fit-plus-intent scoring model you build and stress-test in a spreadsheet first, so you catch a broken model before it silently mis-routes leads ins">
+<meta property="og:url" content="https://thinkwork.info/library/lead-scoring-model-template/">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/library/library.css?v=1">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "CreativeWork", "name": "Lead Scoring Model Template", "description": "A weighted fit-plus-intent scoring model you build and stress-test in a spreadsheet first, so you catch a broken model before it silently mis-routes leads inside your CRM.", "url": "https://thinkwork.info/library/lead-scoring-model-template/", "isAccessibleForFree": true, "inLanguage": "en", "provider": {"@type": "Organization", "name": "ThinkWork", "url": "https://thinkwork.info"}, "about": "Metrics, Analytics & RevOps", "audience": {"@type": "Audience", "audienceType": "Leader"}}</script>
+</head>
+<body class="res-page">
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="/" class="mast-brand">Think<span class="mark">Work</span></a>
+    <input type="checkbox" id="tw-nav-toggle" class="tw-nav-toggle" aria-hidden="true">
+    <label for="tw-nav-toggle" class="tw-burger" aria-label="Toggle menu"><span></span><span></span><span></span></label>
+    <nav class="mast-nav">
+      <a href="/#layer">The Mastery Layer</a>
+      <a href="/#programs">Programs</a>
+      <a href="/library/">Library</a>
+      <a href="/thinkwork/letter">The Letter</a>
+      <a href="/#engage" class="cta">Book a Call</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="crumbs"><a href="/library/">Resource Library</a> <span>/</span>
+  <a href="/library/?category=Metrics, Analytics &amp; RevOps">Metrics, Analytics &amp; RevOps</a></nav>
+<article class="res">
+  <header class="res-head">
+    <div class="badges">
+      <span class="pill a-lead">Leader</span>
+      <span class="pill fmt">Template</span>
+      
+      <span class="pill free">Free</span>
+    </div>
+    <h1>Lead Scoring Model Template</h1>
+    <p class="summary">A weighted fit-plus-intent scoring model you build and stress-test in a spreadsheet first, so you catch a broken model before it silently mis-routes leads inside your CRM.</p>
+    <div class="res-actions">
+      <button class="btn btn-primary" data-copy>Copy to clipboard</button>
+      <button class="btn btn-ghost" onclick="window.print()">Print / save as PDF</button>
+    </div>
+  </header>
+  <div class="res-grid">
+    <div class="res-main" id="resource-body">
+      <div class="inside">
+        <h2>What's inside</h2>
+        <ul><li>Fit score table — 6 weighted firmographic criteria worth up to 100 points</li><li>Intent score table — 10 weighted behavioral triggers including negative scoring, up to 100 points</li><li>Fit × Intent 2×2 grid producing A/B/C/D grades with routing rules</li><li>Disqualifier checklist for automatic zero-scoring</li><li>Score decay rule (14-day partial decay, 45-day full reset)</li><li>Spreadsheet build structure — the exact columns to test before touching the CRM</li><li>Validation method against 100 historical leads with known outcomes</li><li>Recalibration triggers (win-rate divergence, ICP change, campaign change)</li></ul>
+      </div>
+      <div class="res-body"><p><strong>Purpose:</strong> A fit-plus-intent model separates "would be a great customer" from "is showing buying signals right now" — because a perfect-fit lead reading your pricing page and a terrible-fit lead downloading three whitepapers are not the same lead, and a single blended score treats them as if they were.</p>
+<p><strong>Build this in a spreadsheet first.</strong> Validate against 100 historical leads with known outcomes before you ever wire it into CRM automation — a broken scoring model that's already live silently mis-routes leads for months before anyone notices.</p>
+<h3>Part 1 — Fit Score (firmographic: "should we want them?")</h3>
+<p>Max 100 points. The weights below are a starting template — adjust to your actual win-rate data.</p>
+<div class="tw"><table><thead><tr><th>Criterion</th><th>Points</th><th>Scoring rule</th></tr></thead><tbody>
+<tr><td>Company size</td><td>0–20</td><td>20 = sweet-spot employee/revenue band; 10 = adjacent band; 0 = outside range</td></tr>
+<tr><td>Industry</td><td>0–20</td><td>20 = top-3 vertical by win rate; 10 = secondary vertical; 0 = never closed in this vertical</td></tr>
+<tr><td>Job title / seniority</td><td>0–20</td><td>20 = economic buyer or champion title; 10 = influencer; 0 = no buying authority</td></tr>
+<tr><td>Tech stack fit</td><td>0–15</td><td>15 = uses a complementary/integrated tool; 0 = uses a hard-blocking competitor</td></tr>
+<tr><td>Geography</td><td>0–10</td><td>10 = serviceable region with support coverage; 0 = unserviceable</td></tr>
+<tr><td>Existing relationship</td><td>0–15</td><td>15 = warm intro/referral/existing customer at parent org; 0 = cold</td></tr>
+</tbody></table></div>
+<p><strong>Fit Score = sum of all rows (max 100)</strong></p>
+<h3>Part 2 — Intent Score (behavioral: "are they showing buying signals?")</h3>
+<p>Max 100 points, capped and floored. Decay applies — see Part 5.</p>
+<div class="tw"><table><thead><tr><th>Action</th><th>Points</th></tr></thead><tbody>
+<tr><td>Requested demo / pricing / trial</td><td>30</td></tr>
+<tr><td>Visited pricing page</td><td>20</td></tr>
+<tr><td>Attended webinar or event</td><td>15</td></tr>
+<tr><td>Opened 3+ emails in a sequence</td><td>10</td></tr>
+<tr><td>Downloaded bottom-funnel content (case study, ROI calculator)</td><td>15</td></tr>
+<tr><td>Downloaded top-funnel content (blog, generic ebook)</td><td>5</td></tr>
+<tr><td>Visited website 3+ times in 7 days</td><td>10</td></tr>
+<tr><td>Competitor comparison page visit</td><td>15</td></tr>
+<tr><td>Unsubscribed from marketing emails</td><td>−20</td></tr>
+<tr><td>No engagement in 30+ days</td><td>−15</td></tr>
+</tbody></table></div>
+<p><strong>Intent Score = sum of all triggered rows (cap at 100, floor at 0)</strong></p>
+<h3>Part 3 — Combined grid</h3>
+<p>Plot every lead on the 2×2:</p>
+<div class="tw"><table><thead><tr><th></th><th>Low Intent (0–40)</th><th>High Intent (41–100)</th></tr></thead><tbody>
+<tr><td><strong>High Fit (61–100)</strong></td><td><strong>B — Nurture priority</strong></td><td><strong>A — Sales-ready, route now</strong></td></tr>
+<tr><td><strong>Low Fit (0–60)</strong></td><td><strong>D — Marketing nurture only</strong></td><td><strong>C — Sales-qualify before routing</strong></td></tr>
+</tbody></table></div>
+<h3>Part 4 — Negative scoring / disqualifiers (auto-zero regardless of score)</h3>
+<ul class="checks">
+<li>Free/personal email domain (gmail, yahoo) with no company match</li>
+<li>Company size below minimum viable deal size threshold</li>
+<li>Explicitly stated "just researching, not buying" in a form field</li>
+<li>Student, job-seeker, or vendor/competitor domain</li>
+<li>Duplicate of an existing customer contact already assigned to CS</li>
+</ul>
+<h3>Part 5 — Score decay</h3>
+<ul>
+<li>Intent points decay 20% every 14 days of no new activity</li>
+<li>A lead with no activity for 45 days resets Intent Score to 0 and returns to nurture, regardless of Fit Score</li>
+</ul>
+<h3>Part 6 — Spreadsheet build structure</h3>
+<p>Build one row per lead, one column per scoring criterion, before touching the CRM:</p>
+<div class="tw"><table><thead><tr><th>Lead ID</th><th>Company</th><th>Fit: Size</th><th>Fit: Industry</th><th>Fit: Title</th><th>Fit: Tech</th><th>Fit: Geo</th><th>Fit: Relationship</th><th><strong>Fit Total</strong></th><th>Intent: [one column per action]</th><th><strong>Intent Total</strong></th><th>Grade</th><th>Actual Outcome</th></tr></thead><tbody>
+</tbody></table></div>
+<h3>Part 7 — Validation before CRM handoff</h3>
+<ul class="checks">
+<li>Pull 100 historical leads with known outcomes (won, lost, never converted)</li>
+<li>Score them retroactively using the model above</li>
+<li>Check: do "A" grade leads have a meaningfully higher win rate than "C"/"D"? If not, re-weight</li>
+<li>Check: is any single criterion doing all the work (removing it collapses the model)? If so, it's over-weighted</li>
+<li>Get sales leadership sign-off on the grade → routing mapping before automating</li>
+</ul>
+<h3>Part 8 — Recalibration trigger</h3>
+<p>Re-run the validation pass (Part 7) every 2 quarters, or immediately if:</p>
+<ul>
+<li>Win rate by grade band diverges by more than 10 points from the last validation</li>
+<li>ICP changes (new segment, new product line)</li>
+<li>Marketing changes what content/campaigns feed the top of funnel</li>
+</ul></div>
+      <div class="howto"><h3>How to use it</h3><p>Build the two scoring tables in a spreadsheet against 100 real historical leads first, confirm grade bands correlate with actual win rate, then replicate the point values as CRM scoring rules.</p></div>
+    </div>
+    <aside class="res-aside">
+      <div class="aside-card cta-card">
+        <span class="eyebrow">For enablement leaders</span>
+        <h3>Make the layer underneath this measurable.</h3>
+        <p>Tools like this describe good practice. They can&#x27;t tell you which of your reps actually have the skill, or in what order to build it. That&#x27;s what The Mastery Standard does: 27 frameworks, 54 competencies, every rubric cell written, every assessment human-signed-off.</p>
+        <a class="btn btn-primary" href="mailto:greg@thinkwork.info?subject=Mastery%20Discovery%20Call">Book a discovery call</a>
+        <a class="btn btn-ghost" href="/#programs">See the programs</a>
+      </div>
+      <div class="aside-card">
+        <span class="eyebrow">Details</span>
+        <dl class="meta">
+          <dt>Format</dt><dd>Template</dd>
+          <dt>Built for</dt><dd>Leader</dd>
+          <dt>Topic</dt><dd><a href="/library/?category=Metrics, Analytics &amp; RevOps">Metrics, Analytics &amp; RevOps</a></dd>
+          <dt>Price</dt><dd>Free, no sign-up</dd>
+        </dl>
+      </div>
+    </aside>
+  </div>
+</article>
+<section class="related">
+  <div class="rel-inner">
+    <span class="eyebrow">Related</span>
+    <h2>Use these alongside it.</h2>
+    <div class="rel-grid"><a class="rel-card" href="/library/sales-velocity-calculator/"><span class="rel-fmt">Calculator/Tool</span><span class="rel-t">Sales Velocity Calculator</span><span class="rel-b">Model how opportunity count, average deal value, win rate, and cycle length compound into pipeli</span></a><a class="rel-card" href="/library/revops-tech-stack-audit-checklist/"><span class="rel-fmt">Checklist</span><span class="rel-t">RevOps Tech Stack Audit Checklist</span><span class="rel-b">Map every tool touching the funnel end to end and flag overlapping licenses, dead integrations, </span></a><a class="rel-card" href="/library/cac-ltv-calculator/"><span class="rel-fmt">Calculator/Tool</span><span class="rel-t">CAC &amp; LTV Calculator</span><span class="rel-b">Work out customer acquisition cost, lifetime value, and payback period in one sheet, benchmarked</span></a><a class="rel-card" href="/library/revops-maturity-self-assessment/"><span class="rel-fmt">Assessment/Quiz</span><span class="rel-t">RevOps Maturity Self-Assessment</span><span class="rel-b">25 questions that place your revenue operation on a 4-stage maturity curve and flag your single </span></a></div>
+    <a class="all-link" href="/library/?category=Metrics, Analytics &amp; RevOps">All Metrics, Analytics &amp; RevOps resources &rarr;</a>
+  </div>
+</section>
+<section class="alerts" id="alerts">
+  <div class="alerts-inner">
+    <div>
+      <span class="eyebrow">Stay current</span>
+      <h2>Get told when new Metrics, Analytics &amp; RevOps resources land.</h2>
+      <p>Pick the topics you care about. No digest spam, just a note when something genuinely useful is added.</p>
+    </div>
+    <form class="alert-form" method="post" action="#" data-alerts>
+      <input type="hidden" name="CATEGORY" value="Metrics, Analytics &amp; RevOps">
+      <label class="sr-only" for="alert-email">Email address</label>
+      <input id="alert-email" type="email" name="EMAIL" placeholder="you@company.com" required>
+      <button type="submit">Notify me</button>
+      <p class="alert-note">Choose categories after you confirm. Unsubscribe any time.</p>
+    </form>
+  </div>
+</section>
+<script>
+(function(){
+  var b=document.querySelector('[data-copy]'); if(!b) return;
+  b.addEventListener('click',function(){
+    var el=document.getElementById('resource-body');
+    var txt=(el.innerText||el.textContent||'').trim();
+    function done(){ var o=b.textContent; b.textContent='Copied'; setTimeout(function(){b.textContent=o;},1600); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done,sel); } else { sel(); }
+    function sel(){ var r=document.createRange(); r.selectNodeContents(el);
+      var s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      try{ document.execCommand('copy'); done(); }catch(e){ b.textContent='Press Ctrl/Cmd+C'; } }
+  });
+})();
+</script>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <a href="/" class="footer-brand">Think<span class="mark">Work</span></a>
+      <p class="footer-tag">Mastery Engineering. We install The Mastery Standard into commercial teams, so sales skill becomes observable, measurable and auditable.</p>
+    </div>
+    <div><h4>Library</h4><ul>
+      <li><a href="/library/">All resources</a></li>
+      <li><a href="/library/?audience=Individual">For reps</a></li>
+      <li><a href="/library/?audience=Team%2FManager">For managers</a></li>
+      <li><a href="/library/?audience=Leader">For leaders</a></li>
+    </ul></div>
+    <div><h4>Firm</h4><ul>
+      <li><a href="/#layer">The Mastery Layer</a></li>
+      <li><a href="/#programs">Programs</a></li>
+      <li><a href="/thinkwork/letter">The Letter</a></li>
+    </ul></div>
+    <div><h4>Contact</h4><ul>
+      <li><a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-base"><span>&copy; ThinkWork</span><span>Sales Enablement Resource Library &middot; free, always</span></div>
+</footer>
+</body>
+</html>

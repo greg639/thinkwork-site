@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accelerator &amp; Decelerator Curve Calculator | Free Calculator/Tool | ThinkWork</title>
+<meta name="description" content="Models the payout curve from 50% to 150%+ quota attainment across a realistic team attainment distribution, so leaders see the true blended cost of a plan — n">
+<link rel="canonical" href="https://thinkwork.info/library/accelerator-decelerator-curve-calculator/">
+<meta property="og:title" content="Accelerator &amp; Decelerator Curve Calculator | Free Calculator/Tool | ThinkWork">
+<meta property="og:description" content="Models the payout curve from 50% to 150%+ quota attainment across a realistic team attainment distribution, so leaders see the true blended cost of a plan — n">
+<meta property="og:url" content="https://thinkwork.info/library/accelerator-decelerator-curve-calculator/">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/library/library.css?v=1">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Accelerator & Decelerator Curve Calculator", "description": "Models the payout curve from 50% to 150%+ quota attainment across a realistic team attainment distribution, so leaders see the true blended cost of a plan — not just its cost at 100% — before they sign off on it.", "url": "https://thinkwork.info/library/accelerator-decelerator-curve-calculator/", "isAccessibleForFree": true, "inLanguage": "en", "provider": {"@type": "Organization", "name": "ThinkWork", "url": "https://thinkwork.info"}, "about": "Comp, Quota, Territory & Capacity Planning", "audience": {"@type": "Audience", "audienceType": "Leader"}, "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}}</script>
+</head>
+<body class="res-page">
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="/" class="mast-brand">Think<span class="mark">Work</span></a>
+    <input type="checkbox" id="tw-nav-toggle" class="tw-nav-toggle" aria-hidden="true">
+    <label for="tw-nav-toggle" class="tw-burger" aria-label="Toggle menu"><span></span><span></span><span></span></label>
+    <nav class="mast-nav">
+      <a href="/#layer">The Mastery Layer</a>
+      <a href="/#programs">Programs</a>
+      <a href="/library/">Library</a>
+      <a href="/thinkwork/letter">The Letter</a>
+      <a href="/#engage" class="cta">Book a Call</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="crumbs"><a href="/library/">Resource Library</a> <span>/</span>
+  <a href="/library/?category=Comp, Quota, Territory &amp; Capacity Planning">Comp, Quota, Territory &amp; Capacity Planning</a></nav>
+<article class="res">
+  <header class="res-head">
+    <div class="badges">
+      <span class="pill a-lead">Leader</span>
+      <span class="pill fmt">Calculator/Tool</span>
+      <span class="pill live">Interactive</span>
+      <span class="pill free">Free</span>
+    </div>
+    <h1>Accelerator &amp; Decelerator Curve Calculator</h1>
+    <p class="summary">Models the payout curve from 50% to 150%+ quota attainment across a realistic team attainment distribution, so leaders see the true blended cost of a plan — not just its cost at 100% — before they sign off on it.</p>
+    <div class="res-actions">
+      <button class="btn btn-primary" data-copy>Copy to clipboard</button>
+      <button class="btn btn-ghost" onclick="window.print()">Print / save as PDF</button>
+    </div>
+  </header>
+  <div class="res-grid">
+    <div class="res-main" id="resource-body">
+      <div class="inside">
+        <h2>What's inside</h2>
+        <ul><li>Attainment-band rate/multiplier table template (0%–150%+)</li><li>Marginal (band-by-band) per-rep payout formula</li><li>Fully worked per-rep payout example at 130% attainment</li><li>Blended team-cost formula across a realistic attainment distribution</li><li>Worked 10-rep team cost example</li><li>True-cost check against budgeted variable OTE</li><li>Sensitivity flags: bimodal distributions, whale-deal risk, cliff vs. marginal mechanics</li></ul>
+      </div>
+      <div class="res-body"><h3>Step 1 — Define the Attainment Bands</h3>
+<p>Replace with your own plan's multipliers (defaults shown):</p>
+<div class="tw"><table><thead><tr><th>Attainment Band</th><th>Multiplier on Base Rate</th><th>Type</th></tr></thead><tbody>
+<tr><td>0–49%</td><td>0.5x</td><td>Decelerator</td></tr>
+<tr><td>50–79%</td><td>0.75x</td><td>Decelerator</td></tr>
+<tr><td>80–99%</td><td>1.0x</td><td>Standard</td></tr>
+<tr><td>100–119%</td><td>1.5x</td><td>Accelerator</td></tr>
+<tr><td>120–149%</td><td>2.0x</td><td>Accelerator</td></tr>
+<tr><td>150%+</td><td>2.5x</td><td>Accelerator</td></tr>
+</tbody></table></div>
+<h3>Step 2 — Per-Rep Payout Formula</h3>
+<p>``<code> Payout = Base Commission Rate × Revenue Sold × Band Multiplier (applied MARGINALLY, band-by-band) </code>`` <strong>Marginal application matters:</strong> a rep at 130% attainment does NOT get the 120–149% multiplier on their entire revenue — only on the revenue that falls in that band. Getting this wrong is the single most common modeling error, and can overstate cost by 2–4x.</p>
+<p><strong>Worked example</strong> — Rep with $600,000 quota, 8% base rate, $780,000 actual sales (130% attainment):</p>
+<div class="tw"><table><thead><tr><th>Band</th><th>Revenue in Band</th><th>Rate</th><th>Multiplier</th><th>Payout</th></tr></thead><tbody>
+<tr><td>0–79% ($0–$474,000)</td><td>$474,000</td><td>8%</td><td>0.75x</td><td>$28,440</td></tr>
+<tr><td>80–99% ($474,000–$594,000)</td><td>$120,000</td><td>8%</td><td>1.0x</td><td>$9,600</td></tr>
+<tr><td>100–119% ($594,000–$714,000)</td><td>$120,000</td><td>8%</td><td>1.5x</td><td>$14,400</td></tr>
+<tr><td>120–130% ($714,000–$780,000)</td><td>$66,000</td><td>8%</td><td>2.0x</td><td>$10,560</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>$780,000</strong></td><td></td><td></td><td><strong>$63,000</strong></td></tr>
+</tbody></table></div>
+<p>Blended effective rate = $63,000 ÷ $780,000 = 8.08% — sanity-check this lands where Finance expects.</p>
+<h3>Step 3 — Blended Team Cost</h3>
+<p>Don't model cost at "100% for everyone" — no real team performs that way. Model against a realistic distribution: ``<code> Total Plan Cost = Σ (# reps in each attainment bucket × Avg payout for that bucket) </code>`` <strong>Worked example</strong> — 10-rep team, realistic distribution:</p>
+<div class="tw"><table><thead><tr><th>Attainment Bucket</th><th># Reps</th><th>Avg Payout/Rep</th><th>Bucket Cost</th></tr></thead><tbody>
+<tr><td>&lt;50%</td><td>1</td><td>$18,000</td><td>$18,000</td></tr>
+<tr><td>50–79%</td><td>1</td><td>$32,000</td><td>$32,000</td></tr>
+<tr><td>80–99%</td><td>3</td><td>$44,000</td><td>$132,000</td></tr>
+<tr><td>100–119%</td><td>3</td><td>$58,000</td><td>$174,000</td></tr>
+<tr><td>120–149%</td><td>1</td><td>$72,000</td><td>$72,000</td></tr>
+<tr><td>150%+</td><td>1</td><td>$95,000</td><td>$95,000</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>10</strong></td><td></td><td><strong>$523,000</strong></td></tr>
+</tbody></table></div>
+<h3>Step 4 — True-Cost Check vs. Budgeted OTE</h3>
+<p>``<code> True Cost Variance = Total Plan Cost (Step 3) − (Headcount × Planned Variable OTE) </code>`` If budgeted variable = $50,000/rep × 10 = $500,000, and modeled cost = $523,000, the plan runs <strong>4.6% over budget</strong> even with an "average" attainment near 100% — because the accelerator tail costs more than the decelerator floor saves. Bring this number to Finance before approval, not after Q1 actuals.</p>
+<h3>Sensitivity Flags</h3>
+<ul>
+<li><strong>Bimodal distribution</strong> (reps cluster at very-low and very-high attainment) → re-run Step 3 against your actual last-4-quarter distribution; bimodal teams cost more than a bell-curve model predicts.</li>
+<li><strong>Whale-deal risk</strong> — one large deal can push a rep from 100% to 300%+ attainment; if the top band is uncapped, model the cost of your single largest historical deal landing on the accelerator tail alone.</li>
+<li><strong>Marginal vs. cliff mechanics</strong> — confirm your plan applies multipliers marginally, not retroactively to $1 once a threshold is crossed; cliff mechanics cost dramatically more and invite quarter-end gaming.</li>
+</ul></div>
+      <div class="howto"><h3>How to use it</h3><p>Enter your own band multipliers and your team&#x27;s actual historical attainment distribution into Steps 1–3, then compare the Step 3 total against your planned variable OTE budget in Step 4 before approving the plan.</p></div>
+    </div>
+    <aside class="res-aside">
+      <div class="aside-card cta-card">
+        <span class="eyebrow">For enablement leaders</span>
+        <h3>Make the layer underneath this measurable.</h3>
+        <p>Tools like this describe good practice. They can&#x27;t tell you which of your reps actually have the skill, or in what order to build it. That&#x27;s what The Mastery Standard does: 27 frameworks, 54 competencies, every rubric cell written, every assessment human-signed-off.</p>
+        <a class="btn btn-primary" href="mailto:greg@thinkwork.info?subject=Mastery%20Discovery%20Call">Book a discovery call</a>
+        <a class="btn btn-ghost" href="/#programs">See the programs</a>
+      </div>
+      <div class="aside-card">
+        <span class="eyebrow">Details</span>
+        <dl class="meta">
+          <dt>Format</dt><dd>Calculator/Tool</dd>
+          <dt>Built for</dt><dd>Leader</dd>
+          <dt>Topic</dt><dd><a href="/library/?category=Comp, Quota, Territory &amp; Capacity Planning">Comp, Quota, Territory &amp; Capacity Planning</a></dd>
+          <dt>Price</dt><dd>Free, no sign-up</dd>
+        </dl>
+      </div>
+    </aside>
+  </div>
+</article>
+<section class="related">
+  <div class="rel-inner">
+    <span class="eyebrow">Related</span>
+    <h2>Use these alongside it.</h2>
+    <div class="rel-grid"><a class="rel-card" href="/library/top-down-bottom-up-quota-setting-framework/"><span class="rel-fmt">Framework</span><span class="rel-t">Top-Down vs. Bottom-Up Quota-Setting Framework</span><span class="rel-b">A side-by-side method for reconciling company-set quotas with account-built quotas before they c</span></a><a class="rel-card" href="/library/sales-compensation-plan-design-checklist/"><span class="rel-fmt">Checklist</span><span class="rel-t">Sales Compensation Plan Design Checklist</span><span class="rel-b">A 20-point pre-launch checklist covering pay mix, accelerators, caps, and payout mechanics befor</span></a><a class="rel-card" href="/library/comp-plan-types-cheat-sheet/"><span class="rel-fmt">Cheat Sheet</span><span class="rel-t">Comp Plan Types Cheat Sheet</span><span class="rel-b">One page comparing core, tiered, relative-rank, and multiplier comp models, with when-to-use-eac</span></a><a class="rel-card" href="/library/commission-clawback-clause-language-library/"><span class="rel-fmt">Script/Swipe</span><span class="rel-t">Commission Clawback Clause Language Library</span><span class="rel-b">Vetted clawback and chargeback clause wording for churned, refunded, or fraudulent deals.</span></a></div>
+    <a class="all-link" href="/library/?category=Comp, Quota, Territory &amp; Capacity Planning">All Comp, Quota, Territory &amp; Capacity Planning resources &rarr;</a>
+  </div>
+</section>
+<section class="alerts" id="alerts">
+  <div class="alerts-inner">
+    <div>
+      <span class="eyebrow">Stay current</span>
+      <h2>Get told when new Comp, Quota, Territory &amp; Capacity Planning resources land.</h2>
+      <p>Pick the topics you care about. No digest spam, just a note when something genuinely useful is added.</p>
+    </div>
+    <form class="alert-form" method="post" action="#" data-alerts>
+      <input type="hidden" name="CATEGORY" value="Comp, Quota, Territory &amp; Capacity Planning">
+      <label class="sr-only" for="alert-email">Email address</label>
+      <input id="alert-email" type="email" name="EMAIL" placeholder="you@company.com" required>
+      <button type="submit">Notify me</button>
+      <p class="alert-note">Choose categories after you confirm. Unsubscribe any time.</p>
+    </form>
+  </div>
+</section>
+<script>
+(function(){
+  var b=document.querySelector('[data-copy]'); if(!b) return;
+  b.addEventListener('click',function(){
+    var el=document.getElementById('resource-body');
+    var txt=(el.innerText||el.textContent||'').trim();
+    function done(){ var o=b.textContent; b.textContent='Copied'; setTimeout(function(){b.textContent=o;},1600); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done,sel); } else { sel(); }
+    function sel(){ var r=document.createRange(); r.selectNodeContents(el);
+      var s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      try{ document.execCommand('copy'); done(); }catch(e){ b.textContent='Press Ctrl/Cmd+C'; } }
+  });
+})();
+</script>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <a href="/" class="footer-brand">Think<span class="mark">Work</span></a>
+      <p class="footer-tag">Mastery Engineering. We install The Mastery Standard into commercial teams, so sales skill becomes observable, measurable and auditable.</p>
+    </div>
+    <div><h4>Library</h4><ul>
+      <li><a href="/library/">All resources</a></li>
+      <li><a href="/library/?audience=Individual">For reps</a></li>
+      <li><a href="/library/?audience=Team%2FManager">For managers</a></li>
+      <li><a href="/library/?audience=Leader">For leaders</a></li>
+    </ul></div>
+    <div><h4>Firm</h4><ul>
+      <li><a href="/#layer">The Mastery Layer</a></li>
+      <li><a href="/#programs">Programs</a></li>
+      <li><a href="/thinkwork/letter">The Letter</a></li>
+    </ul></div>
+    <div><h4>Contact</h4><ul>
+      <li><a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-base"><span>&copy; ThinkWork</span><span>Sales Enablement Resource Library &middot; free, always</span></div>
+</footer>
+</body>
+</html>

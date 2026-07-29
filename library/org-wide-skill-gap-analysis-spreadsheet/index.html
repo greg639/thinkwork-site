@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Org-Wide Skill Gap Analysis Spreadsheet | Free Calculator/Tool | ThinkWork</title>
+<meta name="description" content="A build-it-yourself spreadsheet blueprint that rolls every team&#x27;s individual skill matrix up into one org-level view, flagging which competencies are most und">
+<link rel="canonical" href="https://thinkwork.info/library/org-wide-skill-gap-analysis-spreadsheet/">
+<meta property="og:title" content="Org-Wide Skill Gap Analysis Spreadsheet | Free Calculator/Tool | ThinkWork">
+<meta property="og:description" content="A build-it-yourself spreadsheet blueprint that rolls every team&#x27;s individual skill matrix up into one org-level view, flagging which competencies are most und">
+<meta property="og:url" content="https://thinkwork.info/library/org-wide-skill-gap-analysis-spreadsheet/">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/library/library.css?v=1">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Org-Wide Skill Gap Analysis Spreadsheet", "description": "A build-it-yourself spreadsheet blueprint that rolls every team's individual skill matrix up into one org-level view, flagging which competencies are most under-resourced heading into next year's plan.", "url": "https://thinkwork.info/library/org-wide-skill-gap-analysis-spreadsheet/", "isAccessibleForFree": true, "inLanguage": "en", "provider": {"@type": "Organization", "name": "ThinkWork", "url": "https://thinkwork.info"}, "about": "Skills, Competencies & Career Growth", "audience": {"@type": "Audience", "audienceType": "Leader"}, "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}}</script>
+</head>
+<body class="res-page">
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="/" class="mast-brand">Think<span class="mark">Work</span></a>
+    <input type="checkbox" id="tw-nav-toggle" class="tw-nav-toggle" aria-hidden="true">
+    <label for="tw-nav-toggle" class="tw-burger" aria-label="Toggle menu"><span></span><span></span><span></span></label>
+    <nav class="mast-nav">
+      <a href="/#layer">The Mastery Layer</a>
+      <a href="/#programs">Programs</a>
+      <a href="/library/">Library</a>
+      <a href="/thinkwork/letter">The Letter</a>
+      <a href="/#engage" class="cta">Book a Call</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="crumbs"><a href="/library/">Resource Library</a> <span>/</span>
+  <a href="/library/?category=Skills, Competencies &amp; Career Growth">Skills, Competencies &amp; Career Growth</a></nav>
+<article class="res">
+  <header class="res-head">
+    <div class="badges">
+      <span class="pill a-lead">Leader</span>
+      <span class="pill fmt">Calculator/Tool</span>
+      <span class="pill live">Interactive</span>
+      <span class="pill free">Free</span>
+    </div>
+    <h1>Org-Wide Skill Gap Analysis Spreadsheet</h1>
+    <p class="summary">A build-it-yourself spreadsheet blueprint that rolls every team&#x27;s individual skill matrix up into one org-level view, flagging which competencies are most under-resourced heading into next year&#x27;s plan.</p>
+    <div class="res-actions">
+      <button class="btn btn-primary" data-copy>Copy to clipboard</button>
+      <button class="btn btn-ghost" onclick="window.print()">Print / save as PDF</button>
+    </div>
+  </header>
+  <div class="res-grid">
+    <div class="res-main" id="resource-body">
+      <div class="inside">
+        <h2>What's inside</h2>
+        <ul><li>4-tab structure: Rep-Level Input, Team Rollup, Org Rollup, Gap Flags</li><li>Exact column headers and data types for the Rep-Level Input tab</li><li>Working formulas for team-level average, team-level coverage %, and variance</li><li>Org-level rollup formula aggregating every team into one heat-map-ready table</li><li>The Gap Flag formula and its 3-tier severity logic (Critical / Watch / Healthy)</li><li>Conditional formatting rule set to turn the Org Rollup tab into a heat map</li><li>Worked numeric example across 3 teams and 5 competencies so you can sanity-check your own build</li><li>Planning-cycle usage notes: how to turn flagged gaps into next year&#x27;s hiring and L&amp;D budget lines</li></ul>
+      </div>
+      <div class="res-body"><p>Build this as 4 tabs in Excel or Google Sheets. Formulas below are written in standard spreadsheet syntax — adjust ranges to your actual data size.</p>
+<hr>
+<h3>Tab 1: Rep-Level Input</h3>
+<p>One row per rep per competency (long format — easiest to roll up and filter).</p>
+<div class="tw"><table><thead><tr><th>Column</th><th>Field</th><th>Type</th><th>Example</th></tr></thead><tbody>
+<tr><td>A</td><td>Rep Name/ID</td><td>Text</td><td>J. Alvarez</td></tr>
+<tr><td>B</td><td>Team</td><td>Text</td><td>Enterprise East</td></tr>
+<tr><td>C</td><td>Manager</td><td>Text</td><td>R. Kim</td></tr>
+<tr><td>D</td><td>Competency Code</td><td>Text</td><td>NEG-07</td></tr>
+<tr><td>E</td><td>Competency Name</td><td>Text</td><td>Multi-variable trade-off negotiation</td></tr>
+<tr><td>F</td><td>Domain</td><td>Text</td><td>Negotiation</td></tr>
+<tr><td>G</td><td>Current Level (1–4)</td><td>Number</td><td>2</td></tr>
+<tr><td>H</td><td>Target Level (1–4)</td><td>Number</td><td>3</td></tr>
+<tr><td>I</td><td>Gap (auto)</td><td>Formula</td><td><code>=H2-G2</code></td></tr>
+<tr><td>J</td><td>Last Assessed Date</td><td>Date</td><td>2026-06-01</td></tr>
+</tbody></table></div>
+<p>This tab is fed either by manager assessment, certification data (see Certification Kit), or manager-completed skill matrices.</p>
+<hr>
+<h3>Tab 2: Team Rollup</h3>
+<p>One row per Team × Competency combination, built with <code>AVERAGEIFS</code> / <code>COUNTIFS</code> against Tab 1.</p>
+<div class="tw"><table><thead><tr><th>Column</th><th>Field</th><th>Formula (example)</th></tr></thead><tbody>
+<tr><td>A</td><td>Team</td><td>—</td></tr>
+<tr><td>B</td><td>Competency Code</td><td>—</td></tr>
+<tr><td>C</td><td>Avg Current Level</td><td><code>=AVERAGEIFS('Rep-Level Input'!G:G,'Rep-Level Input'!B:B,A2,'Rep-Level Input'!D:D,B2)</code></td></tr>
+<tr><td>D</td><td>Avg Target Level</td><td><code>=AVERAGEIFS('Rep-Level Input'!H:H,'Rep-Level Input'!B:B,A2,'Rep-Level Input'!D:D,B2)</code></td></tr>
+<tr><td>E</td><td>Avg Gap</td><td><code>=D2-C2</code></td></tr>
+<tr><td>F</td><td>% of Team Below Target</td><td><code>=COUNTIFS('Rep-Level Input'!B:B,A2,'Rep-Level Input'!D:D,B2,'Rep-Level Input'!I:I,\"&gt;0\")/COUNTIFS('Rep-Level Input'!B:B,A2,'Rep-Level Input'!D:D,B2)</code></td></tr>
+<tr><td>G</td><td>Headcount Assessed</td><td><code>=COUNTIFS('Rep-Level Input'!B:B,A2,'Rep-Level Input'!D:D,B2)</code></td></tr>
+</tbody></table></div>
+<hr>
+<h3>Tab 3: Org Rollup</h3>
+<p>One row per Competency, aggregated across all teams — this is the tab leadership actually reads.</p>
+<div class="tw"><table><thead><tr><th>Column</th><th>Field</th><th>Formula (example)</th></tr></thead><tbody>
+<tr><td>A</td><td>Competency Code</td><td>—</td></tr>
+<tr><td>B</td><td>Competency Name</td><td><code>=VLOOKUP(A2,'Rep-Level Input'!D:E,2,FALSE)</code></td></tr>
+<tr><td>C</td><td>Domain</td><td><code>=VLOOKUP(A2,'Rep-Level Input'!D:F,3,FALSE)</code></td></tr>
+<tr><td>D</td><td>Org Avg Gap</td><td><code>=AVERAGEIF('Rep-Level Input'!D:D,A2,'Rep-Level Input'!I:I)</code></td></tr>
+<tr><td>E</td><td>% Org Below Target</td><td><code>=COUNTIFS('Rep-Level Input'!D:D,A2,'Rep-Level Input'!I:I,\"&gt;0\")/COUNTIF('Rep-Level Input'!D:D,A2)</code></td></tr>
+<tr><td>F</td><td>Headcount Assessed</td><td><code>=COUNTIF('Rep-Level Input'!D:D,A2)</code></td></tr>
+<tr><td>G</td><td># Teams With Critical Gap</td><td>Count of Tab 2 rows for this code where Avg Gap ≥ 1.5</td></tr>
+<tr><td>H</td><td>Severity Flag</td><td>See formula below</td></tr>
+</tbody></table></div>
+<hr>
+<h3>Gap Flag formula (Severity, column H)</h3>
+<p>``<code> =IF(D2&gt;=1.5,"CRITICAL",IF(D2&gt;=0.75,"WATCH","HEALTHY")) </code>``</p>
+<div class="tw"><table><thead><tr><th>Flag</th><th>Meaning</th><th>Suggested action</th></tr></thead><tbody>
+<tr><td><strong>CRITICAL</strong> (avg gap ≥ 1.5 levels)</td><td>Org-wide capability hole</td><td>Budget for hiring against this competency AND a dedicated enablement sprint</td></tr>
+<tr><td><strong>WATCH</strong> (avg gap 0.75–1.49)</td><td>Uneven — strong in some teams, weak in others</td><td>Cross-team peer coaching before external hiring spend</td></tr>
+<tr><td><strong>HEALTHY</strong> (avg gap &lt; 0.75)</td><td>On track</td><td>Maintain via existing coaching cadence</td></tr>
+</tbody></table></div>
+<hr>
+<h3>Conditional formatting rules (Org Rollup tab)</h3>
+<ul>
+<li>Column D (Org Avg Gap): 3-color scale, green at 0, yellow at 1.0, red at 2.0</li>
+<li>Column H (Severity Flag): red fill for "CRITICAL", amber for "WATCH", green for "HEALTHY"</li>
+<li>Column G (# Teams With Critical Gap): data bar, scaled to total team count</li>
+</ul>
+<hr>
+<h3>Worked example (3 teams, 1 competency shown)</h3>
+<div class="tw"><table><thead><tr><th>Team</th><th>Avg Current</th><th>Avg Target</th><th>Avg Gap</th></tr></thead><tbody>
+<tr><td>Enterprise East</td><td>2.1</td><td>3.0</td><td>0.9</td></tr>
+<tr><td>Enterprise West</td><td>1.6</td><td>3.0</td><td>1.4</td></tr>
+<tr><td>Mid-Market</td><td>2.8</td><td>3.0</td><td>0.2</td></tr>
+<tr><td><strong>Org Avg (NEG-07)</strong></td><td><strong>2.17</strong></td><td><strong>3.0</strong></td><td><strong>0.83 → WATCH</strong></td></tr>
+</tbody></table></div>
+<p>Enterprise West alone would flag CRITICAL; the blended org average shows WATCH — this is exactly why the Team Rollup tab matters: it stops a strong team from masking a weak one in the org view.</p>
+<hr>
+<h3>Using this in the planning cycle</h3>
+<ol>
+<li>Pull the Org Rollup tab sorted by Severity Flag, CRITICAL first</li>
+<li>For every CRITICAL row, check column G — if concentrated in 1–2 teams, that's a coaching/staffing fix, not an org-wide L&amp;D spend</li>
+<li>For every CRITICAL row spread across most teams, that's a next-year hiring-profile and enablement-budget line item</li>
+<li>Re-run the full sheet quarterly; track whether CRITICAL flags are shrinking, not just noting them once a year</li>
+</ol></div>
+      <div class="howto"><h3>How to use it</h3><p>Build the 4 tabs in Sheets or Excel using the exact column headers and formulas above, populate Tab 1 from your certification or manager-assessment data, then read the Org Rollup tab&#x27;s Severity Flag column sorted CRITICAL-first when building next year&#x27;s hiring and enablement budget.</p></div>
+    </div>
+    <aside class="res-aside">
+      <div class="aside-card cta-card">
+        <span class="eyebrow">For enablement leaders</span>
+        <h3>Make the layer underneath this measurable.</h3>
+        <p>Tools like this describe good practice. They can&#x27;t tell you which of your reps actually have the skill, or in what order to build it. That&#x27;s what The Mastery Standard does: 27 frameworks, 54 competencies, every rubric cell written, every assessment human-signed-off.</p>
+        <a class="btn btn-primary" href="mailto:greg@thinkwork.info?subject=Mastery%20Discovery%20Call">Book a discovery call</a>
+        <a class="btn btn-ghost" href="/#programs">See the programs</a>
+      </div>
+      <div class="aside-card">
+        <span class="eyebrow">Details</span>
+        <dl class="meta">
+          <dt>Format</dt><dd>Calculator/Tool</dd>
+          <dt>Built for</dt><dd>Leader</dd>
+          <dt>Topic</dt><dd><a href="/library/?category=Skills, Competencies &amp; Career Growth">Skills, Competencies &amp; Career Growth</a></dd>
+          <dt>Price</dt><dd>Free, no sign-up</dd>
+        </dl>
+      </div>
+    </aside>
+  </div>
+</article>
+<section class="related">
+  <div class="rel-inner">
+    <span class="eyebrow">Related</span>
+    <h2>Use these alongside it.</h2>
+    <div class="rel-grid"><a class="rel-card" href="/library/sales-career-level-matrix-ic1-to-principal-enterprise/"><span class="rel-fmt">Framework</span><span class="rel-t">Sales Career Level Matrix (IC1 → Principal/Enterprise)</span><span class="rel-b">A leveling matrix defining what competency mastery — not tenure or quota alone — qualifies a rep</span></a><a class="rel-card" href="/library/sales-competency-framework-builder-toolkit/"><span class="rel-fmt">Toolkit</span><span class="rel-t">Sales Competency Framework Builder Toolkit</span><span class="rel-b">Worksheets, a taxonomy starter, and rubric templates for building a defensible, role-specific co</span></a><a class="rel-card" href="/library/career-pathing-architecture-guide-revenue-teams/"><span class="rel-fmt">Guide</span><span class="rel-t">Career Pathing Architecture Guide for Revenue Teams</span><span class="rel-b">How to design a dual-track career ladder (IC and management) anchored to competency mastery inst</span></a><a class="rel-card" href="/library/sales-competency-taxonomy-directory/"><span class="rel-fmt">Directory</span><span class="rel-t">Sales Competency Taxonomy Directory — 400+ Skills Indexed</span><span class="rel-b">A browsable index of every named sales competency across prospecting, discovery, negotiation, an</span></a></div>
+    <a class="all-link" href="/library/?category=Skills, Competencies &amp; Career Growth">All Skills, Competencies &amp; Career Growth resources &rarr;</a>
+  </div>
+</section>
+<section class="alerts" id="alerts">
+  <div class="alerts-inner">
+    <div>
+      <span class="eyebrow">Stay current</span>
+      <h2>Get told when new Skills, Competencies &amp; Career Growth resources land.</h2>
+      <p>Pick the topics you care about. No digest spam, just a note when something genuinely useful is added.</p>
+    </div>
+    <form class="alert-form" method="post" action="#" data-alerts>
+      <input type="hidden" name="CATEGORY" value="Skills, Competencies &amp; Career Growth">
+      <label class="sr-only" for="alert-email">Email address</label>
+      <input id="alert-email" type="email" name="EMAIL" placeholder="you@company.com" required>
+      <button type="submit">Notify me</button>
+      <p class="alert-note">Choose categories after you confirm. Unsubscribe any time.</p>
+    </form>
+  </div>
+</section>
+<script>
+(function(){
+  var b=document.querySelector('[data-copy]'); if(!b) return;
+  b.addEventListener('click',function(){
+    var el=document.getElementById('resource-body');
+    var txt=(el.innerText||el.textContent||'').trim();
+    function done(){ var o=b.textContent; b.textContent='Copied'; setTimeout(function(){b.textContent=o;},1600); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done,sel); } else { sel(); }
+    function sel(){ var r=document.createRange(); r.selectNodeContents(el);
+      var s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      try{ document.execCommand('copy'); done(); }catch(e){ b.textContent='Press Ctrl/Cmd+C'; } }
+  });
+})();
+</script>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <a href="/" class="footer-brand">Think<span class="mark">Work</span></a>
+      <p class="footer-tag">Mastery Engineering. We install The Mastery Standard into commercial teams, so sales skill becomes observable, measurable and auditable.</p>
+    </div>
+    <div><h4>Library</h4><ul>
+      <li><a href="/library/">All resources</a></li>
+      <li><a href="/library/?audience=Individual">For reps</a></li>
+      <li><a href="/library/?audience=Team%2FManager">For managers</a></li>
+      <li><a href="/library/?audience=Leader">For leaders</a></li>
+    </ul></div>
+    <div><h4>Firm</h4><ul>
+      <li><a href="/#layer">The Mastery Layer</a></li>
+      <li><a href="/#programs">Programs</a></li>
+      <li><a href="/thinkwork/letter">The Letter</a></li>
+    </ul></div>
+    <div><h4>Contact</h4><ul>
+      <li><a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-base"><span>&copy; ThinkWork</span><span>Sales Enablement Resource Library &middot; free, always</span></div>
+</footer>
+</body>
+</html>

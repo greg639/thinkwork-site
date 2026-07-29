@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CRM Stage-to-MEDDIC Field Mapping Template | Free Template | ThinkWork</title>
+<meta name="description" content="A blueprint for mapping MEDDIC fields onto your CRM&#x27;s stage gates, complete with field names and validation rules, so the methodology is enforced by the syste">
+<link rel="canonical" href="https://thinkwork.info/library/crm-stage-meddic-field-mapping-template/">
+<meta property="og:title" content="CRM Stage-to-MEDDIC Field Mapping Template | Free Template | ThinkWork">
+<meta property="og:description" content="A blueprint for mapping MEDDIC fields onto your CRM&#x27;s stage gates, complete with field names and validation rules, so the methodology is enforced by the syste">
+<meta property="og:url" content="https://thinkwork.info/library/crm-stage-meddic-field-mapping-template/">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/library/library.css?v=1">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "CreativeWork", "name": "CRM Stage-to-MEDDIC Field Mapping Template", "description": "A blueprint for mapping MEDDIC fields onto your CRM's stage gates, complete with field names and validation rules, so the methodology is enforced by the system instead of relied on from memory.", "url": "https://thinkwork.info/library/crm-stage-meddic-field-mapping-template/", "isAccessibleForFree": true, "inLanguage": "en", "provider": {"@type": "Organization", "name": "ThinkWork", "url": "https://thinkwork.info"}, "about": "Sales Process & Methodology (MEDDIC, SPIN, Challenger)", "audience": {"@type": "Audience", "audienceType": "Team/Manager"}}</script>
+</head>
+<body class="res-page">
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="/" class="mast-brand">Think<span class="mark">Work</span></a>
+    <input type="checkbox" id="tw-nav-toggle" class="tw-nav-toggle" aria-hidden="true">
+    <label for="tw-nav-toggle" class="tw-burger" aria-label="Toggle menu"><span></span><span></span><span></span></label>
+    <nav class="mast-nav">
+      <a href="/#layer">The Mastery Layer</a>
+      <a href="/#programs">Programs</a>
+      <a href="/library/">Library</a>
+      <a href="/thinkwork/letter">The Letter</a>
+      <a href="/#engage" class="cta">Book a Call</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="crumbs"><a href="/library/">Resource Library</a> <span>/</span>
+  <a href="/library/?category=Sales Process &amp; Methodology (MEDDIC, SPIN, Challenger)">Sales Process &amp; Methodology (MEDDIC, SPIN, Challenger)</a></nav>
+<article class="res">
+  <header class="res-head">
+    <div class="badges">
+      <span class="pill a-team">Team/Manager</span>
+      <span class="pill fmt">Template</span>
+      
+      <span class="pill free">Free</span>
+    </div>
+    <h1>CRM Stage-to-MEDDIC Field Mapping Template</h1>
+    <p class="summary">A blueprint for mapping MEDDIC fields onto your CRM&#x27;s stage gates, complete with field names and validation rules, so the methodology is enforced by the system instead of relied on from memory.</p>
+    <div class="res-actions">
+      <button class="btn btn-primary" data-copy>Copy to clipboard</button>
+      <button class="btn btn-ghost" onclick="window.print()">Print / save as PDF</button>
+    </div>
+  </header>
+  <div class="res-grid">
+    <div class="res-main" id="resource-body">
+      <div class="inside">
+        <h2>What's inside</h2>
+        <ul><li>A 6-stage pipeline model with the MEDDIC gate required to advance out of each stage</li><li>Suggested CRM field names and data types for every gate</li><li>A validation rule for each stage that blocks advancement until the gate is genuinely met</li><li>An explicit Paper Process gate at the contract stage covering legal, security, and procurement</li><li>A closed-lost reason taxonomy tied to which MEDDPICC letter actually failed</li><li>Platform-specific implementation notes (Salesforce validation rules, HubSpot required properties, Pipedrive field requirements)</li><li>A phased rollout tip for turning on gates without breaking an existing pipeline overnight</li></ul>
+      </div>
+      <div class="res-body"><p>Methodology only sticks when the CRM refuses to let a deal advance without the qualification behind it. Use this table as the blueprint for your stage-gate configuration.</p>
+<div class="tw"><table><thead><tr><th>CRM Stage</th><th>Stage Definition</th><th>Required Gate to Advance</th><th>Suggested CRM Field(s)</th><th>Validation Rule</th></tr></thead><tbody>
+<tr><td><strong>1. Qualify</strong></td><td>Initial contact confirmed as a real opportunity</td><td>Pain confirmed + Economic Buyer named (even if not yet met)</td><td><code>pain_confirmed</code> (checkbox), <code>economic_buyer_name</code> (text), <code>economic_buyer_title</code> (text)</td><td>Cannot advance to Stage 2 unless both fields are populated</td></tr>
+<tr><td><strong>2. Discovery</strong></td><td>Problem and stakeholders mapped</td><td>At least 1 quantified Metric + draft Decision Criteria + Champion identified</td><td><code>metric_1_name</code>, <code>metric_1_value</code> (numeric), <code>decision_criteria</code> (multi-line/multi-select), <code>champion_name</code>, <code>champion_title</code></td><td><code>metric_1_value</code> must be numeric — "TBD" or blank is rejected</td></tr>
+<tr><td><strong>3. Solution / Value Validation</strong></td><td>Buyer agrees this is the right solution</td><td>Decision Process mapped (steps + dates) + Champion has taken a validated action</td><td><code>decision_process_steps</code> (structured list), <code>close_plan_date</code> (date), <code>champion_action_taken</code> (checkbox + date)</td><td><code>close_plan_date</code> cannot be null and must be on or before the forecast close date</td></tr>
+<tr><td><strong>4. Proposal / Negotiation</strong></td><td>Commercial terms under discussion</td><td>Economic Buyer engaged directly (logged call/meeting) + Decision Criteria finalized and ranked</td><td><code>eb_direct_contact_date</code> (date), <code>decision_criteria_ranked</code> (checkbox)</td><td><code>eb_direct_contact_date</code> is required — deal cannot advance without a logged direct EB touchpoint</td></tr>
+<tr><td><strong>5. Contract / Legal (Paper Process)</strong></td><td>Commercial terms agreed, paperwork in motion</td><td>Legal, security, and procurement status all explicitly set</td><td><code>legal_review_status</code>, <code>security_review_status</code>, <code>procurement_status</code> (each: Not Started / In Progress / Complete / N/A), <code>po_required</code> (checkbox)</td><td>Cannot move to Closed Won unless all three status fields are explicitly "Complete" or "N/A" — blank is rejected</td></tr>
+<tr><td><strong>6. Closed Won</strong></td><td>Signed</td><td>All above gates satisfied</td><td><code>close_reason</code> (auto-populated from methodology data)</td><td>—</td></tr>
+</tbody></table></div>
+<h3>Closed-Lost reason taxonomy</h3>
+<p>Tag every loss to the MEDDPICC letter that actually failed — this is what makes win/loss analysis useful instead of just a list of "lost to competitor."</p>
+<div class="tw"><table><thead><tr><th>Reason Code</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>Lost-NoEB</code></td><td>Never got real access to the economic buyer</td></tr>
+<tr><td><code>Lost-NoMetrics</code></td><td>Could never get buyer to quantify the problem</td></tr>
+<tr><td><code>Lost-NoBudget</code></td><td>Decision Process/budget never materialized</td></tr>
+<tr><td><code>Lost-PaperProcess</code></td><td>Died in legal, security, or procurement after verbal agreement</td></tr>
+<tr><td><code>Lost-Competition</code></td><td>Lost to a named competitive alternative</td></tr>
+<tr><td><code>Lost-NoPain</code></td><td>Never confirmed a real, budgeted pain</td></tr>
+<tr><td><code>Lost-ChampionLeft</code></td><td>Champion left the company or changed roles</td></tr>
+<tr><td><code>Lost-NoDecision</code></td><td>Buyer chose to do nothing / status quo</td></tr>
+</tbody></table></div>
+<h3>Platform implementation notes</h3>
+<ul>
+<li><strong>Salesforce:</strong> build these as Validation Rules on the Opportunity object, keyed to <code>StageName</code>, using <code>ISPICKVAL</code> / <code>ISBLANK</code> checks against the fields above.</li>
+<li><strong>HubSpot:</strong> set the MEDDIC fields as required Deal properties per pipeline stage under Deal Stage settings; HubSpot will block manual stage moves until required properties are filled.</li>
+<li><strong>Pipedrive:</strong> use custom fields with "Required to progress" enabled per stage in Pipeline settings.</li>
+</ul>
+<h3>Rollout tip</h3>
+<p>Don't turn on all six stage gates at once — reps will route around a system that suddenly blocks everything. Turn on <strong>Stage 1's gate first</strong>, run it for two weeks, fix the inevitable data-hygiene issues, then add the next stage's gate. By the time you reach the Paper Process gate at Stage 5, the team will already be in the habit of filling in the earlier fields as they go.</p></div>
+      <div class="howto"><h3>How to use it</h3><p>Hand this table to whoever administers your CRM as the direct build spec, roll the validation rules out one stage at a time starting with Stage 1, and require the Closed-Lost reason taxonomy on every lost deal so win/loss reporting ties back to a specific MEDDPICC letter.</p></div>
+    </div>
+    <aside class="res-aside">
+      <div class="aside-card cta-card">
+        <span class="eyebrow">For managers</span>
+        <h3>A checklist shows the surface. A standard shows the layer underneath.</h3>
+        <p>If sales process &amp; methodology (meddic, spin, challenger) keeps coming up in your 1:1s, the gap is usually structural, not effort. The Mastery Diagnostic measures your team against a written 27-framework standard in two weeks, and tells you exactly where the layer breaks.</p>
+        <a class="btn btn-primary" href="/#programs">See the Mastery Diagnostic</a>
+        <a class="btn btn-ghost" href="mailto:greg@thinkwork.info?subject=Mastery%20Discovery%20Call">Book a discovery call</a>
+      </div>
+      <div class="aside-card">
+        <span class="eyebrow">Details</span>
+        <dl class="meta">
+          <dt>Format</dt><dd>Template</dd>
+          <dt>Built for</dt><dd>Team/Manager</dd>
+          <dt>Topic</dt><dd><a href="/library/?category=Sales Process &amp; Methodology (MEDDIC, SPIN, Challenger)">Sales Process &amp; Methodology (MEDDIC, SPIN, Challenger)</a></dd>
+          <dt>Price</dt><dd>Free, no sign-up</dd>
+        </dl>
+      </div>
+    </aside>
+  </div>
+</article>
+<section class="related">
+  <div class="rel-inner">
+    <span class="eyebrow">Related</span>
+    <h2>Use these alongside it.</h2>
+    <div class="rel-grid"><a class="rel-card" href="/library/deal-review-checklist-for-managers/"><span class="rel-fmt">Checklist</span><span class="rel-t">Deal Review Checklist for Managers</span><span class="rel-b">The 15 questions to ask in every deal review so &quot;it&#x27;s going well&quot; is never an acceptable answer </span></a><a class="rel-card" href="/library/meddpicc-deal-inspection-calculator/"><span class="rel-fmt">Calculator/Tool</span><span class="rel-t">MEDDPICC Deal Inspection Calculator</span><span class="rel-b">Score every open opportunity across all eight MEDDPICC letters in one sitting and rank the pipel</span></a><a class="rel-card" href="/library/forecast-call-script-cadence-guide/"><span class="rel-fmt">Guide</span><span class="rel-t">Forecast Call Script &amp; Cadence Guide</span><span class="rel-b">A structured weekly forecast call format tied to methodology milestones instead of stage-in-CRM </span></a><a class="rel-card" href="/library/methodology-coaching-cheat-sheet-1on1s/"><span class="rel-fmt">Cheat Sheet</span><span class="rel-t">Methodology Coaching Cheat Sheet for 1:1s</span><span class="rel-b">The exact questions to ask in a 1:1 to coach MEDDIC or Challenger skill gaps instead of just rev</span></a></div>
+    <a class="all-link" href="/library/?category=Sales Process &amp; Methodology (MEDDIC, SPIN, Challenger)">All Sales Process &amp; Methodology (MEDDIC, SPIN, Challenger) resources &rarr;</a>
+  </div>
+</section>
+<section class="alerts" id="alerts">
+  <div class="alerts-inner">
+    <div>
+      <span class="eyebrow">Stay current</span>
+      <h2>Get told when new Sales Process &amp; Methodology (MEDDIC, SPIN, Challenger) resources land.</h2>
+      <p>Pick the topics you care about. No digest spam, just a note when something genuinely useful is added.</p>
+    </div>
+    <form class="alert-form" method="post" action="#" data-alerts>
+      <input type="hidden" name="CATEGORY" value="Sales Process &amp; Methodology (MEDDIC, SPIN, Challenger)">
+      <label class="sr-only" for="alert-email">Email address</label>
+      <input id="alert-email" type="email" name="EMAIL" placeholder="you@company.com" required>
+      <button type="submit">Notify me</button>
+      <p class="alert-note">Choose categories after you confirm. Unsubscribe any time.</p>
+    </form>
+  </div>
+</section>
+<script>
+(function(){
+  var b=document.querySelector('[data-copy]'); if(!b) return;
+  b.addEventListener('click',function(){
+    var el=document.getElementById('resource-body');
+    var txt=(el.innerText||el.textContent||'').trim();
+    function done(){ var o=b.textContent; b.textContent='Copied'; setTimeout(function(){b.textContent=o;},1600); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done,sel); } else { sel(); }
+    function sel(){ var r=document.createRange(); r.selectNodeContents(el);
+      var s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      try{ document.execCommand('copy'); done(); }catch(e){ b.textContent='Press Ctrl/Cmd+C'; } }
+  });
+})();
+</script>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <a href="/" class="footer-brand">Think<span class="mark">Work</span></a>
+      <p class="footer-tag">Mastery Engineering. We install The Mastery Standard into commercial teams, so sales skill becomes observable, measurable and auditable.</p>
+    </div>
+    <div><h4>Library</h4><ul>
+      <li><a href="/library/">All resources</a></li>
+      <li><a href="/library/?audience=Individual">For reps</a></li>
+      <li><a href="/library/?audience=Team%2FManager">For managers</a></li>
+      <li><a href="/library/?audience=Leader">For leaders</a></li>
+    </ul></div>
+    <div><h4>Firm</h4><ul>
+      <li><a href="/#layer">The Mastery Layer</a></li>
+      <li><a href="/#programs">Programs</a></li>
+      <li><a href="/thinkwork/letter">The Letter</a></li>
+    </ul></div>
+    <div><h4>Contact</h4><ul>
+      <li><a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-base"><span>&copy; ThinkWork</span><span>Sales Enablement Resource Library &middot; free, always</span></div>
+</footer>
+</body>
+</html>

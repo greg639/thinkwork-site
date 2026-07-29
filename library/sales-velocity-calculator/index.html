@@ -10,6 +10,7 @@
 <meta property="og:description" content="Model how opportunity count, average deal value, win rate, and cycle length compound into pipeline dollars per day — and see which lever, and which skill behi">
 <meta property="og:url" content="https://thinkwork.info/library/sales-velocity-calculator/">
 <meta property="og:type" content="article">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A3D5C'/><text x='16' y='22' font-family='Georgia' font-size='20' fill='%23FAF6EC' text-anchor='middle'>tw</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
@@ -145,32 +146,63 @@
 </section>
 <script>
 (function(){
-  var f=document.querySelector('form[data-alerts]'); if(!f) return;
-  var note=f.querySelector('.alert-note'), btn=f.querySelector('button');
-  f.addEventListener('submit', function(ev){
-    ev.preventDefault();
-    var email=(f.querySelector('#alert-email')||{}).value||'';
-    var hp=(f.querySelector('input[name=website]')||{}).value||'';
-    var cat=f.getAttribute('data-category')||'';
-    btn.disabled=true; var was=btn.textContent; btn.textContent='Sending...';
-    fetch('https://app.peerlab.ai/api/library/subscribe',{
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email:email, website:hp,
-        categories:cat?[cat]:[], source:location.pathname})
-    }).then(function(r){ return r.json().catch(function(){ return {ok:false}; }); })
-     .then(function(d){
-       var good = d && d.ok;
-       note.textContent = good ? (d.message||'Check your inbox to confirm.')
-                               : ((d&&d.error)||'Something went wrong, try again shortly.');
-       note.style.color = good ? '#7CE9BE' : '#F0C060';
-       if(good){ f.querySelector('#alert-email').value=''; }
-     })
-     .catch(function(){
-       note.textContent='Could not reach the server, try again shortly.';
-       note.style.color='#F0C060';
-     })
-     .then(function(){ btn.disabled=false; btn.textContent=was; });
-  });
+  var ENDPOINT='https://app.peerlab.ai/api/library/subscribe';
+  var DONE='tw_lib_subscribed', SEEN='tw_lib_pop_seen';
+  function store(k,v,session){ try{ (session?sessionStorage:localStorage).setItem(k,v); }catch(e){} }
+  function read(k,session){ try{ return (session?sessionStorage:localStorage).getItem(k); }catch(e){ return null; } }
+
+  function wire(f){
+    if(!f || f.__wired) return; f.__wired=1;
+    var note=f.querySelector('.alert-note'), btn=f.querySelector('button[type=submit],button');
+    f.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      var em=f.querySelector('input[type=email]'), hp=f.querySelector('input[name=website]');
+      var email=em?em.value:'', pot=hp?hp.value:'';
+      var cat=f.getAttribute('data-category')||'';
+      var was=btn?btn.textContent:''; if(btn){ btn.disabled=true; btn.textContent='Sending...'; }
+      fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({email:email,website:pot,categories:cat?[cat]:[],source:location.pathname})})
+      .then(function(r){ return r.json().catch(function(){ return {ok:false}; }); })
+      .then(function(d){
+        var good=d&&d.ok;
+        if(note){
+          note.textContent=good?(d.message||'Check your inbox to confirm.')
+                               :((d&&d.error)||'Something went wrong, try again shortly.');
+          note.style.color=good?'#2E7D5B':'#B7791F';
+        }
+        if(good){ if(em) em.value=''; store(DONE,'1'); var p=document.getElementById('lib-pop'); if(p) p.remove(); }
+      })
+      .catch(function(){ if(note){ note.textContent='Could not reach the server, try again shortly.';
+                                   note.style.color='#B7791F'; } })
+      .then(function(){ if(btn){ btn.disabled=false; btn.textContent=was; } });
+    });
+  }
+  function wireAll(){ Array.prototype.forEach.call(document.querySelectorAll('form[data-alerts]'), wire); }
+  wireAll();
+
+  // Timed invite: 45s, once per session, never for someone already signed up.
+  if(read(DONE) || read(SEEN,true)) return;
+  setTimeout(function(){
+    if(read(DONE) || read(SEEN,true) || document.getElementById('lib-pop')) return;
+    store(SEEN,'1',true);
+    var d=document.createElement('div');
+    d.id='lib-pop';
+    d.setAttribute('role','dialog');
+    d.setAttribute('aria-label','Email alerts');
+    d.innerHTML='<button class="x" aria-label="Close">&times;</button>'+
+      '<span class="eyebrow">Email alerts</span>'+
+      '<h3>Want the new ones?</h3>'+
+      '<p>We keep adding to the library. Pick your topics and I will let you know when something useful lands.</p>'+
+      '<form class="alert-form compact" data-alerts data-category="">'+
+      '<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;">'+
+      '<input class="alert-email" type="email" name="email" placeholder="you@company.com" required aria-label="Email address">'+
+      '<button type="submit">Notify me</button>'+
+      '<p class="alert-note">Free, and one click to stop.</p></form>';
+    document.body.appendChild(d);
+    d.querySelector('.x').addEventListener('click', function(){ d.remove(); });
+    wire(d.querySelector('form'));
+    requestAnimationFrame(function(){ d.classList.add('on'); });
+  }, 45000);
 })();
 </script>
 

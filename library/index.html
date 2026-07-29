@@ -25,8 +25,7 @@
     <nav class="mast-nav">
       <a href="/#layer">The Mastery Layer</a>
       <a href="/#programs">Programs</a>
-      <a href="/library/">Library</a>
-      <a href="/library/tools/">Tools</a>
+      <a href="/library/">Resources</a>
       <a href="/thinkwork/letter">The Letter</a>
       <a href="/#engage" class="cta">Book a Call</a>
     </nav>
@@ -39,6 +38,7 @@
     <h1>Sales Enablement Resource Library</h1>
     <p class="lede">Templates, checklists, scripts, calculators and frameworks for sales
     individuals, teams and leaders. Free to use, always.</p>
+    <a class="tools-link" href="/library/tools/">Interactive tools &amp; calculators &rarr;</a>
   </div>
 </section>
 <section class="lib-browse">
@@ -100,7 +100,7 @@
       ? out.length+' resources' : out.length+' of '+DATA.length;
     document.getElementById('empty').hidden=out.length>0;
     G.innerHTML=out.slice(0,240).map(function(r){
-      return '<a class="lib-card" href="/library/'+r.s+'/">'+
+      return '<a class="lib-card" href="'+r.u+'">'+
         '<span class="lc-badges"><span class="pill '+({'Individual':'a-ind','Team/Manager':'a-team','Leader':'a-lead'}[r.a]||'a-all')+'">'+r.a+'</span>'+
         '<span class="pill fmt">'+r.f+'</span>'+(r.i?'<span class="pill live">Interactive</span>':'')+'</span>'+
         '<span class="lc-t">'+r.t+'</span><span class="lc-b">'+r.b+'</span>'+
@@ -121,8 +121,9 @@
       <a href="/" class="footer-brand">Think<span class="mark">Work</span></a>
       <p class="footer-tag">Mastery Engineering. We install The Mastery Standard into commercial teams, so sales skill becomes observable, measurable and auditable.</p>
     </div>
-    <div><h4>Library</h4><ul>
+    <div><h4>Resources</h4><ul>
       <li><a href="/library/">All resources</a></li>
+      <li><a href="/library/tools/">Tools &amp; calculators</a></li>
       <li><a href="/library/?audience=Individual">For reps</a></li>
       <li><a href="/library/?audience=Team%2FManager">For managers</a></li>
       <li><a href="/library/?audience=Leader">For leaders</a></li>

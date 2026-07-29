@@ -26,6 +26,7 @@
       <a href="/#layer">The Mastery Layer</a>
       <a href="/#programs">Programs</a>
       <a href="/library/">Library</a>
+      <a href="/library/tools/">Tools</a>
       <a href="/thinkwork/letter">The Letter</a>
       <a href="/#engage" class="cta">Book a Call</a>
     </nav>
@@ -34,23 +35,16 @@
 
 <section class="lib-hero">
   <div class="lib-inner">
-    <span class="eyebrow">Free &middot; no sign-up &middot; no gates</span>
-    <h1>The Sales Enablement<br>Resource Library</h1>
-    <p class="lede">603 free templates, checklists, scripts, calculators and frameworks for sales
-    individuals, teams and leaders. Built by the firm behind The Mastery Standard, a 27-framework,
-    54-competency taxonomy of sales skill, and given away in full.</p>
-    <div class="lib-stats">
-      <div><b>603</b><span>Resources</span></div>
-      <div><b>20</b><span>Topics</span></div>
-      <div><b>120</b><span>Interactive</span></div>
-      <div><b>3</b><span>Audiences</span></div>
-    </div>
+    <span class="eyebrow">Free &middot; no sign-up</span>
+    <h1>Sales Enablement Resource Library</h1>
+    <p class="lede">Templates, checklists, scripts, calculators and frameworks for sales
+    individuals, teams and leaders. Free to use, always.</p>
   </div>
 </section>
 <section class="lib-browse">
   <div class="lib-inner">
     <div class="searchbar">
-      <input type="search" id="q" placeholder="Search 603 resources, e.g. discovery, cold email, ramp, forecast" aria-label="Search resources">
+      <input type="search" id="q" placeholder="Search resources, e.g. discovery, cold email, ramp, forecast" aria-label="Search resources">
       <span class="count" id="count"></span>
     </div>
     <div class="filters">
@@ -102,7 +96,8 @@
     var out=DATA.filter(function(r){
       return (!S.aud||r.a===S.aud)&&(!S.fmt||r.f===S.fmt)&&(!S.cat||r.c===S.cat)&&(!S.int||r.i)&&
         (!q||r.t.toLowerCase().indexOf(q)>-1||r.b.toLowerCase().indexOf(q)>-1||r.c.toLowerCase().indexOf(q)>-1||(r.k||'').toLowerCase().indexOf(q)>-1);});
-    document.getElementById('count').textContent=out.length+' of 603';
+    document.getElementById('count').textContent=(out.length===DATA.length)
+      ? out.length+' resources' : out.length+' of '+DATA.length;
     document.getElementById('empty').hidden=out.length>0;
     G.innerHTML=out.slice(0,240).map(function(r){
       return '<a class="lib-card" href="/library/'+r.s+'/">'+

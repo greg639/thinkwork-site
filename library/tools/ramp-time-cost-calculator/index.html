@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ramp-Time &amp; Cost-of-Ramp Calculator | Free Online Tool | ThinkWork</title>
+<meta name="description" content="See exactly what a new hire&#x27;s ramp period costs — and the month they start paying it back.">
+<link rel="canonical" href="https://thinkwork.info/library/tools/ramp-time-cost-calculator/">
+<meta property="og:title" content="Ramp-Time &amp; Cost-of-Ramp Calculator | Free Online Tool | ThinkWork">
+<meta property="og:description" content="See exactly what a new hire&#x27;s ramp period costs — and the month they start paying it back.">
+<meta property="og:url" content="https://thinkwork.info/library/tools/ramp-time-cost-calculator/">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/library/library.css?v=1">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Ramp-Time & Cost-of-Ramp Calculator", "description": "See exactly what a new hire's ramp period costs — and the month they start paying it back.", "url": "https://thinkwork.info/library/tools/ramp-time-cost-calculator/", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}, "provider": {"@type": "Organization", "name": "ThinkWork", "url": "https://thinkwork.info"}}</script><link rel="stylesheet" href="/library/tools.css?v=1">
+</head>
+<body class="tool-page">
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="/" class="mast-brand">Think<span class="mark">Work</span></a>
+    <input type="checkbox" id="tw-nav-toggle" class="tw-nav-toggle" aria-hidden="true">
+    <label for="tw-nav-toggle" class="tw-burger" aria-label="Toggle menu"><span></span><span></span><span></span></label>
+    <nav class="mast-nav">
+      <a href="/#layer">The Mastery Layer</a>
+      <a href="/#programs">Programs</a>
+      <a href="/library/">Library</a>
+      <a href="/library/tools/">Tools</a>
+      <a href="/thinkwork/letter">The Letter</a>
+      <a href="/#engage" class="cta">Book a Call</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="crumbs"><a href="/library/">Resource Library</a> <span>/</span> <a href="/library/tools/">Tools</a></nav>
+<div class="tool-wrap">
+  <header class="tool-head">
+    <div class="badges">
+      <span class="pill live">Interactive</span>
+      <span class="pill fmt">Sales leaders / Finance</span>
+      <span class="pill free">Free &middot; no sign-up</span>
+    </div>
+    <h1>Ramp-Time &amp; Cost-of-Ramp Calculator</h1>
+    <p class="summary">Every new rep costs money before they make any. This calculator models the fully-loaded cost of ramping a hire to full quota, the revenue shortfall created while they&#x27;re getting there, and the actual month — based on your own margin and productivity curve — that the hire becomes net profitable. Built for sales leaders and finance partners sizing a hiring plan, not just HR.</p>
+  </header>
+  <div class="tool-grid">
+    <div class="tool-panel">
+      <h2>Your numbers</h2>
+      <div id="tool-form"><div class="fgrid">
+  <div class="fld">
+    <label for="t-ote">OTE per new hire (£/yr)</label>
+    <input type="number" id="t-ote" value="70000" min="0" step="1000">
+    <span class="hint">Full on-target earnings: base + variable</span>
+  </div>
+  <div class="fld">
+    <label for="t-quota">Annual quota per rep (£/yr)</label>
+    <input type="number" id="t-quota" value="350000" min="0" step="5000">
+    <span class="hint">Full-productivity target, once ramped</span>
+  </div>
+</div>
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-margin">Gross margin on revenue (%)</label>
+    <input type="number" id="t-margin" value="70" min="0" max="100" step="1">
+    <span class="hint">Converts revenue into contribution</span>
+  </div>
+  <div class="fld">
+    <label for="t-overhead">Benefits & overhead load (%)</label>
+    <input type="number" id="t-overhead" value="25" min="0" max="150" step="1">
+    <span class="hint">On top of OTE: NI/tax, pension, tools, mgmt time</span>
+  </div>
+</div>
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-ramp">Ramp period (months)</label>
+    <input type="number" id="t-ramp" value="6" min="1" max="24" step="1">
+    <span class="hint">Time to reach 100% of quota</span>
+  </div>
+  <div class="fld">
+    <label for="t-startprod">Month-1 productivity (% of quota)</label>
+    <input type="number" id="t-startprod" value="10" min="0" max="100" step="1">
+    <span class="hint">Output in the very first month</span>
+  </div>
+</div>
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-curve">Ramp curve shape</label>
+    <select id="t-curve">
+      <option value="linear" selected>Linear (steady climb)</option>
+      <option value="back">Back-loaded (slow start, fast finish)</option>
+      <option value="front">Front-loaded (fast start, tapers off)</option>
+    </select>
+    <span class="hint">Shape of the climb from month 1 to full quota</span>
+  </div>
+  <div class="fld">
+    <label for="t-onecost">One-off cost per hire (£)</label>
+    <input type="number" id="t-onecost" value="4000" min="0" step="250">
+    <span class="hint">Recruiting, training, tools, onboarding</span>
+  </div>
+</div>
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-hires">Number of new hires</label>
+    <input type="number" id="t-hires" value="5" min="1" max="200" step="1">
+    <span class="hint">Cohort size for the totals below</span>
+  </div>
+  <div class="fld">
+    <label for="t-horizon">Analysis horizon (months)</label>
+    <input type="number" id="t-horizon" value="24" min="1" max="60" step="1">
+    <span class="hint">How far ahead the table runs</span>
+  </div>
+</div></div>
+      <div class="tool-actions">
+        <button class="btn btn-ghost" id="tool-reset" type="button">Reset</button>
+        <button class="btn btn-primary" id="tool-copy" type="button">Copy result</button>
+      </div>
+    </div>
+    <div>
+      <div class="tool-out" id="tool-out"></div>
+      <div class="tool-notes"><h3>Method &amp; assumptions</h3><ul><li>Ramp cost assumes each hire is paid full OTE plus overhead throughout the ramp window (a full guarantee/draw) — lower the OTE input if your plan pays a reduced draw during ramp.</li><li>The productivity curve is a simplified ease-in/ease-out model (linear, back-loaded, front-loaded), not fitted to your own CRM ramp data — treat it as directional, not exact.</li><li>Breakeven is the first month cumulative gross-margin contribution (revenue × margin) exceeds cumulative fully-loaded cost plus the one-off hiring cost; the search is capped at 48 months.</li><li>Revenue shortfall is quota headroom lost to ramp versus an already-productive rep — a forecasting/pipeline number, not a cash cost, and is kept separate from the cash ramp-cost figure.</li></ul></div>
+      <div class="howto" style="margin-top:20px;"><h3>How to use it</h3><p>Enter the OTE and annual quota for the role you&#x27;re hiring, plus the gross margin your revenue carries. Set the ramp period in months, how productive a new hire is in month one, and the shape of their climb to full quota (linear, back-loaded, or front-loaded). Add the benefits/overhead load on top of OTE and any one-off recruiting/training/tooling cost per hire, then set the number of hires and how many months ahead you want to model. The tool returns the fully-loaded ramp cost per hire, the total across your hiring cohort, the revenue shortfall created while ramping, and the specific month each hire becomes net profitable — with a month-by-month breakdown you can sanity-check line by line.</p></div>
+    </div>
+  </div>
+</div>
+<section class="related">
+  <div class="rel-inner">
+    <span class="eyebrow">More tools</span>
+    <h2>Others you can use right now.</h2>
+    <div class="rel-grid"><a class="rel-card" href="/library/tools/commission-ote-modeller/"><span class="rel-fmt">Tool</span><span class="rel-t">Commission &amp; OTE Modeller</span><span class="rel-b">Model on-target earnings, accelerators, gates, and draws across any attainment scenario.</span></a><a class="rel-card" href="/library/tools/spiff-sales-contest-roi-calculator/"><span class="rel-fmt">Tool</span><span class="rel-t">SPIFF / Sales Contest ROI Calculator</span><span class="rel-b">Find out whether your next sales contest is likely to pay for itself — before you launch it.</span></a><a class="rel-card" href="/library/tools/objection-handling-drill-builder/"><span class="rel-fmt">Tool</span><span class="rel-t">Objection-Handling Drill Builder</span><span class="rel-b">Turn the objections your team hears every week into a shuffled, printable Acknowledge–Explore–Re</span></a><a class="rel-card" href="/library/tools/cold-call-opening-line-generator/"><span class="rel-fmt">Tool</span><span class="rel-t">Cold Call Opening Line Generator</span><span class="rel-b">Turn one piece of research into five ready-to-dial openers, matched to the role and the trigger,</span></a></div>
+    <a class="all-link" href="/library/tools/">All tools &rarr;</a>
+  </div>
+</section>
+<section class="alerts" style="padding:40px 0;">
+  <div class="alerts-inner" style="grid-template-columns:1fr;text-align:left;">
+    <div>
+      <span class="eyebrow">For enablement leaders</span>
+      <h2>Make the layer underneath this measurable.</h2>
+      <p style="margin-bottom:18px;">Tools like this describe good practice. They can&#x27;t tell you which of your reps actually have the skill, or in what order to build it. That&#x27;s what The Mastery Standard does: 27 frameworks, 54 competencies, every rubric cell written, every assessment human-signed-off.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="btn btn-primary" style="background:var(--gold);border-color:var(--gold);color:#1A1408;" href="mailto:greg@thinkwork.info?subject=Mastery%20Discovery%20Call">Book a discovery call</a>
+        <a class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.3);" href="/#programs">See the programs</a>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var out = document.getElementById('tool-out');
+  function el(id){ return document.getElementById(id); }
+  function num(id){ var e=el(id); if(!e) return 0; var v=parseFloat(String(e.value).replace(/[^0-9.\-]/g,'')); return isFinite(v)?v:0; }
+  function val(id){ var e=el(id); return e ? String(e.value) : ''; }
+  function radio(name){ var n=document.querySelector('input[name="'+name+'"]:checked'); return n?parseFloat(n.value)||0:0; }
+  function gbp(n){ if(!isFinite(n)) return '\u00a30'; var neg=n<0; n=Math.abs(Math.round(n));
+    return (neg?'-':'')+'\u00a3'+n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function pct(n){ if(!isFinite(n)) return '0%'; return (Math.round(n*1000)/10).toFixed(1).replace(/\.0$/,'')+'%'; }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){
+    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+  window.__render = function(){
+    try { render(); }
+    catch(e){ out.innerHTML = '<div class="verdict warn"><b>Check your inputs</b><p>'+esc(e.message)+'</p></div>';
+      if(window.console) console.error(e); }
+  };
+  function render(){
+let ote = num('t-ote');
+let quota = num('t-quota');
+let marginPct = num('t-margin');
+let overheadPct = num('t-overhead');
+let rampRaw = num('t-ramp');
+let startProdPct = num('t-startprod');
+let curve = val('t-curve');
+let onecost = num('t-onecost');
+let hiresRaw = num('t-hires');
+let horizonRaw = num('t-horizon');
+
+if (!(ote > 0) || !(quota > 0) || !(rampRaw > 0) || !(hiresRaw > 0) || !(horizonRaw > 0)) {
+  out.innerHTML = `<div class="verdict warn"><b>Almost there</b><p>Enter a positive OTE, quota, ramp length, hire count and analysis horizon to run the model.</p></div>`;
+  return;
+}
+
+if (isNaN(marginPct)) marginPct = 0;
+if (isNaN(overheadPct)) overheadPct = 0;
+if (isNaN(startProdPct)) startProdPct = 0;
+if (isNaN(onecost)) onecost = 0;
+onecost = Math.max(0, onecost);
+
+const R = Math.max(1, Math.round(rampRaw));
+const hires = Math.max(1, Math.round(hiresRaw));
+const horizon = Math.max(1, Math.round(horizonRaw));
+const margin = Math.max(0, Math.min(100, marginPct)) / 100;
+const overhead = Math.max(0, overheadPct) / 100;
+const p0 = Math.max(0, Math.min(100, startProdPct)) / 100;
+
+const monthlyQuota = quota / 12;
+const monthlyCost = (ote / 12) * (1 + overhead);
+
+function productivityAt(m) {
+  if (R <= 1 || m >= R) return 1;
+  const t = (m - 1) / (R - 1);
+  let shaped;
+  if (curve === 'back') shaped = t * t;
+  else if (curve === 'front') shaped = 1 - Math.pow(1 - t, 2);
+  else shaped = t;
+  return Math.max(0, Math.min(1, p0 + (1 - p0) * shaped));
+}
+
+// Ramp-only totals: cost and shortfall accrued strictly during the ramp window
+let shortfallPerHire = 0;
+for (let m = 1; m <= R; m++) {
+  shortfallPerHire += monthlyQuota * (1 - productivityAt(m));
+}
+const rampCostPerHire = onecost + monthlyCost * R;
+const rampCostAll = rampCostPerHire * hires;
+const shortfallAll = shortfallPerHire * hires;
+
+// Breakeven search + month-by-month table (extends past ramp into steady state)
+const CAP = Math.max(horizon, 48);
+const tableLimit = Math.min(horizon, 24);
+let cumCost = onecost;
+let cumContribution = 0;
+let breakevenMonth = null;
+const tableRows = [];
+for (let m = 1; m <= CAP; m++) {
+  const prod = productivityAt(m);
+  const revenue = monthlyQuota * prod;
+  const contribution = revenue * margin;
+  cumCost += monthlyCost;
+  cumContribution += contribution;
+  const net = cumContribution - cumCost;
+  if (breakevenMonth === null && net >= 0) breakevenMonth = m;
+  if (m <= tableLimit) tableRows.push({ m, prod, revenue, net });
+}
+
+// Productivity bars, sampled so long ramps don't produce dozens of bars
+const step = Math.max(1, Math.ceil(R / 10));
+const barMonths = [];
+for (let m = 1; m <= R; m += step) barMonths.push(m);
+if (barMonths[barMonths.length - 1] !== R) barMonths.push(R);
+const barsHtml = barMonths.map(m => {
+  const p = productivityAt(m);
+  return `<div class="bar"><span class="bl">Month ${m}</span><span class="bt"><i style="width:${Math.round(p * 100)}%"></i></span><span class="bv">${pct(p)}</span></div>`;
+}).join('');
+
+const tableHtml = tableRows.map(r =>
+  `<tr><td>${r.m}</td><td>${pct(r.prod)}</td><td>${gbp(r.revenue)}</td><td>${gbp(r.net)}</td></tr>`
+).join('');
+
+const tableCaption = tableRows.length < horizon
+  ? `Month-by-month, per hire (first ${tableRows.length} of ${horizon} months — capped at 24 rows)`
+  : `Month-by-month, per hire (${horizon} months)`;
+
+let verdictClass, verdictHead, verdictBody;
+if (breakevenMonth === null) {
+  verdictClass = 'bad';
+  verdictHead = `No breakeven within ${CAP} months`;
+  verdictBody = `Cumulative gross-margin contribution never catches up with cumulative fully-loaded cost inside the modelled window. Revisit quota, margin, ramp length or comp load — something in this mix doesn't add up yet.`;
+} else if (breakevenMonth <= R + 3) {
+  verdictClass = 'good';
+  const gap = breakevenMonth - R;
+  verdictHead = `Breakeven in month ${breakevenMonth}`;
+  verdictBody = gap <= 0
+    ? `This hire pays back their fully-loaded cost, including the one-off setup spend, before ramp even finishes. Healthy payback profile.`
+    : `This hire pays back their fully-loaded cost ${gap} month(s) after reaching full productivity. Healthy payback profile.`;
+} else if (breakevenMonth <= R + 9) {
+  verdictClass = 'warn';
+  verdictHead = `Breakeven in month ${breakevenMonth}`;
+  verdictBody = `Payback lands ${breakevenMonth - R} months after full productivity is reached. Workable, but a faster ramp or stronger margin would de-risk the hiring plan.`;
+} else {
+  verdictClass = 'bad';
+  verdictHead = `Breakeven in month ${breakevenMonth}`;
+  verdictBody = `Payback is slow — ${breakevenMonth - R} months after full productivity. At this pace, a rep who leaves in year one may never fully repay their ramp investment.`;
+}
+if (breakevenMonth !== null && breakevenMonth > horizon) {
+  verdictBody += ` This lands beyond your stated ${horizon}-month analysis horizon — stretch the horizon input to see it reflected in the table.`;
+}
+
+const avgMonthlyShortfall = shortfallPerHire / R;
+const oneMonthSaving = monthlyCost + avgMonthlyShortfall;
+const curveNote = curve === 'back'
+  ? `Your curve is back-loaded — most output is lost in the first half of ramp. Early call-shadowing and structured playbooks tend to shift back-loaded curves toward front-loaded ones.`
+  : curve === 'front'
+  ? `Your curve is front-loaded — early gains are strong. Make sure enablement sustains that pace rather than plateauing before month ${R}.`
+  : `Your curve is linear. Front-loading early wins — shadowing, scripted first calls, quick-win accounts — usually compresses this further.`;
+
+out.innerHTML = `
+  <div class="kpis">
+    <div class="kpi"><b>${gbp(rampCostPerHire)}</b><span>Ramp cost per hire</span></div>
+    <div class="kpi"><b>${gbp(rampCostAll)}</b><span>Ramp cost — ${hires} hire${hires > 1 ? 's' : ''}</span></div>
+    <div class="kpi"><b>${gbp(shortfallPerHire)}</b><span>Revenue shortfall per hire</span></div>
+    <div class="kpi"><b>${gbp(shortfallAll)}</b><span>Revenue shortfall — ${hires} hire${hires > 1 ? 's' : ''}</span></div>
+    <div class="kpi"><b>${breakevenMonth ? 'Month ' + breakevenMonth : '> ' + CAP + ' mo'}</b><span>Breakeven (per hire)</span></div>
+  </div>
+
+  <div class="verdict ${verdictClass}"><b>${verdictHead}</b><p>${verdictBody}</p></div>
+
+  <p><strong>Productivity ramp curve (per hire)</strong></p>
+  <div class="bars">${barsHtml}</div>
+
+  <p><strong>${tableCaption}</strong></p>
+  <div style="overflow-x:auto;">
+    <table class="tt">
+      <thead><tr><th>Month</th><th>Productivity</th><th>Revenue</th><th>Cumulative net position</th></tr></thead>
+      <tbody>${tableHtml}</tbody>
+    </table>
+  </div>
+
+  <ul class="recs">
+    <li>Cutting ramp by one month saves roughly ${gbp(monthlyCost)} in comp cost and recovers about ${gbp(avgMonthlyShortfall)} of quota shortfall per hire — close to ${gbp(oneMonthSaving * hires)} across this ${hires}-person cohort.</li>
+    <li>${curveNote}</li>
+    <li>This model assumes every hire is paid full OTE plus overhead throughout ramp (a full guarantee/draw). If your plan pays a reduced draw during ramp, lower the OTE input to reflect actual cash cost.</li>
+    <li>The ${gbp(shortfallPerHire)}/hire shortfall is quota headroom lost to ramp, not a cash outlay — treat it as a pipeline/forecasting input alongside the cash cost above.</li>
+  </ul>
+`;
+  }
+  var root = document.getElementById('tool-form');
+  if(root){
+    root.addEventListener('input', window.__render);
+    root.addEventListener('change', window.__render);
+  }
+  window.__render();
+  var rb = document.getElementById('tool-reset');
+  if(rb) rb.addEventListener('click', function(){
+    root.querySelectorAll('input,select,textarea').forEach(function(f){
+      if(f.type==='radio'||f.type==='checkbox'){ f.checked = f.hasAttribute('checked'); }
+      else if(f.defaultValue!==undefined){ f.value = f.defaultValue; }
+    });
+    window.__render();
+  });
+  var cb = document.getElementById('tool-copy');
+  if(cb) cb.addEventListener('click', function(){
+    var t=(out.innerText||out.textContent||'').trim();
+    function done(){ var o=cb.textContent; cb.textContent='Copied'; setTimeout(function(){cb.textContent=o;},1500); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done,sel); } else sel();
+    function sel(){ var r=document.createRange(); r.selectNodeContents(out);
+      var s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      try{ document.execCommand('copy'); done(); }catch(e){} }
+  });
+})();
+</script>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <a href="/" class="footer-brand">Think<span class="mark">Work</span></a>
+      <p class="footer-tag">Mastery Engineering. We install The Mastery Standard into commercial teams, so sales skill becomes observable, measurable and auditable.</p>
+    </div>
+    <div><h4>Library</h4><ul>
+      <li><a href="/library/">All resources</a></li>
+      <li><a href="/library/?audience=Individual">For reps</a></li>
+      <li><a href="/library/?audience=Team%2FManager">For managers</a></li>
+      <li><a href="/library/?audience=Leader">For leaders</a></li>
+    </ul></div>
+    <div><h4>Firm</h4><ul>
+      <li><a href="/#layer">The Mastery Layer</a></li>
+      <li><a href="/#programs">Programs</a></li>
+      <li><a href="/thinkwork/letter">The Letter</a></li>
+    </ul></div>
+    <div><h4>Contact</h4><ul>
+      <li><a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-base"><span>&copy; ThinkWork</span><span>Sales Enablement Resource Library &middot; free, always</span></div>
+</footer>
+</body>
+</html>

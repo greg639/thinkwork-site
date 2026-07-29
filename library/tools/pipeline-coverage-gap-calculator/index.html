@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pipeline Coverage &amp; Gap Calculator | Free Online Tool | ThinkWork</title>
+<meta name="description" content="See exactly how much pipeline you&#x27;re short — in £, in deals, and in deals-per-week.">
+<link rel="canonical" href="https://thinkwork.info/library/tools/pipeline-coverage-gap-calculator/">
+<meta property="og:title" content="Pipeline Coverage &amp; Gap Calculator | Free Online Tool | ThinkWork">
+<meta property="og:description" content="See exactly how much pipeline you&#x27;re short — in £, in deals, and in deals-per-week.">
+<meta property="og:url" content="https://thinkwork.info/library/tools/pipeline-coverage-gap-calculator/">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/library/library.css?v=1">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Pipeline Coverage & Gap Calculator", "description": "See exactly how much pipeline you're short — in £, in deals, and in deals-per-week.", "url": "https://thinkwork.info/library/tools/pipeline-coverage-gap-calculator/", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}, "provider": {"@type": "Organization", "name": "ThinkWork", "url": "https://thinkwork.info"}}</script><link rel="stylesheet" href="/library/tools.css?v=1">
+</head>
+<body class="tool-page">
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="/" class="mast-brand">Think<span class="mark">Work</span></a>
+    <input type="checkbox" id="tw-nav-toggle" class="tw-nav-toggle" aria-hidden="true">
+    <label for="tw-nav-toggle" class="tw-burger" aria-label="Toggle menu"><span></span><span></span><span></span></label>
+    <nav class="mast-nav">
+      <a href="/#layer">The Mastery Layer</a>
+      <a href="/#programs">Programs</a>
+      <a href="/library/">Library</a>
+      <a href="/library/tools/">Tools</a>
+      <a href="/thinkwork/letter">The Letter</a>
+      <a href="/#engage" class="cta">Book a Call</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="crumbs"><a href="/library/">Resource Library</a> <span>/</span> <a href="/library/tools/">Tools</a></nav>
+<div class="tool-wrap">
+  <header class="tool-head">
+    <div class="badges">
+      <span class="pill live">Interactive</span>
+      <span class="pill fmt">Managers / Sales leaders</span>
+      <span class="pill free">Free &middot; no sign-up</span>
+    </div>
+    <h1>Pipeline Coverage &amp; Gap Calculator</h1>
+    <p class="summary">Coverage ratio targets (3x, 4x, whatever your model uses) are only useful if they&#x27;re checked against two things: what you actually have, and what your own win rate says is the mathematical floor. This calculator does both — it sizes the gap between your current pipeline and what&#x27;s required, then translates that gap into deals and a weekly sourcing rate given how long your sales cycle actually takes.</p>
+  </header>
+  <div class="tool-grid">
+    <div class="tool-panel">
+      <h2>Your numbers</h2>
+      <div id="tool-form"><div class="fgrid">
+  <div class="fld">
+    <label for="t-target">Revenue target (£)</label>
+    <input id="t-target" type="number" min="0" step="1000" value="500000">
+    <span class="hint">Quota for the period (e.g. this quarter)</span>
+  </div>
+  <div class="fld">
+    <label for="t-pipeline">Current pipeline value (£)</label>
+    <input id="t-pipeline" type="number" min="0" step="1000" value="1200000">
+    <span class="hint">Total open opportunity value right now</span>
+  </div>
+</div>
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-winrate">Historical win rate (%)</label>
+    <input id="t-winrate" type="number" min="1" max="100" step="1" value="28">
+    <span class="hint">Of qualified opportunities, closed-won</span>
+  </div>
+  <div class="fld">
+    <label for="t-coverage">Target coverage ratio (x)</label>
+    <input id="t-coverage" type="number" min="0.5" step="0.1" value="3.5">
+    <span class="hint">£ of pipeline you want per £1 of target</span>
+  </div>
+</div>
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-dealsize">Average deal size (£)</label>
+    <input id="t-dealsize" type="number" min="0" step="500" value="15000">
+    <span class="hint">Typical closed-won deal value</span>
+  </div>
+  <div class="fld">
+    <label for="t-cycle">Average sales cycle length (days)</label>
+    <input id="t-cycle" type="number" min="1" step="1" value="45">
+    <span class="hint">First contact/qualification to close</span>
+  </div>
+</div>
+<div class="fld">
+  <label for="t-daysleft">Days left in the period</label>
+  <input id="t-daysleft" type="number" min="1" step="1" value="75">
+  <span class="hint">Days remaining until the quarter/period ends</span>
+</div></div>
+      <div class="tool-actions">
+        <button class="btn btn-ghost" id="tool-reset" type="button">Reset</button>
+        <button class="btn btn-primary" id="tool-copy" type="button">Copy result</button>
+      </div>
+    </div>
+    <div>
+      <div class="tool-out" id="tool-out"></div>
+      <div class="tool-notes"><h3>Method &amp; assumptions</h3><ul><li>Required pipeline = revenue target × your target coverage ratio. The &#x27;win-rate implied minimum&#x27; is a separate, independently-derived floor (1 ÷ win rate) — the coverage you&#x27;d need even before adding any buffer for slippage.</li><li>Deals/week assumes new pipeline must be created before (days left − average sales cycle) elapses to still close within the period. If the cycle is longer than the time left, no amount of new sourcing closes the gap in time — that scenario is flagged separately rather than silently averaged away.</li><li>This sizes the gap arithmetically; it does not weight pipeline by stage or probability. Use it alongside a weighted forecast, not instead of one.</li><li>3–4x coverage is a common B2B/SaaS rule of thumb, but it&#x27;s a heuristic — your own win-rate-implied minimum is the harder floor to respect, and the tool tells you if your chosen ratio falls short of it.</li></ul></div>
+      <div class="howto" style="margin-top:20px;"><h3>How to use it</h3><p>Enter your revenue target for the period and your current open pipeline value, then your historical win rate and the coverage ratio your team plans against (commonly 3–4x). Add your average deal size and sales cycle length, plus how many days are left in the period. The tool shows the required pipeline, the gap in £ and deals, and how many new deals per week you&#x27;d need to source to close that gap in the time you have left — while also flagging if your target ratio itself is thinner than what your win rate mathematically requires.</p></div>
+    </div>
+  </div>
+</div>
+<section class="related">
+  <div class="rel-inner">
+    <span class="eyebrow">More tools</span>
+    <h2>Others you can use right now.</h2>
+    <div class="rel-grid"><a class="rel-card" href="/library/tools/deal-desk-discount-margin-calculator/"><span class="rel-fmt">Tool</span><span class="rel-t">Deal Desk Discount &amp; Margin Impact Calculator</span><span class="rel-b">See what a discount actually costs in margin and commission — before it goes to approval.</span></a><a class="rel-card" href="/library/tools/quota-attainment-payout-calculator/"><span class="rel-fmt">Tool</span><span class="rel-t">Quota Attainment &amp; Payout Calculator</span><span class="rel-b">See your real payout number today — not a guess at month-end.</span></a><a class="rel-card" href="/library/tools/cold-email-grader/"><span class="rel-fmt">Tool</span><span class="rel-t">Cold Email Grader</span><span class="rel-b">Paste your subject line and body — get a 0–100 grade, five weighted sub-scores, and line-by-line</span></a><a class="rel-card" href="/library/tools/sales-skills-self-assessment/"><span class="rel-fmt">Tool</span><span class="rel-t">Sales Skills Self-Assessment</span><span class="rel-b">A 10-competency scenario quiz that maps your sales skill profile on a radar chart and ranks what</span></a></div>
+    <a class="all-link" href="/library/tools/">All tools &rarr;</a>
+  </div>
+</section>
+<section class="alerts" style="padding:40px 0;">
+  <div class="alerts-inner" style="grid-template-columns:1fr;text-align:left;">
+    <div>
+      <span class="eyebrow">For enablement leaders</span>
+      <h2>Make the layer underneath this measurable.</h2>
+      <p style="margin-bottom:18px;">Tools like this describe good practice. They can&#x27;t tell you which of your reps actually have the skill, or in what order to build it. That&#x27;s what The Mastery Standard does: 27 frameworks, 54 competencies, every rubric cell written, every assessment human-signed-off.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="btn btn-primary" style="background:var(--gold);border-color:var(--gold);color:#1A1408;" href="mailto:greg@thinkwork.info?subject=Mastery%20Discovery%20Call">Book a discovery call</a>
+        <a class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.3);" href="/#programs">See the programs</a>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var out = document.getElementById('tool-out');
+  function el(id){ return document.getElementById(id); }
+  function num(id){ var e=el(id); if(!e) return 0; var v=parseFloat(String(e.value).replace(/[^0-9.\-]/g,'')); return isFinite(v)?v:0; }
+  function val(id){ var e=el(id); return e ? String(e.value) : ''; }
+  function radio(name){ var n=document.querySelector('input[name="'+name+'"]:checked'); return n?parseFloat(n.value)||0:0; }
+  function gbp(n){ if(!isFinite(n)) return '\u00a30'; var neg=n<0; n=Math.abs(Math.round(n));
+    return (neg?'-':'')+'\u00a3'+n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function pct(n){ if(!isFinite(n)) return '0%'; return (Math.round(n*1000)/10).toFixed(1).replace(/\.0$/,'')+'%'; }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){
+    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+  window.__render = function(){
+    try { render(); }
+    catch(e){ out.innerHTML = '<div class="verdict warn"><b>Check your inputs</b><p>'+esc(e.message)+'</p></div>';
+      if(window.console) console.error(e); }
+  };
+  function render(){
+const target = num('t-target');
+const pipeline = num('t-pipeline');
+const winratePctRaw = num('t-winrate');
+const coverageRatioRaw = num('t-coverage');
+const dealSize = num('t-dealsize');
+const cycle = num('t-cycle');
+const daysLeft = num('t-daysleft');
+
+if (!target || target <= 0 || !dealSize || dealSize <= 0) {
+  out.innerHTML = `<div class="verdict warn"><b>Add a target and deal size to begin</b><p>Enter your revenue target and average deal size — the calculator needs both to size your pipeline gap.</p></div>`;
+  return;
+}
+
+const winrateDec = Math.min(Math.max(winratePctRaw, 0), 100) / 100;
+const coverageRatio = coverageRatioRaw > 0 ? coverageRatioRaw : 0.1;
+const pipelineSafe = Math.max(pipeline, 0);
+const cycleSafe = Math.max(cycle, 0);
+const daysLeftSafe = Math.max(daysLeft, 0);
+
+const requiredPipeline = target * coverageRatio;
+const currentCoverage = pipelineSafe / target;
+const impliedMinCoverage = winrateDec > 0 ? 1 / winrateDec : null;
+const impliedMinPipeline = impliedMinCoverage !== null ? target * impliedMinCoverage : null;
+
+const gapValue = requiredPipeline - pipelineSafe;
+const gapDeals = gapValue > 0 ? gapValue / dealSize : 0;
+
+const effectiveWindowDays = Math.max(daysLeftSafe - cycleSafe, 0);
+const weeksWindow = effectiveWindowDays / 7;
+const noWindow = effectiveWindowDays <= 0 && gapDeals > 0;
+let dealsPerWeek = null;
+if (gapDeals <= 0) {
+  dealsPerWeek = 0;
+} else if (weeksWindow > 0) {
+  dealsPerWeek = gapDeals / weeksWindow;
+}
+
+let verdictClass, verdictHead, verdictBody;
+if (gapValue <= 0) {
+  verdictClass = 'good';
+  verdictHead = 'Pipeline already meets your target coverage';
+  verdictBody = `You're carrying ${currentCoverage.toFixed(2)}x coverage against a ${coverageRatio.toFixed(1)}x target — a surplus of ${gbp(-gapValue)}. Keep sourcing to protect against slippage and no-decision losses, but the raw number is covered.`;
+} else if (impliedMinCoverage !== null && currentCoverage < impliedMinCoverage) {
+  verdictClass = 'bad';
+  verdictHead = 'Below the mathematical minimum to hit target';
+  verdictBody = `At a ${pct(winrateDec)} win rate you need at least ${impliedMinCoverage.toFixed(2)}x coverage just to close the target on paper — you're at ${currentCoverage.toFixed(2)}x. This isn't a buffer problem, it's a shortfall problem.`;
+} else {
+  verdictClass = 'warn';
+  verdictHead = 'Above the bare minimum, below your target buffer';
+  verdictBody = `You're at ${currentCoverage.toFixed(2)}x coverage — enough to clear the win-rate-implied minimum of ${impliedMinCoverage !== null ? impliedMinCoverage.toFixed(2) + 'x' : 'n/a'}, but short of your ${coverageRatio.toFixed(1)}x target buffer for slippage, pushed deals and no-decisions.`;
+}
+
+const scaleMax = Math.max(coverageRatio, currentCoverage, impliedMinCoverage || 0) || 1;
+const barTarget = Math.min(100, (coverageRatio / scaleMax) * 100);
+const barCurrent = Math.min(100, (currentCoverage / scaleMax) * 100);
+const barMin = impliedMinCoverage !== null ? Math.min(100, (impliedMinCoverage / scaleMax) * 100) : 0;
+
+const rows = [];
+rows.push(['Revenue target', gbp(target)]);
+rows.push(['Target coverage ratio', coverageRatio.toFixed(1) + 'x']);
+rows.push(['Required pipeline @ target ratio', gbp(requiredPipeline)]);
+rows.push(['Win-rate implied minimum pipeline', impliedMinPipeline !== null ? gbp(impliedMinPipeline) : '— (enter a win rate)']);
+rows.push(['Current pipeline value', gbp(pipelineSafe)]);
+rows.push(['Current coverage ratio', currentCoverage.toFixed(2) + 'x']);
+rows.push(['Coverage gap (£)', gapValue > 0 ? gbp(gapValue) : `Surplus of ${gbp(-gapValue)}`]);
+rows.push(['Coverage gap (# deals)', gapValue > 0 ? `${Math.ceil(gapDeals)} deals @ ${gbp(dealSize)}` : '0 — covered']);
+rows.push(['Effective sourcing window', `${effectiveWindowDays} days (${weeksWindow.toFixed(1)} weeks) after a ${cycleSafe}-day cycle`]);
+rows.push(['Deals/week needed to close gap', gapDeals <= 0 ? '0/week — already covered' : (dealsPerWeek !== null ? `${dealsPerWeek.toFixed(1)}/week` : 'Not enough time left — see caveat below')]);
+
+const tableRows = rows.map(r => `<tr><td>${r[0]}</td><td><b>${r[1]}</b></td></tr>`).join('');
+
+const recs = [];
+recs.push(`Required pipeline = revenue target × coverage ratio = ${gbp(target)} × ${coverageRatio.toFixed(1)}x = <b>${gbp(requiredPipeline)}</b>.`);
+if (gapValue > 0) {
+  recs.push(`Close the gap by sourcing or advancing roughly <b>${Math.ceil(gapDeals)} more deals</b> (~${gbp(gapValue)}) at your ${gbp(dealSize)} average deal size.`);
+  if (dealsPerWeek !== null) {
+    recs.push(`Spread across your ${weeksWindow.toFixed(1)}-week effective sourcing window, that's <b>${dealsPerWeek.toFixed(1)} new qualified deals per week</b> from today.`);
+  }
+} else {
+  recs.push(`No net-new sourcing is mathematically required — focus effort on advancing and protecting the pipeline you already have.`);
+}
+if (noWindow) {
+  recs.push(`Caveat: your ${cycleSafe}-day sales cycle is longer than the ${daysLeftSafe} days left in the period. Deals created today are unlikely to close in time — treat this period's gap as needing acceleration of existing pipeline, not net-new sourcing.`);
+}
+if (impliedMinCoverage !== null && coverageRatio < impliedMinCoverage) {
+  recs.push(`Your ${coverageRatio.toFixed(1)}x target coverage ratio is thinner than the ${impliedMinCoverage.toFixed(2)}x the math implies at a ${pct(winrateDec)} win rate. Consider raising your target ratio — the current one leaves no room for slippage.`);
+}
+
+out.innerHTML = `
+  <div class="kpis">
+    <div class="kpi"><b>${gbp(requiredPipeline)}</b><span>Required pipeline</span></div>
+    <div class="kpi"><b>${gbp(pipelineSafe)}</b><span>Current pipeline</span></div>
+    <div class="kpi"><b>${gapValue > 0 ? gbp(gapValue) : '£0'}</b><span>Coverage gap</span></div>
+    <div class="kpi"><b>${gapDeals > 0 && dealsPerWeek !== null ? dealsPerWeek.toFixed(1) : (gapDeals > 0 ? '—' : '0')}</b><span>Deals/week needed</span></div>
+  </div>
+  <div class="bars">
+    <div class="bar"><span class="bl">Target coverage ratio</span><span class="bt"><i style="width:${barTarget}%"></i></span><span class="bv">${coverageRatio.toFixed(1)}x</span></div>
+    <div class="bar"><span class="bl">Current coverage</span><span class="bt"><i style="width:${barCurrent}%"></i></span><span class="bv">${currentCoverage.toFixed(2)}x</span></div>
+    ${impliedMinCoverage !== null ? `<div class="bar"><span class="bl">Win-rate implied minimum</span><span class="bt"><i style="width:${barMin}%"></i></span><span class="bv">${impliedMinCoverage.toFixed(2)}x</span></div>` : ''}
+  </div>
+  <table class="tt"><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody>${tableRows}</tbody></table>
+  <div class="verdict ${verdictClass}"><b>${verdictHead}</b><p>${verdictBody}</p></div>
+  <ul class="recs">${recs.map(r => `<li>${r}</li>`).join('')}</ul>
+`;
+  }
+  var root = document.getElementById('tool-form');
+  if(root){
+    root.addEventListener('input', window.__render);
+    root.addEventListener('change', window.__render);
+  }
+  window.__render();
+  var rb = document.getElementById('tool-reset');
+  if(rb) rb.addEventListener('click', function(){
+    root.querySelectorAll('input,select,textarea').forEach(function(f){
+      if(f.type==='radio'||f.type==='checkbox'){ f.checked = f.hasAttribute('checked'); }
+      else if(f.defaultValue!==undefined){ f.value = f.defaultValue; }
+    });
+    window.__render();
+  });
+  var cb = document.getElementById('tool-copy');
+  if(cb) cb.addEventListener('click', function(){
+    var t=(out.innerText||out.textContent||'').trim();
+    function done(){ var o=cb.textContent; cb.textContent='Copied'; setTimeout(function(){cb.textContent=o;},1500); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done,sel); } else sel();
+    function sel(){ var r=document.createRange(); r.selectNodeContents(out);
+      var s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      try{ document.execCommand('copy'); done(); }catch(e){} }
+  });
+})();
+</script>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <a href="/" class="footer-brand">Think<span class="mark">Work</span></a>
+      <p class="footer-tag">Mastery Engineering. We install The Mastery Standard into commercial teams, so sales skill becomes observable, measurable and auditable.</p>
+    </div>
+    <div><h4>Library</h4><ul>
+      <li><a href="/library/">All resources</a></li>
+      <li><a href="/library/?audience=Individual">For reps</a></li>
+      <li><a href="/library/?audience=Team%2FManager">For managers</a></li>
+      <li><a href="/library/?audience=Leader">For leaders</a></li>
+    </ul></div>
+    <div><h4>Firm</h4><ul>
+      <li><a href="/#layer">The Mastery Layer</a></li>
+      <li><a href="/#programs">Programs</a></li>
+      <li><a href="/thinkwork/letter">The Letter</a></li>
+    </ul></div>
+    <div><h4>Contact</h4><ul>
+      <li><a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-base"><span>&copy; ThinkWork</span><span>Sales Enablement Resource Library &middot; free, always</span></div>
+</footer>
+</body>
+</html>

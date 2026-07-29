@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Territory &amp; Quota Carving Calculator | Free Online Tool | ThinkWork</title>
+<meta name="description" content="Split a revenue target into defensible per-territory quotas — and score how fair the carve actually is.">
+<link rel="canonical" href="https://thinkwork.info/library/tools/territory-quota-carving-calculator/">
+<meta property="og:title" content="Territory &amp; Quota Carving Calculator | Free Online Tool | ThinkWork">
+<meta property="og:description" content="Split a revenue target into defensible per-territory quotas — and score how fair the carve actually is.">
+<meta property="og:url" content="https://thinkwork.info/library/tools/territory-quota-carving-calculator/">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/library/library.css?v=1">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Territory & Quota Carving Calculator", "description": "Split a revenue target into defensible per-territory quotas — and score how fair the carve actually is.", "url": "https://thinkwork.info/library/tools/territory-quota-carving-calculator/", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}, "provider": {"@type": "Organization", "name": "ThinkWork", "url": "https://thinkwork.info"}}</script><link rel="stylesheet" href="/library/tools.css?v=1">
+</head>
+<body class="tool-page">
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="/" class="mast-brand">Think<span class="mark">Work</span></a>
+    <input type="checkbox" id="tw-nav-toggle" class="tw-nav-toggle" aria-hidden="true">
+    <label for="tw-nav-toggle" class="tw-burger" aria-label="Toggle menu"><span></span><span></span><span></span></label>
+    <nav class="mast-nav">
+      <a href="/#layer">The Mastery Layer</a>
+      <a href="/#programs">Programs</a>
+      <a href="/library/">Resources</a>
+      <a href="/thinkwork/letter">The Letter</a>
+      <a href="/#engage" class="cta">Book a Call</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="crumbs"><a href="/library/">Resource Library</a> <span>/</span> <a href="/library/tools/">Tools</a></nav>
+<div class="tool-wrap">
+  <header class="tool-head">
+    <div class="badges">
+      <span class="pill live">Interactive</span>
+      <span class="pill fmt">Leader</span>
+      <span class="pill free">Free &middot; no sign-up</span>
+    </div>
+    <h1>Territory &amp; Quota Carving Calculator</h1>
+    <p class="summary">Most quota carves are set by gut feel, then argued about in the QBR. This tool splits your total target across territories using a weighted blend of account list size, last-12-month performance, and market potential — then runs the resulting growth asks and workload through a robust fairness check so you can see (and defend, or fix) the imbalances before you roll quotas out.</p>
+  </header>
+  <div class="tool-grid">
+    <div class="tool-panel">
+      <h2>Your numbers</h2>
+      <div id="tool-form"><div class="fgrid">
+  <div class="fld">
+    <label for="t-target">Total annual revenue target (£)</label>
+    <input id="t-target" type="number" min="0" step="10000" value="2000000">
+    <span class="hint">The full quota pool you're carving up</span>
+  </div>
+  <div class="fld">
+    <label for="t-numterr">Number of territories</label>
+    <input id="t-numterr" type="number" min="2" max="8" step="1" value="5">
+    <span class="hint">2–8. Only this many rows below are used</span>
+  </div>
+</div>
+
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-w-accounts">Weight: account list size</label>
+    <input id="t-w-accounts" type="number" min="0" max="100" step="5" value="25">
+    <span class="hint">Bigger book of accounts = bigger quota share</span>
+  </div>
+  <div class="fld">
+    <label for="t-w-performance">Weight: historical performance</label>
+    <input id="t-w-performance" type="number" min="0" max="100" step="5" value="45">
+    <span class="hint">Last 12 months booked revenue</span>
+  </div>
+</div>
+<div class="fld">
+  <label for="t-w-potential">Weight: market potential score</label>
+  <input id="t-w-potential" type="number" min="0" max="100" step="5" value="30">
+  <span class="hint">Whitespace/TAM score you assign per territory (1–10). Weights auto-normalise — they don't need to add to 100</span>
+</div>
+
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-name1">Territory 1 — name</label>
+    <input id="t-name1" type="text" value="West">
+  </div>
+  <div class="fld">
+    <label for="t-acc1">Territory 1 — accounts</label>
+    <input id="t-acc1" type="number" min="0" step="1" value="45">
+  </div>
+</div>
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-hist1">Territory 1 — last 12mo revenue (£)</label>
+    <input id="t-hist1" type="number" min="0" step="1000" value="380000">
+  </div>
+  <div class="fld">
+    <label for="t-pot1">Territory 1 — market potential (1-10)</label>
+    <input id="t-pot1" type="number" min="0" max="10" step="1" value="7">
+  </div>
+</div>
+
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-name2">Territory 2 — name</label>
+    <input id="t-name2" type="text" value="East">
+  </div>
+  <div class="fld">
+    <label for="t-acc2">Territory 2 — accounts</label>
+    <input id="t-acc2" type="number" min="0" step="1" value="60">
+  </div>
+</div>
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-hist2">Territory 2 — last 12mo revenue (£)</label>
+    <input id="t-hist2" type="number" min="0" step="1000" value="420000">
+  </div>
+  <div class="fld">
+    <label for="t-pot2">Territory 2 — market potential (1-10)</label>
+    <input id="t-pot2" type="number" min="0" max="10" step="1" value="6">
+  </div>
+</div>
+
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-name3">Territory 3 — name</label>
+    <input id="t-name3" type="text" value="Central">
+  </div>
+  <div class="fld">
+    <label for="t-acc3">Territory 3 — accounts</label>
+    <input id="t-acc3" type="number" min="0" step="1" value="38">
+  </div>
+</div>
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-hist3">Territory 3 — last 12mo revenue (£)</label>
+    <input id="t-hist3" type="number" min="0" step="1000" value="310000">
+  </div>
+  <div class="fld">
+    <label for="t-pot3">Territory 3 — market potential (1-10)</label>
+    <input id="t-pot3" type="number" min="0" max="10" step="1" value="8">
+  </div>
+</div>
+
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-name4">Territory 4 — name</label>
+    <input id="t-name4" type="text" value="South">
+  </div>
+  <div class="fld">
+    <label for="t-acc4">Territory 4 — accounts</label>
+    <input id="t-acc4" type="number" min="0" step="1" value="52">
+  </div>
+</div>
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-hist4">Territory 4 — last 12mo revenue (£)</label>
+    <input id="t-hist4" type="number" min="0" step="1000" value="290000">
+  </div>
+  <div class="fld">
+    <label for="t-pot4">Territory 4 — market potential (1-10)</label>
+    <input id="t-pot4" type="number" min="0" max="10" step="1" value="5">
+  </div>
+</div>
+
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-name5">Territory 5 — name</label>
+    <input id="t-name5" type="text" value="North">
+  </div>
+  <div class="fld">
+    <label for="t-acc5">Territory 5 — accounts</label>
+    <input id="t-acc5" type="number" min="0" step="1" value="41">
+  </div>
+</div>
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-hist5">Territory 5 — last 12mo revenue (£)</label>
+    <input id="t-hist5" type="number" min="0" step="1000" value="350000">
+  </div>
+  <div class="fld">
+    <label for="t-pot5">Territory 5 — market potential (1-10)</label>
+    <input id="t-pot5" type="number" min="0" max="10" step="1" value="7">
+  </div>
+</div>
+
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-name6">Territory 6 — name</label>
+    <input id="t-name6" type="text" value="Enterprise">
+  </div>
+  <div class="fld">
+    <label for="t-acc6">Territory 6 — accounts</label>
+    <input id="t-acc6" type="number" min="0" step="1" value="20">
+  </div>
+</div>
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-hist6">Territory 6 — last 12mo revenue (£)</label>
+    <input id="t-hist6" type="number" min="0" step="1000" value="500000">
+  </div>
+  <div class="fld">
+    <label for="t-pot6">Territory 6 — market potential (1-10)</label>
+    <input id="t-pot6" type="number" min="0" max="10" step="1" value="9">
+  </div>
+</div>
+
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-name7">Territory 7 — name</label>
+    <input id="t-name7" type="text" value="Mid-Market">
+  </div>
+  <div class="fld">
+    <label for="t-acc7">Territory 7 — accounts</label>
+    <input id="t-acc7" type="number" min="0" step="1" value="65">
+  </div>
+</div>
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-hist7">Territory 7 — last 12mo revenue (£)</label>
+    <input id="t-hist7" type="number" min="0" step="1000" value="340000">
+  </div>
+  <div class="fld">
+    <label for="t-pot7">Territory 7 — market potential (1-10)</label>
+    <input id="t-pot7" type="number" min="0" max="10" step="1" value="6">
+  </div>
+</div>
+
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-name8">Territory 8 — name</label>
+    <input id="t-name8" type="text" value="SMB">
+  </div>
+  <div class="fld">
+    <label for="t-acc8">Territory 8 — accounts</label>
+    <input id="t-acc8" type="number" min="0" step="1" value="90">
+  </div>
+</div>
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-hist8">Territory 8 — last 12mo revenue (£)</label>
+    <input id="t-hist8" type="number" min="0" step="1000" value="260000">
+  </div>
+  <div class="fld">
+    <label for="t-pot8">Territory 8 — market potential (1-10)</label>
+    <input id="t-pot8" type="number" min="0" max="10" step="1" value="4">
+  </div>
+</div></div>
+      <div class="tool-actions">
+        <button class="btn btn-ghost" id="tool-reset" type="button">Reset</button>
+        <button class="btn btn-primary" id="tool-copy" type="button">Copy result</button>
+      </div>
+    </div>
+    <div>
+      <div class="tool-out" id="tool-out"></div>
+      <div class="tool-notes"><h3>Method &amp; assumptions</h3><ul><li>Quotas are built from a weighted blend of three shares — account list size, last-12-month revenue, and a market-potential score you assign — normalised so they always sum to your total target exactly.</li><li>The Balance Index uses median and MAD (median absolute deviation), not mean/standard deviation, so one outlier territory (a huge whale account, a brand-new patch with no history) can&#x27;t single-handedly wreck the fairness read for everyone else.</li><li>Growth-ask and workload flags trigger at ±10 percentage points and +30% respectively — tune your weights above if too many territories get flagged; that&#x27;s usually a sign one factor is doing too much of the work.</li><li>Market potential is a subjective 1–10 input you control — the model is only as fair as the honesty of that score, so calibrate it across territories before trusting the output.</li></ul></div>
+      <div class="howto" style="margin-top:20px;"><h3>How to use it</h3><p>Set your total revenue target and how many territories you&#x27;re splitting it across (2–8). Adjust the three weighting factors to reflect how you actually want to carve — e.g. weight historical performance heavily if you want quotas to track proven capacity, or weight market potential heavily if you&#x27;re deliberately reallocating toward whitespace. Then fill in each territory&#x27;s account count, last-12-month revenue, and a 1–10 market-potential score (your own judgment call — TAM, competitive density, expansion headroom, whatever you use). The tool computes each territory&#x27;s weighted share, the resulting quota, the growth ask versus last year, and quota-per-account as a workload proxy — then scores the whole carve with a Balance Index so you can catch an unfair split before reps see it.</p></div>
+    </div>
+  </div>
+</div>
+<section class="related">
+  <div class="rel-inner">
+    <span class="eyebrow">More tools</span>
+    <h2>Others you can use right now.</h2>
+    <div class="rel-grid"><a class="rel-card" href="/library/tools/sales-comp-plan-designer-cost-simulator/"><span class="rel-fmt">Tool</span><span class="rel-t">Sales Comp Plan Designer &amp; Cost Simulator</span><span class="rel-b">Design up to three comp plan variants and see exactly what each will cost your business — before</span></a><a class="rel-card" href="/library/tools/meddicc-bant-qualification-scorecard/"><span class="rel-fmt">Tool</span><span class="rel-t">MEDDICC / BANT Qualification Scorecard</span><span class="rel-b">Score a live opportunity against MEDDICC or BANT and see exactly which gap is putting the deal a</span></a><a class="rel-card" href="/library/tools/negotiation-style-quiz/"><span class="rel-fmt">Tool</span><span class="rel-t">Negotiation Style Quiz</span><span class="rel-b">Find your default negotiation style — and the exact moves that work against its opposite.</span></a><a class="rel-card" href="/library/tools/ramp-time-cost-calculator/"><span class="rel-fmt">Tool</span><span class="rel-t">Ramp-Time &amp; Cost-of-Ramp Calculator</span><span class="rel-b">See exactly what a new hire&#x27;s ramp period costs — and the month they start paying it back.</span></a></div>
+    <a class="all-link" href="/library/tools/">All tools &rarr;</a>
+  </div>
+</section>
+<section class="alerts" style="padding:40px 0;">
+  <div class="alerts-inner" style="grid-template-columns:1fr;text-align:left;">
+    <div>
+      <span class="eyebrow">For enablement leaders</span>
+      <h2>Make the layer underneath this measurable.</h2>
+      <p style="margin-bottom:18px;">Tools like this describe good practice. They can&#x27;t tell you which of your reps actually have the skill, or in what order to build it. That&#x27;s what The Mastery Standard does: 27 frameworks, 54 competencies, every rubric cell written, every assessment human-signed-off.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="btn btn-primary" style="background:var(--gold);border-color:var(--gold);color:#1A1408;" href="mailto:greg@thinkwork.info?subject=Mastery%20Discovery%20Call">Book a discovery call</a>
+        <a class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.3);" href="/#programs">See the programs</a>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var out = document.getElementById('tool-out');
+  function el(id){ return document.getElementById(id); }
+  function num(id){ var e=el(id); if(!e) return 0; var v=parseFloat(String(e.value).replace(/[^0-9.\-]/g,'')); return isFinite(v)?v:0; }
+  function val(id){ var e=el(id); return e ? String(e.value) : ''; }
+  function radio(name){ var n=document.querySelector('input[name="'+name+'"]:checked'); return n?parseFloat(n.value)||0:0; }
+  function gbp(n){ if(!isFinite(n)) return '\u00a30'; var neg=n<0; n=Math.abs(Math.round(n));
+    return (neg?'-':'')+'\u00a3'+n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function pct(n){ if(!isFinite(n)) return '0%'; return (Math.round(n*1000)/10).toFixed(1).replace(/\.0$/,'')+'%'; }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){
+    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+  window.__render = function(){
+    try { render(); }
+    catch(e){ out.innerHTML = '<div class="verdict warn"><b>Check your inputs</b><p>'+esc(e.message)+'</p></div>';
+      if(window.console) console.error(e); }
+  };
+  function render(){
+const target = num('t-target');
+const rawN = num('t-numterr');
+const N = Math.min(8, Math.max(2, Math.round(rawN) || 5));
+
+if (!target || target <= 0) {
+  out.innerHTML = `<div class="verdict warn"><b>Enter a total revenue target</b><p>Add the total quota pool you need to carve across territories to see the split.</p></div>`;
+  return;
+}
+
+const terr = [];
+for (let i = 1; i <= N; i++) {
+  const name = (val('t-name' + i) || '').trim() || ('Territory ' + i);
+  const acc = Math.max(0, num('t-acc' + i));
+  const hist = Math.max(0, num('t-hist' + i));
+  const pot = Math.max(0, Math.min(10, num('t-pot' + i)));
+  terr.push({ name, acc, hist, pot });
+}
+
+const sumAcc = terr.reduce((s,t)=>s+t.acc,0);
+const sumHist = terr.reduce((s,t)=>s+t.hist,0);
+const sumPot = terr.reduce((s,t)=>s+t.pot,0);
+
+if (sumAcc <= 0 && sumHist <= 0 && sumPot <= 0) {
+  out.innerHTML = `<div class="verdict warn"><b>Add territory data</b><p>Enter account counts, last-12-month revenue, or a market-potential score for your territories to build the carve.</p></div>`;
+  return;
+}
+
+let wA = num('t-w-accounts'); let wP = num('t-w-performance'); let wM = num('t-w-potential');
+wA = (!isFinite(wA) || wA < 0) ? 0 : wA;
+wP = (!isFinite(wP) || wP < 0) ? 0 : wP;
+wM = (!isFinite(wM) || wM < 0) ? 0 : wM;
+let wSum = wA + wP + wM;
+if (wSum <= 0) { wA = 1; wP = 1; wM = 1; wSum = 3; }
+wA /= wSum; wP /= wSum; wM /= wSum;
+
+const rows = terr.map(t => {
+  const shareAcc = sumAcc > 0 ? t.acc / sumAcc : 1 / N;
+  const shareHist = sumHist > 0 ? t.hist / sumHist : 1 / N;
+  const sharePot = sumPot > 0 ? t.pot / sumPot : 1 / N;
+  const composite = wA * shareAcc + wP * shareHist + wM * sharePot;
+  const quota = target * composite;
+  const growth = t.hist > 0 ? (quota / t.hist - 1) : null;
+  const perAcc = t.acc > 0 ? quota / t.acc : null;
+  return { name: t.name, acc: t.acc, hist: t.hist, pot: t.pot, composite, quota, growth, perAcc };
+});
+
+const totalQuota = rows.reduce((s,r)=>s+r.quota,0);
+
+// Robust (median/MAD) dispersion — one runaway outlier territory shouldn't be able to
+// drag the whole team's fairness read around the way a mean/std-dev would let it.
+function medianOf(a){
+  if (!a.length) return 0;
+  const s = a.slice().sort((x,y)=>x-y);
+  const mid = Math.floor(s.length/2);
+  return s.length % 2 ? s[mid] : (s[mid-1]+s[mid])/2;
+}
+function madOf(a, med){
+  if (!a.length) return 0;
+  return medianOf(a.map(x=>Math.abs(x-med))) * 1.4826; // scaled to ~std under normality
+}
+
+const growthVals = rows.filter(r=>r.growth!==null).map(r=>r.growth);
+const growthMedian = medianOf(growthVals);
+const growthMAD = madOf(growthVals, growthMedian);
+const growthCV = Math.abs(growthMedian) > 0.0001 ? growthMAD/Math.abs(growthMedian) : (growthMAD>0 ? 1 : 0);
+const growthFairness = Math.max(0, Math.min(100, 100 - growthCV*100));
+
+const workloadVals = rows.filter(r=>r.perAcc!==null).map(r=>r.perAcc);
+const workloadMedian = medianOf(workloadVals);
+const workloadMAD = madOf(workloadVals, workloadMedian);
+const workloadCV = workloadMedian > 0 ? workloadMAD/workloadMedian : 0;
+const workloadFairness = Math.max(0, Math.min(100, 100 - workloadCV*100));
+
+const hasGrowthData = growthVals.length >= 2;
+const hasWorkloadData = workloadVals.length >= 2;
+
+let balanceIndex = null;
+if (hasGrowthData && hasWorkloadData) balanceIndex = Math.round((growthFairness+workloadFairness)/2);
+else if (hasGrowthData) balanceIndex = Math.round(growthFairness);
+else if (hasWorkloadData) balanceIndex = Math.round(workloadFairness);
+
+let verdictClass = 'warn';
+let verdictHead = 'Not enough history to score fairness yet';
+let verdictBody = 'Add last-12-month revenue and account counts for at least two territories to calculate a Balance Index.';
+if (balanceIndex !== null) {
+  if (balanceIndex >= 80) {
+    verdictClass = 'good';
+    verdictHead = `Balance Index ${balanceIndex}/100 — well-carved territories`;
+    verdictBody = 'Growth asks and account workload are consistent across territories. Reps are unlikely to dispute quota fairness on this split.';
+  } else if (balanceIndex >= 60) {
+    verdictClass = 'warn';
+    verdictHead = `Balance Index ${balanceIndex}/100 — moderate variance`;
+    verdictBody = 'Some territories carry a meaningfully harder growth ask or account workload than others. Check the table below and confirm any gap is intentional (e.g. a deliberate turnaround territory) before locking quotas.';
+  } else {
+    verdictClass = 'bad';
+    verdictHead = `Balance Index ${balanceIndex}/100 — high imbalance`;
+    verdictBody = 'The carve is uneven enough to risk comp disputes, quota disengagement, and attrition in the hardest-hit territories. Re-weight the factors above or re-draw territory boundaries before rollout.';
+  }
+}
+
+const barsHtml = rows.map(r => {
+  const sharePct = totalQuota > 0 ? (r.quota/totalQuota*100) : 0;
+  return `<div class="bar"><span class="bl">${esc(r.name)}</span><span class="bt"><i style="width:${Math.max(0,Math.min(100,sharePct)).toFixed(1)}%"></i></span><span class="bv">${pct(sharePct/100)}</span></div>`;
+}).join('');
+
+const tableRows = rows.map(r => {
+  const growthTxt = r.growth === null ? '—' : (r.growth >= 0 ? '+' : '') + pct(r.growth);
+  const perAccTxt = r.perAcc === null ? '—' : gbp(r.perAcc);
+  return `<tr><td>${esc(r.name)}</td><td>${r.acc.toLocaleString('en-GB')}</td><td>${gbp(r.hist)}</td><td>${r.pot}/10</td><td>${pct(r.composite)}</td><td><b>${gbp(r.quota)}</b></td><td>${growthTxt}</td><td>${perAccTxt}</td></tr>`;
+}).join('');
+
+const recs = [];
+if (hasGrowthData) {
+  rows.forEach(r => {
+    if (r.growth === null) return;
+    const diffPts = (r.growth - growthMedian) * 100;
+    if (diffPts > 10) recs.push(`<b>${esc(r.name)}</b> is asked for ${pct(r.growth)} growth vs a ${pct(growthMedian)} team median (+${diffPts.toFixed(0)}pts) — check it has the pipeline or headcount to support that ask, or trim its weighted share.`);
+    else if (diffPts < -10) recs.push(`<b>${esc(r.name)}</b> only needs ${pct(r.growth)} growth vs a ${pct(growthMedian)} team median (${diffPts.toFixed(0)}pts) — this territory may be under-stretched relative to peers.`);
+  });
+}
+if (hasWorkloadData && workloadMedian > 0) {
+  rows.forEach(r => {
+    if (r.perAcc === null) return;
+    const rel = (r.perAcc/workloadMedian - 1) * 100;
+    if (rel > 30) recs.push(`<b>${esc(r.name)}</b> carries ${gbp(r.perAcc)} of quota per account, ${rel.toFixed(0)}% above the team median — a heavier per-account workload usually means fewer, larger swings needed per deal.`);
+  });
+}
+if (Math.max(wA,wP,wM) > 0.7) {
+  const dominant = (wA >= wP && wA >= wM) ? 'account list size' : (wP >= wM ? 'historical performance' : 'market potential');
+  recs.push(`One weighting factor (${dominant}) is driving over 70% of the carve — a single dominant factor often just reproduces last year's imbalances rather than correcting them.`);
+}
+if (!recs.length) recs.push('No material imbalances flagged at the current weighting — this carve looks defensible to present to the team.');
+
+out.innerHTML = `
+<div class="kpis">
+  <div class="kpi"><b>${gbp(target)}</b><span>Total target</span></div>
+  <div class="kpi"><b>${gbp(totalQuota)}</b><span>Quota allocated</span></div>
+  <div class="kpi"><b>${N}</b><span>Territories</span></div>
+  <div class="kpi"><b>${balanceIndex === null ? '—' : balanceIndex + '/100'}</b><span>Balance Index</span></div>
+</div>
+<div class="verdict ${verdictClass}"><b>${verdictHead}</b><p>${verdictBody}</p></div>
+<div class="bars">${barsHtml}</div>
+<div class="tt-wrap" style="overflow-x:auto">
+<table class="tt">
+<thead><tr><th>Territory</th><th>Accounts</th><th>Last 12mo</th><th>Potential</th><th>Weighted share</th><th>Quota</th><th>Growth vs LY</th><th>Quota/account</th></tr></thead>
+<tbody>${tableRows}</tbody>
+</table>
+</div>
+<ul class="recs">${recs.map(r=>`<li>${r}</li>`).join('')}</ul>
+`;
+
+  }
+  var root = document.getElementById('tool-form');
+  if(root){
+    root.addEventListener('input', window.__render);
+    root.addEventListener('change', window.__render);
+  }
+  window.__render();
+  var rb = document.getElementById('tool-reset');
+  if(rb) rb.addEventListener('click', function(){
+    root.querySelectorAll('input,select,textarea').forEach(function(f){
+      if(f.type==='radio'||f.type==='checkbox'){ f.checked = f.hasAttribute('checked'); }
+      else if(f.defaultValue!==undefined){ f.value = f.defaultValue; }
+    });
+    window.__render();
+  });
+  var cb = document.getElementById('tool-copy');
+  if(cb) cb.addEventListener('click', function(){
+    var t=(out.innerText||out.textContent||'').trim();
+    function done(){ var o=cb.textContent; cb.textContent='Copied'; setTimeout(function(){cb.textContent=o;},1500); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done,sel); } else sel();
+    function sel(){ var r=document.createRange(); r.selectNodeContents(out);
+      var s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      try{ document.execCommand('copy'); done(); }catch(e){} }
+  });
+})();
+</script>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <a href="/" class="footer-brand">Think<span class="mark">Work</span></a>
+      <p class="footer-tag">Mastery Engineering. We install The Mastery Standard into commercial teams, so sales skill becomes observable, measurable and auditable.</p>
+    </div>
+    <div><h4>Resources</h4><ul>
+      <li><a href="/library/">All resources</a></li>
+      <li><a href="/library/tools/">Tools &amp; calculators</a></li>
+      <li><a href="/library/?audience=Individual">For reps</a></li>
+      <li><a href="/library/?audience=Team%2FManager">For managers</a></li>
+      <li><a href="/library/?audience=Leader">For leaders</a></li>
+    </ul></div>
+    <div><h4>Firm</h4><ul>
+      <li><a href="/#layer">The Mastery Layer</a></li>
+      <li><a href="/#programs">Programs</a></li>
+      <li><a href="/thinkwork/letter">The Letter</a></li>
+    </ul></div>
+    <div><h4>Contact</h4><ul>
+      <li><a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-base"><span>&copy; ThinkWork</span><span>Sales Enablement Resource Library &middot; free, always</span></div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPIFF / Sales Contest ROI Calculator | Free Online Tool | ThinkWork</title>
+<meta name="description" content="Find out whether your next sales contest is likely to pay for itself — before you launch it.">
+<link rel="canonical" href="https://thinkwork.info/library/tools/spiff-sales-contest-roi-calculator/">
+<meta property="og:title" content="SPIFF / Sales Contest ROI Calculator | Free Online Tool | ThinkWork">
+<meta property="og:description" content="Find out whether your next sales contest is likely to pay for itself — before you launch it.">
+<meta property="og:url" content="https://thinkwork.info/library/tools/spiff-sales-contest-roi-calculator/">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/library/library.css?v=1">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "SPIFF / Sales Contest ROI Calculator", "description": "Find out whether your next sales contest is likely to pay for itself — before you launch it.", "url": "https://thinkwork.info/library/tools/spiff-sales-contest-roi-calculator/", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}, "provider": {"@type": "Organization", "name": "ThinkWork", "url": "https://thinkwork.info"}}</script><link rel="stylesheet" href="/library/tools.css?v=1">
+</head>
+<body class="tool-page">
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="/" class="mast-brand">Think<span class="mark">Work</span></a>
+    <input type="checkbox" id="tw-nav-toggle" class="tw-nav-toggle" aria-hidden="true">
+    <label for="tw-nav-toggle" class="tw-burger" aria-label="Toggle menu"><span></span><span></span><span></span></label>
+    <nav class="mast-nav">
+      <a href="/#layer">The Mastery Layer</a>
+      <a href="/#programs">Programs</a>
+      <a href="/library/">Resources</a>
+      <a href="/thinkwork/letter">The Letter</a>
+      <a href="/#engage" class="cta">Book a Call</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="crumbs"><a href="/library/">Resource Library</a> <span>/</span> <a href="/library/tools/">Tools</a></nav>
+<div class="tool-wrap">
+  <header class="tool-head">
+    <div class="badges">
+      <span class="pill live">Interactive</span>
+      <span class="pill fmt">Team/Manager</span>
+      <span class="pill free">Free &middot; no sign-up</span>
+    </div>
+    <h1>SPIFF / Sales Contest ROI Calculator</h1>
+    <p class="summary">Most SPIFFs and sales contests are funded on gut feel: a prize pool gets set, a leaderboard goes up, and nobody checks the math until after the invoices land. This calculator forces the math up front. It projects the incremental revenue and margin your expected activity lift should generate, discounts it for the two things that quietly wreck contest ROI — pull-forward (reps just moving deals they&#x27;d have closed anyway into the contest window) and admin overhead — and tells you the exact lift percentage you need to hit to break even.</p>
+  </header>
+  <div class="tool-grid">
+    <div class="tool-panel">
+      <h2>Your numbers</h2>
+      <div id="tool-form"><div class="fgrid">
+  <div class="fld">
+    <label for="t-budget">Prize pool budget (£)</label>
+    <input id="t-budget" type="number" min="0" step="250" value="5000">
+    <span class="hint">Total spent on prizes, cash, or rewards</span>
+  </div>
+  <div class="fld">
+    <label for="t-reps">Number of participants</label>
+    <input id="t-reps" type="number" min="1" step="1" value="10">
+    <span class="hint">People eligible to win</span>
+  </div>
+</div>
+
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-duration">Contest duration (weeks)</label>
+    <input id="t-duration" type="number" min="1" step="1" value="4">
+    <span class="hint">How long the contest runs</span>
+  </div>
+  <div class="fld">
+    <label for="t-baseline">Baseline revenue per rep/month (£)</label>
+    <input id="t-baseline" type="number" min="0" step="500" value="20000">
+    <span class="hint">What a rep normally books in a typical month</span>
+  </div>
+</div>
+
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-lift">Expected activity/behaviour lift (%)</label>
+    <input id="t-lift" type="number" min="-50" max="300" step="1" value="15">
+    <span class="hint">Realistic uplift in booked revenue during the contest window</span>
+  </div>
+  <div class="fld">
+    <label for="t-margin">Average gross margin (%)</label>
+    <input id="t-margin" type="number" min="1" max="95" step="1" value="40">
+    <span class="hint">Margin on the revenue being lifted</span>
+  </div>
+</div>
+
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-pullforward">Pull-forward / "sugar high" discount (%)</label>
+    <input id="t-pullforward" type="number" min="0" max="100" step="5" value="25">
+    <span class="hint">Share of the "lift" that's just deals reps would have closed anyway, shifted in time</span>
+  </div>
+  <div class="fld">
+    <label for="t-overhead">Admin &amp; management overhead (% of budget)</label>
+    <input id="t-overhead" type="number" min="0" max="100" step="5" value="15">
+    <span class="hint">Judging time, comms, leaderboard admin, follow-up</span>
+  </div>
+</div>
+</div>
+      <div class="tool-actions">
+        <button class="btn btn-ghost" id="tool-reset" type="button">Reset</button>
+        <button class="btn btn-primary" id="tool-copy" type="button">Copy result</button>
+      </div>
+    </div>
+    <div>
+      <div class="tool-out" id="tool-out"></div>
+      <div class="tool-notes"><h3>Method &amp; assumptions</h3><ul><li>Net incremental margin = baseline revenue over the contest period × expected lift % × (1 − pull-forward %) × gross margin %, compared against total cost (prize pool + overhead %).</li><li>Pull-forward defaults to 25% — most contests pull some deals forward from the days/weeks either side of the window rather than creating fully new demand; validate this against your own post-contest dip.</li><li>Breakeven lift is solved algebraically from the same formula: the minimum lift % at which net incremental margin exactly equals total contest cost.</li><li>This is a planning estimate, not a guarantee — the only way to know true incremental lift is to compare contest-period results against a control group or the same period last cycle.</li></ul></div>
+      <div class="howto" style="margin-top:20px;"><h3>How to use it</h3><p>Enter the prize pool and how many people can win it, the contest length, and what participants normally book in a typical month (their baseline). Then set your expected activity lift — the realistic % increase in booked revenue you think the contest will drive — along with your average gross margin. The two &quot;reality check&quot; fields matter most: pull-forward estimates how much of that lift is really just deals shifted in time (not net-new), and overhead captures the admin cost of running the contest itself. The tool then shows the net incremental margin you can expect, an ROI ratio, the exact lift % you&#x27;d need to hit breakeven, and how much margin of safety you have above or below that line.</p></div>
+    </div>
+  </div>
+</div>
+<section class="related">
+  <div class="rel-inner">
+    <span class="eyebrow">More tools</span>
+    <h2>Others you can use right now.</h2>
+    <div class="rel-grid"><a class="rel-card" href="/library/tools/objection-handling-drill-builder/"><span class="rel-fmt">Tool</span><span class="rel-t">Objection-Handling Drill Builder</span><span class="rel-b">Turn the objections your team hears every week into a shuffled, printable Acknowledge–Explore–Re</span></a><a class="rel-card" href="/library/tools/cold-call-opening-line-generator/"><span class="rel-fmt">Tool</span><span class="rel-t">Cold Call Opening Line Generator</span><span class="rel-b">Turn one piece of research into five ready-to-dial openers, matched to the role and the trigger,</span></a><a class="rel-card" href="/library/tools/pipeline-coverage-gap-calculator/"><span class="rel-fmt">Tool</span><span class="rel-t">Pipeline Coverage &amp; Gap Calculator</span><span class="rel-b">See exactly how much pipeline you&#x27;re short — in £, in deals, and in deals-per-week.</span></a><a class="rel-card" href="/library/tools/deal-desk-discount-margin-calculator/"><span class="rel-fmt">Tool</span><span class="rel-t">Deal Desk Discount &amp; Margin Impact Calculator</span><span class="rel-b">See what a discount actually costs in margin and commission — before it goes to approval.</span></a></div>
+    <a class="all-link" href="/library/tools/">All tools &rarr;</a>
+  </div>
+</section>
+<section class="alerts" style="padding:40px 0;">
+  <div class="alerts-inner" style="grid-template-columns:1fr;text-align:left;">
+    <div>
+      <span class="eyebrow">For managers</span>
+      <h2>A checklist shows the surface. A standard shows the layer underneath.</h2>
+      <p style="margin-bottom:18px;">If team performance keeps coming up in your 1:1s, the gap is usually structural, not effort. The Mastery Diagnostic measures your team against a written 27-framework standard in two weeks, and tells you exactly where the layer breaks.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="btn btn-primary" style="background:var(--gold);border-color:var(--gold);color:#1A1408;" href="/#programs">See the Mastery Diagnostic</a>
+        <a class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.3);" href="mailto:greg@thinkwork.info?subject=Mastery%20Discovery%20Call">Book a discovery call</a>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var out = document.getElementById('tool-out');
+  function el(id){ return document.getElementById(id); }
+  function num(id){ var e=el(id); if(!e) return 0; var v=parseFloat(String(e.value).replace(/[^0-9.\-]/g,'')); return isFinite(v)?v:0; }
+  function val(id){ var e=el(id); return e ? String(e.value) : ''; }
+  function radio(name){ var n=document.querySelector('input[name="'+name+'"]:checked'); return n?parseFloat(n.value)||0:0; }
+  function gbp(n){ if(!isFinite(n)) return '\u00a30'; var neg=n<0; n=Math.abs(Math.round(n));
+    return (neg?'-':'')+'\u00a3'+n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function pct(n){ if(!isFinite(n)) return '0%'; return (Math.round(n*1000)/10).toFixed(1).replace(/\.0$/,'')+'%'; }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){
+    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+  window.__render = function(){
+    try { render(); }
+    catch(e){ out.innerHTML = '<div class="verdict warn"><b>Check your inputs</b><p>'+esc(e.message)+'</p></div>';
+      if(window.console) console.error(e); }
+  };
+  function render(){
+let budget = num('t-budget');
+let reps = num('t-reps');
+let durationWeeks = num('t-duration');
+let baselinePerRepMonth = num('t-baseline');
+let liftPct = num('t-lift');
+let marginPct = num('t-margin');
+let pullforwardPct = num('t-pullforward');
+let overheadPct = num('t-overhead');
+
+if (!isFinite(liftPct)) liftPct = 0;
+if (!isFinite(pullforwardPct)) pullforwardPct = 0;
+if (!isFinite(overheadPct)) overheadPct = 0;
+
+const coreInvalid = !isFinite(budget) || !isFinite(reps) || !isFinite(durationWeeks) ||
+  !isFinite(baselinePerRepMonth) || !isFinite(marginPct) ||
+  budget <= 0 || reps <= 0 || durationWeeks <= 0 || baselinePerRepMonth <= 0 || marginPct <= 0;
+
+if (coreInvalid) {
+  out.innerHTML = `<div class="verdict warn"><b>Add your numbers</b><p>Fill in the prize budget, participants, duration, baseline revenue and margin (all must be greater than zero) to see a projection.</p></div>`;
+  return;
+}
+
+const pullforwardFrac = Math.min(Math.max(pullforwardPct, 0), 100) / 100;
+const overheadFrac = Math.max(overheadPct, 0) / 100;
+
+const durationMonths = durationWeeks / 4.345;
+const baselineRevenuePeriod = baselinePerRepMonth * reps * durationMonths;
+const grossLiftRevenue = baselineRevenuePeriod * (liftPct / 100);
+const pullforwardHaircut = grossLiftRevenue * pullforwardFrac;
+const netLiftRevenue = grossLiftRevenue - pullforwardHaircut;
+const netIncrementalMargin = netLiftRevenue * (marginPct / 100);
+
+const overheadCost = budget * overheadFrac;
+const totalCost = budget + overheadCost;
+
+const roiRatio = totalCost > 0 ? netIncrementalMargin / totalCost : 0;
+
+const breakevenDenom = baselineRevenuePeriod * (1 - pullforwardFrac) * (marginPct / 100);
+const breakevenLiftPct = breakevenDenom > 0 ? (totalCost / breakevenDenom) * 100 : null;
+const marginOfSafety = breakevenLiftPct !== null ? (liftPct - breakevenLiftPct) : null;
+
+let verdictClass, verdictHead, verdictBody;
+if (breakevenLiftPct === null) {
+  verdictClass = 'bad';
+  verdictHead = "No net-new lift assumed";
+  verdictBody = "At a 100% pull-forward discount there's no incremental margin left to fund the contest, no matter how big the headline lift number looks. Lower the pull-forward assumption to something you can defend, or this contest is a straight cost.";
+} else if (roiRatio >= 2) {
+  verdictClass = 'good';
+  verdictHead = "Strong case for running it";
+  verdictBody = `Projected margin is ${roiRatio.toFixed(1)}× the total cost even after discounting for pull-forward and overhead. You have ${marginOfSafety.toFixed(1)} points of lift to spare before this stops paying for itself.`;
+} else if (roiRatio >= 1) {
+  verdictClass = 'warn';
+  verdictHead = "Marginal — proceed with tight measurement";
+  verdictBody = `This only pays for itself if the lift lands close to plan. Margin of safety is ${marginOfSafety.toFixed(1)} points — track actual lift weekly against the ${breakevenLiftPct.toFixed(1)}% breakeven line, not just at the end.`;
+} else {
+  verdictClass = 'bad';
+  verdictHead = "Likely to cost more than it returns";
+  verdictBody = `Projected margin covers only ${pct(Math.max(roiRatio,0))} of total cost. You'd need a ${breakevenLiftPct.toFixed(1)}% lift just to break even — ${(breakevenLiftPct - liftPct).toFixed(1)} points higher than what's assumed here.`;
+}
+
+const barMax = Math.max(liftPct, breakevenLiftPct || 0, 5) * 1.15;
+const liftBarWidth = Math.max(0, Math.min(100, (liftPct / barMax) * 100));
+const breakevenBarWidth = breakevenLiftPct !== null ? Math.max(0, Math.min(100, (breakevenLiftPct / barMax) * 100)) : 0;
+
+const barsHtml = `<div class="bars">
+  <div class="bar"><span class="bl">Your expected lift</span><span class="bt"><i style="width:${liftBarWidth}%"></i></span><span class="bv">${pct(liftPct/100)}</span></div>
+  <div class="bar"><span class="bl">Breakeven lift needed</span><span class="bt"><i style="width:${breakevenBarWidth}%"></i></span><span class="bv">${breakevenLiftPct !== null ? pct(breakevenLiftPct/100) : 'n/a'}</span></div>
+</div>`;
+
+out.innerHTML = `
+<div class="kpis">
+  <div class="kpi"><b>${gbp(netIncrementalMargin)}</b><span>Projected net incremental margin</span></div>
+  <div class="kpi"><b>${roiRatio.toFixed(2)}×</b><span>ROI ratio (margin ÷ total cost)</span></div>
+  <div class="kpi"><b>${breakevenLiftPct !== null ? pct(breakevenLiftPct/100) : 'n/a'}</b><span>Breakeven lift required</span></div>
+  <div class="kpi"><b>${marginOfSafety !== null ? (marginOfSafety >= 0 ? '+' : '') + marginOfSafety.toFixed(1) + ' pts' : 'n/a'}</b><span>Margin of safety</span></div>
+</div>
+
+${barsHtml}
+
+<table class="tt">
+  <thead><tr><th>Line item</th><th>Amount</th></tr></thead>
+  <tbody>
+    <tr><td>Prize pool budget</td><td>${gbp(budget)}</td></tr>
+    <tr><td>Admin & management overhead (${pct(overheadFrac)})</td><td>${gbp(overheadCost)}</td></tr>
+    <tr><td><b>Total contest cost</b></td><td><b>${gbp(totalCost)}</b></td></tr>
+    <tr><td>Baseline revenue over contest period</td><td>${gbp(baselineRevenuePeriod)}</td></tr>
+    <tr><td>Gross lift revenue (${pct(liftPct/100)})</td><td>${gbp(grossLiftRevenue)}</td></tr>
+    <tr><td>Less pull-forward haircut (${pct(pullforwardFrac)})</td><td>-${gbp(pullforwardHaircut)}</td></tr>
+    <tr><td><b>Net incremental revenue</b></td><td><b>${gbp(netLiftRevenue)}</b></td></tr>
+    <tr><td><b>Net incremental margin (${pct(marginPct/100)})</b></td><td><b>${gbp(netIncrementalMargin)}</b></td></tr>
+  </tbody>
+</table>
+
+<div class="verdict ${verdictClass}"><b>${verdictHead}</b><p>${verdictBody}</p></div>
+
+<ul class="recs">
+  <li>Pull-forward is the single biggest lever in this model — check your last contest's post-contest dip (bookings usually sag for 1-2 weeks after) and use that as your real pull-forward rate, not a guess.</li>
+  <li>Overhead is almost always underestimated: judging time, leaderboard admin, follow-up comms and prize fulfilment routinely run 10-20% of the prize pool.</li>
+  <li>If your margin of safety is under 5 points, treat the "win" as a coin-flip and put weekly lift tracking in place before you commit the budget.</li>
+  <li>Run a control group where possible (a matched team or region not in the contest) — it's the only way to separate real lift from normal month-to-month variance.</li>
+</ul>
+`;
+
+  }
+  var root = document.getElementById('tool-form');
+  if(root){
+    root.addEventListener('input', window.__render);
+    root.addEventListener('change', window.__render);
+  }
+  window.__render();
+  var rb = document.getElementById('tool-reset');
+  if(rb) rb.addEventListener('click', function(){
+    root.querySelectorAll('input,select,textarea').forEach(function(f){
+      if(f.type==='radio'||f.type==='checkbox'){ f.checked = f.hasAttribute('checked'); }
+      else if(f.defaultValue!==undefined){ f.value = f.defaultValue; }
+    });
+    window.__render();
+  });
+  var cb = document.getElementById('tool-copy');
+  if(cb) cb.addEventListener('click', function(){
+    var t=(out.innerText||out.textContent||'').trim();
+    function done(){ var o=cb.textContent; cb.textContent='Copied'; setTimeout(function(){cb.textContent=o;},1500); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done,sel); } else sel();
+    function sel(){ var r=document.createRange(); r.selectNodeContents(out);
+      var s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      try{ document.execCommand('copy'); done(); }catch(e){} }
+  });
+})();
+</script>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <a href="/" class="footer-brand">Think<span class="mark">Work</span></a>
+      <p class="footer-tag">Mastery Engineering. We install The Mastery Standard into commercial teams, so sales skill becomes observable, measurable and auditable.</p>
+    </div>
+    <div><h4>Resources</h4><ul>
+      <li><a href="/library/">All resources</a></li>
+      <li><a href="/library/tools/">Tools &amp; calculators</a></li>
+      <li><a href="/library/?audience=Individual">For reps</a></li>
+      <li><a href="/library/?audience=Team%2FManager">For managers</a></li>
+      <li><a href="/library/?audience=Leader">For leaders</a></li>
+    </ul></div>
+    <div><h4>Firm</h4><ul>
+      <li><a href="/#layer">The Mastery Layer</a></li>
+      <li><a href="/#programs">Programs</a></li>
+      <li><a href="/thinkwork/letter">The Letter</a></li>
+    </ul></div>
+    <div><h4>Contact</h4><ul>
+      <li><a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-base"><span>&copy; ThinkWork</span><span>Sales Enablement Resource Library &middot; free, always</span></div>
+</footer>
+</body>
+</html>

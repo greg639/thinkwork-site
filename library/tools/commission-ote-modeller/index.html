@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commission &amp; OTE Modeller | Free Online Tool | ThinkWork</title>
+<meta name="description" content="Model on-target earnings, accelerators, gates, and draws across any attainment scenario.">
+<link rel="canonical" href="https://thinkwork.info/library/tools/commission-ote-modeller/">
+<meta property="og:title" content="Commission &amp; OTE Modeller | Free Online Tool | ThinkWork">
+<meta property="og:description" content="Model on-target earnings, accelerators, gates, and draws across any attainment scenario.">
+<meta property="og:url" content="https://thinkwork.info/library/tools/commission-ote-modeller/">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/library/library.css?v=1">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Commission & OTE Modeller", "description": "Model on-target earnings, accelerators, gates, and draws across any attainment scenario.", "url": "https://thinkwork.info/library/tools/commission-ote-modeller/", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}, "provider": {"@type": "Organization", "name": "ThinkWork", "url": "https://thinkwork.info"}}</script><link rel="stylesheet" href="/library/tools.css?v=1">
+</head>
+<body class="tool-page">
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="/" class="mast-brand">Think<span class="mark">Work</span></a>
+    <input type="checkbox" id="tw-nav-toggle" class="tw-nav-toggle" aria-hidden="true">
+    <label for="tw-nav-toggle" class="tw-burger" aria-label="Toggle menu"><span></span><span></span><span></span></label>
+    <nav class="mast-nav">
+      <a href="/#layer">The Mastery Layer</a>
+      <a href="/#programs">Programs</a>
+      <a href="/library/">Resources</a>
+      <a href="/thinkwork/letter">The Letter</a>
+      <a href="/#engage" class="cta">Book a Call</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="crumbs"><a href="/library/">Resource Library</a> <span>/</span> <a href="/library/tools/">Tools</a></nav>
+<div class="tool-wrap">
+  <header class="tool-head">
+    <div class="badges">
+      <span class="pill live">Interactive</span>
+      <span class="pill fmt">Leader</span>
+      <span class="pill free">Free &middot; no sign-up</span>
+    </div>
+    <h1>Commission &amp; OTE Modeller</h1>
+    <p class="summary">Comp plans are usually explained in a single sentence — &quot;10% commission with a 1.5x accelerator&quot; — but nobody tells you what that actually pays at 75% of quota versus 130%. This models it properly: your OTE, the effective commission rate at your projected attainment, what a gate or draw does to your cash flow, and a scenario table across the attainment range so you can see the shape of the plan before you sign — or before you design one.</p>
+  </header>
+  <div class="tool-grid">
+    <div class="tool-panel">
+      <h2>Your numbers</h2>
+      <div id="tool-form"><div class="fgrid">
+  <div class="fld">
+    <label for="t-base">Annual base salary (£)</label>
+    <input id="t-base" type="number" min="0" step="1000" value="40000">
+    <span class="hint">Guaranteed pay before any commission</span>
+  </div>
+  <div class="fld">
+    <label for="t-quota">Annual sales quota (£)</label>
+    <input id="t-quota" type="number" min="0" step="5000" value="480000">
+    <span class="hint">Bookings/revenue target at 100% attainment</span>
+  </div>
+</div>
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-rate">Commission rate (%)</label>
+    <input id="t-rate" type="number" min="0" step="0.5" value="10">
+    <span class="hint">% of sales value, standard tier</span>
+  </div>
+  <div class="fld">
+    <label for="t-gate">Commission gate (% of quota)</label>
+    <input id="t-gate" type="number" min="0" max="100" step="5" value="50">
+    <span class="hint">Below this, plan pays £0 commission — 0 = no gate</span>
+  </div>
+</div>
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-accel-threshold">Accelerator starts at (% of quota)</label>
+    <input id="t-accel-threshold" type="number" min="0" step="5" value="100">
+    <span class="hint">Usually 100% = right at quota</span>
+  </div>
+  <div class="fld">
+    <label for="t-accel-mult">Accelerator multiplier (x)</label>
+    <input id="t-accel-mult" type="number" min="1" step="0.1" value="1.5">
+    <span class="hint">Rate multiplier above threshold — 1.0 = none</span>
+  </div>
+</div>
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-draw">Monthly draw against commission (£)</label>
+    <input id="t-draw" type="number" min="0" step="50" value="0">
+    <span class="hint">Guaranteed monthly advance — 0 = no draw</span>
+  </div>
+  <div class="fld">
+    <label for="t-draw-type">Draw type</label>
+    <select id="t-draw-type">
+      <option value="non-recoverable">Non-recoverable (guaranteed)</option>
+      <option value="recoverable">Recoverable (repayable)</option>
+    </select>
+    <span class="hint">Recoverable draws can be clawed back</span>
+  </div>
+</div>
+<div class="fld">
+  <label for="t-attainment">Projected attainment (% of quota)</label>
+  <input id="t-attainment" type="range" min="0" max="200" step="5" value="100">
+  <span class="hint">Drag to model a slow quarter or a blow-out one</span>
+</div></div>
+      <div class="tool-actions">
+        <button class="btn btn-ghost" id="tool-reset" type="button">Reset</button>
+        <button class="btn btn-primary" id="tool-copy" type="button">Copy result</button>
+      </div>
+    </div>
+    <div>
+      <div class="tool-out" id="tool-out"></div>
+      <div class="tool-notes"><h3>Method &amp; assumptions</h3><ul><li>Commission is calculated on sales value with a single accelerator tier above your chosen threshold — real plans sometimes stack multiple tiers, SPIFs, or quarterly resets on top of this.</li><li>A gate below the entered % pays £0 commission for that period, matching common &#x27;cliff&#x27; gate designs — it does not pro-rate.</li><li>Recoverable draws are modelled as a running balance against unearned commission; non-recoverable draws are treated as a guaranteed floor the rep keeps regardless of attainment.</li><li>All figures are gross — no tax, National Insurance, or pension deductions are applied.</li></ul></div>
+      <div class="howto" style="margin-top:20px;"><h3>How to use it</h3><p>Fill in the base salary, annual quota, and commission rate from the actual comp plan (or the one you&#x27;re designing). Set the gate to the minimum attainment that must be hit before any commission is paid — leave it at 0 if there&#x27;s no floor. Set the accelerator threshold and multiplier to model an over-achievement kicker (leave the multiplier at 1.0 if the plan has none). Add a monthly draw if reps get a guaranteed advance, and mark whether it&#x27;s recoverable. Then drag the attainment slider to see how OTE splits into cash pay at that specific quarter or year — the bar chart shows the same math across 50%–150% of quota so you can see the whole shape of the plan at once.</p></div>
+    </div>
+  </div>
+</div>
+<section class="related">
+  <div class="rel-inner">
+    <span class="eyebrow">More tools</span>
+    <h2>Others you can use right now.</h2>
+    <div class="rel-grid"><a class="rel-card" href="/library/tools/spiff-sales-contest-roi-calculator/"><span class="rel-fmt">Tool</span><span class="rel-t">SPIFF / Sales Contest ROI Calculator</span><span class="rel-b">Find out whether your next sales contest is likely to pay for itself — before you launch it.</span></a><a class="rel-card" href="/library/tools/objection-handling-drill-builder/"><span class="rel-fmt">Tool</span><span class="rel-t">Objection-Handling Drill Builder</span><span class="rel-b">Turn the objections your team hears every week into a shuffled, printable Acknowledge–Explore–Re</span></a><a class="rel-card" href="/library/tools/cold-call-opening-line-generator/"><span class="rel-fmt">Tool</span><span class="rel-t">Cold Call Opening Line Generator</span><span class="rel-b">Turn one piece of research into five ready-to-dial openers, matched to the role and the trigger,</span></a><a class="rel-card" href="/library/tools/pipeline-coverage-gap-calculator/"><span class="rel-fmt">Tool</span><span class="rel-t">Pipeline Coverage &amp; Gap Calculator</span><span class="rel-b">See exactly how much pipeline you&#x27;re short — in £, in deals, and in deals-per-week.</span></a></div>
+    <a class="all-link" href="/library/tools/">All tools &rarr;</a>
+  </div>
+</section>
+<section class="alerts" style="padding:40px 0;">
+  <div class="alerts-inner" style="grid-template-columns:1fr;text-align:left;">
+    <div>
+      <span class="eyebrow">For enablement leaders</span>
+      <h2>Make the layer underneath this measurable.</h2>
+      <p style="margin-bottom:18px;">Tools like this describe good practice. They can&#x27;t tell you which of your reps actually have the skill, or in what order to build it. That&#x27;s what The Mastery Standard does: 27 frameworks, 54 competencies, every rubric cell written, every assessment human-signed-off.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="btn btn-primary" style="background:var(--gold);border-color:var(--gold);color:#1A1408;" href="mailto:greg@thinkwork.info?subject=Mastery%20Discovery%20Call">Book a discovery call</a>
+        <a class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.3);" href="/#programs">See the programs</a>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var out = document.getElementById('tool-out');
+  function el(id){ return document.getElementById(id); }
+  function num(id){ var e=el(id); if(!e) return 0; var v=parseFloat(String(e.value).replace(/[^0-9.\-]/g,'')); return isFinite(v)?v:0; }
+  function val(id){ var e=el(id); return e ? String(e.value) : ''; }
+  function radio(name){ var n=document.querySelector('input[name="'+name+'"]:checked'); return n?parseFloat(n.value)||0:0; }
+  function gbp(n){ if(!isFinite(n)) return '\u00a30'; var neg=n<0; n=Math.abs(Math.round(n));
+    return (neg?'-':'')+'\u00a3'+n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function pct(n){ if(!isFinite(n)) return '0%'; return (Math.round(n*1000)/10).toFixed(1).replace(/\.0$/,'')+'%'; }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){
+    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+  window.__render = function(){
+    try { render(); }
+    catch(e){ out.innerHTML = '<div class="verdict warn"><b>Check your inputs</b><p>'+esc(e.message)+'</p></div>';
+      if(window.console) console.error(e); }
+  };
+  function render(){
+const base = num('t-base') || 0;
+const quota = num('t-quota') || 0;
+const rate = num('t-rate') || 0;
+const gate = num('t-gate') || 0;
+const accelThresh = num('t-accel-threshold') || 0;
+let accelMult = num('t-accel-mult');
+if (!accelMult || isNaN(accelMult) || accelMult < 1) accelMult = 1;
+const draw = num('t-draw') || 0;
+const drawType = val('t-draw-type');
+const isRecoverable = drawType === 'recoverable';
+let attainment = num('t-attainment');
+if (isNaN(attainment)) attainment = 100;
+
+if (quota <= 0 || rate <= 0 || base < 0) {
+  out.innerHTML = `<div class="verdict warn"><b>Add your comp plan numbers</b><p>Enter a base salary, an annual quota above £0, and a commission rate above 0% to model OTE.</p></div>`;
+} else {
+
+  function commissionAt(attainPct) {
+    const attained = quota * (attainPct / 100);
+    const gateAmt = quota * (gate / 100);
+    if (gate > 0 && attained < gateAmt) return 0;
+    const threshAmt = quota * (accelThresh / 100);
+    const r = rate / 100;
+    if (attained <= threshAmt) return attained * r;
+    return threshAmt * r + (attained - threshAmt) * r * accelMult;
+  }
+
+  const commissionAt100 = commissionAt(100);
+  const ote = base + commissionAt100;
+  const projectedCommission = commissionAt(attainment);
+  const projectedTotal = base + projectedCommission;
+  const attained = quota * (attainment / 100);
+  const variableRatio = ote > 0 ? (commissionAt100 / ote) : 0;
+  const effectiveRate = attained > 0 ? (projectedCommission / attained) : 0;
+
+  const baseMonthly = base / 12;
+  const commissionMonthly = projectedCommission / 12;
+  const drawAnnual = draw * 12;
+  const shortfall = Math.max(0, drawAnnual - projectedCommission);
+  const cashCommissionAnnual = Math.max(drawAnnual, projectedCommission);
+  const cashTotalAnnual = base + cashCommissionAnnual;
+  const owedBack = isRecoverable ? shortfall : 0;
+
+  // KPIs
+  const kpis = `<div class="kpis">
+    <div class="kpi"><b>${gbp(ote)}</b><span>OTE (on-target earnings)</span></div>
+    <div class="kpi"><b>${gbp(projectedTotal)}</b><span>Projected total comp @ ${attainment}%</span></div>
+    <div class="kpi"><b>${pct(variableRatio)}</b><span>Commission share of OTE</span></div>
+    <div class="kpi"><b>${pct(effectiveRate)}</b><span>Effective rate @ ${attainment}% attainment</span></div>
+  </div>`;
+
+  // Scenario bars across attainment range
+  const scenarioPts = [50, 75, 90, 100, 110, 125, 150];
+  const scenarios = scenarioPts.map(p => ({ p, total: base + commissionAt(p) }));
+  const maxTotal = Math.max(...scenarios.map(s => s.total), 1);
+  const bars = `<div class="bars">${scenarios.map(s => {
+    const w = Math.max(2, Math.round((s.total / maxTotal) * 100));
+    return `<div class="bar"><span class="bl">${s.p}% quota</span><span class="bt"><i style="width:${w}%"></i></span><span class="bv">${gbp(s.total)}</span></div>`;
+  }).join('')}</div>`;
+
+  // Monthly / annual breakdown table
+  let rows = [];
+  rows.push(`<tr><td>Base salary</td><td>${gbp(baseMonthly)}</td><td>${gbp(base)}</td></tr>`);
+  rows.push(`<tr><td>Commission @ ${attainment}% attainment</td><td>${gbp(commissionMonthly)}</td><td>${gbp(projectedCommission)}</td></tr>`);
+  if (draw > 0) {
+    rows.push(`<tr><td>Monthly draw (${isRecoverable ? 'recoverable' : 'non-recoverable'})</td><td>${gbp(draw)}</td><td>${gbp(drawAnnual)}</td></tr>`);
+  }
+  rows.push(`<tr><td><b>Cash take-home</b></td><td><b>${gbp(cashTotalAnnual / 12)}</b></td><td><b>${gbp(cashTotalAnnual)}</b></td></tr>`);
+  if (isRecoverable && owedBack > 0) {
+    rows.push(`<tr><td>Draw balance owed back (unearned)</td><td>—</td><td>-${gbp(owedBack)}</td></tr>`);
+  }
+  const table = `<table class="tt"><thead><tr><th>Component</th><th>Monthly</th><th>Annual</th></tr></thead><tbody>${rows.join('')}</tbody></table>`;
+
+  // Verdict
+  let verdictClass, verdictHead, verdictText;
+  if (gate > 0 && attainment < gate) {
+    verdictClass = 'bad';
+    verdictHead = `Below the ${gate}% gate — £0 commission this period`;
+    verdictText = `At ${attainment}% attainment (${gbp(attained)} in sales against a ${gbp(quota)} quota) you fall under this plan's ${gate}% gate, so it pays zero variable pay even though real sales happened. Gate structures are common but this is the scenario that drives ramping reps to quit.`;
+  } else if (variableRatio < 0.25) {
+    verdictClass = 'warn';
+    verdictHead = `Low leverage — commission is only ${pct(variableRatio)} of OTE`;
+    verdictText = `Quota-carrying roles typically run 30–60% variable pay so over-achievement is felt in the paycheque. At ${pct(variableRatio)}, this plan behaves more like a salaried role with a bonus attached than a true commission structure.`;
+  } else if (variableRatio > 0.65) {
+    verdictClass = 'warn';
+    verdictHead = `High risk — commission is ${pct(variableRatio)} of OTE`;
+    verdictText = `Plans this variable can work for experienced reps in a hot market, but they're volatile for anyone ramping or in a choppier territory. Check there's a real draw underneath this before treating the OTE figure as reliable income.`;
+  } else {
+    verdictClass = 'good';
+    verdictHead = `Balanced structure — ${pct(variableRatio)} variable pay`;
+    verdictText = `This sits inside the typical 30–60% variable-pay band for quota-carrying roles, so the OTE figure is a reasonable planning number as long as quota itself is attainable.`;
+  }
+  const verdict = `<div class="verdict ${verdictClass}"><b>${verdictHead}</b><p>${verdictText}</p></div>`;
+
+  // Recommendations
+  let recs = [];
+  if (accelMult <= 1.2) {
+    recs.push(`The accelerator above ${accelThresh}% of quota is only ${accelMult.toFixed(1)}x — 1.5–2x is more typical if the goal is to reward reps who blow past target rather than just hit it.`);
+  }
+  if (gate >= 60) {
+    recs.push(`A ${gate}% gate is steep. Most plans set the floor at 50% or lower — a higher cliff means near-misses get paid the same as zero.`);
+  }
+  if (draw === 0 && base < ote * 0.4) {
+    recs.push(`No draw is modelled and base is under 40% of OTE — ramping or new reps could see very lumpy pay in slow months without one.`);
+  }
+  if (isRecoverable && owedBack > 0) {
+    recs.push(`At ${attainment}% attainment the draw isn't fully earned back — ${gbp(owedBack)} would sit as a recoverable balance against future commission (or be owed on exit, depending on the contract).`);
+  }
+  recs.push(`This models one accelerator tier and one gate. Real plans often stack SPIFs, multi-tier kickers, and quarterly resets — treat these figures as directional, not a payroll calculation, and check tax/NI are on top of these gross numbers.`);
+  const recsHtml = `<ul class="recs">${recs.map(r => `<li>${r}</li>`).join('')}</ul>`;
+
+  out.innerHTML = `<h3 style="margin:0 0 4px">Payout scenarios: base ${gbp(base)} + commission by attainment</h3>${kpis}${bars}${table}${verdict}${recsHtml}`;
+}
+  }
+  var root = document.getElementById('tool-form');
+  if(root){
+    root.addEventListener('input', window.__render);
+    root.addEventListener('change', window.__render);
+  }
+  window.__render();
+  var rb = document.getElementById('tool-reset');
+  if(rb) rb.addEventListener('click', function(){
+    root.querySelectorAll('input,select,textarea').forEach(function(f){
+      if(f.type==='radio'||f.type==='checkbox'){ f.checked = f.hasAttribute('checked'); }
+      else if(f.defaultValue!==undefined){ f.value = f.defaultValue; }
+    });
+    window.__render();
+  });
+  var cb = document.getElementById('tool-copy');
+  if(cb) cb.addEventListener('click', function(){
+    var t=(out.innerText||out.textContent||'').trim();
+    function done(){ var o=cb.textContent; cb.textContent='Copied'; setTimeout(function(){cb.textContent=o;},1500); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done,sel); } else sel();
+    function sel(){ var r=document.createRange(); r.selectNodeContents(out);
+      var s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      try{ document.execCommand('copy'); done(); }catch(e){} }
+  });
+})();
+</script>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <a href="/" class="footer-brand">Think<span class="mark">Work</span></a>
+      <p class="footer-tag">Mastery Engineering. We install The Mastery Standard into commercial teams, so sales skill becomes observable, measurable and auditable.</p>
+    </div>
+    <div><h4>Resources</h4><ul>
+      <li><a href="/library/">All resources</a></li>
+      <li><a href="/library/tools/">Tools &amp; calculators</a></li>
+      <li><a href="/library/?audience=Individual">For reps</a></li>
+      <li><a href="/library/?audience=Team%2FManager">For managers</a></li>
+      <li><a href="/library/?audience=Leader">For leaders</a></li>
+    </ul></div>
+    <div><h4>Firm</h4><ul>
+      <li><a href="/#layer">The Mastery Layer</a></li>
+      <li><a href="/#programs">Programs</a></li>
+      <li><a href="/thinkwork/letter">The Letter</a></li>
+    </ul></div>
+    <div><h4>Contact</h4><ul>
+      <li><a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-base"><span>&copy; ThinkWork</span><span>Sales Enablement Resource Library &middot; free, always</span></div>
+</footer>
+</body>
+</html>

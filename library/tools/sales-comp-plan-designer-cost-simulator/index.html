@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sales Comp Plan Designer &amp; Cost Simulator | Free Online Tool | ThinkWork</title>
+<meta name="description" content="Design up to three comp plan variants and see exactly what each will cost your business — before you roll it out.">
+<link rel="canonical" href="https://thinkwork.info/library/tools/sales-comp-plan-designer-cost-simulator/">
+<meta property="og:title" content="Sales Comp Plan Designer &amp; Cost Simulator | Free Online Tool | ThinkWork">
+<meta property="og:description" content="Design up to three comp plan variants and see exactly what each will cost your business — before you roll it out.">
+<meta property="og:url" content="https://thinkwork.info/library/tools/sales-comp-plan-designer-cost-simulator/">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/library/library.css?v=1">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Sales Comp Plan Designer & Cost Simulator", "description": "Design up to three comp plan variants and see exactly what each will cost your business — before you roll it out.", "url": "https://thinkwork.info/library/tools/sales-comp-plan-designer-cost-simulator/", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}, "provider": {"@type": "Organization", "name": "ThinkWork", "url": "https://thinkwork.info"}}</script><link rel="stylesheet" href="/library/tools.css?v=1">
+</head>
+<body class="tool-page">
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="/" class="mast-brand">Think<span class="mark">Work</span></a>
+    <input type="checkbox" id="tw-nav-toggle" class="tw-nav-toggle" aria-hidden="true">
+    <label for="tw-nav-toggle" class="tw-burger" aria-label="Toggle menu"><span></span><span></span><span></span></label>
+    <nav class="mast-nav">
+      <a href="/#layer">The Mastery Layer</a>
+      <a href="/#programs">Programs</a>
+      <a href="/library/">Resources</a>
+      <a href="/thinkwork/letter">The Letter</a>
+      <a href="/#engage" class="cta">Book a Call</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="crumbs"><a href="/library/">Resource Library</a> <span>/</span> <a href="/library/tools/">Tools</a></nav>
+<div class="tool-wrap">
+  <header class="tool-head">
+    <div class="badges">
+      <span class="pill live">Interactive</span>
+      <span class="pill fmt">Leader</span>
+      <span class="pill free">Free &middot; no sign-up</span>
+    </div>
+    <h1>Sales Comp Plan Designer &amp; Cost Simulator</h1>
+    <p class="summary">Most comp plan debates happen with a spreadsheet nobody trusts and a gut feeling about &quot;affordability.&quot; This tool runs the actual maths: it takes your team&#x27;s quota mix and a realistic spread of attainment across the team, then prices out up to three plan designs — base/variable split, accelerator, payout cap — against the exact same team. You get total plan cost, cost as a % of the revenue that team generates, a payout histogram showing where people actually land, and a side-by-side comparison so you can see what a richer accelerator or a lower base really costs before you commit to it.</p>
+  </header>
+  <div class="tool-grid">
+    <div class="tool-panel">
+      <h2>Your numbers</h2>
+      <div id="tool-form"><div style="font-weight:700;margin:2px 0 4px;font-size:.95em;">Team &amp; quota mix</div>
+<div class="fgrid">
+  <div class="fld"><label for="t-teamsize">Team size (reps)</label><input type="number" id="t-teamsize" value="40" min="1" step="1"><span class="hint">Quota-carrying reps on the plan</span></div>
+  <div class="fld"><label for="t-newpct">New / ramping reps (%)</label><input type="number" id="t-newpct" value="20" min="0" max="100" step="1"><span class="hint">e.g. under 6 months tenure</span></div>
+</div>
+<div class="fgrid">
+  <div class="fld"><label for="t-newquota">New rep annual quota (£)</label><input type="number" id="t-newquota" value="300000" min="0" step="10000"></div>
+  <div class="fld"><label for="t-seniorpct">Senior / enterprise reps (%)</label><input type="number" id="t-seniorpct" value="20" min="0" max="100" step="1"><span class="hint">Remainder is treated as Core</span></div>
+</div>
+<div class="fgrid">
+  <div class="fld"><label for="t-seniorquota">Senior rep annual quota (£)</label><input type="number" id="t-seniorquota" value="900000" min="0" step="10000"></div>
+  <div class="fld"><label for="t-corequota">Core rep annual quota (£)</label><input type="number" id="t-corequota" value="600000" min="0" step="10000"></div>
+</div>
+
+<div style="font-weight:700;margin:14px 0 4px;font-size:.95em;">Assumed attainment mix (whole team)</div>
+<div class="fgrid">
+  <div class="fld"><label for="t-att-below">Below 70% of quota (%)</label><input type="number" id="t-att-below" value="15" min="0" max="100" step="1"></div>
+  <div class="fld"><label for="t-att-mid">70–99% of quota (%)</label><input type="number" id="t-att-mid" value="25" min="0" max="100" step="1"></div>
+</div>
+<div class="fgrid">
+  <div class="fld"><label for="t-att-plan">100–119% of quota (%)</label><input type="number" id="t-att-plan" value="40" min="0" max="100" step="1"></div>
+  <div class="fld"><label for="t-att-over">120%+ of quota (%)</label><input type="number" id="t-att-over" value="20" min="0" max="100" step="1"><span class="hint">Doesn't need to total 100 — normalised automatically</span></div>
+</div>
+
+<div style="font-weight:700;margin:14px 0 4px;font-size:.95em;">Plan A</div>
+<div class="fgrid">
+  <div class="fld"><label for="t-oteA">Plan A — OTE (£)</label><input type="number" id="t-oteA" value="90000" min="0" step="1000"></div>
+  <div class="fld"><label for="t-baseA">Plan A — base (% of OTE)</label><input type="number" id="t-baseA" value="60" min="0" max="100" step="1"></div>
+</div>
+<div class="fgrid">
+  <div class="fld"><label for="t-accelA">Plan A — accelerator above 100%</label><input type="number" id="t-accelA" value="1" min="0" step="0.1"><span class="hint">1.0 = no accelerator, 2.0 = double rate</span></div>
+  <div class="fld"><label for="t-capA">Plan A — payout cap (% of variable)</label><input type="number" id="t-capA" value="0" min="0" step="10"><span class="hint">0 = uncapped</span></div>
+</div>
+
+<div style="font-weight:700;margin:14px 0 4px;font-size:.95em;">Plan B</div>
+<div class="fgrid">
+  <div class="fld"><label for="t-oteB">Plan B — OTE (£)</label><input type="number" id="t-oteB" value="100000" min="0" step="1000"></div>
+  <div class="fld"><label for="t-baseB">Plan B — base (% of OTE)</label><input type="number" id="t-baseB" value="50" min="0" max="100" step="1"></div>
+</div>
+<div class="fgrid">
+  <div class="fld"><label for="t-accelB">Plan B — accelerator above 100%</label><input type="number" id="t-accelB" value="1.5" min="0" step="0.1"></div>
+  <div class="fld"><label for="t-capB">Plan B — payout cap (% of variable)</label><input type="number" id="t-capB" value="200" min="0" step="10"><span class="hint">0 = uncapped</span></div>
+</div>
+
+<div style="font-weight:700;margin:14px 0 4px;font-size:.95em;">Plan C</div>
+<div class="fgrid">
+  <div class="fld"><label for="t-oteC">Plan C — OTE (£)</label><input type="number" id="t-oteC" value="80000" min="0" step="1000"></div>
+  <div class="fld"><label for="t-baseC">Plan C — base (% of OTE)</label><input type="number" id="t-baseC" value="70" min="0" max="100" step="1"></div>
+</div>
+<div class="fgrid">
+  <div class="fld"><label for="t-accelC">Plan C — accelerator above 100%</label><input type="number" id="t-accelC" value="1" min="0" step="0.1"></div>
+  <div class="fld"><label for="t-capC">Plan C — payout cap (% of variable)</label><input type="number" id="t-capC" value="150" min="0" step="10"><span class="hint">0 = uncapped</span></div>
+</div>
+
+<div style="font-weight:700;margin:14px 0 4px;font-size:.95em;">Compare</div>
+<div class="fld"><label for="t-primary">Show payout histogram for</label>
+  <select id="t-primary">
+    <option value="A">Plan A</option>
+    <option value="B" selected>Plan B</option>
+    <option value="C">Plan C</option>
+  </select>
+  <span class="hint">The cost comparison table below always shows all three plans</span>
+</div></div>
+      <div class="tool-actions">
+        <button class="btn btn-ghost" id="tool-reset" type="button">Reset</button>
+        <button class="btn btn-primary" id="tool-copy" type="button">Copy result</button>
+      </div>
+    </div>
+    <div>
+      <div class="tool-out" id="tool-out"></div>
+      <div class="tool-notes"><h3>Method &amp; assumptions</h3><ul><li>Payout formula: base + variable target × (min(attainment,1) + max(0, attainment−1) × accelerator), capped at the plan&#x27;s payout cap if one is set — the standard base-plus-accelerated-commission structure used in most B2B/SaaS plans.</li><li>Attainment bands use representative midpoints (50% / 85% / 110% / 140%) applied uniformly across all segments — real distributions vary by segment, seasonality and tenure.</li><li>Revenue generated is derived from quota × attainment (not a separate input), so cost-as-%-of-revenue is directly comparable across variants — but the model deliberately holds attainment constant across plan designs. It prices plan cost, it doesn&#x27;t forecast behavioural response to plan changes.</li><li>Histogram and comparison figures are modelled shares of the team, not guaranteed outcomes for any individual rep — treat bucket edges as directional, especially for smaller teams.</li></ul></div>
+      <div class="howto" style="margin-top:20px;"><h3>How to use it</h3><p>Enter your team&#x27;s quota mix first — how many reps, and roughly what split between new/ramping, core, and senior/enterprise reps with their annual quotas. Then set the attainment mix you&#x27;d realistically expect (the four bands don&#x27;t need to add to exactly 100%; they&#x27;re normalised automatically). Fill in up to three plan variants (OTE, base % of OTE, accelerator above 100%, and an optional payout cap) — leave a plan&#x27;s OTE at 0 to drop it from the comparison. Use the &quot;Show payout histogram for&quot; selector to see where that specific plan lands people on pay, and check the comparison table underneath to see all filled-in variants costed side by side against the same team.</p></div>
+    </div>
+  </div>
+</div>
+<section class="related">
+  <div class="rel-inner">
+    <span class="eyebrow">More tools</span>
+    <h2>Others you can use right now.</h2>
+    <div class="rel-grid"><a class="rel-card" href="/library/tools/meddicc-bant-qualification-scorecard/"><span class="rel-fmt">Tool</span><span class="rel-t">MEDDICC / BANT Qualification Scorecard</span><span class="rel-b">Score a live opportunity against MEDDICC or BANT and see exactly which gap is putting the deal a</span></a><a class="rel-card" href="/library/tools/negotiation-style-quiz/"><span class="rel-fmt">Tool</span><span class="rel-t">Negotiation Style Quiz</span><span class="rel-b">Find your default negotiation style — and the exact moves that work against its opposite.</span></a><a class="rel-card" href="/library/tools/ramp-time-cost-calculator/"><span class="rel-fmt">Tool</span><span class="rel-t">Ramp-Time &amp; Cost-of-Ramp Calculator</span><span class="rel-b">See exactly what a new hire&#x27;s ramp period costs — and the month they start paying it back.</span></a><a class="rel-card" href="/library/tools/commission-ote-modeller/"><span class="rel-fmt">Tool</span><span class="rel-t">Commission &amp; OTE Modeller</span><span class="rel-b">Model on-target earnings, accelerators, gates, and draws across any attainment scenario.</span></a></div>
+    <a class="all-link" href="/library/tools/">All tools &rarr;</a>
+  </div>
+</section>
+<section class="alerts" style="padding:40px 0;">
+  <div class="alerts-inner" style="grid-template-columns:1fr;text-align:left;">
+    <div>
+      <span class="eyebrow">For enablement leaders</span>
+      <h2>Make the layer underneath this measurable.</h2>
+      <p style="margin-bottom:18px;">Tools like this describe good practice. They can&#x27;t tell you which of your reps actually have the skill, or in what order to build it. That&#x27;s what The Mastery Standard does: 27 frameworks, 54 competencies, every rubric cell written, every assessment human-signed-off.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="btn btn-primary" style="background:var(--gold);border-color:var(--gold);color:#1A1408;" href="mailto:greg@thinkwork.info?subject=Mastery%20Discovery%20Call">Book a discovery call</a>
+        <a class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.3);" href="/#programs">See the programs</a>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var out = document.getElementById('tool-out');
+  function el(id){ return document.getElementById(id); }
+  function num(id){ var e=el(id); if(!e) return 0; var v=parseFloat(String(e.value).replace(/[^0-9.\-]/g,'')); return isFinite(v)?v:0; }
+  function val(id){ var e=el(id); return e ? String(e.value) : ''; }
+  function radio(name){ var n=document.querySelector('input[name="'+name+'"]:checked'); return n?parseFloat(n.value)||0:0; }
+  function gbp(n){ if(!isFinite(n)) return '\u00a30'; var neg=n<0; n=Math.abs(Math.round(n));
+    return (neg?'-':'')+'\u00a3'+n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function pct(n){ if(!isFinite(n)) return '0%'; return (Math.round(n*1000)/10).toFixed(1).replace(/\.0$/,'')+'%'; }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){
+    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+  window.__render = function(){
+    try { render(); }
+    catch(e){ out.innerHTML = '<div class="verdict warn"><b>Check your inputs</b><p>'+esc(e.message)+'</p></div>';
+      if(window.console) console.error(e); }
+  };
+  function render(){
+const ts = num('t-teamsize');
+if (!ts || ts <= 0) {
+  out.innerHTML = `<div class="verdict warn"><b>Add a team size</b><p>Enter the number of quota-carrying reps to run the simulation.</p></div>`;
+  return;
+}
+
+const newPct = num('t-newpct') || 0;
+const seniorPct = num('t-seniorpct') || 0;
+const corePct = 100 - newPct - seniorPct;
+if (corePct < 0) {
+  out.innerHTML = `<div class="verdict bad"><b>Team mix over 100%</b><p>New (${newPct}%) + Senior (${seniorPct}%) exceeds 100% of the team. Reduce one so a Core segment remains.</p></div>`;
+  return;
+}
+
+const newQuota = num('t-newquota') || 0;
+const coreQuota = num('t-corequota') || 0;
+const seniorQuota = num('t-seniorquota') || 0;
+
+const segments = [
+  { name: 'New / ramping', frac: newPct/100, quota: newQuota },
+  { name: 'Core', frac: corePct/100, quota: coreQuota },
+  { name: 'Senior / enterprise', frac: seniorPct/100, quota: seniorQuota },
+].filter(s => s.frac > 0);
+
+const rawBands = [
+  { name: 'Below 70% of quota', mid: 0.50, raw: num('t-att-below') || 0 },
+  { name: '70–99% of quota', mid: 0.85, raw: num('t-att-mid') || 0 },
+  { name: '100–119% of quota', mid: 1.10, raw: num('t-att-plan') || 0 },
+  { name: '120%+ of quota', mid: 1.40, raw: num('t-att-over') || 0 },
+];
+const rawSum = rawBands.reduce((a,b)=>a+b.raw,0);
+if (rawSum <= 0) {
+  out.innerHTML = `<div class="verdict warn"><b>Add an attainment mix</b><p>Enter the % of reps landing in each attainment band — they don't need to total exactly 100, they'll be normalised automatically.</p></div>`;
+  return;
+}
+const bands = rawBands.map(b => ({ name: b.name, mid: b.mid, frac: b.raw/rawSum }));
+
+if (!segments.length) {
+  out.innerHTML = `<div class="verdict warn"><b>Add at least one segment</b><p>Set a quota greater than zero for at least one team segment.</p></div>`;
+  return;
+}
+
+function readVariant(key){
+  return {
+    key,
+    label: 'Plan ' + key,
+    ote: num('t-ote'+key) || 0,
+    basePct: Math.max(0, Math.min(100, num('t-base'+key) || 0))/100,
+    accel: num('t-accel'+key) || 1,
+    cap: num('t-cap'+key) || 0,
+  };
+}
+const variants = ['A','B','C'].map(readVariant).filter(v => v.ote > 0);
+
+if (!variants.length) {
+  out.innerHTML = `<div class="verdict warn"><b>Add at least one plan</b><p>Enter an OTE greater than zero for at least one plan (A, B or C) to simulate cost.</p></div>`;
+  return;
+}
+
+const groups = [];
+for (const seg of segments) {
+  for (const band of bands) {
+    groups.push({ seg, band, weight: seg.frac * band.frac });
+  }
+}
+
+let revenuePerRep = 0;
+for (const g of groups) revenuePerRep += g.weight * g.seg.quota * g.band.mid;
+const totalRevenue = revenuePerRep * ts;
+const totalQuota = segments.reduce((a,s)=>a + s.frac*s.quota, 0) * ts;
+
+function compForGroup(g, v) {
+  const variableTarget = v.ote * (1 - v.basePct);
+  const base = v.ote * v.basePct;
+  const attain = g.band.mid;
+  let variablePay = variableTarget * (Math.min(attain,1) + Math.max(0, attain-1) * v.accel);
+  if (v.cap > 0) variablePay = Math.min(variablePay, variableTarget * v.cap/100);
+  return { base, variablePay, total: base + variablePay };
+}
+
+const results = variants.map(v => {
+  let costPerRep = 0;
+  for (const g of groups) costPerRep += g.weight * compForGroup(g, v).total;
+  const totalCost = costPerRep * ts;
+  const costShare = totalRevenue > 0 ? totalCost/totalRevenue : 0;
+  const realizedPctOfOTE = v.ote > 0 ? costPerRep / v.ote : 0;
+  return Object.assign({}, v, { costPerRep, totalCost, costShare, realizedPctOfOTE });
+});
+
+const primaryKey = val('t-primary');
+const primary = results.find(r => r.key === primaryKey) || results[0];
+
+const buckets = [
+  { label: 'Under £50k', max: 50000, weight: 0 },
+  { label: '£50k–75k', max: 75000, weight: 0 },
+  { label: '£75k–100k', max: 100000, weight: 0 },
+  { label: '£100k–125k', max: 125000, weight: 0 },
+  { label: '£125k–150k', max: 150000, weight: 0 },
+  { label: '£150k–200k', max: 200000, weight: 0 },
+  { label: '£200k+', max: Infinity, weight: 0 },
+];
+for (const g of groups) {
+  const c = compForGroup(g, primary);
+  const b = buckets.find(bk => c.total <= bk.max);
+  b.weight += g.weight;
+}
+
+const barsHtml = buckets.map(b => {
+  const w = Math.max(0, Math.min(100, b.weight*100));
+  return `<div class="bar"><span class="bl">${b.label}</span><span class="bt"><i style="width:${w.toFixed(1)}%"></i></span><span class="bv">${pct(b.weight)}</span></div>`;
+}).join('');
+
+const rowsHtml = results.map(r => {
+  const capLabel = r.cap > 0 ? (r.cap + '% of variable') : 'Uncapped';
+  return `<tr>
+    <td><b>${r.label}</b></td>
+    <td>${gbp(r.ote)}</td>
+    <td>${Math.round(r.basePct*100)}% / ${Math.round((1-r.basePct)*100)}%</td>
+    <td>${r.accel.toFixed(1)}x</td>
+    <td>${capLabel}</td>
+    <td>${gbp(r.totalCost)}</td>
+    <td>${gbp(r.costPerRep)}</td>
+    <td>${pct(r.costShare)}</td>
+    <td>${pct(r.realizedPctOfOTE)}</td>
+  </tr>`;
+}).join('');
+
+let verdictClass, verdictHead, verdictBody;
+const share = primary.costShare;
+if (share > 0.18) {
+  verdictClass = 'bad';
+  verdictHead = `${primary.label} costs ${pct(share)} of modelled revenue — rich`;
+  verdictBody = `That's above the ~8–15% range typical of quota-carrying B2B/SaaS plans (it varies by ACV, margin and motion). Check the accelerator, cap and base/variable split before rolling this out.`;
+} else if (share < 0.08) {
+  verdictClass = 'warn';
+  verdictHead = `${primary.label} costs ${pct(share)} of modelled revenue — lean`;
+  verdictBody = `That's below the typical 8–15% range. A cheap plan isn't automatically a good one — check the OTE is still competitive enough to hire and keep good reps.`;
+} else {
+  verdictClass = 'good';
+  verdictHead = `${primary.label} costs ${pct(share)} of modelled revenue — in typical range`;
+  verdictBody = `That sits within the ~8–15% band common for quota-carrying B2B/SaaS plans. Use the comparison table below to see what the other variants would cost for the same team.`;
+}
+
+const recs = [];
+recs.push(`This model holds the team's attainment mix constant across all three plans, so you're comparing pure plan-design cost — not a forecast of how reps would actually behave under each plan.`);
+
+if (primary.basePct < 0.4) {
+  recs.push(`${primary.label} pays only ${pct(primary.basePct)} base — highly leveraged. That suits mature, short-cycle motions with strong pipeline; it can hurt ramp and retention for new/ramping reps without a separate guarantee.`);
+} else if (primary.basePct > 0.7) {
+  recs.push(`${primary.label} pays ${pct(primary.basePct)} base — a largely fixed-cost plan. Leverage on overachievement is limited, which can blunt the incentive to push past 100% of quota.`);
+}
+
+const overBand = bands.find(b => b.name.indexOf('120') === 0);
+if (primary.cap === 0 && primary.accel > 1 && overBand && overBand.frac > 0.2) {
+  recs.push(`${primary.label}'s accelerator is uncapped, and ${pct(overBand.frac)} of the team lands at 120%+ of quota. Cost has real upside variance here — stress-test a stronger year, or add a cap (commonly 150–200% of variable target) to bound it.`);
+}
+
+if (results.length > 1) {
+  const richest = results.reduce((a,b) => b.totalCost > a.totalCost ? b : a);
+  const cheapest = results.reduce((a,b) => b.totalCost < a.totalCost ? b : a);
+  if (richest.key !== cheapest.key) {
+    const delta = richest.totalCost - cheapest.totalCost;
+    recs.push(`${richest.label} costs ${gbp(delta)}/yr more than ${cheapest.label} for the same team and attainment mix (${pct(totalRevenue>0?delta/totalRevenue:0)} of modelled revenue). Make sure that gap is buying something you can point to — retention, competitiveness, or a specific behaviour change.`);
+  }
+}
+
+if (segments.some(s => s.name.indexOf('New') === 0)) {
+  recs.push(`All three plans assume a single flat OTE across the whole team. If new/ramping reps are actually on a reduced OTE or a ramp guarantee, model that as its own variant — it materially changes year-one cost.`);
+}
+
+const recsHtml = recs.map(r => `<li>${r}</li>`).join('');
+
+const kpisHtml = `
+  <div class="kpi"><b>${ts}</b><span>Reps on the plan</span></div>
+  <div class="kpi"><b>${gbp(totalQuota)}</b><span>Total team quota (annual)</span></div>
+  <div class="kpi"><b>${gbp(totalRevenue)}</b><span>Revenue generated (modelled)</span></div>
+  <div class="kpi"><b>${gbp(primary.totalCost)}</b><span>${primary.label} total cost</span></div>
+  <div class="kpi"><b>${pct(primary.costShare)}</b><span>${primary.label} cost / revenue</span></div>
+`;
+
+out.innerHTML = `
+  <div class="kpis">${kpisHtml}</div>
+  <div class="verdict ${verdictClass}"><b>${verdictHead}</b><p>${verdictBody}</p></div>
+  <h4 style="margin:18px 0 8px;font-size:.95em;">Payout distribution across the team — ${primary.label}</h4>
+  <div class="bars">${barsHtml}</div>
+  <h4 style="margin:22px 0 8px;font-size:.95em;">Plan comparison</h4>
+  <div style="overflow-x:auto;">
+  <table class="tt">
+    <thead><tr><th>Plan</th><th>OTE</th><th>Base/Variable</th><th>Accelerator</th><th>Cap</th><th>Total cost/yr</th><th>Cost/rep</th><th>Cost % of revenue</th><th>Avg realized pay (% of OTE)</th></tr></thead>
+    <tbody>${rowsHtml}</tbody>
+  </table>
+  </div>
+  <ul class="recs">${recsHtml}</ul>
+`;
+  }
+  var root = document.getElementById('tool-form');
+  if(root){
+    root.addEventListener('input', window.__render);
+    root.addEventListener('change', window.__render);
+  }
+  window.__render();
+  var rb = document.getElementById('tool-reset');
+  if(rb) rb.addEventListener('click', function(){
+    root.querySelectorAll('input,select,textarea').forEach(function(f){
+      if(f.type==='radio'||f.type==='checkbox'){ f.checked = f.hasAttribute('checked'); }
+      else if(f.defaultValue!==undefined){ f.value = f.defaultValue; }
+    });
+    window.__render();
+  });
+  var cb = document.getElementById('tool-copy');
+  if(cb) cb.addEventListener('click', function(){
+    var t=(out.innerText||out.textContent||'').trim();
+    function done(){ var o=cb.textContent; cb.textContent='Copied'; setTimeout(function(){cb.textContent=o;},1500); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done,sel); } else sel();
+    function sel(){ var r=document.createRange(); r.selectNodeContents(out);
+      var s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      try{ document.execCommand('copy'); done(); }catch(e){} }
+  });
+})();
+</script>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <a href="/" class="footer-brand">Think<span class="mark">Work</span></a>
+      <p class="footer-tag">Mastery Engineering. We install The Mastery Standard into commercial teams, so sales skill becomes observable, measurable and auditable.</p>
+    </div>
+    <div><h4>Resources</h4><ul>
+      <li><a href="/library/">All resources</a></li>
+      <li><a href="/library/tools/">Tools &amp; calculators</a></li>
+      <li><a href="/library/?audience=Individual">For reps</a></li>
+      <li><a href="/library/?audience=Team%2FManager">For managers</a></li>
+      <li><a href="/library/?audience=Leader">For leaders</a></li>
+    </ul></div>
+    <div><h4>Firm</h4><ul>
+      <li><a href="/#layer">The Mastery Layer</a></li>
+      <li><a href="/#programs">Programs</a></li>
+      <li><a href="/thinkwork/letter">The Letter</a></li>
+    </ul></div>
+    <div><h4>Contact</h4><ul>
+      <li><a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-base"><span>&copy; ThinkWork</span><span>Sales Enablement Resource Library &middot; free, always</span></div>
+</footer>
+</body>
+</html>

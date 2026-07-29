@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Audit an AI Call-Scoring Model Before You Let It Grade a Single Rep | ThinkWork</title>
+<meta name="description" content="A five-step inter-rater reliability check any manager can run in an afternoon. No data science degree required.">
+<link rel="canonical" href="https://thinkwork.info/blog/how-to-audit-ai-call-scoring-model/">
+<meta property="og:title" content="How to Audit an AI Call-Scoring Model Before You Let It Grade a Single Rep | ThinkWork">
+<meta property="og:description" content="A five-step inter-rater reliability check any manager can run in an afternoon. No data science degree required.">
+<meta property="og:url" content="https://thinkwork.info/blog/how-to-audit-ai-call-scoring-model/">
+<meta property="og:type" content="article">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A3D5C'/><text x='16' y='22' font-family='Georgia' font-size='20' fill='%23FAF6EC' text-anchor='middle'>tw</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/library/library.css?v=1">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "How to Audit an AI Call-Scoring Model Before You Let It Grade a Single Rep", "description": "A five-step inter-rater reliability check any manager can run in an afternoon. No data science degree required.", "datePublished": "2025-11-11", "dateModified": "2025-11-11", "author": {"@type": "Person", "name": "Greg McCallum", "jobTitle": "Founder, ThinkWork", "url": "https://thinkwork.info"}, "publisher": {"@type": "Organization", "name": "ThinkWork", "url": "https://thinkwork.info"}, "mainEntityOfPage": "https://thinkwork.info/blog/how-to-audit-ai-call-scoring-model/", "articleSection": "AI in Sales", "inLanguage": "en"}</script><link rel="stylesheet" href="/blog/blog.css?v=1"><link rel="alternate" type="application/rss+xml" title="ThinkWork Blog" href="/blog/feed.xml">
+</head>
+<body class="post-page">
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="/" class="mast-brand">Think<span class="mark">Work</span></a>
+    <input type="checkbox" id="tw-nav-toggle" class="tw-nav-toggle" aria-hidden="true">
+    <label for="tw-nav-toggle" class="tw-burger" aria-label="Toggle menu"><span></span><span></span><span></span></label>
+    <nav class="mast-nav">
+      <a href="/#layer">The Mastery Layer</a>
+      <a href="/#programs">Programs</a>
+      <a href="/library/">Resources</a>
+      <a href="/blog/">Blog</a>
+      <a href="/thinkwork/letter">The Letter</a>
+      <a href="/#engage" class="cta">Book a Call</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="crumbs"><a href="/blog/">The Blog</a> <span>/</span>
+  <a href="/blog/?category=AI in Sales">AI in Sales</a></nav>
+<article class="post">
+  <header class="post-head">
+    <div class="post-meta">
+      <span class="pill fmt">How-to</span>
+      <time datetime="2025-11-11">11 November 2025</time>
+      <span>&middot;</span><span>5 min read</span>
+    </div>
+    <h1>How to Audit an AI Call-Scoring Model Before You Let It Grade a Single Rep</h1>
+    <p class="dek">A five-step inter-rater reliability check any manager can run in an afternoon. No data science degree required.</p>
+  </header>
+  <div class="post-body"><p>Before an AI model touches comp, promotion, or a performance improvement plan, somebody with a pulse needs to check its work — not because AI grading is uniquely untrustworthy, but because any grading system, human or machine, drifts silently until someone runs the numbers, and nobody runs the numbers. Here's a way to do it in an afternoon, without a data science background, using calls you already have and managers you already pay.</p>
+<h3>Why "it looked accurate in the demo" isn't an audit</h3>
+<p>Vendor demos are curated. They show you calls where the model's read is obviously right, because obviously-right calls are what you'd pick to sell software. The calls that matter for your audit are the ambiguous ones — the discovery call where the rep asked a decent question but the buyer didn't fully answer it, the negotiation where the rep folded on price but held on scope. Those are where a model's real accuracy shows up, and where most rollouts never look, because looking requires blind human grading, and blind human grading is the step everyone skips to save time.</p>
+<h3>The five steps</h3>
+<div class="tw"><table><thead><tr><th>Step</th><th>What you do</th><th>Time</th><th>What it catches</th></tr></thead><tbody>
+<tr><td>1. Stratified sample</td><td>Pull 30 calls: 10 the model scored low, 10 mid, 10 high, across at least three reps and two call types</td><td>20 min</td><td>Whether you're testing the full range or just the easy cases</td></tr>
+<tr><td>2. Blind human grading</td><td>Two experienced managers independently score the same 30 calls on the same rubric, with no visibility into the AI's scores or each other's</td><td>2–3 hrs</td><td>Whether your own humans agree with each other before you ask if they agree with the model</td></tr>
+<tr><td>3. Agreement rate</td><td>Calculate human-to-human agreement, then human-to-AI agreement, using the same method for both</td><td>20 min</td><td>Whether the model behaves like a second grader or an outlier</td></tr>
+<tr><td>4. Disagreement audit</td><td>Pull every call where the AI and the humans differ by more than one grade band, and read the transcript for a pattern</td><td>45 min</td><td>The specific bias — keyword-matching, recency, tone-over-substance, length</td></tr>
+<tr><td>5. Set a re-check cadence</td><td>Decide the bar for "good enough to deploy" and schedule the next audit, especially after any model or prompt change</td><td>10 min</td><td>Silent drift after the vendor pushes an update you didn't ask for</td></tr>
+</tbody></table></div>
+<h4>Step 1: pull a sample that can actually embarrass the model</h4>
+<p>Don't grab thirty random calls. Grab ten the model scored low, ten mid, ten high, spanning at least three reps and, if you run more than one call type, both of them. A sample stacked with obviously good or obviously bad calls will always show high agreement, because those calls don't need judgment. You're testing judgment.</p>
+<h4>Step 2: grade blind, and grade twice</h4>
+<p>Two managers, working independently, score all thirty calls against your existing rubric — not a simplified version, the real one, the one that's supposedly informing the model. Neither manager sees the AI's score. Neither sees the other's score until both are submitted. This is the step people cut, usually with "we trust our managers' judgment already," which is exactly backwards — you need to measure that judgment before you can measure the model against it.</p>
+<h4>Step 3: do the maths that actually matters</h4>
+<p>The number that matters isn't "the AI agreed with a human 82% of the time." It's how that 82% compares to how often your two human graders agreed with each other. If your managers — experienced, using the same rubric, grading the same calls — only agree with each other 75% of the time, then an AI landing at 82% agreement with either of them isn't accurate, it's suspiciously smooth, and you should be asking why a harder problem produced an easier answer. Exact-match agreement is the simplest version of this; if you want more rigour, Cohen's kappa corrects for chance agreement, but exact-match plus a look at the disagreements will tell a manager almost everything they need to know in an afternoon.</p>
+<h4>Step 4: read every disagreement, not just count them</h4>
+<p>This is the step that actually produces something actionable. Pull every call where the model and your humans differed by more than one grade band and read the transcript. Patterns worth naming, because we've seen all four in live deployments:</p>
+<ul>
+<li><strong>Keyword-matching wearing a competency's clothes.</strong> The model scores discovery highly because the rep said "budget" and "timeline," regardless of whether the questions around those words did any diagnostic work.</li>
+<li><strong>Recency bias.</strong> A strong close after a mediocre middle pulls the whole call's score up, because whatever was said last gets weighted heaviest.</li>
+<li><strong>Confidence-over-content.</strong> A rep who states a wrong or weak answer assertively scores better than one who gives a correct answer hesitantly — a known failure mode of language models grading tone alongside substance.</li>
+<li><strong>Length bias.</strong> Longer answers score higher independent of quality, because more words look like more effort to a model trained on text volume as a loose proxy for thoroughness.</li>
+</ul>
+<h4>Step 5: set the bar, then keep checking it</h4>
+<p>Pick your threshold before you see the results, not after, or you'll rationalise whatever number you get. A reasonable bar: human-AI agreement should sit within a few points of human-human agreement — not below it, and, suspiciously, not far above it either. Then put a recurring date in the diary, particularly after any vendor update, prompt change, or model version bump. Those ship quietly and can move your accuracy without anyone telling you.</p>
+<h3>What to do with the result</h3>
+<p>If the model passes, you've earned the right to trust it on the calls that matter, and you now have a documented baseline to compare against next quarter. If it doesn't, don't panic and pull the vendor relationship — use the disagreement audit to work out whether the fix is a prompt change, a rubric clarification, or a permanent human-review layer on the ambiguous middle band of scores, which is usually the 20% of calls doing 80% of the damage to trust in the tool. Either way, write the disagreement patterns up using something structured like the <a href="/library/sbi-feedback-model-cheat-sheet/">SBI Feedback Model Cheat Sheet</a> — situation, behaviour, impact — so the audit produces a document your team can act on, not a spreadsheet nobody reopens. And if your managers need to build their own fluency before they can run this audit with confidence, a <a href="/library/sales-metrics-literacy-quiz/">Sales Metrics Literacy Quiz</a> is a faster starting point than a lecture.</p>
+<p>We build AI grading into our own assessment work, and we still run this audit against our own model, on a schedule, because "we designed it carefully" has never once been a substitute for "we checked."</p>
+<p>The teams that get burned by AI call scoring aren't the ones using a bad model. They're the ones who never found out whether their model was good, because finding out required an afternoon nobody scheduled.</p></div>
+  
+  <footer class="post-foot">
+    <p class="byline"><b>Greg McCallum</b> is the founder of ThinkWork and the author of
+    The Mastery Standard. Fifteen years in commercial roles, cold caller to CCO.</p>
+  </footer>
+</article>
+<section class="related">
+  <div class="rel-inner">
+    <span class="eyebrow">Keep reading</span>
+    <h2>More on this.</h2>
+    <div class="rel-grid"><a class="rel-card" href="/blog/conversation-intelligence-platforms-ranked-by-what-they-miss/"><span class="rel-fmt">Ranked list</span><span class="rel-t">The Conversation Intelligence Platforms We Tested, Ranked by What They Miss</span><span class="rel-b">Gong, Chorus, and Clari are excellent at counting talk time. We ranked them by how much actual s</span></a><a class="rel-card" href="/blog/ai-roleplay-bots-teaching-reps-to-beat-the-bot/"><span class="rel-fmt">Contrarian take</span><span class="rel-t">AI Roleplay Bots Are Teaching Reps to Beat the Bot, Not the Buyer</span><span class="rel-b">Practice reps love, completion charts managers love. Neither means the skill survived contact wi</span></a><a class="rel-card" href="/blog/how-to-structure-battlecards-ai-copilot-hallucination/"><span class="rel-fmt">How-to</span><span class="rel-t">How to Structure a Battlecard So Your AI Copilot Can&#x27;t Improvise</span><span class="rel-b">The fix for AI assistants inventing competitor claims mid-call isn&#x27;t a smarter model. It&#x27;s a bat</span></a></div>
+    <a class="all-link" href="/blog/">All posts &rarr;</a>
+  </div>
+</section>
+<section class="alerts" id="alerts">
+  <div class="alerts-inner">
+    <div>
+      <span class="eyebrow">Stay current</span>
+      <h2>Get told when new resources land.</h2>
+      <p>Pick the topics you care about. No digest spam, just a note when something genuinely useful is added.</p>
+    </div>
+    <form class="alert-form" data-alerts data-category="">
+      <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;">
+      <label class="sr-only" for="alert-email">Email address</label>
+      <input id="alert-email" type="email" name="email" placeholder="you@company.com" required>
+      <button type="submit">Notify me</button>
+      <p class="alert-note">Pick your topics after you confirm. Unsubscribe any time.</p>
+    </form>
+  </div>
+</section>
+<script>
+(function(){
+  var ENDPOINT='https://app.peerlab.ai/api/library/subscribe';
+  var DONE='tw_lib_subscribed', SEEN='tw_lib_pop_seen';
+  function store(k,v,session){ try{ (session?sessionStorage:localStorage).setItem(k,v); }catch(e){} }
+  function read(k,session){ try{ return (session?sessionStorage:localStorage).getItem(k); }catch(e){ return null; } }
+
+  function wire(f){
+    if(!f || f.__wired) return; f.__wired=1;
+    var note=f.querySelector('.alert-note'), btn=f.querySelector('button[type=submit],button');
+    f.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      var em=f.querySelector('input[type=email]'), hp=f.querySelector('input[name=website]');
+      var email=em?em.value:'', pot=hp?hp.value:'';
+      var cat=f.getAttribute('data-category')||'';
+      var was=btn?btn.textContent:''; if(btn){ btn.disabled=true; btn.textContent='Sending...'; }
+      fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({email:email,website:pot,categories:cat?[cat]:[],source:location.pathname})})
+      .then(function(r){ return r.json().catch(function(){ return {ok:false}; }); })
+      .then(function(d){
+        var good=d&&d.ok;
+        if(note){
+          note.textContent=good?(d.message||'Check your inbox to confirm.')
+                               :((d&&d.error)||'Something went wrong, try again shortly.');
+          note.style.color=good?'#2E7D5B':'#B7791F';
+        }
+        if(good){ if(em) em.value=''; store(DONE,'1'); var p=document.getElementById('lib-pop'); if(p) p.remove(); }
+      })
+      .catch(function(){ if(note){ note.textContent='Could not reach the server, try again shortly.';
+                                   note.style.color='#B7791F'; } })
+      .then(function(){ if(btn){ btn.disabled=false; btn.textContent=was; } });
+    });
+  }
+  function wireAll(){ Array.prototype.forEach.call(document.querySelectorAll('form[data-alerts]'), wire); }
+  wireAll();
+
+  // Timed invite: 45s, once per session, never for someone already signed up.
+  if(read(DONE) || read(SEEN,true)) return;
+  setTimeout(function(){
+    if(read(DONE) || read(SEEN,true) || document.getElementById('lib-pop')) return;
+    store(SEEN,'1',true);
+    var d=document.createElement('div');
+    d.id='lib-pop';
+    d.setAttribute('role','dialog');
+    d.setAttribute('aria-label','Email alerts');
+    d.innerHTML='<button class="x" aria-label="Close">&times;</button>'+
+      '<span class="eyebrow">Email alerts</span>'+
+      '<h3>Want the new ones?</h3>'+
+      '<p>We keep adding to the library. Pick your topics and I will let you know when something useful lands.</p>'+
+      '<form class="alert-form compact" data-alerts data-category="">'+
+      '<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;">'+
+      '<input class="alert-email" type="email" name="email" placeholder="you@company.com" required aria-label="Email address">'+
+      '<button type="submit">Notify me</button>'+
+      '<p class="alert-note">Free, and one click to stop.</p></form>';
+    document.body.appendChild(d);
+    d.querySelector('.x').addEventListener('click', function(){ d.remove(); });
+    wire(d.querySelector('form'));
+    requestAnimationFrame(function(){ d.classList.add('on'); });
+  }, 45000);
+})();
+</script>
+
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <a href="/" class="footer-brand">Think<span class="mark">Work</span></a>
+      <p class="footer-tag">Mastery Engineering. We install The Mastery Standard into commercial teams, so sales skill becomes observable, measurable and auditable.</p>
+    </div>
+    <div><h4>Resources</h4><ul>
+      <li><a href="/library/">All resources</a></li>
+      <li><a href="/library/tools/">Tools &amp; calculators</a></li>
+      <li><a href="/blog/">The Blog</a></li>
+      <li><a href="/library/?audience=Individual">For reps</a></li>
+      <li><a href="/library/?audience=Team%2FManager">For managers</a></li>
+      <li><a href="/library/?audience=Leader">For leaders</a></li>
+    </ul></div>
+    <div><h4>Firm</h4><ul>
+      <li><a href="/#layer">The Mastery Layer</a></li>
+      <li><a href="/#programs">Programs</a></li>
+      <li><a href="/thinkwork/letter">The Letter</a></li>
+    </ul></div>
+    <div><h4>Contact</h4><ul>
+      <li><a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-base"><span>&copy; ThinkWork</span><span>Sales Enablement Resource Library &middot; free, always</span></div>
+</footer>
+</body>
+</html>

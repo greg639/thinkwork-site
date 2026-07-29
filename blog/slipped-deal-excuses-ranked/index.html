@@ -98,16 +98,18 @@
 <section class="alerts" id="alerts">
   <div class="alerts-inner">
     <div>
-      <span class="eyebrow">Stay current</span>
-      <h2>Get told when new resources land.</h2>
-      <p>Pick the topics you care about. No digest spam, just a note when something genuinely useful is added.</p>
+      <span class="eyebrow">New posts</span>
+      <h2>Get new posts in your inbox.</h2>
+      <p>A fresh post most mornings. No digest spam, no course funnel &mdash;
+      just the post, and one click to stop.
+      Prefer a reader? <a href="/blog/feed.xml">Subscribe by RSS</a>.</p>
     </div>
-    <form class="alert-form" data-alerts data-category="">
+    <form class="alert-form" data-alerts data-category="Blog">
       <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;">
       <label class="sr-only" for="alert-email">Email address</label>
       <input id="alert-email" type="email" name="email" placeholder="you@company.com" required>
       <button type="submit">Notify me</button>
-      <p class="alert-note">Pick your topics after you confirm. Unsubscribe any time.</p>
+      <p class="alert-note">Confirm by email first. Unsubscribe any time.</p>
     </form>
   </div>
 </section>
@@ -152,6 +154,10 @@
   setTimeout(function(){
     if(read(DONE) || read(SEEN,true) || document.getElementById('lib-pop')) return;
     store(SEEN,'1',true);
+    // Inherit the page's list: "Blog" on blog pages, a topic on library pages.
+    var pf=document.querySelector('form[data-alerts]');
+    var cat=pf?(pf.getAttribute('data-category')||''):'';
+    var onBlog=cat==='Blog';
     var d=document.createElement('div');
     d.id='lib-pop';
     d.setAttribute('role','dialog');
@@ -159,8 +165,9 @@
     d.innerHTML='<button class="x" aria-label="Close">&times;</button>'+
       '<span class="eyebrow">Email alerts</span>'+
       '<h3>Want the new ones?</h3>'+
-      '<p>We keep adding to the library. Pick your topics and I will let you know when something useful lands.</p>'+
-      '<form class="alert-form compact" data-alerts data-category="">'+
+      '<p>'+(onBlog?'A fresh post lands most mornings. I will send you the new ones as they publish.'
+                   :'We keep adding to the library. Pick your topics and I will let you know when something useful lands.')+'</p>'+
+      '<form class="alert-form compact" data-alerts data-category="'+(onBlog?'Blog':'')+'">'+
       '<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;">'+
       '<input class="alert-email" type="email" name="email" placeholder="you@company.com" required aria-label="Email address">'+
       '<button type="submit">Notify me</button>'+

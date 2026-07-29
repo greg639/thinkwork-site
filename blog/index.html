@@ -41,7 +41,8 @@
     <h1>The Blog</h1>
     <p class="lede">Opinion, teardowns and practical how-tos on sales enablement,
     coaching and the mastery layer underneath both. No fluff, no guru cliche.</p>
-    <a class="tools-link" href="/blog/feed.xml">Subscribe by RSS &rarr;</a>
+    <a class="tools-link" href="#alerts">Get new posts by email &rarr;</a>
+    <a class="tools-link" href="/blog/feed.xml" style="margin-left:18px;">Subscribe by RSS &rarr;</a>
     </div>
     <aside class="hero-signup">
       <span class="eyebrow">The Letter</span>
@@ -68,6 +69,91 @@
     <div class="empty" id="empty" hidden>Nothing matches. Try clearing a filter.</div>
   </div>
 </section>
+<section class="alerts" id="alerts">
+  <div class="alerts-inner">
+    <div>
+      <span class="eyebrow">New posts</span>
+      <h2>Get new posts in your inbox.</h2>
+      <p>A fresh post most mornings. No digest spam, no course funnel &mdash;
+      just the post, and one click to stop.
+      Prefer a reader? <a href="/blog/feed.xml">Subscribe by RSS</a>.</p>
+    </div>
+    <form class="alert-form" data-alerts data-category="Blog">
+      <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;">
+      <label class="sr-only" for="alert-email">Email address</label>
+      <input id="alert-email" type="email" name="email" placeholder="you@company.com" required>
+      <button type="submit">Notify me</button>
+      <p class="alert-note">Confirm by email first. Unsubscribe any time.</p>
+    </form>
+  </div>
+</section>
+<script>
+(function(){
+  var ENDPOINT='https://app.peerlab.ai/api/library/subscribe';
+  var DONE='tw_lib_subscribed', SEEN='tw_lib_pop_seen';
+  function store(k,v,session){ try{ (session?sessionStorage:localStorage).setItem(k,v); }catch(e){} }
+  function read(k,session){ try{ return (session?sessionStorage:localStorage).getItem(k); }catch(e){ return null; } }
+
+  function wire(f){
+    if(!f || f.__wired) return; f.__wired=1;
+    var note=f.querySelector('.alert-note'), btn=f.querySelector('button[type=submit],button');
+    f.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      var em=f.querySelector('input[type=email]'), hp=f.querySelector('input[name=website]');
+      var email=em?em.value:'', pot=hp?hp.value:'';
+      var cat=f.getAttribute('data-category')||'';
+      var was=btn?btn.textContent:''; if(btn){ btn.disabled=true; btn.textContent='Sending...'; }
+      fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({email:email,website:pot,categories:cat?[cat]:[],source:location.pathname})})
+      .then(function(r){ return r.json().catch(function(){ return {ok:false}; }); })
+      .then(function(d){
+        var good=d&&d.ok;
+        if(note){
+          note.textContent=good?(d.message||'Check your inbox to confirm.')
+                               :((d&&d.error)||'Something went wrong, try again shortly.');
+          note.style.color=good?'#2E7D5B':'#B7791F';
+        }
+        if(good){ if(em) em.value=''; store(DONE,'1'); var p=document.getElementById('lib-pop'); if(p) p.remove(); }
+      })
+      .catch(function(){ if(note){ note.textContent='Could not reach the server, try again shortly.';
+                                   note.style.color='#B7791F'; } })
+      .then(function(){ if(btn){ btn.disabled=false; btn.textContent=was; } });
+    });
+  }
+  function wireAll(){ Array.prototype.forEach.call(document.querySelectorAll('form[data-alerts]'), wire); }
+  wireAll();
+
+  // Timed invite: 45s, once per session, never for someone already signed up.
+  if(read(DONE) || read(SEEN,true)) return;
+  setTimeout(function(){
+    if(read(DONE) || read(SEEN,true) || document.getElementById('lib-pop')) return;
+    store(SEEN,'1',true);
+    // Inherit the page's list: "Blog" on blog pages, a topic on library pages.
+    var pf=document.querySelector('form[data-alerts]');
+    var cat=pf?(pf.getAttribute('data-category')||''):'';
+    var onBlog=cat==='Blog';
+    var d=document.createElement('div');
+    d.id='lib-pop';
+    d.setAttribute('role','dialog');
+    d.setAttribute('aria-label','Email alerts');
+    d.innerHTML='<button class="x" aria-label="Close">&times;</button>'+
+      '<span class="eyebrow">Email alerts</span>'+
+      '<h3>Want the new ones?</h3>'+
+      '<p>'+(onBlog?'A fresh post lands most mornings. I will send you the new ones as they publish.'
+                   :'We keep adding to the library. Pick your topics and I will let you know when something useful lands.')+'</p>'+
+      '<form class="alert-form compact" data-alerts data-category="'+(onBlog?'Blog':'')+'">'+
+      '<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;">'+
+      '<input class="alert-email" type="email" name="email" placeholder="you@company.com" required aria-label="Email address">'+
+      '<button type="submit">Notify me</button>'+
+      '<p class="alert-note">Free, and one click to stop.</p></form>';
+    document.body.appendChild(d);
+    d.querySelector('.x').addEventListener('click', function(){ d.remove(); });
+    wire(d.querySelector('form'));
+    requestAnimationFrame(function(){ d.classList.add('on'); });
+  }, 45000);
+})();
+</script>
+
 <script src="/blog/posts.js?v=1"></script>
 <script>
 (function(){

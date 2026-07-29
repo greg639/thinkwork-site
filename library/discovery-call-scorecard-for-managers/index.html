@@ -119,15 +119,46 @@
       <h2>Get told when new Discovery &amp; Qualification resources land.</h2>
       <p>Pick the topics you care about. No digest spam, just a note when something genuinely useful is added.</p>
     </div>
-    <form class="alert-form" method="post" action="#" data-alerts>
-      <input type="hidden" name="CATEGORY" value="Discovery &amp; Qualification">
+    <form class="alert-form" data-alerts data-category="Discovery &amp; Qualification">
+      <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;">
       <label class="sr-only" for="alert-email">Email address</label>
-      <input id="alert-email" type="email" name="EMAIL" placeholder="you@company.com" required>
+      <input id="alert-email" type="email" name="email" placeholder="you@company.com" required>
       <button type="submit">Notify me</button>
-      <p class="alert-note">Choose categories after you confirm. Unsubscribe any time.</p>
+      <p class="alert-note">Pick your topics after you confirm. Unsubscribe any time.</p>
     </form>
   </div>
 </section>
+<script>
+(function(){
+  var f=document.querySelector('form[data-alerts]'); if(!f) return;
+  var note=f.querySelector('.alert-note'), btn=f.querySelector('button');
+  f.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var email=(f.querySelector('#alert-email')||{}).value||'';
+    var hp=(f.querySelector('input[name=website]')||{}).value||'';
+    var cat=f.getAttribute('data-category')||'';
+    btn.disabled=true; var was=btn.textContent; btn.textContent='Sending...';
+    fetch('https://app.peerlab.ai/api/library/subscribe',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email, website:hp,
+        categories:cat?[cat]:[], source:location.pathname})
+    }).then(function(r){ return r.json().catch(function(){ return {ok:false}; }); })
+     .then(function(d){
+       var good = d && d.ok;
+       note.textContent = good ? (d.message||'Check your inbox to confirm.')
+                               : ((d&&d.error)||'Something went wrong, try again shortly.');
+       note.style.color = good ? '#7CE9BE' : '#F0C060';
+       if(good){ f.querySelector('#alert-email').value=''; }
+     })
+     .catch(function(){
+       note.textContent='Could not reach the server, try again shortly.';
+       note.style.color='#F0C060';
+     })
+     .then(function(){ btn.disabled=false; btn.textContent=was; });
+  });
+})();
+</script>
+
 <script>
 (function(){
   var b=document.querySelector('[data-copy]'); if(!b) return;

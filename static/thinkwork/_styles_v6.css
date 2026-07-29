@@ -290,3 +290,76 @@ footer .footer-base { max-width: 1280px; margin: 0 auto; padding: 32px 32px 0; d
 /* emphasis: weight, not italic */
 em, i, cite { font-style: normal; font-weight: 600; color: var(--accent); }
 .dek em, .lede em, .hero em { color: inherit; }
+
+
+/* ── mobile optimisation (2026-07-29) ─────────────────────────
+   Tighter gutters, a real mobile type scale, comfortable tap
+   targets, and single-column layouts. Appended last so it wins
+   on equal specificity without fighting the cascade above. */
+@media (max-width: 700px) {
+  html, body { font-size: 15px; }
+  .container, .narrow, .read, .masthead-inner, .trust-strip-inner,
+  .founder-grid, footer .footer-grid, footer .footer-base { padding-left: 20px; padding-right: 20px; }
+  .masthead { padding: 14px 0; }
+  .mast-brand { font-size: 18px; }
+
+  h1 { font-size: clamp(30px, 8.4vw, 38px); line-height: 1.08; letter-spacing: -0.018em; }
+  h2 { font-size: clamp(22px, 6.2vw, 27px); line-height: 1.16; }
+  h3 { font-size: 17px; line-height: 1.3; }
+  .eyebrow { font-size: 10px; letter-spacing: 0.12em; }
+
+  .hero { padding: 36px 0 30px; }
+  .hero h1 { max-width: none; margin-bottom: 18px; }
+  .hero .lede { font-size: 15.5px; line-height: 1.55; margin-bottom: 22px; max-width: none; }
+  .hero-cta-row { flex-direction: column; align-items: stretch; gap: 10px; }
+  .hero-cta-row .btn, .hero-cta-row a { width: 100%; text-align: center; }
+
+  section { padding: 44px 0; }
+  section.tight { padding: 32px 0; }
+  .section-header { margin-bottom: 26px; }
+  .section-header p.lede { font-size: 15.5px; margin-top: 12px; }
+
+  /* comfortable tap targets */
+  .btn, .cta, .mast-nav .cta, a.btn, button { min-height: 46px; display: inline-flex;
+    align-items: center; justify-content: center; }
+
+  /* show every stat, two-up, rather than hiding data */
+  .trust-strip { padding: 18px 0; }
+  .trust-strip-inner { grid-template-columns: 1fr 1fr; gap: 16px 18px; }
+  .trust-cell:nth-child(n+4) { display: block; }
+  .trust-cell strong { font-size: 17px; }
+
+  .install-card { padding: 20px 18px; }
+  .install-grid { gap: 14px; margin-top: 22px; }
+  .program-num-col, .program-body-col, .program-meta-col { padding: 20px 18px; }
+  .program-num { font-size: 26px; }
+  .capability { gap: 30px; margin-top: 24px; }
+  .capability-row { grid-template-columns: 38px 1fr; gap: 14px; padding: 15px 0; }
+  .capability-aside { padding: 20px 18px; }
+  .phase { padding: 16px 14px; }
+  .letter-card { padding: 22px 20px; gap: 18px; }
+  .letter-mark { font-size: 34px; }
+  .letter-body h3 { font-size: 19px; }
+  .founder-section { padding: 44px 0; }
+  .founder-grid { gap: 24px; }
+  .founder-portrait { width: 132px; height: 156px; }
+  .founder-portrait .initials { font-size: 36px; }
+  .founder-content h2 { font-size: 23px; }
+  .founder-credentials { gap: 16px; margin-top: 20px; padding-top: 16px; }
+  .letter-card-section { padding: 44px 0; }
+  .engage { padding: 52px 0; }
+  .engage h2 { margin-bottom: 14px; }
+  .engage p.lede { font-size: 15.5px; margin-bottom: 24px; }
+  .engage-paths { gap: 14px; }
+  footer { padding: 40px 0 26px; }
+  footer .footer-grid { grid-template-columns: 1fr; gap: 26px; margin-bottom: 32px; }
+  footer .footer-brand { font-size: 19px; }
+  footer .footer-base { flex-direction: column; align-items: flex-start; gap: 8px; text-align: left; }
+}
+@media (max-width: 400px) {
+  .container, .narrow, .read, .masthead-inner, .trust-strip-inner,
+  .founder-grid, footer .footer-grid, footer .footer-base { padding-left: 16px; padding-right: 16px; }
+  h1 { font-size: 29px; }
+  .phase-grid { grid-template-columns: 1fr; }
+  .phase { border-right: 0; border-bottom: 1px solid var(--line); }
+}

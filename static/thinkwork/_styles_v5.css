@@ -286,3 +286,49 @@ footer .footer-base { max-width: 1280px; margin: 0 auto; padding: 32px 32px 0; d
 /* emphasis: weight, not italic */
 em, i, cite { font-style: normal; font-weight: 600; color: var(--accent); }
 .dek em, .lede em, .hero em { color: inherit; }
+
+
+/* ── mobile optimisation (2026-07-29) ───────────────────────── */
+@media (max-width: 700px) {
+  html, body { font-size: 16px; }
+  .masthead-inner, .issue-strip-inner, .bench-inner, .reps-inner,
+  .doors-section .essay-width, footer .footer-grid, footer .footer-base { padding-left: 20px; padding-right: 20px; }
+  .masthead { padding: 14px 0; }
+  .mast-brand { font-size: 18px; }
+  .essay { padding: 0 20px 56px; }
+  .headline-area { padding: 40px 20px 32px; }
+  .headline { font-size: clamp(32px, 9vw, 42px); line-height: 1.06; letter-spacing: -0.018em; }
+  .dek { font-size: 17px; line-height: 1.5; margin-bottom: 26px; }
+  .epigraph { font-size: 15.5px; margin-bottom: 34px; padding-left: 18px; }
+  .byline { font-size: 12.5px; gap: 12px; padding-top: 16px; }
+  .essay p { font-size: 16px; line-height: 1.65; }
+  .essay ul li { font-size: 15.5px; padding: 10px 0 10px 24px; }
+  .section-marker .heading-text { font-size: 20px; }
+  .pull-quote p { font-size: 19px; line-height: 1.32; }
+  .historical-pull p { font-size: 19px; }
+  .historical-pull::before { font-size: 48px; left: 14px; }
+  .standout { font-size: 18px; margin: 26px 0; }
+
+  /* the full-bleed diagram: fit the viewport exactly, no overflow */
+  .diagram-block { margin: 36px -20px; max-width: calc(100% + 40px); width: auto; }
+  .diagram-card { padding: 20px 18px; }
+  .diagram-card h3 { font-size: 19px; margin-bottom: 20px; }
+
+  .bench-teaser h2 { font-size: clamp(24px, 6.4vw, 30px); margin-bottom: 20px; }
+  .reps-inner { grid-template-columns: 1fr; gap: 24px; }
+  .reps-body h3 { font-size: 22px; }
+  .doors-section h2 { font-size: clamp(24px, 6.4vw, 30px); margin-bottom: 28px; }
+  .subscribe-block { padding: 60px 20px; }
+  .subscribe-block h2 { font-size: clamp(24px, 6.6vw, 31px); }
+  .subscribe-block p { font-size: 16px; }
+  .subscribe-form { flex-direction: column; gap: 10px; }
+  .subscribe-form input, .subscribe-form button { width: 100%; min-height: 46px; }
+  .signoff { padding: 40px 20px; margin-top: 48px; }
+  .signoff .name { font-size: 22px; }
+  footer .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+}
+@media (max-width: 400px) {
+  .essay { padding: 0 16px 48px; }
+  .headline-area { padding: 34px 16px 26px; }
+  .diagram-block { margin-left: -16px; margin-right: -16px; max-width: calc(100% + 32px); }
+}

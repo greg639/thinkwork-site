@@ -194,6 +194,10 @@
   setTimeout(function(){
     if(read(DONE) || read(SEEN,true) || document.getElementById('lib-pop')) return;
     store(SEEN,'1',true);
+    // Inherit the page's list: "Blog" on blog pages, a topic on library pages.
+    var pf=document.querySelector('form[data-alerts]');
+    var cat=pf?(pf.getAttribute('data-category')||''):'';
+    var onBlog=cat==='Blog';
     var d=document.createElement('div');
     d.id='lib-pop';
     d.setAttribute('role','dialog');
@@ -201,8 +205,9 @@
     d.innerHTML='<button class="x" aria-label="Close">&times;</button>'+
       '<span class="eyebrow">Email alerts</span>'+
       '<h3>Want the new ones?</h3>'+
-      '<p>We keep adding to the library. Pick your topics and I will let you know when something useful lands.</p>'+
-      '<form class="alert-form compact" data-alerts data-category="">'+
+      '<p>'+(onBlog?'A fresh post lands most mornings. I will send you the new ones as they publish.'
+                   :'We keep adding to the library. Pick your topics and I will let you know when something useful lands.')+'</p>'+
+      '<form class="alert-form compact" data-alerts data-category="'+(onBlog?'Blog':'')+'">'+
       '<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;">'+
       '<input class="alert-email" type="email" name="email" placeholder="you@company.com" required aria-label="Email address">'+
       '<button type="submit">Notify me</button>'+

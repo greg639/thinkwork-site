@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Wed, 29 Jul 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Thu, 30 Jul 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>The Manager Who Coaches Everyone Equally Is Actually Coaching Nobody</title>
+    <link>https://thinkwork.info/blog/when-managers-coach-the-wrong-rep-first/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/when-managers-coach-the-wrong-rep-first/</guid>
+    <description>Equal coaching time feels fair. It is also one of the most reliable ways to waste it. Here&#x27;s what the data actually suggests.</description>
+    <category>Coaching &amp; 1:1s</category>
+    <pubDate>Thu, 30 Jul 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>Week One of Onboarding Is Mostly Wasted. Here&#x27;s the Evidence.</title>
     <link>https://thinkwork.info/blog/what-new-reps-actually-do-in-week-one-vs-what-helps/</link>
@@ -398,13 +406,5 @@
     <description>Fifteen managers, fifteen different answers on what makes discovery &#x27;great&#x27; — and what that disagreement says about why qualification coaching is so inconsistent.</description>
     <category>Discovery &amp; Qualification</category>
     <pubDate>Tue, 07 Apr 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>Cold Calling Isn&#x27;t Dead. Your Dial Count Is Just Measuring the Wrong Thing.</title>
-    <link>https://thinkwork.info/blog/cold-calling-isnt-dead-dial-count-wrong-metric/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/cold-calling-isnt-dead-dial-count-wrong-metric/</guid>
-    <description>The debate about whether cold calling still works is a distraction from the one that matters: most outbound programs are optimizing for a metric that has nothing to do with skill.</description>
-    <category>Prospecting &amp; Outbound</category>
-    <pubDate>Thu, 02 Apr 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

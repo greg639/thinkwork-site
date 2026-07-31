@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Thu, 30 Jul 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Fri, 31 Jul 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>Your Methodology Rollout Didn&#x27;t Fail at Launch. It Failed at Month Two.</title>
+    <link>https://thinkwork.info/blog/sales-methodology-rollout-fails-at-month-two/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/sales-methodology-rollout-fails-at-month-two/</guid>
+    <description>SKO energy masks a 60-day cliff. Here&#x27;s what the data from four rollouts actually shows about where adoption dies.</description>
+    <category>Methodology</category>
+    <pubDate>Fri, 31 Jul 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>The Manager Who Coaches Everyone Equally Is Actually Coaching Nobody</title>
     <link>https://thinkwork.info/blog/when-managers-coach-the-wrong-rep-first/</link>
@@ -398,13 +406,5 @@
     <description>What actually happens on discovery calls when nobody&#x27;s grading against a checklist — the patterns that don&#x27;t show up in any framework.</description>
     <category>Discovery &amp; Qualification</category>
     <pubDate>Wed, 08 Apr 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>We Asked 15 Sales Managers What Separates a Good Discovery Call From a Great One. They Didn&#x27;t Agree Once.</title>
-    <link>https://thinkwork.info/blog/15-sales-managers-good-vs-great-discovery/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/15-sales-managers-good-vs-great-discovery/</guid>
-    <description>Fifteen managers, fifteen different answers on what makes discovery &#x27;great&#x27; — and what that disagreement says about why qualification coaching is so inconsistent.</description>
-    <category>Discovery &amp; Qualification</category>
-    <pubDate>Tue, 07 Apr 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

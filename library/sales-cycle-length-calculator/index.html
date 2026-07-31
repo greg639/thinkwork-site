@@ -52,27 +52,28 @@
   </header>
   <div class="res-grid">
     <div class="res-main" id="resource-body">
+      <div class="howto howto-top"><h3>How to use it</h3><p>Pull your last 4 quarters of closed-won deals into the segment × deal-size grid, calculate the median (not mean) cycle length and 10th/90th percentiles for each cell, then use those numbers as the realistic close-date range for every open opportunity in that segment.</p></div>
       <div class="inside">
         <h2>What's inside</h2>
         <ul><li>Core formula: cycle length = close date minus SQL/qualification date</li><li>Data pull instructions (which CRM fields, date range, stage definitions)</li><li>Segment x deal-size grid for calculating cycle length by cohort</li><li>Worked example with 22 real data points sorted and calculated</li><li>Median vs. mean guidance and why median resists skew</li><li>10th/90th percentile confidence banding formula for close-date ranges</li><li>Stage-by-stage duration breakdown to find bottlenecks</li><li>Outlier exclusion rule (3x median cutoff)</li><li>Quarterly refresh cadence using a rolling 4-quarter window</li></ul>
       </div>
       <div class="res-body"><h3>What you're calculating</h3>
-<p>Your <strong>true average sales cycle</strong> = the number of days between a deal being qualified (SQL / Stage 2, whichever your team uses as the true "sales cycle start") and the day it closes-won. Use closed-won deals only — closed-lost deals don't tell you how long a <em>successful</em> sale takes.</p>
+<p>Your <strong>true average sales cycle</strong> = the number of days between a deal being qualified (SQL / Stage 2, whichever your team uses as the true "sales cycle start") and the day it closes-won. Use closed-won deals only, closed-lost deals don't tell you how long a <em>successful</em> sale takes.</p>
 <h3>Step 1: Pull the data</h3>
 <p>From your CRM, export closed-won opportunities from the <strong>last 4 full quarters</strong> with these fields:</p>
 <ul>
 <li>Opportunity ID</li>
 <li>Close date</li>
 <li>Date entered Stage 2 / SQL date (your qualified-pipeline start point)</li>
-<li>Deal amount (ACV or TCV — pick one and be consistent)</li>
+<li>Deal amount (ACV or TCV: pick one and be consistent)</li>
 <li>Segment (SMB / Mid-Market / Enterprise, or your equivalent)</li>
 <li>Rep / team</li>
 </ul>
 <h3>Step 2: Calculate cycle length per deal</h3>
 <p>``<code> Cycle Length (days) = Close Date − SQL Date </code>``</p>
-<p>Do this for every row. Keep cycle length as its own column — don't blend deal amounts and dates into one average.</p>
+<p>Do this for every row. Keep cycle length as its own column, don't blend deal amounts and dates into one average.</p>
 <h3>Step 3: Segment the data</h3>
-<p>Split into a grid — deal size band × customer segment (adjust bands to your ACV distribution):</p>
+<p>Split into a grid: deal size band × customer segment (adjust bands to your ACV distribution):</p>
 <div class="tw"><table><thead><tr><th></th><th>&lt; $10k ACV</th><th>$10k–$50k ACV</th><th>$50k–$150k ACV</th><th>$150k+ ACV</th></tr></thead><tbody>
 <tr><td><strong>SMB</strong></td><td></td><td></td><td></td><td></td></tr>
 <tr><td><strong>Mid-Market</strong></td><td></td><td></td><td></td><td></td></tr>
@@ -81,14 +82,14 @@
 <p>For each cell, calculate:</p>
 <ul>
 <li><strong>Count</strong> of closed-won deals in that cell</li>
-<li><strong>Median cycle length</strong> (not mean — see Step 4)</li>
+<li><strong>Median cycle length</strong> (not mean: see Step 4)</li>
 <li><strong>10th percentile</strong> (your fastest realistic close)</li>
 <li><strong>90th percentile</strong> (your slowest realistic close)</li>
 </ul>
-<p>If a cell has fewer than 5 deals, merge it with the nearest adjacent cell — the sample is too small to trust.</p>
+<p>If a cell has fewer than 5 deals, merge it with the nearest adjacent cell, the sample is too small to trust.</p>
 <h3>Step 4: Use median, not mean</h3>
 <p><strong>Formula for median</strong>: sort all cycle-length values in the cell low to high; the median is the middle value (or the average of the two middle values if the count is even).</p>
-<p>Why median wins here: sales cycle data is right-skewed — a handful of 300-day enterprise deals will drag a mean upward and make every rep's forecast look artificially slow. Median resists that distortion.</p>
+<p>Why median wins here: sales cycle data is right-skewed, a handful of 300-day enterprise deals will drag a mean upward and make every rep's forecast look artificially slow. Median resists that distortion.</p>
 <h3>Worked example</h3>
 <p>Mid-Market, $10k–$50k ACV, last 4 quarters, 22 closed-won deals. Cycle lengths in days, sorted: <code>38, 41, 44, 47, 49, 52, 54, 55, 58, 60, 61, 63, 65, 67, 70, 72, 75, 80, 88, 95, 110, 145</code></p>
 <ul>
@@ -96,10 +97,10 @@
 <li>10th percentile ≈ <strong>47 days</strong></li>
 <li>90th percentile ≈ <strong>110 days</strong></li>
 </ul>
-<p><strong>Reading this</strong>: a typical Mid-Market $10-50k deal takes 62 days from SQL to close. A rep forecasting a 30-day close on a deal in this band should be challenged — it's below your 10th percentile. A rep forecasting 150 days should also be challenged — check what's actually blocking it.</p>
+<p><strong>Reading this</strong>: a typical Mid-Market $10-50k deal takes 62 days from SQL to close. A rep forecasting a 30-day close on a deal in this band should be challenged, it's below your 10th percentile. A rep forecasting 150 days should also be challenged, check what's actually blocking it.</p>
 <h3>Step 5: Confidence banding for forecast dates</h3>
 <p>For any open deal, calculate an expected close-date range:</p>
-<p>``<code> Earliest realistic close = SQL date + 10th percentile (for that segment/size cell) Most likely close        = SQL date + median (for that segment/size cell) Latest realistic close   = SQL date + 90th percentile (for that segment/size cell) </code>``</p>
+<p>``<code> Earliest realistic close = SQL date + 10th percentile (for that segment/size cell) Most likely close = SQL date + median (for that segment/size cell) Latest realistic close = SQL date + 90th percentile (for that segment/size cell) </code>``</p>
 <p>Use "Most likely close" as the default forecasted close date unless the rep has specific stage-based evidence (signed mutual close plan, verbal + contract out) to override it.</p>
 <h3>Step 6: Stage-by-stage breakdown (optional, higher-value diagnostic)</h3>
 <p>Repeat the same median calculation for the gap <em>between each stage transition</em>, not just start-to-finish, to see where time is actually spent:</p>
@@ -109,12 +110,11 @@
 <tr><td>Proposal → Verbal commit</td><td></td></tr>
 <tr><td>Verbal commit → Contract signed</td><td></td></tr>
 </tbody></table></div>
-<p>If "Verbal commit → Contract signed" is your longest stage, your bottleneck is legal/procurement, not sales — route effort accordingly.</p>
+<p>If "Verbal commit → Contract signed" is your longest stage, your bottleneck is legal/procurement, not sales, route effort accordingly.</p>
 <h3>Outlier exclusion rule</h3>
-<p>Exclude any deal where cycle length exceeds 3× the segment's median (these are usually re-opened, paused, or data-entry errors, not real cycle behavior) — but log them separately; a cluster of true outliers is itself a signal worth investigating.</p>
+<p>Exclude any deal where cycle length exceeds 3× the segment's median (these are usually re-opened, paused, or data-entry errors, not real cycle behavior), but log them separately; a cluster of true outliers is itself a signal worth investigating.</p>
 <h3>Refresh cadence</h3>
-<p>Recalculate every quarter using a rolling 4-quarter window. Sales cycles shift with pricing changes, new competitors, and macro conditions — a stale benchmark produces confidently wrong forecast dates.</p></div>
-      <div class="howto"><h3>How to use it</h3><p>Pull your last 4 quarters of closed-won deals into the segment × deal-size grid, calculate the median (not mean) cycle length and 10th/90th percentiles for each cell, then use those numbers as the realistic close-date range for every open opportunity in that segment.</p></div>
+<p>Recalculate every quarter using a rolling 4-quarter window. Sales cycles shift with pricing changes, new competitors, and macro conditions, a stale benchmark produces confidently wrong forecast dates.</p></div>
     </div>
     <aside class="res-aside">
       <div class="aside-card cta-card">

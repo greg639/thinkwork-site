@@ -52,41 +52,42 @@
   </header>
   <div class="res-grid">
     <div class="res-main" id="resource-body">
+      <div class="howto howto-top"><h3>How to use it</h3><p>Run the verification routine against your own statement every pay period before assuming it&#x27;s correct, and if you find a discrepancy, escalate using the exact format in the last section rather than a general complaint.</p></div>
       <div class="inside">
         <h2>What's inside</h2>
         <ul><li>Definitions of all 12 standard line items found on most comp statements</li><li>A fully annotated sample statement showing every field filled in with real numbers</li><li>The 5 most common statement errors and the exact math check that catches each one</li><li>How to reconcile a clawback/reversal line against the original deal it references</li><li>How prior-period true-ups work and why they can shift a current statement&#x27;s total</li><li>A step-by-step verification routine to run before you ever flag a dispute</li><li>What to include when you do need to escalate a discrepancy to finance/RevOps</li></ul>
       </div>
       <div class="res-body"><h3>The 12 standard line items</h3>
 <div class="tw"><table><thead><tr><th>Field</th><th>What it means</th></tr></thead><tbody>
-<tr><td><strong>Base/Draw</strong></td><td>Guaranteed pay for the period, separate from commission — may be a true draw (recoverable against future commission) or a non-recoverable base</td></tr>
-<tr><td><strong>Commissionable Revenue</strong></td><td>The subset of booked revenue that actually counts toward commission — check for exclusions (e.g. services, discounts, certain product lines)</td></tr>
+<tr><td><strong>Base/Draw</strong></td><td>Guaranteed pay for the period, separate from commission, may be a true draw (recoverable against future commission) or a non-recoverable base</td></tr>
+<tr><td><strong>Commissionable Revenue</strong></td><td>The subset of booked revenue that actually counts toward commission, check for exclusions (e.g. services, discounts, certain product lines)</td></tr>
 <tr><td><strong>Commission Rate</strong></td><td>The % applied to commissionable revenue at your current attainment tier</td></tr>
 <tr><td><strong>Tier/Accelerator Adjustment</strong></td><td>Extra amount from crossing an accelerator threshold mid-period (see OTE Calculator for the math)</td></tr>
 <tr><td><strong>SPIFs/Bonuses</strong></td><td>One-time incentive payouts tied to a specific promoted behavior or product, separate from standard commission</td></tr>
 <tr><td><strong>Clawback/Reversal</strong></td><td>A deduction for revenue previously paid on that has since been refunded, cancelled, or fell outside the clawback window (e.g. customer churned inside 90 days)</td></tr>
-<tr><td><strong>Prior-Period True-Up</strong></td><td>A correction for a previous statement — could be additional pay owed (deal booked late) or a deduction (an error caught after the fact)</td></tr>
+<tr><td><strong>Prior-Period True-Up</strong></td><td>A correction for a previous statement: could be additional pay owed (deal booked late) or a deduction (an error caught after the fact)</td></tr>
 <tr><td><strong>Draw Recovery</strong></td><td>If your base is a recoverable draw, this line deducts previously advanced draw amounts from current commission earned</td></tr>
 <tr><td><strong>YTD Attainment %</strong></td><td>Your cumulative attainment against annual quota, used to confirm which tier/accelerator applies</td></tr>
 <tr><td><strong>Gross Commission</strong></td><td>Total commission before any deductions</td></tr>
-<tr><td><strong>Net Payout</strong></td><td>What actually hits your bank account this period — Gross Commission + SPIFs + True-Ups − Clawbacks − Draw Recovery</td></tr>
+<tr><td><strong>Net Payout</strong></td><td>What actually hits your bank account this period: Gross Commission + SPIFs + True-Ups − Clawbacks − Draw Recovery</td></tr>
 <tr><td><strong>Payment Date</strong></td><td>When this statement's amount is actually disbursed, which may lag the period it covers by 15–30 days</td></tr>
 </tbody></table></div>
 <hr>
 <h3>Annotated sample statement</h3>
 <p>``` Pay Period: June 2026 Base/Draw: $5,000 Commissionable Revenue: $180,000 Commission Rate (tier applied: 100–110% attainment): 8% Gross Commission: $180,000 × 8% = $14,400</p>
 <p>Accelerator Adjustment: +$1,200 (portion of revenue above 100% threshold paid at 12% instead of 8%: $30,000 × (12%−8%) = $1,200)</p>
-<p>SPIF — New Logo Bonus (2 qualifying deals): +$1,000</p>
-<p>Clawback — Acme Corp cancellation (booked March, cancelled May, inside 90-day window): −$2,400</p>
+<p>SPIF: New Logo Bonus (2 qualifying deals): +$1,000</p>
+<p>Clawback: Acme Corp cancellation (booked March, cancelled May, inside 90-day window): −$2,400</p>
 <p>Prior-Period True-Up (May statement missed 1 deal, added late): +$640</p>
 <p>Draw Recovery: −$0 (non-recoverable base this plan)</p>
 <p>Net Payout = $14,400 + $1,200 + $1,000 − $2,400 + $640 − $0 = $14,840 ```</p>
 <hr>
-<h3>The 5 most common errors — and the check that catches each</h3>
+<h3>The 5 most common errors, and the check that catches each</h3>
 <div class="tw"><table><thead><tr><th>Error</th><th>How to catch it</th></tr></thead><tbody>
 <tr><td>Wrong commission rate applied (tier misread)</td><td>Recalculate your YTD attainment % yourself from your own CRM data and confirm which tier it actually falls in</td></tr>
-<tr><td>Deal excluded that should be commissionable</td><td>Cross-check your own closed-won list against the Commissionable Revenue line — every closed deal should appear somewhere</td></tr>
-<tr><td>Clawback applied outside the contractual window</td><td>Check the clawback line's referenced deal date against your plan's actual clawback window (commonly 60–120 days) — a clawback for a deal older than the window is invalid</td></tr>
-<tr><td>Accelerator calculated on full revenue instead of only the portion above threshold</td><td>Redo the accelerator math using the step-by-step method in the OTE Calculator — this is the single most common statement error</td></tr>
+<tr><td>Deal excluded that should be commissionable</td><td>Cross-check your own closed-won list against the Commissionable Revenue line, every closed deal should appear somewhere</td></tr>
+<tr><td>Clawback applied outside the contractual window</td><td>Check the clawback line's referenced deal date against your plan's actual clawback window (commonly 60–120 days), a clawback for a deal older than the window is invalid</td></tr>
+<tr><td>Accelerator calculated on full revenue instead of only the portion above threshold</td><td>Redo the accelerator math using the step-by-step method in the OTE Calculator, this is the single most common statement error</td></tr>
 <tr><td>SPIF omitted or miscounted</td><td>Compare the SPIF line's deal count against your own tracking of qualifying deals for that specific promotion</td></tr>
 </tbody></table></div>
 <hr>
@@ -95,7 +96,7 @@
 <li>Find the deal name/ID referenced on the clawback line</li>
 <li>Confirm the original commission date you were paid on it</li>
 <li>Confirm the cancellation/refund date from your CRM or the customer's actual cancellation</li>
-<li>Calculate the days between: if it exceeds your plan's clawback window, the deduction is invalid — escalate</li>
+<li>Calculate the days between: if it exceeds your plan's clawback window, the deduction is invalid: escalate</li>
 </ol>
 <hr>
 <h3>Verification routine (run before you dispute anything)</h3>
@@ -116,7 +117,6 @@
 <li>The dollar difference between their number and yours</li>
 </ul>
 <p>A specific, math-shown dispute gets resolved in days. "My statement looks wrong" gets queued behind everyone else's vague disputes.</p></div>
-      <div class="howto"><h3>How to use it</h3><p>Run the verification routine against your own statement every pay period before assuming it&#x27;s correct, and if you find a discrepancy, escalate using the exact format in the last section rather than a general complaint.</p></div>
     </div>
     <aside class="res-aside">
       <div class="aside-card cta-card">

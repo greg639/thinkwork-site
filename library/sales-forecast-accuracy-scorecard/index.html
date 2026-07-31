@@ -52,46 +52,47 @@
   </header>
   <div class="res-grid">
     <div class="res-main" id="resource-body">
+      <div class="howto howto-top"><h3>How to use it</h3><p>Score every closed deal at month-end against the rep&#x27;s own forecast call, bucket each rep into a band, and use the Step 6 coaching actions in your next 1:1 rather than treating a single miss as a one-off.</p></div>
       <div class="inside">
         <h2>What's inside</h2>
         <ul><li>Forecast category definitions (Commit / Best Case / Pipeline / Omitted)</li><li>Per-deal scoring formula weighting amount, date, and category accuracy</li><li>Rep Accuracy Score roll-up table</li><li>Sandbagging Index formula with a 30% flag threshold</li><li>Happy-Ears Index formula with a 25% flag threshold</li><li>Four rep bands: Precision Caller, Optimist, Sandbagger, Coin-Flipper</li><li>Manager coaching actions mapped to each band</li><li>Team-level quarterly rollup table with trend and targets</li></ul>
       </div>
-      <div class="res-body"><p><strong>Purpose:</strong> Grade every rep's forecast calls against what actually happened — not to punish misses, but to find the pattern behind them. Chronic under-callers (sandbaggers) and chronic over-callers (happy-ears) both break a company forecast; this scorecard tells you which each rep is, deal by deal and over time.</p>
+      <div class="res-body"><p><strong>Purpose:</strong> Grade every rep's forecast calls against what actually happened: not to punish misses, but to find the pattern behind them. Chronic under-callers (sandbaggers) and chronic over-callers (happy-ears) both break a company forecast; this scorecard tells you which each rep is, deal by deal and over time.</p>
 <p><strong>Cadence:</strong> Score at the end of each month for the deals that were supposed to close that month. Roll up quarterly.</p>
-<h3>Step 1 — Forecast category definitions</h3>
+<h3>Step 1, Forecast category definitions</h3>
 <p>Have reps categorize every open deal at the start of each forecast period using these categories (add them to your CRM if they don't already exist):</p>
 <ul>
-<li><strong>Commit</strong> — "I will close this by the date and amount stated. I'd bet my own money."</li>
-<li><strong>Best Case</strong> — "Realistic upside if things go right, not the base case."</li>
-<li><strong>Pipeline</strong> — "In motion, no confidence about this period."</li>
-<li><strong>Omitted</strong> — deliberately left out of forecast</li>
+<li><strong>Commit</strong>, "I will close this by the date and amount stated. I'd bet my own money."</li>
+<li><strong>Best Case</strong>: "Realistic upside if things go right, not the base case."</li>
+<li><strong>Pipeline</strong>: "In motion, no confidence about this period."</li>
+<li><strong>Omitted</strong>: deliberately left out of forecast</li>
 </ul>
-<h3>Step 2 — Score each closed deal</h3>
+<h3>Step 2: Score each closed deal</h3>
 <p>For every deal that was supposed to close in the period, score three dimensions:</p>
 <p><strong>Amount Accuracy</strong></p>
 <ul>
-<li>100% — closed within ±10% of forecasted amount</li>
-<li>50% — closed within ±25% of forecasted amount</li>
-<li>0% — closed outside ±25%, or amount wasn't forecasted</li>
+<li>100%: closed within ±10% of forecasted amount</li>
+<li>50%: closed within ±25% of forecasted amount</li>
+<li>0%: closed outside ±25%, or amount wasn't forecasted</li>
 </ul>
 <p><strong>Date Accuracy</strong></p>
 <ul>
-<li>100% — closed within the same forecast period predicted</li>
-<li>50% — closed one period late/early</li>
-<li>0% — closed two+ periods off, or never closed</li>
+<li>100%: closed within the same forecast period predicted</li>
+<li>50%: closed one period late/early</li>
+<li>0%: closed two+ periods off, or never closed</li>
 </ul>
 <p><strong>Category Accuracy</strong></p>
 <ul>
-<li>100% — a "Commit" deal closed; a "Pipeline"/"Best Case" deal did NOT close in-period</li>
-<li>0% — a "Commit" deal did NOT close in-period; or a deal not forecasted at all closed unexpectedly</li>
+<li>100%, a "Commit" deal closed; a "Pipeline"/"Best Case" deal did NOT close in-period</li>
+<li>0%, a "Commit" deal did NOT close in-period; or a deal not forecasted at all closed unexpectedly</li>
 </ul>
 <p><strong>Deal Forecast Score = (Amount Accuracy × 0.4) + (Date Accuracy × 0.3) + (Category Accuracy × 0.3)</strong></p>
-<h3>Step 3 — Roll up to a rep score</h3>
+<h3>Step 3, Roll up to a rep score</h3>
 <p><strong>Rep Accuracy Score (period) = average Deal Forecast Score across every deal the rep forecasted that period</strong></p>
 <div class="tw"><table><thead><tr><th>Rep</th><th># Deals Forecasted</th><th>Avg Amount Acc.</th><th>Avg Date Acc.</th><th>Avg Category Acc.</th><th>Rep Accuracy Score</th></tr></thead><tbody>
 <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 </tbody></table></div>
-<h3>Step 4 — Detect the two failure patterns</h3>
+<h3>Step 4: Detect the two failure patterns</h3>
 <p><strong>Sandbagging Index</strong> = (# deals that closed but were forecasted as "Pipeline" or omitted) ÷ (total deals closed)</p>
 <ul>
 <li>Above 30% → likely sandbagging: rep is winning deals they never called, inflating "beat the forecast" optics while making capacity/hiring planning blind</li>
@@ -100,21 +101,21 @@
 <ul>
 <li>Above 25% → likely happy-ears: rep's Commit category is not trustworthy for company forecasting</li>
 </ul>
-<h3>Step 5 — Assign a rep band</h3>
+<h3>Step 5: Assign a rep band</h3>
 <div class="tw"><table><thead><tr><th>Band</th><th>Criteria</th><th>What it means</th></tr></thead><tbody>
-<tr><td><strong>Precision Caller</strong></td><td>Rep Accuracy Score ≥ 85%, both indices &lt; 20%</td><td>Forecast is bankable — build company numbers on their Commit</td></tr>
-<tr><td><strong>Optimist</strong></td><td>Happy-Ears Index ≥ 25%</td><td>Consistently overstates Commit — discount their Commit by their historical slip rate</td></tr>
-<tr><td><strong>Sandbagger</strong></td><td>Sandbagging Index ≥ 30%</td><td>Under-calls to guarantee "beats" — surfaces late wins that break capacity/comp planning</td></tr>
-<tr><td><strong>Coin-Flipper</strong></td><td>Rep Accuracy Score &lt; 60%, no clear directional bias</td><td>Forecasting skill gap — needs coaching on deal qualification, not a personality trait</td></tr>
+<tr><td><strong>Precision Caller</strong></td><td>Rep Accuracy Score ≥ 85%, both indices &lt; 20%</td><td>Forecast is bankable: build company numbers on their Commit</td></tr>
+<tr><td><strong>Optimist</strong></td><td>Happy-Ears Index ≥ 25%</td><td>Consistently overstates Commit: discount their Commit by their historical slip rate</td></tr>
+<tr><td><strong>Sandbagger</strong></td><td>Sandbagging Index ≥ 30%</td><td>Under-calls to guarantee "beats": surfaces late wins that break capacity/comp planning</td></tr>
+<tr><td><strong>Coin-Flipper</strong></td><td>Rep Accuracy Score &lt; 60%, no clear directional bias</td><td>Forecasting skill gap: needs coaching on deal qualification, not a personality trait</td></tr>
 </tbody></table></div>
-<h3>Step 6 — Manager coaching actions by band</h3>
+<h3>Step 6, Manager coaching actions by band</h3>
 <ul>
-<li><strong>Precision Caller</strong> — no intervention needed; use as the forecast calibration benchmark for the team; consider peer-mentoring struggling reps</li>
-<li><strong>Optimist</strong> — require a written "what has to be true" gate before a deal is called Commit; review the Commit list weekly and ask "what happened last time you called this deal Commit at this stage?"</li>
-<li><strong>Sandbagger</strong> — investigate motive (does the comp plan reward beats? is there fear of being held to a number?); coach that under-calling breaks resourcing and territory decisions just as much as over-calling does</li>
-<li><strong>Coin-Flipper</strong> — pair 1:1 deal reviews with qualification-framework coaching (MEDDIC/BANT-style); the issue is usually stage-gate discipline, not forecast honesty</li>
+<li><strong>Precision Caller</strong>, no intervention needed; use as the forecast calibration benchmark for the team; consider peer-mentoring struggling reps</li>
+<li><strong>Optimist</strong>, require a written "what has to be true" gate before a deal is called Commit; review the Commit list weekly and ask "what happened last time you called this deal Commit at this stage?"</li>
+<li><strong>Sandbagger</strong>, investigate motive (does the comp plan reward beats? is there fear of being held to a number?); coach that under-calling breaks resourcing and territory decisions just as much as over-calling does</li>
+<li><strong>Coin-Flipper</strong>: pair 1:1 deal reviews with qualification-framework coaching (MEDDIC/BANT-style); the issue is usually stage-gate discipline, not forecast honesty</li>
 </ul>
-<h3>Step 7 — Team-level rollup</h3>
+<h3>Step 7, Team-level rollup</h3>
 <div class="tw"><table><thead><tr><th>Metric</th><th>This Quarter</th><th>Last Quarter</th><th>Trend</th></tr></thead><tbody>
 <tr><td>Team Rep Accuracy Score (avg)</td><td></td><td></td><td></td></tr>
 <tr><td>Team Sandbagging Index</td><td></td><td></td><td></td></tr>
@@ -122,7 +123,6 @@
 <tr><td># reps in Precision Caller band</td><td></td><td></td><td></td></tr>
 </tbody></table></div>
 <p><strong>Target:</strong> A mature forecasting team should have ≥60% of reps in the Precision Caller band and a team-level accuracy score above 80% within two quarters of introducing this scorecard.</p></div>
-      <div class="howto"><h3>How to use it</h3><p>Score every closed deal at month-end against the rep&#x27;s own forecast call, bucket each rep into a band, and use the Step 6 coaching actions in your next 1:1 rather than treating a single miss as a one-off.</p></div>
     </div>
     <aside class="res-aside">
       <div class="aside-card cta-card">

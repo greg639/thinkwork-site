@@ -52,6 +52,7 @@
   </header>
   <div class="res-grid">
     <div class="res-main" id="resource-body">
+      <div class="howto howto-top"><h3>How to use it</h3><p>Copy the four tabs into a spreadsheet, plug in your own segment benchmarks in Tab 3, and review the OVERDUE filter every Monday.</p></div>
       <div class="inside">
         <h2>What's inside</h2>
         <ul><li>Tab 1: Individual rep tracker with ready-to-paste formulas</li><li>Tab 2: Cohort rollup with health-status formulas</li><li>Tab 3: Benchmark bands by segment (SMB / Mid-Market / Enterprise)</li><li>Tab 4: Trend-chart setup instructions</li><li>Conditional formatting rules for flagging overdue reps</li><li>Weekly leader review cadence</li><li>3 red flags the tracker surfaces early</li></ul>
@@ -62,15 +63,15 @@
 <tr><td>A</td><td>Rep Name</td><td></td></tr>
 <tr><td>B</td><td>Cohort (start month)</td><td>e.g., "2026-Q1"</td></tr>
 <tr><td>C</td><td>Start Date</td><td>date rep began selling (post-training, quota-carrying start)</td></tr>
-<tr><td>D</td><td>Segment</td><td>SMB / Mid-Market / Enterprise — benchmarks differ by segment</td></tr>
+<tr><td>D</td><td>Segment</td><td>SMB / Mid-Market / Enterprise: benchmarks differ by segment</td></tr>
 <tr><td>E</td><td>First Deal Closed Date</td><td>leave blank until closed-won</td></tr>
 <tr><td>F</td><td>Days to First Deal</td><td>Formula: <code>=IF(E2="","",E2-C2)</code></td></tr>
 <tr><td>G</td><td>Status</td><td>Formula: <code>=IF(E2&lt;&gt;"","Closed",IF(TODAY()-C2&gt;90,"OVERDUE - flag","On track"))</code></td></tr>
 <tr><td>H</td><td>Benchmark (days)</td><td>pull from Tab 3 based on segment</td></tr>
-<tr><td>I</td><td>Variance to Benchmark</td><td>Formula: <code>=IF(F2="","",F2-H2)</code> — negative = ahead of pace</td></tr>
+<tr><td>I</td><td>Variance to Benchmark</td><td>Formula: <code>=IF(F2="","",F2-H2)</code>: negative = ahead of pace</td></tr>
 <tr><td>J</td><td>Manager</td><td></td></tr>
 <tr><td>K</td><td>Mentor Assigned (Y/N)</td><td></td></tr>
-<tr><td>L</td><td>Notes</td><td>free text — stalled deal reasons, coaching actions taken</td></tr>
+<tr><td>L</td><td>Notes</td><td>free text: stalled deal reasons, coaching actions taken</td></tr>
 </tbody></table></div>
 <p><strong>Conditional formatting rules to apply to column G:</strong></p>
 <ul>
@@ -95,7 +96,7 @@
 <tr><td>Mid-Market</td><td>60 days</td><td>80 days</td><td>100 days</td></tr>
 <tr><td>Enterprise</td><td>120 days</td><td>150 days</td><td>180 days</td></tr>
 </tbody></table></div>
-<p><em>(Replace these with your own historical median from your last 4 cohorts if you have the data — these are illustrative starting points, not universal truths.)</em></p>
+<p><em>(Replace these with your own historical median from your last 4 cohorts if you have the data: these are illustrative starting points, not universal truths.)</em></p>
 <h3>Tab 4: Trend Chart (build from Tab 2)</h3>
 <ul>
 <li>X-axis: Cohort (chronological)</li>
@@ -103,13 +104,13 @@
 <li>Add a flat benchmark line per segment for visual comparison</li>
 <li>Add a secondary bar series: % of cohort closed within benchmark</li>
 </ul>
-<p><strong>What to look for:</strong> a rising line cohort-over-cohort is your earliest warning that ramp is slipping — it will show up in this chart 4–8 weeks before it shows up in quarterly bookings.</p>
+<p><strong>What to look for:</strong> a rising line cohort-over-cohort is your earliest warning that ramp is slipping, it will show up in this chart 4–8 weeks before it shows up in quarterly bookings.</p>
 <h3>How to Use This Weekly (Leader Cadence)</h3>
 <ol>
-<li>Every Monday, filter Tab 1 for Status = "OVERDUE - flag" — this is your action list, not a report to file away</li>
+<li>Every Monday, filter Tab 1 for Status = "OVERDUE - flag": this is your action list, not a report to file away</li>
 <li>For each flagged rep, ask the manager: what's the specific blocker (pipeline volume, skill gap, territory quality, personal)?</li>
 <li>Update column L with the blocker and the action taken</li>
-<li>Review Tab 2 cohort rollup once a month with sales leadership — this is the quarter-end-slip early warning</li>
+<li>Review Tab 2 cohort rollup once a month with sales leadership, this is the quarter-end-slip early warning</li>
 <li>At the end of each quarter, archive closed cohorts to a "Historical" tab and recompute your Tab 3 benchmarks annually using trailing 4-quarter medians</li>
 </ol>
 <h3>Red Flags This Tracker Will Surface Early</h3>
@@ -118,7 +119,6 @@
 <li>One segment consistently missing benchmark (points to territory quality or lead flow, not rep skill)</li>
 <li>Reps with a mentor assigned closing meaningfully faster than reps without one (makes the business case for a Buddy Program with data, not just gut feel)</li>
 </ul></div>
-      <div class="howto"><h3>How to use it</h3><p>Copy the four tabs into a spreadsheet, plug in your own segment benchmarks in Tab 3, and review the OVERDUE filter every Monday.</p></div>
     </div>
     <aside class="res-aside">
       <div class="aside-card cta-card">
@@ -144,7 +144,7 @@
   <div class="rel-inner">
     <span class="eyebrow">Related</span>
     <h2>Use these alongside it.</h2>
-    <div class="rel-grid"><a class="rel-card" href="/library/sales-ramp-time-calculator/"><span class="rel-fmt">Calculator/Tool</span><span class="rel-t">Sales Ramp-Time Calculator</span><span class="rel-b">Enter average deal cycle and quota to see how many months until a new rep hits full productivity</span></a><a class="rel-card" href="/library/first-90-days-sales-onboarding-framework/"><span class="rel-fmt">Framework</span><span class="rel-t">First 90 Days Sales Onboarding Framework</span><span class="rel-b">The stage-by-stage architecture — knowledge, shadowing, certification, solo — enablement leaders</span></a><a class="rel-card" href="/library/cost-of-a-bad-sales-hire-calculator/"><span class="rel-fmt">Calculator/Tool</span><span class="rel-t">Cost of a Bad Sales Hire Calculator</span><span class="rel-b">Enter salary, ramp length, and attrition rate to see the true fully-loaded cost of a rep who doe</span></a><a class="rel-card" href="/library/new-rep-skill-gap-diagnostic/"><span class="rel-fmt">Assessment/Quiz</span><span class="rel-t">New Rep Skill Gap Diagnostic</span><span class="rel-b">A structured day-30 diagnostic that flags the specific competency — not just &#x27;needs coaching&#x27; — </span></a></div>
+    <div class="rel-grid"><a class="rel-card" href="/library/sales-ramp-time-calculator/"><span class="rel-fmt">Calculator/Tool</span><span class="rel-t">Sales Ramp-Time Calculator</span><span class="rel-b">Enter average deal cycle and quota to see how many months until a new rep hits full productivity</span></a><a class="rel-card" href="/library/first-90-days-sales-onboarding-framework/"><span class="rel-fmt">Framework</span><span class="rel-t">First 90 Days Sales Onboarding Framework</span><span class="rel-b">The stage-by-stage architecture: knowledge, shadowing, certification, solo, enablement leaders u</span></a><a class="rel-card" href="/library/cost-of-a-bad-sales-hire-calculator/"><span class="rel-fmt">Calculator/Tool</span><span class="rel-t">Cost of a Bad Sales Hire Calculator</span><span class="rel-b">Enter salary, ramp length, and attrition rate to see the true fully-loaded cost of a rep who doe</span></a><a class="rel-card" href="/library/new-rep-skill-gap-diagnostic/"><span class="rel-fmt">Assessment/Quiz</span><span class="rel-t">New Rep Skill Gap Diagnostic</span><span class="rel-b">A structured day-30 diagnostic that flags the specific competency, not just &#x27;needs coaching&#x27;, be</span></a></div>
     <a class="all-link" href="/library/?category=Onboarding &amp; Ramp">All Onboarding &amp; Ramp resources &rarr;</a>
   </div>
 </section>

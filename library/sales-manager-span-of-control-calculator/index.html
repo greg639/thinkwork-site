@@ -52,13 +52,14 @@
   </header>
   <div class="res-grid">
     <div class="res-main" id="resource-body">
+      <div class="howto howto-top"><h3>How to use it</h3><p>Pick your baseline ratio from the segment table, work down the modifier list checking every one that applies to your team, add the point adjustments to the baseline, then apply the floor/ceiling rule to get your recommended ratio.</p></div>
       <div class="inside">
         <h2>What's inside</h2>
         <ul><li>Baseline ratio table by sales segment (4 segments)</li><li>Tenure-mix modifier (percent of team under 6 months)</li><li>Deal complexity modifier (buying committee size)</li><li>Deal cycle length modifier</li><li>Player-coach modifier (manager carrying individual quota)</li><li>Coaching cadence modifier (desired 1:1/review frequency)</li><li>Remote/distributed team modifier</li><li>Enablement support modifier</li><li>Final formula with floor and ceiling rules</li><li>Worked example calculation start to finish</li></ul>
       </div>
       <div class="res-body"><p>A single "ideal ratio" number doesn't hold across segments, deal complexity, or team maturity. This calculator starts from a segment baseline and adjusts it with modifiers that actually move how much coaching bandwidth a manager needs per rep.</p>
 <hr>
-<h3>Step 1 — Baseline Ratio by Segment</h3>
+<h3>Step 1: Baseline Ratio by Segment</h3>
 <div class="tw"><table><thead><tr><th>Segment</th><th>Deal cycle</th><th>Baseline ratio (reps per manager)</th></tr></thead><tbody>
 <tr><td>Transactional / SMB</td><td>Under 30 days, low-touch, largely self-serve</td><td><strong>10–12</strong></td></tr>
 <tr><td>Mid-Market</td><td>30–90 days, some technical/multi-touch complexity</td><td><strong>7–9</strong></td></tr>
@@ -67,12 +68,12 @@
 </tbody></table></div>
 <p>Write down your baseline number: <strong>_______</strong></p>
 <hr>
-<h3>Step 2 — Modifiers</h3>
+<h3>Step 2, Modifiers</h3>
 <p>Work down this list. Check every modifier that applies to your team and add its point value (positive or negative) to your baseline.</p>
 <div class="tw"><table><thead><tr><th>Modifier</th><th>Condition</th><th>Points</th></tr></thead><tbody>
-<tr><td>Tenure mix — heavy new</td><td>&gt;30% of team under 6 months tenure</td><td><strong>−2</strong></td></tr>
-<tr><td>Tenure mix — moderate new</td><td>15–30% of team under 6 months tenure</td><td><strong>−1</strong></td></tr>
-<tr><td>Tenure mix — tenured team</td><td>&gt;70% of team at 18+ months tenure</td><td><strong>+1</strong></td></tr>
+<tr><td>Tenure mix: heavy new</td><td>&gt;30% of team under 6 months tenure</td><td><strong>−2</strong></td></tr>
+<tr><td>Tenure mix: moderate new</td><td>15–30% of team under 6 months tenure</td><td><strong>−1</strong></td></tr>
+<tr><td>Tenure mix: tenured team</td><td>&gt;70% of team at 18+ months tenure</td><td><strong>+1</strong></td></tr>
 <tr><td>Deal complexity</td><td>Majority of deals involve a buying committee of 3+</td><td><strong>−1</strong></td></tr>
 <tr><td>Deal cycle length</td><td>Average cycle exceeds 120 days</td><td><strong>−1</strong></td></tr>
 <tr><td>Player-coach load</td><td>Manager also carries an individual quota/book of business</td><td><strong>−2</strong></td></tr>
@@ -83,13 +84,13 @@
 </tbody></table></div>
 <p>Sum of modifiers: <strong>_______</strong></p>
 <hr>
-<h3>Step 3 — Final Formula</h3>
+<h3>Step 3: Final Formula</h3>
 <p>``<code> Recommended Ratio = Baseline Ratio + Sum of Modifiers </code>``</p>
 <p><strong>Apply floor and ceiling rules:</strong></p>
 <ul>
-<li>Never recommend a ratio <strong>below 4</strong> regardless of modifiers — coaching quality collapses below this even with strong support</li>
-<li>Never recommend a ratio <strong>above 12</strong> regardless of modifiers, even for the most transactional segment — beyond this, 1:1s and call reviews mathematically cannot happen at a useful cadence</li>
-<li>If your calculated ratio falls outside your segment's baseline range by more than 3, treat that as a signal to re-check your inputs before acting on it — large swings usually mean two modifiers are double-counting the same underlying issue (e.g., both "heavy new" tenure and "high-touch cadence" reflecting the same ramp push)</li>
+<li>Never recommend a ratio <strong>below 4</strong> regardless of modifiers: coaching quality collapses below this even with strong support</li>
+<li>Never recommend a ratio <strong>above 12</strong> regardless of modifiers, even for the most transactional segment: beyond this, 1:1s and call reviews mathematically cannot happen at a useful cadence</li>
+<li>If your calculated ratio falls outside your segment's baseline range by more than 3, treat that as a signal to re-check your inputs before acting on it, large swings usually mean two modifiers are double-counting the same underlying issue (e.g., both "heavy new" tenure and "high-touch cadence" reflecting the same ramp push)</li>
 </ul>
 <hr>
 <h3>Worked Example</h3>
@@ -97,21 +98,18 @@
 <ol>
 <li>Baseline (Mid-Market): <strong>8</strong></li>
 <li>Modifiers:</li>
-<ul>
 <li>Heavy new tenure (&gt;30%): <strong>−2</strong></li>
 <li>Coaching cadence target (weekly review): <strong>−1</strong></li>
 <li>Playbook maturity: enablement is thin, so no +1 applies</li>
 <li>No player-coach load: no adjustment</li>
 <li>Co-located: no adjustment</li>
-</ul>
 <li>Sum of modifiers: <strong>−3</strong></li>
 <li>Recommended ratio: <strong>8 − 3 = 5</strong></li>
 </ol>
-<p><strong>Result:</strong> This manager should carry 5 reps, not the 8-9 a generic mid-market benchmark would suggest — the combination of a heavy ramp cohort and a high-touch coaching cadence target requires materially more bandwidth per rep.</p>
+<p><strong>Result:</strong> This manager should carry 5 reps, not the 8-9 a generic mid-market benchmark would suggest, the combination of a heavy ramp cohort and a high-touch coaching cadence target requires materially more bandwidth per rep.</p>
 <hr>
 <h3>Using This at Scale</h3>
-<p>Run this calculation per manager, not once for the whole org — two managers in the same segment can land on different recommended ratios if one has a heavier new-hire cohort or a player-coach load the other doesn't. Re-run it every time headcount is added to a team, before assuming the current manager can simply absorb more reps.</p></div>
-      <div class="howto"><h3>How to use it</h3><p>Pick your baseline ratio from the segment table, work down the modifier list checking every one that applies to your team, add the point adjustments to the baseline, then apply the floor/ceiling rule to get your recommended ratio.</p></div>
+<p>Run this calculation per manager, not once for the whole org, two managers in the same segment can land on different recommended ratios if one has a heavier new-hire cohort or a player-coach load the other doesn't. Re-run it every time headcount is added to a team, before assuming the current manager can simply absorb more reps.</p></div>
     </div>
     <aside class="res-aside">
       <div class="aside-card cta-card">
@@ -137,7 +135,7 @@
   <div class="rel-inner">
     <span class="eyebrow">Related</span>
     <h2>Use these alongside it.</h2>
-    <div class="rel-grid"><a class="rel-card" href="/library/coaching-effectiveness-scorecard-for-managers/"><span class="rel-fmt">Scorecard/Rubric</span><span class="rel-t">Coaching Effectiveness Scorecard for Managers</span><span class="rel-b">A rubric leaders use to rate manager coaching quality itself — consistency, specificity, follow-</span></a><a class="rel-card" href="/library/skip-level-1-1-question-bank/"><span class="rel-fmt">Directory</span><span class="rel-t">Skip-Level 1:1 Question Bank</span><span class="rel-b">60 vetted questions for leaders running skip-levels that surface manager blind spots without und</span></a><a class="rel-card" href="/library/sales-coaching-framework-diagnose-demonstrate-drill-deploy/"><span class="rel-fmt">Framework</span><span class="rel-t">Sales Coaching Framework: Diagnose, Demonstrate, Drill, Deploy</span><span class="rel-b">The four-stage operating model behind ThinkWork&#x27;s 400+ competency rubrics, adapted as a standalo</span></a><a class="rel-card" href="/library/free-sales-coaching-certification-directory/"><span class="rel-fmt">Directory</span><span class="rel-t">Free Sales Coaching Certification Directory</span><span class="rel-b">A vetted list of no-cost and low-cost manager-coaching certificate programs, ranked by rigor and</span></a></div>
+    <div class="rel-grid"><a class="rel-card" href="/library/coaching-effectiveness-scorecard-for-managers/"><span class="rel-fmt">Scorecard/Rubric</span><span class="rel-t">Coaching Effectiveness Scorecard for Managers</span><span class="rel-b">A rubric leaders use to rate manager coaching quality itself: consistency, specificity, follow-t</span></a><a class="rel-card" href="/library/skip-level-1-1-question-bank/"><span class="rel-fmt">Directory</span><span class="rel-t">Skip-Level 1:1 Question Bank</span><span class="rel-b">60 vetted questions for leaders running skip-levels that surface manager blind spots without und</span></a><a class="rel-card" href="/library/sales-coaching-framework-diagnose-demonstrate-drill-deploy/"><span class="rel-fmt">Framework</span><span class="rel-t">Sales Coaching Framework: Diagnose, Demonstrate, Drill, Deploy</span><span class="rel-b">The four-stage operating model behind ThinkWork&#x27;s 400+ competency rubrics, adapted as a standalo</span></a><a class="rel-card" href="/library/free-sales-coaching-certification-directory/"><span class="rel-fmt">Directory</span><span class="rel-t">Free Sales Coaching Certification Directory</span><span class="rel-b">A vetted list of no-cost and low-cost manager-coaching certificate programs, ranked by rigor and</span></a></div>
     <a class="all-link" href="/library/?category=Coaching, 1:1s &amp; Feedback">All Coaching, 1:1s &amp; Feedback resources &rarr;</a>
   </div>
 </section>

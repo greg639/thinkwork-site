@@ -52,13 +52,14 @@
   </header>
   <div class="res-grid">
     <div class="res-main" id="resource-body">
+      <div class="howto howto-top"><h3>How to use it</h3><p>Fill in your 7 inputs, run the four formulas in order (win-rate lift, cycle-time compression, revenue impact, payback), and present the conservative/base/aggressive scenario table when you ask for training budget.</p></div>
       <div class="inside">
         <h2>What's inside</h2>
         <ul><li>The 7 inputs you need before you start</li><li>Win-rate lift formula</li><li>Cycle-time compression formula</li><li>Blended revenue-impact formula (win-rate lift + capacity unlocked)</li><li>Training payback-period formula</li><li>Fully worked numerical example end to end</li><li>Blank calculation table for your own numbers</li><li>Conservative / base / aggressive scenario table</li><li>90-day reality check to re-run the model on real data</li></ul>
       </div>
-      <div class="res-body"><p>Use this to model the win-rate lift and cycle-time compression a structured qualification methodology (MEDDIC, MEDDPICC, BANT, SPICED, and their relatives) should produce for your team, and how fast the training investment pays for itself. Work through the steps in order — each one feeds the next.</p>
+      <div class="res-body"><p>Use this to model the win-rate lift and cycle-time compression a structured qualification methodology (MEDDIC, MEDDPICC, BANT, SPICED, and their relatives) should produce for your team, and how fast the training investment pays for itself. Work through the steps in order, each one feeds the next.</p>
 <hr>
-<h3>Step 1 — Gather your 7 inputs</h3>
+<h3>Step 1: Gather your 7 inputs</h3>
 <div class="tw"><table><thead><tr><th>#</th><th>Input</th><th>Where to find it</th><th>Your number</th></tr></thead><tbody>
 <tr><td>1</td><td>Active quota-carrying reps to be trained (N)</td><td>HRIS / org chart</td><td></td></tr>
 <tr><td>2</td><td>Average annual contract value (ACV)</td><td>CRM closed-won report, trailing 12 months</td><td></td></tr>
@@ -66,55 +67,55 @@
 <tr><td>4</td><td>Current average sales-cycle length in days (first touch to close)</td><td>CRM stage-duration report</td><td></td></tr>
 <tr><td>5</td><td>Current annual qualified-pipeline volume (# opportunities entering pipeline per year)</td><td>CRM</td><td></td></tr>
 <tr><td>6</td><td>Fully-loaded training investment (content + facilitator/vendor fee + reps' time out of quota-bearing activity, valued at daily comp)</td><td>Finance / enablement budget</td><td></td></tr>
-<tr><td>7</td><td>Expected 90-day adoption rate — % of trained reps still using the methodology unprompted (default 60% for a first rollout, 80% if paired with manager coaching)</td><td>Your judgment / manager spot-checks</td><td></td></tr>
+<tr><td>7</td><td>Expected 90-day adoption rate: % of trained reps still using the methodology unprompted (default 60% for a first rollout, 80% if paired with manager coaching)</td><td>Your judgment / manager spot-checks</td><td></td></tr>
 </tbody></table></div>
 <hr>
-<h3>Step 2 — Win-rate lift formula</h3>
+<h3>Step 2, Win-rate lift formula</h3>
 <p>``` Incremental win rate = Current win rate × Expected relative lift × Adoption rate</p>
-<p>Expected relative lift — use one of: 10% (conservative)  |  15% (base case)  |  20% (aggressive)</p>
+<p>Expected relative lift, use one of: 10% (conservative) | 15% (base case) | 20% (aggressive)</p>
 <p>These are the ranges typically reported by teams moving from ad-hoc qualification to a structured framework. Use the conservative case if this is your first rollout of any methodology; use base case if reps already have some qualification discipline and you're tightening it.</p>
 <p>New win rate = Current win rate + Incremental win rate ```</p>
-<p><strong>Worked example</strong> — current win rate 22%, base-case relative lift 15%, adoption 70%:</p>
+<p><strong>Worked example</strong>: current win rate 22%, base-case relative lift 15%, adoption 70%:</p>
 <p>``<code> Incremental win rate = 22% × 15% × 70% = 2.31 percentage points New win rate = 22% + 2.31% = 24.31% </code>``</p>
 <hr>
-<h3>Step 3 — Cycle-time compression formula</h3>
+<h3>Step 3: Cycle-time compression formula</h3>
 <p>``` Cycle-time reduction (days) = Current cycle length × Expected reduction % × Adoption rate</p>
-<p>Expected reduction % — use one of: 8% (conservative)  |  12% (base case)  |  18% (aggressive)</p>
-<p>Rigorous qualification shortens cycles mainly by killing unqualified deals earlier and removing late-stage surprises (missing economic buyer, undiscovered competitor, no compelling event) — not by rushing champions who need more time.</p>
+<p>Expected reduction %: use one of: 8% (conservative) | 12% (base case) | 18% (aggressive)</p>
+<p>Rigorous qualification shortens cycles mainly by killing unqualified deals earlier and removing late-stage surprises (missing economic buyer, undiscovered competitor, no compelling event), not by rushing champions who need more time.</p>
 <p>New cycle length = Current cycle length − Cycle-time reduction ```</p>
-<p><strong>Worked example</strong> — current cycle 78 days, base-case reduction 12%, adoption 70%:</p>
+<p><strong>Worked example</strong>: current cycle 78 days, base-case reduction 12%, adoption 70%:</p>
 <p>``<code> Cycle-time reduction = 78 × 12% × 70% = 6.55 days New cycle length = 78 − 6.55 = 71.45 days </code>``</p>
 <hr>
-<h3>Step 4 — Blended revenue impact</h3>
-<p>Win-rate lift wins you more of the same pipeline. Cycle-time compression frees rep capacity to work <em>more</em> pipeline in the same year. Both convert to revenue — add them together.</p>
+<h3>Step 4, Blended revenue impact</h3>
+<p>Win-rate lift wins you more of the same pipeline. Cycle-time compression frees rep capacity to work <em>more</em> pipeline in the same year. Both convert to revenue, add them together.</p>
 <p>``` Extra deals won per year = Annual pipeline volume × Incremental win rate Extra revenue from win-rate lift = Extra deals won × ACV</p>
 <p>Capacity unlocked (deals) = (Cycle-time reduction ÷ Current cycle length) × Annual pipeline volume × Current win rate Extra revenue from capacity = Capacity unlocked × ACV</p>
 <p>Total annual revenue impact = Extra revenue from win-rate lift + Extra revenue from capacity ```</p>
-<p><strong>Worked example</strong> — 200 qualified opportunities/year, ACV $42,000:</p>
-<p>``` Extra deals won        = 200 × 2.31% = 4.62 deals Extra revenue (win rate)= 4.62 × $42,000 = $194,040</p>
-<p>Capacity unlocked       = (6.55 ÷ 78) × 200 × 22% = 3.70 deals Extra revenue (capacity)= 3.70 × $42,000 = $155,400</p>
+<p><strong>Worked example</strong>: 200 qualified opportunities/year, ACV $42,000:</p>
+<p>``` Extra deals won = 200 × 2.31% = 4.62 deals Extra revenue (win rate)= 4.62 × $42,000 = $194,040</p>
+<p>Capacity unlocked = (6.55 ÷ 78) × 200 × 22% = 3.70 deals Extra revenue (capacity)= 3.70 × $42,000 = $155,400</p>
 <p>Total annual revenue impact = $194,040 + $155,400 = $349,440 ```</p>
 <hr>
-<h3>Step 5 — Payback period</h3>
+<h3>Step 5: Payback period</h3>
 <p>``<code> Payback period (months) = Fully-loaded training investment ÷ (Total annual revenue impact ÷ 12) </code>``</p>
-<p><strong>Worked example</strong> — training investment $85,000:</p>
-<p>``<code> Monthly impact  = $349,440 ÷ 12 = $29,120 Payback period  = $85,000 ÷ $29,120 ≈ 2.9 months </code>``</p>
+<p><strong>Worked example</strong>: training investment $85,000:</p>
+<p>``<code> Monthly impact = $349,440 ÷ 12 = $29,120 Payback period = $85,000 ÷ $29,120 ≈ 2.9 months </code>``</p>
 <hr>
-<h3>Step 6 — Blank table for your own numbers</h3>
+<h3>Step 6: Blank table for your own numbers</h3>
 <div class="tw"><table><thead><tr><th>Metric</th><th>Formula</th><th>Your result</th></tr></thead><tbody>
 <tr><td>Incremental win rate</td><td>Current win rate × lift % × adoption</td><td></td></tr>
 <tr><td>New win rate</td><td>Current + incremental</td><td></td></tr>
 <tr><td>Cycle-time reduction (days)</td><td>Current cycle × reduction % × adoption</td><td></td></tr>
 <tr><td>New cycle length</td><td>Current − reduction</td><td></td></tr>
 <tr><td>Extra deals won/year</td><td>Pipeline volume × incremental win rate</td><td></td></tr>
-<tr><td>Extra revenue — win rate</td><td>Extra deals × ACV</td><td></td></tr>
+<tr><td>Extra revenue: win rate</td><td>Extra deals × ACV</td><td></td></tr>
 <tr><td>Capacity unlocked (deals)</td><td>(reduction÷current cycle) × pipeline × win rate</td><td></td></tr>
-<tr><td>Extra revenue — capacity</td><td>Capacity unlocked × ACV</td><td></td></tr>
+<tr><td>Extra revenue: capacity</td><td>Capacity unlocked × ACV</td><td></td></tr>
 <tr><td>Total annual revenue impact</td><td>Sum of both revenue lines</td><td></td></tr>
 <tr><td>Payback period (months)</td><td>Training cost ÷ monthly impact</td><td></td></tr>
 </tbody></table></div>
 <hr>
-<h3>Step 7 — Run three scenarios, not one</h3>
+<h3>Step 7: Run three scenarios, not one</h3>
 <p>Present low/base/high to whoever approves the budget. A single number invites "prove it." A range invites "which case are we planning to hit."</p>
 <div class="tw"><table><thead><tr><th>Scenario</th><th>Relative lift</th><th>Cycle reduction</th><th>Adoption rate</th><th>Annual impact</th><th>Payback</th></tr></thead><tbody>
 <tr><td>Conservative</td><td>10%</td><td>8%</td><td>50%</td><td></td><td></td></tr>
@@ -129,8 +130,7 @@
 <li>% of open opportunities in CRM with the methodology's required fields populated (a proxy for real usage vs. compliance theater)</li>
 <li>Win rate and cycle length for deals worked <em>entirely</em> post-training vs. the trailing-12-month baseline</li>
 </ul>
-<p>If adoption is below 50% at day 90, the gap is almost never the methodology itself — it's reinforcement. Manager coaching cadence, deal-review rigor, and CRM field enforcement protect the ROI modeled here far more than any refinement to the training content itself.</p></div>
-      <div class="howto"><h3>How to use it</h3><p>Fill in your 7 inputs, run the four formulas in order (win-rate lift, cycle-time compression, revenue impact, payback), and present the conservative/base/aggressive scenario table when you ask for training budget.</p></div>
+<p>If adoption is below 50% at day 90, the gap is almost never the methodology itself, it's reinforcement. Manager coaching cadence, deal-review rigor, and CRM field enforcement protect the ROI modeled here far more than any refinement to the training content itself.</p></div>
     </div>
     <aside class="res-aside">
       <div class="aside-card cta-card">

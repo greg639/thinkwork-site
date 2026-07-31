@@ -52,14 +52,15 @@
   </header>
   <div class="res-grid">
     <div class="res-main" id="resource-body">
+      <div class="howto howto-top"><h3>How to use it</h3><p>Build the two scoring tables in a spreadsheet against 100 real historical leads first, confirm grade bands correlate with actual win rate, then replicate the point values as CRM scoring rules.</p></div>
       <div class="inside">
         <h2>What's inside</h2>
-        <ul><li>Fit score table — 6 weighted firmographic criteria worth up to 100 points</li><li>Intent score table — 10 weighted behavioral triggers including negative scoring, up to 100 points</li><li>Fit × Intent 2×2 grid producing A/B/C/D grades with routing rules</li><li>Disqualifier checklist for automatic zero-scoring</li><li>Score decay rule (14-day partial decay, 45-day full reset)</li><li>Spreadsheet build structure — the exact columns to test before touching the CRM</li><li>Validation method against 100 historical leads with known outcomes</li><li>Recalibration triggers (win-rate divergence, ICP change, campaign change)</li></ul>
+        <ul><li>Fit score table, 6 weighted firmographic criteria worth up to 100 points</li><li>Intent score table: 10 weighted behavioral triggers including negative scoring, up to 100 points</li><li>Fit × Intent 2×2 grid producing A/B/C/D grades with routing rules</li><li>Disqualifier checklist for automatic zero-scoring</li><li>Score decay rule (14-day partial decay, 45-day full reset)</li><li>Spreadsheet build structure, the exact columns to test before touching the CRM</li><li>Validation method against 100 historical leads with known outcomes</li><li>Recalibration triggers (win-rate divergence, ICP change, campaign change)</li></ul>
       </div>
-      <div class="res-body"><p><strong>Purpose:</strong> A fit-plus-intent model separates "would be a great customer" from "is showing buying signals right now" — because a perfect-fit lead reading your pricing page and a terrible-fit lead downloading three whitepapers are not the same lead, and a single blended score treats them as if they were.</p>
-<p><strong>Build this in a spreadsheet first.</strong> Validate against 100 historical leads with known outcomes before you ever wire it into CRM automation — a broken scoring model that's already live silently mis-routes leads for months before anyone notices.</p>
-<h3>Part 1 — Fit Score (firmographic: "should we want them?")</h3>
-<p>Max 100 points. The weights below are a starting template — adjust to your actual win-rate data.</p>
+      <div class="res-body"><p><strong>Purpose:</strong> A fit-plus-intent model separates "would be a great customer" from "is showing buying signals right now": because a perfect-fit lead reading your pricing page and a terrible-fit lead downloading three whitepapers are not the same lead, and a single blended score treats them as if they were.</p>
+<p><strong>Build this in a spreadsheet first.</strong> Validate against 100 historical leads with known outcomes before you ever wire it into CRM automation, a broken scoring model that's already live silently mis-routes leads for months before anyone notices.</p>
+<h3>Part 1, Fit Score (firmographic: "should we want them?")</h3>
+<p>Max 100 points. The weights below are a starting template, adjust to your actual win-rate data.</p>
 <div class="tw"><table><thead><tr><th>Criterion</th><th>Points</th><th>Scoring rule</th></tr></thead><tbody>
 <tr><td>Company size</td><td>0–20</td><td>20 = sweet-spot employee/revenue band; 10 = adjacent band; 0 = outside range</td></tr>
 <tr><td>Industry</td><td>0–20</td><td>20 = top-3 vertical by win rate; 10 = secondary vertical; 0 = never closed in this vertical</td></tr>
@@ -69,8 +70,8 @@
 <tr><td>Existing relationship</td><td>0–15</td><td>15 = warm intro/referral/existing customer at parent org; 0 = cold</td></tr>
 </tbody></table></div>
 <p><strong>Fit Score = sum of all rows (max 100)</strong></p>
-<h3>Part 2 — Intent Score (behavioral: "are they showing buying signals?")</h3>
-<p>Max 100 points, capped and floored. Decay applies — see Part 5.</p>
+<h3>Part 2, Intent Score (behavioral: "are they showing buying signals?")</h3>
+<p>Max 100 points, capped and floored. Decay applies, see Part 5.</p>
 <div class="tw"><table><thead><tr><th>Action</th><th>Points</th></tr></thead><tbody>
 <tr><td>Requested demo / pricing / trial</td><td>30</td></tr>
 <tr><td>Visited pricing page</td><td>20</td></tr>
@@ -84,13 +85,13 @@
 <tr><td>No engagement in 30+ days</td><td>−15</td></tr>
 </tbody></table></div>
 <p><strong>Intent Score = sum of all triggered rows (cap at 100, floor at 0)</strong></p>
-<h3>Part 3 — Combined grid</h3>
+<h3>Part 3: Combined grid</h3>
 <p>Plot every lead on the 2×2:</p>
 <div class="tw"><table><thead><tr><th></th><th>Low Intent (0–40)</th><th>High Intent (41–100)</th></tr></thead><tbody>
-<tr><td><strong>High Fit (61–100)</strong></td><td><strong>B — Nurture priority</strong></td><td><strong>A — Sales-ready, route now</strong></td></tr>
-<tr><td><strong>Low Fit (0–60)</strong></td><td><strong>D — Marketing nurture only</strong></td><td><strong>C — Sales-qualify before routing</strong></td></tr>
+<tr><td><strong>High Fit (61–100)</strong></td><td><strong>B: Nurture priority</strong></td><td><strong>A: Sales-ready, route now</strong></td></tr>
+<tr><td><strong>Low Fit (0–60)</strong></td><td><strong>D: Marketing nurture only</strong></td><td><strong>C: Sales-qualify before routing</strong></td></tr>
 </tbody></table></div>
-<h3>Part 4 — Negative scoring / disqualifiers (auto-zero regardless of score)</h3>
+<h3>Part 4: Negative scoring / disqualifiers (auto-zero regardless of score)</h3>
 <ul class="checks">
 <li>Free/personal email domain (gmail, yahoo) with no company match</li>
 <li>Company size below minimum viable deal size threshold</li>
@@ -98,16 +99,16 @@
 <li>Student, job-seeker, or vendor/competitor domain</li>
 <li>Duplicate of an existing customer contact already assigned to CS</li>
 </ul>
-<h3>Part 5 — Score decay</h3>
+<h3>Part 5: Score decay</h3>
 <ul>
 <li>Intent points decay 20% every 14 days of no new activity</li>
 <li>A lead with no activity for 45 days resets Intent Score to 0 and returns to nurture, regardless of Fit Score</li>
 </ul>
-<h3>Part 6 — Spreadsheet build structure</h3>
+<h3>Part 6: Spreadsheet build structure</h3>
 <p>Build one row per lead, one column per scoring criterion, before touching the CRM:</p>
 <div class="tw"><table><thead><tr><th>Lead ID</th><th>Company</th><th>Fit: Size</th><th>Fit: Industry</th><th>Fit: Title</th><th>Fit: Tech</th><th>Fit: Geo</th><th>Fit: Relationship</th><th><strong>Fit Total</strong></th><th>Intent: [one column per action]</th><th><strong>Intent Total</strong></th><th>Grade</th><th>Actual Outcome</th></tr></thead><tbody>
 </tbody></table></div>
-<h3>Part 7 — Validation before CRM handoff</h3>
+<h3>Part 7: Validation before CRM handoff</h3>
 <ul class="checks">
 <li>Pull 100 historical leads with known outcomes (won, lost, never converted)</li>
 <li>Score them retroactively using the model above</li>
@@ -115,14 +116,13 @@
 <li>Check: is any single criterion doing all the work (removing it collapses the model)? If so, it's over-weighted</li>
 <li>Get sales leadership sign-off on the grade → routing mapping before automating</li>
 </ul>
-<h3>Part 8 — Recalibration trigger</h3>
+<h3>Part 8: Recalibration trigger</h3>
 <p>Re-run the validation pass (Part 7) every 2 quarters, or immediately if:</p>
 <ul>
 <li>Win rate by grade band diverges by more than 10 points from the last validation</li>
 <li>ICP changes (new segment, new product line)</li>
 <li>Marketing changes what content/campaigns feed the top of funnel</li>
 </ul></div>
-      <div class="howto"><h3>How to use it</h3><p>Build the two scoring tables in a spreadsheet against 100 real historical leads first, confirm grade bands correlate with actual win rate, then replicate the point values as CRM scoring rules.</p></div>
     </div>
     <aside class="res-aside">
       <div class="aside-card cta-card">

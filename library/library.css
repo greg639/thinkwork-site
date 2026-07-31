@@ -139,6 +139,10 @@ footer li{margin-bottom:7px;font-size:13.5px;}
 .res-body th{text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mute);padding:9px 12px;border-bottom:1px solid var(--line-strong);background:var(--bg-elev);}
 .res-body td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
 .howto{margin-top:28px;padding:16px 20px;background:var(--bg-elev);border-radius:10px;}
+.howto-top{margin-top:0;margin-bottom:28px;padding:15px 18px 15px 20px;
+  background:var(--bg-elev);border:1px solid var(--line);border-left:4px solid var(--gold,#A78A52);}
+.howto-top h3{color:var(--accent);text-transform:uppercase;letter-spacing:.06em;font-size:12px;}
+.howto-top p{color:var(--ink);}
 .howto h3{font-family:var(--sans);font-size:14px;font-weight:600;margin-bottom:6px;letter-spacing:0;}
 .howto p{margin:0;font-size:14.5px;color:var(--ink-soft);}
 /* aside */

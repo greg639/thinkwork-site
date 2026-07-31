@@ -52,11 +52,12 @@
   </header>
   <div class="res-grid">
     <div class="res-main" id="resource-body">
+      <div class="howto howto-top"><h3>How to use it</h3><p>Drop your team&#x27;s raw numbers into the scorecard table, apply the index and composite-score formulas (or paste the provided spreadsheet formulas directly), and sort descending for an automatic stack rank ahead of your pipeline or 1:1 review.</p></div>
       <div class="inside">
         <h2>What's inside</h2>
         <ul><li>One-row-per-rep scorecard table (calls, emails, meetings, opps, pipeline $, win rate, revenue, quota attainment)</li><li>Composite score formula (40% quota attainment / 20% win rate / 20% pipeline generation / 20% activity)</li><li>Index normalization formula against team average</li><li>Fully worked 5-rep example with calculated composite scores</li><li>Copy-paste spreadsheet formulas (Google Sheets/Excel)</li><li>Guidance on reading high-activity/low-score and low-activity/high-score patterns</li></ul>
       </div>
-      <div class="res-body"><p>A single-page, rolled-up view of every rep's activity, pipeline, and results — stack-ranked automatically by a weighted composite score instead of a gut-feel ranking.</p>
+      <div class="res-body"><p>A single-page, rolled-up view of every rep's activity, pipeline, and results, stack-ranked automatically by a weighted composite score instead of a gut-feel ranking.</p>
 <h3>The Scorecard (one row per rep)</h3>
 <div class="tw"><table><thead><tr><th>Rep</th><th>Calls</th><th>Emails</th><th>Meetings held</th><th>Opps created</th><th>Pipeline $ generated</th><th>Pipeline coverage ratio</th><th>Avg deal size</th><th>Win rate</th><th>Deals closed-won</th><th>Revenue closed</th><th>Quota attainment %</th><th>Composite score</th><th>Rank</th></tr></thead><tbody>
 <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
@@ -83,17 +84,16 @@
 <li>Composite = (109.7×0.40) + (128.0×0.20) + (114.1×0.20) + (111.5×0.20)</li>
 <li>Composite = 43.9 + 25.6 + 22.8 + 22.3 = <strong>114.6</strong></li>
 </ul>
-<p>Repeat for every rep, then sort descending — that sort order is your stack rank. No manager judgment call required to produce the ranking; judgment is reserved for interpreting <em>why</em> a rep landed where they did.</p>
+<p>Repeat for every rep, then sort descending, that sort order is your stack rank. No manager judgment call required to produce the ranking; judgment is reserved for interpreting <em>why</em> a rep landed where they did.</p>
 <h3>Spreadsheet Formulas (drop straight into Google Sheets/Excel)</h3>
 <p>Assuming data starts in row 2, columns: B=Quota%, C=WinRate, D=Pipeline$, E=Activity, team averages in row 20:</p>
-<p>``<code> Quota Index:      =(B2/$B$20)*100 Win Rate Index:   =(C2/$C$20)*100 Pipeline Index:   =(D2/$D$20)*100 Activity Index:   =(E2/$E$20)*100 Composite Score:  =(QuotaIndex*0.4)+(WinRateIndex*0.2)+(PipelineIndex*0.2)+(ActivityIndex*0.2) Rank:             =RANK(CompositeScore, $CompositeScore$2:$CompositeScore$6, 0) </code>``</p>
-<h3>Reading the Scorecard — What It Does and Doesn't Tell You</h3>
+<p>``<code> Quota Index: =(B2/$B$20)*100 Win Rate Index: =(C2/$C$20)*100 Pipeline Index: =(D2/$D$20)*100 Activity Index: =(E2/$E$20)*100 Composite Score: =(QuotaIndex*0.4)+(WinRateIndex*0.2)+(PipelineIndex*0.2)+(ActivityIndex*0.2) Rank: =RANK(CompositeScore, $CompositeScore$2:$CompositeScore$6, 0) </code>``</p>
+<h3>Reading the Scorecard: What It Does and Doesn't Tell You</h3>
 <ul>
-<li>A high composite score with a <strong>low activity index</strong> signals someone winning efficiently — study their approach, don't just praise the number.</li>
-<li>A high activity index with a <strong>low composite score</strong> signals volume compensating for a ratio problem — pair this scorecard with the <strong>Activity-to-Outcome Ratio Tracker</strong> to find where the ratio is breaking.</li>
-<li>Stack rank is an input to a coaching conversation, not a verdict — it tells you where to look, not what happened.</li>
+<li>A high composite score with a <strong>low activity index</strong> signals someone winning efficiently: study their approach, don't just praise the number.</li>
+<li>A high activity index with a <strong>low composite score</strong> signals volume compensating for a ratio problem, pair this scorecard with the <strong>Activity-to-Outcome Ratio Tracker</strong> to find where the ratio is breaking.</li>
+<li>Stack rank is an input to a coaching conversation, not a verdict: it tells you where to look, not what happened.</li>
 </ul></div>
-      <div class="howto"><h3>How to use it</h3><p>Drop your team&#x27;s raw numbers into the scorecard table, apply the index and composite-score formulas (or paste the provided spreadsheet formulas directly), and sort descending for an automatic stack rank ahead of your pipeline or 1:1 review.</p></div>
     </div>
     <aside class="res-aside">
       <div class="aside-card cta-card">

@@ -52,32 +52,33 @@
   </header>
   <div class="res-grid">
     <div class="res-main" id="resource-body">
+      <div class="howto howto-top"><h3>How to use it</h3><p>Run your own sales motion through the decision tree to land on a candidate model, then use the worked example&#x27;s allocation logic as a template for recalculating a handful of your own recent closed deals before rolling the model out in reporting.</p></div>
       <div class="inside">
         <h2>What's inside</h2>
         <ul><li>First-touch and last-touch definitions with pros/cons</li><li>Linear, time-decay, U-shaped, W-shaped, and full-path/custom multi-touch models with allocation formulas</li><li>Algorithmic/data-driven attribution overview</li><li>Full decision tree from cycle length through data maturity</li><li>Worked 5-touch example showing how credit differs across all 5 major models side by side</li></ul>
       </div>
       <div class="res-body"><h3>Why attribution model choice matters</h3>
-<p>Every attribution model tells a different story about which activity "deserves" credit for a closed deal — and that story determines where marketing and sales leadership invest budget next quarter. Pick the wrong model for your motion and you'll systematically over- or under-fund the channel that's actually driving revenue.</p>
+<p>Every attribution model tells a different story about which activity "deserves" credit for a closed deal, and that story determines where marketing and sales leadership invest budget next quarter. Pick the wrong model for your motion and you'll systematically over- or under-fund the channel that's actually driving revenue.</p>
 <h3>The Models, Explained</h3>
 <h4>First-Touch Attribution</h4>
 <p>100% of credit goes to the very first recorded interaction (e.g., the first ad click, first form fill, first cold call).</p>
 <ul>
 <li><strong>Pros:</strong> Simple, shows what generates initial awareness/demand.</li>
-<li><strong>Cons:</strong> Ignores everything that happens during the (often long) B2B sales cycle — undervalues sales and nurture effort entirely.</li>
+<li><strong>Cons:</strong> Ignores everything that happens during the (often long) B2B sales cycle, undervalues sales and nurture effort entirely.</li>
 <li><strong>Best for:</strong> Short-cycle, single-touch-heavy motions (e.g., PLG signup flows).</li>
 </ul>
 <h4>Last-Touch Attribution</h4>
 <p>100% of credit goes to the final interaction before conversion (e.g., the demo request, the last email before close).</p>
 <ul>
 <li><strong>Pros:</strong> Simple, reflects what closed the deal in the moment.</li>
-<li><strong>Cons:</strong> Ignores all the demand-generation work that built the pipeline in the first place — overvalues bottom-of-funnel activity.</li>
+<li><strong>Cons:</strong> Ignores all the demand-generation work that built the pipeline in the first place, overvalues bottom-of-funnel activity.</li>
 <li><strong>Best for:</strong> Very short cycles, or as a secondary sanity-check metric alongside a multi-touch model.</li>
 </ul>
 <h4>Linear Attribution (Multi-Touch)</h4>
 <p>Credit is split evenly across every touch in the journey. <code>Credit per touch = 100% ÷ number of touches</code></p>
 <ul>
 <li><strong>Pros:</strong> Acknowledges every touch mattered; simple to calculate.</li>
-<li><strong>Cons:</strong> Treats a passive email open the same as a live demo — doesn't reflect that some touches matter more than others.</li>
+<li><strong>Cons:</strong> Treats a passive email open the same as a live demo, doesn't reflect that some touches matter more than others.</li>
 <li><strong>Best for:</strong> Teams that want a fast, defensible multi-touch model without building a weighting scheme.</li>
 </ul>
 <h4>Time-Decay Attribution</h4>
@@ -90,19 +91,19 @@
 <h4>U-Shaped / Position-Based Attribution</h4>
 <p>Fixed weight to the first touch and the lead-conversion touch (the touch that turned a contact into a qualified lead), remainder split across the middle. Common split: <strong>40% first touch / 40% lead-conversion touch / 20% split across everything else</strong></p>
 <ul>
-<li><strong>Pros:</strong> Credits both demand creation and qualification — the two moments most orgs care about most.</li>
+<li><strong>Pros:</strong> Credits both demand creation and qualification, the two moments most orgs care about most.</li>
 <li><strong>Cons:</strong> Still undervalues middle-of-funnel nurture and, critically, undervalues everything that happens <em>after</em> the opportunity is created (i.e., sales' own work).</li>
 <li><strong>Best for:</strong> Marketing-attribution reporting where MQL→SQL conversion is the key metric being managed.</li>
 </ul>
 <h4>W-Shaped Attribution</h4>
 <p>Fixed weight to three moments: first touch, lead-conversion touch, and opportunity-creation touch, remainder split across the rest. Common split: <strong>30% / 30% / 30% across the three key moments / 10% split across everything else</strong></p>
 <ul>
-<li><strong>Pros:</strong> The first model on this list that gives explicit credit to the opportunity-creation moment — meaningful for orgs with a real SQL→Opportunity handoff.</li>
+<li><strong>Pros:</strong> The first model on this list that gives explicit credit to the opportunity-creation moment, meaningful for orgs with a real SQL→Opportunity handoff.</li>
 <li><strong>Cons:</strong> More complex to calculate and explain; needs clean stage-timestamp data.</li>
 <li><strong>Best for:</strong> Enterprise motions with a defined MQL → SQL → Opportunity funnel and multiple influencing touches at each stage.</li>
 </ul>
 <h4>Full-Path / Custom Attribution</h4>
-<p>Extends W-shaped further to also weight post-opportunity touches (e.g., a champion-enablement call, a security review call) — often built as a fully custom weighting scheme per company.</p>
+<p>Extends W-shaped further to also weight post-opportunity touches (e.g., a champion-enablement call, a security review call), often built as a fully custom weighting scheme per company.</p>
 <ul>
 <li><strong>Pros:</strong> Most complete picture for complex, multi-stakeholder enterprise sales.</li>
 <li><strong>Cons:</strong> Requires mature data infrastructure and ongoing model maintenance.</li>
@@ -111,12 +112,12 @@
 <h4>Algorithmic / Data-Driven Attribution</h4>
 <p>Uses statistical or ML modeling (e.g., Markov chains, Shapley value) on your own historical conversion data to assign credit based on actual observed influence, rather than a fixed rule.</p>
 <ul>
-<li><strong>Pros:</strong> Most accurate in principle — lets the data decide what actually correlates with conversion.</li>
+<li><strong>Pros:</strong> Most accurate in principle, lets the data decide what actually correlates with conversion.</li>
 <li><strong>Cons:</strong> Needs a large volume of historical deal data and either in-house data science or a platform that runs it.</li>
 <li><strong>Best for:</strong> High-volume, high-data-maturity organizations that have outgrown rule-based models.</li>
 </ul>
-<h3>Decision Tree — Which Model Fits Your Motion</h3>
-<p>``<code> START │ ├─ Is your sales cycle under 30 days and largely self-serve/PLG? │    YES → Use Last-Touch (or First-Touch as a secondary demand-gen metric) │    NO ↓ │ ├─ Do you need to credit marketing's role in creating AND qualifying the lead, │  with a simple, explainable model? │    YES → Use U-Shaped (40/40/20) │    NO ↓ │ ├─ Do you have a clean MQL → SQL → Opportunity handoff with timestamped stages, │  and want to credit the opportunity-creation moment explicitly? │    YES → Use W-Shaped (30/30/30/10) │    NO ↓ │ ├─ Is your motion enterprise/ABM with multiple stakeholders touching the deal │  AFTER the opportunity is created (security review, exec sponsor calls, etc.)? │    YES → Use Full-Path / Custom weighting │    NO ↓ │ ├─ Do you have high deal volume, clean historical data, and either in-house │  data science or a platform that runs data-driven attribution? │    YES → Use Algorithmic / Data-Driven Attribution │    NO → Default to Linear or Time-Decay as the most defensible simple model │         available without heavier infrastructure </code>``</p>
+<h3>Decision Tree, Which Model Fits Your Motion</h3>
+<p>``<code> START │ ├─ Is your sales cycle under 30 days and largely self-serve/PLG? │ YES → Use Last-Touch (or First-Touch as a secondary demand-gen metric) │ NO ↓ │ ├─ Do you need to credit marketing's role in creating AND qualifying the lead, │ with a simple, explainable model? │ YES → Use U-Shaped (40/40/20) │ NO ↓ │ ├─ Do you have a clean MQL → SQL → Opportunity handoff with timestamped stages, │ and want to credit the opportunity-creation moment explicitly? │ YES → Use W-Shaped (30/30/30/10) │ NO ↓ │ ├─ Is your motion enterprise/ABM with multiple stakeholders touching the deal │ AFTER the opportunity is created (security review, exec sponsor calls, etc.)? │ YES → Use Full-Path / Custom weighting │ NO ↓ │ ├─ Do you have high deal volume, clean historical data, and either in-house │ data science or a platform that runs data-driven attribution? │ YES → Use Algorithmic / Data-Driven Attribution │ NO → Default to Linear or Time-Decay as the most defensible simple model │ available without heavier infrastructure </code>``</p>
 <h3>Worked Example</h3>
 <p>A deal with 5 recorded touches before close:</p>
 <ol>
@@ -133,8 +134,7 @@
 <tr><td>U-shaped (40/40/20)</td><td>40%</td><td>40%</td><td>6.7%</td><td>6.7%</td><td>6.7%</td></tr>
 <tr><td>W-shaped (30/30/30/10)</td><td>30%</td><td>30%</td><td>3.3%</td><td>30%</td><td>3.3%</td></tr>
 </tbody></table></div>
-<p>Notice how differently each model treats Touch 4 (opportunity creation) — 20% under Linear, only 6.7% under U-shaped, but a full 30% under W-shaped. If your leadership team cares about crediting sales' opportunity-creation work specifically, U-shaped will systematically make that work invisible in your reporting.</p></div>
-      <div class="howto"><h3>How to use it</h3><p>Run your own sales motion through the decision tree to land on a candidate model, then use the worked example&#x27;s allocation logic as a template for recalculating a handful of your own recent closed deals before rolling the model out in reporting.</p></div>
+<p>Notice how differently each model treats Touch 4 (opportunity creation): 20% under Linear, only 6.7% under U-shaped, but a full 30% under W-shaped. If your leadership team cares about crediting sales' opportunity-creation work specifically, U-shaped will systematically make that work invisible in your reporting.</p></div>
     </div>
     <aside class="res-aside">
       <div class="aside-card cta-card">

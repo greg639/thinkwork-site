@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/library/library.css?v=1">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Talk-to-Listen Ratio Calculator", "description": "A paste-in method for calculating your talk-to-listen ratio from any call transcript, plus the benchmark data on what top discovery performers actually do differently — no software required, just a transcript and five minutes.", "url": "https://thinkwork.info/library/talk-to-listen-ratio-calculator/", "isAccessibleForFree": true, "inLanguage": "en", "provider": {"@type": "Organization", "name": "ThinkWork", "url": "https://thinkwork.info"}, "about": "Discovery & Qualification", "audience": {"@type": "Audience", "audienceType": "Individual"}, "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Talk-to-Listen Ratio Calculator", "description": "A paste-in method for calculating your talk-to-listen ratio from any call transcript, plus the benchmark data on what top discovery performers actually do differently: no software required, just a transcript and five minutes.", "url": "https://thinkwork.info/library/talk-to-listen-ratio-calculator/", "isAccessibleForFree": true, "inLanguage": "en", "provider": {"@type": "Organization", "name": "ThinkWork", "url": "https://thinkwork.info"}, "about": "Discovery & Qualification", "audience": {"@type": "Audience", "audienceType": "Individual"}, "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}}</script>
 </head>
 <body class="res-page">
 <header class="masthead">
@@ -44,7 +44,7 @@
       <span class="pill free">Free</span>
     </div>
     <h1>Talk-to-Listen Ratio Calculator</h1>
-    <p class="summary">A paste-in method for calculating your talk-to-listen ratio from any call transcript, plus the benchmark data on what top discovery performers actually do differently — no software required, just a transcript and five minutes.</p>
+    <p class="summary">A paste-in method for calculating your talk-to-listen ratio from any call transcript, plus the benchmark data on what top discovery performers actually do differently: no software required, just a transcript and five minutes.</p>
     <div class="res-actions">
       <button class="btn btn-primary" data-copy>Copy to clipboard</button>
       <button class="btn btn-ghost" onclick="window.print()">Print / save as PDF</button>
@@ -52,16 +52,17 @@
   </header>
   <div class="res-grid">
     <div class="res-main" id="resource-body">
+      <div class="howto howto-top"><h3>How to use it</h3><p>Paste your call transcript into the speaker-tagged format described, run the word-count formula manually or via the provided spreadsheet formula, and compare your ratio against the benchmark table, track the trend across multiple calls rather than judging off one.</p></div>
       <div class="inside">
         <h2>What's inside</h2>
         <ul><li>The core formula (word-count and time-based methods)</li><li>Step-by-step manual calculation walkthrough</li><li>Copy-paste Google Sheets / Excel formulas</li><li>Speaker-tagging rules for messy transcripts</li><li>Benchmark table: ratio by performance tier</li><li>A worked example using a sample transcript</li><li>Scoring interpretation bands</li><li>Guardrails: what the ratio does and doesn&#x27;t tell you</li></ul>
       </div>
       <div class="res-body"><h3>The Core Formula</h3>
-<p><strong>Talk-to-Listen Ratio = (Rep words ÷ Total words) : (Prospect words ÷ Total words)</strong>, expressed as Rep:Prospect (e.g. 43:57).</p>
+<p><strong>Talk-to-Listen Ratio = (Rep words ÷ Total words): (Prospect words ÷ Total words)</strong>, expressed as Rep:Prospect (e.g. 43:57).</p>
 <p>Two ways to measure it:</p>
 <div class="tw"><table><thead><tr><th>Method</th><th>How</th><th>Accuracy</th></tr></thead><tbody>
 <tr><td>Word-count method</td><td>Count words per speaker in a text transcript</td><td>Good, fast, works from any transcript</td></tr>
-<tr><td>Time-based method</td><td>Sum seconds each speaker talks using timestamps</td><td>More accurate — accounts for pace and pauses</td></tr>
+<tr><td>Time-based method</td><td>Sum seconds each speaker talks using timestamps</td><td>More accurate, accounts for pace and pauses</td></tr>
 </tbody></table></div>
 <h3>Step-by-Step: Word-Count Method (Manual)</h3>
 <ol>
@@ -73,41 +74,40 @@
 <li>Express as Rep:Prospect (e.g. 48:52).</li>
 </ol>
 <h3>Copy-Paste Spreadsheet Formula (Google Sheets / Excel)</h3>
-<p>Set up two columns: <strong>A = Speaker</strong> ("Rep" or "Prospect"), <strong>B = Line Text</strong> — one row per line of transcript.</p>
+<p>Set up two columns: <strong>A = Speaker</strong> ("Rep" or "Prospect"), <strong>B = Line Text</strong>, one row per line of transcript.</p>
 <p>In column C, next to every row, paste: ``<code> =IF(A2="Rep", LEN(TRIM(B2))-LEN(SUBSTITUTE(TRIM(B2)," ",""))+1, 0) </code>`` This counts words in that line if it's a Rep line, else returns 0.</p>
 <p>In column D, paste the mirror formula for Prospect: ``<code> =IF(A2="Prospect", LEN(TRIM(B2))-LEN(SUBSTITUTE(TRIM(B2)," ",""))+1, 0) </code>``</p>
-<p>Then at the bottom: ``<code> Rep total words:      =SUM(C:C) Prospect total words: =SUM(D:D) Rep %:                =SUM(C:C)/(SUM(C:C)+SUM(D:D))*100 Prospect %:           =100-Rep% </code>``</p>
+<p>Then at the bottom: ``<code> Rep total words: =SUM(C:C) Prospect total words: =SUM(D:D) Rep %: =SUM(C:C)/(SUM(C:C)+SUM(D:D))*100 Prospect %: =100-Rep% </code>``</p>
 <h3>Speaker-Tagging Rules for Messy Transcripts</h3>
 <ul>
-<li>If your export has no speaker labels, tag lines manually using audio playback — don't guess from context alone.</li>
+<li>If your export has no speaker labels, tag lines manually using audio playback, don't guess from context alone.</li>
 <li>Cross-talk / interruptions: assign the words to whoever completes the thought, not whoever started the interruption.</li>
-<li>Filler-only lines ("mm-hmm," "right," "yeah") from the listener count as words but should be sanity-checked — if they're inflating one side's total, note it separately rather than let it skew the read.</li>
-<li>Exclude pre-call small talk and post-call logistics from the count — measure the discovery portion of the call only.</li>
+<li>Filler-only lines ("mm-hmm," "right," "yeah") from the listener count as words but should be sanity-checked: if they're inflating one side's total, note it separately rather than let it skew the read.</li>
+<li>Exclude pre-call small talk and post-call logistics from the count, measure the discovery portion of the call only.</li>
 </ul>
 <h3>Worked Example</h3>
 <p>``<code> Rep: So walk me through how this is handled today. Prospect: Right now it's basically three people manually reconciling spreadsheets every Friday, and it usually runs into the weekend. Rep: What happens when it runs late? Prospect: Finance can't close the month on time, and that's become a standing agenda item with my VP. </code>``</p>
-<p>Rep words: 17. Prospect words: 39. Total: 56. Rep % = 17/56 × 100 = 30%. Prospect % = 70%. Ratio = <strong>30:70</strong> — rep-light in this snippet, which is a healthy sign this early in discovery.</p>
+<p>Rep words: 17. Prospect words: 39. Total: 56. Rep % = 17/56 × 100 = 30%. Prospect % = 70%. Ratio = <strong>30:70</strong>: rep-light in this snippet, which is a healthy sign this early in discovery.</p>
 <h3>Benchmark Table</h3>
 <div class="tw"><table><thead><tr><th>Ratio (Rep:Prospect)</th><th>What it usually means</th></tr></thead><tbody>
-<tr><td>70:30 or worse</td><td>Pitching, not discovering — rep is dominating airtime</td></tr>
+<tr><td>70:30 or worse</td><td>Pitching, not discovering: rep is dominating airtime</td></tr>
 <tr><td>55:45 to 65:35</td><td>Still rep-heavy; room to ask more and explain less</td></tr>
 <tr><td><strong>43:57 to 50:50</strong></td><td>Commonly cited benchmark range for top discovery performers (widely referenced call-analytics research, e.g. Gong's studies on winning discovery calls)</td></tr>
-<tr><td>35:65 to 42:58</td><td>Strong listening ratio — verify the rep is still setting agenda and asking sharp questions, not just going quiet</td></tr>
-<tr><td>Below 35:65</td><td>May indicate lack of control or agenda-setting rather than good discovery — investigate the transcript directly</td></tr>
+<tr><td>35:65 to 42:58</td><td>Strong listening ratio: verify the rep is still setting agenda and asking sharp questions, not just going quiet</td></tr>
+<tr><td>Below 35:65</td><td>May indicate lack of control or agenda-setting rather than good discovery, investigate the transcript directly</td></tr>
 </tbody></table></div>
 <h3>Scoring Interpretation</h3>
 <ul>
 <li><strong>In benchmark range (43:57–50:50):</strong> trend this call as a model example for the rep's own reference.</li>
-<li><strong>Rep-heavy (55:45+):</strong> flag for coaching — check whether the call slipped into pitching before pain was fully surfaced.</li>
-<li><strong>Extremely prospect-heavy (below 35:65):</strong> don't assume this is automatically good — check that the rep still asked enough questions to actually qualify the deal.</li>
+<li><strong>Rep-heavy (55:45+):</strong> flag for coaching, check whether the call slipped into pitching before pain was fully surfaced.</li>
+<li><strong>Extremely prospect-heavy (below 35:65):</strong> don't assume this is automatically good, check that the rep still asked enough questions to actually qualify the deal.</li>
 </ul>
-<h3>Guardrails — What This Ratio Does NOT Tell You</h3>
+<h3>Guardrails: What This Ratio Does NOT Tell You</h3>
 <ul>
-<li>It says nothing about <strong>question quality</strong> — a rep can hit 45:55 asking only closed, surface-level questions.</li>
-<li>It doesn't account for necessary rep talk time like teaching moments or reframing a prospect's assumption — some rep talk is high-value.</li>
+<li>It says nothing about <strong>question quality</strong>: a rep can hit 45:55 asking only closed, surface-level questions.</li>
+<li>It doesn't account for necessary rep talk time like teaching moments or reframing a prospect's assumption, some rep talk is high-value.</li>
 <li>Use it as a <strong>trend metric across multiple calls</strong>, not a single-call verdict. One good or bad ratio on one call proves little; a pattern across 10+ calls is meaningful.</li>
 </ul></div>
-      <div class="howto"><h3>How to use it</h3><p>Paste your call transcript into the speaker-tagged format described, run the word-count formula manually or via the provided spreadsheet formula, and compare your ratio against the benchmark table — track the trend across multiple calls rather than judging off one.</p></div>
     </div>
     <aside class="res-aside">
       <div class="aside-card cta-card">

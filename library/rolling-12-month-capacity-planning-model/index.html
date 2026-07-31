@@ -52,6 +52,7 @@
   </header>
   <div class="res-grid">
     <div class="res-main" id="resource-body">
+      <div class="howto howto-top"><h3>How to use it</h3><p>Copy the table into a spreadsheet, replace the worked-example assumptions with your own headcount/ramp/attrition numbers, and re-roll it monthly so hiring requests are triggered by a visible future gap rather than a reaction to a missed quarter.</p></div>
       <div class="inside">
         <h2>What's inside</h2>
         <ul><li>Core formulas: ramp schedule, effective weighted capacity, capacity gap $/%, pipeline required, hiring lead-time rule</li><li>A fill-in assumptions block for your own team before building the table</li><li>A fully worked 12-month example (20 ramped reps, 2 hiring waves, 2 departures)</li><li>Month-by-month headcount, effective capacity, target, gap $, gap %, and required pipeline columns</li><li>Narrative read of the worked example showing why the Month-7 hires were already needed by Month 4</li><li>4-step instructions for rolling the model forward every month</li></ul>
@@ -59,12 +60,12 @@
       <div class="res-body"><p><strong>What this does:</strong> Ties your hiring plan to the revenue target month-by-month, so "we need to hire" is a data-backed statement tied to a specific gap, not a gut feeling in Q3.</p>
 <h3>Core formulas</h3>
 <ul>
-<li><strong>Ramp Schedule</strong> — define once, e.g.: Month 1 of tenure = 0% of quota, Month 2 = 25%, Month 3 = 50%, Month 4 = 75%, Month 5+ = 100%. (Adjust to your actual time-to-first-deal.)</li>
+<li><strong>Ramp Schedule</strong>: define once, e.g.: Month 1 of tenure = 0% of quota, Month 2 = 25%, Month 3 = 50%, Month 4 = 75%, Month 5+ = 100%. (Adjust to your actual time-to-first-deal.)</li>
 <li><strong>Effective (Weighted) Capacity</strong> for a given month = Σ over every quota-carrying rep of (their ramp % that month × their monthly quota)</li>
 <li><strong>Capacity Gap ($)</strong> = Effective Capacity − Monthly Revenue Target</li>
 <li><strong>Capacity Gap (%)</strong> = Capacity Gap ÷ Monthly Revenue Target</li>
 <li><strong>Pipeline Required</strong> = Monthly Revenue Target × Required Coverage Ratio (commonly 3–4x; use your own historical win-rate-derived ratio)</li>
-<li><strong>Hiring Lead Time Rule</strong> = Time-to-fill + Ramp-to-full-quota months. If your gap shows up in Month 9 and lead time is 5 months, the hiring decision has to be made by Month 4 — not Month 9.</li>
+<li><strong>Hiring Lead Time Rule</strong> = Time-to-fill + Ramp-to-full-quota months. If your gap shows up in Month 9 and lead time is 5 months, the hiring decision has to be made by Month 4, not Month 9.</li>
 </ul>
 <h3>Assumptions block (fill in before building your table)</h3>
 <div class="tw"><table><thead><tr><th>Assumption</th><th>Your Input</th></tr></thead><tbody>
@@ -80,28 +81,27 @@
 <h3>Worked example</h3>
 <p>Assumptions used: 20 fully-ramped AEs at $100K/month quota each; 4-month ramp (0/25/50/75/100%); 2 new hires start Month 1, 2 more start Month 7; 1 departure end of Month 5, 1 departure end of Month 9; flat monthly target $2.0M; required coverage 4x.</p>
 <div class="tw"><table><thead><tr><th>Month</th><th>Start HC</th><th>Hires</th><th>Departures</th><th>End HC</th><th>Effective Capacity</th><th>Monthly Target</th><th>Gap $</th><th>Gap %</th><th>Pipeline Required (4x)</th></tr></thead><tbody>
-<tr><td>1</td><td>20</td><td>+2</td><td>–</td><td>22</td><td>$2,000,000</td><td>$2,000,000</td><td>$0</td><td>0%</td><td>$8,000,000</td></tr>
-<tr><td>2</td><td>22</td><td>–</td><td>–</td><td>22</td><td>$2,050,000</td><td>$2,000,000</td><td>+$50,000</td><td>+2.5%</td><td>$8,000,000</td></tr>
-<tr><td>3</td><td>22</td><td>–</td><td>–</td><td>22</td><td>$2,100,000</td><td>$2,000,000</td><td>+$100,000</td><td>+5.0%</td><td>$8,000,000</td></tr>
-<tr><td>4</td><td>22</td><td>–</td><td>–</td><td>22</td><td>$2,150,000</td><td>$2,000,000</td><td>+$150,000</td><td>+7.5%</td><td>$8,000,000</td></tr>
-<tr><td>5</td><td>22</td><td>–</td><td>-1</td><td>21</td><td>$2,200,000</td><td>$2,000,000</td><td>+$200,000</td><td>+10.0%</td><td>$8,000,000</td></tr>
-<tr><td>6</td><td>21</td><td>–</td><td>–</td><td>21</td><td>$2,100,000</td><td>$2,000,000</td><td>+$100,000</td><td>+5.0%</td><td>$8,000,000</td></tr>
-<tr><td>7</td><td>21</td><td>+2</td><td>–</td><td>23</td><td>$2,100,000</td><td>$2,000,000</td><td>+$100,000</td><td>+5.0%</td><td>$8,000,000</td></tr>
-<tr><td>8</td><td>23</td><td>–</td><td>–</td><td>23</td><td>$2,150,000</td><td>$2,000,000</td><td>+$150,000</td><td>+7.5%</td><td>$8,000,000</td></tr>
-<tr><td>9</td><td>23</td><td>–</td><td>-1</td><td>22</td><td>$2,200,000</td><td>$2,000,000</td><td>+$200,000</td><td>+10.0%</td><td>$8,000,000</td></tr>
-<tr><td>10</td><td>22</td><td>–</td><td>–</td><td>22</td><td>$2,150,000</td><td>$2,000,000</td><td>+$150,000</td><td>+7.5%</td><td>$8,000,000</td></tr>
-<tr><td>11</td><td>22</td><td>–</td><td>–</td><td>22</td><td>$2,200,000</td><td>$2,000,000</td><td>+$200,000</td><td>+10.0%</td><td>$8,000,000</td></tr>
-<tr><td>12</td><td>22</td><td>–</td><td>–</td><td>22</td><td>$2,200,000</td><td>$2,000,000</td><td>+$200,000</td><td>+10.0%</td><td>$8,000,000</td></tr>
+<tr><td>1</td><td>20</td><td>+2</td><td>:</td><td>22</td><td>$2,000,000</td><td>$2,000,000</td><td>$0</td><td>0%</td><td>$8,000,000</td></tr>
+<tr><td>2</td><td>22</td><td>:</td><td>:</td><td>22</td><td>$2,050,000</td><td>$2,000,000</td><td>+$50,000</td><td>+2.5%</td><td>$8,000,000</td></tr>
+<tr><td>3</td><td>22</td><td>:</td><td>:</td><td>22</td><td>$2,100,000</td><td>$2,000,000</td><td>+$100,000</td><td>+5.0%</td><td>$8,000,000</td></tr>
+<tr><td>4</td><td>22</td><td>:</td><td>:</td><td>22</td><td>$2,150,000</td><td>$2,000,000</td><td>+$150,000</td><td>+7.5%</td><td>$8,000,000</td></tr>
+<tr><td>5</td><td>22</td><td>:</td><td>-1</td><td>21</td><td>$2,200,000</td><td>$2,000,000</td><td>+$200,000</td><td>+10.0%</td><td>$8,000,000</td></tr>
+<tr><td>6</td><td>21</td><td>:</td><td>:</td><td>21</td><td>$2,100,000</td><td>$2,000,000</td><td>+$100,000</td><td>+5.0%</td><td>$8,000,000</td></tr>
+<tr><td>7</td><td>21</td><td>+2</td><td>:</td><td>23</td><td>$2,100,000</td><td>$2,000,000</td><td>+$100,000</td><td>+5.0%</td><td>$8,000,000</td></tr>
+<tr><td>8</td><td>23</td><td>:</td><td>:</td><td>23</td><td>$2,150,000</td><td>$2,000,000</td><td>+$150,000</td><td>+7.5%</td><td>$8,000,000</td></tr>
+<tr><td>9</td><td>23</td><td>:</td><td>-1</td><td>22</td><td>$2,200,000</td><td>$2,000,000</td><td>+$200,000</td><td>+10.0%</td><td>$8,000,000</td></tr>
+<tr><td>10</td><td>22</td><td>:</td><td>:</td><td>22</td><td>$2,150,000</td><td>$2,000,000</td><td>+$150,000</td><td>+7.5%</td><td>$8,000,000</td></tr>
+<tr><td>11</td><td>22</td><td>:</td><td>:</td><td>22</td><td>$2,200,000</td><td>$2,000,000</td><td>+$200,000</td><td>+10.0%</td><td>$8,000,000</td></tr>
+<tr><td>12</td><td>22</td><td>:</td><td>:</td><td>22</td><td>$2,200,000</td><td>$2,000,000</td><td>+$200,000</td><td>+10.0%</td><td>$8,000,000</td></tr>
 </tbody></table></div>
-<p>Read this the way a planning committee should: the gap <strong>narrows to +5% in Months 6–7</strong> right after the two departures — that dip is exactly why the Month-7 hires were already in motion, not a reaction. Without them, Months 9–12 would show a growing shortfall instead of a steady +10% cushion.</p>
+<p>Read this the way a planning committee should: the gap <strong>narrows to +5% in Months 6–7</strong> right after the two departures: that dip is exactly why the Month-7 hires were already in motion, not a reaction. Without them, Months 9–12 would show a growing shortfall instead of a steady +10% cushion.</p>
 <h3>How to roll it forward</h3>
 <ol>
 <li>At the start of every month, drop the oldest month off the left and add a new Month 12 on the right using your latest attrition and hiring assumptions.</li>
 <li>Re-forecast attrition risk quarterly using your own regretted-attrition data, not a flat annual %.</li>
-<li>Any month showing a negative gap that falls inside your hiring lead-time window is a hiring trigger — flag it to the exec team immediately, not at the next quarterly business review.</li>
+<li>Any month showing a negative gap that falls inside your hiring lead-time window is a hiring trigger: flag it to the exec team immediately, not at the next quarterly business review.</li>
 <li>Reforecast the whole model whenever the annual revenue target changes materially (&gt;5%).</li>
 </ol></div>
-      <div class="howto"><h3>How to use it</h3><p>Copy the table into a spreadsheet, replace the worked-example assumptions with your own headcount/ramp/attrition numbers, and re-roll it monthly so hiring requests are triggered by a visible future gap rather than a reaction to a missed quarter.</p></div>
     </div>
     <aside class="res-aside">
       <div class="aside-card cta-card">

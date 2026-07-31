@@ -52,11 +52,12 @@
   </header>
   <div class="res-grid">
     <div class="res-main" id="resource-body">
+      <div class="howto howto-top"><h3>How to use it</h3><p>Plug your own quarterly funnel numbers into the formulas, compare each transition against the benchmark range for your segment, and use the diagnostic table to identify which specific stage needs fixing.</p></div>
       <div class="inside">
         <h2>What's inside</h2>
         <ul><li>Core demo-to-close formula</li><li>Full 5-stage funnel formula (scheduled through closed-won)</li><li>Benchmark ranges by segment (SMB/mid-market/enterprise)</li><li>Leak diagnostic table with red-flag thresholds and root causes</li><li>Fix-to-investigate recommendations per leak point</li><li>Fully worked example with a flagged funnel leak</li></ul>
       </div>
-      <div class="res-body"><p>Benchmark your team's demo-to-close ratio and pinpoint exactly where the funnel is leaking — not just the headline number.</p>
+      <div class="res-body"><p>Benchmark your team's demo-to-close ratio and pinpoint exactly where the funnel is leaking, not just the headline number.</p>
 <h3>Core Formula</h3>
 <p>``<code> Demo-to-Close Rate (%) = (Closed-Won Deals ÷ Demos Completed) × 100 </code>``</p>
 <p>Example: 40 closed-won deals from 250 completed demos this quarter = 16% demo-to-close rate.</p>
@@ -70,7 +71,7 @@
 <tr><td>Proposal-to-close rate</td><td>Closed-Won ÷ Proposals Sent</td></tr>
 <tr><td>Overall demo-to-close</td><td>Closed-Won ÷ Demos Held</td></tr>
 </tbody></table></div>
-<h3>Benchmark Ranges (general B2B SaaS heuristics — calibrate to your own historical baseline over time; treat these as starting reference points, not guarantees)</h3>
+<h3>Benchmark Ranges (general B2B SaaS heuristics: calibrate to your own historical baseline over time; treat these as starting reference points, not guarantees)</h3>
 <div class="tw"><table><thead><tr><th>Segment</th><th>Show rate</th><th>Demo-to-advance</th><th>Advance-to-proposal</th><th>Proposal-to-close</th><th>Overall demo-to-close</th></tr></thead><tbody>
 <tr><td>SMB (self-serve-adjacent, &lt;$25K ACV)</td><td>70–80%</td><td>40–55%</td><td>60–75%</td><td>25–35%</td><td>12–20%</td></tr>
 <tr><td>Mid-market ($25K–$100K ACV)</td><td>75–85%</td><td>50–65%</td><td>55–70%</td><td>25–40%</td><td>15–25%</td></tr>
@@ -80,22 +81,21 @@
 <p>Use your own transition rates from above and compare against the ranges. Flag any transition more than 10 points below the low end of its range as a leak worth investigating.</p>
 <div class="tw"><table><thead><tr><th>Transition</th><th>Red flag threshold</th><th>Likely root causes</th><th>Fix to investigate</th></tr></thead><tbody>
 <tr><td>Show rate low</td><td>Below 65%</td><td>Weak pre-demo confirmation, poor lead qualification, too much time between booking and demo date</td><td>Add a confirmation touch 24h before; qualify harder before booking</td></tr>
-<tr><td>Demo-to-advance low</td><td>Below 40%</td><td>Demo isn't landing on the actual pain, generic feature tour, weak proof integration</td><td>Audit against Demo Storyboard Template — check theme alignment and proof timing</td></tr>
+<tr><td>Demo-to-advance low</td><td>Below 40%</td><td>Demo isn't landing on the actual pain, generic feature tour, weak proof integration</td><td>Audit against Demo Storyboard Template: check theme alignment and proof timing</td></tr>
 <tr><td>Advance-to-proposal low</td><td>Below 45%</td><td>Champion can't sell internally, economic buyer never engaged, no clear ROI case built</td><td>Check if economic buyer was ever in a demo; add ROI follow-up template</td></tr>
 <tr><td>Proposal-to-close low</td><td>Below 25%</td><td>Pricing/procurement friction, competitor still in play, no urgency created</td><td>Review win/loss notes for pattern; check if proposal came too long after last live touch</td></tr>
-<tr><td>Overall demo-to-close low but individual transitions look fine</td><td>—</td><td>Volume/segment mismatch — too many demos going to poorly qualified leads</td><td>Tighten qualification criteria before demo is booked, not after</td></tr>
+<tr><td>Overall demo-to-close low but individual transitions look fine</td><td>:</td><td>Volume/segment mismatch: too many demos going to poorly qualified leads</td><td>Tighten qualification criteria before demo is booked, not after</td></tr>
 </tbody></table></div>
 <h3>Worked Example</h3>
 <p>Quarter totals: 300 demos scheduled, 246 held, 123 advanced to a second meeting, 74 proposals sent, 19 closed-won. Segment: Mid-market.</p>
 <div class="tw"><table><thead><tr><th>Transition</th><th>Your rate</th><th>Benchmark low</th><th>Flag?</th></tr></thead><tbody>
 <tr><td>Show rate</td><td>82%</td><td>75%</td><td>OK</td></tr>
-<tr><td>Demo-to-advance</td><td>50%</td><td>50%</td><td>OK (borderline — watch it)</td></tr>
+<tr><td>Demo-to-advance</td><td>50%</td><td>50%</td><td>OK (borderline, watch it)</td></tr>
 <tr><td>Advance-to-proposal</td><td>60%</td><td>55%</td><td>OK</td></tr>
 <tr><td>Proposal-to-close</td><td>26%</td><td>25%</td><td>OK (borderline)</td></tr>
-<tr><td><strong>Overall demo-to-close</strong></td><td><strong>7.7%</strong></td><td><strong>15%</strong></td><td><strong>LEAK — well below range</strong></td></tr>
+<tr><td><strong>Overall demo-to-close</strong></td><td><strong>7.7%</strong></td><td><strong>15%</strong></td><td><strong>LEAK: well below range</strong></td></tr>
 </tbody></table></div>
-<p>Reading this: every individual transition looks acceptable on its own, but the compounding effect across four "borderline OK" stages produces an overall rate less than half the benchmark. This is a volume/qualification problem, not a single-stage skill problem — the fix is upstream, in what gets a demo booked in the first place, not in the demo itself.</p></div>
-      <div class="howto"><h3>How to use it</h3><p>Plug your own quarterly funnel numbers into the formulas, compare each transition against the benchmark range for your segment, and use the diagnostic table to identify which specific stage needs fixing.</p></div>
+<p>Reading this: every individual transition looks acceptable on its own, but the compounding effect across four "borderline OK" stages produces an overall rate less than half the benchmark. This is a volume/qualification problem, not a single-stage skill problem: the fix is upstream, in what gets a demo booked in the first place, not in the demo itself.</p></div>
     </div>
     <aside class="res-aside">
       <div class="aside-card cta-card">
@@ -121,7 +121,7 @@
   <div class="rel-inner">
     <span class="eyebrow">Related</span>
     <h2>Use these alongside it.</h2>
-    <div class="rel-grid"><a class="rel-card" href="/library/new-hire-demo-certification-rubric/"><span class="rel-fmt">Scorecard/Rubric</span><span class="rel-t">New-Hire Demo Certification Rubric</span><span class="rel-b">A competency rubric enablement leaders use to certify reps before they&#x27;re allowed to demo live t</span></a><a class="rel-card" href="/library/demo-day-runbook/"><span class="rel-fmt">Guide</span><span class="rel-t">Demo Day Runbook</span><span class="rel-b">The enablement leader&#x27;s playbook for running an org-wide demo day — format, judging, feedback lo</span></a><a class="rel-card" href="/library/demo-automation-tools-directory/"><span class="rel-fmt">Directory</span><span class="rel-t">Demo Automation Tools Directory</span><span class="rel-b">A vetted, categorized directory of demo automation, screen-recording, and interactive-demo platf</span></a><a class="rel-card" href="/library/demo-certification-program-design-guide/"><span class="rel-fmt">Guide</span><span class="rel-t">Demo Certification Program Design Guide</span><span class="rel-b">A blueprint for enablement leaders building a formal, tiered demo-certification program across t</span></a></div>
+    <div class="rel-grid"><a class="rel-card" href="/library/new-hire-demo-certification-rubric/"><span class="rel-fmt">Scorecard/Rubric</span><span class="rel-t">New-Hire Demo Certification Rubric</span><span class="rel-b">A competency rubric enablement leaders use to certify reps before they&#x27;re allowed to demo live t</span></a><a class="rel-card" href="/library/demo-day-runbook/"><span class="rel-fmt">Guide</span><span class="rel-t">Demo Day Runbook</span><span class="rel-b">The enablement leader&#x27;s playbook for running an org-wide demo day: format, judging, feedback loo</span></a><a class="rel-card" href="/library/demo-automation-tools-directory/"><span class="rel-fmt">Directory</span><span class="rel-t">Demo Automation Tools Directory</span><span class="rel-b">A vetted, categorized directory of demo automation, screen-recording, and interactive-demo platf</span></a><a class="rel-card" href="/library/demo-certification-program-design-guide/"><span class="rel-fmt">Guide</span><span class="rel-t">Demo Certification Program Design Guide</span><span class="rel-b">A blueprint for enablement leaders building a formal, tiered demo-certification program across t</span></a></div>
     <a class="all-link" href="/library/?category=Demos &amp; Product Storytelling">All Demos &amp; Product Storytelling resources &rarr;</a>
   </div>
 </section>

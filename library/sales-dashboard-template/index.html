@@ -52,12 +52,13 @@
   </header>
   <div class="res-grid">
     <div class="res-main" id="resource-body">
+      <div class="howto howto-top"><h3>How to use it</h3><p>Rebuild the four zones as one tab in your spreadsheet tool of choice, wire the formulas to a weekly CRM export, and review it live in your Monday pipeline meeting instead of building slides.</p></div>
       <div class="inside">
         <h2>What's inside</h2>
-        <ul><li>Four-zone single-tab layout — Pipeline, Activity, Forecast, Leaderboard</li><li>Pipeline health metrics table with formulas (coverage, new pipeline, stale count)</li><li>Activity metrics table with formulas (calls, emails, meetings, ratio)</li><li>Forecast metrics table with formulas (Commit, Best Case, quota attainment, gap)</li><li>Rep leaderboard table with red/yellow/green flag logic</li><li>Conditional-formatting rules to build into the sheet</li><li>Weekly Monday update checklist</li><li>Copy-paste spreadsheet formula reference block</li></ul>
+        <ul><li>Four-zone single-tab layout: Pipeline, Activity, Forecast, Leaderboard</li><li>Pipeline health metrics table with formulas (coverage, new pipeline, stale count)</li><li>Activity metrics table with formulas (calls, emails, meetings, ratio)</li><li>Forecast metrics table with formulas (Commit, Best Case, quota attainment, gap)</li><li>Rep leaderboard table with red/yellow/green flag logic</li><li>Conditional-formatting rules to build into the sheet</li><li>Weekly Monday update checklist</li><li>Copy-paste spreadsheet formula reference block</li></ul>
       </div>
-      <div class="res-body"><p><strong>Purpose:</strong> One tab, refreshed weekly, that a manager can scan in under two minutes before a pipeline review — no BI license required. Build this as a single spreadsheet tab with four zones.</p>
-<h3>Zone 1 — Pipeline Health (top-left)</h3>
+      <div class="res-body"><p><strong>Purpose:</strong> One tab, refreshed weekly, that a manager can scan in under two minutes before a pipeline review, no BI license required. Build this as a single spreadsheet tab with four zones.</p>
+<h3>Zone 1, Pipeline Health (top-left)</h3>
 <div class="tw"><table><thead><tr><th>Metric</th><th>Formula</th><th>This Week</th><th>Last Week</th><th>Target</th></tr></thead><tbody>
 <tr><td>Total Open Pipeline (£)</td><td>Sum of open opportunity amounts</td><td></td><td></td><td></td></tr>
 <tr><td>Pipeline Coverage</td><td>Open Pipeline ÷ Quarter Target</td><td></td><td></td><td>3.5x</td></tr>
@@ -65,7 +66,7 @@
 <tr><td>Pipeline by Stage (mini table)</td><td>Count + £ per stage</td><td></td><td></td><td></td></tr>
 <tr><td>Stale Opportunities (21+ days no activity)</td><td>Count</td><td></td><td></td><td>0</td></tr>
 </tbody></table></div>
-<h3>Zone 2 — Activity (top-right)</h3>
+<h3>Zone 2, Activity (top-right)</h3>
 <div class="tw"><table><thead><tr><th>Metric</th><th>Formula</th><th>This Week</th><th>Last Week</th><th>Target</th></tr></thead><tbody>
 <tr><td>Calls logged</td><td>Count</td><td></td><td></td><td></td></tr>
 <tr><td>Emails sent</td><td>Count</td><td></td><td></td><td></td></tr>
@@ -74,7 +75,7 @@
 <tr><td>Activity-to-Meeting Ratio</td><td>Activities ÷ Meetings Booked</td><td></td><td></td><td></td></tr>
 <tr><td>New opportunities created</td><td>Count</td><td></td><td></td><td></td></tr>
 </tbody></table></div>
-<h3>Zone 3 — Forecast (bottom-left)</h3>
+<h3>Zone 3, Forecast (bottom-left)</h3>
 <div class="tw"><table><thead><tr><th>Metric</th><th>Formula</th><th>This Week</th><th>Last Week</th></tr></thead><tbody>
 <tr><td>Commit (£)</td><td>Sum of Commit-category deals</td><td></td><td></td></tr>
 <tr><td>Best Case (£)</td><td>Sum of Best Case-category deals</td><td></td><td></td></tr>
@@ -83,7 +84,7 @@
 <tr><td>Gap to Quota (£)</td><td>Monthly Quota − Closed-Won MTD</td><td></td><td></td></tr>
 <tr><td>Days left in period</td><td>Date formula</td><td></td><td></td></tr>
 </tbody></table></div>
-<h3>Zone 4 — Rep Leaderboard (bottom-right)</h3>
+<h3>Zone 4, Rep Leaderboard (bottom-right)</h3>
 <div class="tw"><table><thead><tr><th>Rep</th><th>Open Pipeline (£)</th><th>Activities (week)</th><th>Meetings Held</th><th>Closed-Won MTD (£)</th><th>Quota Attainment %</th><th>Flag</th></tr></thead><tbody>
 <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
@@ -110,8 +111,7 @@
 <li>Export the tab for the weekly leadership update if required</li>
 </ul>
 <h3>Formula reference (for building the live spreadsheet)</h3>
-<p>``<code> Total Open Pipeline      = SUMIF(Stage &lt;&gt; "Closed Won", "Closed Lost", Amount) Pipeline Coverage        = Total Open Pipeline / Quarter Target Activity-to-Meeting      = SUM(Calls, Emails) / COUNT(Meetings Booked) Quota Attainment %       = Closed-Won MTD / Monthly Quota Stale Opportunities      = COUNTIFS(Stage &lt;&gt; Closed, Last Activity Date &lt; TODAY()-21) </code>``</p></div>
-      <div class="howto"><h3>How to use it</h3><p>Rebuild the four zones as one tab in your spreadsheet tool of choice, wire the formulas to a weekly CRM export, and review it live in your Monday pipeline meeting instead of building slides.</p></div>
+<p>``<code> Total Open Pipeline = SUMIF(Stage &lt;&gt; "Closed Won", "Closed Lost", Amount) Pipeline Coverage = Total Open Pipeline / Quarter Target Activity-to-Meeting = SUM(Calls, Emails) / COUNT(Meetings Booked) Quota Attainment % = Closed-Won MTD / Monthly Quota Stale Opportunities = COUNTIFS(Stage &lt;&gt; Closed, Last Activity Date &lt; TODAY()-21) </code>``</p></div>
     </div>
     <aside class="res-aside">
       <div class="aside-card cta-card">

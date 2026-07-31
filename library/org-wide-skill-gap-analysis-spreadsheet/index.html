@@ -52,14 +52,15 @@
   </header>
   <div class="res-grid">
     <div class="res-main" id="resource-body">
+      <div class="howto howto-top"><h3>How to use it</h3><p>Build the 4 tabs in Sheets or Excel using the exact column headers and formulas above, populate Tab 1 from your certification or manager-assessment data, then read the Org Rollup tab&#x27;s Severity Flag column sorted CRITICAL-first when building next year&#x27;s hiring and enablement budget.</p></div>
       <div class="inside">
         <h2>What's inside</h2>
         <ul><li>4-tab structure: Rep-Level Input, Team Rollup, Org Rollup, Gap Flags</li><li>Exact column headers and data types for the Rep-Level Input tab</li><li>Working formulas for team-level average, team-level coverage %, and variance</li><li>Org-level rollup formula aggregating every team into one heat-map-ready table</li><li>The Gap Flag formula and its 3-tier severity logic (Critical / Watch / Healthy)</li><li>Conditional formatting rule set to turn the Org Rollup tab into a heat map</li><li>Worked numeric example across 3 teams and 5 competencies so you can sanity-check your own build</li><li>Planning-cycle usage notes: how to turn flagged gaps into next year&#x27;s hiring and L&amp;D budget lines</li></ul>
       </div>
-      <div class="res-body"><p>Build this as 4 tabs in Excel or Google Sheets. Formulas below are written in standard spreadsheet syntax — adjust ranges to your actual data size.</p>
+      <div class="res-body"><p>Build this as 4 tabs in Excel or Google Sheets. Formulas below are written in standard spreadsheet syntax, adjust ranges to your actual data size.</p>
 <hr>
 <h3>Tab 1: Rep-Level Input</h3>
-<p>One row per rep per competency (long format — easiest to roll up and filter).</p>
+<p>One row per rep per competency (long format, easiest to roll up and filter).</p>
 <div class="tw"><table><thead><tr><th>Column</th><th>Field</th><th>Type</th><th>Example</th></tr></thead><tbody>
 <tr><td>A</td><td>Rep Name/ID</td><td>Text</td><td>J. Alvarez</td></tr>
 <tr><td>B</td><td>Team</td><td>Text</td><td>Enterprise East</td></tr>
@@ -77,8 +78,8 @@
 <h3>Tab 2: Team Rollup</h3>
 <p>One row per Team × Competency combination, built with <code>AVERAGEIFS</code> / <code>COUNTIFS</code> against Tab 1.</p>
 <div class="tw"><table><thead><tr><th>Column</th><th>Field</th><th>Formula (example)</th></tr></thead><tbody>
-<tr><td>A</td><td>Team</td><td>—</td></tr>
-<tr><td>B</td><td>Competency Code</td><td>—</td></tr>
+<tr><td>A</td><td>Team</td><td>,</td></tr>
+<tr><td>B</td><td>Competency Code</td><td>,</td></tr>
 <tr><td>C</td><td>Avg Current Level</td><td><code>=AVERAGEIFS('Rep-Level Input'!G:G,'Rep-Level Input'!B:B,A2,'Rep-Level Input'!D:D,B2)</code></td></tr>
 <tr><td>D</td><td>Avg Target Level</td><td><code>=AVERAGEIFS('Rep-Level Input'!H:H,'Rep-Level Input'!B:B,A2,'Rep-Level Input'!D:D,B2)</code></td></tr>
 <tr><td>E</td><td>Avg Gap</td><td><code>=D2-C2</code></td></tr>
@@ -87,9 +88,9 @@
 </tbody></table></div>
 <hr>
 <h3>Tab 3: Org Rollup</h3>
-<p>One row per Competency, aggregated across all teams — this is the tab leadership actually reads.</p>
+<p>One row per Competency, aggregated across all teams, this is the tab leadership actually reads.</p>
 <div class="tw"><table><thead><tr><th>Column</th><th>Field</th><th>Formula (example)</th></tr></thead><tbody>
-<tr><td>A</td><td>Competency Code</td><td>—</td></tr>
+<tr><td>A</td><td>Competency Code</td><td>:</td></tr>
 <tr><td>B</td><td>Competency Name</td><td><code>=VLOOKUP(A2,'Rep-Level Input'!D:E,2,FALSE)</code></td></tr>
 <tr><td>C</td><td>Domain</td><td><code>=VLOOKUP(A2,'Rep-Level Input'!D:F,3,FALSE)</code></td></tr>
 <tr><td>D</td><td>Org Avg Gap</td><td><code>=AVERAGEIF('Rep-Level Input'!D:D,A2,'Rep-Level Input'!I:I)</code></td></tr>
@@ -103,7 +104,7 @@
 <p>``<code> =IF(D2&gt;=1.5,"CRITICAL",IF(D2&gt;=0.75,"WATCH","HEALTHY")) </code>``</p>
 <div class="tw"><table><thead><tr><th>Flag</th><th>Meaning</th><th>Suggested action</th></tr></thead><tbody>
 <tr><td><strong>CRITICAL</strong> (avg gap ≥ 1.5 levels)</td><td>Org-wide capability hole</td><td>Budget for hiring against this competency AND a dedicated enablement sprint</td></tr>
-<tr><td><strong>WATCH</strong> (avg gap 0.75–1.49)</td><td>Uneven — strong in some teams, weak in others</td><td>Cross-team peer coaching before external hiring spend</td></tr>
+<tr><td><strong>WATCH</strong> (avg gap 0.75–1.49)</td><td>Uneven: strong in some teams, weak in others</td><td>Cross-team peer coaching before external hiring spend</td></tr>
 <tr><td><strong>HEALTHY</strong> (avg gap &lt; 0.75)</td><td>On track</td><td>Maintain via existing coaching cadence</td></tr>
 </tbody></table></div>
 <hr>
@@ -121,16 +122,15 @@
 <tr><td>Mid-Market</td><td>2.8</td><td>3.0</td><td>0.2</td></tr>
 <tr><td><strong>Org Avg (NEG-07)</strong></td><td><strong>2.17</strong></td><td><strong>3.0</strong></td><td><strong>0.83 → WATCH</strong></td></tr>
 </tbody></table></div>
-<p>Enterprise West alone would flag CRITICAL; the blended org average shows WATCH — this is exactly why the Team Rollup tab matters: it stops a strong team from masking a weak one in the org view.</p>
+<p>Enterprise West alone would flag CRITICAL; the blended org average shows WATCH, this is exactly why the Team Rollup tab matters: it stops a strong team from masking a weak one in the org view.</p>
 <hr>
 <h3>Using this in the planning cycle</h3>
 <ol>
 <li>Pull the Org Rollup tab sorted by Severity Flag, CRITICAL first</li>
-<li>For every CRITICAL row, check column G — if concentrated in 1–2 teams, that's a coaching/staffing fix, not an org-wide L&amp;D spend</li>
+<li>For every CRITICAL row, check column G: if concentrated in 1–2 teams, that's a coaching/staffing fix, not an org-wide L&amp;D spend</li>
 <li>For every CRITICAL row spread across most teams, that's a next-year hiring-profile and enablement-budget line item</li>
 <li>Re-run the full sheet quarterly; track whether CRITICAL flags are shrinking, not just noting them once a year</li>
 </ol></div>
-      <div class="howto"><h3>How to use it</h3><p>Build the 4 tabs in Sheets or Excel using the exact column headers and formulas above, populate Tab 1 from your certification or manager-assessment data, then read the Org Rollup tab&#x27;s Severity Flag column sorted CRITICAL-first when building next year&#x27;s hiring and enablement budget.</p></div>
     </div>
     <aside class="res-aside">
       <div class="aside-card cta-card">
@@ -156,7 +156,7 @@
   <div class="rel-inner">
     <span class="eyebrow">Related</span>
     <h2>Use these alongside it.</h2>
-    <div class="rel-grid"><a class="rel-card" href="/library/sales-career-level-matrix-ic1-to-principal-enterprise/"><span class="rel-fmt">Framework</span><span class="rel-t">Sales Career Level Matrix (IC1 → Principal/Enterprise)</span><span class="rel-b">A leveling matrix defining what competency mastery — not tenure or quota alone — qualifies a rep</span></a><a class="rel-card" href="/library/sales-competency-framework-builder-toolkit/"><span class="rel-fmt">Toolkit</span><span class="rel-t">Sales Competency Framework Builder Toolkit</span><span class="rel-b">Worksheets, a taxonomy starter, and rubric templates for building a defensible, role-specific co</span></a><a class="rel-card" href="/library/career-pathing-architecture-guide-revenue-teams/"><span class="rel-fmt">Guide</span><span class="rel-t">Career Pathing Architecture Guide for Revenue Teams</span><span class="rel-b">How to design a dual-track career ladder (IC and management) anchored to competency mastery inst</span></a><a class="rel-card" href="/library/sales-competency-taxonomy-directory/"><span class="rel-fmt">Directory</span><span class="rel-t">Sales Competency Taxonomy Directory — 400+ Skills Indexed</span><span class="rel-b">A browsable index of every named sales competency across prospecting, discovery, negotiation, an</span></a></div>
+    <div class="rel-grid"><a class="rel-card" href="/library/sales-career-level-matrix-ic1-to-principal-enterprise/"><span class="rel-fmt">Framework</span><span class="rel-t">Sales Career Level Matrix (IC1 → Principal/Enterprise)</span><span class="rel-b">A leveling matrix defining what competency mastery, not tenure or quota alone, qualifies a rep f</span></a><a class="rel-card" href="/library/sales-competency-framework-builder-toolkit/"><span class="rel-fmt">Toolkit</span><span class="rel-t">Sales Competency Framework Builder Toolkit</span><span class="rel-b">Worksheets, a taxonomy starter, and rubric templates for building a defensible, role-specific co</span></a><a class="rel-card" href="/library/career-pathing-architecture-guide-revenue-teams/"><span class="rel-fmt">Guide</span><span class="rel-t">Career Pathing Architecture Guide for Revenue Teams</span><span class="rel-b">How to design a dual-track career ladder (IC and management) anchored to competency mastery inst</span></a><a class="rel-card" href="/library/sales-certification-level-up-program-design-kit/"><span class="rel-fmt">Toolkit</span><span class="rel-t">Sales Certification &amp; Level-Up Program Design Kit</span><span class="rel-b">Blueprint, badge criteria, and assessment rubrics for launching an internal certification ladder</span></a></div>
     <a class="all-link" href="/library/?category=Skills, Competencies &amp; Career Growth">All Skills, Competencies &amp; Career Growth resources &rarr;</a>
   </div>
 </section>

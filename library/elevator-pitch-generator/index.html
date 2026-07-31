@@ -155,17 +155,17 @@
     <div>
       <span class="eyebrow">Stay current</span>
       <h2>Get told when new Sales Content, Playbooks &amp; Battlecards resources land.</h2>
-      <p>Pick the topics you care about. No digest spam, just a note when something genuinely useful is added.</p>
+      <p>Tick the topics you care about, then subscribe. Alerts start straight away, no confirmation step. No digest spam, just a note when something genuinely useful is added.</p>
     </div>
     <form class="alert-form" data-alerts data-category="Sales Content, Playbooks &amp; Battlecards">
       <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;">
       <label class="sr-only" for="alert-email">Email address</label>
       <input id="alert-email" type="email" name="email" placeholder="you@company.com" required>
-      <button type="submit">Notify me</button>
-      <p class="alert-note">Pick your topics after you confirm. Unsubscribe any time.</p>
+      <button type="submit">Subscribe</button>
+      <p class="alert-note">Choose topics below (or leave blank for everything). Unsubscribe any time.</p>
     </form>
   </div>
-</section>
+</section><script>window.TW_CATS=["Account Management, Retention & Expansion", "Coaching, 1:1s & Feedback", "Cold Calling & Phone Skills", "Cold Email, LinkedIn & Social Selling", "Comp, Quota, Territory & Capacity Planning", "Demos & Product Storytelling", "Discovery & Qualification", "Hiring, Interviewing & Team Building", "Metrics, Analytics & RevOps", "Negotiation & Closing", "Objection Handling", "Onboarding & Ramp", "Pipeline, Deal Management & Forecasting", "Prospecting & Outbound Strategy", "Psychology, Mindset & Productivity", "Sales Content, Playbooks & Battlecards", "Sales Kickoffs, Training & Enablement Programs", "Sales Leadership & GTM Strategy", "Sales Process & Methodology (MEDDIC, SPIN, Challenger)", "Skills, Competencies & Career Growth"];</script>
 <script>
 (function(){
   var ENDPOINT='https://app.peerlab.ai/api/library/subscribe';
@@ -173,26 +173,72 @@
   function store(k,v,session){ try{ (session?sessionStorage:localStorage).setItem(k,v); }catch(e){} }
   function read(k,session){ try{ return (session?sessionStorage:localStorage).getItem(k); }catch(e){ return null; } }
 
+  var CATS = (window.TW_CATS||[]);
+
+  // Insert the "choose topics" picker into a resource-alert form (not blog).
+  // Picking topics up front means people are subscribed to exactly what they
+  // want the moment they submit: no confirm step, no second choice to miss.
+  function injectTopics(f, pageCat){
+    if(f.querySelector('.tw-topics') || !CATS.length) return;
+    var wrap=document.createElement('div'); wrap.className='tw-topics';
+    var toggle=document.createElement('button');
+    toggle.type='button'; toggle.className='tw-topics-toggle'; toggle.setAttribute('aria-expanded','false');
+    var list=document.createElement('div'); list.className='tw-topics-list'; list.hidden=true;
+    CATS.forEach(function(c){
+      var id='tw_c_'+c.replace(/[^a-z0-9]+/gi,'_');
+      var lab=document.createElement('label'); lab.className='tw-topic'; lab.setAttribute('for',id);
+      var cb=document.createElement('input'); cb.type='checkbox'; cb.value=c; cb.id=id;
+      if(c===pageCat) cb.checked=true;
+      lab.appendChild(cb); lab.appendChild(document.createTextNode(' '+c));
+      list.appendChild(lab);
+    });
+    function label(){
+      var ch=list.querySelectorAll('input:checked'), n=ch.length;
+      var txt = n===0 ? 'Choose topics' : n===1 ? ('Topic: '+ch[0].value) : (n+' topics selected');
+      toggle.innerHTML = txt+' <span class="tw-caret">&#9662;</span>';
+    }
+    toggle.addEventListener('click', function(){
+      var open=list.hidden; list.hidden=!open; toggle.setAttribute('aria-expanded', String(open));
+    });
+    list.addEventListener('change', label);
+    var hint=document.createElement('p'); hint.className='tw-topics-hint';
+    hint.textContent='Leave all unticked to get everything.';
+    wrap.appendChild(toggle); wrap.appendChild(list); wrap.appendChild(hint);
+    var btn=f.querySelector('button[type=submit],button');
+    f.insertBefore(wrap, btn);
+    label();   // if a page topic was pre-checked, the toggle names it (list stays tidy/closed)
+  }
+
   function wire(f){
     if(!f || f.__wired) return; f.__wired=1;
+    var cat=f.getAttribute('data-category')||'';
+    var isBlog = cat==='Blog';
+    var pageCat = (!isBlog && CATS.indexOf(cat)>-1) ? cat : '';
+    if(!isBlog) injectTopics(f, pageCat);
     var note=f.querySelector('.alert-note'), btn=f.querySelector('button[type=submit],button');
     f.addEventListener('submit', function(ev){
       ev.preventDefault();
       var em=f.querySelector('input[type=email]'), hp=f.querySelector('input[name=website]');
       var email=em?em.value:'', pot=hp?hp.value:'';
-      var cat=f.getAttribute('data-category')||'';
-      var was=btn?btn.textContent:''; if(btn){ btn.disabled=true; btn.textContent='Sending...'; }
+      var cats;
+      if(isBlog){ cats=['Blog']; }
+      else {
+        cats=[]; Array.prototype.forEach.call(
+          f.querySelectorAll('.tw-topics-list input:checked'), function(b){ cats.push(b.value); });
+      }
+      var was=btn?btn.textContent:''; if(btn){ btn.disabled=true; btn.textContent='Signing you up...'; }
       fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({email:email,website:pot,categories:cat?[cat]:[],source:location.pathname})})
+        body:JSON.stringify({email:email,website:pot,categories:cats,source:location.pathname})})
       .then(function(r){ return r.json().catch(function(){ return {ok:false}; }); })
       .then(function(d){
         var good=d&&d.ok;
         if(note){
-          note.textContent=good?(d.message||'Check your inbox to confirm.')
+          note.textContent=good?(d.message||"You're subscribed.")
                                :((d&&d.error)||'Something went wrong, try again shortly.');
           note.style.color=good?'#2E7D5B':'#B7791F';
         }
-        if(good){ if(em) em.value=''; store(DONE,'1'); var p=document.getElementById('lib-pop'); if(p) p.remove(); }
+        if(good){ if(em) em.value=''; var tp=f.querySelector('.tw-topics'); if(tp) tp.remove();
+                  store(DONE,'1'); var p=document.getElementById('lib-pop'); if(p) setTimeout(function(){p.remove();},2500); }
       })
       .catch(function(){ if(note){ note.textContent='Could not reach the server, try again shortly.';
                                    note.style.color='#B7791F'; } })
@@ -223,8 +269,8 @@
       '<form class="alert-form compact" data-alerts data-category="'+(onBlog?'Blog':'')+'">'+
       '<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;">'+
       '<input class="alert-email" type="email" name="email" placeholder="you@company.com" required aria-label="Email address">'+
-      '<button type="submit">Notify me</button>'+
-      '<p class="alert-note">Free, and one click to stop.</p></form>';
+      '<button type="submit">Subscribe</button>'+
+      '<p class="alert-note">Alerts start right away. One click to stop.</p></form>';
     document.body.appendChild(d);
     d.querySelector('.x').addEventListener('click', function(){ d.remove(); });
     wire(d.querySelector('form'));

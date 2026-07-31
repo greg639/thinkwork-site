@@ -63,6 +63,23 @@ footer li{margin-bottom:7px;font-size:13.5px;}
   box-shadow:0 18px 44px rgba(15,22,35,.18);transform:translateY(14px);opacity:0;
   transition:opacity .25s ease,transform .25s ease;}
 #lib-pop.on{opacity:1;transform:translateY(0);}
+/* on-form topic picker (works on the dark alerts band and the light popup/aside) */
+.tw-topics{width:100%;margin:1px 0;}
+.tw-topics-toggle{background:none;border:0;padding:0;font:600 12.5px var(--sans);cursor:pointer;
+  color:inherit;text-decoration:underline;text-underline-offset:3px;}
+.tw-caret{font-size:10px;}
+.tw-topics-list{margin:9px 0 4px;max-height:172px;overflow-y:auto;display:flex;flex-direction:column;
+  gap:6px;padding:11px 13px;border-radius:9px;}
+.tw-topics-list[hidden]{display:none;}   /* class display:flex would beat UA [hidden] otherwise */
+.tw-topic{display:flex;align-items:flex-start;gap:8px;font:400 12.5px var(--sans);line-height:1.35;cursor:pointer;}
+/* checkboxes must NOT inherit .alert-form input sizing (flex:1 1 220px, 46px tall) */
+.tw-topics-list input[type=checkbox]{flex:0 0 auto;width:15px;height:15px;min-width:0;min-height:0;
+  margin:2px 0 0;padding:0;background:none;border:0;box-shadow:none;border-radius:0;
+  appearance:auto;-webkit-appearance:checkbox;}
+.tw-topics-hint{font-size:11px;margin:2px 0 0;opacity:.72;}
+.alerts .tw-topics-list{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);}
+.alert-form.compact .tw-topics-list{background:var(--bg-elev);border:1px solid var(--line);color:var(--ink);}
+.alert-form.compact .tw-topics-hint{color:var(--ink-faint);}
 #lib-pop h3{font-size:17px;margin:6px 0 6px;}
 #lib-pop p{font-size:13px;color:var(--ink-mute);margin:0 0 13px;line-height:1.5;}
 #lib-pop .x{position:absolute;top:9px;right:11px;background:none;border:0;font-size:19px;line-height:1;

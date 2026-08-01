@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Fri, 31 Jul 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Sat, 01 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>The Discovery Call That Ran 90 Minutes Was Probably a Failure</title>
+    <link>https://thinkwork.info/blog/discovery-calls-that-run-long-are-usually-failing/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/discovery-calls-that-run-long-are-usually-failing/</guid>
+    <description>Call length is how reps signal effort to their manager. It has almost nothing to do with how much they actually learned.</description>
+    <category>Discovery &amp; Qualification</category>
+    <pubDate>Sat, 01 Aug 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>Your Methodology Rollout Didn&#x27;t Fail at Launch. It Failed at Month Two.</title>
     <link>https://thinkwork.info/blog/sales-methodology-rollout-fails-at-month-two/</link>
@@ -398,13 +406,5 @@
     <description>The AEs who get promoted aren&#x27;t the best closers. They&#x27;re the ones who can diagnose a deal&#x27;s real qualification state out loud, for someone else, in real time.</description>
     <category>Discovery &amp; Qualification</category>
     <pubDate>Thu, 09 Apr 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>Field Notes From Sitting In on 40 Discovery Calls in One Quarter</title>
-    <link>https://thinkwork.info/blog/field-notes-40-discovery-calls/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/field-notes-40-discovery-calls/</guid>
-    <description>What actually happens on discovery calls when nobody&#x27;s grading against a checklist, the patterns that don&#x27;t show up in any framework.</description>
-    <category>Discovery &amp; Qualification</category>
-    <pubDate>Wed, 08 Apr 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

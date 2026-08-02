@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Sat, 01 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Sun, 02 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>Most Outbound Cadences Are Too Short. Here&#x27;s What the Drop-Off Data Actually Shows.</title>
+    <link>https://thinkwork.info/blog/outbound-cadence-length-most-teams-stop-too-early/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/outbound-cadence-length-most-teams-stop-too-early/</guid>
+    <description>Teams cap cadences at 5-7 touches because it feels polite. The conversion data says they&#x27;re stopping just before it gets interesting.</description>
+    <category>Prospecting &amp; Outbound</category>
+    <pubDate>Sun, 02 Aug 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>The Discovery Call That Ran 90 Minutes Was Probably a Failure</title>
     <link>https://thinkwork.info/blog/discovery-calls-that-run-long-are-usually-failing/</link>
@@ -398,13 +406,5 @@
     <description>&#x27;What&#x27;s the pain?&#x27; is the wrong question. Here&#x27;s what actually separates reps who surface root cause from reps who stop at the symptom.</description>
     <category>Discovery &amp; Qualification</category>
     <pubDate>Tue, 14 Apr 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>The Discovery Skill That&#x27;s Actually Gating Your Best AEs From Becoming Managers</title>
-    <link>https://thinkwork.info/blog/discovery-skill-gating-aes-from-management/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/discovery-skill-gating-aes-from-management/</guid>
-    <description>The AEs who get promoted aren&#x27;t the best closers. They&#x27;re the ones who can diagnose a deal&#x27;s real qualification state out loud, for someone else, in real time.</description>
-    <category>Discovery &amp; Qualification</category>
-    <pubDate>Thu, 09 Apr 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

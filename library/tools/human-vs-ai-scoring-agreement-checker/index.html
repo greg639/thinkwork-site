@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Human vs AI Scoring Agreement Checker | Free Online Tool | ThinkWork</title>
+<meta name="description" content="Paste your AI&#x27;s scores beside a human&#x27;s and see how often they actually agree, where they diverge, and whether they even rank people the same way.">
+<link rel="canonical" href="https://thinkwork.info/library/tools/human-vs-ai-scoring-agreement-checker/">
+<meta property="og:title" content="Human vs AI Scoring Agreement Checker | Free Online Tool | ThinkWork">
+<meta property="og:description" content="Paste your AI&#x27;s scores beside a human&#x27;s and see how often they actually agree, where they diverge, and whether they even rank people the same way.">
+<meta property="og:url" content="https://thinkwork.info/library/tools/human-vs-ai-scoring-agreement-checker/">
+<meta property="og:type" content="article">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A3D5C'/><text x='16' y='22' font-family='Georgia' font-size='20' fill='%23FAF6EC' text-anchor='middle'>tw</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/library/library.css?v=1">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Human vs AI Scoring Agreement Checker", "description": "Paste your AI's scores beside a human's and see how often they actually agree, where they diverge, and whether they even rank people the same way.", "url": "https://thinkwork.info/library/tools/human-vs-ai-scoring-agreement-checker/", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}, "provider": {"@type": "Organization", "name": "ThinkWork", "url": "https://thinkwork.info"}}</script><link rel="stylesheet" href="/library/tools.css?v=1">
+</head>
+<body class="tool-page">
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="/" class="mast-brand">Think<span class="mark">Work</span></a>
+    <input type="checkbox" id="tw-nav-toggle" class="tw-nav-toggle" aria-hidden="true">
+    <label for="tw-nav-toggle" class="tw-burger" aria-label="Toggle menu"><span></span><span></span><span></span></label>
+    <nav class="mast-nav">
+      <a href="/#layer">The Mastery Layer</a>
+      <a href="/#programs">Programs</a>
+      <a href="/library/">Resources</a>
+      <a href="/blog/">Blog</a>
+      <a href="/thinkwork/letter">The Letter</a>
+      <a href="/#engage" class="cta">Book a Call</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="crumbs"><a href="/library/">Resource Library</a> <span>/</span> <a href="/library/tools/">Tools</a></nav>
+<div class="tool-wrap">
+  <header class="tool-head">
+    <div class="badges">
+      <span class="pill live">Interactive</span>
+      <span class="pill fmt">Leader</span>
+      <span class="pill free">Free &middot; no sign-up</span>
+    </div>
+    <h1>Human vs AI Scoring Agreement Checker</h1>
+    <p class="summary">If you score conversations with AI, this is the number nobody has calculated: how often does the model agree with a trained human marking the same thing against the same rubric? Put the two sets of scores in and find out. Everything runs in your browser, nothing is uploaded, and no sign-up is required.</p>
+  </header>
+  <div class="tool-grid">
+    <div class="tool-panel">
+      <h2>Your numbers</h2>
+      <div id="tool-form">
+<div class="fld">
+  <label for="t-data">Your scores, one line per criterion or per call</label>
+  <textarea id="t-data" rows="12" spellcheck="false">Discovery questioning, 4, 2
+Qualification rigour, 3, 3
+Handles objections, 4, 2.5
+Establishes value, 3, 3
+Advances the deal, 2, 2
+Listening, 4, 3
+Frames impactfully, 3, 1.5
+Commercial confidence, 3, 3.5</textarea>
+  <span class="hint">Format: label, AI score, human score. One per line. Labels are
+  optional; commas, tabs or spaces all work.</span>
+</div>
+<div class="fgrid">
+  <div class="fld">
+    <label for="t-max">Top of the scale</label>
+    <input id="t-max" type="number" min="1" max="100" step="0.5" value="4">
+    <span class="hint">4 for a 0-4 rubric, 5 for 1-5, and so on</span>
+  </div>
+  <div class="fld">
+    <label for="t-band">A "band" is worth</label>
+    <input id="t-band" type="number" min="0.1" max="10" step="0.5" value="1">
+    <span class="hint">Set to 2 on a 0-10 scale for a comparable read</span>
+  </div>
+</div>
+</div>
+      <div class="tool-actions">
+        <button class="btn btn-ghost" id="tool-reset" type="button">Reset</button>
+        <button class="btn btn-primary" id="tool-copy" type="button">Copy result</button>
+      </div>
+    </div>
+    <div>
+      <div class="tool-out" id="tool-out"></div>
+      <div class="tool-notes"><h3>Method &amp; assumptions</h3><ul><li>Agreement is computed per paired score, not per call, so you can use it on one call across many criteria or on many calls against one criterion.</li><li>Rank correlation is Spearman&#x27;s rho with average ranks for ties.</li><li>A &#x27;band&#x27; defaults to 1 point. If your scale is 0 to 10, set it to 2 for a comparable read.</li><li>The marker must be blind to the AI&#x27;s score or the number is meaningless.</li><li>One sample marked once is a prompt to look closer, not a reliability figure.</li></ul></div>
+      <div class="howto" style="margin-top:20px;"><h3>How to use it</h3><p>Take a handful of conversations your AI has already scored and have someone experienced mark the same ones blind, without seeing the AI&#x27;s output. That blindness matters: a marker who can see the AI&#x27;s score will drift toward it. Paste both sets in, one line per criterion, and read the within-one-band figure first, then the rank correlation.</p></div>
+    </div>
+  </div>
+</div>
+<section class="related">
+  <div class="rel-inner">
+    <span class="eyebrow">More tools</span>
+    <h2>Others you can use right now.</h2>
+    <div class="rel-grid"><a class="rel-card" href="/library/tools/meddicc-bant-qualification-scorecard/"><span class="rel-fmt">Tool</span><span class="rel-t">MEDDICC / BANT Qualification Scorecard</span><span class="rel-b">Score a live opportunity against MEDDICC or BANT and see exactly which gap is putting the deal a</span></a><a class="rel-card" href="/library/tools/negotiation-style-quiz/"><span class="rel-fmt">Tool</span><span class="rel-t">Negotiation Style Quiz</span><span class="rel-b">Find your default negotiation style, and the exact moves that work against its opposite.</span></a><a class="rel-card" href="/library/tools/ramp-time-cost-calculator/"><span class="rel-fmt">Tool</span><span class="rel-t">Ramp-Time &amp; Cost-of-Ramp Calculator</span><span class="rel-b">See exactly what a new hire&#x27;s ramp period costs, and the month they start paying it back.</span></a><a class="rel-card" href="/library/tools/commission-ote-modeller/"><span class="rel-fmt">Tool</span><span class="rel-t">Commission &amp; OTE Modeller</span><span class="rel-b">Model on-target earnings, accelerators, gates, and draws across any attainment scenario.</span></a></div>
+    <a class="all-link" href="/library/tools/">All tools &rarr;</a>
+  </div>
+</section>
+<section class="alerts" style="padding:40px 0;">
+  <div class="alerts-inner" style="grid-template-columns:1fr;text-align:left;">
+    <div>
+      <span class="eyebrow">For enablement leaders</span>
+      <h2>Is the AI scoring your team actually right?</h2>
+      <p style="margin-bottom:18px;">If you already grade calls with AI, the odds are nobody has independently checked those scores, and they are deciding who gets coached. Send one call your AI has already graded: a trained assessor marks it blind against your own rubric, then we compare where we agree and where we do not. Free, and you keep the marking either way.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="btn btn-primary" style="background:var(--gold);border-color:var(--gold);color:#1A1408;" href="https://peerlab.ai/assurance?utm_source=thinkwork&utm_medium=tools">Get one call marked blind</a>
+        <a class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.3);" href="/#programs">Not scoring with AI yet? Start here</a>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var out = document.getElementById('tool-out');
+  function el(id){ return document.getElementById(id); }
+  function num(id){ var e=el(id); if(!e) return 0; var v=parseFloat(String(e.value).replace(/[^0-9.\-]/g,'')); return isFinite(v)?v:0; }
+  function val(id){ var e=el(id); return e ? String(e.value) : ''; }
+  function radio(name){ var n=document.querySelector('input[name="'+name+'"]:checked'); return n?parseFloat(n.value)||0:0; }
+  function gbp(n){ if(!isFinite(n)) return '\u00a30'; var neg=n<0; n=Math.abs(Math.round(n));
+    return (neg?'-':'')+'\u00a3'+n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function pct(n){ if(!isFinite(n)) return '0%'; return (Math.round(n*1000)/10).toFixed(1).replace(/\.0$/,'')+'%'; }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){
+    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+  window.__render = function(){
+    try { render(); }
+    catch(e){ out.innerHTML = '<div class="verdict warn"><b>Check your inputs</b><p>'+esc(e.message)+'</p></div>';
+      if(window.console) console.error(e); }
+  };
+  function render(){
+
+var raw = val('t-data') || '';
+var max = num('t-max') || 4;
+var band = num('t-band') || 1;
+
+var rows = [], bad = 0;
+raw.split(/\n/).forEach(function(line){
+  var s = String(line).trim();
+  if (!s) return;
+  var nums = s.match(/-?\d+(?:\.\d+)?/g);
+  if (!nums || nums.length < 2) { bad++; return; }
+  var ai = parseFloat(nums[nums.length - 2]);
+  var hu = parseFloat(nums[nums.length - 1]);
+  var label = s.replace(/[,\t]?\s*-?\d+(?:\.\d+)?\s*[,\t]?\s*-?\d+(?:\.\d+)?\s*$/, '').replace(/[,\t]+$/, '').trim();
+  if (!isFinite(ai) || !isFinite(hu)) { bad++; return; }
+  rows.push({ label: label || ('Row ' + (rows.length + 1)), ai: ai, hu: hu, gap: hu - ai });
+});
+
+if (rows.length < 3) {
+  out.innerHTML = '<div class="verdict warn"><b>Add at least three rows</b>' +
+    '<p>Each line needs two numbers: the AI score, then the human score.</p></div>';
+  return;
+}
+
+var n = rows.length, exact = 0, within = 0, sumGap = 0, sumAbs = 0;
+rows.forEach(function(r){
+  if (Math.abs(r.gap) < 1e-9) exact++;
+  if (Math.abs(r.gap) <= band + 1e-9) within++;
+  sumGap += r.gap; sumAbs += Math.abs(r.gap);
+});
+var pExact = exact / n, pWithin = within / n;
+var meanGap = sumGap / n, meanAbs = sumAbs / n;
+
+// Spearman: Pearson over average-tied ranks.
+function ranks(vals){
+  var idx = vals.map(function(v, i){ return { v: v, i: i }; });
+  idx.sort(function(a, b){ return a.v - b.v; });
+  var r = new Array(vals.length), k = 0;
+  while (k < idx.length) {
+    var j = k;
+    while (j + 1 < idx.length && idx[j + 1].v === idx[k].v) j++;
+    var avg = (k + j) / 2 + 1;
+    for (var m = k; m <= j; m++) r[idx[m].i] = avg;
+    k = j + 1;
+  }
+  return r;
+}
+var ra = ranks(rows.map(function(r){ return r.ai; }));
+var rh = ranks(rows.map(function(r){ return r.hu; }));
+var ma = ra.reduce(function(a, b){ return a + b; }, 0) / n;
+var mh = rh.reduce(function(a, b){ return a + b; }, 0) / n;
+var cov = 0, va = 0, vh = 0;
+for (var i = 0; i < n; i++) { var da = ra[i] - ma, dh = rh[i] - mh; cov += da * dh; va += da * da; vh += dh * dh; }
+var rho = (va > 0 && vh > 0) ? cov / Math.sqrt(va * vh) : NaN;
+
+var worst = rows.slice().sort(function(a, b){ return Math.abs(b.gap) - Math.abs(a.gap); }).slice(0, 3);
+
+var tone, verdict;
+if (pWithin >= 0.9 && (!isFinite(rho) || rho >= 0.7)) {
+  tone = 'good';
+  verdict = 'Your AI and your human are broadly telling the same story. That is worth knowing, and worth being able to show a client. The remaining question is whether it holds on a bigger sample and stays stable next quarter.';
+} else if (pWithin >= 0.7) {
+  tone = 'warn';
+  verdict = 'Agreement is reasonable in the middle and breaks at the edges. That is the usual pattern, and the edges are where coaching and promotion decisions actually get made. The criteria below are where your rubric is probably ambiguous.';
+} else {
+  tone = 'bad';
+  verdict = 'These are not measuring the same thing. Before treating these scores as evidence about a person, the rubric needs checking: most often one or more criteria cannot actually be observed from a transcript, or the wording lets two careful people mark it differently.';
+}
+
+var harder = Math.abs(meanGap) < 0.05 ? 'Neither marks consistently harder.'
+  : (meanGap < 0 ? 'Your human marks <b>harder</b> than the AI, by ' + (Math.abs(meanGap)).toFixed(2) + ' on average.'
+                 : 'The AI marks <b>harder</b> than your human, by ' + (Math.abs(meanGap)).toFixed(2) + ' on average.');
+
+var html = '';
+html += '<div class="verdict ' + tone + '"><b>' + pct(pWithin) + ' agree within one band</b><p>' + verdict + '</p></div>';
+html += '<div class="kpis">' +
+  '<div class="kpi hero"><b>' + pct(pWithin) + '</b><span>Within one band</span></div>' +
+  '<div class="kpi"><b>' + pct(pExact) + '</b><span>Exact match</span></div>' +
+  '<div class="kpi"><b>' + (isFinite(rho) ? rho.toFixed(2) : 'n/a') + '</b><span>Rank correlation</span></div>' +
+  '<div class="kpi"><b>' + meanAbs.toFixed(2) + '</b><span>Mean gap (abs)</span></div>' +
+  '</div>';
+html += '<p class="tnote">' + harder + ' Based on ' + n + ' paired scores on a 0 to ' + max + ' scale' +
+        (bad ? ', ' + bad + ' line(s) skipped' : '') + '.</p>';
+
+html += '<h3>Where you diverge most</h3><table class="tt"><thead><tr>' +
+        '<th>Criterion</th><th>AI</th><th>Human</th><th>Gap</th></tr></thead><tbody>';
+worst.forEach(function(r){
+  html += '<tr><td>' + esc(r.label) + '</td><td>' + r.ai + '</td><td>' + r.hu + '</td><td>' +
+          (r.gap > 0 ? '+' : '') + r.gap + '</td></tr>';
+});
+html += '</tbody></table>';
+
+html += '<h3>What the rank correlation means</h3>';
+html += '<p class="tnote">Agreement asks whether the two markers gave the same number. Rank correlation asks something ' +
+        'more forgiving and often more useful: whether they put the same people, or the same criteria, in the same order. ' +
+        'A high rank correlation with low exact agreement usually means one marker is simply stricter, which is easy to ' +
+        'calibrate out. A low rank correlation means they disagree about who is good, which is not.</p>';
+
+html += '<div class="verdict"><b>One honest caveat</b><p>This is a single sample marked once. It tells you whether to ' +
+        'look closer, not whether your scoring is sound. Reliability is a property of a protocol over time: blind marking, ' +
+        'a second marker on a sample, and the same figure recomputed each quarter.</p></div>';
+
+out.innerHTML = html;
+
+  }
+  var root = document.getElementById('tool-form');
+  if(root){
+    root.addEventListener('input', window.__render);
+    root.addEventListener('change', window.__render);
+  }
+  window.__render();
+  var rb = document.getElementById('tool-reset');
+  if(rb) rb.addEventListener('click', function(){
+    root.querySelectorAll('input,select,textarea').forEach(function(f){
+      if(f.type==='radio'||f.type==='checkbox'){ f.checked = f.hasAttribute('checked'); }
+      else if(f.defaultValue!==undefined){ f.value = f.defaultValue; }
+    });
+    window.__render();
+  });
+  var cb = document.getElementById('tool-copy');
+  if(cb) cb.addEventListener('click', function(){
+    var t=(out.innerText||out.textContent||'').trim();
+    function done(){ var o=cb.textContent; cb.textContent='Copied'; setTimeout(function(){cb.textContent=o;},1500); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done,sel); } else sel();
+    function sel(){ var r=document.createRange(); r.selectNodeContents(out);
+      var s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      try{ document.execCommand('copy'); done(); }catch(e){} }
+  });
+})();
+</script>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <a href="/" class="footer-brand">Think<span class="mark">Work</span></a>
+      <p class="footer-tag">Mastery Engineering. We install The Mastery Standard into commercial teams, so sales skill becomes observable, measurable and auditable.</p>
+    </div>
+    <div><h4>Resources</h4><ul>
+      <li><a href="/library/">All resources</a></li>
+      <li><a href="/library/tools/">Tools &amp; calculators</a></li>
+      <li><a href="/blog/">The Blog</a></li>
+      <li><a href="/library/?audience=Individual">For reps</a></li>
+      <li><a href="/library/?audience=Team%2FManager">For managers</a></li>
+      <li><a href="/library/?audience=Leader">For leaders</a></li>
+    </ul></div>
+    <div><h4>Firm</h4><ul>
+      <li><a href="/#layer">The Mastery Layer</a></li>
+      <li><a href="/#programs">Programs</a></li>
+      <li><a href="/thinkwork/letter">The Letter</a></li>
+    </ul></div>
+    <div><h4>Contact</h4><ul>
+      <li><a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-base"><span>&copy; ThinkWork</span><span>Sales Enablement Resource Library &middot; free, always</span></div>
+</footer>
+</body>
+</html>

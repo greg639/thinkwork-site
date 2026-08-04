@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Mon, 03 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Tue, 04 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>Accelerator Cliffs Are a Behavioural Tax on Your Best Reps</title>
+    <link>https://thinkwork.info/blog/accelerator-cliffs-comp-plan-behavioural-tax/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/accelerator-cliffs-comp-plan-behavioural-tax/</guid>
+    <description>The accelerator structure every comp plan brags about is quietly teaching your top performers to sandbag Q4.</description>
+    <category>Comp &amp; Quota</category>
+    <pubDate>Tue, 04 Aug 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>Pipeline Coverage Is a Lagging Indicator Dressed Up as a Leading One</title>
     <link>https://thinkwork.info/blog/pipeline-coverage-ratio-is-a-lagging-indicator/</link>
@@ -398,13 +406,5 @@
     <description>A step-by-step early-exit script for killing bad-fit deals before they eat a quarter of pipeline hygiene, without torching the relationship.</description>
     <category>Discovery &amp; Qualification</category>
     <pubDate>Thu, 16 Apr 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>Teardown: The &#x27;Great&#x27; Discovery Call That Was Actually a Vendor-Confirmation Call in Disguise</title>
-    <link>https://thinkwork.info/blog/teardown-discovery-call-vendor-confirmation/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/teardown-discovery-call-vendor-confirmation/</guid>
-    <description>Line by line, a call that scored well on every discovery checklist: and still lost, because the buyer was never actually discovering anything.</description>
-    <category>Discovery &amp; Qualification</category>
-    <pubDate>Wed, 15 Apr 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

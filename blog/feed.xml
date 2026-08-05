@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Tue, 04 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Wed, 05 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>What Your AI Scorecard Cannot See From a Transcript</title>
+    <link>https://thinkwork.info/blog/what-your-ai-scorecard-cannot-see-from-a-transcript/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/what-your-ai-scorecard-cannot-see-from-a-transcript/</guid>
+    <description>Transcripts capture words. Scores require judgement. The gap between the two is where your AI scoring layer is quietly getting it wrong.</description>
+    <category>AI Scoring &amp; Assurance</category>
+    <pubDate>Wed, 05 Aug 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>Accelerator Cliffs Are a Behavioural Tax on Your Best Reps</title>
     <link>https://thinkwork.info/blog/accelerator-cliffs-comp-plan-behavioural-tax/</link>
@@ -398,13 +406,5 @@
     <description>A working ranking of the major qualification frameworks: not by popularity, but by the specific deal-killing blind spot each one exists to prevent.</description>
     <category>Discovery &amp; Qualification</category>
     <pubDate>Tue, 21 Apr 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>How to Disqualify a Deal in the First Ten Minutes Without Sounding Like You&#x27;ve Given Up</title>
-    <link>https://thinkwork.info/blog/how-to-disqualify-in-first-ten-minutes/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/how-to-disqualify-in-first-ten-minutes/</guid>
-    <description>A step-by-step early-exit script for killing bad-fit deals before they eat a quarter of pipeline hygiene, without torching the relationship.</description>
-    <category>Discovery &amp; Qualification</category>
-    <pubDate>Thu, 16 Apr 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

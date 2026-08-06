@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Wed, 05 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Thu, 06 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>Your Enablement Content Audit Is Asking the Wrong Question</title>
+    <link>https://thinkwork.info/blog/enablement-content-audits-wrong-question/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/enablement-content-audits-wrong-question/</guid>
+    <description>Most content audits measure what exists and what&#x27;s used. Neither tells you whether the content actually moves a skill.</description>
+    <category>The Enablement Function</category>
+    <pubDate>Thu, 06 Aug 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>What Your AI Scorecard Cannot See From a Transcript</title>
     <link>https://thinkwork.info/blog/what-your-ai-scorecard-cannot-see-from-a-transcript/</link>
@@ -398,13 +406,5 @@
     <description>BANT is a filing system for what discovery already found. Treating it as a method for finding things is why &#x27;qualified&#x27; deals keep collapsing in month two.</description>
     <category>Discovery &amp; Qualification</category>
     <pubDate>Wed, 22 Apr 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>MEDDIC vs MEDDPICC vs BANT vs SPICED vs CHAMP: What Each One Is Actually Built to Catch</title>
-    <link>https://thinkwork.info/blog/qualification-frameworks-ranked-by-purpose/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/qualification-frameworks-ranked-by-purpose/</guid>
-    <description>A working ranking of the major qualification frameworks: not by popularity, but by the specific deal-killing blind spot each one exists to prevent.</description>
-    <category>Discovery &amp; Qualification</category>
-    <pubDate>Tue, 21 Apr 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

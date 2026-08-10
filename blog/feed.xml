@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Fri, 07 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Mon, 10 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>Your AI Notetaker Isn&#x27;t Taking Notes. It&#x27;s Building a Model of How Your Reps Sell.</title>
+    <link>https://thinkwork.info/blog/ai-notetaker-is-training-data-not-memory/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/ai-notetaker-is-training-data-not-memory/</guid>
+    <description>Every call your AI notetaker logs is a training signal. Most sales orgs have no idea what they&#x27;re teaching it.</description>
+    <category>AI in Sales</category>
+    <pubDate>Mon, 10 Aug 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>You Built a Structured Interview Scorecard. Your Hiring Managers Aren&#x27;t Using It.</title>
     <link>https://thinkwork.info/blog/structured-interview-scorecard-hiring-managers-ignore/</link>
@@ -398,13 +406,5 @@
     <description>A concrete sequence for reopening a &#x27;decided&#x27; buyer&#x27;s evaluation without sounding like you&#x27;re relitigating their judgment.</description>
     <category>Discovery &amp; Qualification</category>
     <pubDate>Tue, 28 Apr 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>We Scored 500 Discovery Calls Against 12 Qualification Fields. Here&#x27;s Where Reps Actually Fall Down.</title>
-    <link>https://thinkwork.info/blog/500-discovery-calls-qualification-benchmark/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/500-discovery-calls-qualification-benchmark/</guid>
-    <description>Benchmark data from assessed calls shows nearly every rep can find pain, and almost none can pressure-test decision process or paper process.</description>
-    <category>Discovery &amp; Qualification</category>
-    <pubDate>Thu, 23 Apr 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

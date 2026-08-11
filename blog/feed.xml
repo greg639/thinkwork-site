@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Mon, 10 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Tue, 11 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>Negotiation Is the One Sales Skill Teams Only Discover Is Broken When a Deal Is Already On the Table</title>
+    <link>https://thinkwork.info/blog/negotiation-skill-gap-nobody-trains-before-its-needed/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/negotiation-skill-gap-nobody-trains-before-its-needed/</guid>
+    <description>Every team says they train negotiation. Almost none of them do it before a rep is mid-close on a real deal.</description>
+    <category>Skills &amp; Competency</category>
+    <pubDate>Tue, 11 Aug 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>Your AI Notetaker Isn&#x27;t Taking Notes. It&#x27;s Building a Model of How Your Reps Sell.</title>
     <link>https://thinkwork.info/blog/ai-notetaker-is-training-data-not-memory/</link>
@@ -398,13 +406,5 @@
     <description>Every MEDDIC post-mortem blames a skipped step. The real failure point is one under-coached field that almost nobody actually trains.</description>
     <category>Discovery &amp; Qualification</category>
     <pubDate>Wed, 29 Apr 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>How to Run Discovery When the Buyer Already Picked a Vendor in Their Head</title>
-    <link>https://thinkwork.info/blog/discovery-when-buyer-already-decided/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/discovery-when-buyer-already-decided/</guid>
-    <description>A concrete sequence for reopening a &#x27;decided&#x27; buyer&#x27;s evaluation without sounding like you&#x27;re relitigating their judgment.</description>
-    <category>Discovery &amp; Qualification</category>
-    <pubDate>Tue, 28 Apr 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

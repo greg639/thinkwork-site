@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Tue, 11 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Wed, 12 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>The Rep Who Talks Less Is Scoring Lower. That Is Your AI Judge&#x27;s Problem, Not Your Rep&#x27;s.</title>
+    <link>https://thinkwork.info/blog/verbosity-bias-why-your-ai-scorer-rewards-talkers/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/verbosity-bias-why-your-ai-scorer-rewards-talkers/</guid>
+    <description>LLM-as-judge systems reliably score longer, more elaborate responses higher, even when a concise answer is objectively better.</description>
+    <category>AI Scoring &amp; Assurance</category>
+    <pubDate>Wed, 12 Aug 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>Negotiation Is the One Sales Skill Teams Only Discover Is Broken When a Deal Is Already On the Table</title>
     <link>https://thinkwork.info/blog/negotiation-skill-gap-nobody-trains-before-its-needed/</link>
@@ -398,13 +406,5 @@
     <description>A ranked breakdown of which discovery questions actually correlate with progressed and won deals, and why most &#x27;best questions&#x27; lists are recycled folklore.</description>
     <category>Discovery &amp; Qualification</category>
     <pubDate>Thu, 30 Apr 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>MEDDIC Doesn&#x27;t Fail on Process. It Fails on &#x27;Decision Criteria.&#x27;</title>
-    <link>https://thinkwork.info/blog/meddic-fails-on-decision-criteria/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/meddic-fails-on-decision-criteria/</guid>
-    <description>Every MEDDIC post-mortem blames a skipped step. The real failure point is one under-coached field that almost nobody actually trains.</description>
-    <category>Discovery &amp; Qualification</category>
-    <pubDate>Wed, 29 Apr 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

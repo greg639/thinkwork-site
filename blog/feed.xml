@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Wed, 12 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Thu, 13 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>The First Hire Every New Sales Leader Makes Is Almost Always the Wrong One</title>
+    <link>https://thinkwork.info/blog/sales-leader-first-hire-is-always-wrong/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/sales-leader-first-hire-is-always-wrong/</guid>
+    <description>New sales leaders hire a strong AE first. That&#x27;s the mistake. Here&#x27;s what the sequencing actually costs you.</description>
+    <category>Sales Leadership</category>
+    <pubDate>Thu, 13 Aug 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>The Rep Who Talks Less Is Scoring Lower. That Is Your AI Judge&#x27;s Problem, Not Your Rep&#x27;s.</title>
     <link>https://thinkwork.info/blog/verbosity-bias-why-your-ai-scorer-rewards-talkers/</link>
@@ -398,13 +406,5 @@
     <description>Four teams, four different named methodologies, four audits. Same exact failure every time, and it had nothing to do with which framework was on the wall.</description>
     <category>Methodology</category>
     <pubDate>Tue, 05 May 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>The 9 Discovery Questions That Actually Predict Deal Outcomes (And the 40 That Don&#x27;t)</title>
-    <link>https://thinkwork.info/blog/discovery-questions-that-predict-deal-outcomes/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/discovery-questions-that-predict-deal-outcomes/</guid>
-    <description>A ranked breakdown of which discovery questions actually correlate with progressed and won deals, and why most &#x27;best questions&#x27; lists are recycled folklore.</description>
-    <category>Discovery &amp; Qualification</category>
-    <pubDate>Thu, 30 Apr 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

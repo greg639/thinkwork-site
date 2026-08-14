@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Thu, 13 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Fri, 14 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>Your AI Roleplay Bot Is Only As Good As the Idiot Who Wrote Its Scenarios</title>
+    <link>https://thinkwork.info/blog/ai-roleplay-bots-teach-reps-to-beat-the-bot/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/ai-roleplay-bots-teach-reps-to-beat-the-bot/</guid>
+    <description>Most AI roleplay scenarios are written by people who&#x27;ve never failed a cold call. That&#x27;s the actual problem with your practice environment.</description>
+    <category>Content &amp; Tooling</category>
+    <pubDate>Fri, 14 Aug 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>The First Hire Every New Sales Leader Makes Is Almost Always the Wrong One</title>
     <link>https://thinkwork.info/blog/sales-leader-first-hire-is-always-wrong/</link>
@@ -398,13 +406,5 @@
     <description>Mastering a qualification framework isn&#x27;t a compliance exercise for your CRM. It&#x27;s the difference between &quot;hit quota&quot; and &quot;got promoted&quot;, here&#x27;s the actual mechanism.</description>
     <category>Methodology</category>
     <pubDate>Wed, 06 May 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>Field Notes: Four Teams, Four Methodologies, One Identical Failure</title>
-    <link>https://thinkwork.info/blog/field-notes-four-teams-four-methodologies-one-failure/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/field-notes-four-teams-four-methodologies-one-failure/</guid>
-    <description>Four teams, four different named methodologies, four audits. Same exact failure every time, and it had nothing to do with which framework was on the wall.</description>
-    <category>Methodology</category>
-    <pubDate>Tue, 05 May 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

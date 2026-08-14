@@ -1,7 +1,35 @@
-<!doctype html><html><head><meta charset="utf-8">
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Greg McCallum</title>
+<!-- thinkwork.info is raw GitHub Pages, so a real 301 is not available: this
+     has to be a soft redirect. The script carries the query string over (the
+     Trustpilot profile link arrives tagged ?utm_source=trustpilot...), which
+     the meta refresh below cannot do. Meta is the no-JS fallback and drops the
+     tags, which is the right trade: landing untagged beats not landing. -->
+<script>(function(){var d="https://gregrcmccallum.com/";
+try{location.replace(d+location.search+location.hash)}catch(e){location.href=d}})();</script>
 <meta http-equiv="refresh" content="0;url=https://gregrcmccallum.com/">
 <link rel="canonical" href="https://gregrcmccallum.com/">
 <meta name="robots" content="noindex">
-<script>location.replace("https://gregrcmccallum.com/");</script>
-</head><body><a href="https://gregrcmccallum.com/">Continue to gregrcmccallum.com →</a></body></html>
+<style>
+:root{color-scheme:light dark}
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+     font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+     background:#fff;color:#111;padding:24px}
+@media(prefers-color-scheme:dark){body{background:#0d0f12;color:#f2f4f7}}
+.card{max-width:26rem;text-align:center}
+h1{font-size:1.15rem;margin:0 0 .5rem;font-weight:700}
+p{margin:0 0 1.25rem;opacity:.75}
+a.go{display:inline-block;padding:.7rem 1.25rem;border-radius:8px;
+     background:#2f5bff;color:#fff;text-decoration:none;font-weight:600}
+</style>
+</head><body>
+<!-- Only ever seen when both JS and meta refresh are blocked (some in-app
+     webviews, link scanners, strict privacy modes). It used to be a bare link
+     on a white page, which reads as a broken site rather than a redirect. -->
+<div class="card">
+  <h1>Redirecting to gregrcmccallum.com</h1>
+  <p>If nothing happens automatically, use the button below.</p>
+  <a class="go" href="https://gregrcmccallum.com/">Continue to gregrcmccallum.com →</a>
+</div>
+</body></html>

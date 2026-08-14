@@ -8,7 +8,12 @@
      tags, which is the right trade: landing untagged beats not landing. -->
 <script>(function(){var d="https://gregrcmccallum.com/";
 try{location.replace(d+location.search+location.hash)}catch(e){location.href=d}})();</script>
-<meta http-equiv="refresh" content="0;url=https://gregrcmccallum.com/">
+<!-- Delayed on purpose. At content="0" this fired a SECOND navigation to the
+     bare URL even after the script above had already left with the tags,
+     logging a phantom untagged pageview on every real visit. The delay lets
+     JS win every time and leaves this as what it should be: the no-JS
+     fallback, which only ever runs when the script did not. -->
+<meta http-equiv="refresh" content="3;url=https://gregrcmccallum.com/">
 <link rel="canonical" href="https://gregrcmccallum.com/">
 <meta name="robots" content="noindex">
 <style>

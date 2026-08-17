@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Fri, 14 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Mon, 17 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>Your New Rep Can Pass the Product Quiz and Still Lose Every Demo</title>
+    <link>https://thinkwork.info/blog/new-rep-product-knowledge-is-not-readiness/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/new-rep-product-knowledge-is-not-readiness/</guid>
+    <description>Product knowledge gates dominate onboarding certification. They test memory, not sell-readiness. That gap is costing you deals in month two.</description>
+    <category>Onboarding &amp; Ramp</category>
+    <pubDate>Mon, 17 Aug 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>Your AI Roleplay Bot Is Only As Good As the Idiot Who Wrote Its Scenarios</title>
     <link>https://thinkwork.info/blog/ai-roleplay-bots-teach-reps-to-beat-the-bot/</link>
@@ -398,13 +406,5 @@
     <description>MEDDPICC is not GTM-agnostic and nobody says so out loud. A blunt map of which framework fits which motion, and which one will actively slow you down.</description>
     <category>Methodology</category>
     <pubDate>Thu, 07 May 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>What Mastering MEDDPICC Actually Does for Your Career, Beyond the CRM Fields</title>
-    <link>https://thinkwork.info/blog/what-mastering-meddpicc-does-for-your-career/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/what-mastering-meddpicc-does-for-your-career/</guid>
-    <description>Mastering a qualification framework isn&#x27;t a compliance exercise for your CRM. It&#x27;s the difference between &quot;hit quota&quot; and &quot;got promoted&quot;, here&#x27;s the actual mechanism.</description>
-    <category>Methodology</category>
-    <pubDate>Wed, 06 May 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

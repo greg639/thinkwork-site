@@ -1,0 +1,143 @@
+<svg viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg" role="img"
+     aria-label="Two panels. On the left, marks from the room scattered across all four skill levels before the rubric. On the right, the same room after learning one rubric, with marks clustered tightly on two levels.">
+  <style>
+    .band { fill: #EFEDE6; }
+    .bl { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; fill: #5A6273; text-anchor: end; }
+    .pt { font-family: Sora, 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .16em; fill: #1A3D5C; }
+    .ps { font-family: 'IBM Plex Sans', sans-serif; font-size: 13.5px; fill: #8B9099; }
+    .arrow { stroke: #B8B4A8; stroke-width: 2; fill: none; }
+    .cap { font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; fill: #5A6273; }
+    .capb { font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; font-weight: 700; fill: #0F1623; }
+    @media (prefers-color-scheme: dark) {
+      .band { fill: #EFEDE6; }
+    }
+  </style>
+  <text x="116" y="95.0" class="bl">Expert</text>
+  <text x="116" y="159.0" class="bl">Advanced</text>
+  <text x="116" y="223.0" class="bl">Proficient</text>
+  <text x="116" y="287.0" class="bl">Foundation</text>
+  <text x="132" y="36" class="pt">ROUND 1</text>
+  <text x="132" y="54" class="ps">Marked cold, no rubric</text>
+  <rect x="132" y="62" width="372" height="56" rx="7" class="band"/>
+  <circle cx="296.0" cy="95.6" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="298.6" cy="86.5" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="238.0" cy="87.7" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="413.6" cy="94.7" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="407.2" cy="92.7" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="352.0" cy="92.0" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="174.7" cy="99.4" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="361.5" cy="95.5" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="172.5" cy="71.0" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="241.5" cy="84.8" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="344.3" cy="89.5" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <rect x="132" y="126" width="372" height="56" rx="7" class="band"/>
+  <circle cx="362.8" cy="146.9" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="344.5" cy="158.3" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="261.1" cy="172.9" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="365.9" cy="167.2" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="264.7" cy="145.9" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="288.4" cy="152.8" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="372.4" cy="156.7" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="279.5" cy="143.5" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="273.2" cy="167.4" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="248.5" cy="156.7" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="354.7" cy="137.6" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="322.2" cy="168.4" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="144.8" cy="150.5" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="308.9" cy="145.0" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="360.8" cy="153.3" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <rect x="132" y="190" width="372" height="56" rx="7" class="band"/>
+  <circle cx="192.0" cy="227.1" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="375.6" cy="228.4" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="441.9" cy="222.0" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="328.3" cy="203.7" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="370.9" cy="211.3" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="279.1" cy="204.1" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="234.8" cy="212.2" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="428.8" cy="199.0" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="192.6" cy="220.6" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="442.1" cy="224.4" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="154.6" cy="199.0" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="348.7" cy="209.9" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="221.7" cy="228.8" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="412.8" cy="219.7" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="339.1" cy="222.8" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="455.1" cy="224.8" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <rect x="132" y="254" width="372" height="56" rx="7" class="band"/>
+  <circle cx="362.6" cy="288.0" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="183.1" cy="296.1" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="400.1" cy="287.8" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="148.2" cy="275.0" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="390.4" cy="263.0" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="302.2" cy="293.2" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="205.2" cy="299.7" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="365.5" cy="280.3" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="345.9" cy="289.1" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="328.4" cy="294.6" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="261.1" cy="277.4" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <circle cx="407.6" cy="282.3" r="4.1" fill="#8B9099" opacity="0.72"/>
+  <text x="600" y="36" class="pt">ROUND 4</text>
+  <text x="600" y="54" class="ps">Same team, after one rubric</text>
+  <rect x="600" y="62" width="372" height="56" rx="7" class="band"/>
+  <circle cx="759.6" cy="100.4" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <rect x="600" y="126" width="372" height="56" rx="7" class="band"/>
+  <circle cx="830.0" cy="149.1" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="744.6" cy="152.5" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="781.5" cy="150.7" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="828.1" cy="142.7" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="823.8" cy="140.0" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="762.4" cy="160.9" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="819.9" cy="163.4" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="796.4" cy="155.6" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="790.6" cy="160.3" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="780.7" cy="157.1" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="803.2" cy="154.0" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="808.9" cy="160.2" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="846.3" cy="157.6" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="773.2" cy="149.9" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="785.6" cy="164.2" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="775.9" cy="158.2" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="841.1" cy="135.0" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="752.3" cy="156.7" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="798.0" cy="156.6" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="773.1" cy="161.2" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="794.5" cy="148.3" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <rect x="600" y="190" width="372" height="56" rx="7" class="band"/>
+  <circle cx="858.9" cy="221.9" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="769.4" cy="216.9" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="779.2" cy="217.3" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="704.2" cy="212.6" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="816.3" cy="205.1" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="784.0" cy="228.5" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="811.7" cy="234.4" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="735.0" cy="214.1" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="775.8" cy="224.9" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="818.8" cy="199.0" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="818.7" cy="202.1" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="806.5" cy="201.6" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="791.3" cy="231.1" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="781.5" cy="220.1" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="809.9" cy="219.6" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="783.3" cy="234.9" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="817.5" cy="214.8" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="868.4" cy="205.4" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="813.4" cy="215.1" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="790.0" cy="225.8" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="792.7" cy="225.0" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="740.2" cy="201.4" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="804.4" cy="207.4" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="755.2" cy="201.8" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="824.0" cy="226.2" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="830.2" cy="207.7" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="786.0" cy="205.5" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="809.0" cy="235.5" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="759.3" cy="235.2" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <rect x="600" y="254" width="372" height="56" rx="7" class="band"/>
+  <circle cx="815.6" cy="280.0" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="726.8" cy="297.5" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <circle cx="783.1" cy="275.4" r="4.1" fill="#1A3D5C" opacity="0.72"/>
+  <path class="arrow" d="M 526 192 h 50"/>
+  <path class="arrow" d="M 566 184 l 10 8 l -10 8"/>
+  <text x="132" y="352" class="capb">The room does not get graded. The standard does.</text>
+  <text x="132" y="374" class="cap">Every dot is one person&#8217;s mark on the same real sales call. Nothing is attributed to anyone.</text>
+</svg>

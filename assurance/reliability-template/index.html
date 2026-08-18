@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reliability Statement (Template) · Second Marking</title>
+<meta name="description" content="Blank Second Marking reliability-statement template — complete each quarter with the double-marked sample and the inter-rater agreement figures.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://thinkwork.info/assurance/reliability-template">
+<link rel="icon" type="image/png" href="/static/og/thinkwork-default.png">
+<style>
+  :root{
+    --paper:#fbfcfd; --sheet:#ffffff; --ink:#18212f;
+    --sub:#5b6677; --faint:#8a94a3; --line:#e2e7ee; --line-2:#eef2f6;
+    --seal:#0f5a3c; --seal-soft:#e8f2ec; --seal-line:#bcd8c8;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{ --paper:#0e131a; --sheet:#151c26; --ink:#e9edf3; --sub:#a3adbc; --faint:#727d8d;
+      --line:#26303d; --line-2:#1c2530; --seal:#4cbf8b; --seal-soft:#123024; --seal-line:#1f4a37; }
+  }
+  :root[data-theme="dark"]{ --paper:#0e131a; --sheet:#151c26; --ink:#e9edf3; --sub:#a3adbc; --faint:#727d8d;
+    --line:#26303d; --line-2:#1c2530; --seal:#4cbf8b; --seal-soft:#123024; --seal-line:#1f4a37; }
+  :root[data-theme="light"]{ --paper:#fbfcfd; --sheet:#ffffff; --ink:#18212f; --sub:#5b6677; --faint:#8a94a3;
+    --line:#e2e7ee; --line-2:#eef2f6; --seal:#0f5a3c; --seal-soft:#e8f2ec; --seal-line:#bcd8c8; }
+
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--paper); color:var(--ink);
+    font:15px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+  .serif{ font-family:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif; }
+  a{ color:var(--seal); }
+  .fill{ color:var(--seal); background:var(--seal-soft); border-bottom:1px solid var(--seal-line);
+    padding:0 5px; border-radius:3px; font-style:normal; font-variant-numeric:normal; font-weight:600; }
+
+  .bar{ position:sticky; top:0; z-index:20; background:rgba(16,26,21,.97); backdrop-filter:blur(8px);
+    color:#eaf0ec; border-bottom:1px solid #244034; }
+  .bar-in{ max-width:760px; margin:0 auto; padding:11px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .bar .brand{ display:flex; align-items:center; gap:9px; font-size:14px; font-weight:600; color:#eaf0ec; text-decoration:none; }
+  .bar .brand .dot{ width:8px; height:8px; border-radius:50%; background:#4cbf8b; }
+  .bar .brand span{ color:#9bb4a8; font-weight:400; }
+  .bar-actions{ display:flex; gap:10px; }
+  .bar a.act{ font-size:12.5px; color:#c8d6cd; border:1px solid #2f4a3d; border-radius:999px; padding:6px 14px; text-decoration:none; }
+  .bar a.act:hover{ color:#fff; border-color:#3f6553; }
+  .bar a.act.primary{ background:#0f5a3c; border-color:#0f5a3c; color:#eafff5; font-weight:600; }
+
+  .banner{ max-width:760px; margin:20px auto -8px; padding:0 24px; }
+  .banner .b{ font-size:12.5px; color:var(--sub); background:var(--seal-soft); border:1px solid var(--seal-line);
+    border-radius:8px; padding:10px 14px; }
+  .banner .b b{ color:var(--ink); }
+
+  .sheet{ max-width:760px; margin:24px auto 40px; background:var(--sheet);
+    border:1px solid var(--line); border-radius:4px; box-shadow:0 24px 60px -34px rgba(20,30,50,.35); }
+  .rule{ height:3px; background:var(--seal); border-radius:4px 4px 0 0; }
+  .pad{ padding:44px 54px 40px; }
+  @media (max-width:640px){ .pad{ padding:30px 24px 32px; } .bar-in{ padding:11px 18px; } }
+
+  .mast{ display:flex; justify-content:space-between; align-items:flex-start; gap:24px; padding-bottom:22px; border-bottom:1px solid var(--line); }
+  .issuer{ font-family:"Iowan Old Style",Palatino,Georgia,serif; font-size:19px; font-weight:700; letter-spacing:-.01em; }
+  .issuer span{ display:block; font-family:inherit; font-size:10.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--seal); margin-top:4px; }
+  .seal{ flex:0 0 auto; width:74px; height:74px; border-radius:50%; border:1.5px solid var(--seal-line); background:var(--seal-soft);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; color:var(--seal); }
+  .seal b{ font-size:9px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; line-height:1.2; }
+  .seal em{ font-style:normal; font-size:8px; letter-spacing:.08em; color:var(--sub); margin-top:2px; }
+
+  .eyebrow{ font-size:10.5px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--seal); margin:26px 0 7px; }
+  h1{ margin:0; font-size:27px; font-weight:700; letter-spacing:-.02em; line-height:1.18; text-wrap:balance; }
+  .meta{ display:flex; flex-wrap:wrap; gap:6px 26px; margin-top:14px; font-size:12.5px; color:var(--sub); }
+  .meta b{ color:var(--ink); font-weight:600; }
+  .lead{ margin:22px 0 0; font-size:15px; line-height:1.66; max-width:64ch; }
+
+  .result{ display:grid; grid-template-columns:1fr 1fr; gap:1px; margin:26px 0 4px; background:var(--line); border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  @media (max-width:520px){ .result{ grid-template-columns:1fr; } }
+  .fig{ background:var(--sheet); padding:22px 24px; }
+  .fig.hero{ background:var(--seal-soft); }
+  .fig .n{ font-family:"Iowan Old Style",Palatino,Georgia,serif; font-size:46px; font-weight:700; letter-spacing:-.02em; line-height:1; font-variant-numeric:tabular-nums; }
+  .fig.hero .n{ color:var(--seal); }
+  .fig .n .fill{ font-size:34px; }
+  .fig .l{ font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--sub); margin-top:9px; }
+  .fig .d{ font-size:12px; color:var(--sub); margin-top:5px; line-height:1.5; }
+
+  h2{ font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--sub); margin:34px 0 12px; }
+  p{ margin:0 0 12px; max-width:64ch; } .sub{ color:var(--sub); }
+
+  table{ width:100%; border-collapse:collapse; font-size:13.5px; margin-top:4px; }
+  th{ text-align:left; font-size:10px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--sub); padding:0 12px 9px 0; border-bottom:1px solid var(--line); }
+  td{ padding:12px 12px 12px 0; border-bottom:1px solid var(--line-2); }
+  .num{ text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  tr.tot td{ border-top:1.5px solid var(--line); border-bottom:0; font-weight:700; }
+  tr.tot td:first-child{ color:var(--ink); }
+  .ref{ font-size:11.5px; color:var(--faint); font-variant-numeric:tabular-nums; }
+
+  .note{ font-size:13px; line-height:1.62; color:var(--sub); border-left:2px solid var(--seal-line); background:var(--line-2); border-radius:0 6px 6px 0; padding:13px 16px; margin:6px 0 0; }
+  .note b{ color:var(--ink); font-weight:600; }
+
+  .defn{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:6px; }
+  @media (max-width:520px){ .defn{ grid-template-columns:1fr; } }
+  .defn div{ border:1px solid var(--line); border-radius:7px; padding:12px 15px; }
+  .defn .k{ font-size:12.5px; font-weight:700; }
+  .defn .v{ font-size:12.5px; color:var(--sub); margin-top:3px; line-height:1.5; }
+
+  .sign{ margin-top:34px; padding-top:22px; border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:flex-end; gap:20px; flex-wrap:wrap; }
+  .sign .who{ font-family:"Iowan Old Style",Palatino,Georgia,serif; font-size:15px; font-weight:700; }
+  .sign .role{ font-size:12px; color:var(--sub); margin-top:2px; }
+  .sign .disc{ font-size:11px; color:var(--faint); max-width:38ch; line-height:1.5; text-align:right; }
+
+  @media print{
+    :root{ --paper:#fff; --sheet:#fff; --ink:#18212f; --sub:#5b6677; --faint:#8a94a3; --line:#e2e7ee; --line-2:#eef2f6; --seal:#0f5a3c; --seal-soft:#e8f2ec; --seal-line:#bcd8c8; }
+    body{ background:#fff; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .bar,.banner{ display:none; }
+    .sheet{ box-shadow:none; border:0; margin:0; max-width:none; }
+    .pad{ padding:0; }
+    @page{ size:A4; margin:16mm; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="bar-in">
+    <a href="/assurance" class="brand"><span class="dot"></span>Second Marking <span>· Reliability Statement — template</span></a>
+    <div class="bar-actions">
+      <a href="/assurance/reliability" class="act">Worked example</a>
+      <a href="#" onclick="window.print();return false" class="act primary">Download / print</a>
+    </div>
+  </div>
+</div>
+
+<div class="banner"><div class="b"><b>Blank template.</b> Highlighted fields are completed each quarter from the marking record. See the <a href="/assurance/reliability">worked example</a> for a filled version.</div></div>
+
+<div class="sheet">
+  <div class="rule"></div>
+  <div class="pad">
+
+    <div class="mast">
+      <div class="issuer">Second Marking<span>by Peer Skills Ltd</span></div>
+      <div class="seal">
+        <b>Blind<br>Verified</b>
+        <em>Independent</em>
+      </div>
+    </div>
+
+    <p class="eyebrow">Issued each quarter with your marking</p>
+    <h1 class="serif">How consistently our assessors mark the same call</h1>
+    <div class="meta">
+      <span><b>Programme</b>&nbsp; <span class="fill">[client · programme]</span></span>
+      <span><b>Issued</b>&nbsp; <span class="fill">[date]</span></span>
+      <span><b>Reference</b>&nbsp; <span class="fill">[ref · quarter]</span></span>
+    </div>
+
+    <p class="lead">A score is only worth having if it isn't one person's opinion. Your marking is
+      done by a calibrated panel of assessors; one call in five is independently marked a second time by
+      another of them, working blind. This statement reports how closely those pairs agreed — the
+      measure of whether the marking is consistent, and something you can place in front of your own
+      clients.</p>
+
+    <div class="result">
+      <div class="fig hero">
+        <div class="n"><span class="fill">[__]</span>%</div>
+        <div class="l">Within one band</div>
+        <div class="d">On <span class="fill">[x]</span> of <span class="fill">[y]</span> double-marked criteria, the two assessors were no more than one point apart on the 0–4 scale.</div>
+      </div>
+      <div class="fig">
+        <div class="n"><span class="fill">[__]</span>%</div>
+        <div class="l">Exact agreement</div>
+        <div class="d">On <span class="fill">[x]</span> of <span class="fill">[y]</span>, they gave the identical score without rounding or tolerance.</div>
+      </div>
+    </div>
+
+    <h2>What was measured</h2>
+    <p class="sub">Each double-marked call is scored by two assessors independently; the second never sees
+      the first's marks, the AI's score, the source report, or the participant's real name. Two figures are
+      reported, and both are published rather than the flattering one alone:</p>
+    <div class="defn">
+      <div><div class="k">Exact agreement</div><div class="v">The two assessors recorded the identical 0–4 score on that criterion.</div></div>
+      <div><div class="k">Within one band</div><div class="v">Their scores differed by no more than a single point — the same judgement, one gradation apart.</div></div>
+    </div>
+
+    <h2>The double-marked sample</h2>
+    <table>
+      <thead><tr>
+        <th>Double-marked call</th><th class="ref">Assessor pair</th>
+        <th class="num">Criteria</th><th class="num">Exact</th><th class="num">Within one band</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><span class="fill">[call]</span></td><td class="ref"><span class="fill">[#0__ · #0__]</span></td><td class="num"><span class="fill">[n]</span></td><td class="num"><span class="fill">[_]%</span></td><td class="num"><span class="fill">[_]%</span></td></tr>
+        <tr><td><span class="fill">[call]</span></td><td class="ref"><span class="fill">[#0__ · #0__]</span></td><td class="num"><span class="fill">[n]</span></td><td class="num"><span class="fill">[_]%</span></td><td class="num"><span class="fill">[_]%</span></td></tr>
+        <tr><td><span class="fill">[call]</span></td><td class="ref"><span class="fill">[#0__ · #0__]</span></td><td class="num"><span class="fill">[n]</span></td><td class="num"><span class="fill">[_]%</span></td><td class="num"><span class="fill">[_]%</span></td></tr>
+        <tr class="tot"><td>Combined</td><td class="ref"><span class="fill">[panel]</span></td><td class="num"><span class="fill">[N]</span></td><td class="num"><span class="fill">[_]%</span></td><td class="num"><span class="fill">[_]%</span></td></tr>
+      </tbody>
+    </table>
+    <p class="sub" style="font-size:12px;margin-top:10px">Calls are identified by number and participants by code in all reliability reporting;
+      assessors by an anonymous reference. Marks are 0–4 with an explicit not-applicable option, against
+      <span class="fill">[client]</span>'s <span class="fill">[N]</span>-criterion <span class="fill">[programme]</span> rubric.</p>
+
+    <h2>What is excluded, and why</h2>
+    <p class="note">Where a selected second-marking pass yields no comparable score — for example a
+      not-applicable pass, or a recording too compromised to score fairly — it is <b>left out of the figures
+      above rather than counted as disagreement</b>, and noted here, so that a data-quality finding is never
+      misreported as an assessor one. <br><b>This quarter:</b> <span class="fill">[detail any exclusions, or “none”]</span>.</p>
+
+    <h2>How to read this figure</h2>
+    <p class="sub">These figures are drawn from <span class="fill">[N]</span> double-marked criteria across
+      <span class="fill">[n]</span> calls this quarter. They are measured against the baseline at
+      <span class="fill">[baseline ref]</span>, and re-established as marking volume grows. Movement away from it,
+      in either direction, is the signal worth watching: a falling figure asks whether the rubric or the
+      calibration needs attention; a rising one confirms the panel is converging.</p>
+
+    <div class="sign">
+      <div>
+        <div class="who">Second Marking</div>
+        <div class="role">Independent human marking · blind protocol · calibrated panel</div>
+      </div>
+      <div class="disc">Prepared for <span class="fill">[client]</span>. Commercial-in-confidence. Figures are
+        reproducible from the marking record on request.</div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

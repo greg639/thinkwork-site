@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Tue, 18 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Wed, 19 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>Position Bias, Verbosity Bias, Self-Preference: The Three Ways Your AI Scorer Is Lying to You</title>
+    <link>https://thinkwork.info/blog/position-bias-verbosity-bias-ai-judge-failure-modes/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/position-bias-verbosity-bias-ai-judge-failure-modes/</guid>
+    <description>LLM-as-judge systems carry structural biases that no accuracy metric will surface. Here is how to find them before they cost someone a job or a deal.</description>
+    <category>AI Scoring &amp; Assurance</category>
+    <pubDate>Wed, 19 Aug 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>The One Question That Separates a Coaching 1:1 From a Performance Conversation</title>
     <link>https://thinkwork.info/blog/the-coaching-question-managers-never-ask/</link>
@@ -398,13 +406,5 @@
     <description>Sandler gets filed under &quot;discovery framework.&quot; It&#x27;s really a lesson in tolerating silence and letting pressure do the qualifying for you, and teaching it as questions instead of composure is why it doesn&#x27;t stick.</description>
     <category>Methodology</category>
     <pubDate>Wed, 13 May 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>Your Methodology Switch Isn&#x27;t the Problem. Your Ramp Program Is.</title>
-    <link>https://thinkwork.info/blog/methodology-switch-scapegoat-for-broken-ramp/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/methodology-switch-scapegoat-for-broken-ramp/</guid>
-    <description>Before you blame the framework for the miss, check the onboarding curriculum. Most methodology switches are a company re-labeling a problem it never actually fixed.</description>
-    <category>Methodology</category>
-    <pubDate>Tue, 12 May 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

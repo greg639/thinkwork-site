@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Wed, 19 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Thu, 20 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>Most Sales Orgs Think They&#x27;re at Stage Three of Process Maturity. They&#x27;re at Stage Two.</title>
+    <link>https://thinkwork.info/blog/sales-process-maturity-what-stage-two-actually-looks-like/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/sales-process-maturity-what-stage-two-actually-looks-like/</guid>
+    <description>Having a documented process is not the same as running one. Here&#x27;s how to tell which stage your org is actually at.</description>
+    <category>Methodology</category>
+    <pubDate>Thu, 20 Aug 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>Position Bias, Verbosity Bias, Self-Preference: The Three Ways Your AI Scorer Is Lying to You</title>
     <link>https://thinkwork.info/blog/position-bias-verbosity-bias-ai-judge-failure-modes/</link>
@@ -398,13 +406,5 @@
     <description>Everyone can recite &quot;Teach, Tailor, Take Control.&quot; Almost nobody&#x27;s team can do the second and third word. Here&#x27;s why the muscle never gets built.</description>
     <category>Methodology</category>
     <pubDate>Thu, 14 May 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>Sandler&#x27;s Pain Funnel Is a Negotiation Skill Wearing a Discovery Costume</title>
-    <link>https://thinkwork.info/blog/sandler-pain-funnel-negotiation-skill/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/sandler-pain-funnel-negotiation-skill/</guid>
-    <description>Sandler gets filed under &quot;discovery framework.&quot; It&#x27;s really a lesson in tolerating silence and letting pressure do the qualifying for you, and teaching it as questions instead of composure is why it doesn&#x27;t stick.</description>
-    <category>Methodology</category>
-    <pubDate>Wed, 13 May 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

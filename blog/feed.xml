@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Thu, 20 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Fri, 21 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>The Follow-Up Email After Discovery Is Where Most Deals Quietly Die</title>
+    <link>https://thinkwork.info/blog/discovery-follow-up-email-kills-deals-you-won/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/discovery-follow-up-email-kills-deals-you-won/</guid>
+    <description>Reps run a solid discovery call, then send a summary email that undoes half of it. Here&#x27;s the exact failure pattern, line by line.</description>
+    <category>Discovery &amp; Qualification</category>
+    <pubDate>Fri, 21 Aug 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>Most Sales Orgs Think They&#x27;re at Stage Three of Process Maturity. They&#x27;re at Stage Two.</title>
     <link>https://thinkwork.info/blog/sales-process-maturity-what-stage-two-actually-looks-like/</link>
@@ -398,13 +406,5 @@
     <description>&quot;Champion&quot; is the one MEDDPICC letter nobody verifies, it just gets typed in after a nice call. Here&#x27;s the test that catches the ones who&#x27;ll disappear the second the deal gets hard.</description>
     <category>Methodology</category>
     <pubDate>Tue, 19 May 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>Challenger&#x27;s &#x27;Teach, Tailor, Take Control&#x27;: Most Teams Only Ever Install the First Word</title>
-    <link>https://thinkwork.info/blog/challenger-teach-tailor-take-control-stalls-at-teach/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/challenger-teach-tailor-take-control-stalls-at-teach/</guid>
-    <description>Everyone can recite &quot;Teach, Tailor, Take Control.&quot; Almost nobody&#x27;s team can do the second and third word. Here&#x27;s why the muscle never gets built.</description>
-    <category>Methodology</category>
-    <pubDate>Thu, 14 May 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

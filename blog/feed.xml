@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Fri, 21 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Mon, 24 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>Your Outbound Sequence Isn&#x27;t Underperforming Because of Low Volume. It&#x27;s Underperforming Because You Personalised the Wrong Thing.</title>
+    <link>https://thinkwork.info/blog/outbound-sequence-personalisation-is-theatre/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/outbound-sequence-personalisation-is-theatre/</guid>
+    <description>Reps spend 40 minutes researching a prospect and change one sentence. That&#x27;s not personalisation. That&#x27;s procrastination with a LinkedIn tab open.</description>
+    <category>Prospecting &amp; Outbound</category>
+    <pubDate>Mon, 24 Aug 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>The Follow-Up Email After Discovery Is Where Most Deals Quietly Die</title>
     <link>https://thinkwork.info/blog/discovery-follow-up-email-kills-deals-you-won/</link>
@@ -398,13 +406,5 @@
     <description>We pulled the assessment data on 500 real discovery calls scored against four named frameworks. The gap between the deck and the transcript is bigger, and more consistent, than most VPs of Sales want to hear.</description>
     <category>Methodology</category>
     <pubDate>Wed, 20 May 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>The Champion Criterion Is Where MEDDPICC Deals Actually Die: A Test for Fake Champions</title>
-    <link>https://thinkwork.info/blog/meddpicc-champion-criterion-fake-champion-test/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/meddpicc-champion-criterion-fake-champion-test/</guid>
-    <description>&quot;Champion&quot; is the one MEDDPICC letter nobody verifies, it just gets typed in after a nice call. Here&#x27;s the test that catches the ones who&#x27;ll disappear the second the deal gets hard.</description>
-    <category>Methodology</category>
-    <pubDate>Tue, 19 May 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

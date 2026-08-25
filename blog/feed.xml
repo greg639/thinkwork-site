@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Mon, 24 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Tue, 25 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>Your Stage-Probability Table Is Fiction. Here&#x27;s What Actually Predicts Whether a Deal Closes.</title>
+    <link>https://thinkwork.info/blog/stage-probability-is-fiction-heres-what-to-use-instead/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/stage-probability-is-fiction-heres-what-to-use-instead/</guid>
+    <description>Most CRM probability fields are just stage numbers dressed in percentage clothing. Here&#x27;s what forecast-accurate teams use instead.</description>
+    <category>Pipeline &amp; Forecasting</category>
+    <pubDate>Tue, 25 Aug 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>Your Outbound Sequence Isn&#x27;t Underperforming Because of Low Volume. It&#x27;s Underperforming Because You Personalised the Wrong Thing.</title>
     <link>https://thinkwork.info/blog/outbound-sequence-personalisation-is-theatre/</link>
@@ -398,13 +406,5 @@
     <description>MEDDPICC gets a bad name because it gets asked badly. A field-by-field rework of the checklist into questions a human would actually say out loud.</description>
     <category>Methodology</category>
     <pubDate>Thu, 21 May 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>We Scored 500 Discovery Calls Against Four Sales Methodologies. Here&#x27;s What Reps Actually Used.</title>
-    <link>https://thinkwork.info/blog/we-scored-500-discovery-calls-against-four-methodologies/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/we-scored-500-discovery-calls-against-four-methodologies/</guid>
-    <description>We pulled the assessment data on 500 real discovery calls scored against four named frameworks. The gap between the deck and the transcript is bigger, and more consistent, than most VPs of Sales want to hear.</description>
-    <category>Methodology</category>
-    <pubDate>Wed, 20 May 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

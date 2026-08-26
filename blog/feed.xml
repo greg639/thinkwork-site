@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Tue, 25 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Wed, 26 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>You Inherited an AI Scorecard. You Have No Idea What It Was Built to Measure.</title>
+    <link>https://thinkwork.info/blog/rubric-inheritance-how-to-audit-a-scorecard-you-didnt-build/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/rubric-inheritance-how-to-audit-a-scorecard-you-didnt-build/</guid>
+    <description>Most teams running AI assessment didn&#x27;t write the rubric. Here&#x27;s how to find out whether it&#x27;s grading what you think it is.</description>
+    <category>AI Scoring &amp; Assurance</category>
+    <pubDate>Wed, 26 Aug 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>Your Stage-Probability Table Is Fiction. Here&#x27;s What Actually Predicts Whether a Deal Closes.</title>
     <link>https://thinkwork.info/blog/stage-probability-is-fiction-heres-what-to-use-instead/</link>
@@ -398,13 +406,5 @@
     <description>Forget adoption stats and LinkedIn endorsements. Ranked by what it actually takes to run each framework live, on a call, under pressure, with a verdict most enablement decks won&#x27;t say out loud.</description>
     <category>Methodology</category>
     <pubDate>Tue, 26 May 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>How to Run MEDDPICC Discovery Without Sounding Like a Checklist</title>
-    <link>https://thinkwork.info/blog/how-to-run-meddpicc-discovery-without-a-checklist/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/how-to-run-meddpicc-discovery-without-a-checklist/</guid>
-    <description>MEDDPICC gets a bad name because it gets asked badly. A field-by-field rework of the checklist into questions a human would actually say out loud.</description>
-    <category>Methodology</category>
-    <pubDate>Thu, 21 May 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

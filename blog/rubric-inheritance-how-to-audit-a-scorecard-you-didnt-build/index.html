@@ -3,27 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>What Your AI Scorecard Cannot See From a Transcript | ThinkWork</title>
-<meta name="description" content="Transcripts capture words. Scores require judgement. The gap between the two is where your AI scoring layer is quietly getting it wrong.">
-<link rel="canonical" href="https://thinkwork.info/blog/what-your-ai-scorecard-cannot-see-from-a-transcript/">
-<meta property="og:title" content="What Your AI Scorecard Cannot See From a Transcript | ThinkWork">
-<meta property="og:description" content="Transcripts capture words. Scores require judgement. The gap between the two is where your AI scoring layer is quietly getting it wrong.">
-<meta property="og:url" content="https://thinkwork.info/blog/what-your-ai-scorecard-cannot-see-from-a-transcript/">
+<title>You Inherited an AI Scorecard. You Have No Idea What It Was Built to Measure. | ThinkWork</title>
+<meta name="description" content="Most teams running AI assessment didn&#x27;t write the rubric. Here&#x27;s how to find out whether it&#x27;s grading what you think it is.">
+<link rel="canonical" href="https://thinkwork.info/blog/rubric-inheritance-how-to-audit-a-scorecard-you-didnt-build/">
+<meta property="og:title" content="You Inherited an AI Scorecard. You Have No Idea What It Was Built to Measure. | ThinkWork">
+<meta property="og:description" content="Most teams running AI assessment didn&#x27;t write the rubric. Here&#x27;s how to find out whether it&#x27;s grading what you think it is.">
+<meta property="og:url" content="https://thinkwork.info/blog/rubric-inheritance-how-to-audit-a-scorecard-you-didnt-build/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ThinkWork">
-<meta property="og:image" content="https://thinkwork.info/static/li/what-your-ai-scorecard-cannot-see-from-a-transcript.png">
+<meta property="og:image" content="https://thinkwork.info/static/og/thinkwork-default.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="What Your AI Scorecard Cannot See From a Transcript | ThinkWork">
-<meta name="twitter:description" content="Transcripts capture words. Scores require judgement. The gap between the two is where your AI scoring layer is quietly getting it wrong.">
-<meta name="twitter:image" content="https://thinkwork.info/static/li/what-your-ai-scorecard-cannot-see-from-a-transcript.png">
+<meta name="twitter:title" content="You Inherited an AI Scorecard. You Have No Idea What It Was Built to Measure. | ThinkWork">
+<meta name="twitter:description" content="Most teams running AI assessment didn&#x27;t write the rubric. Here&#x27;s how to find out whether it&#x27;s grading what you think it is.">
+<meta name="twitter:image" content="https://thinkwork.info/static/og/thinkwork-default.png">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A3D5C'/><text x='16' y='22' font-family='Georgia' font-size='20' fill='%23FAF6EC' text-anchor='middle'>tw</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/library/library.css?v=1">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "What Your AI Scorecard Cannot See From a Transcript", "description": "Transcripts capture words. Scores require judgement. The gap between the two is where your AI scoring layer is quietly getting it wrong.", "datePublished": "2026-08-05", "dateModified": "2026-08-05", "author": {"@type": "Person", "name": "Greg McCallum", "jobTitle": "Founder, ThinkWork", "url": "https://thinkwork.info"}, "publisher": {"@type": "Organization", "name": "ThinkWork", "url": "https://thinkwork.info"}, "mainEntityOfPage": "https://thinkwork.info/blog/what-your-ai-scorecard-cannot-see-from-a-transcript/", "articleSection": "AI Scoring & Assurance", "inLanguage": "en"}</script><link rel="stylesheet" href="/blog/blog.css?v=1"><link rel="alternate" type="application/rss+xml" title="ThinkWork Blog" href="/blog/feed.xml">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "You Inherited an AI Scorecard. You Have No Idea What It Was Built to Measure.", "description": "Most teams running AI assessment didn't write the rubric. Here's how to find out whether it's grading what you think it is.", "datePublished": "2026-08-26", "dateModified": "2026-08-26", "author": {"@type": "Person", "name": "Greg McCallum", "jobTitle": "Founder, ThinkWork", "url": "https://thinkwork.info"}, "publisher": {"@type": "Organization", "name": "ThinkWork", "url": "https://thinkwork.info"}, "mainEntityOfPage": "https://thinkwork.info/blog/rubric-inheritance-how-to-audit-a-scorecard-you-didnt-build/", "articleSection": "AI Scoring & Assurance", "inLanguage": "en"}</script><link rel="stylesheet" href="/blog/blog.css?v=1"><link rel="alternate" type="application/rss+xml" title="ThinkWork Blog" href="/blog/feed.xml">
 </head>
 <body class="post-page">
 <header class="masthead">
@@ -47,58 +47,47 @@
 <article class="post">
   <header class="post-head">
     <div class="post-meta">
-      <span class="pill fmt">Explainer</span>
-      <time datetime="2026-08-05">5 August 2026</time>
+      <span class="pill fmt">How-to</span>
+      <time datetime="2026-08-26">26 August 2026</time>
       <span>&middot;</span><span>6 min read</span>
     </div>
-    <h1>What Your AI Scorecard Cannot See From a Transcript</h1>
-    <p class="dek">Transcripts capture words. Scores require judgement. The gap between the two is where your AI scoring layer is quietly getting it wrong.</p>
+    <h1>You Inherited an AI Scorecard. You Have No Idea What It Was Built to Measure.</h1>
+    <p class="dek">Most teams running AI assessment didn&#x27;t write the rubric. Here&#x27;s how to find out whether it&#x27;s grading what you think it is.</p>
   </header>
-  <div class="post-body"><p>Every AI call scoring vendor will show you a dashboard with competency bars, percentage scores, and a colour-coded rubric. It looks complete. The problem is that "looks complete" and "is complete" are doing very different jobs in that sentence, and almost nobody in the room has mapped where the scoring model's observable horizon actually sits.</p>
-<p>That horizon matters because the competencies beyond it are not edge cases. They are frequently the ones that separate a rep who hits quota from a rep who builds pipeline that closes at twice the rate. If your rubric includes them but your evidence layer cannot supply them, you are not measuring those competencies. You are measuring something adjacent to them and calling it the same thing.</p>
-<h3>What a transcript actually contains</h3>
-<p>A transcript is a verbatim record of words spoken, in sequence, with timestamps. Some transcription tools add a speaker label and, occasionally, a sentiment flag derived from word choice. That is the full inventory.</p>
-<p>What a transcript does not contain:</p>
-<ul>
-<li>Silences and their duration (some platforms log a pause, almost none score its function)</li>
-<li>Prosody: pace, volume, pitch shift, the audible drop in energy when a rep loses confidence</li>
-<li>The buyer's non-verbal signals that caused the rep to change tack</li>
-<li>What the rep chose not to say, and when</li>
-<li>The sequencing of a concession relative to the emotional state of the conversation, not just its position in the word count</li>
-</ul>
-<p>You can infer some of these things from words alone. But inference is not observation, and when you treat inferred proxies as direct evidence, your scores start measuring the proxy. Over time, reps learn to optimise for the proxy. That is a different problem, and a worse one.</p>
-<h3>The competency categories that sit beyond the horizon</h3>
-<p>There is a useful way to classify scoring criteria by the evidence type each one actually requires. Call it the evidence-tier test. Run every criterion in your rubric through it before you decide whether your current mechanism can score it honestly.</p>
-<div class="tw"><table><thead><tr><th>Evidence tier</th><th>What it requires</th><th>Example competencies</th></tr></thead><tbody>
-<tr><td>Tier 1: Verbatim</td><td>The exact words spoken</td><td>Qualification question usage, talk-track adherence, legal disclosure</td></tr>
-<tr><td>Tier 2: Linguistic pattern</td><td>Word choice, sequence, ratio</td><td>Talk-to-listen ratio, objection language, question-to-statement ratio</td></tr>
-<tr><td>Tier 3: Paralinguistic</td><td>Pace, pause, tone, volume</td><td>Confidence signalling, rapport pacing, authority under pressure</td></tr>
-<tr><td>Tier 4: Relational</td><td>Reading the room, attunement, presence</td><td>Emotional intelligence, concession timing, buyer-state calibration</td></tr>
-<tr><td>Tier 5: Withheld</td><td>What was not said, and why</td><td>Strategic restraint, qualification discipline, silence as a tool</td></tr>
+  <div class="post-body"><p>Someone handed you a scoring system. Maybe it came with the platform contract, maybe the previous enablement lead set it up before they left, maybe a vendor pre-configured it during onboarding and called it "best practice." Either way, it is now running against real people's performance records, influencing their coaching plans, possibly feeding into compensation reviews, and you would struggle, if someone pressed you hard in a meeting, to explain why a 3 means what it says rather than a 2 or a 4. That is not a minor administrative gap. That is a liability.</p>
+<p>The problem is not that AI scoring is unreliable. Some of it is genuinely good. The problem is that the reasoning behind a rubric does not travel with the rubric. Criteria get copy-pasted, bands get adjusted for reasons nobody wrote down, and the person who knew why "meets expectations" was set at that threshold left the business eighteen months ago. You inherited the output of someone else's thinking without the thinking.</p>
+<p>Here is how to find out what you actually have.</p>
+<h3>Step 1: Read every criterion against real outputs, not the documentation</h3>
+<p>Start with the rubric itself. Print it, or open it in a way that lets you annotate it. Now pull ten scored transcripts or call recordings from the last thirty days, spread across your performance bands. Read each criterion, then ask: can I see the evidence for this score in the output I am looking at?</p>
+<p>Do this for every criterion, not just the ones that feel risky. You are looking for two failure modes. The first is criteria that are so vague the score could be almost anything ("demonstrates professionalism," "shows good product knowledge"). The second is criteria that appear specific but are actually proxies, things like talk-to-listen ratio where the AI is measuring a signal that correlates with skill under certain conditions and not others.</p>
+<p>Write a short note next to each criterion: <em>visible and specific</em>, <em>vague</em>, or <em>proxy</em>. Any criterion in the latter two categories needs to be interrogated before you rely on the scores it produces.</p>
+<h3>Step 2: Run a blind inter-rater check</h3>
+<p>Take five of those same transcripts. Strip out the AI scores. Give them to two experienced practitioners, ideally people who have actually done the role being assessed, with nothing but the rubric and a clean scoresheet. Ask them to score independently, with no discussion.</p>
+<p>Then compare: human one, human two, AI.</p>
+<p>You are not expecting perfect agreement. You are looking for pattern. Where all three cluster within one band, the criterion is probably measuring something real. Where the AI consistently scores higher or lower than both humans, you have a calibration problem. Where the two humans disagree significantly with each other, the criterion is under-defined and the AI score is noise dressed as data.</p>
+<p>The <a href="/library/tools/human-vs-ai-scoring-agreement-checker/">Human vs AI Scoring Agreement Checker</a> can structure this comparison if you want a clean view of the gaps, but even a simple spreadsheet will show you where the divergence is worst. Rank your criteria by disagreement. Address the top three before your next performance cycle runs.</p>
+<h3>Step 3: Identify criteria that require inference the model cannot make</h3>
+<p>This is the one most people skip, and it is the one that causes the most downstream damage.</p>
+<p>A transcript is a record of what was said. It is not a record of what was meant, what the prospect was thinking, whether the rep had read the account history before the call, or whether the silence at 4:12 was a confident pause or a rep who had lost their place. AI scoring systems working from transcripts can only evaluate what is linguistically present. Anything that requires contextual inference is beyond them.</p>
+<p>Go through your criteria and flag any that implicitly require the scorer to know something the transcript does not contain. Common examples:</p>
+<div class="tw"><table><thead><tr><th>Criterion</th><th>What the transcript shows</th><th>What it cannot show</th></tr></thead><tbody>
+<tr><td>"Tailors pitch to prospect's specific situation"</td><td>The rep mentioned the prospect's industry</td><td>Whether that tailoring was based on research or a lucky guess</td></tr>
+<tr><td>"Handles objections with confidence"</td><td>The rep gave a response</td><td>The rep's tone, composure under pressure</td></tr>
+<tr><td>"Demonstrates strategic account awareness"</td><td>Keywords present or absent</td><td>Whether the rep understood the account or was pattern-matching</td></tr>
 </tbody></table></div>
-<p>Tier 1 and Tier 2 are inside the transcript's observable horizon. A well-trained model can score these with reasonable reliability. Tier 3 requires audio; some platforms have it, most rubrics do not distinguish between audio-derived and transcript-derived scores. Tier 4 and Tier 5 are, for practical purposes, invisible to any automated layer that does not include synchronous human observation or, at minimum, a structured debrief with the rep immediately after the call.</p>
-<p>The failure mode is not that vendors build AI scoring tools. The failure mode is that the rubric does not carry a tier label, so nobody notices when a Tier 4 competency is being scored from Tier 1 evidence.</p>
-<h3>What happens when you score them anyway</h3>
-<p>Two things happen, and both are bad.</p>
-<p><strong>Omission.</strong> You quietly drop the competency from the rubric because you cannot score it. The rubric therefore covers the skills that are easy to observe, which skews your capability model toward the visible and away from the differentiating. Your top-quartile reps look more similar to your mid-quartile reps than they actually are, because the dimensions on which they genuinely differ are not in your scorecard.</p>
-<p><strong>Proxy substitution.</strong> You keep the competency label but score it from available evidence. "Emotional attunement" becomes a sentiment-word count. "Strategic use of silence" becomes a pause-detection flag with no judgement about whether the pause was intentional or a rep who lost the thread. "Presence" becomes a talk-speed metric. The score exists. It is measuring something. It is not measuring what it says it is measuring.</p>
-<p>Proxy substitution is the more dangerous failure because it is invisible unless you audit it. The number looks authoritative. HR signs off on it. L&amp;D builds a coaching programme around it. Six months later, your "high attunement" reps are gaming the sentiment vocabulary, and nobody has noticed because the score kept going up.</p>
-<h3>The audit method: classify before you claim</h3>
-<p>If you own or deliver an AI scoring layer, here is a concrete way to audit what you are actually measuring.</p>
-<ol>
-<li>List every criterion in your rubric. All of them, including the ones buried in sub-categories.</li>
-<li>Assign each criterion to an evidence tier (use the table above as a starting frame).</li>
-<li>For each Tier 3, 4, and 5 criterion, ask: what evidence does our system actually supply to generate this score? Be specific. If the answer is "word choice and sentiment", write that down.</li>
-<li>Where the evidence tier of the criterion and the evidence tier of your input do not match, you have a gap. Name it.</li>
-<li>Decide, for each gap, which of three routes you take: drop the criterion, source the right evidence (audio, human review, rep self-report with calibration), or relabel the criterion to describe what you are actually measuring.</li>
-</ol>
-<p>This is not a comfortable exercise. It tends to reveal that a rubric claiming 20 competencies is reliably scoring 11 of them and approximating the rest. But an honest rubric that covers 11 competencies well is more defensible, and more useful, than a 20-competency rubric with eight silent proxies embedded in it.</p>
-<p>If you want to see how your current scoring compares to structured human judgement on the same calls, the <a href="/library/tools/human-vs-ai-scoring-agreement-checker/">Human vs AI Scoring Agreement Checker</a> gives you a starting framework for running that comparison systematically.</p>
-<h3>Where human sign-off earns its place</h3>
-<p>The case for human review in a scoring system is not that humans are more consistent than models. They are not. The case is that humans can observe evidence types that models cannot, particularly Tier 4 and Tier 5, and that calibrated human judgement, applied selectively to the competencies that actually require it, closes the gap that transcript analysis cannot.</p>
-<p>"Applied selectively" is doing important work in that sentence. Human review on every call at scale is not viable. Human review on the high-signal competencies, for a statistically meaningful sample, calibrated against AI scores to surface systematic divergence, is both viable and valuable. The <a href="/library/tools/sales-skills-self-assessment/">Sales Skills Self-Assessment</a> can also surface Tier 4 and 5 behaviours through structured rep self-report, which gives you a second evidence source where observation is genuinely impossible.</p>
-<p>The question to ask your scoring vendor, or yourself if you built the rubric, is simple: for each competency you claim to measure, what evidence tier does it require, and what evidence tier are you actually using? If those two things do not match, you are not measuring what you think you are measuring. You are measuring what you can see, and labelling it as something broader.</p>
-<p>That is not a technology problem. It is a claims problem. And it is fixable, but only if you are willing to draw the horizon honestly rather than assume it sits at the edge of your dashboard.</p></div>
+<p>Any criterion in the right-hand column is being scored on a proxy at best. That is not automatically disqualifying, but you need to know it is happening, and your calibration notes should say so explicitly.</p>
+<h3>Step 4: Spot the criteria that have drifted from what the business actually needs</h3>
+<p>Rubrics are written at a point in time. Your business is not the same business it was when this one was written.</p>
+<p>Pull your last three quarterly commercial reviews. Look at what the leadership team identified as the primary skill gaps, the deal-stage failures, the conversion problems. Now look at your rubric. Count how many criteria directly address those stated priorities.</p>
+<p>If your pipeline problem is that reps cannot get past procurement without re-qualifying the deal, and your rubric has six criteria about discovery and nothing about commercial navigation, the scorecard is measuring last year's problem. You will generate a lot of data about something that does not matter and nothing about the thing that does.</p>
+<p>This is also where inherited rubrics from vendor templates are most likely to fail. A vendor builds a generic rubric optimised for the modal sales motion. Your sales motion is not modal. The criteria that were meaningful for the previous owner may be irrelevant or actively misleading for you.</p>
+<p>Make a simple list: criteria that map to current business priorities, criteria that are neutral, criteria that map to old or irrelevant priorities. Anything in the third column is a candidate for removal or replacement before you run another full assessment cycle.</p>
+<h3>Step 5: Get a human expert to re-mark a sample before the next cycle runs</h3>
+<p>None of the above replaces a qualified second opinion on the scores themselves.</p>
+<p>Pick fifteen assessments: five from your top performers, five from your middle band, five from the people your rubric is flagging as underperforming. Have someone with genuine domain expertise, not just a manager, but someone who can be specific about why a call worked or did not, re-mark them using the rubric as written. Compare to the AI output.</p>
+<p>If the expert agrees with the AI on twelve of fifteen, your rubric is probably calibrated and your methodology is defensible. If the expert disagrees on eight or more, you have a problem you need to fix before those scores appear in anyone's development plan or review documentation.</p>
+<p>The point of this exercise is not to replace AI scoring. It is to give you the ability to stand behind the scores you are using. "The system said so" is not a defensible position when someone asks why their performance rating dropped after a coaching quarter where, by their account, they improved. You need to be able to say: here is what we measured, here is why we measured it, here is how we know the bands mean what we say they mean.</p>
+<p>The rubric you inherited might be excellent. Some of them are. But right now you cannot tell the difference between excellent and plausible, and those two things produce very different outcomes when the data gets used.</p></div>
   <aside class="post-cta">
   <span class="eyebrow">From Peer</span>
   <h3>Get a sample marked blind</h3>
@@ -114,7 +103,7 @@
   <div class="rel-inner">
     <span class="eyebrow">Keep reading</span>
     <h2>More on this.</h2>
-    <div class="rel-grid"><a class="rel-card" href="/blog/rubric-inheritance-how-to-audit-a-scorecard-you-didnt-build/"><span class="rel-fmt">How-to</span><span class="rel-t">You Inherited an AI Scorecard. You Have No Idea What It Was Built to Measure.</span><span class="rel-b">Most teams running AI assessment didn&#x27;t write the rubric. Here&#x27;s how to find out whether it&#x27;s gr</span></a><a class="rel-card" href="/blog/position-bias-verbosity-bias-ai-judge-failure-modes/"><span class="rel-fmt">Teardown</span><span class="rel-t">Position Bias, Verbosity Bias, Self-Preference: The Three Ways Your AI Scorer Is Lying to You</span><span class="rel-b">LLM-as-judge systems carry structural biases that no accuracy metric will surface. Here is how t</span></a><a class="rel-card" href="/blog/verbosity-bias-why-your-ai-scorer-rewards-talkers/"><span class="rel-fmt">Contrarian take</span><span class="rel-t">The Rep Who Talks Less Is Scoring Lower. That Is Your AI Judge&#x27;s Problem, Not Your Rep&#x27;s.</span><span class="rel-b">LLM-as-judge systems reliably score longer, more elaborate responses higher, even when a concise</span></a></div>
+    <div class="rel-grid"><a class="rel-card" href="/blog/position-bias-verbosity-bias-ai-judge-failure-modes/"><span class="rel-fmt">Teardown</span><span class="rel-t">Position Bias, Verbosity Bias, Self-Preference: The Three Ways Your AI Scorer Is Lying to You</span><span class="rel-b">LLM-as-judge systems carry structural biases that no accuracy metric will surface. Here is how t</span></a><a class="rel-card" href="/blog/verbosity-bias-why-your-ai-scorer-rewards-talkers/"><span class="rel-fmt">Contrarian take</span><span class="rel-t">The Rep Who Talks Less Is Scoring Lower. That Is Your AI Judge&#x27;s Problem, Not Your Rep&#x27;s.</span><span class="rel-b">LLM-as-judge systems reliably score longer, more elaborate responses higher, even when a concise</span></a><a class="rel-card" href="/blog/what-your-ai-scorecard-cannot-see-from-a-transcript/"><span class="rel-fmt">Explainer</span><span class="rel-t">What Your AI Scorecard Cannot See From a Transcript</span><span class="rel-b">Transcripts capture words. Scores require judgement. The gap between the two is where your AI sc</span></a></div>
     <a class="all-link" href="/blog/">All posts &rarr;</a>
   </div>
 </section>

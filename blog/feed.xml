@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Wed, 26 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Thu, 27 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>OTE Is a Promise. Most Comp Plans Are Built to Break It.</title>
+    <link>https://thinkwork.info/blog/ote-is-a-promise-your-comp-plan-cant-keep/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/ote-is-a-promise-your-comp-plan-cant-keep/</guid>
+    <description>The OTE number on the offer letter and the comp plan mechanics rarely point at the same outcome. Here&#x27;s how to read the gap.</description>
+    <category>Comp &amp; Quota</category>
+    <pubDate>Thu, 27 Aug 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>You Inherited an AI Scorecard. You Have No Idea What It Was Built to Measure.</title>
     <link>https://thinkwork.info/blog/rubric-inheritance-how-to-audit-a-scorecard-you-didnt-build/</link>
@@ -398,13 +406,5 @@
     <description>The war over &quot;which methodology&quot; usually skips a more useful question: which moment in the call is each one actually built for. Here&#x27;s the honest division of labor.</description>
     <category>Methodology</category>
     <pubDate>Wed, 27 May 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>Ranked: MEDDPICC, Challenger, SPIN, and Sandler by How Hard They Are to Run Live</title>
-    <link>https://thinkwork.info/blog/ranked-hardest-sales-methodology-to-run-live/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/ranked-hardest-sales-methodology-to-run-live/</guid>
-    <description>Forget adoption stats and LinkedIn endorsements. Ranked by what it actually takes to run each framework live, on a call, under pressure, with a verdict most enablement decks won&#x27;t say out loud.</description>
-    <category>Methodology</category>
-    <pubDate>Tue, 26 May 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

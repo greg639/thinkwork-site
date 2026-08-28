@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Thu, 27 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Fri, 28 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>Enablement Is Measuring the Wrong Thing, and the Wrong Thing Looks Very Convincing</title>
+    <link>https://thinkwork.info/blog/enablement-measurement-confuses-activity-with-evidence/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/enablement-measurement-confuses-activity-with-evidence/</guid>
+    <description>Completion rates, NPS scores, and content views are not evidence that anyone learned anything. Here&#x27;s what actually is.</description>
+    <category>The Enablement Function</category>
+    <pubDate>Fri, 28 Aug 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>OTE Is a Promise. Most Comp Plans Are Built to Break It.</title>
     <link>https://thinkwork.info/blog/ote-is-a-promise-your-comp-plan-cant-keep/</link>
@@ -398,13 +406,5 @@
     <description>Every methodology fight assumes MEDDPICC and Challenger are competing for the same job. They aren&#x27;t, and confusing a scoring rubric for a conversation script is why so many &quot;MEDDPICC teams&quot; still can&#x27;t run discovery.</description>
     <category>Methodology</category>
     <pubDate>Thu, 28 May 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>SPIN, Challenger, Sandler: Three Different Answers to &#x27;What Do I Say Next&#x27;</title>
-    <link>https://thinkwork.info/blog/spin-challenger-sandler-three-different-answers/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/spin-challenger-sandler-three-different-answers/</guid>
-    <description>The war over &quot;which methodology&quot; usually skips a more useful question: which moment in the call is each one actually built for. Here&#x27;s the honest division of labor.</description>
-    <category>Methodology</category>
-    <pubDate>Wed, 27 May 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

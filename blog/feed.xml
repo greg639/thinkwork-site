@@ -1,408 +1,408 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="/blog/feed.xsl"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel>
-  <title>ThinkWork Blog</title>
-  <link>https://thinkwork.info/blog/</link>
-  <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
+  <title>PeerLab Blog</title>
+  <link>https://www.peerlab.ai/blog/</link>
+  <atom:link href="https://www.peerlab.ai/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
   <lastBuildDate>Mon, 31 Aug 2026 09:00:00 +0000</lastBuildDate>
   <item>
     <title>The Candidate Who &#x27;Just Felt Right&#x27; Is Why Your Hiring Rate Is 40%</title>
-    <link>https://thinkwork.info/blog/structured-interview-scorecard-hiring-managers-not-using/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/structured-interview-scorecard-hiring-managers-not-using/</guid>
+    <link>https://www.peerlab.ai/blog/structured-interview-scorecard-hiring-managers-not-using/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/structured-interview-scorecard-hiring-managers-not-using/</guid>
     <description>Structured scorecards exist. Hiring managers ignore them. Here&#x27;s exactly where the process breaks down and what it costs you.</description>
     <category>Hiring &amp; Interviewing</category>
     <pubDate>Mon, 31 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Enablement Is Measuring the Wrong Thing, and the Wrong Thing Looks Very Convincing</title>
-    <link>https://thinkwork.info/blog/enablement-measurement-confuses-activity-with-evidence/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/enablement-measurement-confuses-activity-with-evidence/</guid>
+    <link>https://www.peerlab.ai/blog/enablement-measurement-confuses-activity-with-evidence/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/enablement-measurement-confuses-activity-with-evidence/</guid>
     <description>Completion rates, NPS scores, and content views are not evidence that anyone learned anything. Here&#x27;s what actually is.</description>
     <category>The Enablement Function</category>
     <pubDate>Fri, 28 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>OTE Is a Promise. Most Comp Plans Are Built to Break It.</title>
-    <link>https://thinkwork.info/blog/ote-is-a-promise-your-comp-plan-cant-keep/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/ote-is-a-promise-your-comp-plan-cant-keep/</guid>
+    <link>https://www.peerlab.ai/blog/ote-is-a-promise-your-comp-plan-cant-keep/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/ote-is-a-promise-your-comp-plan-cant-keep/</guid>
     <description>The OTE number on the offer letter and the comp plan mechanics rarely point at the same outcome. Here&#x27;s how to read the gap.</description>
     <category>Comp &amp; Quota</category>
     <pubDate>Thu, 27 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>You Inherited an AI Scorecard. You Have No Idea What It Was Built to Measure.</title>
-    <link>https://thinkwork.info/blog/rubric-inheritance-how-to-audit-a-scorecard-you-didnt-build/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/rubric-inheritance-how-to-audit-a-scorecard-you-didnt-build/</guid>
+    <link>https://www.peerlab.ai/blog/rubric-inheritance-how-to-audit-a-scorecard-you-didnt-build/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/rubric-inheritance-how-to-audit-a-scorecard-you-didnt-build/</guid>
     <description>Most teams running AI assessment didn&#x27;t write the rubric. Here&#x27;s how to find out whether it&#x27;s grading what you think it is.</description>
     <category>AI Scoring &amp; Assurance</category>
     <pubDate>Wed, 26 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Your Stage-Probability Table Is Fiction. Here&#x27;s What Actually Predicts Whether a Deal Closes.</title>
-    <link>https://thinkwork.info/blog/stage-probability-is-fiction-heres-what-to-use-instead/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/stage-probability-is-fiction-heres-what-to-use-instead/</guid>
+    <link>https://www.peerlab.ai/blog/stage-probability-is-fiction-heres-what-to-use-instead/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/stage-probability-is-fiction-heres-what-to-use-instead/</guid>
     <description>Most CRM probability fields are just stage numbers dressed in percentage clothing. Here&#x27;s what forecast-accurate teams use instead.</description>
     <category>Pipeline &amp; Forecasting</category>
     <pubDate>Tue, 25 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Your Outbound Sequence Isn&#x27;t Underperforming Because of Low Volume. It&#x27;s Underperforming Because You Personalised the Wrong Thing.</title>
-    <link>https://thinkwork.info/blog/outbound-sequence-personalisation-is-theatre/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/outbound-sequence-personalisation-is-theatre/</guid>
+    <link>https://www.peerlab.ai/blog/outbound-sequence-personalisation-is-theatre/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/outbound-sequence-personalisation-is-theatre/</guid>
     <description>Reps spend 40 minutes researching a prospect and change one sentence. That&#x27;s not personalisation. That&#x27;s procrastination with a LinkedIn tab open.</description>
     <category>Prospecting &amp; Outbound</category>
     <pubDate>Mon, 24 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>The Follow-Up Email After Discovery Is Where Most Deals Quietly Die</title>
-    <link>https://thinkwork.info/blog/discovery-follow-up-email-kills-deals-you-won/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/discovery-follow-up-email-kills-deals-you-won/</guid>
+    <link>https://www.peerlab.ai/blog/discovery-follow-up-email-kills-deals-you-won/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/discovery-follow-up-email-kills-deals-you-won/</guid>
     <description>Reps run a solid discovery call, then send a summary email that undoes half of it. Here&#x27;s the exact failure pattern, line by line.</description>
     <category>Discovery &amp; Qualification</category>
     <pubDate>Fri, 21 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Most Sales Orgs Think They&#x27;re at Stage Three of Process Maturity. They&#x27;re at Stage Two.</title>
-    <link>https://thinkwork.info/blog/sales-process-maturity-what-stage-two-actually-looks-like/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/sales-process-maturity-what-stage-two-actually-looks-like/</guid>
+    <link>https://www.peerlab.ai/blog/sales-process-maturity-what-stage-two-actually-looks-like/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/sales-process-maturity-what-stage-two-actually-looks-like/</guid>
     <description>Having a documented process is not the same as running one. Here&#x27;s how to tell which stage your org is actually at.</description>
     <category>Methodology</category>
     <pubDate>Thu, 20 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Position Bias, Verbosity Bias, Self-Preference: The Three Ways Your AI Scorer Is Lying to You</title>
-    <link>https://thinkwork.info/blog/position-bias-verbosity-bias-ai-judge-failure-modes/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/position-bias-verbosity-bias-ai-judge-failure-modes/</guid>
+    <link>https://www.peerlab.ai/blog/position-bias-verbosity-bias-ai-judge-failure-modes/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/position-bias-verbosity-bias-ai-judge-failure-modes/</guid>
     <description>LLM-as-judge systems carry structural biases that no accuracy metric will surface. Here is how to find them before they cost someone a job or a deal.</description>
     <category>AI Scoring &amp; Assurance</category>
     <pubDate>Wed, 19 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>The One Question That Separates a Coaching 1:1 From a Performance Conversation</title>
-    <link>https://thinkwork.info/blog/the-coaching-question-managers-never-ask/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/the-coaching-question-managers-never-ask/</guid>
+    <link>https://www.peerlab.ai/blog/the-coaching-question-managers-never-ask/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/the-coaching-question-managers-never-ask/</guid>
     <description>Most managers know what a rep did wrong. Almost none can say why it&#x27;s wrong at the skill level. That gap is the whole problem.</description>
     <category>Coaching &amp; 1:1s</category>
     <pubDate>Tue, 18 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Your New Rep Can Pass the Product Quiz and Still Lose Every Demo</title>
-    <link>https://thinkwork.info/blog/new-rep-product-knowledge-is-not-readiness/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/new-rep-product-knowledge-is-not-readiness/</guid>
+    <link>https://www.peerlab.ai/blog/new-rep-product-knowledge-is-not-readiness/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/new-rep-product-knowledge-is-not-readiness/</guid>
     <description>Product knowledge gates dominate onboarding certification. They test memory, not sell-readiness. That gap is costing you deals in month two.</description>
     <category>Onboarding &amp; Ramp</category>
     <pubDate>Mon, 17 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Your AI Roleplay Bot Is Only As Good As the Idiot Who Wrote Its Scenarios</title>
-    <link>https://thinkwork.info/blog/ai-roleplay-bots-teach-reps-to-beat-the-bot/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/ai-roleplay-bots-teach-reps-to-beat-the-bot/</guid>
+    <link>https://www.peerlab.ai/blog/ai-roleplay-bots-teach-reps-to-beat-the-bot/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/ai-roleplay-bots-teach-reps-to-beat-the-bot/</guid>
     <description>Most AI roleplay scenarios are written by people who&#x27;ve never failed a cold call. That&#x27;s the actual problem with your practice environment.</description>
     <category>Content &amp; Tooling</category>
     <pubDate>Fri, 14 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>The First Hire Every New Sales Leader Makes Is Almost Always the Wrong One</title>
-    <link>https://thinkwork.info/blog/sales-leader-first-hire-is-always-wrong/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/sales-leader-first-hire-is-always-wrong/</guid>
+    <link>https://www.peerlab.ai/blog/sales-leader-first-hire-is-always-wrong/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/sales-leader-first-hire-is-always-wrong/</guid>
     <description>New sales leaders hire a strong AE first. That&#x27;s the mistake. Here&#x27;s what the sequencing actually costs you.</description>
     <category>Sales Leadership</category>
     <pubDate>Thu, 13 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>The Rep Who Talks Less Is Scoring Lower. That Is Your AI Judge&#x27;s Problem, Not Your Rep&#x27;s.</title>
-    <link>https://thinkwork.info/blog/verbosity-bias-why-your-ai-scorer-rewards-talkers/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/verbosity-bias-why-your-ai-scorer-rewards-talkers/</guid>
+    <link>https://www.peerlab.ai/blog/verbosity-bias-why-your-ai-scorer-rewards-talkers/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/verbosity-bias-why-your-ai-scorer-rewards-talkers/</guid>
     <description>LLM-as-judge systems reliably score longer, more elaborate responses higher, even when a concise answer is objectively better.</description>
     <category>AI Scoring &amp; Assurance</category>
     <pubDate>Wed, 12 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Negotiation Is the One Sales Skill Teams Only Discover Is Broken When a Deal Is Already On the Table</title>
-    <link>https://thinkwork.info/blog/negotiation-skill-gap-nobody-trains-before-its-needed/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/negotiation-skill-gap-nobody-trains-before-its-needed/</guid>
+    <link>https://www.peerlab.ai/blog/negotiation-skill-gap-nobody-trains-before-its-needed/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/negotiation-skill-gap-nobody-trains-before-its-needed/</guid>
     <description>Every team says they train negotiation. Almost none of them do it before a rep is mid-close on a real deal.</description>
     <category>Skills &amp; Competency</category>
     <pubDate>Tue, 11 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Your AI Notetaker Isn&#x27;t Taking Notes. It&#x27;s Building a Model of How Your Reps Sell.</title>
-    <link>https://thinkwork.info/blog/ai-notetaker-is-training-data-not-memory/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/ai-notetaker-is-training-data-not-memory/</guid>
+    <link>https://www.peerlab.ai/blog/ai-notetaker-is-training-data-not-memory/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/ai-notetaker-is-training-data-not-memory/</guid>
     <description>Every call your AI notetaker logs is a training signal. Most sales orgs have no idea what they&#x27;re teaching it.</description>
     <category>AI in Sales</category>
     <pubDate>Mon, 10 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>You Built a Structured Interview Scorecard. Your Hiring Managers Aren&#x27;t Using It.</title>
-    <link>https://thinkwork.info/blog/structured-interview-scorecard-hiring-managers-ignore/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/structured-interview-scorecard-hiring-managers-ignore/</guid>
+    <link>https://www.peerlab.ai/blog/structured-interview-scorecard-hiring-managers-ignore/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/structured-interview-scorecard-hiring-managers-ignore/</guid>
     <description>Structured interviews only work if the rubric survives contact with a strong personality in the room. Most don&#x27;t.</description>
     <category>Hiring &amp; Interviewing</category>
     <pubDate>Fri, 07 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Your Enablement Content Audit Is Asking the Wrong Question</title>
-    <link>https://thinkwork.info/blog/enablement-content-audits-wrong-question/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/enablement-content-audits-wrong-question/</guid>
+    <link>https://www.peerlab.ai/blog/enablement-content-audits-wrong-question/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/enablement-content-audits-wrong-question/</guid>
     <description>Most content audits measure what exists and what&#x27;s used. Neither tells you whether the content actually moves a skill.</description>
     <category>The Enablement Function</category>
     <pubDate>Thu, 06 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>What Your AI Scorecard Cannot See From a Transcript</title>
-    <link>https://thinkwork.info/blog/what-your-ai-scorecard-cannot-see-from-a-transcript/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/what-your-ai-scorecard-cannot-see-from-a-transcript/</guid>
+    <link>https://www.peerlab.ai/blog/what-your-ai-scorecard-cannot-see-from-a-transcript/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/what-your-ai-scorecard-cannot-see-from-a-transcript/</guid>
     <description>Transcripts capture words. Scores require judgement. The gap between the two is where your AI scoring layer is quietly getting it wrong.</description>
     <category>AI Scoring &amp; Assurance</category>
     <pubDate>Wed, 05 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Accelerator Cliffs Are a Behavioural Tax on Your Best Reps</title>
-    <link>https://thinkwork.info/blog/accelerator-cliffs-comp-plan-behavioural-tax/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/accelerator-cliffs-comp-plan-behavioural-tax/</guid>
+    <link>https://www.peerlab.ai/blog/accelerator-cliffs-comp-plan-behavioural-tax/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/accelerator-cliffs-comp-plan-behavioural-tax/</guid>
     <description>The accelerator structure every comp plan brags about is quietly teaching your top performers to sandbag Q4.</description>
     <category>Comp &amp; Quota</category>
     <pubDate>Tue, 04 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Pipeline Coverage Is a Lagging Indicator Dressed Up as a Leading One</title>
-    <link>https://thinkwork.info/blog/pipeline-coverage-ratio-is-a-lagging-indicator/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/pipeline-coverage-ratio-is-a-lagging-indicator/</guid>
+    <link>https://www.peerlab.ai/blog/pipeline-coverage-ratio-is-a-lagging-indicator/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/pipeline-coverage-ratio-is-a-lagging-indicator/</guid>
     <description>3x coverage feels like safety. It isn&#x27;t. By the time your coverage ratio looks healthy, the deals inside it are already decaying.</description>
     <category>Pipeline &amp; Forecasting</category>
     <pubDate>Mon, 03 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Most Outbound Cadences Are Too Short. Here&#x27;s What the Drop-Off Data Actually Shows.</title>
-    <link>https://thinkwork.info/blog/outbound-cadence-length-most-teams-stop-too-early/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/outbound-cadence-length-most-teams-stop-too-early/</guid>
+    <link>https://www.peerlab.ai/blog/outbound-cadence-length-most-teams-stop-too-early/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/outbound-cadence-length-most-teams-stop-too-early/</guid>
     <description>Teams cap cadences at 5-7 touches because it feels polite. The conversion data says they&#x27;re stopping just before it gets interesting.</description>
     <category>Prospecting &amp; Outbound</category>
     <pubDate>Sun, 02 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>The Discovery Call That Ran 90 Minutes Was Probably a Failure</title>
-    <link>https://thinkwork.info/blog/discovery-calls-that-run-long-are-usually-failing/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/discovery-calls-that-run-long-are-usually-failing/</guid>
+    <link>https://www.peerlab.ai/blog/discovery-calls-that-run-long-are-usually-failing/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/discovery-calls-that-run-long-are-usually-failing/</guid>
     <description>Call length is how reps signal effort to their manager. It has almost nothing to do with how much they actually learned.</description>
     <category>Discovery &amp; Qualification</category>
     <pubDate>Sat, 01 Aug 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Your Methodology Rollout Didn&#x27;t Fail at Launch. It Failed at Month Two.</title>
-    <link>https://thinkwork.info/blog/sales-methodology-rollout-fails-at-month-two/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/sales-methodology-rollout-fails-at-month-two/</guid>
+    <link>https://www.peerlab.ai/blog/sales-methodology-rollout-fails-at-month-two/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/sales-methodology-rollout-fails-at-month-two/</guid>
     <description>SKO energy masks a 60-day cliff. Here&#x27;s what the data from four rollouts actually shows about where adoption dies.</description>
     <category>Methodology</category>
     <pubDate>Fri, 31 Jul 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>The Manager Who Coaches Everyone Equally Is Actually Coaching Nobody</title>
-    <link>https://thinkwork.info/blog/when-managers-coach-the-wrong-rep-first/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/when-managers-coach-the-wrong-rep-first/</guid>
+    <link>https://www.peerlab.ai/blog/when-managers-coach-the-wrong-rep-first/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/when-managers-coach-the-wrong-rep-first/</guid>
     <description>Equal coaching time feels fair. It is also one of the most reliable ways to waste it. Here&#x27;s what the data actually suggests.</description>
     <category>Coaching &amp; 1:1s</category>
     <pubDate>Thu, 30 Jul 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Week One of Onboarding Is Mostly Wasted. Here&#x27;s the Evidence.</title>
-    <link>https://thinkwork.info/blog/what-new-reps-actually-do-in-week-one-vs-what-helps/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/what-new-reps-actually-do-in-week-one-vs-what-helps/</guid>
+    <link>https://www.peerlab.ai/blog/what-new-reps-actually-do-in-week-one-vs-what-helps/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/what-new-reps-actually-do-in-week-one-vs-what-helps/</guid>
     <description>What new reps actually do in their first five days, what any of it predicts, and where the real ramp damage gets baked in.</description>
     <category>Onboarding &amp; Ramp</category>
     <pubDate>Wed, 29 Jul 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>The 90-Day Ramp Curriculum, Ranked by What Actually Predicts Quota Attainment</title>
-    <link>https://thinkwork.info/blog/ramp-curriculum-ranked-by-quota-attainment/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/ramp-curriculum-ranked-by-quota-attainment/</guid>
+    <link>https://www.peerlab.ai/blog/ramp-curriculum-ranked-by-quota-attainment/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/ramp-curriculum-ranked-by-quota-attainment/</guid>
     <description>Most onboarding curricula run product training first and live calls last. What actually correlates with hitting quota says do the opposite.</description>
     <category>Onboarding &amp; Ramp</category>
     <pubDate>Thu, 23 Jul 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Ramp Time Is the Wrong Metric. Competency-Tier Attainment Predicts Retention.</title>
-    <link>https://thinkwork.info/blog/ramp-time-wrong-metric-competency-tier-attainment/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/ramp-time-wrong-metric-competency-tier-attainment/</guid>
+    <link>https://www.peerlab.ai/blog/ramp-time-wrong-metric-competency-tier-attainment/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/ramp-time-wrong-metric-competency-tier-attainment/</guid>
     <description>Days-to-first-deal looks precise. It predicts almost nothing about whether a rep is still carrying quota twelve months later.</description>
     <category>Onboarding &amp; Ramp</category>
     <pubDate>Wed, 22 Jul 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>How to Build a Ramp Plan Around Skill Tiers Instead of Calendar Days</title>
-    <link>https://thinkwork.info/blog/how-to-build-tier-based-ramp-plan/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/how-to-build-tier-based-ramp-plan/</guid>
+    <link>https://www.peerlab.ai/blog/how-to-build-tier-based-ramp-plan/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/how-to-build-tier-based-ramp-plan/</guid>
     <description>The 30/60/90 template assumes every rep learns at the same speed. Gating the plan on skill tiers instead of dates fixes the two failure modes calendar plans can&#x27;t.</description>
     <category>Onboarding &amp; Ramp</category>
     <pubDate>Tue, 21 Jul 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Sales Ramp Time Benchmarks by Industry Are Mostly Noise. Here&#x27;s What They Leave Out.</title>
-    <link>https://thinkwork.info/blog/sales-ramp-time-benchmarks-by-industry-explained/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/sales-ramp-time-benchmarks-by-industry-explained/</guid>
+    <link>https://www.peerlab.ai/blog/sales-ramp-time-benchmarks-by-industry-explained/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/sales-ramp-time-benchmarks-by-industry-explained/</guid>
     <description>The commonly-quoted average ramp time gets cited without the denominator that would make it mean anything.</description>
     <category>Onboarding &amp; Ramp</category>
     <pubDate>Thu, 16 Jul 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Eight Onboarding Certification Gates, Ranked by How Easy They Are to Fake</title>
-    <link>https://thinkwork.info/blog/onboarding-certification-gates-ranked-by-gameability/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/onboarding-certification-gates-ranked-by-gameability/</guid>
+    <link>https://www.peerlab.ai/blog/onboarding-certification-gates-ranked-by-gameability/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/onboarding-certification-gates-ranked-by-gameability/</guid>
     <description>A new rep can pass a product quiz, ace a scripted role-play, and still fall apart on their first real discovery call. Most certification gates measure the wrong thing.</description>
     <category>Onboarding &amp; Ramp</category>
     <pubDate>Wed, 15 Jul 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>I Read Three SaaS Onboarding Decks Cover to Cover. None of Them Taught Discovery.</title>
-    <link>https://thinkwork.info/blog/saas-onboarding-decks-teardown-missing-discovery/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/saas-onboarding-decks-teardown-missing-discovery/</guid>
+    <link>https://www.peerlab.ai/blog/saas-onboarding-decks-teardown-missing-discovery/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/saas-onboarding-decks-teardown-missing-discovery/</guid>
     <description>Ninety slides on product, pricing and objection scripts. Zero slides on how to ask a question that changes the deal.</description>
     <category>Onboarding &amp; Ramp</category>
     <pubDate>Tue, 14 Jul 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>What &#x27;Fully Ramped&#x27; Actually Means, and Why Every Team Defines It Differently</title>
-    <link>https://thinkwork.info/blog/what-fully-ramped-actually-means/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/what-fully-ramped-actually-means/</guid>
+    <link>https://www.peerlab.ai/blog/what-fully-ramped-actually-means/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/what-fully-ramped-actually-means/</guid>
     <description>Ask five sales leaders what &#x27;ramped&#x27; means and you&#x27;ll get five different thresholds, none of them written down anywhere.</description>
     <category>Onboarding &amp; Ramp</category>
     <pubDate>Thu, 09 Jul 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>What Slow Rampers Actually Have in Common (It Isn&#x27;t Aptitude)</title>
-    <link>https://thinkwork.info/blog/what-slow-rampers-have-in-common/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/what-slow-rampers-have-in-common/</guid>
+    <link>https://www.peerlab.ai/blog/what-slow-rampers-have-in-common/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/what-slow-rampers-have-in-common/</guid>
     <description>Two reps hired the same week, same background, same territory. One ramped in six weeks. One took five months. The gap wasn&#x27;t talent.</description>
     <category>Onboarding &amp; Ramp</category>
     <pubDate>Wed, 08 Jul 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>How to Run Call-Shadowing So New Reps Learn Something Instead of Just Listening</title>
-    <link>https://thinkwork.info/blog/how-to-run-call-shadowing-new-reps/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/how-to-run-call-shadowing-new-reps/</guid>
+    <link>https://www.peerlab.ai/blog/how-to-run-call-shadowing-new-reps/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/how-to-run-call-shadowing-new-reps/</guid>
     <description>Most shadowing programs are new reps taking notes on autopilot. A structured observation rubric turns the same hours into measurable skill transfer.</description>
     <category>Onboarding &amp; Ramp</category>
     <pubDate>Tue, 07 Jul 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>What to Actually Ask For in Your First 30 Days as a New Rep</title>
-    <link>https://thinkwork.info/blog/what-new-reps-should-ask-for-first-30-days/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/what-new-reps-should-ask-for-first-30-days/</guid>
+    <link>https://www.peerlab.ai/blog/what-new-reps-should-ask-for-first-30-days/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/what-new-reps-should-ask-for-first-30-days/</guid>
     <description>Most new reps wait to be told what to do. The ones who ramp fastest ask for three specific things their manager won&#x27;t offer by default.</description>
     <category>Onboarding &amp; Ramp</category>
     <pubDate>Thu, 02 Jul 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Office Hours: The Ramp Questions Enablement Leaders Keep Asking Me</title>
-    <link>https://thinkwork.info/blog/office-hours-ramp-questions-enablement-leaders-ask/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/office-hours-ramp-questions-enablement-leaders-ask/</guid>
+    <link>https://www.peerlab.ai/blog/office-hours-ramp-questions-enablement-leaders-ask/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/office-hours-ramp-questions-enablement-leaders-ask/</guid>
     <description>Same six questions, every quarter, from every enablement leader building a ramp program. Straight answers to all of them.</description>
     <category>Onboarding &amp; Ramp</category>
     <pubDate>Wed, 01 Jul 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Stop Building Onboarding by Reverse-Engineering Your Best Rep</title>
-    <link>https://thinkwork.info/blog/stop-onboarding-by-reverse-engineering-best-rep/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/stop-onboarding-by-reverse-engineering-best-rep/</guid>
+    <link>https://www.peerlab.ai/blog/stop-onboarding-by-reverse-engineering-best-rep/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/stop-onboarding-by-reverse-engineering-best-rep/</guid>
     <description>Shadowing your top performer feels like the obvious way to build a curriculum. It usually teaches new hires someone else&#x27;s compensations, not the skill underneath them.</description>
     <category>Onboarding &amp; Ramp</category>
     <pubDate>Tue, 30 Jun 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Your 1:1s Are Status Meetings Wearing a Coaching Costume</title>
-    <link>https://thinkwork.info/blog/1-1s-status-meetings-coaching-costume/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/1-1s-status-meetings-coaching-costume/</guid>
+    <link>https://www.peerlab.ai/blog/1-1s-status-meetings-coaching-costume/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/1-1s-status-meetings-coaching-costume/</guid>
     <description>If the average manager 1:1 got minuted, most of it would read as a pipeline update. That&#x27;s not coaching, it&#x27;s admin with a whiteboard.</description>
     <category>Coaching &amp; 1:1s</category>
     <pubDate>Thu, 25 Jun 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>How to Run a 20-Minute 1:1 That&#x27;s Actually Coaching, Not a Pipeline Check-In</title>
-    <link>https://thinkwork.info/blog/20-minute-1-1-actually-coaching/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/20-minute-1-1-actually-coaching/</guid>
+    <link>https://www.peerlab.ai/blog/20-minute-1-1-actually-coaching/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/20-minute-1-1-actually-coaching/</guid>
     <description>One skill, one observed moment, one named gap, one practice rep. Here&#x27;s the structure that keeps a 1:1 from sliding into deal triage.</description>
     <category>Coaching &amp; 1:1s</category>
     <pubDate>Wed, 24 Jun 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Six Coaching Habits Sales Managers Swear By, Ranked by Whether They Move Any Skill at All</title>
-    <link>https://thinkwork.info/blog/six-coaching-habits-ranked/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/six-coaching-habits-ranked/</guid>
+    <link>https://www.peerlab.ai/blog/six-coaching-habits-ranked/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/six-coaching-habits-ranked/</guid>
     <description>Call shadowing, deal reviews, scorecards, roleplay, peer coaching, and &#x27;great job&#x27; energy, ranked from placebo to load-bearing.</description>
     <category>Coaching &amp; 1:1s</category>
     <pubDate>Tue, 23 Jun 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>We Scored 40,000 Coaching Moments Against 54 Competencies. Managers Coach Five of Them and Ignore the Rest.</title>
-    <link>https://thinkwork.info/blog/40000-coaching-moments-54-competencies/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/40000-coaching-moments-54-competencies/</guid>
+    <link>https://www.peerlab.ai/blog/40000-coaching-moments-54-competencies/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/40000-coaching-moments-54-competencies/</guid>
     <description>Objection handling gets coached to death. Discovery depth and negotiation barely get mentioned. Here&#x27;s where manager attention actually goes.</description>
     <category>Coaching &amp; 1:1s</category>
     <pubDate>Thu, 18 Jun 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>How to Run a Coaching Calibration Session So Two Managers Stop Grading the Same Call Differently</title>
-    <link>https://thinkwork.info/blog/coaching-calibration-session-how-to/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/coaching-calibration-session-how-to/</guid>
+    <link>https://www.peerlab.ai/blog/coaching-calibration-session-how-to/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/coaching-calibration-session-how-to/</guid>
     <description>Blind-grade the same call, compare scores, argue about the gaps, anchor the rubric. Skip this and your &#x27;coaching program&#x27; is just manager opinion with a template.</description>
     <category>Coaching &amp; 1:1s</category>
     <pubDate>Wed, 17 Jun 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>Promoting Your Best Rep to Manager Is a Skill Transplant, and the Body Usually Rejects It</title>
-    <link>https://thinkwork.info/blog/promoting-best-rep-to-manager-skill-transplant/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/promoting-best-rep-to-manager-skill-transplant/</guid>
+    <link>https://www.peerlab.ai/blog/promoting-best-rep-to-manager-skill-transplant/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/promoting-best-rep-to-manager-skill-transplant/</guid>
     <description>The instincts that make someone a killer at execution are not the instincts that make someone good at diagnosing why someone else can&#x27;t execute.</description>
     <category>Coaching &amp; 1:1s</category>
     <pubDate>Tue, 16 Jun 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>We Graded 12 Manager 1:1 Recordings Against a Coaching Rubric. Here&#x27;s What Separated the Top Two.</title>
-    <link>https://thinkwork.info/blog/12-manager-1-1-recordings-graded/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/12-manager-1-1-recordings-graded/</guid>
+    <link>https://www.peerlab.ai/blog/12-manager-1-1-recordings-graded/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/12-manager-1-1-recordings-graded/</guid>
     <description>Not tone. Not energy. Not rapport. The top two did one specific thing the other ten never did once.</description>
     <category>Coaching &amp; 1:1s</category>
     <pubDate>Thu, 11 Jun 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>The Five Sales Feedback Phrases That Teach a Rep Nothing, Ranked by How Often Managers Say Them Anyway</title>
-    <link>https://thinkwork.info/blog/five-feedback-phrases-teach-nothing-ranked/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/five-feedback-phrases-teach-nothing-ranked/</guid>
+    <link>https://www.peerlab.ai/blog/five-feedback-phrases-teach-nothing-ranked/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/five-feedback-phrases-teach-nothing-ranked/</guid>
     <description>&#x27;Great job,&#x27; &#x27;just be more confident,&#x27; &#x27;nice energy&#x27;: ranked from mildly useless to actively harmful, with what to say instead of each.</description>
     <category>Coaching &amp; 1:1s</category>
     <pubDate>Wed, 10 Jun 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>What &#x27;Competency-Based Coaching&#x27; Actually Means, and Why Most Coaching Programs Never Get There</title>
-    <link>https://thinkwork.info/blog/competency-based-coaching-explained/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/competency-based-coaching-explained/</guid>
+    <link>https://www.peerlab.ai/blog/competency-based-coaching-explained/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/competency-based-coaching-explained/</guid>
     <description>Not a values poster. Not a scorecard bolted onto a CRM. A working definition, and the three things that have to be true before you can claim it.</description>
     <category>Coaching &amp; 1:1s</category>
     <pubDate>Tue, 09 Jun 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>What Happened When We Made Managers Score Their Own 1:1s Before We Scored Them</title>
-    <link>https://thinkwork.info/blog/managers-score-own-1-1s-field-notes/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/managers-score-own-1-1s-field-notes/</guid>
+    <link>https://www.peerlab.ai/blog/managers-score-own-1-1s-field-notes/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/managers-score-own-1-1s-field-notes/</guid>
     <description>The self-scores and the external scores didn&#x27;t just differ: they diverged in a consistent direction, and that direction told us more than the scores themselves.</description>
     <category>Coaching &amp; 1:1s</category>
     <pubDate>Thu, 04 Jun 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>The Manager Skill Nobody Puts on a Job Description: Diagnosing Before Prescribing</title>
-    <link>https://thinkwork.info/blog/diagnosing-before-prescribing-manager-skill/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/diagnosing-before-prescribing-manager-skill/</guid>
+    <link>https://www.peerlab.ai/blog/diagnosing-before-prescribing-manager-skill/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/diagnosing-before-prescribing-manager-skill/</guid>
     <description>Every job description for &#x27;sales manager&#x27; lists coaching as a bullet point. None of them explain that the actual skill is diagnosis: and diagnosis is learnable in a specific, trainable way.</description>
     <category>Coaching &amp; 1:1s</category>
     <pubDate>Wed, 03 Jun 2026 09:00:00 +0000</pubDate>
   </item>
   <item>
     <title>We Asked Sales Leaders How They Know Their Managers Can Actually Coach. Most Didn&#x27;t Have an Answer.</title>
-    <link>https://thinkwork.info/blog/how-sales-leaders-know-managers-can-coach/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/how-sales-leaders-know-managers-can-coach/</guid>
+    <link>https://www.peerlab.ai/blog/how-sales-leaders-know-managers-can-coach/</link>
+    <guid isPermaLink="true">https://www.peerlab.ai/blog/how-sales-leaders-know-managers-can-coach/</guid>
     <description>&#x27;They&#x27;ve been doing it ten years&#x27; is not a measurement. Composite notes from conversations with revenue leaders on the question most of them had never been asked directly.</description>
     <category>Coaching &amp; 1:1s</category>
     <pubDate>Tue, 02 Jun 2026 09:00:00 +0000</pubDate>

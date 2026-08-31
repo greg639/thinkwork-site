@@ -6,7 +6,15 @@
   <atom:link href="https://thinkwork.info/blog/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Practitioner writing on sales enablement, coaching and the mastery layer.</description>
   <language>en-gb</language>
-  <lastBuildDate>Fri, 28 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <lastBuildDate>Mon, 31 Aug 2026 09:00:00 +0000</lastBuildDate>
+  <item>
+    <title>The Candidate Who &#x27;Just Felt Right&#x27; Is Why Your Hiring Rate Is 40%</title>
+    <link>https://thinkwork.info/blog/structured-interview-scorecard-hiring-managers-not-using/</link>
+    <guid isPermaLink="true">https://thinkwork.info/blog/structured-interview-scorecard-hiring-managers-not-using/</guid>
+    <description>Structured scorecards exist. Hiring managers ignore them. Here&#x27;s exactly where the process breaks down and what it costs you.</description>
+    <category>Hiring &amp; Interviewing</category>
+    <pubDate>Mon, 31 Aug 2026 09:00:00 +0000</pubDate>
+  </item>
   <item>
     <title>Enablement Is Measuring the Wrong Thing, and the Wrong Thing Looks Very Convincing</title>
     <link>https://thinkwork.info/blog/enablement-measurement-confuses-activity-with-evidence/</link>
@@ -398,13 +406,5 @@
     <description>&#x27;They&#x27;ve been doing it ten years&#x27; is not a measurement. Composite notes from conversations with revenue leaders on the question most of them had never been asked directly.</description>
     <category>Coaching &amp; 1:1s</category>
     <pubDate>Tue, 02 Jun 2026 09:00:00 +0000</pubDate>
-  </item>
-  <item>
-    <title>MEDDPICC Isn&#x27;t a Sales Methodology. It&#x27;s a Forecasting Filter.</title>
-    <link>https://thinkwork.info/blog/meddpicc-is-a-forecasting-filter-not-a-methodology/</link>
-    <guid isPermaLink="true">https://thinkwork.info/blog/meddpicc-is-a-forecasting-filter-not-a-methodology/</guid>
-    <description>Every methodology fight assumes MEDDPICC and Challenger are competing for the same job. They aren&#x27;t, and confusing a scoring rubric for a conversation script is why so many &quot;MEDDPICC teams&quot; still can&#x27;t run discovery.</description>
-    <category>Methodology</category>
-    <pubDate>Thu, 28 May 2026 09:00:00 +0000</pubDate>
   </item>
 </channel></rss>

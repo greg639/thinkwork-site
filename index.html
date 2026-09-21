@@ -1,621 +1,125 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ThinkWork: Sales Skills Mastery, engineered into your team.</title>
-<meta name="description" content="ThinkWork is a Mastery Engineering firm. We install The Mastery Standard: a 27-framework, 54-competency rubric for the sales mastery layer underneath enablement. Operated by Peer, our specialist AI agent fleet with human sign-off on every assessment, on EU-hosted infrastructure. Founded by Greg McCallum.">
+<title>ThinkWork: websites that earn, for local businesses</title>
+<meta name="description" content="One owned system for your business: website, bookings, memberships and pre-orders, picked with you to bring in more money. From £35 a month.">
+<link rel="canonical" href="https://thinkwork.info/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ThinkWork">
+<meta property="og:title" content="ThinkWork: websites that earn, for local businesses">
+<meta property="og:description" content="One owned system for your business: website, bookings, memberships and pre-orders, picked with you to bring in more money. From £35 a month.">
+<meta property="og:url" content="https://thinkwork.info/">
+<meta property="og:image" content="https://thinkwork.info/static/tw/og-thinkwork.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#16150f">
+<link rel="icon" type="image/svg+xml" href="/static/tw/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/static/thinkwork/_styles_v6.css?v=4">
-<style>
-  /* v7-specific additions on top of v6 styles */
-  .layer-stack-card { max-width: 1080px; margin: 56px auto 0; background: var(--bg-paper); border: 1px solid var(--line); padding: 48px; }
-  .layer-stack-card .label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); display: block; margin-bottom: 8px; }
-  .layer-stack-card h3 { font-family: var(--serif-display); font-size: 24px; margin: 0 0 32px; line-height: 1.22; max-width: 28ch; color: var(--ink); font-weight: 500; letter-spacing: -0.008em; }
-
-  /* the actual stack */
-  .stack { display: flex; flex-direction: column; gap: 0; max-width: 880px; margin: 0 auto; }
-  .stack-band { display: grid; grid-template-columns: 220px 1fr 200px; gap: 24px; padding: 24px 32px; align-items: center; border-left: 4px solid var(--line-strong); position: relative; }
-  .stack-band.surface { background: var(--bg-ivory); }
-  .stack-band.mid { background: var(--bg); }
-  .stack-band.style { background: var(--bg); }
-  .stack-band .layer-name { font-family: var(--serif-display); font-size: 22px; line-height: 1.18; color: var(--ink); font-weight: 500; letter-spacing: -0.012em; }
-  .stack-band .layer-desc { font-family: var(--serif); font-size: 14.5px; line-height: 1.45; color: var(--ink-mute); margin: 0; }
-  .stack-band .layer-coached { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); text-align: right; }
-  .stack-band .layer-coached strong { display: block; font-family: var(--serif); font-size: 12.5px; color: var(--ink); font-weight: 500; letter-spacing: 0.02em; text-transform: none; margin-top: 4px; }
-
-  .stack-divider { padding: 14px 32px; background: var(--bg-elev-deep); border-left: 4px solid var(--accent); display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-  .stack-divider .label { margin: 0; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); font-weight: 500; }
-  .stack-divider .note { font-family: var(--serif); font-size: 13.5px; color: var(--ink-soft); font-style: normal; }
-
-  .stack-band.mastery { background: var(--bg-deep); color: var(--bg); border-left-color: var(--gold); padding: 32px; }
-  .stack-band.mastery .layer-name { color: var(--bg); font-size: 26px; }
-  .stack-band.mastery .layer-name em { color: var(--gold-light); font-style: normal; }
-  .stack-band.mastery .layer-desc { color: rgba(255,255,255,0.78); font-size: 15px; }
-  .stack-band.mastery .layer-desc strong { color: var(--bg); }
-  .stack-band.mastery .layer-coached { color: var(--gold); }
-  .stack-band.mastery .layer-coached strong { color: var(--bg); font-style: normal; }
-  .stack-band.thinkwork-zone { background: rgba(167,138,82,0.08); border-left-color: var(--gold); padding: 18px 32px; }
-  .stack-band.thinkwork-zone .layer-name { font-size: 16px; font-style: normal; color: var(--accent); }
-  .stack-band.thinkwork-zone .layer-coached strong { color: var(--accent); }
-
-  .stack-caption { font-family: var(--serif); font-size: 14.5px; font-style: normal; color: var(--ink-mute); margin: 28px auto 0; text-align: center; max-width: 56ch; line-height: 1.5; }
-
-  /* glossary box for the new vocabulary */
-  .glossary { padding: 28px 32px; background: var(--bg-elev); border-left: 4px solid var(--accent); margin: 48px 0; }
-  .glossary .label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 16px; }
-  .glossary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px 32px; }
-  .glossary-item { font-family: var(--serif); font-size: 14.5px; line-height: 1.4; color: var(--ink); }
-  .glossary-item strong { font-family: var(--serif-display); font-size: 16px; font-weight: 500; color: var(--accent); display: block; margin-bottom: 2px; letter-spacing: -0.005em; }
-  @media (max-width: 900px) {
-    .stack-band { grid-template-columns: 1fr; gap: 8px; text-align: left; }
-    .stack-band .layer-coached { text-align: left; }
-    .glossary-grid { grid-template-columns: 1fr; }
-  }
-</style>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A3D5C'/><text x='16' y='22' font-family='Georgia' font-size='20' fill='%23FAF6EC' text-anchor='middle'>tw</text></svg>">
-<link rel="canonical" href="https://thinkwork.info/"><meta property="og:url" content="https://thinkwork.info/"></head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="/static/tw/site.css?v=1">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","@id":"https://thinkwork.info/#org","name":"ThinkWork","url":"https://thinkwork.info/","logo":"https://thinkwork.info/static/tw/og-thinkwork.png","image":"https://thinkwork.info/static/tw/og-thinkwork.png","email":"greg@thinkwork.info","description":"ThinkWork builds local businesses one owned system: website, bookings, memberships, subscriptions and pre-orders, picked with the owner to bring in more money, for less than the separate apps it replaces.","areaServed":{"@type":"Country","name":"United Kingdom"},"priceRange":"£35 to £199 a month","founder":{"@type":"Person","name":"Greg McCallum","url":"https://gregrcmccallum.com/"},"knowsAbout":["Small business websites","Online booking","Memberships and subscriptions","Pre-orders","AI search visibility","AI chat assistants"]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","name":"ThinkWork plans","itemListElement":[{"@type":"Offer","name":"Starter plan","price":35,"priceCurrency":"GBP","description":"A website that works on phones and is easy to buy from; Hosting, security and updates; Edits when you need them; Built so AI assistants can read it","url":"https://thinkwork.info/pricing/#starter"},{"@type":"Offer","name":"Growth plan","price":99,"priceCurrency":"GBP","description":"Everything in Starter; Bookings; Memberships and subscriptions; Pre-orders; Rewards for bringing a friend; Your customer list, in one place; The money-making idea we pick together, built in","url":"https://thinkwork.info/pricing/#growth"},{"@type":"Offer","name":"Premium plan","price":199,"priceCurrency":"GBP","description":"Everything in Growth; Work to get you found by AI assistants; New articles for your site every month; An AI assistant that answers questions and takes bookings; Software built for how your business runs, like check-in or tracking","url":"https://thinkwork.info/pricing/#premium"}]}</script>
+</head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head"><div class="wrap">
+<a class="brand" href="/"><i aria-hidden="true"></i>ThinkWork</a>
+<button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+<nav class="nav" id="nav" aria-label="Main"><a href="/what-we-build/">What we build</a><a href="/pricing/">Prices</a><a href="/advisory/">Advisory</a><a href="/work/">Work</a><a href="/about/">About</a><a class="btn hi" href="/book/#quote">Free build quote</a></nav>
+</div></header>
+<main id="main">
 
-<!-- === MASTHEAD === -->
-<header class="masthead">
-  <div class="masthead-inner">
-    <a href="/" class="mast-brand">Think<span class="mark">Work</span></a>
-    <input type="checkbox" id="tw-nav-toggle" class="tw-nav-toggle" aria-hidden="true">
-    <label for="tw-nav-toggle" class="tw-burger" aria-label="Toggle menu"><span></span><span></span><span></span></label>
-    <nav class="mast-nav">
-      <a href="#layer">The Mastery Layer</a>
-      <a href="/assurance">Second Marking</a>
-      <a href="/speaking">Meet the CEO</a>
-      <a href="#programs">Programs</a>
-      <a href="#engine">The Engine</a>
-      <a href="/library/">Resources</a>
-      <a href="/blog/">Blog</a>
-      <a href="/thinkwork/letter">The Letter</a>
-      <a href="#engage" class="cta">Book a Call</a>
-    </nav>
-  </div>
-</header>
-
-<!-- === HERO · OWN THE LANGUAGE === -->
-<section class="hero">
-  <div class="container">
-    <span class="eyebrow">Mastery Engineering · A boutique firm</span>
-    <h1>We engineer <span class="em">Sales Skills Mastery</span> into your team.</h1>
-    <p class="lede"><strong>Sales Skills Mastery operates at a layer most enablement programs never reach.</strong> ThinkWork is the firm that does. We install <em>The Mastery Standard</em>: a 27-framework, 54-competency taxonomy of what real sales mastery looks like, opened down to written rubric cells (3 progression levels × 4 grading levels per skill). Operated by Peer, our specialist AI agent fleet. Every assessment human-verified, on EU-hosted infrastructure. Built across fifteen years of senior commercial roles inside high-growth companies.</p>
-    <div class="hero-cta-row">
-      <a href="#engage" class="btn btn-primary">Book a Discovery Call <span class="arrow">→</span></a>
-      <a href="#layer" class="btn btn-ghost">What is The Mastery Layer?</a>
-    </div>
-  </div>
-</section>
-
-<!-- === TRUST STRIP === -->
-<div class="trust-strip">
-  <div class="trust-strip-inner">
-    <div class="trust-cell"><strong>15 yrs</strong>Mastery Standard built in-seat, framework by framework</div>
-    <div class="trust-cell"><strong>27</strong>Mastery frameworks · sales</div>
-    <div class="trust-cell"><strong>54</strong>Observable sales competencies</div>
-    <div class="trust-cell"><strong>3 × 4</strong>Progression × grading levels · auditable</div>
-    <div class="trust-cell"><strong>EU</strong>EU-hosted AI · human sign-off</div>
-  </div>
+<section class="hero"><div class="wrap hero-grid">
+<div class="rv">
+<span class="kicker">Websites and money-making systems for local businesses</span>
+<h1>Stop renting your website. <span class="mark">Make it earn.</span></h1>
+<p class="lead">One system for your business: website, bookings, memberships, pre-orders. Picked with you, built for you, owned by you. For less than the apps you pay for now.</p>
+<div class="row-btns"><a class="btn hi" href="/book/#quote">Get a free build quote</a><a class="btn ghost" href="/pricing/">See prices</a></div>
+<p class="hero-note">Built by a commercial operator, not a web agency.</p>
 </div>
+<div class="receipt rv" aria-label="What a typical small business pays for, compared with one ThinkWork plan">
+<h4>What you're paying for now</h4>
+<div class="ln"><span class="strike">Website builder</span><span class="strike">a bill</span></div>
+<div class="ln"><span class="strike">Booking app</span><span class="strike">a bill</span></div>
+<div class="ln"><span class="strike">Email tool</span><span class="strike">a bill</span></div>
+<div class="ln"><span class="strike">Membership app</span><span class="strike">a bill</span></div>
+<div class="ln"><span class="strike">Shop add-on</span><span class="strike">a bill</span></div>
+<div class="ln"><span class="strike">Someone to fix it</span><span class="strike">a bill</span></div>
+<div class="rule"></div>
+<div class="ln tot"><span>One ThinkWork plan</span><span>from &pound;35/mo</span></div>
+<div class="foot">Work out yours on the <a href="/pricing/#calculator">prices page</a></div>
+</div>
+</div></section>
 
-<!-- === THE MASTERY LAYER === the conceptual breakthrough === -->
-<section id="layer">
-  <div class="container">
-    <div class="section-header">
-      <span class="eyebrow">The Mastery Layer</span>
-      <h2>Sales enablement coaches at the surface. Mastery lives underneath.</h2>
-      <p class="lede">Every commercial team operates inside four layers. Three of them are visible, and crowded with vendors. The fourth is where real capability lives, where ramp time is decided, and where almost no enablement program is currently operating. This is where ThinkWork installs.</p>
-    </div>
+<section class="dark band"><div class="wrap split">
+<div><span class="kicker">Sound familiar?</span>
+<p class="pull">A website, a booking app, something for emails. None of it talks to each other.</p></div>
+<div class="body">
+<p>And none of it brings in a penny you weren't getting already. It just sits there, costing you every month.</p>
+<p>Big companies do it differently. Memberships. Subscriptions. Pre-orders. Rewards for bringing a friend. Clever ways to earn more from the customers they already have. They pay a fortune for them, and nobody has ever brought them to a business like yours.</p>
+<p>That's what ThinkWork does. Greg McCallum spent 15 years in commercial leadership at startups and tech companies. Now he brings the same ideas to local businesses, and builds the system that runs them.</p>
+</div>
+</div></section>
 
-    <div class="layer-stack-card">
-      <span class="label">The Mastery Layer Model</span>
-      <h3>Four layers. Three crowded with vendors. One almost no one reaches.</h3>
+<section><div class="wrap">
+<span class="kicker">What could your business earn?</span>
+<h2 style="max-width:18ch;margin-bottom:36px">The website gets you in the door. <span class="mark">This is what pays.</span></h2>
+<div class="picker" data-picker><div class="picker-list" role="tablist" aria-label="Type of business"><button role="tab" id="t-butcher" aria-controls="p-butcher" aria-selected="true" tabindex="0">Butcher, deli or farm shop</button><button role="tab" id="t-bakery" aria-controls="p-bakery" aria-selected="false" tabindex="-1">Bakery or cafe</button><button role="tab" id="t-garage" aria-controls="p-garage" aria-selected="false" tabindex="-1">Garage or MOT centre</button><button role="tab" id="t-trades" aria-controls="p-trades" aria-selected="false" tabindex="-1">Trades</button><button role="tab" id="t-studio" aria-controls="p-studio" aria-selected="false" tabindex="-1">Gym, studio or classes</button><button role="tab" id="t-clinic" aria-controls="p-clinic" aria-selected="false" tabindex="-1">Clinic or therapist</button><button role="tab" id="t-florist" aria-controls="p-florist" aria-selected="false" tabindex="-1">Florist or gift shop</button><button role="tab" id="t-venue" aria-controls="p-venue" aria-selected="false" tabindex="-1">Activity venue</button></div><div><div class="picker-panel" role="tabpanel" id="p-butcher" aria-labelledby="t-butcher"><h3>Butcher, deli or farm shop</h3><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Sunday roast club</b><p>A box every month, paid up front. Money in the bank before the meat leaves the block.</p></div></div><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Christmas and BBQ pre-orders</b><p>Orders and payment taken weeks ahead, so you buy stock knowing what&#x27;s sold.</p></div></div><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Click and collect</b><p>Customers order and pay online, then pick up at a time that suits your counter.</p></div></div><div class="picker-foot"><p>Starting points, not a menu. We pick the one that fits you when we talk it through.</p><a class="btn" href="/book/?type=butcher#quote">Talk it through, free</a></div></div><div class="picker-panel" role="tabpanel" id="p-bakery" aria-labelledby="t-bakery" hidden><h3>Bakery or cafe</h3><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Bread club</b><p>Regulars pay monthly for a weekly loaf. You bake to order and waste less.</p></div></div><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Cake pre-orders</b><p>Celebration cakes ordered and paid for online, with a deposit that stops no-shows.</p></div></div><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Bring a friend</b><p>A free coffee for anyone who brings in a new regular. Tracked for you.</p></div></div><div class="picker-foot"><p>Starting points, not a menu. We pick the one that fits you when we talk it through.</p><a class="btn" href="/book/?type=bakery#quote">Talk it through, free</a></div></div><div class="picker-panel" role="tabpanel" id="p-garage" aria-labelledby="t-garage" hidden><h3>Garage or MOT centre</h3><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Service plan</b><p>Customers spread the cost of servicing monthly. You get steady money and they keep coming back.</p></div></div><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Online booking</b><p>MOTs and services booked straight into your diary, day or night.</p></div></div><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Reminders that book</b><p>A nudge when the MOT is due, with a button to book it.</p></div></div><div class="picker-foot"><p>Starting points, not a menu. We pick the one that fits you when we talk it through.</p><a class="btn" href="/book/?type=garage#quote">Talk it through, free</a></div></div><div class="picker-panel" role="tabpanel" id="p-trades" aria-labelledby="t-trades" hidden><h3>Trades</h3><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Annual cover plan</b><p>Boiler service, safety checks or maintenance, paid monthly. Work in the diary before the phone rings.</p></div></div><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Quote requests that qualify</b><p>The job, the postcode and photos, collected before you pick up the phone.</p></div></div><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Bring a neighbour</b><p>A reward for every customer who sends you the house next door.</p></div></div><div class="picker-foot"><p>Starting points, not a menu. We pick the one that fits you when we talk it through.</p><a class="btn" href="/book/?type=trades#quote">Talk it through, free</a></div></div><div class="picker-panel" role="tabpanel" id="p-studio" aria-labelledby="t-studio" hidden><h3>Gym, studio or classes</h3><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Memberships</b><p>Monthly members, taken and renewed automatically. No chasing.</p></div></div><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Class packs</b><p>Ten classes paid up front. Good for people who won&#x27;t commit to monthly yet.</p></div></div><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Bring a friend</b><p>Members earn a free month for each friend who joins.</p></div></div><div class="picker-foot"><p>Starting points, not a menu. We pick the one that fits you when we talk it through.</p><a class="btn" href="/book/?type=studio#quote">Talk it through, free</a></div></div><div class="picker-panel" role="tabpanel" id="p-clinic" aria-labelledby="t-clinic" hidden><h3>Clinic or therapist</h3><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Care plan</b><p>Regular treatments on a monthly plan, so clients keep coming and you know what&#x27;s booked.</p></div></div><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Online booking with deposits</b><p>Clients book and pay a deposit online. Fewer empty slots.</p></div></div><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Rebooking prompts</b><p>A reminder when it&#x27;s time for the next visit, with a link to book it.</p></div></div><div class="picker-foot"><p>Starting points, not a menu. We pick the one that fits you when we talk it through.</p><a class="btn" href="/book/?type=clinic#quote">Talk it through, free</a></div></div><div class="picker-panel" role="tabpanel" id="p-florist" aria-labelledby="t-florist" hidden><h3>Florist or gift shop</h3><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Flower subscription</b><p>Fresh flowers every week or month, paid in advance.</p></div></div><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Big-day pre-orders</b><p>Valentine&#x27;s and Mother&#x27;s Day ordered and paid weeks ahead, so you buy the right stock.</p></div></div><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Gift cards</b><p>Sold online all year, spent in the shop.</p></div></div><div class="picker-foot"><p>Starting points, not a menu. We pick the one that fits you when we talk it through.</p><a class="btn" href="/book/?type=florist#quote">Talk it through, free</a></div></div><div class="picker-panel" role="tabpanel" id="p-venue" aria-labelledby="t-venue" hidden><h3>Activity venue</h3><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Season pass</b><p>Regulars pay once for the season. Money up front before the busy months.</p></div></div><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Pre-booked sessions</b><p>Every slot booked and paid online, with a deposit on group bookings.</p></div></div><div class="idea"><span class="tick" aria-hidden="true">&pound;</span><div><b>Group and party packages</b><p>Birthdays and stag dos booked as one bundle, paid in full before the day.</p></div></div><div class="picker-foot"><p>Starting points, not a menu. We pick the one that fits you when we talk it through.</p><a class="btn" href="/book/?type=venue#quote">Talk it through, free</a></div></div></div></div>
+</div></section>
 
-      <div class="stack">
+<section class="paper-2 band"><div class="wrap">
+<span class="kicker">How it works</span>
+<h2 style="max-width:16ch;margin-bottom:36px">From a chat to money coming in.</h2>
+<div class="docket">
+<div class="docket-row"><span class="when">Step one</span><h3>Talk it through</h3><p>We learn how your business makes money now, and pick the idea that fits. Free, and no pressure.</p></div>
+<div class="docket-row"><span class="when">Step two</span><h3>We build it</h3><p>Your website and the system behind it, built for you. You check everything before it goes live.</p></div>
+<div class="docket-row"><span class="when">Launch day</span><h3>It goes live</h3><p>You pay the setup and first month the same day. Not a penny before.</p></div>
+<div class="docket-row"><span class="when">Every month</span><h3>We keep it running</h3><p>Hosting, fixes and edits are covered. You see what's coming in, and we tell you what to try next.</p></div>
+</div>
+</div></section>
 
-        <!-- Outcomes layer -->
-        <div class="stack-band surface">
-          <div class="layer-name">Layer 04 · Outcomes</div>
-          <p class="layer-desc">Deals closed. Revenue booked. Quota attainment. Ramp time. These are what the CRO measures and the board cares about.</p>
-          <div class="layer-coached">What gets measured<strong>Revenue platforms</strong></div>
-        </div>
+<section class="dark band"><div class="wrap split">
+<div><span class="kicker">The AI part, in plain English</span>
+<h2 style="max-width:12ch">People ask AI now. Make sure it knows you.</h2></div>
+<ul class="list-plain">
+<li><div><b>Found by AI.</b> More people ask ChatGPT or Google's AI for a recommendation. Your site is built so those assistants can read it and point people to you.</div></li>
+<li><div><b>Answered by AI.</b> A chat assistant on your site answers questions and takes bookings, at 11pm on a Sunday if that's when people ask.</div></li>
+<li><div><b>Written with AI.</b> Fresh articles on your site every month to keep you showing up in searches. A person checks every one before it goes up.</div></li>
+</ul>
+</div></section>
 
-        <!-- Activity / Plays layer -->
-        <div class="stack-band mid">
-          <div class="layer-name">Layer 03 · Activity</div>
-          <p class="layer-desc">MEDDPICC. Sandler. Narrative selling. Playbooks. Closing motions. Methodology training. The plays a rep is supposed to run.</p>
-          <div class="layer-coached">What gets pitched<strong>Sales enablement platforms</strong></div>
-        </div>
+<section><div class="wrap">
+<div class="split" style="margin-bottom:36px">
+<div><span class="kicker">Prices</span><h2>Clear prices. From &pound;35 a month.</h2></div>
+<div class="body"><p>Three plans. Pick the one that matches what you'd like the business to do. Everything is on the page, including the setup fee.</p></div>
+</div>
+<table class="ledger"><thead><tr><th>Plan</th><th>Monthly</th><th>What you get</th><th>Replaces</th></tr></thead><tbody><tr id="starter"><td><span class="plan-name">Starter</span></td><td data-h="Monthly"><span class="from">From</span><span class="price">&pound;35<small> / month</small></span></td><td data-h="What you get"><ul><li>A website that works on phones and is easy to buy from</li><li>Hosting, security and updates</li><li>Edits when you need them</li><li>Built so AI assistants can read it</li></ul></td><td data-h="Replaces" class="replaces">Wix, Squarespace or WordPress, and whoever fixes it when it breaks.</td></tr><tr class="pick" id="growth"><td><span class="plan-name">Growth</span><span class="tag">Where we'd start</span></td><td data-h="Monthly"><span class="from">From</span><span class="price">&pound;99<small> / month</small></span></td><td data-h="What you get"><ul><li>Everything in Starter</li><li>Bookings</li><li>Memberships and subscriptions</li><li>Pre-orders</li><li>Rewards for bringing a friend</li><li>Your customer list, in one place</li><li>The money-making idea we pick together, built in</li></ul></td><td data-h="Replaces" class="replaces">Starter, plus the booking app, the membership app and the pre-order add-on.</td></tr><tr id="premium"><td><span class="plan-name">Premium</span></td><td data-h="Monthly"><span class="from">From</span><span class="price">&pound;199<small> / month</small></span></td><td data-h="What you get"><ul><li>Everything in Growth</li><li>Work to get you found by AI assistants</li><li>New articles for your site every month</li><li>An AI assistant that answers questions and takes bookings</li><li>Software built for how your business runs, like check-in or tracking</li></ul></td><td data-h="Replaces" class="replaces">Growth, plus the chat tool, the copywriter and the software you&#x27;d otherwise have made.</td></tr></tbody></table>
+<div class="row-btns" style="margin-top:24px"><a class="btn" href="/pricing/">Full prices and the savings calculator</a></div>
+</div></section>
 
-        <!-- Style layer -->
-        <div class="stack-band style">
-          <div class="layer-name">Layer 02 · Style</div>
-          <p class="layer-desc">Personality. Presence. Charisma. The way a rep makes a buyer feel. Personal, not measurable in a useful timeframe.</p>
-          <div class="layer-coached">What gets defaulted to<strong>1:1 coaching conversations</strong></div>
-        </div>
-
-        <!-- DIVIDER -->
-        <div class="stack-divider">
-          <span class="label">↓ Below this line, nothing is currently being measured ↓</span>
-          <span class="note">The substrate that makes everything above it land or not</span>
-        </div>
-
-        <!-- The Mastery Layer -->
-        <div class="stack-band mastery">
-          <div class="layer-name">Layer 01 · <em>The Mastery Layer</em></div>
-          <p class="layer-desc"><strong>Observable, role-specific, tier-progressed mastery of the craft of selling.</strong> Discovery framing. Pain mirroring. Silence holding. Value sequencing. Universal across motions. The substrate that decides whether plays land, whether style helps, whether outcomes follow.</p>
-          <div class="layer-coached">Where ThinkWork operates<strong>The Mastery Standard</strong></div>
-        </div>
-
-        <!-- ThinkWork zone marker -->
-        <div class="stack-band thinkwork-zone">
-          <div class="layer-name">ThinkWork installs here</div>
-          <p class="layer-desc"></p>
-          <div class="layer-coached">Operated by<strong>Peer · 14 specialist agents</strong></div>
-        </div>
-
-      </div>
-
-      <p class="stack-caption">The reason enablement spend has gone up 5× since 2019 while ramp time has barely moved is that all five times the spend went up, it went into Layers 02–04. <strong>Mastery has stayed unmeasured.</strong></p>
-    </div>
-
-    <!-- Glossary so buyers learn the language fast -->
-    <div class="glossary">
-      <span class="label">Our vocabulary · Use these terms</span>
-      <div class="glossary-grid">
-        <div class="glossary-item"><strong>Sales Skills Mastery</strong>The outcome we engineer. Distinct from coaching, training, or enablement; those are activities. Mastery is the achieved state of capability at the rep level.</div>
-        <div class="glossary-item"><strong>The Mastery Layer</strong>Where mastery lives in your commercial function. The substrate underneath plays, style, and outcomes. Most enablement programs never reach it.</div>
-        <div class="glossary-item"><strong>The Mastery Standard</strong>Our proprietary 27-framework, 54-competency taxonomy that makes the Sales Mastery Layer observable. 3 progression levels × 4 grading levels per competency: every rubric cell written, every promotion auditable, every assessment human-signed-off.</div>
-        <div class="glossary-item"><strong>Mastery Engineering</strong>The discipline ThinkWork practices. Parallel to Site Reliability Engineering: repeatable, infrastructure-backed, auditable. Not consulting; engineering.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- === WHAT WE INSTALL · re-language === -->
-<section class="ivory">
-  <div class="container">
-    <div class="section-header">
-      <span class="eyebrow">What an installation contains</span>
-      <h2>The Standard. The Engine. The Operating Model.</h2>
-      <p class="lede">A Mastery Engineering engagement installs three layers at once. The Standard names the rubric. The Engine operates it at scale. The Operating Model is how your enablement function runs against the standard once we step out.</p>
-    </div>
-
-    <div class="install-grid">
-      <div class="install-card">
-        <span class="number">01</span>
-        <h3>The Mastery Standard</h3>
-        <p>A 27-framework, 54-competency taxonomy of what mastery looks like at each tier, for every commercial sales role and motion. Mid-Market AE. Enterprise AE. AE-led Outbound. SDR → Founder Hand-off. Tech-Demo with SE. Twenty-two others. Each competency is observable, each tier criterion is written, each progression is auditable, every assessment human-signed-off.</p>
-        <div class="specs">
-          <span><strong>27 sales mastery frameworks</strong></span>
-          <span><strong>54 observable competencies</strong></span>
-          <span><strong>3×4 rubric · cited evidence · human sign-off</strong></span>
-        </div>
-      </div>
-      <div class="install-card">
-        <span class="number">02</span>
-        <h3>The Engine: Peer</h3>
-        <p>Fourteen specialist AI agents on EU-hosted infrastructure. Observes your team's recorded calls, scores against The Mastery Standard, tracks tier progression, surfaces the single highest-leverage mastery move each rep should work on this week. Continuous. Consistent. Auditable.</p>
-        <div class="specs">
-          <span><strong>14 specialist agents · EU-hosted</strong></span>
-          <span><strong>EU residency · GDPR-aligned</strong></span>
-          <span><strong>SOC 2 in progress</strong></span>
-        </div>
-      </div>
-      <div class="install-card">
-        <span class="number">03</span>
-        <h3>The Mastery Operating Model</h3>
-        <p>Your managers learn to read what the system sees. Your enablement leader runs mastery cycles against The Standard. Your CRO gets a quarterly mastery-health number for the board. Your reps get a portable mastery portfolio they own.</p>
-        <div class="specs">
-          <span><strong>Manager mastery-coaching cadence</strong></span>
-          <span><strong>Quarterly mastery-health reports</strong></span>
-          <span><strong>Rep mastery portfolio · portable</strong></span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- === PROGRAMS · RENAMED THROUGHOUT === -->
-<section id="programs">
-  <div class="container">
-    <div class="section-header">
-      <span class="eyebrow">Mastery Engineering Programs</span>
-      <h2>Four programs. Clear scope. Fixed shape.</h2>
-      <p class="lede">Every engagement has a fixed shape and a fixed scope. We don't write open-ended consulting proposals. Mastery Engineering is a discipline, not a consultative practice. You see the structure, the deliverables and the duration before you speak to anyone; the investment is confirmed on the discovery call.</p>
-    </div>
-
-    <div class="programs-stack">
-
-      <!-- Program 01 · Mastery Diagnostic -->
-      <div class="program-card">
-        <div class="program-num-col">
-          <div class="program-num">01</div>
-          <div>
-            <div class="program-tag">Land · Diagnostic</div>
-            <div class="program-name">Mastery Diagnostic</div>
-          </div>
-          <div class="program-best-for">Best for<strong>First engagement · 10–30 reps · Proof of mastery layer</strong></div>
-        </div>
-        <div class="program-body-col">
-          <p class="intro">A two-week, fixed-scope mastery baseline of one sales team against The Mastery Standard. Designed to surface what's happening at the layer no other vendor measures. <em>The cheapest, fastest way to make your team's Mastery Layer visible.</em></p>
-          <h4>What's included</h4>
-          <ul>
-            <li>Mastery framework selection workshop with your enablement leader</li>
-            <li>Recent-call ingestion (10–30 reps, last 60 days)</li>
-            <li>Per-rep mastery scorecard across the relevant framework</li>
-            <li>Team-level mastery gap analysis with tier-progression baseline</li>
-            <li>One on-site debrief day for your enablement team</li>
-          </ul>
-          <h4>Deliverables</h4>
-          <ul>
-            <li>25-page written Mastery Diagnostic report</li>
-            <li>Per-rep mastery readout cards</li>
-            <li>Prioritised mastery gap analysis</li>
-            <li>Executive briefing deck for CRO / Head of Sales</li>
-          </ul>
-        </div>
-        <div class="program-meta-col">
-          <div class="meta-row"><span class="meta-label">Duration</span><span class="meta-value">2 weeks · Fixed scope</span></div>
-          <div class="meta-row"><span class="meta-label">Format</span><span class="meta-value">Remote + 1 on-site debrief day</span></div>
-          <div class="meta-row"><span class="meta-label">Team size</span><span class="meta-value">10–30 reps</span></div>
-          
-          <a href="#engage" class="btn btn-primary">Book a Discovery Call <span class="arrow">→</span></a>
-        </div>
-      </div>
-
-      <!-- Program 02 · Mastery Installation -->
-      <div class="program-card feature">
-        <div class="program-num-col">
-          <div class="program-num">02</div>
-          <div>
-            <div class="program-tag">Install · Standard</div>
-            <div class="program-name">Mastery Installation Program</div>
-          </div>
-          <div class="program-best-for">Best for<strong>Whole sales function · Mastery transformation · Mid-market &amp; scale-ups</strong></div>
-        </div>
-        <div class="program-body-col">
-          <p class="intro">Our flagship program. We install The Mastery Standard in your sales function, train your managers to operate inside it, and run the first mastery cycle end-to-end. By week twelve you have a working Mastery Operating Model with measurable tier progression on the same yardstick. <em>The transformation Mastery Engineering exists to deliver.</em></p>
-          <h4>What's included</h4>
-          <ul>
-            <li>Everything in the Mastery Diagnostic, plus:</li>
-            <li>Custom Mastery Framework configuration for your specific motion</li>
-            <li>Full team installation in Peer (up to 75 reps; larger on request)</li>
-            <li>Manager Mastery-Coaching Workshop: three sessions, two hours each</li>
-            <li>First mastery cycle run end-to-end with your manager cohort</li>
-            <li>Mid-installation Mastery Calibration Workshop</li>
-            <li>Tier Progression Promotion Ceremony: your first auditable mastery promotions</li>
-            <li>Quarterly Mastery Review Framework deployment for CRO reporting</li>
-          </ul>
-          <h4>Deliverables</h4>
-          <ul>
-            <li>Working Peer installation, your team operating in The Mastery Standard</li>
-            <li>Certified Mastery Operator cohort (managers)</li>
-            <li>First-cycle before/after mastery progression report</li>
-            <li>CRO-ready mastery ROI report with revenue attribution</li>
-            <li>Mastery Operating Model documentation</li>
-          </ul>
-        </div>
-        <div class="program-meta-col">
-          <div class="meta-row"><span class="meta-label">Duration</span><span class="meta-value">12 weeks · Fixed scope</span></div>
-          <div class="meta-row"><span class="meta-label">Format</span><span class="meta-value">4 on-site workshop days + remote mastery cycle</span></div>
-          <div class="meta-row"><span class="meta-label">Team size</span><span class="meta-value">Up to 75 reps (custom for enterprise)</span></div>
-          
-          <a href="#engage" class="btn btn-primary">Book a Discovery Call <span class="arrow">→</span></a>
-        </div>
-      </div>
-
-      <!-- Program 03: Mastery Operator -->
-      <div class="program-card">
-        <div class="program-num-col">
-          <div class="program-num">03</div>
-          <div>
-            <div class="program-tag">Operate · Retainer</div>
-            <div class="program-name">Mastery Operator-on-Call</div>
-          </div>
-          <div class="program-best-for">Best for<strong>Post-installation · Sustaining mastery · Quarterly board reporting</strong></div>
-        </div>
-        <div class="program-body-col">
-          <p class="intro">After installation, we stay embedded as your monthly Mastery Operator. Your team continues operating inside The Standard, your managers continue running mastery cycles, and we provide the ongoing operational layer that keeps mastery consistent quarter to quarter. <em>The arrangement that turns an installation into a permanent capability.</em></p>
-          <h4>What's included</h4>
-          <ul>
-            <li>Monthly Peer observation review with your enablement leader</li>
-            <li>On-demand mastery-coaching escalations for managers</li>
-            <li>Quarterly board-level Mastery Health reports with revenue attribution</li>
-            <li>Annual Standard recalibration as your motion evolves</li>
-            <li>New manager onboarding into The Standard</li>
-            <li>Peer platform access maintained throughout</li>
-          </ul>
-          <h4>Outcomes</h4>
-          <ul>
-            <li>Mastery consistency holds across manager changes</li>
-            <li>Tier progression continues without ThinkWork in the room daily</li>
-            <li>CRO has a quarterly Mastery Health number to defend the program</li>
-          </ul>
-        </div>
-        <div class="program-meta-col">
-          <div class="meta-row"><span class="meta-label">Duration</span><span class="meta-value">12-month minimum · Monthly retainer</span></div>
-          <div class="meta-row"><span class="meta-label">Format</span><span class="meta-value">Remote · Monthly review + on-demand</span></div>
-          <div class="meta-row"><span class="meta-label">Eligibility</span><span class="meta-value">Post-Installation only</span></div>
-          
-          <a href="#engage" class="btn btn-primary">Book a Discovery Call <span class="arrow">→</span></a>
-        </div>
-      </div>
-
-      <!-- Program 04: Enterprise Mastery Certification -->
-      <div class="program-card">
-        <div class="program-num-col">
-          <div class="program-num">04</div>
-          <div>
-            <div class="program-tag">Certify · Enterprise</div>
-            <div class="program-name">Enterprise Mastery Operator Certification</div>
-          </div>
-          <div class="program-best-for">Best for<strong>Mature enablement functions · 200+ reps · Self-sufficiency goal</strong></div>
-        </div>
-        <div class="program-body-col">
-          <p class="intro">A train-the-trainer program for enterprise clients who want to operate The Mastery Standard in-house. We certify your internal enablement team and frontline managers as Mastery Operators, capable of running The Standard without ThinkWork in the room. <em>The arrangement for organisations that want mastery to belong to them, not to us.</em></p>
-          <h4>What's included</h4>
-          <ul>
-            <li>Mastery Operator Certification curriculum (8-week, workshop-led)</li>
-            <li>Up to 5 cohorts of 4–6 managers each (25 total Mastery Operators max)</li>
-            <li>Reading Certification: read Peer mastery output independently</li>
-            <li>Mastery Cycle Certification: run cycles without ThinkWork facilitation</li>
-            <li>Tier Progression Certification: promote reps with audit trail</li>
-            <li>Capstone review with senior ThinkWork Mastery Operator</li>
-            <li>Mastery Operator playbook + standard operating procedures</li>
-            <li>Annual recertification + new operator onboarding (year one)</li>
-          </ul>
-          <h4>Deliverables</h4>
-          <ul>
-            <li>Certified internal Mastery Operator cohort</li>
-            <li>Mastery Operator playbook (your configuration)</li>
-            <li>Annual recertification mechanism</li>
-            <li>Escalation channel to ThinkWork senior team</li>
-          </ul>
-        </div>
-        <div class="program-meta-col">
-          <div class="meta-row"><span class="meta-label">Duration</span><span class="meta-value">8 weeks · Fixed scope</span></div>
-          <div class="meta-row"><span class="meta-label">Format</span><span class="meta-value">5 cohort workshops + capstone</span></div>
-          <div class="meta-row"><span class="meta-label">Cohort size</span><span class="meta-value">Up to 25 Mastery Operators</span></div>
-          
-          <a href="#engage" class="btn btn-primary">Schedule Enterprise Call <span class="arrow">→</span></a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- === CAPABILITY · THE ENGINE === -->
-<section class="deep" id="engine">
-  <div class="container">
-    <div class="section-header">
-      <span class="eyebrow">Capability · The Engine</span>
-      <h2><a href="https://www.peerlab.ai" target="_blank" rel="noopener" style="color: inherit; border-bottom: 2px solid var(--gold); padding-bottom: 2px;">Peer</a> is the AI infrastructure The Mastery Standard runs on.</h2>
-      <p class="lede" style="color: rgba(255,255,255,0.78);">A Mastery Standard is only useful if something can operate it at scale. No human team can hold 27 frameworks and 54 observable competencies (each with twelve written rubric cells) in their head and apply them consistently to a sales floor. Peer is the engine that does: agent-accelerated, but never agent-only. Fourteen specialist agents. Human verification on every assessment, with 10% blind-graded a second time. EU-hosted infrastructure. Load-bearing capability behind every engagement.</p>
-      <p style="margin: 18px 0 0; font-family: var(--mono, 'JetBrains Mono', monospace); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.55);">
-        Peer is one product in the <strong style="color: var(--gold); font-weight: 600;">PeerLab</strong> family, alongside <em style="font-style: normal; color: rgba(255,255,255,0.7);">PeerBenchmark</em>, <em style="font-style: normal; color: rgba(255,255,255,0.7);">PeerPal</em> and <em style="font-style: normal; color: rgba(255,255,255,0.7);">PeerLibrary</em>.
-        <a href="https://www.peerlab.ai" target="_blank" rel="noopener" style="color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 1px; margin-left: 8px;">Learn more about PeerLab&nbsp;→</a>
-      </p>
-    </div>
-
-    <div class="capability">
-      <div class="capability-list">
-        <div class="capability-row">
-          <div class="num">01</div>
-          <div>
-            <h4>14 specialist mastery agents · EU-hosted</h4>
-            <p>Each agent owns a sub-domain of The Mastery Standard. Mastery observation. Sanitisation. Progression-judgement. Mastery-narrative generation. Revenue-impact forecasting. <strong>EU-hosted infrastructure: no third-party model calls leave our environment.</strong> Your call data stays inside the engagement boundary.</p>
-          </div>
-        </div>
-        <div class="capability-row">
-          <div class="num">02</div>
-          <div>
-            <h4>Observation pipeline · ingests what you already record</h4>
-            <p>Connects to your call platform: Gong, Chorus, tl;dv, Zoom. No new tooling for reps to adopt. We observe what you already capture; the rep workflow is unchanged.</p>
-          </div>
-        </div>
-        <div class="capability-row">
-          <div class="num">03</div>
-          <div>
-            <h4>Auditable Mastery Progression-Judge</h4>
-            <p>Promotion from one tier to the next is a documented event. Every tier change cites the specific observations that justified it. <strong>Anyone can verify a promotion. Anyone can dispute one.</strong> Mastery is not vibes. The rubric is the rubric.</p>
-          </div>
-        </div>
-        <div class="capability-row">
-          <div class="num">04</div>
-          <div>
-            <h4>Human-in-the-loop · every assessment signed off</h4>
-            <p>No promotion ships without human verification. Every Peer observation is reviewed and signed off by a trained Mastery Operator before it enters a rep's record. <strong>10% of all observations are independently re-graded blind</strong> by a second human reviewer as a continuous calibration check, keeping the agent fleet honest and the rubric tight. Mastery decisions are agent-accelerated, never agent-only.</p>
-          </div>
-        </div>
-        <div class="capability-row">
-          <div class="num">05</div>
-          <div>
-            <h4>Privacy and data residency · built in</h4>
-            <p>EU data residency. GDPR-aligned by design. SOC 2 in progress. Per-engagement data isolation. Configurable retention. Opt-out and right-to-be-forgotten mechanisms for individual reps. Full security posture shared under NDA during Discovery.</p>
-          </div>
-        </div>
-        <div class="capability-row">
-          <div class="num">06</div>
-          <div>
-            <h4>The Mastery Standard · fifteen years to build</h4>
-            <p>The taxonomy (frameworks, competencies, tier criteria, dependency edges) is the firm's protected IP. Built framework by framework, in-seat, across fifteen years of commercial roles, cold caller to CCO, out of necessity. The <em>thinking</em> behind it is published in <a href="/thinkwork/letter" style="color: var(--gold); border-bottom: 1px solid var(--gold);">The Letter</a>; the rubric content stays inside the engine.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="capability-aside">
-        <span class="label">The Mastery Standard · in numbers</span>
-        <h4>What you're installing.</h4>
-        <div class="stat-grid">
-          <div class="stat"><span class="label">Mastery frameworks</span><div class="v">27</div><div class="v-note">Sales SEA alone. Role and motion specific: Mid-Market AE to Tech-Demo to Founder hand-off. Other SEAs (CS, Support, Management, Culture) live alongside.</div></div>
-          <div class="stat"><span class="label">Observable competencies</span><div class="v">54</div><div class="v-note">Sales SEA, excluding overlays. Each one a discrete craft skill, observable in a real call, reused across the relevant frameworks.</div></div>
-          <div class="stat"><span class="label">Progression × Grading</span><div class="v">3 × 4</div><div class="v-note"><strong>3 progression levels</strong> per skill (Foundation · Enhanced · Advanced). <strong>4 grading levels</strong> per observation (Foundation · Proficient · Advanced · Expert). Every cell of the rubric is written.</div></div>
-          <div class="stat"><span class="label">Built over</span><div class="v">15 <span style="font-size: 18px;">yrs</span></div><div class="v-note">Inside senior commercial roles across high-growth companies. In real time, against real outcomes. Sustained by a human-in-the-loop review layer.</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- === METHODOLOGY === -->
-<section class="elev">
-  <div class="container">
-    <div class="section-header">
-      <span class="eyebrow">Methodology · Mastery Engineering</span>
-      <h2>A repeatable six-phase install. Not a bespoke proposal.</h2>
-      <p class="lede">Mastery Engineering is a discipline, not a consultative practice. Every installation runs through the same six phases. The order is load-bearing: earlier phases set the substrate later phases depend on. Where engagements differ is framework configuration, team size, and mastery cycle pace. Not in the work that gets done.</p>
-    </div>
-
-    <div class="methodology">
-      <div class="phase-grid">
-        <div class="phase">
-          <div class="ph-num">PH 01</div>
-          <div class="ph-name">Diagnostic &amp; Framework Selection</div>
-          <div class="ph-week">Weeks 1–2</div>
-        </div>
-        <div class="phase">
-          <div class="ph-num">PH 02</div>
-          <div class="ph-name">Team Mastery Baseline in Peer</div>
-          <div class="ph-week">Weeks 3–4</div>
-        </div>
-        <div class="phase">
-          <div class="ph-num">PH 03</div>
-          <div class="ph-name">Manager Mastery-Coaching Training</div>
-          <div class="ph-week">Weeks 5–6</div>
-        </div>
-        <div class="phase">
-          <div class="ph-num">PH 04</div>
-          <div class="ph-name">First Mastery Cycle Run</div>
-          <div class="ph-week">Weeks 7–10</div>
-        </div>
-        <div class="phase">
-          <div class="ph-num">PH 05</div>
-          <div class="ph-name">Calibration &amp; Promotion Ceremony</div>
-          <div class="ph-week">Weeks 11–12</div>
-        </div>
-        <div class="phase">
-          <div class="ph-num">PH 06</div>
-          <div class="ph-name">Quarterly Mastery Review Cadence</div>
-          <div class="ph-week">Ongoing</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- === FOUNDER === -->
-<section class="founder-section">
-  <div class="founder-grid">
-    <a class="founder-portrait" href="/speaking" aria-label="Meet the CEO: Greg McCallum" style="padding:0; border-bottom:0; overflow:hidden;">
-      <img src="/static/thinkwork/greg-mccallum.jpg" alt="Greg McCallum, founder and CEO of ThinkWork"
-           width="720" height="960"
-           style="width:100%; height:100%; object-fit:cover; object-position:50% 18%; display:block;">
-    </a>
-    <div class="founder-content">
-      <span class="eyebrow">Founder · Greg McCallum</span>
-      <h2>Mastery Engineering exists because I needed it to.</h2>
-      <div class="role">The No BS GTM Advisor</div>
-      <p>I've spent fifteen years in commercial seats, starting as a cold caller, up through partnership and enterprise sales, then the seats that lead them: sales leader, Head of Sales, VP, CCO, fractional GTM advisor, across high-growth companies on both sides of the Atlantic. The seats where the question "is enablement actually working?" stops being abstract and starts being your performance review.</p>
-      <p>In every one of those seats, I watched the same pattern. Enablement vendors sold methodologies. Managers coached opinions. Output platforms scored deals. And underneath all of it, the layer that actually decided whether reps ramped (the Mastery Layer) went unobserved. Reps were diagnosed in language no one could verify and coached on plays they couldn't yet execute.</p>
-      <p>The frameworks started as my own, built one at a time, out of necessity, from cold calls up, because I needed them to get better. I formalised them into The Mastery Standard because the diagnoses needed a rubric. I built Peer because the rubric needed something to operate it. <strong>I built ThinkWork because the standard and the engine were useless without someone walking in and installing them.</strong> <em>Mastery Engineering is what this work is called when it's done right.</em></p>
-      <div class="founder-credentials">
-        <div class="cred">Background<strong>15 yrs commercial, cold caller to CCO · global high-growth</strong></div>
-        <div class="cred">Reputation<strong>The No BS GTM Advisor</strong></div>
-        <div class="cred">Mission<strong>Set the global standard for Sales Skills Mastery</strong></div>
-      </div>
-      <p style="margin-top:26px">
-        <a href="/speaking" class="btn btn-ghost">Meet the CEO <span class="arrow">&rarr;</span></a>
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- === THE LETTER === -->
-<section class="letter-card-section">
-  <div class="letter-card">
-    <div class="letter-mark">"</div>
-    <div class="letter-body">
-      <span class="eyebrow">The Letter · Volume I · No. 01</span>
-      <h3>The Standard.</h3>
-      <p>The inaugural manifesto. On The Mastery Layer, fifteen years in the seats where revenue performance is measured weekly, and why Mastery Engineering had to exist. <em>Published weekly going forward, including the Mastery Bench serial deconstructing real calls against The Standard.</em></p>
-    </div>
-    <div class="letter-cta-col">
-      <span class="letter-issue-label">29 May 2026 · 10 min read</span>
-      <a href="/thinkwork/letter" class="btn btn-primary">Read The Letter <span class="arrow">→</span></a>
-      <a href="/thinkwork/letter#subscribe" class="btn btn-ghost" style="justify-content: center;">Subscribe &middot; Free</a>
-    </div>
-  </div>
-</section>
-
-<!-- === ENGAGE === -->
-<section class="engage" id="engage">
-  <div class="container">
-    <span class="eyebrow">Engage with ThinkWork</span>
-    <h2>Three ways to begin. All start with a conversation.</h2>
-    <p class="lede">Every engagement starts with a thirty-minute Mastery Discovery Call. We scope the right program, share security and methodology details under NDA where needed, and answer the procurement-side questions before any commitment is made.</p>
-
-    <div class="engage-paths">
-      <div class="engage-path feature">
-        <span class="label">Primary path · For all buyers</span>
-        <h3>Book a Mastery Discovery Call</h3>
-        <p>Thirty minutes with Greg or a senior ThinkWork Mastery Operator. We learn about your commercial motion, your current Mastery Layer state, and whether installation is right for you. No commitment. No proposal pressure.</p>
-        <a href="mailto:greg@thinkwork.info?subject=Mastery%20Discovery%20Call" class="btn btn-gold">Book a Discovery Call <span class="arrow">→</span></a>
-      </div>
-      <div class="engage-path">
-        <span class="label">For enterprise procurement</span>
-        <h3>Request a Proposal</h3>
-        <p>For formal procurement: multi-cohort certification, enterprise pricing, custom SLAs, MSAs, security questionnaires. We prepare a proposal after the Discovery Call. Standard turnaround is five working days.</p>
-        <a href="mailto:greg@thinkwork.info?subject=RFP%20Request" class="btn btn-light">Request a Proposal <span class="arrow">→</span></a>
-      </div>
-      <div class="engage-path">
-        <span class="label">For thinking partners</span>
-        <h3>Subscribe to The Letter</h3>
-        <p>If you're not ready for an engagement but want to follow the thinking, subscribe to the weekly publication. The Mastery Bench serial, quarterly Mastery Health research, and essays on the discipline, direct from the founder.</p>
-        <a href="/thinkwork/letter#subscribe" class="btn btn-light">Subscribe &middot; Free <span class="arrow">→</span></a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- === FOOTER === -->
-<footer>
-  <div class="footer-grid">
-    <div>
-      <a href="/" class="footer-brand">Think<span class="mark">Work</span></a>
-      <p class="footer-tag">A boutique Mastery Engineering firm. We install The Mastery Standard in commercial functions. Operated by Peer, our specialist AI agent fleet on EU-hosted infrastructure. Founded by Greg McCallum.</p>
-    </div>
-    <div>
-      <h4>Firm</h4>
-      <a href="#layer">The Mastery Layer</a>
-      <a href="/assurance">Second Marking</a>
-      <a href="/speaking">Meet the CEO</a>
-      <a href="#programs">Programs</a>
-      <a href="#engine">The Engine</a>
-    </div>
-    <div>
-      <h4>Engage</h4>
-      <a href="mailto:greg@thinkwork.info?subject=Mastery%20Discovery%20Call">Book a Discovery Call</a>
-      <a href="mailto:greg@thinkwork.info?subject=RFP%20Request">Request a Proposal</a>
-      <a href="/thinkwork/letter">The Letter</a>
-    </div>
-    <div>
-      <h4>Contact</h4>
-      <a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a>
-      <a href="https://www.linkedin.com/in/gregmacuk/" rel="noopener" target="_blank">LinkedIn</a>
-    </div>
-  </div>
-  <div class="footer-base">
-    <span>© ThinkWork 2026 · Mastery Engineering · The Mastery Standard, installed.</span>
-    <span>EU-hosted infrastructure · GDPR-aligned · SOC 2 in progress</span>
-  </div>
-</footer>
-
+<section class="paper-2 band"><div class="wrap split">
+<div><span class="kicker">Owned, not rented</span><h2 style="max-width:12ch">Yours. Not ours.</h2></div>
+<div class="body"><p>Your website, your domain and your customer list belong to you. We host it and keep it running. If you ever leave, they go with you.</p>
+<p class="small">The plans have a 12-month minimum, then run month to month.</p></div>
+</div></section>
+<section class="dark band"><div class="wrap cta-band">
+<span class="kicker">Next step</span>
+<h2>Find out what your business could be earning.</h2>
+<p>Tell us what you run and what you pay for now. We'll come back with an idea and a price.</p>
+<div class="row-btns"><a class="btn hi" href="/book/#quote">Get a free build quote</a></div>
+</div></section>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div class="cols">
+<div><a class="brand" href="/"><i aria-hidden="true"></i>ThinkWork</a>
+<p style="margin-top:14px;max-width:34ch">Websites and the systems that bring in money, for local businesses. Built for you, owned by you.</p></div>
+<div><h4>The offer</h4><a href="/what-we-build/">What we build</a><a href="/pricing/">Prices</a><a href="/advisory/">Advisory</a></div>
+<div><h4>Us</h4><a href="/work/">Work</a><a href="/about/">About</a><a href="/book/#quote">Get a free build quote</a><a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></div>
+</div>
+<div class="legal">&copy; 2026 ThinkWork. Prices exclude VAT where it applies.</div>
+</div></footer>
+<script src="/static/tw/site.js?v=1" defer></script>
 </body>
 </html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Get a free build quote | ThinkWork</title>
+<meta name="description" content="Tell ThinkWork about your business and what you pay for now. Greg replies himself with an idea and a price.">
+<link rel="canonical" href="https://thinkwork.info/book/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ThinkWork">
+<meta property="og:title" content="Get a free build quote | ThinkWork">
+<meta property="og:description" content="Tell ThinkWork about your business and what you pay for now. Greg replies himself with an idea and a price.">
+<meta property="og:url" content="https://thinkwork.info/book/">
+<meta property="og:image" content="https://thinkwork.info/static/tw/og-thinkwork.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#16150f">
+<link rel="icon" type="image/svg+xml" href="/static/tw/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="/static/tw/site.css?v=1">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","@id":"https://thinkwork.info/#org","name":"ThinkWork","url":"https://thinkwork.info/","logo":"https://thinkwork.info/static/tw/og-thinkwork.png","image":"https://thinkwork.info/static/tw/og-thinkwork.png","email":"greg@thinkwork.info","description":"ThinkWork builds local businesses one owned system: website, bookings, memberships, subscriptions and pre-orders, picked with the owner to bring in more money, for less than the separate apps it replaces.","areaServed":{"@type":"Country","name":"United Kingdom"},"priceRange":"£35 to £199 a month","founder":{"@type":"Person","name":"Greg McCallum","url":"https://gregrcmccallum.com/"},"knowsAbout":["Small business websites","Online booking","Memberships and subscriptions","Pre-orders","AI search visibility","AI chat assistants"]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head"><div class="wrap">
+<a class="brand" href="/"><i aria-hidden="true"></i>ThinkWork</a>
+<button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+<nav class="nav" id="nav" aria-label="Main"><a href="/what-we-build/">What we build</a><a href="/pricing/">Prices</a><a href="/advisory/">Advisory</a><a href="/work/">Work</a><a href="/about/">About</a><a class="btn hi" href="/book/#quote">Free build quote</a></nav>
+</div></header>
+<main id="main">
+
+<section class="hero"><div class="wrap split">
+<div>
+<span class="kicker">Get a free build quote</span>
+<h1 style="font-size:clamp(40px,6.4vw,80px);max-width:11ch">Tell us about your business.</h1>
+<p class="lead" style="margin-top:24px">Two minutes. Greg reads every one and replies himself, with an idea and a price. No pressure, no sales patter.</p>
+<ul class="list-plain" style="margin-top:28px">
+<li><div>What you pay now tells us what you could save.</div></li>
+<li><div>What you'd like more of tells us what to build.</div></li>
+<li><div>Prefer email? <a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></div></li>
+</ul>
+</div>
+<form class="form" id="quote" method="post" action="https://app.peerlab.ai/api/thinkwork/quote" data-return="/book/thanks/">
+<div class="alert" role="alert" hidden>Something was missing. Please check your name, business, email and type of business.</div>
+<input type="hidden" name="return_to" value="https://thinkwork.info/book/thanks/">
+<input type="hidden" name="source" value="main">
+<div class="trap" aria-hidden="true"><label for="rt">Leave this empty</label><input id="rt" name="referral_token" tabindex="-1" autocomplete="off"></div>
+<div class="grid2">
+<div class="field"><label for="f-name">Your name</label><input id="f-name" name="full_name" type="text" autocomplete="name" required maxlength="120"></div>
+<div class="field"><label for="f-biz">Business name</label><input id="f-biz" name="business_name" type="text" autocomplete="organization" required maxlength="200"></div>
+<div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required maxlength="254"></div>
+<div class="field"><label for="f-phone">Phone <span class="hint">(optional)</span></label><input id="f-phone" name="phone" type="tel" autocomplete="tel" maxlength="40"></div>
+<div class="field"><label for="f-type">Type of business</label><select id="f-type" name="business_type" required><option value="">Choose one</option><option value="butcher">Butcher, deli or farm shop</option><option value="bakery">Bakery or cafe</option><option value="garage">Garage or MOT centre</option><option value="trades">Trades</option><option value="studio">Gym, studio or classes</option><option value="clinic">Clinic or therapist</option><option value="florist">Florist or gift shop</option><option value="venue">Activity venue</option><option value="other">Something else</option></select></div>
+<div class="field"><label for="f-town">Town</label><input id="f-town" name="town" type="text" autocomplete="address-level2" maxlength="120"></div>
+</div>
+<div class="field"><label for="f-site">Current website <span class="hint">(if you have one)</span></label><input id="f-site" name="current_site" type="text" inputmode="url" maxlength="300" placeholder="yourbusiness.co.uk"></div>
+<fieldset class="field"><legend>What do you use now?</legend><div class="checks"><label><input type="checkbox" name="current_tools" value="Wix"> Wix</label><label><input type="checkbox" name="current_tools" value="Squarespace"> Squarespace</label><label><input type="checkbox" name="current_tools" value="WordPress"> WordPress</label><label><input type="checkbox" name="current_tools" value="A web agency"> A web agency</label><label><input type="checkbox" name="current_tools" value="A booking app"> A booking app</label><label><input type="checkbox" name="current_tools" value="An email tool"> An email tool</label><label><input type="checkbox" name="current_tools" value="A membership app"> A membership app</label><label><input type="checkbox" name="current_tools" value="An online shop"> An online shop</label><label><input type="checkbox" name="current_tools" value="Nothing yet"> Nothing yet</label></div></fieldset>
+<div class="field"><label for="f-spend">Roughly what do you pay for all of it, per month? <span class="hint">(a guess is fine)</span></label><div class="money" style="max-width:200px"><input id="f-spend" name="monthly_spend" type="number" inputmode="decimal" min="0" step="1"></div></div>
+<div class="field"><label for="f-more">What would you like more of?</label><textarea id="f-more" name="wants" maxlength="2000" placeholder="More regulars, fewer no-shows, busier weekdays, pre-orders for Christmas..."></textarea></div>
+<div class="field"><label><input type="checkbox" name="advisory" value="1" style="width:20px;height:20px;vertical-align:-4px;accent-color:var(--ink)"> I'm interested in the monthly advisory too</label></div>
+<button class="btn hi" type="submit">Send it to Greg</button>
+</form>
+</div></section>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div class="cols">
+<div><a class="brand" href="/"><i aria-hidden="true"></i>ThinkWork</a>
+<p style="margin-top:14px;max-width:34ch">Websites and the systems that bring in money, for local businesses. Built for you, owned by you.</p></div>
+<div><h4>The offer</h4><a href="/what-we-build/">What we build</a><a href="/pricing/">Prices</a><a href="/advisory/">Advisory</a></div>
+<div><h4>Us</h4><a href="/work/">Work</a><a href="/about/">About</a><a href="/book/#quote">Get a free build quote</a><a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></div>
+</div>
+<div class="legal">&copy; 2026 ThinkWork. Prices exclude VAT where it applies.</div>
+</div></footer>
+<script src="/static/tw/site.js?v=1" defer></script>
+</body>
+</html>

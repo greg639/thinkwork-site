@@ -1,0 +1,34 @@
+# ThinkWork
+
+> ThinkWork builds local, independent businesses one owned system: a website plus bookings, memberships, subscriptions and pre-orders, picked with the owner to bring in more money, for less than the separate apps it replaces. Founded by Greg McCallum. UK.
+
+## Plans (monthly, 12-month minimum, prices exclude VAT where it applies)
+
+- Starter: from £35/month. A website that works on phones and is easy to buy from; Hosting, security and updates; Edits when you need them; Built so AI assistants can read it. Replaces: Wix, Squarespace or WordPress, and whoever fixes it when it breaks.
+- Growth: from £99/month. Everything in Starter; Bookings; Memberships and subscriptions; Pre-orders; Rewards for bringing a friend; Your customer list, in one place; The money-making idea we pick together, built in. Replaces: Starter, plus the booking app, the membership app and the pre-order add-on.
+- Premium: from £199/month. Everything in Growth; Work to get you found by AI assistants; New articles for your site every month; An AI assistant that answers questions and takes bookings; Software built for how your business runs, like check-in or tracking. Replaces: Growth, plus the chat tool, the copywriter and the software you'd otherwise have made.
+- Setup: £650 one-off, due on launch day with the first month. Nothing is paid before launch.
+- No-BS Advisory: £150/month add-on to any plan. One hour a month with Greg McCallum. Clients only.
+- Ownership: the client owns their site, domain and customer list.
+
+## Ideas by type of business
+
+- Butcher, deli or farm shop: Sunday roast club (A box every month, paid up front. Money in the bank before the meat leaves the block.); Christmas and BBQ pre-orders (Orders and payment taken weeks ahead, so you buy stock knowing what's sold.); Click and collect (Customers order and pay online, then pick up at a time that suits your counter.)
+- Bakery or cafe: Bread club (Regulars pay monthly for a weekly loaf. You bake to order and waste less.); Cake pre-orders (Celebration cakes ordered and paid for online, with a deposit that stops no-shows.); Bring a friend (A free coffee for anyone who brings in a new regular. Tracked for you.)
+- Garage or MOT centre: Service plan (Customers spread the cost of servicing monthly. You get steady money and they keep coming back.); Online booking (MOTs and services booked straight into your diary, day or night.); Reminders that book (A nudge when the MOT is due, with a button to book it.)
+- Trades: Annual cover plan (Boiler service, safety checks or maintenance, paid monthly. Work in the diary before the phone rings.); Quote requests that qualify (The job, the postcode and photos, collected before you pick up the phone.); Bring a neighbour (A reward for every customer who sends you the house next door.)
+- Gym, studio or classes: Memberships (Monthly members, taken and renewed automatically. No chasing.); Class packs (Ten classes paid up front. Good for people who won't commit to monthly yet.); Bring a friend (Members earn a free month for each friend who joins.)
+- Clinic or therapist: Care plan (Regular treatments on a monthly plan, so clients keep coming and you know what's booked.); Online booking with deposits (Clients book and pay a deposit online. Fewer empty slots.); Rebooking prompts (A reminder when it's time for the next visit, with a link to book it.)
+- Florist or gift shop: Flower subscription (Fresh flowers every week or month, paid in advance.); Big-day pre-orders (Valentine's and Mother's Day ordered and paid weeks ahead, so you buy the right stock.); Gift cards (Sold online all year, spent in the shop.)
+- Activity venue: Season pass (Regulars pay once for the season. Money up front before the busy months.); Pre-booked sessions (Every slot booked and paid online, with a deposit on group bookings.); Group and party packages (Birthdays and stag dos booked as one bundle, paid in full before the day.)
+
+## Pages
+
+- [What we build](https://thinkwork.info/what-we-build/)
+- [Prices and savings calculator](https://thinkwork.info/pricing/)
+- [No-BS Advisory](https://thinkwork.info/advisory/)
+- [Work](https://thinkwork.info/work/)
+- [About Greg McCallum](https://thinkwork.info/about/)
+- [Get a free build quote](https://thinkwork.info/book/)
+
+Contact: greg@thinkwork.info

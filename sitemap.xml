@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://thinkwork.info/</loc><priority>1.0</priority></url>
+  <url><loc>https://thinkwork.info/what-we-build/</loc><priority>0.9</priority></url>
+  <url><loc>https://thinkwork.info/pricing/</loc><priority>0.9</priority></url>
+  <url><loc>https://thinkwork.info/advisory/</loc><priority>0.8</priority></url>
+  <url><loc>https://thinkwork.info/work/</loc><priority>0.6</priority></url>
+  <url><loc>https://thinkwork.info/about/</loc><priority>0.7</priority></url>
+  <url><loc>https://thinkwork.info/book/</loc><priority>0.8</priority></url>
+  <url><loc>https://thinkwork.info/airsoft/</loc><priority>0.8</priority></url>
   <url><loc>https://thinkwork.info/thinkwork/letter</loc><priority>0.7</priority></url>
   <url><loc>https://thinkwork.info/assurance/</loc><priority>0.9</priority></url>
   <url><loc>https://thinkwork.info/assurance/agreement/</loc><priority>0.4</priority></url>

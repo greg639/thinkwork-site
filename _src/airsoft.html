@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Websites and game-day software for airsoft sites | ThinkWork Airsoft</title>
+<meta name="description" content="Booking, season passes, QR check-in, staff tablet check-in and chrono logging for airsoft sites. Milsims, skirmish days, CQB, indoor and walk-on.">
+<link rel="canonical" href="{{SITE}}/airsoft/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Websites and game-day software for airsoft sites">
+<meta property="og:description" content="Booking, season passes, QR check-in and chrono logging for airsoft sites.">
+<meta property="og:url" content="{{SITE}}/airsoft/">
+<meta property="og:image" content="{{SITE}}/static/tw/og-airsoft.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1b1f1a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231b1f1a'/><circle cx='16' cy='16' r='9' fill='none' stroke='%23ff6a13' stroke-width='3'/><path d='M16 3v8M16 21v8M3 16h8M21 16h8' stroke='%23ff6a13' stroke-width='3'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@700;900&family=Barlow:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Websites, booking and game-day software for airsoft sites","serviceType":"Website and bespoke software for airsoft venues","areaServed":{"@type":"Country","name":"United Kingdom"},"provider":{"@type":"Organization","name":"ThinkWork Airsoft","email":"greg@thinkwork.info"},"description":"Pre-paid game-day booking, season passes, group and party packages, QR check-in and check-out, staff tablet check-in and per-player chrono logging for airsoft sites running milsims, skirmish days, CQB, indoor and walk-on games."}</script>
+<style>
+:root{
+  --bg:#1b1f1a; --bg2:#232821; --panel:#2b3128; --line:rgba(232,228,214,.16);
+  --text:#e8e4d6; --mute:#a7a893; --hot:#ff6a13; --hot-ink:#1b1f1a; --ok:#9ccf6a;
+  --display:"Big Shoulders Stencil Display",Impact,sans-serif; --body:"Barlow",system-ui,sans-serif; --mono:"Space Mono",ui-monospace,monospace;
+  --gut:clamp(16px,4vw,40px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--text);font:400 18px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--hot);outline-offset:2px}
+.w{max-width:1140px;margin:0 auto;padding:0 var(--gut)}
+h1,h2,h3{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:.01em;line-height:.92;margin:0}
+h1{font-size:clamp(56px,11vw,138px)}
+h2{font-size:clamp(40px,6vw,76px)}
+h3{font-size:30px;font-weight:700;line-height:1}
+p{margin:0 0 1em}
+.tag{font:700 13px var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--hot);display:block;margin-bottom:16px}
+.lead{font-size:clamp(19px,2vw,23px);max-width:38ch;color:var(--text)}
+.mute{color:var(--mute)}
+.top{border-bottom:1px solid var(--line)}
+.top .w{display:flex;justify-content:space-between;align-items:center;height:62px;gap:12px}
+.logo{font:900 24px var(--display);text-transform:uppercase;letter-spacing:.04em;display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo svg{flex:0 0 auto}
+.btn{display:inline-block;font:700 17px var(--body);text-transform:uppercase;letter-spacing:.04em;text-decoration:none;padding:15px 22px;background:var(--hot);color:var(--hot-ink);border:2px solid var(--hot);cursor:pointer;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+.btn:hover{background:#ff8a45}
+.btn.line{background:transparent;color:var(--text);border-color:var(--text)}
+.top .btn{padding:9px 14px;font-size:14px}
+section{padding:clamp(64px,9vw,112px) 0;border-top:1px solid var(--line)}
+.hero{border-top:0;padding-top:clamp(48px,8vw,96px);position:relative;overflow:hidden;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.5;background:
+  linear-gradient(var(--line) 1px,transparent 1px) 0 0/48px 48px,linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/48px 48px;
+  -webkit-mask:radial-gradient(ellipse at 80% 20%,#000,transparent 70%);mask:radial-gradient(ellipse at 80% 20%,#000,transparent 70%)}
+.hero h1{margin-bottom:26px;max-width:9ch}
+.hero h1 em{font-style:normal;color:var(--hot)}
+.hero .lead{margin-bottom:28px}
+.fmts{display:flex;flex-wrap:wrap;gap:0;margin-top:40px;border:1px solid var(--line)}
+.fmts span{font:700 13px var(--mono);text-transform:uppercase;letter-spacing:.08em;padding:12px 16px;border-right:1px solid var(--line);flex:1 1 auto;text-align:center}
+.fmts span:last-child{border-right:0}
+@media (max-width:640px){.fmts span{flex:1 1 45%;border-bottom:1px solid var(--line)}}
+.two{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,6vw,80px);align-items:start}
+@media (max-width:860px){.two{grid-template-columns:1fr}}
+.pain{list-style:none;margin:0;padding:0}
+.pain li{padding:16px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:baseline}
+.pain li b{font:700 14px var(--mono);color:var(--hot)}
+/* the loadout: what gets built, as a kit list */
+.kit{display:grid;grid-template-columns:repeat(2,1fr);border:1px solid var(--line)}
+.kit div{padding:26px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.kit div:nth-child(2n){border-right:0}
+.kit div:nth-last-child(-n+2){border-bottom:0}
+.kit h3{margin-bottom:10px}
+.kit p{margin:0;color:var(--mute)}
+.kit .id{font:700 12px var(--mono);color:var(--hot);letter-spacing:.1em;display:block;margin-bottom:10px}
+@media (max-width:760px){.kit{grid-template-columns:1fr}.kit div{border-right:0}.kit div:nth-last-child(2){border-bottom:1px solid var(--line)}}
+.intel{background:var(--panel);border-left:4px solid var(--hot);padding:clamp(22px,4vw,40px)}
+.intel .st{display:inline-block;font:700 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--hot);color:var(--hot);padding:4px 8px;margin-bottom:18px}
+.intel ul{margin:18px 0 0;padding-left:20px}
+.intel li{margin:6px 0}
+form{background:var(--bg2);border:1px solid var(--line);padding:clamp(20px,3.5vw,36px)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+@media (max-width:640px){.g2{grid-template-columns:1fr}}
+.f{margin-bottom:18px}
+.f label,.f legend{display:block;font-weight:700;margin-bottom:6px;font-size:16px}
+.f .h{font-weight:400;color:var(--mute)}
+input[type=text],input[type=email],input[type=tel],textarea{width:100%;font:400 17px var(--body);background:var(--bg);color:var(--text);border:1.5px solid var(--line);padding:12px;border-radius:0}
+input:focus,textarea:focus{border-color:var(--hot);outline:none}
+textarea{min-height:120px;resize:vertical}
+fieldset{border:0;padding:0;margin:0 0 18px}
+.checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px 14px}
+.checks label{display:flex;gap:10px;align-items:center;font-weight:500;margin:0;cursor:pointer}
+.checks input{width:20px;height:20px;accent-color:var(--hot)}
+.trap{position:absolute!important;left:-10000px!important;width:1px;height:1px;overflow:hidden}
+.alert{border:2px solid var(--hot);padding:12px 16px;margin-bottom:18px;font-weight:700}
+.alert[hidden]{display:none}
+footer{border-top:1px solid var(--line);padding:32px 0;color:var(--mute);font-size:14.5px}
+footer .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+</style>
+</head>
+<body>
+<header class="top"><div class="w">
+<a class="logo" href="/airsoft/"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="9" fill="none" stroke="#ff6a13" stroke-width="3"/><path d="M16 3v8M16 21v8M3 16h8M21 16h8" stroke="#ff6a13" stroke-width="3"/></svg>ThinkWork Airsoft</a>
+<a class="btn" href="#talk">Talk to us</a>
+</div></header>
+<main>
+
+<section class="hero"><div class="w">
+<span class="tag">For airsoft sites</span>
+<h1>Built for <em>game day.</em></h1>
+<p class="lead">Websites, bookings and site software made for how an airsoft site actually runs. Players pay before they turn up. Check-in takes seconds. Every chrono reading is on record.</p>
+<a class="btn" href="#talk">Talk to us</a>
+<div class="fmts" aria-label="Formats we build for"><span>Milsim</span><span>Skirmish days</span><span>CQB</span><span>Indoor</span><span>Walk-on</span></div>
+</div></section>
+
+<section><div class="w two">
+<div><span class="tag">Sound familiar?</span><h2>Game day runs on paper and WhatsApp.</h2></div>
+<ul class="pain">
+<li><b>Gate</b><div>A queue at the gate while someone ticks names off a printed list.</div></li>
+<li><b>Chrono</b><div>Chrono readings on a clipboard. If there's ever a question, good luck finding it.</div></li>
+<li><b>No-shows</b><div>Pre-booked players who never show, and nothing taken up front to cover it.</div></li>
+<li><b>Admin</b><div>A booking page, a payment link, a Facebook event and a spreadsheet. None of them agree.</div></li>
+</ul>
+</div></section>
+
+<section><div class="w">
+<span class="tag">The loadout</span>
+<h2 style="margin-bottom:36px;max-width:14ch">What we build for your site.</h2>
+<div class="kit">
+<div><span class="id">Booking</span><h3>Pre-paid game days</h3><p>Every slot booked and paid online. Deposits on group bookings, so no-shows still pay.</p></div>
+<div><span class="id">Regulars</span><h3>Season passes</h3><p>Your regulars pay once for the season. Money in before the busy months.</p></div>
+<div><span class="id">Groups</span><h3>Party and group packages</h3><p>Birthdays, stag dos and corporate days booked as one bundle, paid in full before the day.</p></div>
+<div><span class="id">Gate</span><h3>QR check-in and check-out</h3><p>Players scan in and out. You know exactly who's on site.</p></div>
+<div><span class="id">Staff</span><h3>Tablet check-in</h3><p>Marshals check players in on a tablet at the gate. No printed lists.</p></div>
+<div><span class="id">Safety</span><h3>Chrono log</h3><p>Every player's chrono reading recorded against their name, every game day.</p></div>
+</div>
+</div></section>
+
+<section><div class="w two">
+<div><span class="tag">In the field</span><h2>First build under way.</h2></div>
+<div class="intel">
+<span class="st">In build</span>
+<p style="margin:0">A UK airsoft site's game-day system is being built now.</p>
+<ul><li>QR check-in and check-out</li><li>Tablet check-in run by staff</li><li>Chrono score logging per player</li></ul>
+<p class="mute" style="margin:18px 0 0">A full write-up, with the site's say-so, once it has run a season of game days.</p>
+</div>
+</div></section>
+
+<section id="talk"><div class="w two">
+<div><span class="tag">Talk to us</span><h2>Tell us how your site runs.</h2>
+<p class="lead" style="margin-top:22px">We'll come back with what we'd build and a price, before anything is built. You own what we build.</p>
+<p class="mute">Or email <a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></p></div>
+<form method="post" action="{{API}}/api/thinkwork/quote" data-return="/airsoft/thanks/">
+<div class="alert" role="alert" hidden>Something was missing. Please check your name, site name and email.</div>
+<input type="hidden" name="return_to" value="{{SITE}}/airsoft/thanks/">
+<input type="hidden" name="source" value="airsoft">
+<input type="hidden" name="business_type" value="airsoft">
+<div class="trap" aria-hidden="true"><label for="rt">Leave this empty</label><input id="rt" name="referral_token" tabindex="-1" autocomplete="off"></div>
+<div class="g2">
+<div class="f"><label for="a-name">Your name</label><input id="a-name" name="full_name" type="text" autocomplete="name" required maxlength="120"></div>
+<div class="f"><label for="a-biz">Site name</label><input id="a-biz" name="business_name" type="text" autocomplete="organization" required maxlength="200"></div>
+<div class="f"><label for="a-email">Email</label><input id="a-email" name="email" type="email" autocomplete="email" required maxlength="254"></div>
+<div class="f"><label for="a-phone">Phone <span class="h">(optional)</span></label><input id="a-phone" name="phone" type="tel" autocomplete="tel" maxlength="40"></div>
+</div>
+<div class="f"><label for="a-site">Current website <span class="h">(if you have one)</span></label><input id="a-site" name="current_site" type="text" inputmode="url" maxlength="300"></div>
+<fieldset class="f"><legend>What do you run?</legend><div class="checks">
+<label><input type="checkbox" name="current_tools" value="Milsim"> Milsim</label>
+<label><input type="checkbox" name="current_tools" value="Skirmish days"> Skirmish days</label>
+<label><input type="checkbox" name="current_tools" value="CQB"> CQB</label>
+<label><input type="checkbox" name="current_tools" value="Indoor"> Indoor</label>
+<label><input type="checkbox" name="current_tools" value="Walk-on"> Walk-on</label>
+</div></fieldset>
+<div class="f"><label for="a-more">What's the biggest headache on game day?</label><textarea id="a-more" name="wants" maxlength="2000"></textarea></div>
+<button class="btn" type="submit">Send it</button>
+</form>
+</div></section>
+
+</main>
+<footer><div class="w"><span>&copy; 2026 ThinkWork Airsoft</span><a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></div></footer>
+<script>
+(function(){var p=new URLSearchParams(location.search);if(p.get("error"))document.querySelectorAll(".alert").forEach(function(a){a.hidden=false});
+document.querySelectorAll("form[data-return]").forEach(function(f){var r=f.querySelector("[name=return_to]");if(r)r.value=location.origin+f.getAttribute("data-return")})})();
+</script>
+</body>
+</html>

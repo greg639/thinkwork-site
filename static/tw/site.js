@@ -88,6 +88,8 @@
   if (params.get("error")) document.querySelectorAll(".alert").forEach(function (a) { a.hidden = false; });
   var spend = params.get("spend"), sp = document.querySelector("[name=monthly_spend]");
   if (spend && sp && !sp.value) sp.value = spend;
+  var adv = document.querySelector("[name=advisory]");
+  if (params.get("advisory") === "1" && adv) adv.checked = true;
   var biz = params.get("type"), bt = document.querySelector("[name=business_type]");
   if (biz && bt) bt.value = biz;
   document.querySelectorAll("form[data-return]").forEach(function (f) {

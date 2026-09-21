@@ -200,7 +200,7 @@ FOOTER = """</main>
 </div>
 <div class="legal">&copy; 2026 ThinkWork. Prices exclude VAT where it applies.</div>
 </div></footer>
-<script src="/static/tw/site.js?v=1" defer></script>
+<script src="/static/tw/site.js?v=2" defer></script>
 </body>
 </html>
 """

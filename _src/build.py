@@ -341,7 +341,7 @@ def home() -> None:
 <div class="body">
 <p>And none of it brings in a penny you weren't getting already. It just sits there, costing you every month.</p>
 <p>Big companies do it differently. Memberships. Subscriptions. Pre-orders. Rewards for bringing a friend. Clever ways to earn more from the customers they already have. They pay a fortune for them, and nobody has ever brought them to a business like yours.</p>
-<p>That's what ThinkWork does. Greg McCallum spent 15 years in commercial leadership at startups and tech companies. Now he brings the same ideas to local businesses, and builds the system that runs them.</p>
+<p>That's what ThinkWork does. Greg McCallum went from cold caller to Chief Commercial Officer, and has been a fractional CRO and CCO for tech startups across Europe and the US. The teams he's led have brought in over $1B. Now he brings the same ideas to local businesses, and builds the system that runs them.</p>
 </div>
 </div></section>
 
@@ -524,7 +524,8 @@ def advisory() -> None:
 <div class="body">
 <span class="kicker">Who you'd be talking to</span>
 <h2 style="margin-bottom:24px">Greg McCallum</h2>
-<p>15 years in commercial leadership, with startups and big tech. At Booksy he went from Inside Sales Manager to Interim Head of Sales, building the UK business side.</p>
+<p>15+ years in commercial leadership, from cold caller to Chief Commercial Officer. A fractional CRO and CCO for fast-growing tech startups across Europe and the US, with Head of Sales and VP seats on the way up. The teams he's led have brought in over $1B in revenue.</p>
+<p>As fractional CCO at tl;dv he rebuilt the sales team and lifted revenue per deal by 37%. At Booksy he went from Inside Sales Manager to Interim Head of Sales, building the UK business.</p>
 <p>What he's good at: finding exactly where a business is losing money, and fixing it. The same thing he did for tech companies, in plain words, for yours.</p>
 <p><b>I fix what's capping your revenue.</b></p>
 </div>
@@ -581,7 +582,7 @@ def work() -> None:
 
 def about() -> None:
     person = {"@context": "https://schema.org", "@type": "Person", "name": "Greg McCallum",
-              "jobTitle": "Founder, ThinkWork", "worksFor": {"@id": SITE + "/#org"},
+              "jobTitle": "Founder, ThinkWork; fractional CRO and CCO", "worksFor": {"@id": SITE + "/#org"},
               "image": SITE + "/static/thinkwork/greg-mccallum.jpg", "url": "https://gregrcmccallum.com/"}
     body = """
 <section class="hero"><div class="wrap">
@@ -594,7 +595,8 @@ def about() -> None:
 <div class="body">
 <p>Walk down any high street and you'll find businesses that are brilliant at what they do, and paying through the nose for websites that do nothing for them.</p>
 <p>Meanwhile the big tech companies have a whole playbook for earning more from the customers they already have. Memberships. Subscriptions. Pre-orders. Rewards for bringing a friend. They spend fortunes on it. None of it ever reaches the butcher, the garage or the studio round the corner.</p>
-<p>I'm Greg McCallum. I spent 15 years in commercial leadership at startups and tech companies, including building the UK business side at Booksy, from Inside Sales Manager to Interim Head of Sales. I learned how those companies make money.</p>
+<p>I'm Greg McCallum. I've spent 15+ years in commercial leadership, from cold caller to Chief Commercial Officer. I've been a fractional CRO and CCO for fast-growing tech startups across Europe and the US, and the teams I've led have brought in over $1B in revenue. At tl;dv, as fractional CCO, I rebuilt the sales team and lifted revenue per deal by 37%. At Booksy I went from Inside Sales Manager to Interim Head of Sales, building the UK business.</p>
+<p>I learned exactly how those companies make money.</p>
 <p>ThinkWork exists to hand that playbook to businesses that have never been offered it, and to build the system that runs it, for less than the apps they're paying for now.</p>
 <p><b>No jargon. No lock-in. I fix what's capping your revenue.</b></p>
 <div class="row-btns" style="margin-top:28px"><a class="btn hi" href="/book/#quote">Talk to Greg</a></div>
@@ -602,7 +604,7 @@ def about() -> None:
 </div></section>
 """
     page("/about/", "About | ThinkWork",
-         "Greg McCallum spent 15 years in commercial leadership at startups and tech companies. ThinkWork brings their money-making playbook to local businesses.",
+         "Greg McCallum: 15+ years from cold caller to CCO, fractional CRO and CCO for tech startups, over $1B in revenue across the teams he's led. ThinkWork brings that playbook to local businesses.",
          body, [person])
 
 

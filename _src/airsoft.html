@@ -101,13 +101,22 @@ footer .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .pull{font:900 clamp(34px,4.6vw,58px)/.95 var(--display);text-transform:uppercase;margin:0 0 22px;max-width:16ch}
 .pull em{font-style:normal;color:var(--hot)}
 .body p{font-size:19.5px;max-width:44ch}
-.greg{display:grid;grid-template-columns:260px 1fr;gap:clamp(22px,4vw,44px);align-items:start;margin-top:clamp(40px,6vw,72px);padding-top:clamp(32px,5vw,56px);border-top:1px solid var(--line)}
-.greg img{width:100%;max-width:260px;aspect-ratio:4/5;object-fit:cover;filter:grayscale(1) contrast(1.1);border:1px solid var(--line)}
+.greg{display:grid;grid-template-columns:200px 1fr 300px;gap:clamp(22px,4vw,44px);align-items:start;margin-top:clamp(40px,6vw,72px);padding-top:clamp(32px,5vw,56px);border-top:1px solid var(--line)}
+.greg img{width:100%;max-width:100%;aspect-ratio:4/5;object-fit:cover;border:1px solid var(--line)}
+.greg .head{max-width:200px;filter:grayscale(1) contrast(1.1)}
+.greg figure{margin:0}
+.greg .field{aspect-ratio:3/4;border-color:var(--hot)}
+.greg figcaption{font:700 12px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--mute);margin-top:10px}
 .greg h3{font-size:44px;margin-bottom:6px}
 .greg .role{font:700 13px var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--hot);display:block;margin-bottom:18px}
 .greg p{max-width:56ch}
+.record{margin:4px 0 22px;border-top:1px solid var(--line)}
+.record div{display:grid;grid-template-columns:110px 1fr;gap:14px;padding:10px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.record dt{font:900 30px/1 var(--display);color:var(--hot)}
+.record dd{margin:0;font:700 13px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--mute)}
 .greg .sig{font:900 30px/1 var(--display);text-transform:uppercase;color:var(--text);margin-top:10px}
-@media (max-width:760px){.greg{grid-template-columns:1fr}.greg img{max-width:200px}}
+@media (max-width:1000px){.greg{grid-template-columns:180px 1fr}.greg figure{grid-column:1/-1;max-width:340px}}
+@media (max-width:640px){.greg{grid-template-columns:1fr}.greg .head{max-width:160px}}
 /* money board */
 .money{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line)}
 .money div{padding:24px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -202,14 +211,18 @@ section{scroll-margin-top:70px}
 </div>
 </div>
 <div class="greg">
-<img src="/static/thinkwork/greg-mccallum.jpg" alt="Greg McCallum" width="260" height="325" loading="eager">
+<img class="head" src="/static/tw/greg-headshot.jpg" alt="Greg McCallum" width="200" height="250" loading="eager">
 <div>
 <h3>Greg McCallum</h3>
-<span class="role">Commercial lead, not a web designer</span>
-<p>15 years in commercial leadership at startups and tech companies. At Booksy he went from Inside Sales Manager to Interim Head of Sales, building the UK business side. His job has always been the same: find where a business is leaving money on the table, and fix it.</p>
+<span class="role">Fractional CRO and CCO &middot; Airsoft player</span>
+<p>Greg has spent 15+ years in commercial leadership, from cold caller to Chief Commercial Officer. He's been a fractional CRO and CCO for fast-growing tech startups across Europe and the US, and held Head of Sales and VP seats on the way up. The teams he's led have brought in over $1B in revenue.</p>
+<dl class="record"><div><dt>15+ yrs</dt><dd>Cold caller to CCO</dd></div><div><dt>$1B+</dt><dd>Revenue across the teams he's led</dd></div><div><dt>+37%</dt><dd>Revenue per deal as fractional CCO at tl;dv</dd></div></dl>
+<p>At tl;dv he rebuilt the sales team and the way it sold. At Booksy he went from Inside Sales Manager to Interim Head of Sales, building the UK business. The job has always been the same: find where a business is leaving money on the table, and fix it.</p>
+<p>He's also an airsoft player and a collector. He knows game day from the player's side of the gate, and he knows how a site actually makes its money: walk-ons and hire kit, the regulars who keep it going, and the quiet winter months.</p>
 <p>Every site we build starts there. The website is the way in. How it brings in more money is the point.</p>
 <p class="sig">I fix what's capping your revenue.</p>
 </div>
+<figure><img class="field" src="/static/tw/greg-airsoft-field.jpg" alt="Greg McCallum in kit, playing airsoft in woodland" width="300" height="400" loading="eager"><figcaption>Greg, on the field</figcaption></figure>
 </div>
 </div></section>
 

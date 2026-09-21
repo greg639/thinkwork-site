@@ -18,7 +18,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://thinkwork.info"
 API = "https://app.peerlab.ai"
-CSS_V = "1"
+CSS_V = "2"
 
 FONTS = ("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900"
          "&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap")
@@ -655,9 +655,11 @@ def book() -> None:
 <section class="hero"><div class="wrap">
 <span class="kicker">Sent</span>
 <h1 style="max-width:12ch">Thanks. <span class="mark">Greg's got it.</span></h1>
-<p class="lead">He'll read it himself and get back to you with an idea and a price. If it's urgent, email greg@thinkwork.info.</p>
-<div class="row-btns"><a class="btn ghost" href="/what-we-build/">See what we build</a></div>
+<p class="lead">He'll read it himself and get back to you with an idea and a price.</p>
+<p class="lead" id="book-fallback">He'll email you to arrange a call. If it's urgent, email greg@thinkwork.info.</p>
+<div id="book-call" class="bk" data-source="main" hidden></div>
 </div></section>
+<script src="/static/tw/book.js?v=1" defer></script>
 """
     out = ROOT / "book" / "thanks" / "index.html"
     out.parent.mkdir(parents=True, exist_ok=True)

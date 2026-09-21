@@ -5,18 +5,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Sent | ThinkWork Airsoft</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@900&family=Barlow:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@900&family=Barlow:wght@400;600;700&family=Space+Mono:wght@700&display=swap">
 <style>
-body{margin:0;background:#1b1f1a;color:#e8e4d6;font:400 19px/1.55 "Barlow",system-ui,sans-serif;min-height:100vh;display:grid;place-items:center;padding:24px}
+body{margin:0;background:#1b1f1a;color:#e8e4d6;font:400 19px/1.55 "Barlow",system-ui,sans-serif;min-height:100vh;display:grid;place-items:center;padding:24px 16px}
 h1{font:900 clamp(56px,10vw,110px)/.92 "Big Shoulders Stencil Display",Impact,sans-serif;text-transform:uppercase;margin:0 0 20px}
 h1 em{font-style:normal;color:#ff6a13}
 a{color:#ff6a13}
-div{max-width:640px}
+main{max-width:760px}
+.bk{margin-top:30px;background:#232821;border:1px solid rgba(232,228,214,.16);padding:clamp(20px,3.5vw,32px)}
+.bk-title{font:900 clamp(34px,5vw,54px)/.95 "Big Shoulders Stencil Display",Impact,sans-serif;text-transform:uppercase;margin:0 0 8px}
+.bk-sub{color:#a7a893;margin:0 0 18px}
+.bk-done{font:700 22px/1.2 "Space Mono",monospace;color:#ff6a13;margin:6px 0 10px}
+.bk-days{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:14px}
+.bk-day,.bk-time{font:600 15px "Barlow",sans-serif;border:1.5px solid rgba(232,228,214,.3);background:#1b1f1a;color:#e8e4d6;padding:10px 14px;cursor:pointer;white-space:nowrap}
+.bk-day[aria-selected="true"]{background:#e8e4d6;color:#1b1f1a}
+.bk-times{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;margin-bottom:20px}
+.bk-time[aria-pressed="true"]{background:#ff6a13;border-color:#ff6a13;color:#1b1f1a;font-weight:700}
+.bk-who{display:grid;gap:6px;margin-bottom:18px;max-width:420px}
+.bk-who label{font-weight:700;font-size:15px;margin-top:6px}
+.bk-who input{font:400 17px "Barlow",sans-serif;background:#1b1f1a;color:#e8e4d6;border:1.5px solid rgba(232,228,214,.3);padding:12px}
+.bk-go{font:700 17px "Barlow",sans-serif;text-transform:uppercase;letter-spacing:.04em;padding:15px 22px;border:0;background:#ff6a13;color:#1b1f1a;cursor:pointer}
+.bk-go:disabled{background:#2b3128;color:#a7a893;cursor:default}
+.bk-msg{margin:12px 0 0;font-weight:700;color:#ff8a45}.bk-msg:empty{display:none}
+[hidden]{display:none!important}
 </style>
 </head>
-<body><div>
+<body><main>
 <h1>Message <em>received.</em></h1>
-<p>We'll read it and come back to you with what we'd build and a price. If it's urgent, email <a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a>.</p>
-<p><a href="/airsoft/">Back to the page</a></p>
-</div></body>
+<p>Greg will read it and come back to you with what he'd build and a price.</p>
+<p id="book-fallback">He'll email you to arrange a call. If it's urgent, email <a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a>.</p>
+<div id="book-call" class="bk" data-source="airsoft" hidden></div>
+<p style="margin-top:28px"><a href="/airsoft/">Back to the page</a></p>
+</main>
+<script src="/static/tw/book.js?v=1" defer></script>
+</body>
 </html>

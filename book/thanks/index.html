@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="/static/tw/site.css?v=1">
+<link rel="stylesheet" href="/static/tw/site.css?v=2">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","@id":"https://thinkwork.info/#org","name":"ThinkWork","url":"https://thinkwork.info/","logo":"https://thinkwork.info/static/tw/og-thinkwork.png","image":"https://thinkwork.info/static/tw/og-thinkwork.png","email":"greg@thinkwork.info","description":"ThinkWork builds local businesses one owned system: website, bookings, memberships, subscriptions and pre-orders, picked with the owner to bring in more money, for less than the separate apps it replaces.","areaServed":{"@type":"Country","name":"United Kingdom"},"priceRange":"£35 to £199 a month","founder":{"@type":"Person","name":"Greg McCallum","url":"https://gregrcmccallum.com/"},"knowsAbout":["Small business websites","Online booking","Memberships and subscriptions","Pre-orders","AI search visibility","AI chat assistants"]}</script>
 </head>
 <body>
@@ -35,9 +35,11 @@
 <section class="hero"><div class="wrap">
 <span class="kicker">Sent</span>
 <h1 style="max-width:12ch">Thanks. <span class="mark">Greg's got it.</span></h1>
-<p class="lead">He'll read it himself and get back to you with an idea and a price. If it's urgent, email greg@thinkwork.info.</p>
-<div class="row-btns"><a class="btn ghost" href="/what-we-build/">See what we build</a></div>
+<p class="lead">He'll read it himself and get back to you with an idea and a price.</p>
+<p class="lead" id="book-fallback">He'll email you to arrange a call. If it's urgent, email greg@thinkwork.info.</p>
+<div id="book-call" class="bk" data-source="main" hidden></div>
 </div></section>
+<script src="/static/tw/book.js?v=1" defer></script>
 </main>
 <footer class="site-foot"><div class="wrap">
 <div class="cols">

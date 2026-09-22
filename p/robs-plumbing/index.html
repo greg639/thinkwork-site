@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en-GB"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Rob&#x27;s Plumbing</title>
+<link rel="canonical" href="https://highstreet.peerlab.workers.dev/b/robs-plumbing">
+<style>
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:#16150f;color:#f4f0e6;
+font:400 17px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;padding:24px 16px;text-align:center}
+b{display:block;font-size:22px;margin-bottom:8px}
+a{color:#f2b705}
+</style>
+</head><body>
+<div><b>Opening your preview</b>
+<p>One moment. If nothing happens, <a id="go" href="https://highstreet.peerlab.workers.dev/b/robs-plumbing">tap here</a>.</p></div>
+<script>
+(function(){
+  var TO = "https://highstreet.peerlab.workers.dev/b/robs-plumbing";
+  var v;
+  try {
+    v = localStorage.getItem("tw_v");
+    if (!v) {
+      v = ([].map.call(crypto.getRandomValues(new Uint8Array(12)), function(x){
+        return "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"[x % 62];
+      })).join("");
+      localStorage.setItem("tw_v", v);
+    }
+  } catch (e) { v = "cardscan" + Date.now(); }
+  function go() { location.replace(TO); }
+  var done = false, t = setTimeout(function(){ if (!done) { done = true; go(); } }, 1200);
+  try {
+    fetch("https://highstreet.peerlab.workers.dev/_s", {
+      method: "POST", headers: { "content-type": "application/json" }, keepalive: true,
+      body: JSON.stringify({ slug: "robs-plumbing", v: v, src: "qr" })
+    }).then(finish, finish);
+  } catch (e) { finish(); }
+  function finish() { if (!done) { done = true; clearTimeout(t); go(); } }
+})();
+</script>
+</body></html>

@@ -32,7 +32,7 @@ a{color:#f2b705}
   try {
     fetch("https://highstreet.peerlab.workers.dev/_s", {
       method: "POST", headers: { "content-type": "application/json" }, keepalive: true,
-      body: JSON.stringify({ slug: "victoria-butchers", v: v, source: "card" })
+      body: JSON.stringify({ slug: "victoria-butchers", v: v, src: "qr" })
     }).then(finish, finish);
   } catch (e) { finish(); }
   function finish() { if (!done) { done = true; clearTimeout(t); go(); } }

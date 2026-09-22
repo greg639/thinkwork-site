@@ -56,7 +56,7 @@ a{{color:#f2b705}}
   try {{
     fetch("{worker}/_s", {{
       method: "POST", headers: {{ "content-type": "application/json" }}, keepalive: true,
-      body: JSON.stringify({{ slug: "{slug}", v: v, source: "card" }})
+      body: JSON.stringify({{ slug: "{slug}", v: v, src: "qr" }})
     }}).then(finish, finish);
   }} catch (e) {{ finish(); }}
   function finish() {{ if (!done) {{ done = true; clearTimeout(t); go(); }} }}

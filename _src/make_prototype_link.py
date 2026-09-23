@@ -28,6 +28,8 @@ TPL = """<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>{name}</title>
+<!-- The QR lands here first, so this page carries the mark too. -->
+<link rel="icon" type="image/svg+xml" href="/static/tw/favicon.svg">
 <link rel="canonical" href="{worker}/b/{slug}">
 <style>
 body{{margin:0;min-height:100vh;display:grid;place-items:center;background:#16150f;color:#f4f0e6;

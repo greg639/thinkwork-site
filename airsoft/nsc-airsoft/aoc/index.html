@@ -1,0 +1,1500 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>NSC Airsoft</title>
+<meta name="description" content="NSC Airsoft: the operator console behind the ThinkWork prototype. Sample data throughout.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNiIgZmlsbD0iIzFiMWYxYSIvPjxjaXJjbGUgY3g9IjE2IiBjeT0iMTYiIHI9IjgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmNmExMyIgc3Ryb2tlLXdpZHRoPSIzIi8+PHBhdGggZD0iTTE2IDR2N00xNiAyMXY3TTQgMTZoN00yMSAxNmg3IiBzdHJva2U9IiNmZjZhMTMiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+Cg==">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"></noscript>
+<style>
+/* the shell around the console: the prototype bar and the page. Everything inside #aoc is the console's own stylesheet. */
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:#0f1114;font-family:"Barlow Semi Condensed",ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+#bar{position:sticky;top:0;z-index:60;background:#111;color:#ddd;border-bottom:1px solid #333;padding:8px 16px;padding-top:calc(8px + env(safe-area-inset-top,0px));display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+#bar .tag{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#9a9a9a}
+#bar .tag b{color:#fff;font-weight:600}
+#bar .spacer{flex:1 1 auto;min-width:0}
+#bar .seg{display:flex;border:1px solid #444;border-radius:3px;overflow:hidden;background:#1c1c1c}
+#bar .seg button,#bar .seg a{font:inherit;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;min-height:32px;color:#cfcfcf;border:0;border-right:1px solid #444;background:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+#bar .seg button:last-child,#bar .seg a:last-child{border-right:0}
+#bar .seg button[aria-pressed="true"]{background:#f2ece3;color:#111}
+#page{display:block;transition:max-width .25s ease}
+#page.tablet{max-width:1024px;margin-inline:auto;border-inline:1px solid #333;overflow:clip}
+#aoc .aoc-desk{min-height:calc(100dvh - 48px)}
+@media (max-width:640px){#bar .tag .long{display:none}}
+</style>
+<style>
+/* ---- AOC: ThinkWork's white-label back end. Stylesheet. ----
+   One layout, every site. Nothing in here reads a client's design tokens: the
+   only things a site changes are the brand tokens AOC.mount() writes onto the
+   host (--aoc-brand, --aoc-rail and the surfaces derived from the client's
+   colours). Every class is prefixed aoc- so a site's own .card, .tile, .chip,
+   .kv and .row never leak in, and AOC's never leak out.
+   The two exceptions are [data-ph] and .phtag, which are the prototype
+   toolbar's placeholder system: a site's placeholders.css styles them when the
+   page has one, and the fallback rules at the foot of this file do the same
+   job when AOC stands alone (the host carries data-ph-on). */
+
+.aoc,.aoc *,.aoc *::before,.aoc *::after{box-sizing:border-box}
+.aoc{
+  --aoc-ui:"Barlow Semi Condensed",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --aoc-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  /* the defaults are AOC's own neutral light theme; mount() overwrites the brand
+     and the rail from the client's colours, or from ThinkWork's on the switch */
+  --aoc-bg:#F3F4F3;--aoc-surface:#FFFFFF;--aoc-surface-2:#ECEEEC;--aoc-sunk:#E7E9E7;
+  --aoc-rail:#11151C;--aoc-rail-text:#E7E9EA;--aoc-rail-mute:#8A939D;--aoc-rail-hover:#1A222C;
+  --aoc-line:#DEE1DE;--aoc-line-soft:#EBEDEB;--aoc-line-strong:#B9BEB9;
+  --aoc-text:#11151C;--aoc-text-2:#4B5259;--aoc-text-3:#6B727A;
+  --aoc-brand:#C0271F;--aoc-brand-2:#A31F18;--aoc-brand-ink:#B0231C;--aoc-brand-ghost:#FBE7E5;--aoc-on-brand:#FFFFFF;
+  --aoc-go:#26734A;--aoc-go-ghost:#DFEFE5;--aoc-warn:#8A5806;--aoc-warn-ghost:#FBEEDA;
+  --aoc-stop:#B02318;--aoc-stop-ghost:#FBE4E1;--aoc-info:#28557F;--aoc-info-ghost:#E2ECF6;
+  --aoc-c1:#C0392B;--aoc-c2:#1268B8;--aoc-c3:#8E6A00;--aoc-c4:#6B4C9A;
+  --aoc-shadow:0 1px 2px rgba(17,21,28,.06),0 8px 24px -18px rgba(17,21,28,.5);
+  --aoc-ph:var(--ph,#B7771B);--aoc-on-ph:var(--on-ph,#141312);
+  font-family:var(--aoc-ui);font-size:16px;line-height:1.45;color:var(--aoc-text);background:var(--aoc-bg);
+  container-type:inline-size;container-name:aoc;text-align:left;-webkit-font-smoothing:antialiased;
+  color-scheme:light}
+.aoc[data-aoc-mode="dark"]{color-scheme:dark}
+.aoc h1,.aoc h2,.aoc h3,.aoc h4{margin:0;font-family:var(--aoc-ui);font-weight:700;line-height:1.1;letter-spacing:.01em;text-transform:uppercase;text-wrap:balance;font-size:inherit}
+.aoc h1{font-size:26px}
+.aoc h2{font-size:20px}
+.aoc h3{font-size:16px;letter-spacing:.03em}
+.aoc h4{font-size:15px;letter-spacing:.02em}
+.aoc p{margin:0}
+.aoc a{color:inherit}
+.aoc button,.aoc input,.aoc select,.aoc textarea{font:inherit;color:inherit;margin:0}
+.aoc button{cursor:pointer;background:none;border:0;padding:0;text-transform:none;letter-spacing:0}
+.aoc :where(button,input,select,textarea,a,[tabindex]):focus-visible{outline:2px solid var(--aoc-brand-ink);outline-offset:2px;border-radius:3px}
+.aoc img,.aoc svg{max-width:100%}
+.aoc [hidden]{display:none!important}
+.aoc .aoc-mono{font-family:var(--aoc-mono);font-variant-numeric:tabular-nums}
+.aoc .aoc-lbl{font-family:var(--aoc-mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--aoc-text-3);font-weight:500}
+.aoc .aoc-muted{color:var(--aoc-text-2)}
+.aoc .aoc-small{font-size:14px}
+.aoc .aoc-tiny{font-size:12.5px;color:var(--aoc-text-3)}
+.aoc .aoc-sp{flex:1 1 auto;min-width:0}
+.aoc .aoc-go-c{color:var(--aoc-go)}
+.aoc .aoc-stop-c{color:var(--aoc-stop)}
+.aoc .aoc-warn-c{color:var(--aoc-warn)}
+.aoc .aoc-brand-c{color:var(--aoc-brand-ink)}
+
+/* ---------- the desk shell: rail + main ---------- */
+.aoc-desk{display:flex;min-height:80vh;align-items:stretch}
+.aoc-rail{width:224px;flex:none;background:var(--aoc-rail);color:var(--aoc-rail-text);padding:14px 10px 18px;display:flex;flex-direction:column;gap:3px}
+.aoc-brandrow{display:flex;align-items:center;gap:10px;padding:4px 8px 14px;min-width:0}
+.aoc-brandrow .aoc-logo{width:34px;height:34px;flex:none;background:var(--aoc-logo) center/contain no-repeat}
+.aoc-brandrow b{font-size:14px;line-height:1.15;letter-spacing:.02em;text-transform:uppercase;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.aoc-brandrow b i{font-style:normal;color:var(--aoc-rail-mute);display:block;font-family:var(--aoc-mono);font-size:9.5px;letter-spacing:.16em;margin-top:3px}
+.aoc-navsec{font-family:var(--aoc-mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--aoc-rail-mute);padding:14px 9px 6px}
+.aoc-rail a{display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:5px;color:var(--aoc-rail-text);font-size:15px;font-weight:500;text-decoration:none;cursor:pointer;min-height:38px}
+.aoc-rail a:hover{background:var(--aoc-rail-hover);color:#fff}
+.aoc-rail a.on{background:var(--aoc-brand);color:var(--aoc-on-brand)}
+.aoc-rail a .aoc-tag{margin-left:auto;font-family:var(--aoc-mono);font-size:9px;letter-spacing:.08em;padding:1px 5px;border-radius:3px;background:rgba(255,255,255,.12);color:var(--aoc-rail-text)}
+.aoc-rail a.on .aoc-tag{background:rgba(0,0,0,.25);color:var(--aoc-on-brand)}
+.aoc-rail a.locked{opacity:.38;pointer-events:none}
+.aoc-railfoot{margin-top:auto;padding:16px 9px 0;font-family:var(--aoc-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--aoc-rail-mute);line-height:1.6}
+.aoc-main{flex:1;min-width:0;display:flex;flex-direction:column}
+.aoc-topstrip{display:flex;align-items:center;gap:14px;padding:10px 20px;background:var(--aoc-surface);border-bottom:1px solid var(--aoc-line);flex-wrap:wrap;position:relative;z-index:2}
+.aoc-who{display:flex;align-items:center;gap:9px}
+.aoc-avatar{width:32px;height:32px;border-radius:50%;background:var(--aoc-brand);color:var(--aoc-on-brand);display:grid;place-items:center;font-weight:700;font-size:14px;flex:none}
+.aoc-vline{width:1px;height:30px;background:var(--aoc-line);flex:none}
+.aoc-pad{padding:20px}
+.aoc-screen{display:none}
+.aoc-screen.on{display:block}
+.aoc-screen>.phtag{top:8px!important;left:20px!important}
+.aoc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.aoc-head .aoc-lbl{margin-top:4px}
+
+/* ---------- segmented switches ---------- */
+.aoc-seg{display:flex;border:1px solid var(--aoc-line-strong);border-radius:4px;overflow:hidden;background:var(--aoc-surface)}
+.aoc-seg button{font-family:var(--aoc-mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;padding:6px 10px;min-height:32px;color:var(--aoc-text-2);border-right:1px solid var(--aoc-line-strong);white-space:nowrap}
+.aoc-seg button:last-child{border-right:0}
+.aoc-seg button[aria-pressed="true"]{background:var(--aoc-brand);color:var(--aoc-on-brand)}
+
+/* ---------- components ---------- */
+.aoc-card{background:var(--aoc-surface);border:1px solid var(--aoc-line);border-radius:6px;min-width:0}
+.aoc-card .aoc-hd{padding:12px 16px;border-bottom:1px solid var(--aoc-line);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.aoc-card .aoc-bd{padding:16px}
+.aoc-card .aoc-bd+.aoc-bd{border-top:1px solid var(--aoc-line)}
+.aoc-grid{display:grid;gap:14px;align-items:start}
+.aoc-grid.two{grid-template-columns:1.3fr 1fr}
+.aoc-grid.two-r{grid-template-columns:1fr 1.3fr}
+.aoc-grid.half{grid-template-columns:1fr 1fr}
+.aoc-grid.three{grid-template-columns:270px 1fr 340px}
+.aoc-grid.side{grid-template-columns:340px 1fr}
+.aoc-grid.auto{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.aoc-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.aoc-stack{display:flex;flex-direction:column;gap:14px}
+.aoc-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px}
+.aoc-tile{background:var(--aoc-surface);border:1px solid var(--aoc-line);border-radius:6px;padding:13px 15px;min-width:0}
+.aoc-tile b{display:block;font-size:30px;font-weight:700;line-height:1.05;font-variant-numeric:tabular-nums;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.aoc-tile b small{font-family:var(--aoc-mono);font-size:13px;font-weight:500;color:var(--aoc-text-3);letter-spacing:.04em}
+.aoc-tile .aoc-sub{display:block;font-size:12.5px;color:var(--aoc-text-3);margin-top:4px;line-height:1.3}
+.aoc-tile.alert{border-color:var(--aoc-stop);background:var(--aoc-stop-ghost)}
+.aoc-tile.alert b{color:var(--aoc-stop)}
+.aoc-tile.good b{color:var(--aoc-go)}
+.aoc-tile.key{border-top:3px solid var(--aoc-brand)}
+.aoc-tile.key b{color:var(--aoc-brand-ink)}
+.aoc-meter{height:6px;background:var(--aoc-surface-2);border-radius:99px;overflow:hidden;margin-top:9px}
+.aoc-meter i{display:block;height:100%;background:var(--aoc-brand);border-radius:99px;transition:width .3s}
+.aoc-meter.go i{background:var(--aoc-go)}
+.aoc-chip{display:inline-flex;align-items:center;gap:5px;font-family:var(--aoc-mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;padding:3px 7px;border-radius:3px;border:1px solid var(--aoc-line-strong);color:var(--aoc-text-2);white-space:nowrap;line-height:1.5;background:var(--aoc-surface)}
+.aoc-chip.go{color:var(--aoc-go);border-color:var(--aoc-go);background:var(--aoc-go-ghost)}
+.aoc-chip.warn{color:var(--aoc-warn);border-color:var(--aoc-warn);background:var(--aoc-warn-ghost)}
+.aoc-chip.stop{color:var(--aoc-stop);border-color:var(--aoc-stop);background:var(--aoc-stop-ghost)}
+.aoc-chip.info{color:var(--aoc-info);border-color:var(--aoc-info);background:var(--aoc-info-ghost)}
+.aoc-chip.brand{color:var(--aoc-brand-ink);border-color:var(--aoc-brand-ink);background:var(--aoc-brand-ghost)}
+.aoc-chip.ph{color:var(--aoc-on-ph);border-color:var(--aoc-ph);background:var(--aoc-ph)}
+.aoc-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:600;font-size:15px;text-transform:uppercase;letter-spacing:.03em;padding:9px 15px;min-height:40px;border-radius:5px;border:1px solid transparent;white-space:nowrap;line-height:1.2;cursor:pointer}
+.aoc-btn:active{transform:translateY(1px)}
+.aoc-btn.p{background:var(--aoc-brand);color:var(--aoc-on-brand);border-color:var(--aoc-brand)}
+.aoc-btn.p:hover{background:var(--aoc-brand-2);border-color:var(--aoc-brand-2)}
+.aoc-btn.g{border-color:var(--aoc-line-strong);color:var(--aoc-text);background:var(--aoc-surface)}
+.aoc-btn.g:hover{background:var(--aoc-surface-2)}
+.aoc-btn.sm{font-size:13px;padding:5px 10px;min-height:32px}
+.aoc-btn.big{font-size:19px;padding:16px 24px;border-radius:7px}
+.aoc-btn.wide{width:100%}
+.aoc-btn[disabled]{opacity:.4;pointer-events:none}
+.aoc table.aoc-t{width:100%;border-collapse:collapse;font-size:15px}
+.aoc table.aoc-t th,.aoc table.aoc-t td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--aoc-line-soft);vertical-align:middle;font-family:inherit;font-weight:inherit;color:inherit;text-transform:none;letter-spacing:0}
+.aoc table.aoc-t th{font-family:var(--aoc-mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--aoc-text-3);font-weight:500;background:var(--aoc-surface-2)}
+.aoc table.aoc-t tr:last-child td{border-bottom:0}
+.aoc table.aoc-t tr.aoc-click{cursor:pointer}
+.aoc table.aoc-t tr.aoc-click:hover td,.aoc table.aoc-t tr.on td{background:var(--aoc-surface-2)}
+.aoc table.aoc-t td.num,.aoc table.aoc-t th.num{text-align:right;font-family:var(--aoc-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.aoc table.aoc-t td.aoc-mono{font-size:14px}
+.aoc .aoc-tscroll{overflow-x:auto;border-radius:6px}
+.aoc .aoc-kv{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px dashed var(--aoc-line)}
+.aoc .aoc-kv:last-child{border-bottom:0}
+.aoc .aoc-kv>span:first-child{color:var(--aoc-text-2);min-width:0}
+.aoc .aoc-kv>b{font-family:var(--aoc-mono);font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums;text-align:right}
+.aoc .aoc-kv>b.wrap{white-space:normal;text-align:right}
+.aoc input.aoc-f,.aoc select.aoc-f,.aoc textarea.aoc-f{background:var(--aoc-surface);color:var(--aoc-text);border:1px solid var(--aoc-line-strong);border-radius:5px;padding:9px 11px;width:100%;min-height:40px;font-size:15px}
+.aoc textarea.aoc-f{line-height:1.4;resize:vertical}
+.aoc input.aoc-f::placeholder,.aoc textarea.aoc-f::placeholder{color:var(--aoc-text-3);opacity:1}
+.aoc input.aoc-f.aoc-mono,.aoc select.aoc-f.aoc-mono{font-family:var(--aoc-mono)}
+.aoc input.aoc-big{font-size:28px;font-family:var(--aoc-mono);text-transform:uppercase;letter-spacing:.09em;text-align:center;padding:12px;font-weight:600;min-height:56px}
+.aoc .aoc-fld{margin-bottom:12px;min-width:0}
+.aoc .aoc-fld .aoc-lbl{display:block;margin-bottom:5px}
+.aoc .aoc-in{display:flex;align-items:center;gap:4px;font-family:var(--aoc-mono);font-size:15px;color:var(--aoc-text-3)}
+.aoc .aoc-in input{width:100%;min-width:0}
+.aoc .aoc-banner{display:flex;gap:11px;align-items:flex-start;background:var(--aoc-info-ghost);border:1px solid var(--aoc-info);border-radius:6px;padding:11px 14px;margin-bottom:16px;font-size:14.5px;color:var(--aoc-text)}
+.aoc .aoc-banner b{color:var(--aoc-info);font-family:var(--aoc-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;flex:none;padding-top:3px}
+.aoc .aoc-banner.why{background:var(--aoc-warn-ghost);border-color:var(--aoc-warn)}
+.aoc .aoc-banner.why b{color:var(--aoc-warn)}
+.aoc .aoc-feed{display:flex;flex-direction:column}
+.aoc .aoc-feed div{display:flex;gap:11px;padding:8px 0;border-bottom:1px solid var(--aoc-line-soft);font-size:14.5px}
+.aoc .aoc-feed div:last-child{border-bottom:0}
+.aoc .aoc-feed time{font-family:var(--aoc-mono);font-size:12px;color:var(--aoc-text-3);flex:none;width:44px;padding-top:2px}
+.aoc .aoc-people{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:9px}
+.aoc .aoc-person{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--aoc-line);border-radius:6px;background:var(--aoc-surface);text-align:left;width:100%;min-height:56px;cursor:pointer}
+.aoc .aoc-person:hover{border-color:var(--aoc-brand-ink)}
+.aoc .aoc-person.done{background:var(--aoc-go-ghost);border-color:var(--aoc-go)}
+.aoc .aoc-person .aoc-nm{font-weight:600;font-size:15px;display:block}
+.aoc .aoc-person .aoc-sub{font-size:12.5px;color:var(--aoc-text-2);display:block}
+.aoc .aoc-bigok{display:grid;place-items:center;gap:12px;padding:34px 20px;text-align:center;background:var(--aoc-go-ghost);border:2px solid var(--aoc-go);border-radius:8px}
+.aoc .aoc-bigok .aoc-tick{width:58px;height:58px;border-radius:50%;background:var(--aoc-go);display:grid;place-items:center}
+.aoc .aoc-bigok .aoc-tick svg{width:30px;height:30px}
+.aoc .aoc-sheet{background:#fff;color:#11151C;border:1px solid #CBD0CB;border-radius:6px;padding:20px;font-family:var(--aoc-ui)}
+.aoc .aoc-sheet table{width:100%;border-collapse:collapse;font-size:13px}
+.aoc .aoc-sheet th,.aoc .aoc-sheet td{border:1px solid #CBD0CB;padding:5px 7px;text-align:left;color:#11151C;font-family:inherit;text-transform:none;letter-spacing:0;font-weight:inherit}
+.aoc .aoc-sheet th{background:#EFF1EF;font-family:var(--aoc-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.aoc .aoc-checks{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,130px),1fr));gap:6px}
+.aoc .aoc-checks label{display:flex;gap:8px;align-items:center;padding:8px 10px;border:1px solid var(--aoc-line);border-radius:5px;background:var(--aoc-surface);min-height:44px;cursor:pointer;font-family:var(--aoc-mono);font-size:12.5px}
+.aoc .aoc-checks label input{accent-color:var(--aoc-brand);width:18px;height:18px;flex:none;margin:0}
+.aoc .aoc-checks label.on{border-color:var(--aoc-go);background:var(--aoc-go-ghost)}
+.aoc .aoc-checks label small{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--aoc-text-3)}
+.aoc .aoc-bar{display:flex;height:22px;border-radius:4px;overflow:hidden;margin:8px 0 6px;border:1px solid var(--aoc-line-strong)}
+.aoc .aoc-bar i{display:block;height:100%}
+.aoc .aoc-bar i.card{background:var(--aoc-brand)}
+.aoc .aoc-bar i.cash{background:var(--aoc-line-strong)}
+.aoc .aoc-toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(8px);z-index:90;background:#11151C;color:#F1F1EE;font-family:var(--aoc-mono);font-size:12.5px;padding:10px 16px;border-radius:5px;border-left:4px solid var(--aoc-brand);box-shadow:var(--aoc-shadow);max-width:min(92vw,560px);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+.aoc .aoc-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.aoc .aoc-bracket{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.aoc .aoc-bracket div{display:grid;grid-template-columns:24px 1fr auto 1fr;gap:8px;align-items:center;padding:7px 10px;border:1px solid var(--aoc-line);border-radius:5px;background:var(--aoc-surface-2);font-size:13.5px}
+.aoc .aoc-bracket div i{font-family:var(--aoc-mono);font-style:normal;font-size:10px;letter-spacing:.1em;color:var(--aoc-text-3)}
+.aoc .aoc-bracket div em{font-style:normal;font-weight:700;color:var(--aoc-brand-ink)}
+.aoc .aoc-fares{display:grid;gap:6px}
+.aoc .aoc-fhead,.aoc .aoc-frow{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);gap:10px;align-items:center}
+.aoc .aoc-fhead{padding-inline:4px}
+.aoc .aoc-frow{padding:8px 10px;border:1px solid var(--aoc-line);border-radius:5px;background:var(--aoc-surface-2)}
+.aoc .aoc-frow b{font-size:16px;font-weight:700;text-transform:uppercase;line-height:1.1;display:block}
+.aoc .aoc-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.aoc .aoc-form.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.aoc .aoc-form input.aoc-f{font-family:var(--aoc-mono);font-variant-numeric:tabular-nums}
+.aoc .aoc-switch{display:flex;gap:14px;align-items:flex-start;padding:14px;border:1px solid var(--aoc-line);border-radius:7px;background:var(--aoc-surface);margin-bottom:10px}
+.aoc .aoc-switch .aoc-sw{width:42px;height:24px;border-radius:99px;background:var(--aoc-line-strong);position:relative;flex:none;margin-top:2px}
+.aoc .aoc-switch .aoc-sw::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .18s}
+.aoc .aoc-switch.on .aoc-sw{background:var(--aoc-go)}
+.aoc .aoc-switch.on .aoc-sw::after{left:21px}
+.aoc .aoc-matrix td.y{color:var(--aoc-go);font-weight:700;text-align:center}
+.aoc .aoc-matrix td.n{color:var(--aoc-text-3);text-align:center}
+.aoc .aoc-verdict{border-radius:8px;padding:14px 16px;border:2px solid var(--aoc-line)}
+.aoc .aoc-verdict.go{border-color:var(--aoc-go);background:var(--aoc-go-ghost)}
+.aoc .aoc-verdict.warn{border-color:var(--aoc-warn);background:var(--aoc-warn-ghost)}
+.aoc .aoc-verdict.stop{border-color:var(--aoc-stop);background:var(--aoc-stop-ghost)}
+.aoc .aoc-verdict h4{font-size:17px;margin-bottom:4px}
+.aoc .aoc-verdict.go h4{color:var(--aoc-go)}
+.aoc .aoc-verdict.warn h4{color:var(--aoc-warn)}
+.aoc .aoc-verdict.stop h4{color:var(--aoc-stop)}
+.aoc .aoc-legend{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.aoc .aoc-legend span{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;color:var(--aoc-text-2)}
+.aoc .aoc-legend i{width:11px;height:11px;border-radius:3px;flex:none}
+.aoc .aoc-chart svg{width:100%;height:auto;display:block;overflow:visible}
+.aoc .aoc-chart text{font-family:var(--aoc-mono)}
+.aoc .aoc-tip{position:fixed;z-index:400;background:var(--aoc-text);color:var(--aoc-bg);font-size:13px;padding:6px 9px;border-radius:5px;pointer-events:none;opacity:0;transition:opacity .12s;font-family:var(--aoc-mono);white-space:nowrap}
+.aoc .aoc-tip.on{opacity:1}
+
+/* ---------- run of day, game control, the big screen ---------- */
+.aoc .aoc-rod{display:flex;flex-direction:column}
+.aoc .aoc-rod .aoc-step{display:flex;gap:12px;align-items:flex-start;padding:9px 0;position:relative;cursor:pointer}
+.aoc .aoc-rod .aoc-step::before{content:"";position:absolute;left:7px;top:26px;bottom:-9px;width:2px;background:var(--aoc-line)}
+.aoc .aoc-rod .aoc-step:last-child::before{display:none}
+.aoc .aoc-rod .aoc-dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--aoc-line-strong);background:var(--aoc-surface);flex:none;margin-top:4px;z-index:1}
+.aoc .aoc-rod .aoc-step.done .aoc-dot{background:var(--aoc-go);border-color:var(--aoc-go)}
+.aoc .aoc-rod .aoc-step.now .aoc-dot{background:var(--aoc-brand);border-color:var(--aoc-brand);box-shadow:0 0 0 4px var(--aoc-brand-ghost)}
+.aoc .aoc-rod .aoc-step.now b{color:var(--aoc-brand-ink)}
+.aoc .aoc-rod time{font-family:var(--aoc-mono);font-size:13px;color:var(--aoc-text-3);width:44px;flex:none;margin-top:5px}
+.aoc .aoc-teams{display:flex;gap:10px}
+.aoc .aoc-teams button{flex:1;padding:14px;min-height:56px;border-radius:7px;border:2px solid var(--aoc-line-strong);font-weight:700;font-size:18px;text-transform:uppercase;background:var(--aoc-surface)}
+.aoc .aoc-teams button.red{color:#B02318}
+.aoc .aoc-teams button.blue{color:#1160A8}
+.aoc .aoc-teams button.red:hover,.aoc .aoc-teams button.red[aria-pressed="true"]{background:#C0392B;color:#fff;border-color:#C0392B}
+.aoc .aoc-teams button.blue:hover,.aoc .aoc-teams button.blue[aria-pressed="true"]{background:#1268B8;color:#fff;border-color:#1268B8}
+.aoc .aoc-preview{background:#07090C;border:1px solid #222;border-radius:8px;padding:18px;color:#F2F2EF;min-height:200px;display:flex;flex-direction:column;justify-content:center;text-align:center;gap:8px}
+.aoc .aoc-preview .aoc-lbl{color:#8A939D}
+.aoc .aoc-preview .aoc-mode{font-size:clamp(20px,3cqi,30px);line-height:1.1;color:#fff;font-weight:700;text-transform:uppercase}
+.aoc .aoc-preview .aoc-cd{font-family:var(--aoc-mono);font-size:34px;font-weight:600;color:#FF6B61}
+.aoc-big{position:fixed;inset:0;height:100dvh;width:100vw;z-index:300;background:#07090C;color:#F2F2EF;display:none;flex-direction:column;padding:clamp(20px,4vw,56px);overflow:hidden;font-family:var(--aoc-ui)}
+.aoc-big.on{display:flex}
+.aoc-big .aoc-top{display:flex;align-items:center;gap:16px;flex:none}
+.aoc-big .aoc-top .aoc-logo{width:44px;height:44px;background:var(--aoc-logo) center/contain no-repeat}
+.aoc-big .aoc-top .aoc-nm{font-size:20px;line-height:1.1;font-weight:700;text-transform:uppercase}
+.aoc-big .aoc-clock{margin-left:auto;font-family:var(--aoc-mono);font-size:clamp(20px,2.6vw,32px);color:#8A939D}
+.aoc-big .aoc-stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:clamp(10px,2vh,22px);min-height:0}
+.aoc-big .aoc-kicker{font-family:var(--aoc-mono);font-size:clamp(12px,1.5vw,18px);letter-spacing:.3em;text-transform:uppercase;color:#8A939D}
+.aoc-big .aoc-huge{font-size:clamp(34px,8.5vw,120px);line-height:.98;color:#fff;text-transform:uppercase;max-width:16ch;font-weight:700}
+.aoc-big .aoc-count{font-family:var(--aoc-mono);font-size:clamp(44px,11vw,150px);font-weight:600;line-height:1;color:#FF6B61;font-variant-numeric:tabular-nums}
+.aoc-big .aoc-sub{font-size:clamp(15px,2vw,26px);color:#B9C0C8;max-width:30ch}
+.aoc-big .aoc-board{width:min(760px,100%);text-align:left}
+.aoc-big .aoc-board .aoc-lead{display:flex;align-items:center;gap:16px;padding:clamp(6px,1.4vh,14px) 0;border-bottom:1px solid #1B212A}
+.aoc-big .aoc-board .aoc-pos{font-family:var(--aoc-mono);font-size:clamp(16px,2vw,26px);color:#6E7681;width:42px}
+.aoc-big .aoc-board .aoc-nm2{font-size:clamp(17px,2.2vw,30px);font-weight:600;flex:1}
+.aoc-big .aoc-board .aoc-pts{font-family:var(--aoc-mono);font-size:clamp(18px,2.4vw,32px);color:#FF6B61}
+.aoc-big .aoc-winner{display:inline-flex;align-items:center;gap:14px;padding:clamp(10px,2vh,20px) clamp(20px,4vw,44px);border-radius:10px;font-size:clamp(26px,6vw,74px);color:#fff;font-weight:700;text-transform:uppercase}
+.aoc-big .aoc-winner.red{background:#C0392B}
+.aoc-big .aoc-winner.blue{background:#1268B8}
+.aoc-big .aoc-exit{position:absolute;top:14px;right:14px;z-index:5;background:#161C24;color:#C6CBD1;border:1px solid #2A323D;border-radius:6px;padding:7px 12px;font-family:var(--aoc-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.aoc-big canvas{width:min(46vh,340px);height:min(46vh,340px);max-width:100%}
+
+/* ---------- modal (the plan editor) ---------- */
+.aoc-modal{position:fixed;inset:0;z-index:250;background:rgba(9,13,18,.62);display:none;align-items:center;justify-content:center;padding:20px;font-family:var(--aoc-ui)}
+.aoc-modal.on{display:flex}
+.aoc-modal .aoc-box{background:var(--aoc-bg);color:var(--aoc-text);border:1px solid var(--aoc-line);border-radius:10px;box-shadow:var(--aoc-shadow);width:min(1040px,100%);max-height:88vh;display:flex;flex-direction:column;overflow:hidden}
+.aoc-modal .aoc-box>header{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--aoc-line);background:var(--aoc-surface);flex-wrap:wrap}
+.aoc-modal .aoc-body{display:grid;grid-template-columns:246px 1fr;min-height:0;flex:1;overflow:hidden}
+.aoc-modal .aoc-list{border-right:1px solid var(--aoc-line);overflow-y:auto;background:var(--aoc-surface-2);padding:10px}
+.aoc-modal .aoc-list button{display:block;width:100%;text-align:left;padding:10px 12px;border-radius:6px;margin-bottom:5px;border:1px solid transparent}
+.aoc-modal .aoc-list button:hover{background:var(--aoc-surface)}
+.aoc-modal .aoc-list button.on{background:var(--aoc-surface);border-color:var(--aoc-brand-ink)}
+.aoc-modal .aoc-list b{display:block;font-size:15px}
+.aoc-modal .aoc-list span{font-size:12.5px;color:var(--aoc-text-2)}
+.aoc-modal .aoc-edit{overflow-y:auto;padding:18px;display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start}
+
+/* ---------- the proposal: a document, not an app ---------- */
+.aoc-prop{padding:clamp(28px,4cqi,56px) 20px clamp(48px,6cqi,88px)}
+.aoc-prop .aoc-wrap{width:min(1180px,100%);margin-inline:auto}
+.aoc-prop .aoc-eyebrow{font-family:var(--aoc-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--aoc-text-3);font-weight:500}
+.aoc-prop h2{font-size:clamp(26px,3cqi,40px);line-height:1.02;margin:10px 0 10px}
+.aoc-prop h3{font-size:clamp(20px,2cqi,28px);line-height:1.05;letter-spacing:.01em;margin:8px 0 12px}
+.aoc-prop .aoc-lede{font-size:clamp(17px,1.4cqi,20px);color:var(--aoc-text-2);max-width:66ch;margin-bottom:26px}
+.aoc-prop .aoc-card{margin-bottom:16px}
+.aoc-prop .aoc-card .aoc-bd{padding:clamp(16px,2cqi,26px)}
+.aoc-prop .aoc-card.aoc-hi{background:var(--aoc-sunk)}
+.aoc-prop .aoc-split{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(20px,3cqi,44px);align-items:start}
+.aoc-prop .aoc-quote{margin:14px 0;padding:12px 16px;border-left:3px solid var(--aoc-brand);font-size:18px;font-weight:600;line-height:1.35}
+.aoc-prop .aoc-check{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.aoc-prop .aoc-check li{position:relative;padding-left:22px;font-size:14.5px;color:var(--aoc-text-2);line-height:1.4}
+.aoc-prop .aoc-check li::before{content:"";position:absolute;left:4px;top:4px;width:6px;height:12px;border:solid var(--aoc-go);border-width:0 2px 2px 0;transform:rotate(45deg)}
+.aoc-prop .aoc-check.x li::before,.aoc-prop .aoc-check.x li::after{content:"";position:absolute;left:1px;top:10px;width:13px;height:2px;border:0;background:var(--aoc-ph);transform:rotate(45deg)}
+.aoc-prop .aoc-check.x li::after{transform:rotate(-45deg)}
+.aoc-prop .aoc-check.grey li::before,.aoc-prop .aoc-check.grey li::after{background:var(--aoc-text-3)}
+.aoc-prop .aoc-slider{width:100%;accent-color:var(--aoc-brand);min-height:36px;margin:0}
+.aoc-prop .aoc-sl label{display:block;margin-bottom:2px}
+.aoc-prop .aoc-bigfig{font-size:clamp(34px,4cqi,56px);font-weight:700;line-height:1;font-variant-numeric:tabular-nums;margin-top:10px}
+.aoc-prop .aoc-bigfig small{font-size:.38em;font-weight:600;color:var(--aoc-text-3);letter-spacing:.02em}
+.aoc-prop .aoc-code{background:var(--aoc-sunk);border:1px solid var(--aoc-line);border-radius:6px;overflow-x:auto;padding:14px 16px}
+.aoc-prop .aoc-code pre{margin:0;font-family:var(--aoc-mono);font-size:12px;line-height:1.6;color:var(--aoc-text-2);white-space:pre}
+.aoc-prop .aoc-code .t{color:var(--aoc-brand-ink)}
+.aoc-prop .aoc-radio{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--aoc-line);border-radius:6px;background:var(--aoc-surface);cursor:pointer;flex:1 1 200px;min-height:44px}
+.aoc-prop .aoc-radio.sel{border-color:var(--aoc-brand-ink);background:var(--aoc-brand-ghost)}
+.aoc-prop .aoc-radio input{margin-top:5px;accent-color:var(--aoc-brand);width:18px;height:18px;flex:none}
+.aoc-prop .aoc-note{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding:10px 12px;border:1px dashed var(--aoc-brand-ink);background:var(--aoc-brand-ghost);border-radius:6px;font-size:13.5px;line-height:1.45}
+.aoc-prop .aoc-note b{font-family:var(--aoc-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--aoc-brand-ink);flex:none;padding-top:3px}
+.aoc-prop .aoc-ph{border-bottom:1.5px dashed var(--aoc-ph);padding-bottom:1px}
+.aoc-prop .aoc-foot{font-size:13px;color:var(--aoc-text-3);margin-top:22px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;border-top:1px solid var(--aoc-line);padding-top:14px}
+
+/* ---------- placeholders: the toolbar's system, with a fallback for a standalone mount ---------- */
+.aoc [data-ph]{position:relative}
+.aoc .phtag{display:none;position:absolute;top:-13px;left:8px;z-index:6;align-items:center;gap:5px;background:var(--aoc-ph);color:var(--aoc-on-ph);font-family:var(--aoc-mono);font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:2px 8px;border-radius:2px;max-width:calc(100% - 16px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.5}
+body.ph-on .aoc [data-ph]>.phtag,.aoc[data-ph-on] [data-ph]>.phtag{display:inline-flex}
+.aoc[data-ph-on] [data-ph]{outline:1.5px dashed var(--aoc-ph);outline-offset:7px;border-radius:2px}
+body.ph-on .aoc .aoc-screen[data-ph],.aoc[data-ph-on] .aoc-screen[data-ph]{outline-offset:-6px}
+
+/* ---------- narrow: a tablet held sideways, a phone, or the toolbar's Mobile toggle ---------- */
+@container aoc (max-width:960px){
+  .aoc-grid.two,.aoc-grid.two-r,.aoc-grid.half,.aoc-grid.three,.aoc-grid.side{grid-template-columns:1fr}
+  .aoc-modal .aoc-edit{grid-template-columns:1fr}
+  .aoc-prop .aoc-split{grid-template-columns:1fr}
+}
+@container aoc (max-width:900px){
+  .aoc-desk{flex-direction:column}
+  .aoc-rail{width:auto;flex-direction:row;flex-wrap:wrap;gap:4px;padding:8px}
+  .aoc-brandrow,.aoc-navsec,.aoc-railfoot{display:none}
+  .aoc-rail a{white-space:nowrap;font-size:14px;flex:0 1 auto;min-height:36px;padding:6px 9px}
+  .aoc-rail a .aoc-tag{display:none}
+  .aoc-pad{padding:14px}
+  .aoc-topstrip{padding:10px 14px;gap:10px}
+  .aoc-modal .aoc-body{grid-template-columns:1fr}
+  .aoc-modal .aoc-list{max-height:160px;border-right:0;border-bottom:1px solid var(--aoc-line)}
+}
+@container aoc (max-width:640px){
+  .aoc-tiles{grid-template-columns:1fr 1fr}
+  .aoc-tile b{font-size:24px}
+  .aoc .aoc-form,.aoc .aoc-form.four,.aoc .aoc-bracket{grid-template-columns:1fr}
+  .aoc .aoc-fhead,.aoc .aoc-frow{gap:6px}
+  .aoc-topstrip .aoc-vline,.aoc-topstrip .aoc-next{display:none}
+  .aoc h1{font-size:22px}
+  .aoc-prop{padding-inline:16px}
+}
+@media (prefers-reduced-motion:reduce){.aoc *{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+@media print{.aoc-rail,.aoc-topstrip,.aoc-screen:not(.on){display:none!important}}
+
+</style>
+</head>
+<body>
+<div id="bar">
+  <span class="tag"><b>NSC Airsoft</b> &nbsp;/&nbsp; AOC, your operator console &nbsp;/&nbsp; <span class="long">sample data, nothing is stored</span></span>
+  <span class="spacer"></span>
+  <div class="seg" role="group" aria-label="Device"><button id="devDesk" aria-pressed="true">Desktop</button><button id="devTab" aria-pressed="false">Tablet</button></div>
+  <div class="seg" role="group" aria-label="Options"><button id="phBtn" aria-pressed="true">Placeholders</button></div>
+  <div class="seg"><a id="siteLink" href="../index.html">Back to the site</a></div>
+</div>
+<div id="page"><div id="aoc"></div></div>
+<script>
+/* ---- AOC: the Airsoft Operator Console. ThinkWork's white-label back end. ----
+   One product, built and versioned once (aoc/VERSION), plugged into every
+   ThinkWork prototype. A site supplies four things and nothing else: its logo,
+   its colours, its name and its data. The panels, their order and their layout
+   are the same on every site.
+
+   Contract:
+     AOC.mount(el, {
+       brand:  { name, short, logo, colours:{ accent, ground } },
+       theme:  { colours:"client"|"thinkwork", mode:"light"|"dark" },   optional
+       screen: "today" | ... | "proposal",                              optional
+       site:   "../index.html",   the back-link to the prototype        optional
+       ph:     true,              show the amber sample tags standalone optional
+       data:   { ... }            see aoc/README.md for the shape
+     }) -> instance { go(screen), setTheme(theme), setBrand(brand), live(on, L) }
+     AOC.VERSION
+
+   Every number the console shows in a prototype is sample and says so: each
+   screen carries data-ph="1" and a .phtag, and the top strip carries a chip
+   that never goes away. The copy speaks to the owner ("your Sunday", "your
+   fares"). No em dashes, no en dashes.
+
+   The file is pasteable inside a page's own IIFE (it declares one name, AOC)
+   and loadable on its own with a script tag (it also sets window.AOC). */
+var AOC=(function(){
+"use strict";
+const VERSION="0.1.0";
+const instances=[];
+
+/* ---------- small utilities ---------- */
+const q=(s,r)=>(r||document).querySelector(s), qa=(s,r)=>[...(r||document).querySelectorAll(s)];
+const esc=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const gbp=n=>"£"+Math.round(+n||0).toLocaleString("en-GB");
+const gbp2=n=>{const r=Math.round((+n||0)*100)/100;return Math.abs(r-Math.round(r))<.005?gbp(r):"£"+r.toLocaleString("en-GB",{minimumFractionDigits:2,maximumFractionDigits:2});};
+const gbpS=n=>(n<0?"−":n>0?"+":"")+gbp(Math.abs(n));
+const pc=n=>Math.round(n*100)+"%";
+const pad2=n=>String(n).padStart(2,"0");
+const plural=(n,one,many)=>n+" "+(n===1?one:(many||one+"s"));
+function seedFrom(str){let h=2166136261;for(const c of String(str||"aoc")){h^=c.charCodeAt(0);h=Math.imul(h,16777619);}return h>>>0;}
+function rng(seed){let a=seed>>>0;return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const fmtLong=d=>d.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
+const fmtShort=d=>d.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});
+const fmtDM=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
+const mins=t=>{const m=/^(\d{1,2})[:.](\d{2})/.exec(String(t||""));return m?(+m[1])*60+(+m[2]):null;};
+const hhmm=m=>pad2(Math.floor(((m%1440)+1440)%1440/60))+":"+pad2(((m%60)+60)%60);
+const mmss=s=>{s=Math.max(0,s);return pad2(Math.floor(s/60))+":"+pad2(Math.floor(s%60));};
+function nowHM(){const d=new Date();return pad2(d.getHours())+":"+pad2(d.getMinutes());}
+const initials=n=>String(n||"").split(/\s+/).filter(Boolean).map(w=>w[0]).join("").slice(0,2).toUpperCase();
+const firstName=n=>String(n||"").split(/\s+/)[0]||"";
+const clone=o=>JSON.parse(JSON.stringify(o));
+
+/* ---------- colour: one accent and one ground in, a whole readable palette out ---------- */
+function hexRgb(h){h=String(h||"").trim().replace("#","");if(/^[0-9a-f]{3}$/i.test(h))h=h.split("").map(c=>c+c).join("");if(!/^[0-9a-f]{6}$/i.test(h))return null;const n=parseInt(h,16);return [n>>16&255,n>>8&255,n&255];}
+const rgbHex=(r,g,b)=>"#"+[r,g,b].map(v=>pad2(Math.round(Math.max(0,Math.min(255,v))).toString(16))).join("");
+function rgbHsl(c){let [r,g,b]=c.map(v=>v/255);const mx=Math.max(r,g,b),mn=Math.min(r,g,b);let h=0,s=0;const l=(mx+mn)/2;if(mx!==mn){const d=mx-mn;s=l>.5?d/(2-mx-mn):d/(mx+mn);h=mx===r?((g-b)/d+(g<b?6:0)):mx===g?((b-r)/d+2):((r-g)/d+4);h*=60;}return [h,s,l];}
+function hslRgb([h,s,l]){h=((h%360)+360)%360;const a=s*Math.min(l,1-l);const f=n=>{const k=(n+h/30)%12;return (l-a*Math.max(-1,Math.min(k-3,Math.min(9-k,1))))*255;};return [f(0),f(8),f(4)];}
+function lum([r,g,b]){const f=v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4);};return .2126*f(r)+.7152*f(g)+.0722*f(b);}
+function contrast(a,b){const la=lum(a),lb=lum(b);return (Math.max(la,lb)+.05)/(Math.min(la,lb)+.05);}
+/* walk the lightness until fg reads on bg at the target ratio: dir -1 darkens, +1 lightens */
+function fit(fgHex,bgHex,target,dir){const bg=hexRgb(bgHex)||[255,255,255];let [h,s,l]=rgbHsl(hexRgb(fgHex)||[192,39,31]);let rgb=hslRgb([h,s,l]);let n=0;while(contrast(rgb,bg)<target&&n<80){l+=dir*0.012;if(l<=0.02||l>=0.98)break;rgb=hslRgb([h,s,l]);n++;}return rgbHex(...rgb);}
+function mix(aHex,bHex,t){const a=hexRgb(aHex)||[0,0,0],b=hexRgb(bHex)||[255,255,255];return rgbHex(a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t);}
+function onColour(fillHex){const f=hexRgb(fillHex)||[0,0,0];const w=contrast(f,[255,255,255]),k=contrast(f,[17,21,28]);return w>=4.5?"#FFFFFF":k>=4.5?"#11151C":(w>=k?"#FFFFFF":"#11151C");}
+
+/* ThinkWork's own identity, for the switch: the mustard accent and the ink ground off thinkwork.info */
+const THINKWORK={accent:"#F2B705",ground:"#16150F",paper:"#F4F0E6",card:"#FBF9F4"};
+
+function tokens(brand,theme){
+  const client=theme.colours!=="thinkwork";
+  const bc=(brand&&brand.colours)||{};
+  const accent=(client?bc.accent:THINKWORK.accent)||"#C0271F";
+  let ground=(client?bc.ground:THINKWORK.ground)||"#11151C";
+  const g=hexRgb(ground); if(!g||lum(g)>.25) ground="#11151C";
+  const dark=theme.mode==="dark";
+  const t={};
+  if(!dark){
+    t.bg=client?"#F3F4F3":THINKWORK.paper; t.surface=client?"#FFFFFF":THINKWORK.card; t["surface-2"]=client?"#ECEEEC":"#EFEADF"; t.sunk=client?"#E7E9E7":"#EAE5D9";
+    t.line=client?"#DEE1DE":"#DDD7CA"; t["line-soft"]=client?"#EBEDEB":"#E8E3D7"; t["line-strong"]=client?"#B9BEB9":"#AFA99A";
+    t.text="#11151C"; t["text-2"]="#4B5259"; t["text-3"]="#666D75";
+    t.rail=ground; t["rail-text"]="#E7E9EA"; t["rail-mute"]="#9AA3AD"; t["rail-hover"]=mix(ground,"#FFFFFF",.09);
+    t.brand=accent; t["brand-2"]=mix(accent,"#000000",.14);
+    t["brand-ink"]=fit(accent,t.surface,4.6,-1); t["brand-ghost"]=mix(accent,t.surface,.88);
+    t.go="#26734A";t["go-ghost"]="#DFEFE5";t.warn="#8A5806";t["warn-ghost"]="#FBEEDA";t.stop="#B02318";t["stop-ghost"]="#FBE4E1";t.info="#28557F";t["info-ghost"]="#E2ECF6";
+    t.c1="#C0392B";t.c2="#1268B8";t.c3="#8E6A00";t.c4="#6B4C9A";
+    t.shadow="0 1px 2px rgba(17,21,28,.06),0 8px 24px -18px rgba(17,21,28,.5)";
+  }else{
+    t.bg=mix(ground,"#000000",.35); t.surface=mix(ground,"#FFFFFF",.06); t["surface-2"]=mix(ground,"#FFFFFF",.11); t.sunk=mix(ground,"#000000",.5);
+    t.line=mix(ground,"#FFFFFF",.16); t["line-soft"]=mix(ground,"#FFFFFF",.10); t["line-strong"]=mix(ground,"#FFFFFF",.32);
+    t.text="#F1F1EE"; t["text-2"]="#B4BAC3"; t["text-3"]="#939AA4";
+    t.rail=mix(ground,"#000000",.55); t["rail-text"]="#E7E9EA"; t["rail-mute"]="#8A939D"; t["rail-hover"]=mix(t.rail,"#FFFFFF",.08);
+    t.brand=fit(accent,t.bg,3.2,+1); t["brand-2"]=mix(t.brand,"#FFFFFF",.12);
+    t["brand-ink"]=fit(accent,t.surface,4.6,+1); t["brand-ghost"]=mix(accent,t.bg,.82);
+    t.go="#5FB584";t["go-ghost"]="#102419";t.warn="#E0A245";t["warn-ghost"]="#2B2110";t.stop="#EF5A4E";t["stop-ghost"]="#2C1311";t.info="#6FA8DC";t["info-ghost"]="#12202E";
+    t.c1="#E8645A";t.c2="#4390D6";t.c3="#B08A2C";t.c4="#9074C0";
+    t.shadow="0 1px 2px rgba(0,0,0,.5),0 12px 32px -22px #000";
+  }
+  t["on-brand"]=onColour(t.brand);
+  return t;
+}
+function applyTheme(inst){
+  const t=tokens(inst.brand,inst.theme);
+  for(const k in t)inst.el.style.setProperty("--aoc-"+k,t[k]);
+  inst.el.style.setProperty("--aoc-logo",inst.brand.logo?'url("'+String(inst.brand.logo).replace(/"/g,'%22')+'")':"none");
+  inst.el.dataset.aocMode=inst.theme.mode;
+  qa("[data-aoc-theme]",inst.el).forEach(b=>b.setAttribute("aria-pressed",b.dataset.aocTheme===inst.theme.colours));
+  const m=q("[data-aoc-mode-btn]",inst.el); if(m){m.textContent=inst.theme.mode==="dark"?"Light":"Dark";m.setAttribute("aria-pressed",inst.theme.mode==="dark");}
+}
+
+/* ---------- the data: fill what a site did not supply, deterministically, and say it is sample ---------- */
+const DEFAULT_NAMES=["Sam Ridley","Ethan Lowes","Toby Lax","Aaron Purvis","Adam Featherstone","Jordan Peart","Jack Hetherington","Sophie Gill","Callum Fenwick","Kieran Walton","Amy Proud","Connor Raine","Liam Stobbs","Harvey Blackett","Lewis Armstrong","Olivia Dodds","Ryan Coates","Tyler Burnip","Mason Craggs","Zak Elliott","Reece Hutchinson","Finlay Dent","Alfie Marley","Charlie Wearmouth","George Pickering","Kyle Snowdon","Lucy Cummings","Priya Nair","Nathan Bell","Owen Hodgson","Isaac Thwaites","Louie Dixon","Freddie Wren","Archie Bowes","Chloe Bainbridge","Dan Metcalfe","Ellis Vickers","Joel Sowerby","Max Teasdale","Rhys Oliver","Ben Nattrass","Molly Errington","Jake Ramshaw"];
+const REGS=["KP19 TZR","LN71 XFD","GY18 MKA","BV22 HRC","WD68 LPS","EA15 NTV","RJ20 CWB","MM17 SDG","TC69 VNH","HF14 QBL","YX21 JRM","PD16 ZTA"];
+
+function normalise(raw){
+  const d=clone(raw||{});
+  d.business=Object.assign({name:"Your site",short:"",kind:"airsoft site",sports:["Airsoft"]},d.business||{});
+  if(!d.business.short)d.business.short=d.business.name;
+  if(!Array.isArray(d.business.sports)||!d.business.sports.length)d.business.sports=["Airsoft"];
+  d.labels=Object.assign({walkon:"Walk-on",hire:"Hire",half:"half day",full:"full day"},d.labels||{});
+  if(!Array.isArray(d.tickets)||!d.tickets.length){
+    d.tickets=[{key:"walkon.full",kind:"walkon",sess:"full",label:d.labels.walkon+", "+d.labels.full,price:25,member:20,published:false},
+               {key:"hire.full",kind:"hire",sess:"full",label:d.labels.hire+", "+d.labels.full,price:40,member:35,published:false}];
+  }
+  d.tickets.forEach(t=>{if(t.member==null)t.member=t.price;if(!t.label)t.label=(d.labels[t.kind]||t.kind)+", "+(d.labels[t.sess]||t.sess);});
+  d.membership=Object.assign({price:0,per:"year",year:"twelve months from joining",yearEnd:"twelve months on",renewMonth:"the month it runs out",count:0,published:false,sample:true},d.membership||{});
+  d.calendar=Object.assign({regular:{day:0,dayName:"Sunday",label:"Sunday game day",detail:"",count:12},times:["08:00","10:00","16:00"],lunch:"",cap:40,breakFrom:"12-25",breakTo:"12-25",timesSample:false,spaces:[14,22,7,31,19,3,26,11,38,16,9,24]},d.calendar||{});
+  d.events=Array.isArray(d.events)?d.events:[];
+  d.roster=Object.assign({names:DEFAULT_NAMES.slice(),mix:[["walkon","full",true,14],["walkon","full",false,13],["hire","full",true,3],["hire","full",false,9]],noWaiver:[2,7,13,19,26,31,38],under18:[4,11,17,24,33]},d.roster||{});
+  if(!Array.isArray(d.roster.names)||!d.roster.names.length)d.roster.names=DEFAULT_NAMES.slice();
+  d.preorders=Array.isArray(d.preorders)&&d.preorders.length?d.preorders:[{key:"lunch",label:"Hot lunches",n:19,price:6},{key:"hpa",label:"HPA fills",n:7,price:3},{key:"bb",label:"Bags of BBs",n:11,price:11}];
+  d.products=Array.isArray(d.products)?d.products:[];
+  d.members=Array.isArray(d.members)?d.members:[];
+  d.entrants=Array.isArray(d.entrants)?d.entrants:[];
+  d.bookings=Array.isArray(d.bookings)?d.bookings:[];
+  d.money=Object.assign({lines:[],payouts:[],cardFees:0,lastYear:0,lastYearPlayers:0,walkups:0,platformFeePct:0.02,joinedToday:2,chronoTime:"",bracketSize:32},d.money||{});
+  d.settings=Object.assign({rule:"",chrono:null,minAge:"",under18:"",payment:"",todayTake:"cash and bank transfer"},d.settings||{});
+  d.live=Object.assign({time:"11:02",game:2,of:4,next:"11:40",onSite:0,inGate:0,closed:"10:00",day:d.calendar.regular.dayName},d.live||{});
+  d.model=Object.assign({days:50,addAvg:7,groupAvg:450,foodPer:6,depositPct:0.25},d.model||{});
+  d.proposed=Array.isArray(d.proposed)?d.proposed:[];
+  d.omitted=d.omitted||{};
+  d.wedge=Object.assign({kind:"none",name:"",feePct:0,feePer:0,paysBy:"you",todayTake:d.settings.todayTake},d.wedge||{});
+  d.proposal=d.proposal||{};
+  d.ref=d.ref||"BK";
+  d.team=Object.assign({owner:"You"},d.team||{});
+  return d;
+}
+
+/* ---------- the running days: the same rule the site's calendar is built from ---------- */
+function buildDates(cal,events){
+  const REG=Object.assign({day:0,dayName:"Sunday",label:"Game day",count:12},cal.regular||{});
+  const spaces=(cal.spaces&&cal.spaces.length)?cal.spaces:[14,22,7,31,19,3,26,11,38,16,9,24];
+  const BREAK=[cal.breakFrom||"12-25",cal.breakTo||"12-25"].map(x=>String(x).split("-").map(Number));
+  const isBreak=d=>{const m=d.getMonth()+1,day=d.getDate();return (m===BREAK[0][0]&&day>=BREAK[0][1])||(m===BREAK[1][0]&&day<=BREAK[1][1]);};
+  const out=[]; const step=REG.every||7;
+  const d=new Date();d.setHours(8,0,0,0);let add=(7+REG.day-d.getDay())%7;if(add===0&&Date.now()>d.getTime()+8*3600e3)add=7;d.setDate(d.getDate()+add);
+  let i=0;
+  while(out.length<(REG.count||12)&&i<80){if(!isBreak(d))out.push({dt:new Date(d),kind:REG.dayName,name:REG.label,detail:REG.detail||"",left:spaces[i%spaces.length],cap:cal.cap||40,tba:false,sess:REG.sess||"full",regular:true});d.setDate(d.getDate()+step);i++;}
+  for(const e of events||[]){
+    if(!e||!e.iso)continue; const dt=new Date(e.iso+"T08:00:00"); if(isNaN(dt)||dt.getTime()<Date.now()-8*3600e3)continue;
+    const ev={key:e.key,name:e.name,short:e.short||e.name,detail:e.detail||"",times:e.times,price:e.price,deposit:e.deposit,prize:!!e.prize,off:e.off,offLabel:e.offLabel,prizes:e.prizes,sample:!!e.sample,real:true};
+    const same=out.find(x=>x.dt.toDateString()===dt.toDateString());
+    if(same)Object.assign(same,ev,{left:e.left!=null?e.left:same.left,cap:e.cap||same.cap,regular:false});
+    else out.push(Object.assign({dt,kind:e.dayName||dt.toLocaleDateString("en-GB",{weekday:"long"}),left:e.left!=null?e.left:12,cap:e.cap||40,tba:false,sess:"full",regular:false},ev));
+  }
+  const X=cal.extra;
+  if(X&&X.dayName){
+    const now=new Date();
+    const regs=out.filter(x=>x.regular); const lastReg=regs.length?regs.reduce((a,b)=>a.dt>b.dt?a:b):null;
+    if(X.weekly){
+      const e=new Date();e.setHours(8,0,0,0);let a=(7+X.day-e.getDay())%7;if(a===0&&Date.now()>e.getTime()+8*3600e3)a=7;e.setDate(e.getDate()+a);
+      let j=0;while(lastReg&&e<=lastReg.dt&&j<40){if(!isBreak(e))out.push({dt:new Date(e),kind:X.dayName,name:X.label,detail:X.detail||"",left:spaces[(j+5)%spaces.length],cap:X.cap||cal.cap||40,tba:false,sess:X.sess||"half",regular:false,extra:true});e.setDate(e.getDate()+7);j++;}
+    }else if(lastReg){
+      const horizon=lastReg.dt.getFullYear()*12+lastReg.dt.getMonth();
+      for(let k=0;k<12;k++){
+        const m=new Date(now.getFullYear(),now.getMonth()+k,1);
+        if(X.fromMonth!=null&&(m.getMonth()<X.fromMonth||m.getMonth()>X.toMonth))continue;
+        if(m.getFullYear()*12+m.getMonth()>horizon)continue;
+        if(out.some(x=>x.kind===X.dayName&&x.dt.getMonth()===m.getMonth()&&x.dt.getFullYear()===m.getFullYear()))continue;
+        const e=new Date(m);while(e.getDay()!==X.day)e.setDate(e.getDate()+1);
+        if(e<now)continue;
+        out.push({dt:e,kind:X.dayName,name:X.label,detail:X.detail||"",left:null,cap:cal.cap||40,tba:!!X.tba,sess:X.sess||"full",regular:false,extra:true});
+      }
+    }
+  }
+  out.sort((a,b)=>a.dt-b.dt);
+  return out;
+}
+
+/* ---------- the roster for the next running day, priced off the real tickets ---------- */
+function ticketFor(d,kind,sess){return d.tickets.find(t=>t.kind===kind&&t.sess===sess)||d.tickets.find(t=>t.kind===kind)||d.tickets[0];}
+function buildRoster(d,r){
+  const R=d.roster, players=[]; let ni=0;
+  for(const row of R.mix||[]){const [kind,sess,member,n]=row;for(let i=0;i<n;i++){const t=ticketFor(d,kind,sess);const name=R.names[ni%R.names.length]+(ni>=R.names.length?" "+(Math.floor(ni/R.names.length)+1):"");ni++;
+    players.push({id:players.length,name,init:initials(name),kind,sess,member:!!member,ticket:t,price:member?t.member:t.price,waiver:true,u18:false,arrived:false,in:false,reg:null,chrono:null,flagged:false,pts:0,kit:kind==="hire",kitOut:false,pre:[]});}}
+  (R.noWaiver||[]).forEach(i=>{if(players[i])players[i].waiver=false;});
+  (R.under18||[]).forEach(i=>{if(players[i])players[i].u18=true;});
+  /* pre-orders land on named players, spread through the list */
+  d.preorders.forEach((p,k)=>{for(let i=0;i<p.n;i++){const pl=players[(i*3+k*5)%Math.max(1,players.length)];if(pl&&!pl.pre.includes(p.key))pl.pre.push(p.key);}});
+  players.forEach((p,i)=>{p.pts=[9,7,7,6,5,4,4,3,3,2][i]||Math.floor(r()*3);});
+  return players;
+}
+
+/* ---------- bookings: the site's own sample rows, or one per player ---------- */
+function buildBookings(d,dates,players){
+  const nonTba=dates.filter(x=>!x.tba);
+  const dateAt=w=>w==="next"||w==null?nonTba[0]:(typeof w==="number"?nonTba[Math.min(w,nonTba.length-1)]:nonTba[0]);
+  const out=[];
+  if(d.bookings.length){
+    for(const row of d.bookings){
+      const [ref,name,when,walkon,hire,sess,member,status,extras,flag]=row;
+      const dt=dateAt(when);if(!dt)continue;
+      const items=[];if(walkon)items.push({kind:"walkon",n:walkon});if(hire)items.push({kind:"hire",n:hire});
+      let paid=0;const ev=dt.deposit?dt:null;
+      for(const it of items){const t=ticketFor(d,it.kind,sess||"full");const unit=ev?(it.kind==="walkon"?ev.deposit:0):(member?t.member:t.price);paid+=unit*it.n*(dt.off?dt.off:1);}
+      paid+=(+extras||0);
+      out.push({ref,name,date:dt,items,sess:sess||"full",member:!!member,status:status||"paid",extras:+extras||0,paid:Math.round(paid),flag:!!flag,due:ev?(ev.price-ev.deposit)*(walkon||1):0});
+    }
+  }else{
+    players.forEach((p,i)=>{const dt=nonTba[0];out.push({ref:d.ref+"-"+(1000+i*37).toString(36).toUpperCase().slice(0,4),name:p.name,date:dt,items:[{kind:p.kind,n:1}],sess:p.sess,member:p.member,status:p.waiver?"paid":"waiver",extras:0,paid:p.price,flag:false,due:0});});
+  }
+  return out;
+}
+
+/* ---------- membership plans, in the shape the plan editor scores ---------- */
+function buildPlans(d,customers){
+  const W=ticketFor(d,"walkon","full");
+  const plans=[{id:1,name:"Free account",kind:"free",price:0,per:"month",status:"Live",members:customers,note:"Booking, waiver on file, history"}];
+  if(d.membership.price>0)plans.push({id:2,name:"Membership",kind:"sub",price:d.membership.price,per:d.membership.per||"year",unlim:false,disc:Math.max(0,W.price-W.member),bbs:0,guests:0,early:0,status:d.membership.sample?"Proposed":"Live",members:d.membership.count||0,note:d.membership.year});
+  if(d.block&&d.block.price)plans.push({id:3,name:d.block.label||"Day block",kind:"block",price:d.block.price,days:d.block.days||10,status:"Proposed",members:0,note:d.block.days+" days, bought once"});
+  return plans;
+}
+
+/* ---------- stock: the site's products with sample counts on the shelf ---------- */
+function buildStock(d,r){
+  const rows=[];
+  const src=d.products.length?d.products.map(p=>({item:p[0],price:+p[1],note:p[2]||""})):d.preorders.map(p=>({item:p.label,price:p.price,note:"Pre-order"}));
+  src.forEach((p,i)=>{const onHand=8+Math.floor(r()*60);const pre=d.preorders[i];const reserved=pre?Math.min(onHand,pre.n):Math.floor(r()*4);rows.push({item:p.item,soldAs:/sample/i.test(p.note)?"Pre-order and on site":(p.note||"Pre-order and on site"),price:p.price,member:Math.round(p.price*0.9*100)/100,onHand,reserved,reorder:6+Math.floor(r()*10)});});
+  return rows;
+}
+
+/* ---------- history: the past eight running days, all sample ---------- */
+function buildHistory(d,players,r){
+  const REG=d.calendar.regular, step=REG.every||7, out=[];
+  const base=new Date();base.setHours(8,0,0,0);let back=(base.getDay()-REG.day+7)%7;if(back===0)back=7;base.setDate(base.getDate()-back);
+  const W=ticketFor(d,"walkon","full"),H=ticketFor(d,"hire","full");
+  const avg=(W.price+W.member)/2*0.72+(H.price+H.member)/2*0.28;
+  const typical=d.money.lastYearPlayers||players.length||38;
+  for(let i=0;i<8;i++){const dt=new Date(base);dt.setDate(base.getDate()-i*step);const booked=Math.max(8,Math.round(typical*(0.75+r()*0.5)));const up=booked-Math.floor(r()*4);const chrono=Math.max(0,up-Math.floor(r()*3));out.push({dt,name:REG.label,booked,up,chrono,took:Math.round(up*avg+Math.floor(r()*120)),flagged:i===2?1:0,pod:players[(i*7)%players.length].name});}
+  return out;
+}
+
+/* ---------- markup helpers ---------- */
+const tile=(lbl,val,cls,sub)=>'<div class="aoc-tile'+(cls?" "+cls:"")+'"><span class="aoc-lbl">'+lbl+'</span><b>'+val+'</b>'+(sub?'<span class="aoc-sub">'+sub+'</span>':'')+'</div>';
+const chip=(t,cls)=>'<span class="aoc-chip'+(cls?" "+cls:"")+'">'+t+'</span>';
+const kv=(l,v,cls)=>'<div class="aoc-kv"><span>'+l+'</span><b'+(cls?' class="'+cls+'"':'')+'>'+v+'</b></div>';
+const card=(hd,bd,extra)=>'<div class="aoc-card'+(extra?" "+extra:"")+'">'+(hd?'<div class="aoc-hd">'+hd+'</div>':'')+bd+'</div>';
+const head=(h1,lbl,actions)=>'<div class="aoc-head"><div><h1>'+h1+'</h1>'+(lbl?'<p class="aoc-lbl">'+lbl+'</p>':'')+'</div>'+(actions?'<div class="aoc-row">'+actions+'</div>':'')+'</div>';
+const banner=(b,t,cls)=>'<div class="aoc-banner'+(cls?" "+cls:"")+'"><b>'+b+'</b><span>'+t+'</span></div>';
+const tbl=(cols,rows,attrs)=>'<div class="aoc-tscroll"><table class="aoc-t"'+(attrs||"")+'><thead><tr>'+cols.map(c=>'<th'+(/^\s*£|num:/.test(c)?' class="num"':'')+'>'+c.replace(/^num:/,"")+'</th>').join("")+'</tr></thead><tbody>'+rows+'</tbody></table></div>';
+const ph=t=>'<span class="phtag">'+esc(t||"Sample data")+'</span>';
+const opt=(list,sel)=>list.map(o=>'<option value="'+esc(o[0])+'"'+(String(o[0])===String(sel)?" selected":"")+'>'+esc(o[1])+'</option>').join("");
+
+/* ---------- the screens, in the order every site gets them ---------- */
+const SCREENS=[
+  {key:"today",label:"Today",sec:"Running the day"},
+  {key:"bookings",label:"Bookings",sec:"Running the day"},
+  {key:"calendar",label:"Calendar",sec:"Running the day"},
+  {key:"customers",label:"Customers",sec:"Running the day"},
+  {key:"members",label:"Members",sec:"Running the day"},
+  {key:"money",label:"Money",sec:"Running the day"},
+  {key:"shop",label:"Stock and pre-orders",sec:"Running the day"},
+  {key:"history",label:"History",sec:"Running the day"},
+  {key:"gate",label:"Car park",sec:"On the field",tag:"P2"},
+  {key:"reception",label:"Reception",sec:"On the field",tag:"P2"},
+  {key:"chrono",label:"Chrono",sec:"On the field",tag:"P2"},
+  {key:"gameday",label:"Game control",sec:"On the field",tag:"P3"},
+  {key:"daysheet",label:"Day sheet",sec:"On the field"},
+  {key:"team",label:"Team and access",sec:"Admin"},
+  {key:"settings",label:"Settings",sec:"Admin"},
+  {key:"dash",label:"Dashboards",sec:"Later",tag:"P3"},
+  {key:"marketing",label:"Marketing",sec:"Later",tag:"P3"},
+  {key:"proposal",label:"Proposal",sec:"For you"}
+];
+const ROLES={
+  owner:{label:"Owner",can:null},
+  manager:{label:"Manager",can:["today","bookings","calendar","customers","members","shop","history","daysheet","settings","marketing","dash","proposal"]},
+  marshal:{label:"Marshal",can:["today","gate","reception","chrono","gameday","daysheet"]},
+  gate:{label:"Gate",can:["gate","daysheet"]}
+};
+
+function shell(inst){
+  const B=inst.brand, d=inst.data;
+  let rail='<div class="aoc-brandrow"><span class="aoc-logo" role="img" aria-label="'+esc(B.name)+'"></span><b>'+esc(B.short||B.name)+'<i>Operator console</i></b></div>';
+  let sec="";
+  for(const s of SCREENS){if(s.sec!==sec){sec=s.sec;rail+='<div class="aoc-navsec">'+esc(sec)+'</div>';}rail+='<a data-aoc-go="'+s.key+'" role="button" tabindex="0">'+esc(s.label)+(s.tag?'<span class="aoc-tag">'+s.tag+'</span>':'')+'</a>';}
+  rail+='<div class="aoc-railfoot">AOC '+VERSION+'<br>by ThinkWork</div>';
+  const roles=Object.keys(ROLES).map(k=>'<button data-aoc-role="'+k+'" aria-pressed="'+(k===inst.role)+'">'+ROLES[k].label+'</button>').join("");
+  const top='<div class="aoc-topstrip">'+
+    '<div class="aoc-who"><span class="aoc-avatar" data-aoc="whoAv">O</span><span><span class="aoc-lbl" data-aoc="whoRole">Owner</span><br><b data-aoc="whoName">'+esc(d.team.owner)+'</b></span></div>'+
+    '<div class="aoc-seg" role="group" aria-label="Signed in as">'+roles+'</div>'+
+    '<span class="aoc-vline"></span>'+
+    '<div class="aoc-next"><span class="aoc-lbl">Next on site</span><br><b data-aoc="evName"></b></div>'+
+    '<span class="aoc-sp"></span>'+
+    chip("Sample data throughout","ph")+
+    '<span class="aoc-chip go" data-aoc="liveChip" hidden>Live</span>'+
+    '<div class="aoc-seg" role="group" aria-label="Colours"><button data-aoc-theme="client">Your colours</button><button data-aoc-theme="thinkwork">ThinkWork</button></div>'+
+    '<div class="aoc-seg"><button data-aoc-mode-btn aria-pressed="false">Dark</button></div>'+
+    '</div>';
+  const screens=SCREENS.map(s=>'<section class="aoc-screen'+(s.key==="proposal"?" aoc-prop":" aoc-pad")+'" data-aoc-screen="'+s.key+'" data-ph="1">'+ph(s.key==="proposal"?"Every figure below is sample until you replace it":"Sample data")+'<div data-aoc-body="'+s.key+'"></div></section>').join("");
+  inst.el.innerHTML='<div class="aoc-desk"><nav class="aoc-rail" aria-label="Console sections">'+rail+'</nav><main class="aoc-main">'+top+screens+'</main></div>'+
+    '<div class="aoc-toast" role="status" aria-live="polite"></div><div class="aoc-tip"></div>';
+}
+
+function toast(inst,m){const t=q(".aoc-toast",inst.el);if(!t)return;t.textContent=m;t.classList.add("show");clearTimeout(inst._toastT);inst._toastT=setTimeout(()=>t.classList.remove("show"),3600);}
+function body(inst,key){return q('[data-aoc-body="'+key+'"]',inst.el);}
+function on(inst,sel,ev,fn){qa(sel,inst.el).forEach(el=>el.addEventListener(ev,fn));}
+
+/* ---------- Today ---------- */
+function drawToday(inst){
+  const d=inst.data,m=inst.m,NEXT=m.next;
+  const t=d.calendar.times||[], gates=t[0]||"", brief=d.money.chronoTime||t[1]||"";
+  const sub=fmtLong(NEXT.dt)+" · "+esc(NEXT.name)+(gates?" · gates "+gates:"")+(brief?", chrono and brief "+brief:"")+(d.calendar.timesSample?" (sample times)":"");
+  body(inst,"today").innerHTML=head("Today",sub,'<button class="aoc-btn g" data-aoc-go="daysheet">Print day sheet</button><button class="aoc-btn p" data-aoc-go="reception">Open reception</button>')+
+    '<div class="aoc-tiles" data-aoc="todayTiles"></div>'+
+    '<div class="aoc-grid two" style="margin-bottom:14px">'+
+      card('<h3>Needs attention</h3><span class="aoc-sp"></span>'+chip("0","stop")+'','<div class="aoc-bd" data-aoc="attn"></div>')+
+      card('<h3>Activity</h3>','<div class="aoc-bd"><div class="aoc-feed" data-aoc="feed"></div></div>')+
+    '</div>'+
+    '<div class="aoc-grid two">'+
+      card('<h3>Before the gates open</h3><span class="aoc-sp"></span>'+chip("Booked and paid ahead","info"),'<div class="aoc-bd" data-aoc="before"></div>')+
+      card('<h3>This '+esc(NEXT.kind)+' against last year</h3>','<div class="aoc-bd" data-aoc="vs"></div>')+
+    '</div>';
+  paintToday(inst);
+}
+function paintToday(inst){
+  const d=inst.data,m=inst.m,P=m.players,n=P.length;
+  const arrived=P.filter(p=>p.arrived).length, inn=P.filter(p=>p.in).length, ch=P.filter(p=>p.chrono).length, noWv=P.filter(p=>!p.waiver).length;
+  const online=P.reduce((a,p)=>a+p.price,0)+m.preTotal;
+  q('[data-aoc="evName"]',inst.el).textContent=fmtShort(m.next.dt)+" · "+m.next.name;
+  const tiles=q('[data-aoc="todayTiles"]',inst.el); if(!tiles)return;
+  tiles.innerHTML=tile("Booked on",n,"",P.filter(p=>p.kind==="walkon").length+" "+d.labels.walkon.toLowerCase()+", "+P.filter(p=>p.kind==="hire").length+" "+d.labels.hire.toLowerCase())+
+    tile("Arrived",arrived+'<div class="aoc-meter"><i style="width:'+(arrived/n*100)+'%"></i></div>')+
+    tile("Checked in",inn+'<div class="aoc-meter go"><i style="width:'+(inn/n*100)+'%"></i></div>',"good")+
+    tile("Chrono'd",ch,ch<inn?"alert":"good",ch<inn?(inn-ch)+" in and not yet over the chrono":"everyone in has been over the chrono")+
+    tile("Forms outstanding",noWv,noWv?"alert":"good",noWv?"sign on the tablet at the gate":"everyone signed")+
+    tile("Taken online",gbp(online),"key","paid by card before the gates open");
+  const attn=[];
+  P.filter(p=>!p.waiver).forEach(p=>attn.push([p.name,"Safety form not signed","stop"]));
+  P.filter(p=>p.in&&!p.chrono).forEach(p=>attn.push([p.name,"Checked in, not chrono'd","warn"]));
+  P.filter(p=>p.flagged).forEach(p=>attn.push([p.name,"Spot check over the limit","stop"]));
+  P.filter(p=>p.u18&&!p.in).slice(0,3).forEach(p=>attn.push([p.name,"Under 18: full face, guardian signs","info"]));
+  const ac=q('[data-aoc="attn"]',inst.el); ac.previousElementSibling.querySelector(".aoc-chip").textContent=attn.length;
+  ac.innerHTML=attn.length?attn.slice(0,8).map(a=>'<div class="aoc-kv"><span><b>'+esc(a[0])+'</b></span>'+chip(a[1],a[2])+'</div>').join(""):'<p class="aoc-go-c"><b>Nothing outstanding.</b> Everyone signed, checked in and chrono\'d.</p>';
+  q('[data-aoc="feed"]',inst.el).innerHTML=m.feed.map(f=>'<div><time>'+esc(f.t)+'</time><span>'+esc(f.msg)+'</span></div>').join("");
+  const kits=P.filter(p=>p.kit), kitsOut=kits.filter(p=>p.kitOut).length, preN=d.preorders.reduce((a,p)=>a+p.n,0);
+  q('[data-aoc="before"]',inst.el).innerHTML=
+    kv(d.labels.hire+" kits to issue, booked and paid",'<span>'+kitsOut+' of '+kits.length+' out</span>')+
+    kv("Pre-orders to bag, paid already",preN+" items, "+gbp(m.preTotal))+
+    kv("Safety forms still to sign",noWv+" of "+n)+
+    kv("Joined as members at the checkout this week",d.money.joinedToday)+
+    '<div class="aoc-row" style="margin-top:12px"><button class="aoc-btn g sm" data-aoc-go="reception">Issue kit</button><button class="aoc-btn g sm" data-aoc-go="shop">Picking list</button><button class="aoc-btn g sm" data-aoc-act="remind">Send a form reminder</button></div>'+
+    '<p class="aoc-tiny" style="margin-top:10px">You knew all of this on Friday. Nothing here was counted at the gate.</p>';
+  const ly=d.money.lastYear||0, lyP=d.money.lastYearPlayers||0;
+  q('[data-aoc="vs"]',inst.el).innerHTML=
+    '<div class="aoc-grid half">'+
+      '<div><span class="aoc-lbl">Paid ahead, this '+esc(m.next.kind)+'</span><b style="display:block;font-size:30px;font-weight:700;line-height:1.1;margin-top:4px">'+gbp(online)+'</b><span class="aoc-tiny">'+n+' players, by card, before anyone has parked</span></div>'+
+      '<div><span class="aoc-lbl">Same '+esc(m.next.kind)+' last year</span><b style="display:block;font-size:30px;font-weight:700;line-height:1.1;margin-top:4px;color:var(--aoc-text-3)">'+(ly?gbp(ly):"not counted")+'</b><span class="aoc-tiny">'+(ly?(lyP?lyP+" players, ":"")+"counted in "+esc(d.settings.todayTake)+" at the gate":"no record to compare against")+'</span></div>'+
+    '</div>'+
+    (ly?'<div class="aoc-meter" style="margin-top:14px"><i style="width:'+Math.min(100,Math.round(online/ly*100))+'%"></i></div>':"")+
+    '<p class="aoc-tiny" style="margin-top:8px">Both figures are sample. Yours replace them the first '+esc(m.next.kind)+' it runs.</p>';
+}
+
+/* ---------- Bookings ---------- */
+function drawBookings(inst){
+  body(inst,"bookings").innerHTML=head("Bookings","Everything sold through the site, with the money against it",'<input class="aoc-f" data-aoc="bkSearch" placeholder="Search name or reference" style="width:240px"><button class="aoc-btn p" data-aoc-act="addBooking">Add a booking</button>')+
+    '<div class="aoc-tiles" data-aoc="bkTiles"></div>'+
+    card('',"<div data-aoc='bkTable'></div>")+
+    '<div data-aoc="bkDetail" style="margin-top:14px"></div>'+
+    '<p class="aoc-lbl" style="margin-top:10px">Click a row to open the booking: refund, move to another date, resend the pass. The player gets the email; you do not write it.</p>';
+  paintBookings(inst,"");
+}
+function bookingItems(inst,b){const d=inst.data;return b.items.map(it=>it.n+" × "+(d.labels[it.kind]||it.kind)).join(", ")+(b.sess==="half"?", "+d.labels.half:"")+(b.member?", member":"")+(b.extras?", pre-orders "+gbp(b.extras):"");}
+function paintBookings(inst,query){
+  const d=inst.data,m=inst.m,qs=String(query||"").toLowerCase();
+  const rows=m.bookings.filter(b=>!qs||(b.name+" "+b.ref).toLowerCase().includes(qs));
+  const taken=m.bookings.filter(b=>b.status!=="refunded").reduce((a,b)=>a+b.paid,0), due=m.bookings.reduce((a,b)=>a+b.due,0), players=m.bookings.filter(b=>b.status!=="refunded").reduce((a,b)=>a+b.items.reduce((x,y)=>x+y.n,0),0);
+  q('[data-aoc="bkTiles"]',inst.el).innerHTML=tile("Bookings",m.bookings.length,"","on the next dates")+tile("Players",players,"","in this list, "+d.labels.walkon.toLowerCase()+" and "+d.labels.hire.toLowerCase())+tile("Taken",gbp(taken),"key","by card, on your Stripe balance")+tile("Due on the day",gbp(due),"","event balances after deposits");
+  const st=b=>b.status==="refunded"?chip("Refunded","stop"):b.status==="moved"?chip("Moved","info"):b.status==="waiver"?chip("Form unsigned","warn"):chip("Paid","go");
+  q('[data-aoc="bkTable"]',inst.el).innerHTML=tbl(["Reference","Name","Date","Tickets","Status","num:Paid"],rows.map(b=>'<tr class="aoc-click'+(inst.sel.booking===b.ref?" on":"")+'" data-aoc-book="'+esc(b.ref)+'"><td class="aoc-mono">'+esc(b.ref)+'</td><td>'+esc(b.name)+'</td><td class="aoc-mono">'+fmtShort(b.date.dt)+(b.date.real?' <span class="aoc-tiny">'+esc(b.date.short||b.date.name)+'</span>':"")+'</td><td>'+esc(bookingItems(inst,b))+'</td><td>'+st(b)+'</td><td class="num">'+(b.status==="refunded"?'<s>'+gbp(b.paid)+'</s>':gbp(b.paid))+'</td></tr>').join("")||'<tr><td colspan="6" class="aoc-tiny">Nothing matches.</td></tr>');
+  const det=q('[data-aoc="bkDetail"]',inst.el), b=m.bookings.find(x=>x.ref===inst.sel.booking);
+  if(!b){det.innerHTML="";return;}
+  const nextOther=m.dates.find(x=>!x.tba&&x!==b.date);
+  det.innerHTML=card('<h3>'+esc(b.ref)+' · '+esc(b.name)+'</h3><span class="aoc-sp"></span>'+st(b),
+    '<div class="aoc-bd"><div class="aoc-grid half">'+
+    '<div>'+kv("Date",fmtLong(b.date.dt))+kv("Tickets",'<span class="wrap">'+esc(bookingItems(inst,b))+'</span>',"wrap")+kv("Paid",gbp(b.paid))+(b.due?kv("Balance due on the day",gbp(b.due)):"")+kv("Safety form",b.status==="waiver"?'<span class="aoc-warn-c">Not signed yet</span>':"Signed, on file")+'</div>'+
+    '<div><p class="aoc-lbl" style="margin-bottom:8px">Actions</p><div class="aoc-row">'+
+      '<button class="aoc-btn g" data-aoc-act="refund" '+(b.status==="refunded"?"disabled":"")+'>Refund '+gbp(b.paid)+'</button>'+
+      (nextOther?'<button class="aoc-btn g" data-aoc-act="move" '+(b.status==="refunded"?"disabled":"")+'>Move to '+fmtDM(nextOther.dt)+'</button>':"")+
+      '<button class="aoc-btn g" data-aoc-act="resend">Resend the pass</button></div>'+
+      '<p class="aoc-tiny" style="margin-top:10px" data-aoc="bkMsg">A refund goes back to the card it came from. A move keeps the money and changes the date; if the new date costs a different amount the difference is charged or refunded and the line here says so.</p></div>'+
+    '</div></div>');
+}
+
+/* ---------- Calendar ---------- */
+function drawCalendar(inst){
+  const d=inst.data, multi=d.business.sports.length>1;
+  body(inst,"calendar").innerHTML=head("Calendar",(multi?d.business.sports.join(", ")+": one calendar":"Every running day, one calendar, one page per date"),'<button class="aoc-btn p" data-aoc-act="focusAdd">Add an event</button>')+
+    '<div class="aoc-grid two">'+
+      '<div class="aoc-stack">'+card('',"<div data-aoc='calTable'></div>")+'<div data-aoc="calDetail"></div></div>'+
+      card('<h3>Add an event</h3><span class="aoc-sp"></span>'+chip("One-off or repeating","brand"),
+        '<div class="aoc-bd">'+
+        (multi?'<div class="aoc-fld"><span class="aoc-lbl">Sport</span><select class="aoc-f" data-aoc="ceSport">'+opt(d.business.sports.map(s=>[s,s]))+'</select></div>':"")+
+        '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Starts</span><input class="aoc-f" type="date" data-aoc="ceDate"></div><div class="aoc-fld"><span class="aoc-lbl">Name</span><input class="aoc-f" data-aoc="ceName" value="'+esc(d.calendar.regular.label)+'"></div></div>'+
+        '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Capacity</span><input class="aoc-f aoc-mono" data-aoc="ceCap" value="'+(d.calendar.cap||40)+'"></div><div class="aoc-fld"><span class="aoc-lbl">From price £</span><input class="aoc-f aoc-mono" data-aoc="cePrice" value="'+ticketFor(d,"walkon","full").price+'"></div></div>'+
+        '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Repeats</span><select class="aoc-f" data-aoc="ceRep">'+opt([[0,"Does not repeat"],[7,"Every week"],[14,"Every two weeks"],[28,"Every four weeks"]],(d.calendar.regular.every||7))+'</select></div><div class="aoc-fld"><span class="aoc-lbl">How many</span><input class="aoc-f aoc-mono" data-aoc="ceCount" value="8"></div></div>'+
+        '<label class="aoc-row" style="gap:8px;margin-top:2px;font-size:14.5px;color:var(--aoc-text-2);cursor:pointer;flex-wrap:nowrap;align-items:flex-start"><input type="checkbox" data-aoc="ceDraft" checked style="accent-color:var(--aoc-brand);margin-top:3px"><span>Create as drafts so you can check them before they go on sale</span></label>'+
+        '<p class="aoc-lbl" style="margin:14px 0 6px">Would create</p><div data-aoc="cePrev" style="max-height:170px;overflow:auto"></div>'+
+        '<button class="aoc-btn p wide" data-aoc-act="ceGo" style="margin-top:12px">Create the series</button><p class="aoc-lbl" style="margin-top:10px;text-align:center" data-aoc="ceMsg">&nbsp;</p>'+
+        '<p class="aoc-small aoc-muted" style="margin-top:10px">Editing one date in a series only changes that date. A special event (a night game, a tournament, an anniversary) gets its own name, price and capacity, and can sit inside the repeating pattern or stand alone.</p>'+
+        '</div>')+
+    '</div>'+
+    '<div class="aoc-grid auto" style="margin-top:14px">'+
+      card('','<div class="aoc-bd"><span class="aoc-lbl">Publishing</span><p class="aoc-small aoc-muted" style="margin-top:6px">Each date gets its own page and its own event record, so a specific '+esc(d.calendar.regular.dayName)+' can rank in search and be quoted by an assistant.</p></div>')+
+      card('','<div class="aoc-bd"><span class="aoc-lbl">Capacity</span><p class="aoc-small aoc-muted" style="margin-top:6px">Set a cap per date. Sales stop on their own, and the site shows places remaining rather than a booked-out surprise at the gate.</p></div>')+
+      card('','<div class="aoc-bd"><span class="aoc-lbl">Members first</span><p class="aoc-small aoc-muted" style="margin-top:6px">Members can be given a head start on any date, which is most of why people pay for membership.</p></div>')+
+    '</div>';
+  const nd=new Date();nd.setDate(nd.getDate()+((7-nd.getDay())%7||7));q('[data-aoc="ceDate"]',inst.el).value=nd.toISOString().slice(0,10);
+  paintCalendar(inst); cePreview(inst);
+}
+function dateStatus(x,i){return x.tba?chip("Date TBA","warn"):i===0?chip("Next","go"):x.sample?chip("Sample event","ph"):chip("On sale","info");}
+function paintCalendar(inst){
+  const d=inst.data,m=inst.m,W=ticketFor(d,"walkon","full");
+  const rows=m.dates.slice(0,12).map((x,i)=>{const sold=x.tba||x.left==null?null:Math.max(0,x.cap-x.left);const pct=sold==null?0:Math.round(sold/x.cap*100);const avg=x.price?x.price:(W.price+W.member)/2;
+    return '<tr class="aoc-click'+(inst.sel.date===i?" on":"")+'" data-aoc-date="'+i+'"><td class="aoc-mono">'+fmtShort(x.dt)+'</td><td>'+esc(x.name)+(x.real&&!x.sample?" "+chip("Your poster","go"):"")+'</td><td style="min-width:120px">'+(sold==null?'<span class="aoc-tiny">not on sale</span>':sold+'<div class="aoc-meter"><i style="width:'+pct+'%"></i></div>')+'</td><td class="aoc-mono">'+x.cap+'</td><td class="num">'+(sold==null?"":gbp(sold*avg))+'</td><td>'+dateStatus(x,i)+'</td></tr>';}).join("");
+  q('[data-aoc="calTable"]',inst.el).innerHTML=tbl(["Date","Event","Sold","Capacity","num:Taken","Status"],rows);
+  paintCalDetail(inst);
+}
+function paintCalDetail(inst){
+  const d=inst.data,m=inst.m,x=m.dates[inst.sel.date],el=q('[data-aoc="calDetail"]',inst.el);
+  if(!x){el.innerHTML="";return;}
+  const sold=x.tba||x.left==null?0:Math.max(0,x.cap-x.left);
+  let bd="";
+  if(x.deposit){
+    const ents=(d.entrants.length?d.entrants:m.players.map(p=>p.name)).slice(0,Math.max(0,Math.min(sold||18,x.cap)));
+    const dep=ents.length*x.deposit, bal=ents.length*(x.price-x.deposit), B=d.money.bracketSize||32;
+    bd='<div class="aoc-tiles" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">'+tile("Entries",ents.length+' <small>of '+x.cap+'</small>',"",(x.cap-ents.length)+" places left")+tile("Deposits taken",gbp(dep),"",ents.length+" × "+gbp(x.deposit)+", non-refundable")+tile("Balance due",gbp(bal),"key",ents.length+" × "+gbp(x.price-x.deposit)+" on the day")+(x.prize?tile("Bracket",B+' <small>slots</small>',"",ents.length+" in, "+Math.max(0,B-ents.length)+" byes if it stays there"):"")+'</div>'+
+      '<p class="aoc-small aoc-muted">'+esc(x.detail)+'</p><div class="aoc-row" style="margin-top:12px">'+(x.prize?'<button class="aoc-btn g sm" data-aoc-act="draw">Draw round one</button>':"")+'<button class="aoc-btn g sm" data-aoc-act="msgEntrants">Message all entrants</button></div><p class="aoc-tiny" data-aoc="evNote" style="margin-top:8px"></p><div data-aoc="bracket" style="margin-top:12px" hidden></div>'+
+      '<p class="aoc-lbl" style="margin:16px 0 8px">Entrants</p>'+tbl(["Name","num:Deposit","num:Balance","Status"],ents.map((n,i)=>'<tr><td>'+esc(n)+'</td><td class="num">'+gbp(x.deposit)+'</td><td class="num">'+gbp(x.price-x.deposit)+'</td><td>'+(i%5===3?chip("Form unsigned","warn"):chip("Deposit paid","go"))+'</td></tr>').join(""));
+  }else if(x.off){
+    const off=Math.round((1-x.off)*100);
+    bd='<div class="aoc-tiles" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">'+tile("Booked",sold+' <small>of '+x.cap+'</small>')+tile("Discount",off+"%","key",esc(x.offLabel||"off every fare that day"))+(x.prizes?tile("Prizes","0 <small>of "+x.prizes+"</small>","","named so far"):"")+'</div>'+
+      '<p class="aoc-small aoc-muted">'+esc(x.detail)+'</p><p class="aoc-lbl" style="margin:14px 0 6px">The fares that day, applied by the site so nobody asks at the gate</p>'+
+      d.tickets.map(t=>kv(esc(t.label),gbp(Math.round(t.price*x.off))+' <s style="color:var(--aoc-text-3)">'+gbp(t.price)+'</s>')).join("")+
+      '<div class="aoc-row" style="margin-top:12px"><button class="aoc-btn g sm" data-aoc-act="postEvent">Post to Facebook</button><button class="aoc-btn g sm" data-aoc-act="mailMembers">Email every member</button></div><p class="aoc-tiny" data-aoc="evNote" style="margin-top:8px"></p>';
+  }else{
+    bd='<div class="aoc-tiles" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">'+tile("Booked",x.tba?"0":sold+' <small>of '+x.cap+'</small>',"",x.tba?"date not announced yet":x.left+" places left")+tile("Times",x.tba?"TBA":(x.times||d.calendar.times).join(" · "),"",d.calendar.timesSample?"sample times":"")+tile("From",gbp(x.price||ticketFor(d,"walkon","full").price),"key",x.price?"entry":d.labels.walkon.toLowerCase())+'</div>'+
+      '<p class="aoc-small aoc-muted">'+esc(x.detail||d.calendar.regular.detail)+'</p><div class="aoc-row" style="margin-top:12px"><button class="aoc-btn g sm" data-aoc-act="msgBooked">Message everyone booked</button>'+(x.tba?'<button class="aoc-btn g sm" data-aoc-act="setDate">Set the date</button>':'<button class="aoc-btn g sm" data-aoc-act="closeSales">Close sales</button>')+'</div><p class="aoc-tiny" data-aoc="evNote" style="margin-top:8px"></p>';
+  }
+  el.innerHTML=card('<h3>'+fmtLong(x.dt)+' · '+esc(x.name)+'</h3><span class="aoc-sp"></span>'+dateStatus(x,inst.sel.date),'<div class="aoc-bd">'+bd+'</div>');
+}
+function cePreview(inst){
+  const DOW=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const g=k=>q('[data-aoc="'+k+'"]',inst.el); if(!g("cePrev"))return 0;
+  const start=g("ceDate").value?new Date(g("ceDate").value+"T09:00"):new Date();
+  const step=+g("ceRep").value, count=step?Math.min(40,Math.max(1,+g("ceCount").value||1)):1;
+  const out=[];for(let i=0;i<count;i++){const x=new Date(start);x.setDate(start.getDate()+i*step);out.push(x);}
+  g("ceCount").disabled=!step;
+  g("cePrev").innerHTML='<table class="aoc-t"><tbody>'+out.map(x=>'<tr><td class="aoc-mono" style="width:112px">'+DOW[x.getDay()]+" "+x.getDate()+" "+MON[x.getMonth()]+'</td><td>'+esc(g("ceName").value||"Event")+'</td><td style="width:74px">'+(g("ceDraft").checked?chip("Draft"):chip("On sale","go"))+'</td></tr>').join("")+'</tbody></table>';
+  return out.length;
+}
+
+/* ---------- Customers ---------- */
+function drawCustomers(inst){
+  const d=inst.data,m=inst.m,r=rng(seedFrom(d.business.name+"cust"));
+  const onFile=Math.max(m.players.length*9,120+Math.floor(r()*400)), played=Math.round(onFile*0.35), opt=Math.round(onFile*0.62);
+  m.customers=onFile;
+  body(inst,"customers").innerHTML=head("Customers","Yours, not a booking platform's",'<button class="aoc-btn g" data-aoc-act="export">Export</button><button class="aoc-btn p" data-aoc-act="emailList">Email the list</button>')+
+    '<div class="aoc-tiles">'+tile("On file",onFile.toLocaleString("en-GB"),"","every player who has ever booked")+tile("Played this year",played.toLocaleString("en-GB"))+tile("Members",(d.membership.count||0).toLocaleString("en-GB"),"key",d.membership.published?"paying "+gbp(d.membership.price)+" a "+d.membership.per:"membership is proposed")+tile("Marketing opt-in",opt.toLocaleString("en-GB"),"","asked at the checkout, kept on record")+'</div>'+
+    card('',tbl(["Name","Visits","Last on site","Safety form","Member","num:Lifetime spend"],m.players.slice(0,12).map((p,i)=>'<tr><td>'+esc(p.name)+'</td><td class="aoc-mono">'+(2+(i*3)%14)+'</td><td class="aoc-mono">'+["17 Aug","3 Aug","20 Jul","6 Jul","22 Jun"][i%5]+'</td><td>'+(p.waiver?chip("Valid","go"):chip("Expired","warn"))+'</td><td>'+(p.member?chip("Member","brand"):chip("No"))+'</td><td class="num">'+gbp(60+((i*97)%520))+'</td></tr>').join("")))+
+    '<p class="aoc-lbl" style="margin-top:10px">One record per player: bookings, safety form, membership, pre-orders and what they spent. It is the thing a ticket platform keeps and you never see.</p>';
+}
+
+/* ---------- Members ---------- */
+function drawMembers(inst){
+  const d=inst.data,m=inst.m,M=d.membership,W=ticketFor(d,"walkon","full"),H=ticketFor(d,"hire","full");
+  const per=M.per==="month"?"a month":"a year";
+  const title=M.published?"Your "+gbp(M.price)+" "+(M.per==="month"?"month":"year")+", "+esc(M.year):"A proposed membership: "+gbp(M.price)+" "+per;
+  body(inst,"members").innerHTML=head("Members",title,'<button class="aoc-btn g" data-aoc-act="export">Export</button><button class="aoc-btn p" data-aoc-act="renewAll">Renew all by email</button>')+
+    '<div class="aoc-tiles" data-aoc="memTiles"></div>'+
+    '<div class="aoc-grid two">'+
+      card('<h3>Everyone on a plan</h3><span class="aoc-sp"></span><select class="aoc-f" data-aoc="memFilter" style="width:170px"><option value="all">All plans</option><option value="member">Membership</option><option value="lapsed">Lapsed</option></select>','<div data-aoc="memTable"></div>')+
+      '<div class="aoc-stack">'+
+        card('<h3>Plans</h3><span class="aoc-sp"></span><button class="aoc-btn g sm" data-aoc-act="editPlans">Edit plans</button>','<div class="aoc-bd" data-aoc="plans"></div>')+
+        card('<h3>Renewal run</h3><span class="aoc-sp"></span>'+chip("One email, one pay link","brand"),'<div class="aoc-bd"><p class="aoc-small aoc-muted">Goes out on '+esc(M.renewMonth)+' with a card link for the next '+(M.per==="month"?"month":"year")+'. Anyone who pays is a member from the day it starts without you touching it. Anyone who does not gets one nudge and then drops to non-member fares.</p><div style="margin-top:12px">'+kv("Queued",'<span data-aoc="queued">0</span>')+kv("Paid so far",'<span data-aoc="renewed">0</span>')+kv("Expected at last year\'s rate",Math.round((M.count||0)*0.75)+" of "+(M.count||0))+'</div><p class="aoc-tiny" data-aoc="renewMsg" style="margin-top:8px"></p></div>')+
+        card('<h3>Failed payments</h3><span class="aoc-sp"></span>'+chip("Needs a nudge","stop"),'<div class="aoc-bd" data-aoc="dun"></div><div class="aoc-bd"><p class="aoc-small aoc-muted">The system retries on its own three times over ten days and emails a link to update the card. Only what is still failing after that appears here.</p></div>')+
+        card('<h3>Why they join</h3>','<div class="aoc-bd"><p class="aoc-small aoc-muted">'+(W.price>W.member?esc(d.labels.walkon)+" "+gbp(W.price)+" against "+gbp(W.member)+(H&&H.price>H.member?", "+esc(d.labels.hire.toLowerCase())+" "+gbp(H.price)+" against "+gbp(H.member):"")+": "+gbp(W.price-W.member)+" saved every "+esc(d.labels.full)+". The site now does that sum at the moment somebody is paying, which is where the members in this sample came from.":"No member rate is published, so the site cannot yet show anyone what joining saves. Set one in Settings and the board, the checkout and this panel change with it.")+'</p><div style="margin-top:12px">'+kv("Joined at the checkout this year",Math.round((M.count||0)*0.37))+kv("Renewed from last year",Math.round((M.count||0)*0.63))+kv("Pro-rated joins",'0 <span class="aoc-tiny">(proposed)</span>')+'</div></div>')+
+      '</div>'+
+    '</div>';
+  paintMembers(inst);
+}
+function memberRows(inst){
+  const d=inst.data,m=inst.m,W=ticketFor(d,"walkon","full");
+  const disc=Math.max(0,W.price-W.member);
+  const src=d.members.length?d.members:m.players.filter(p=>p.member).slice(0,10).map((p,i)=>[p.name,["1 Mar","14 Apr","2 Jun","19 Jul","3 Sep"][i%5],3+(i*5)%16,0]);
+  return src.map((r,i)=>({name:r[0],since:r[1],visits:+r[2]||0,saved:(+r[2]||0)*disc,status:i%9===7?"past_due":i%11===10?"lapsed":"active"}));
+}
+function paintMembers(inst){
+  const d=inst.data,m=inst.m,M=d.membership,rows=memberRows(inst),f=(q('[data-aoc="memFilter"]',inst.el)||{}).value||"all";
+  const live=rows.filter(r=>r.status!=="lapsed"),fails=rows.filter(r=>r.status==="past_due"),count=M.count||live.length;
+  const rev=count*M.price*(M.per==="month"?12:1);
+  q('[data-aoc="memTiles"]',inst.el).innerHTML=tile("Members",count.toLocaleString("en-GB"),"","on the books today")+tile(M.per==="month"?"Monthly recurring":"Membership this year",gbp(M.per==="month"?count*M.price:rev),"key",count+" × "+gbp(M.price))+tile("Renewals due",count.toLocaleString("en-GB"),"","from "+esc(M.renewMonth)+", no email sent yet")+tile("Payments failed",fails.length,fails.length?"alert":"good",fails.length?"card declined at renewal":"nothing failing")+tile("Lapsed this year",rows.filter(r=>r.status==="lapsed").length,"","dropped to non-member fares");
+  const ST={active:["go","Active"],past_due:["stop","Payment failed"],lapsed:["","Lapsed"]};
+  q('[data-aoc="memTable"]',inst.el).innerHTML=tbl(["Name","Since","Visits this year","num:Saved","Status"],rows.filter(r=>f==="all"||(f==="member"&&r.status!=="lapsed")||(f==="lapsed"&&r.status==="lapsed")).map(r=>'<tr><td>'+esc(r.name)+'</td><td class="aoc-mono">'+esc(r.since)+'</td><td class="aoc-mono">'+r.visits+'</td><td class="num">'+gbp(r.saved)+'</td><td>'+chip(ST[r.status][1],ST[r.status][0])+'</td></tr>').join(""));
+  q('[data-aoc="plans"]',inst.el).innerHTML=m.plans.map(p=>kv('<b>'+esc(p.name)+'</b>'+(p.kind==="free"?": free account":p.kind==="block"?": "+gbp(p.price)+" once":": "+gbp(p.price)+" a "+(p.per==="month"?"month":"year"))+'<br><span class="aoc-lbl">'+esc(p.note||"")+(p.status!=="Live"?" · "+p.status.toLowerCase()+", not on sale":"")+'</span>',(p.members||0).toLocaleString("en-GB"))).join("");
+  q('[data-aoc="dun"]',inst.el).innerHTML=fails.length?fails.map(r=>'<div class="aoc-kv"><span><b>'+esc(r.name)+'</b><br><span class="aoc-lbl">retry 2 of 3 · next tomorrow</span></span><button class="aoc-btn g sm" data-aoc-act="cardLink">Send a card link</button></div>').join(""):'<p class="aoc-go-c"><b>Nothing failing.</b></p>';
+}
+
+/* ---------- the plan editor (a modal): is a plan worth buying, and what is it worth to you ---------- */
+function planWorth(p,sessions,TICKET){
+  if(p.kind==="free")return {pays:0,gets:0};
+  if(p.kind==="block")return {pays:p.price,gets:(p.days||0)*TICKET};
+  const pays=p.per==="year"?p.price/12:p.price;
+  const gets=p.unlim?sessions*TICKET:sessions*((+p.disc||0)+(+p.bbs||0))+(+p.guests||0)*10;
+  return {pays,gets};
+}
+function openPlans(inst){
+  const d=inst.data;
+  let modal=q(".aoc-modal",inst.el);
+  if(!modal){
+    modal=document.createElement("div");modal.className="aoc-modal";modal.setAttribute("aria-hidden","true");
+    modal.innerHTML='<div class="aoc-box" role="dialog" aria-label="Edit plans"><header><h2 style="flex:1">Plans</h2>'+chip('<span data-aoc="freqChip"></span>')+'<button class="aoc-btn g sm" data-aoc-act="closePlans">Close</button></header>'+
+      '<div class="aoc-body"><div class="aoc-list" data-aoc="planList"></div><div class="aoc-edit"><div>'+
+      '<div class="aoc-fld"><span class="aoc-lbl">Name</span><input class="aoc-f" data-aoc="pName"></div>'+
+      '<div class="aoc-grid" style="grid-template-columns:1.4fr 1fr 1fr;gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Type</span><select class="aoc-f" data-aoc="pKind">'+opt([["free","Free account"],["sub","Subscription"],["block","Prepaid block of days"]])+'</select></div><div class="aoc-fld"><span class="aoc-lbl">Price £</span><input class="aoc-f aoc-mono" data-aoc="pPrice" type="number" min="0" step="1"></div><div class="aoc-fld" data-aoc="pPerWrap"><span class="aoc-lbl">Billed</span><select class="aoc-f" data-aoc="pPer">'+opt([["month","month"],["year","year"]])+'</select></div></div>'+
+      '<div data-aoc="subFields"><p class="aoc-lbl" style="margin:6px 0 8px">What a member gets, every session</p><div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">£ off the ticket</span><input class="aoc-f aoc-mono" data-aoc="pDisc" type="number" min="0" step="1"></div><div class="aoc-fld"><span class="aoc-lbl">Consumables included £</span><input class="aoc-f aoc-mono" data-aoc="pBbs" type="number" min="0" step="1"></div></div><div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Guest passes a month</span><input class="aoc-f aoc-mono" data-aoc="pGuest" type="number" min="0" step="1"></div><div class="aoc-fld"><span class="aoc-lbl">Early booking (hours)</span><input class="aoc-f aoc-mono" data-aoc="pEarly" type="number" min="0" step="12"></div></div>'+
+      '<label class="aoc-row" style="gap:9px;font-size:14.5px;cursor:pointer;margin-bottom:12px;flex-wrap:nowrap;align-items:flex-start"><input type="checkbox" data-aoc="pUnlim" style="accent-color:var(--aoc-brand);margin-top:3px;flex:none"><span><b>Play as often as they like</b>: no ticket charge at all</span></label></div>'+
+      '<div data-aoc="blockFields" hidden><div class="aoc-fld" style="max-width:200px"><span class="aoc-lbl">Days in the block</span><input class="aoc-f aoc-mono" data-aoc="pDays" type="number" min="1" step="1"></div></div>'+
+      '<div class="aoc-fld" style="max-width:220px"><span class="aoc-lbl">Status</span><select class="aoc-f" data-aoc="pStatus">'+opt([["Live","Live"],["Proposed","Proposed"],["Draft","Draft"],["Retiring","Retiring"]])+'</select></div>'+
+      '<div class="aoc-row" style="margin-top:6px"><button class="aoc-btn p" data-aoc-act="pSave">Save the plan</button><button class="aoc-btn g" data-aoc-act="pNew">New plan</button><span class="aoc-lbl aoc-go-c" data-aoc="pMsg"></span></div>'+
+      '</div><div><div class="aoc-verdict" data-aoc="verdict" style="margin-bottom:14px"></div>'+
+      card('<h3>Is it worth buying?</h3>','<div class="aoc-bd"><div data-aoc="worth"></div><p class="aoc-lbl" style="margin-top:10px" data-aoc="worthNote"></p></div>')+
+      '<div style="height:14px"></div>'+card('<h3>What it is worth to you</h3>','<div class="aoc-bd" data-aoc="biz"></div>')+
+      '</div></div></div></div>';
+    inst.el.appendChild(modal);
+    modal.addEventListener("click",e=>{if(e.target===modal)closePlans(inst);});
+    qa("[data-aoc]",modal).forEach(el=>{if(/^p[A-Z]/.test(el.dataset.aoc)&&el.tagName!=="SPAN"&&el.tagName!=="DIV"){el.addEventListener("input",()=>{syncKind(inst);scorePlan(inst);paintPlanList(inst);});el.addEventListener("change",()=>{syncKind(inst);scorePlan(inst);paintPlanList(inst);});}});
+  }
+  const sessions=inst.m.sessionsPerMonth;
+  q('[data-aoc="freqChip"]',modal).textContent=d.calendar.regular.dayName+"s run "+(sessions>=4?"weekly":"fortnightly")+": "+sessions+" sessions a month";
+  modal.classList.add("on");modal.setAttribute("aria-hidden","false");
+  loadPlan(inst,inst.sel.plan||inst.m.plans[0].id);
+}
+function closePlans(inst){const modal=q(".aoc-modal",inst.el);if(modal){modal.classList.remove("on");modal.setAttribute("aria-hidden","true");}}
+function paintPlanList(inst){
+  const T=ticketFor(inst.data,"walkon","full").price,S=inst.m.sessionsPerMonth;
+  q('[data-aoc="planList"]',inst.el).innerHTML=inst.m.plans.map(p=>{const w=planWorth(p,S,T);const tone=p.kind==="free"?"":w.gets>w.pays*1.2?"go":w.gets>=w.pays?"warn":"stop";
+    return '<button class="'+(p.id===inst.sel.plan?"on":"")+'" data-aoc-plan="'+p.id+'"><b>'+esc(p.name)+'</b><span>'+(p.kind==="free"?"Free":p.kind==="block"?gbp(p.price)+" · "+p.days+" days":gbp(p.price)+"/"+p.per)+" · "+(p.members||0)+'</span>'+(tone?'<br>'+chip(tone==="go"?"Worth buying":tone==="warn"?"Barely":"Costs them money",tone):"")+'</button>';}).join("");
+}
+function loadPlan(inst,id){
+  inst.sel.plan=id;const p=inst.m.plans.find(x=>x.id===id)||inst.m.plans[0];const g=k=>q('[data-aoc="'+k+'"]',inst.el);
+  g("pName").value=p.name;g("pKind").value=p.kind;g("pPrice").value=p.price||0;g("pPer").value=p.per||"month";g("pDisc").value=p.disc||0;g("pBbs").value=p.bbs||0;g("pGuest").value=p.guests||0;g("pEarly").value=p.early||0;g("pUnlim").checked=!!p.unlim;g("pDays").value=p.days||10;g("pStatus").value=p.status||"Live";
+  paintPlanList(inst);syncKind(inst);scorePlan(inst);
+}
+function syncKind(inst){const g=k=>q('[data-aoc="'+k+'"]',inst.el);const k=g("pKind").value;g("subFields").hidden=k!=="sub";g("blockFields").hidden=k!=="block";g("pPerWrap").style.display=k==="sub"?"":"none";g("pPrice").disabled=k==="free";const u=g("pUnlim").checked;g("pDisc").disabled=u;g("pBbs").disabled=u;}
+function draftPlan(inst){const g=k=>q('[data-aoc="'+k+'"]',inst.el);const cur=inst.m.plans.find(x=>x.id===inst.sel.plan)||{};return {id:inst.sel.plan,name:g("pName").value,kind:g("pKind").value,price:+g("pPrice").value||0,per:g("pPer").value,disc:+g("pDisc").value||0,bbs:+g("pBbs").value||0,guests:+g("pGuest").value||0,early:+g("pEarly").value||0,unlim:g("pUnlim").checked,days:+g("pDays").value||0,status:g("pStatus").value,members:cur.members||0,note:cur.note||""};}
+function scorePlan(inst){
+  const d=inst.data,p=draftPlan(inst),T=ticketFor(d,"walkon","full").price,S=inst.m.sessionsPerMonth,g=k=>q('[data-aoc="'+k+'"]',inst.el);
+  const rows=[1,2,3,4].filter(n=>n<=Math.max(S,2)).map(n=>{const w=planWorth(p,n,T);return {n,pays:w.pays,gets:w.gets,net:w.gets-w.pays};});
+  g("worth").innerHTML=tbl(["Sessions a month","num:They pay","num:They get","num:Better off by"],p.kind==="block"
+    ?'<tr><td>'+p.days+' days, whenever they like</td><td class="num">'+gbp(p.price)+'</td><td class="num">'+gbp(p.days*T)+'</td><td class="num '+(p.days*T>p.price?"aoc-go-c":"aoc-stop-c")+'">'+gbpS(p.days*T-p.price)+'</td></tr>'
+    :rows.map(r=>'<tr><td>'+r.n+(r.n>S?' '+chip("not possible","stop"):"")+'</td><td class="num">'+gbp(r.pays)+'</td><td class="num">'+gbp(r.gets)+'</td><td class="num '+(r.net>0?"aoc-go-c":r.net===0?"aoc-warn-c":"aoc-stop-c")+'">'+gbpS(r.net)+'</td></tr>').join(""));
+  g("worthNote").textContent="Against a "+gbp(T)+" "+d.labels.walkon.toLowerCase()+" ticket, "+(p.kind==="sub"&&p.per==="year"?"the price spread over twelve months":"per month");
+  const v=g("verdict");
+  if(p.kind==="free"){v.className="aoc-verdict go";v.innerHTML='<h4>Nothing to lose</h4><p class="aoc-small">A free account costs nobody anything and gets the safety form on file. Every other plan is sold from inside it.</p>';}
+  else if(p.kind==="block"){const save=p.days*T-p.price,per=p.price/(p.days||1);v.className="aoc-verdict "+(save>0?"go":"stop");v.innerHTML='<h4>'+(save>0?"Worth buying":"Costs more than paying per day")+'</h4><p class="aoc-small">'+gbp(per)+' a day against '+gbp(T)+'. They save '+gbp(Math.abs(save))+' over the block, and you have the money at the start of the season rather than a day at a time. No monthly billing, no failed cards, nobody to win back.</p>';}
+  else{const w2=planWorth(p,S,T),monthly=p.per==="year"?p.price/12:p.price,perS=p.unlim?T:(+p.disc||0)+(+p.bbs||0),be=perS>0?(monthly-(+p.guests||0)*10)/perS:Infinity;
+    if(w2.gets>w2.pays*1.2){v.className="aoc-verdict go";v.innerHTML='<h4>Worth buying</h4><p class="aoc-small">At '+S+' sessions a month a member is '+gbp(w2.gets-w2.pays)+' better off. Break-even lands at '+(be<=0?"the first session":be.toFixed(1)+" sessions a month")+', which is inside what your calendar offers.</p>';}
+    else if(w2.gets>=w2.pays){v.className="aoc-verdict warn";v.innerHTML='<h4>Barely worth it</h4><p class="aoc-small">A member who plays every single running day is only '+gbp(w2.gets-w2.pays)+' better off, and anyone who misses one is out of pocket. People work this out and cancel.</p>';}
+    else{v.className="aoc-verdict stop";v.innerHTML='<h4>This costs members money</h4><p class="aoc-small">Break-even needs '+(be===Infinity?"more value than the plan gives":be.toFixed(1)+" sessions a month")+', and only '+S+' exist. Even playing every running day they are '+gbp(w2.pays-w2.gets)+' down. Do not sell this: a discount capped by how often you open cannot beat the fee.</p>';}}
+  const w=planWorth(p,S,T),mrr=p.kind==="sub"?(p.per==="year"?p.price/12:p.price):0;
+  g("biz").innerHTML=(p.kind==="block"?kv("Cash up front",gbp(p.price))+kv("Tickets given up",gbp(p.days*T))+kv("Discount you are giving",gbp(p.days*T-p.price))+kv("Paid before they play",'<span class="aoc-go-c">Yes</span>')
+    :p.kind==="free"?kv("Accounts",(p.members||0).toLocaleString("en-GB"))+kv("Revenue","None directly")+kv("Worth","Forms, history, a list")
+    :kv("Per member, per month",gbp(mrr))+kv("Value handed over",gbp(w.gets))+kv("Net to you",'<span class="'+(mrr-w.gets>=0?"aoc-go-c":"aoc-stop-c")+'">'+gbpS(mrr-w.gets)+'</span>')+kv("At "+(p.members||0)+" members",gbp(mrr*(p.members||0))+"/mo"))+
+    '<p class="aoc-tiny" style="margin-top:10px">Our platform fee applies to whatever the plan collects.</p>';
+}
+
+/* ---------- Money ---------- */
+function drawMoney(inst){
+  const d=inst.data,m=inst.m,MO=d.money,W=ticketFor(inst.data,"walkon","full");
+  const lines=MO.lines.length?MO.lines:[[d.labels.walkon+" tickets",m.players.filter(p=>p.kind==="walkon").length+" players, paid ahead",m.players.filter(p=>p.kind==="walkon").reduce((a,p)=>a+p.price,0)*3],[d.labels.hire,"booked and paid before the day",m.players.filter(p=>p.kind==="hire").reduce((a,p)=>a+p.price,0)*3],["Membership",MO.joinedToday+" joined at the checkout",MO.joinedToday*d.membership.price],["Pre-orders",d.preorders.map(p=>p.label.toLowerCase()).join(", "),m.preTotal*3],["Vouchers","switched off in this proposal",0]];
+  const total=lines.reduce((a,l)=>a+(+l[2]||0),0), pf=Math.round(total*(MO.platformFeePct||0.02)), cardFee=MO.cardFees||Math.round(total*0.015+total/W.price*0.2);
+  const payouts=MO.payouts.length?MO.payouts:[["Last "+d.calendar.regular.dayName,"two days later",Math.round(total*0.3),"paid"],["The one before","two days later",Math.round(total*0.34),"paid"],["Next "+d.calendar.regular.dayName,"two days after",0,"expected"]];
+  const nextPay=payouts.find(p=>p[3]!=="paid")||payouts[payouts.length-1];
+  const kindName=d.wedge.kind==="platform"&&d.wedge.name?d.wedge.name:"";
+  const onTicket=Math.round((W.price*0.015+0.2+W.price*(MO.platformFeePct||0.02))*100)/100;
+  const platTake=kindName?Math.round((W.price*(d.wedge.feePct||0)/100+(d.wedge.feePer||0))*100)/100:0;
+  body(inst,"money").innerHTML=head("Money","Paid straight into your own Stripe account, line by line",'<button class="aoc-btn g" data-aoc-act="export">Export</button>')+
+    '<div class="aoc-tiles">'+tile("Taken this month",gbp(total),"key","so far, across every line")+tile("Next payout",gbp(nextPay[2]||Math.round(total*0.3)),"good",esc(nextPay[0])+", "+esc(nextPay[1]))+tile("Card fees",gbp(cardFee),"","roughly 1.5% plus 20p, unavoidable")+tile("Platform fee",gbp(pf),"",Math.round((MO.platformFeePct||0.02)*100)+"% of everything collected")+'</div>'+
+    '<div class="aoc-grid two">'+
+      '<div class="aoc-stack">'+card('<h3>Takings by line, this month so far</h3>',tbl(["Line","What it was","num:Amount"],lines.map(l=>'<tr><td>'+esc(l[0])+'</td><td class="aoc-tiny">'+esc(l[1])+'</td><td class="num">'+(l[2]?gbp(l[2]):'<span class="aoc-tiny">nil</span>')+'</td></tr>').join("")+'<tr><td><b>Total</b></td><td></td><td class="num"><b>'+gbp(total)+'</b></td></tr>')+'<div class="aoc-bd"><p class="aoc-tiny">Vouchers are in the proposal but switched off, so the line reads nil until you say yes.</p></div>')+
+        card('<h3>Card against cash</h3>','<div class="aoc-bd"><span class="aoc-lbl">How you take it today</span><div class="aoc-bar"><i class="cash" style="width:100%"></i></div><span class="aoc-tiny">'+esc(d.settings.todayTake)+' 100%, card 0%. Counted at the gate, reconciled by hand.</span><div style="margin-top:14px"><span class="aoc-lbl">A '+esc(d.calendar.regular.dayName)+' in this proposal</span><div class="aoc-bar"><i class="card" style="width:88%"></i><i class="cash" style="width:12%"></i></div><span class="aoc-tiny">Card 88% before the gates open, cash 12% from walk-ups on the day. Nothing stops you taking cash from a walk-up. The point is that the memberships, the deposits and the pre-orders arrive before anyone has parked.</span></div></div>')+'</div>'+
+      '<div class="aoc-stack">'+card('<h3>Stripe payouts</h3>',tbl(["Covering","Paid on","num:Amount","Status"],payouts.map(p=>'<tr><td>'+esc(p[0])+'</td><td class="aoc-mono">'+esc(p[1])+'</td><td class="num">'+(p[2]?gbp(p[2]):"")+'</td><td>'+(p[3]==="paid"?chip("Paid","go"):chip(p[3],"info"))+'</td></tr>').join(""))+'<div class="aoc-bd"><p class="aoc-tiny">Stripe pays out on a rolling schedule you set once. The days shown are sample.</p></div>')+
+        card('<h3>What it costs to take money</h3>','<div class="aoc-bd">'+kv("Card processing","1.5% + 20p")+kv("Platform fee",Math.round((MO.platformFeePct||0.02)*100)+"% of everything collected")+kv("Total on a "+gbp(W.price)+" ticket",gbp2(onTicket))+(kindName?kv("What "+esc(kindName)+" takes on the same ticket",'<span class="aoc-stop-c">'+gbp2(platTake)+(d.wedge.paysBy==="customer"?", added at the checkout":"")+'</span>'):kv("What you pay today","Nothing, and nothing arrives before the day"))+kv("Applies to",'<span class="wrap">Tickets, membership, pre-orders, deposits</span>',"wrap")+'<p class="aoc-small aoc-muted" style="margin-top:12px">Refunds return the platform fee. Money arrives within days of the booking, not after the event.</p></div>')+'</div>'+
+    '</div>';
+}
+
+/* ---------- Stock and pre-orders ---------- */
+function drawStock(inst){
+  const d=inst.data,m=inst.m,S=m.stock;
+  let low=0,res=0,value=0;
+  const rows=S.map(p=>{const free=p.onHand-p.reserved;res+=p.reserved;value+=p.onHand*p.price;const isLow=free<=p.reorder;if(isLow)low++;
+    return '<tr><td>'+esc(p.item)+'</td><td class="aoc-lbl">'+esc(p.soldAs)+'</td><td class="num">'+gbp2(p.price)+'</td><td class="num">'+gbp2(p.member)+'</td><td class="num">'+p.onHand+'</td><td class="num">'+(p.reserved||'<span class="aoc-tiny">none</span>')+'</td><td class="num"><b>'+free+'</b></td><td>'+(isLow?chip("Order more","stop"):chip("Fine","go"))+'</td></tr>';}).join("");
+  const pick=[];d.preorders.forEach(p=>{m.players.filter(x=>x.pre.includes(p.key)).slice(0,3).forEach((x,i)=>pick.push([p.label,firstName(x.name)[0]+". "+x.name.split(" ").slice(-1)[0],1,i===0]));});
+  body(inst,"shop").innerHTML=head("Stock and pre-orders","You cannot sell a consumable online without knowing you have it",'<button class="aoc-btn g" data-aoc-act="stockTake">Stock take</button><button class="aoc-btn p" data-aoc-act="delivery">Receive a delivery</button>')+
+    '<div class="aoc-tiles">'+tile("Stock on hand",gbp(value),"","at selling price")+tile("Below reorder level",low,low?"alert":"good")+tile("Reserved by pre-orders",res,"","off the shelf the moment they paid")+tile("Sold this month",gbp(Math.round(m.preTotal*3.4)),"good","pre-orders and on the day")+'</div>'+
+    card('<h3>Products</h3><span class="aoc-sp"></span>'+chip("Free stock = on hand, minus what is already promised")+'<button class="aoc-btn p sm" data-aoc-act="addProduct">Add a product</button>',tbl(["Item","Sold as","num:Price","num:Member","num:On hand","num:Reserved","num:Free","Status"],rows))+
+    '<div class="aoc-grid two" style="margin-top:14px">'+
+      card('<h3>To pick before '+esc(d.calendar.regular.dayName)+'</h3><span class="aoc-sp"></span>'+chip(d.preorders.reduce((a,p)=>a+p.n,0)+" items paid for","brand")+'<button class="aoc-btn g sm" data-aoc-act="printPick">Print picking list</button>','<div data-aoc="pre">'+d.preorders.map(p=>'<div class="aoc-kv" data-aoc-pre="'+esc(p.key)+'"><span><b>'+p.n+' × '+esc(p.label)+'</b><br><span class="aoc-lbl">'+p.n+' × '+gbp2(p.price)+', name on the bag</span></span><button class="aoc-btn g sm" data-aoc-act="bag" data-key="'+esc(p.key)+'">Bagged</button></div>').join("")+'</div>'+tbl(["Item","For","num:Qty","Picked"],pick.map(r=>'<tr><td>'+esc(r[0])+'</td><td>'+esc(r[1])+'</td><td class="num">'+r[2]+'</td><td>'+(r[3]?chip("Picked","go"):chip("Waiting","warn"))+'</td></tr>').join(""))+'<div class="aoc-bd"><p class="aoc-small aoc-muted">Pre-ordered items are picked, bagged with the player\'s name and handed over at the safe zone. The stock came off the shelf the moment they paid, so it cannot be sold twice. Pre-orders this '+esc(d.calendar.regular.dayName)+': <b class="aoc-mono">'+gbp(m.preTotal)+'</b>, none of it counted in cash.</p></div>')+
+      card('<h3>Stock movements</h3>',tbl(["When","Item","What happened","num:Change"],[["Today 09:14",S[0]?S[0].item:"BBs","Issued at the safe zone","-3","stop"],["Today 08:52",S[1]?S[1].item:"Gas","Issued at the safe zone","-1","stop"],["Fri 16:30",S[0]?S[0].item:"BBs","Delivery received","+20","go"],["Thu 21:06",S[2]?S[2].item:"Lunch","Pre-ordered online","Reserved 2",""],["Wed 12:40",S[1]?S[1].item:"Gas","Stock take correction","-2","stop"]].map(r=>'<tr><td class="aoc-mono">'+r[0]+'</td><td>'+esc(r[1])+'</td><td>'+r[2]+'</td><td class="num '+(r[4]==="stop"?"aoc-stop-c":r[4]==="go"?"aoc-go-c":"")+'">'+r[3]+'</td></tr>').join(""))+'<div class="aoc-bd"><p class="aoc-small aoc-muted">Every movement is logged, so the number on the screen and the number on the shelf stay the same, and a discrepancy has a history to look at.</p></div>')+
+    '</div>';
+}
+
+/* ---------- History ---------- */
+function drawHistory(inst){
+  const d=inst.data,m=inst.m,multi=d.business.sports.length>1;
+  body(inst,"history").innerHTML=head("History","Every day that has ever run, kept",(multi?'<select class="aoc-f" style="width:160px"><option>All sports</option>'+d.business.sports.map(s=>'<option>'+esc(s)+'</option>').join("")+'</select>':"")+'<button class="aoc-btn g" data-aoc-act="export">Export</button>')+
+    '<div class="aoc-grid two">'+card('',tbl(["Date","Event","num:Booked","num:Turned up","num:Chrono","num:Took"],m.history.map((h,i)=>'<tr class="aoc-click'+(inst.sel.hist===i?" on":"")+'" data-aoc-hist="'+i+'"><td class="aoc-mono">'+fmtDM(h.dt)+'</td><td>'+esc(h.name)+'</td><td class="num">'+h.booked+'</td><td class="num">'+h.up+(h.up<h.booked?" "+chip((h.booked-h.up)+" no-show","warn"):"")+'</td><td class="num">'+h.chrono+'</td><td class="num">'+gbp(h.took)+'</td></tr>').join("")))+'<div data-aoc="histDetail">'+card('','<div class="aoc-bd"><p class="aoc-tiny">Pick a day to see how it went.</p></div>')+'</div></div>'+
+    '<p class="aoc-lbl" style="margin-top:10px">Attendance, chrono readings, spot checks, results and takings are all kept per day: useful for an insurance question, for the argument about who won in August, and for knowing which dates are worth running again.</p>';
+}
+function paintHistDetail(inst){
+  const h=inst.m.history[inst.sel.hist];const el=q('[data-aoc="histDetail"]',inst.el);if(!h||!el)return;
+  const games=[["Domination","Red"],["Capture the flag","Blue"],["Bomb run","Red"],["Last man standing","Blue"]];
+  el.innerHTML=card('<h3>'+fmtDM(h.dt)+' · '+esc(h.name)+'</h3>','<div class="aoc-bd"><div class="aoc-tiles" style="grid-template-columns:repeat(3,1fr)">'+tile("Turned up",h.up)+tile("Took",gbp(h.took))+tile("Per head",gbp(h.took/Math.max(1,h.up)))+'</div><span class="aoc-lbl">Games</span><table class="aoc-t" style="margin:8px 0 14px"><tbody>'+games.map((g,i)=>'<tr><td class="aoc-mono">'+(i+1)+'</td><td>'+g[0]+'</td><td>'+chip(g[1],g[1]==="Red"?"stop":"info")+'</td></tr>').join("")+'</tbody></table>'+kv("Chrono readings logged",h.chrono)+kv("Spot checks",Math.round(h.chrono/6))+kv("Flagged over the limit",h.flagged)+kv("Player of the day",esc(h.pod))+'</div>');
+}
+
+/* ---------- On the field: car park, reception, chrono ---------- */
+function fillSel(inst,key,list){const s=q('[data-aoc="'+key+'"]',inst.el);if(!s)return;s.innerHTML=list.length?list.map(p=>'<option value="'+p.id+'">'+esc(p.name)+" · "+esc(p.ticket.label)+'</option>').join(""):'<option value="">Everybody is accounted for</option>';}
+function drawGate(inst){
+  body(inst,"gate").innerHTML=banner("Phase 2","The car park tablet. Not in the first build: this is what it would look like. Works offline: the day's list is held on the tablet and syncs when the signal comes back.")+
+    head("Car park","Mark people as arrived and take the registration")+
+    '<div class="aoc-grid side">'+card('','<div class="aoc-bd"><span class="aoc-lbl">Registration</span><input class="aoc-f aoc-big" data-aoc="regIn" placeholder="AB12 CDE" style="margin:8px 0 12px"><span class="aoc-lbl">Who is it?</span><select class="aoc-f" data-aoc="regWho" style="margin:8px 0 14px"></select><button class="aoc-btn p wide big" data-aoc-act="regGo">Mark arrived</button><p class="aoc-lbl" style="margin-top:12px;text-align:center" data-aoc="regMsg">&nbsp;</p></div>')+
+    card('<h3>On site</h3><span class="aoc-sp"></span><span class="aoc-chip" data-aoc="gateCount">0 vehicles</span>','<div class="aoc-tscroll" style="max-height:420px;overflow-y:auto" data-aoc="gateTable"></div>')+'</div>';
+  paintGate(inst);
+}
+function paintGate(inst){
+  const on=inst.m.players.filter(p=>p.arrived),el=q('[data-aoc="gateCount"]',inst.el);if(!el)return;
+  el.textContent=plural(on.length,"vehicle");
+  q('[data-aoc="gateTable"]',inst.el).innerHTML='<table class="aoc-t"><thead><tr><th>Reg</th><th>Name</th><th>Booking</th><th>Time</th></tr></thead><tbody>'+(on.map((p,i)=>'<tr><td class="aoc-mono">'+esc(p.reg||"")+'</td><td>'+esc(p.name)+'</td><td class="aoc-mono">'+esc(inst.m.refOf(p))+'</td><td class="aoc-mono">0'+(8+Math.floor(i/6))+":"+pad2(30+(i*4)%56)+'</td></tr>').join("")||'<tr><td colspan="4" class="aoc-tiny">Nobody has arrived yet. The gates open at '+esc((inst.data.calendar.times||[])[0]||"08:00")+'.</td></tr>')+'</tbody></table>';
+  fillSel(inst,"regWho",inst.m.players.filter(p=>!p.arrived));
+}
+function drawReception(inst){
+  const d=inst.data,kits=inst.m.players.filter(p=>p.kit);
+  body(inst,"reception").innerHTML=banner("Phase 2","The reception tablet. People scan their own pass and sign on their phone; a marshal can also check somebody in by hand. No clipboard, no queue.")+
+    head("Reception","Check in · safety form · kit issue")+
+    '<div data-aoc="scanPane"><div class="aoc-row" style="margin-bottom:14px"><button class="aoc-btn p big" data-aoc-act="scan">Scan a pass</button><input class="aoc-f" data-aoc="recSearch" placeholder="or search by name" style="width:240px"><span class="aoc-sp"></span><span class="aoc-chip" data-aoc="recCount"></span></div><div class="aoc-people" data-aoc="recList"></div></div>'+
+    '<div data-aoc="okPane" hidden><div class="aoc-bigok"><div class="aoc-tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 10 18 20 6"/></svg></div><h2 data-aoc="okName"></h2><p class="aoc-muted" data-aoc="okSub"></p><div class="aoc-row" style="justify-content:center">'+chip("Form signed","go")+'<span class="aoc-chip info" data-aoc="okKit"></span></div><button class="aoc-btn g" data-aoc-act="okNext" style="margin-top:8px">Next person</button></div></div>'+
+    card('<h3>'+esc(d.labels.hire)+' kit to issue</h3><span class="aoc-sp"></span><span class="aoc-chip" data-aoc="kitPill"></span><button class="aoc-btn g sm" data-aoc-act="kitAll">Mark all issued</button>','<div class="aoc-bd"><p class="aoc-small aoc-muted" style="margin-bottom:12px">'+kits.length+' kits booked and paid: '+kits.filter(p=>p.member).length+' member at '+gbp(ticketFor(d,"hire","full").member)+', '+kits.filter(p=>!p.member).length+' non-member at '+gbp(ticketFor(d,"hire","full").price)+'. Tick each one as it goes out.</p><div class="aoc-checks" data-aoc="kits"></div></div>','')
+    .replace('<div class="aoc-card','<div class="aoc-card" style="margin-top:14px"');
+  paintReception(inst);
+}
+function paintReception(inst){
+  const P=inst.m.players,el=q('[data-aoc="recCount"]',inst.el);if(!el)return;
+  el.textContent=P.filter(p=>p.in).length+" of "+P.length+" checked in";
+  const qs=(q('[data-aoc="recSearch"]',inst.el).value||"").toLowerCase();
+  q('[data-aoc="recList"]',inst.el).innerHTML=P.filter(p=>!qs||p.name.toLowerCase().includes(qs)).map(p=>'<button class="aoc-person'+(p.in?" done":"")+'" data-aoc-check="'+p.id+'"><span class="aoc-avatar" style="background:'+(p.in?"var(--aoc-go)":"var(--aoc-surface-2)")+';color:'+(p.in?"#fff":"var(--aoc-text-2)")+'">'+esc(p.init)+'</span><span><span class="aoc-nm">'+esc(p.name)+'</span><span class="aoc-sub">'+esc(p.ticket.label)+(p.member?", member":"")+(p.waiver?"":' · <b class="aoc-stop-c">form unsigned</b>')+(p.u18?' · under 18':'')+'</span></span></button>').join("");
+  const kits=P.filter(p=>p.kit);
+  q('[data-aoc="kitPill"]',inst.el).textContent=kits.filter(p=>p.kitOut).length+" of "+kits.length+" out";
+  q('[data-aoc="kits"]',inst.el).innerHTML=kits.map(p=>'<label class="'+(p.kitOut?"on":"")+'"><input type="checkbox" data-aoc-kit="'+p.id+'"'+(p.kitOut?" checked":"")+'><span>'+esc(firstName(p.name))+' '+esc(p.name.split(" ").slice(-1)[0][0])+'.<small>'+(p.member?"member":"non-member")+'</small></span></label>').join("");
+}
+function checkIn(inst,p){
+  p.in=true;p.arrived=true;p.reg=p.reg||REGS[p.id%REGS.length];p.waiver=true;
+  q('[data-aoc="okName"]',inst.el).textContent=p.name;
+  q('[data-aoc="okSub"]',inst.el).textContent=p.ticket.label+" · "+inst.m.refOf(p)+" · checked in at "+nowHM();
+  q('[data-aoc="okKit"]',inst.el).textContent=p.kit?inst.data.labels.hire+" kit to issue":"Own kit: to the chrono";
+  q('[data-aoc="scanPane"]',inst.el).hidden=true;q('[data-aoc="okPane"]',inst.el).hidden=false;
+  log(inst,nowHM(),"Checked in: "+p.name);repaint(inst);
+}
+function drawChrono(inst){
+  const lim=inst.m.limit;
+  body(inst,"chrono").innerHTML=banner("Phase 2","The chrono bench. Log the lowest and highest reading for each gun, and the average is what spot checks are measured against later in the day.")+
+    head("Chrono","Every gun, logged and timestamped"+(lim?" against your published limit of "+lim+" fps":". You publish no limit, so none is set here: put yours in Settings and every reading is measured against it"))+
+    '<div class="aoc-grid side">'+card('','<div class="aoc-bd"><span class="aoc-lbl">Player</span><select class="aoc-f" data-aoc="chWho" style="margin:8px 0 14px"></select><div class="aoc-grid half" style="gap:10px"><div><span class="aoc-lbl">Lowest</span><input class="aoc-f aoc-big" data-aoc="chLow" inputmode="numeric" placeholder="318" style="margin-top:6px"></div><div><span class="aoc-lbl">Highest</span><input class="aoc-f aoc-big" data-aoc="chHigh" inputmode="numeric" placeholder="331" style="margin-top:6px"></div></div><p class="aoc-lbl" style="margin:12px 0;text-align:center">Average <b class="aoc-mono" data-aoc="chAvg" style="font-size:22px;color:var(--aoc-text)">..</b> fps</p><button class="aoc-btn p wide big" data-aoc-act="chSave">Log reading</button><p class="aoc-lbl" style="margin-top:12px;text-align:center" data-aoc="chMsg">&nbsp;</p></div>')+
+    '<div class="aoc-stack">'+card('<h3>Spot check</h3><span class="aoc-sp"></span>'+chip("Mid-game","warn"),'<div class="aoc-bd"><p class="aoc-small aoc-muted" style="margin-bottom:12px">Pull a player off the field, take one reading, and it is compared to what was logged this morning.</p><div class="aoc-row"><select class="aoc-f" data-aoc="spWho" style="flex:1 1 180px;width:auto"></select><input class="aoc-f aoc-mono" data-aoc="spVal" placeholder="fps" style="width:110px"><button class="aoc-btn g" data-aoc-act="spGo">Check</button></div><div data-aoc="spOut" style="margin-top:12px"></div></div>')+
+    card('<h3>Logged today</h3>','<div class="aoc-tscroll" style="max-height:290px;overflow-y:auto" data-aoc="chTable"></div>')+'</div></div>';
+  paintChrono(inst);
+}
+function paintChrono(inst){
+  const P=inst.m.players,lim=inst.m.limit,done=P.filter(p=>p.chrono),el=q('[data-aoc="chTable"]',inst.el);if(!el)return;
+  el.innerHTML='<table class="aoc-t"><thead><tr><th>Player</th><th class="num">Low</th><th class="num">High</th><th class="num">Avg</th><th>Time</th><th>Limit</th></tr></thead><tbody>'+(done.map(p=>'<tr><td>'+esc(p.name)+'</td><td class="num">'+p.chrono.low+'</td><td class="num">'+p.chrono.high+'</td><td class="num"><b>'+Math.round((p.chrono.low+p.chrono.high)/2)+'</b></td><td class="aoc-mono">'+esc(p.chrono.t)+'</td><td>'+(lim?(p.chrono.high>lim?chip("Over","stop"):chip("Within","go")):chip("No limit set"))+'</td></tr>').join("")||'<tr><td colspan="6" class="aoc-tiny">Nothing logged yet.</td></tr>')+'</tbody></table>';
+  fillSel(inst,"chWho",P.filter(p=>!p.chrono));fillSel(inst,"spWho",done);
+}
+
+/* ---------- Game control and the screen in the safe zone ---------- */
+const MODES=[["Team deathmatch","Respawn at your base until the clock runs out"],["Domination","Three points, one clock. Hold two and it runs your way"],["Capture the flag","Their flag, your base, no respawns in the last five"],["VIP escort","One player, no gun, a long walk. Good luck"],["Last man standing","One life. The boundary shrinks every four minutes"],["Bomb run","Arm it, hold it ninety seconds, defuse it"],["King of the hill","One position, endless respawns, most time on it wins"],["Infection","One infected to start. Every hit joins them"]];
+function buildSchedule(d){
+  const t=d.calendar.times||[],g0=mins(t[0])??480,start=mins(t[1])??g0+120,end=mins(t[t.length-1])??start+360,lunch=mins(d.calendar.lunch);
+  const brief=mins(d.money.chronoTime)??Math.max(g0+30,start-30);
+  const S=[{t:hhmm(g0),label:"Gates open"},{t:hhmm(brief),label:"Chrono and safety brief"},{t:hhmm(start),label:"Game 1",g:1},{t:hhmm(start+60),label:"Game 2",g:2}];
+  const l=lunch!=null?lunch:start+120;
+  S.push({t:hhmm(l),label:"Lunch"},{t:hhmm(l+45),label:"Game 3",g:3},{t:hhmm(l+135),label:"Game 4",g:4},{t:hhmm(end),label:"Endex"});
+  return S;
+}
+function drawGameday(inst){
+  const d=inst.data;
+  body(inst,"gameday").innerHTML=banner("Phase 3","Run the day from a tablet and put it on the screen in the safe zone. Everything here writes to the same records as the rest of the console, so it is history the moment it is logged.")+
+    head("Game control","Four games, lunch in the middle, endex at "+esc(inst.m.schedule[inst.m.schedule.length-1].t)+(d.calendar.timesSample?" (sample times)":""),'<button class="aoc-btn g" data-aoc-act="spin">Spin for the next mode</button><button class="aoc-btn p" data-aoc-act="bigOpen">Open the big screen</button>')+
+    '<div class="aoc-grid three">'+card('<h3>Run of day</h3>','<div class="aoc-bd"><div class="aoc-rod" data-aoc="rod"></div><p class="aoc-lbl" style="margin-top:10px">Tap a step to jump the demo clock</p></div>')+
+    card('<h3 data-aoc="gcTitle">Game 1</h3><span class="aoc-sp"></span><span class="aoc-chip brand" data-aoc="gcMode">Not spun yet</span>','<div class="aoc-bd"><span class="aoc-lbl">Who won it?</span><div class="aoc-teams" style="margin:8px 0 16px"><button class="red" data-aoc-win="Red" aria-pressed="false">Red</button><button class="blue" data-aoc-win="Blue" aria-pressed="false">Blue</button></div><span class="aoc-lbl">Player of the match</span><select class="aoc-f" data-aoc="gcPotm" style="margin:8px 0 14px"></select><button class="aoc-btn p wide big" data-aoc-act="gcSave">Log the game</button><p class="aoc-lbl" style="margin-top:10px;text-align:center" data-aoc="gcMsg">&nbsp;</p><div class="aoc-tscroll" style="margin-top:12px" data-aoc="gcTable"></div></div>')+
+    '<div><p class="aoc-lbl" style="margin-bottom:8px">On the screen in the safe zone, right now</p><div class="aoc-preview" data-aoc="prev"></div>'+card('','<div class="aoc-bd">'+kv("Games logged",'<span data-aoc="sGames">0 of 4</span>')+kv("Red",'<span data-aoc="sRed">0</span>')+kv("Blue",'<span data-aoc="sBlue">0</span>')+'<button class="aoc-btn g wide" data-aoc-act="pod" style="margin-top:12px">Crown the player of the day</button></div>').replace('<div class="aoc-card','<div class="aoc-card" style="margin-top:12px"')+'</div></div>';
+  paintRod(inst);paintGC(inst);renderBig(inst);
+}
+function nextStep(inst){return inst.m.schedule[inst.g.phase+1]||null;}
+function toNext(inst){const n=nextStep(inst);return n?mins(n.t)*60-inst.g.simSec:0;}
+function curGame(inst){return inst.m.schedule[inst.g.phase].g||null;}
+function paintRod(inst){const el=q('[data-aoc="rod"]',inst.el);if(!el)return;el.innerHTML=inst.m.schedule.map((x,i)=>'<div class="aoc-step '+(i<inst.g.phase?"done":i===inst.g.phase?"now":"")+'" data-aoc-phase="'+i+'"><time>'+x.t+'</time><span class="aoc-dot"></span><span><b>'+esc(x.label)+'</b></span></div>').join("");}
+function screenCopy(inst){
+  const g=curGame(inst),st=inst.m.schedule[inst.g.phase],n=nextStep(inst),G=inst.g;
+  if(G.bigState==="spin")return {k:"Next game mode",m:G.spinMode?G.spinMode[0]:"Spinning",s:G.spinMode?G.spinMode[1]:"",wheel:true};
+  if(G.bigState==="result"){const last=G.games[G.games.length-1];return {k:"Game "+last.g+": "+last.mode,m:last.won+" take it",s:"Player of the match: "+last.potm,win:last.won};}
+  if(G.bigState==="pod")return {k:"Player of the day",m:G.podName||"",s:"See you next "+inst.data.calendar.regular.dayName,board:true};
+  if(st.label==="Lunch")return {k:"Lunch",m:"Back out at "+(n?n.t:""),s:"Hot food in the safe zone",cd:true};
+  if(st.label==="Endex")return {k:"Endex",m:"That's the day",s:"Chrono bench closed, safe zone open",board:true};
+  if(g)return {k:"Game "+g+" of 4",m:G.spinMode?G.spinMode[0]:"Mode to be spun",s:n?"Next up at "+n.t:"",cd:true};
+  return {k:st.label,m:n?n.label+" at "+n.t:"",s:"",cd:true};
+}
+function ensureBig(inst){
+  let big=q(".aoc-big",inst.el);
+  if(!big){big=document.createElement("div");big.className="aoc-big";big.setAttribute("aria-hidden","true");big.innerHTML='<button class="aoc-exit" data-aoc-act="bigClose">Close (Esc)</button><div class="aoc-top"><span class="aoc-logo"></span><span class="aoc-nm">'+esc(inst.brand.short||inst.brand.name)+'</span><span class="aoc-clock" data-aoc="bigClock">10:00</span></div><div class="aoc-stage" data-aoc="bigStage"></div>';inst.el.appendChild(big);}
+  return big;
+}
+function renderBig(inst){
+  const c=screenCopy(inst),prev=q('[data-aoc="prev"]',inst.el);
+  if(prev)prev.innerHTML='<span class="aoc-lbl">'+esc(c.k)+'</span><span class="aoc-mode">'+esc(c.m)+'</span>'+(c.cd?'<span class="aoc-cd">'+mmss(toNext(inst))+'</span>':'');
+  const big=q(".aoc-big",inst.el);if(!big||!big.classList.contains("on"))return;
+  q('[data-aoc="bigClock"]',big).textContent=hhmm(Math.floor(inst.g.simSec/60));
+  let html='<span class="aoc-kicker">'+esc(c.k)+'</span>';
+  html+=c.win?'<span class="aoc-winner '+c.win.toLowerCase()+'">'+esc(c.m)+'</span>':'<span class="aoc-huge">'+esc(c.m)+'</span>';
+  if(c.wheel)html+='<canvas data-aoc="wheel" width="700" height="700" role="img" aria-label="Game mode spinner"></canvas>';
+  if(c.cd)html+='<span class="aoc-count">'+mmss(toNext(inst))+'</span>';
+  if(c.s)html+='<span class="aoc-sub">'+esc(c.s)+'</span>';
+  if(c.board){const top=[...inst.m.players].sort((a,b)=>b.pts-a.pts).slice(0,5);html+='<div class="aoc-board">'+top.map((p,i)=>'<div class="aoc-lead"><span class="aoc-pos">'+(i+1)+'</span><span class="aoc-nm2">'+esc(p.name)+'</span><span class="aoc-pts">'+p.pts+'</span></div>').join("")+'</div>';}
+  q('[data-aoc="bigStage"]',big).innerHTML=html;
+  if(c.wheel)drawWheel(inst);
+}
+function drawWheel(inst){
+  const cv=q('[data-aoc="wheel"]',inst.el);if(!cv)return;
+  const x=cv.getContext("2d"),S=700,c=S/2,R=S/2-16,N=MODES.length,seg=Math.PI*2/N,G=inst.g;
+  const accent=getComputedStyle(inst.el).getPropertyValue("--aoc-brand").trim()||"#C0392B";
+  x.clearRect(0,0,S,S);
+  for(let i=0;i<N;i++){const a0=-Math.PI/2+G.rot+i*seg;x.beginPath();x.moveTo(c,c);x.arc(c,c,R,a0,a0+seg);x.closePath();x.fillStyle=(i%2)?"#141A22":"#0E131A";if(G.spinMode&&MODES[i][0]===G.spinMode[0])x.fillStyle=accent;x.fill();x.strokeStyle="#2A323D";x.lineWidth=2;x.stroke();x.save();x.translate(c,c);x.rotate(a0+seg/2);x.fillStyle="#E9ECEF";x.font='700 26px "Barlow Semi Condensed", sans-serif';x.textAlign="right";x.textBaseline="middle";x.fillText(MODES[i][0].toUpperCase(),R-26,0);x.restore();}
+  x.beginPath();x.arc(c,c,52,0,Math.PI*2);x.fillStyle="#07090C";x.fill();x.strokeStyle=accent;x.lineWidth=4;x.stroke();
+  x.fillStyle="#F1F1EE";x.font='700 22px "Barlow Semi Condensed", sans-serif';x.textAlign="center";x.textBaseline="middle";x.fillText(String(inst.brand.short||"").toUpperCase().slice(0,8),c,c+1);
+  x.beginPath();x.moveTo(c-16,6);x.lineTo(c+16,6);x.lineTo(c,40);x.closePath();x.fillStyle=accent;x.fill();
+}
+function spin(inst){
+  const G=inst.g;G.bigState="spin";openBig(inst);
+  const N=MODES.length,pick=Math.floor(inst.r()*N),target=G.rot+Math.PI*2*5+((N-pick)%N)*(Math.PI*2/N)-G.rot%(Math.PI*2),from=G.rot,t0=performance.now(),dur=inst.reduce?200:3400;
+  G.spinMode=null;renderBig(inst);
+  (function fr(t){const k=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-k,3);G.rot=from+(target-from)*e;drawWheel(inst);if(k<1)requestAnimationFrame(fr);else{G.spinMode=MODES[pick];const gm=q('[data-aoc="gcMode"]',inst.el);if(gm)gm.textContent=G.spinMode[0];renderBig(inst);log(inst,hhmm(Math.floor(G.simSec/60)),"Mode spun: "+G.spinMode[0]);}})(performance.now());
+}
+function paintGC(inst){
+  const G=inst.g,g=curGame(inst),el=q('[data-aoc="gcTitle"]',inst.el);if(!el)return;
+  el.textContent=g?"Game "+g:inst.m.schedule[G.phase].label;
+  q('[data-aoc="gcMode"]',inst.el).textContent=G.spinMode?G.spinMode[0]:"Not spun yet";
+  q('[data-aoc="gcTable"]',inst.el).innerHTML='<table class="aoc-t"><thead><tr><th>Game</th><th>Mode</th><th>Won</th><th>Player of the match</th></tr></thead><tbody>'+(G.games.map(x=>'<tr><td class="aoc-mono">'+x.g+'</td><td>'+esc(x.mode)+'</td><td>'+chip(x.won,x.won==="Red"?"stop":"info")+'</td><td>'+esc(x.potm)+'</td></tr>').join("")||'<tr><td colspan="4" class="aoc-tiny">Nothing logged yet.</td></tr>')+'</tbody></table>';
+  q('[data-aoc="sGames"]',inst.el).textContent=G.games.length+" of 4";
+  q('[data-aoc="sRed"]',inst.el).textContent=G.games.filter(x=>x.won==="Red").length;
+  q('[data-aoc="sBlue"]',inst.el).textContent=G.games.filter(x=>x.won==="Blue").length;
+  fillSel(inst,"gcPotm",inst.m.players.filter(p=>p.in));
+}
+function openBig(inst){const b=ensureBig(inst);b.classList.add("on");b.setAttribute("aria-hidden","false");renderBig(inst);}
+function closeBig(inst){const b=q(".aoc-big",inst.el);if(b){b.classList.remove("on");b.setAttribute("aria-hidden","true");}}
+
+/* ---------- Day sheet: the paper failsafe ---------- */
+function drawDaysheet(inst){
+  const d=inst.data,m=inst.m,t=d.calendar.times||[];
+  body(inst,"daysheet").innerHTML=head("Day sheet","The paper failsafe: works when nothing else does",'<button class="aoc-btn p" data-aoc-act="print">Print</button>')+
+    banner("Why","Printed the night before, this runs the whole day on its own. If the internet, the tablets or the power go down, a marshal with this sheet and a pen can still check everyone in and run the games.","why")+
+    '<div class="aoc-sheet"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;gap:12px;flex-wrap:wrap"><div><div style="font-size:20px;font-weight:700;text-transform:uppercase">'+esc(inst.brand.name)+'</div><div style="font-size:13px">'+esc(m.next.name)+' · '+fmtLong(m.next.dt)+'</div></div><div style="font-size:12px;text-align:right">'+(t[0]?"Gates "+t[0]:"")+(t[1]?" · Games "+t[1]:"")+(t[2]?" · Endex "+t[t.length-1]:"")+'<br>'+(m.limit?"Chrono limit "+m.limit+" fps":"Chrono limit: not published, write it here")+'<br>Printed the night before, 19:40</div></div>'+
+    '<table><thead><tr><th style="width:26px">#</th><th>Name</th><th>Ticket</th><th>Ref</th><th style="width:60px">Form</th><th style="width:58px">Reg</th><th style="width:44px">In</th><th style="width:70px">Chrono</th><th>Notes</th></tr></thead><tbody>'+m.players.map((p,i)=>'<tr><td>'+(i+1)+'</td><td>'+esc(p.name)+'</td><td>'+esc(p.ticket.label)+(p.member?" (M)":"")+'</td><td>'+esc(m.refOf(p))+'</td><td>'+(p.waiver?"Y":"<b>N</b>")+'</td><td>'+esc(p.reg||"")+'</td><td>'+(p.in?"✓":"")+'</td><td>'+(p.chrono?p.chrono.low+"/"+p.chrono.high:"")+'</td><td>'+(p.u18?"U18":"")+'</td></tr>').join("")+'</tbody></table><p style="font-size:11px;margin-top:10px">Any player without a signed form does not go on the field. Spot checks: write the reading next to the name and the time.</p></div>';
+}
+
+/* ---------- Team and access ---------- */
+const CAPS=[["See bookings",[1,1,1,0,0]],["Manage memberships",[1,1,1,0,0]],["Manage stock and products",[1,1,1,0,0]],["Take and refund payments",[1,1,1,0,0]],["Create and edit dates",[1,1,1,0,0]],["Check players in",[1,1,1,1,1]],["Take car park registrations",[1,1,1,1,1]],["Log chrono readings",[1,1,1,1,0]],["Log game results",[1,1,1,1,0]],["Drive the big screen",[1,1,1,1,0]],["See money and payouts",[1,1,0,0,0]],["Export the customer list",[1,1,0,0,0]],["Send marketing",[1,1,1,0,0]],["Change fares and settings",[1,1,0,0,0]],["Manage users and permissions",[1,1,0,0,0]]];
+function drawTeam(inst){
+  const d=inst.data,N=inst.m.players;
+  const staff=[["ThinkWork","Platform admin","brand","Everything, including permissions","Today","Active","go"],[esc(d.team.owner),"Owner","brand","Everything, including permissions","Today","Active","go"],[firstName(N[9].name),"Manager","","Bookings, calendar, customers, stock","Yesterday","Active","go"],[firstName(N[3].name),"Marshal","info","The field screens and the day sheet","Today","Active","go"],[firstName(N[14].name),"Marshal","info","The field screens and the day sheet","Last "+d.calendar.regular.dayName,"Active","go"],[firstName(N[21].name),"Gate","info","Car park and the day sheet","Never","Invite pending","warn"]];
+  body(inst,"team").innerHTML=head("Team and access","Who can see what, and who can change it",'<button class="aoc-btn p" data-aoc-act="invite">Invite someone</button>')+
+    card('',tbl(["Name","Role","Can reach","Last seen","Status"],staff.map(s=>'<tr><td>'+s[0]+'</td><td>'+chip(s[1],s[2])+'</td><td>'+s[3]+'</td><td class="aoc-mono">'+esc(s[4])+'</td><td>'+chip(s[5],s[6])+'</td></tr>').join("")))+
+    '<div style="height:16px"></div>'+
+    card('<h3>What each role can do</h3><span class="aoc-sp"></span>'+chip("Only you and the platform admin can change this"),tbl(["Can","Platform admin","Owner","Manager","Marshal","Gate"],CAPS.map(c=>'<tr><td>'+c[0]+'</td>'+c[1].map(v=>'<td class="'+(v?"y":"n")+'">'+(v?"✓":"·")+'</td>').join("")+'</tr>').join(""),' class="aoc-t aoc-matrix"'))+
+    '<p class="aoc-lbl" style="margin-top:10px">Staff names here are sample. The roles are the product: a marshal\'s phone never shows the money, and the gate tablet shows only the list and the day sheet.</p>';
+}
+
+/* ---------- Settings: your fares and your rules, in one place ---------- */
+function drawSettings(inst){
+  const d=inst.data,M=d.membership,t=d.calendar.times||[],S=d.settings,C=S.chrono||{};
+  const kinds=[...new Set(d.tickets.map(x=>x.kind))],sesses=[...new Set(d.tickets.map(x=>x.sess))];
+  const fareRows=[];for(const k of kinds)for(const s of sesses){const tk=d.tickets.find(x=>x.kind===k&&x.sess===s);if(!tk)continue;fareRows.push('<div class="aoc-frow"><span><b>'+esc(d.labels[k]||k)+'</b><span class="aoc-tiny">'+esc(d.labels[s]||s)+(tk.published===false?", sample":"")+'</span></span><label class="aoc-in">£<input class="aoc-f aoc-mono" type="number" inputmode="numeric" min="0" data-aoc-fare="'+esc(tk.key)+'.m" value="'+tk.member+'"></label><label class="aoc-in">£<input class="aoc-f aoc-mono" type="number" inputmode="numeric" min="0" data-aoc-fare="'+esc(tk.key)+'.n" value="'+tk.price+'"></label></div>');}
+  const anyPub=d.tickets.some(x=>x.published!==false);
+  const chronoField=(k,l)=>'<div class="aoc-fld"><span class="aoc-lbl">'+l+'</span><input class="aoc-f" data-aoc-chrono="'+k+'" value="'+esc(C[k]||"")+'" placeholder="Not published, you tell us"></div>';
+  body(inst,"settings").innerHTML=head("Settings","Your fares and your rules, in one place. Change a price here and the fare board and the checkout on the site change with it.",'<button class="aoc-btn g" data-aoc-act="resetFares">Reset to published</button><button class="aoc-btn p" data-aoc-act="saveFares">Save</button>')+
+    '<div class="aoc-grid two">'+
+      card('<h3>Fare table</h3><span class="aoc-sp"></span>'+(anyPub?chip("Prefilled with your published fares","go"):chip("Sample fares: yours are not on your site","ph")),'<div class="aoc-bd"><div class="aoc-fares"><div class="aoc-fhead"><span></span><span class="aoc-lbl">Member</span><span class="aoc-lbl">Non-member</span></div>'+fareRows.join("")+'</div>'+
+        '<p class="aoc-lbl" style="margin:18px 0 8px">Membership</p><div class="aoc-form"><div class="aoc-fld"><span class="aoc-lbl">Price, per '+(M.per==="month"?"month":"year")+'</span><label class="aoc-in">£<input class="aoc-f aoc-mono" type="number" inputmode="numeric" data-aoc="memPrice" value="'+(M.price||0)+'"></label></div><div class="aoc-fld"><span class="aoc-lbl">Membership year</span><input class="aoc-f" data-aoc="memYear" value="'+esc(M.year)+'"></div></div>'+
+        '<p class="aoc-lbl" style="margin:18px 0 8px">Times'+(d.calendar.timesSample?" (sample: you publish no clock times)":"")+'</p><div class="aoc-form four"><div class="aoc-fld"><span class="aoc-lbl">Gates</span><input class="aoc-f" type="time" data-aoc="tGate" value="'+esc(t[0]||"")+'"></div><div class="aoc-fld"><span class="aoc-lbl">Games</span><input class="aoc-f" type="time" data-aoc="tGame" value="'+esc(t[1]||"")+'"></div><div class="aoc-fld"><span class="aoc-lbl">Lunch</span><input class="aoc-f" type="time" data-aoc="tLunch" value="'+esc(d.calendar.lunch||"")+'"></div><div class="aoc-fld"><span class="aoc-lbl">Finish</span><input class="aoc-f" type="time" data-aoc="tEnd" value="'+esc(t[t.length-1]||"")+'"></div></div></div>')+
+      '<div class="aoc-stack">'+
+        card('<h3>Running days</h3>','<div class="aoc-bd"><div class="aoc-fld"><span class="aoc-lbl">The rule the site builds the calendar from</span><textarea class="aoc-f" rows="3" data-aoc="rule">'+esc(S.rule||d.calendar.regular.detail||"")+'</textarea></div>'+(d.calendar.extra&&d.calendar.extra.tba?'<div class="aoc-fld"><span class="aoc-lbl">Next '+esc(d.calendar.extra.dayName)+' date</span><input class="aoc-f" type="date" data-aoc="extraDate"></div><p class="aoc-tiny">Set the '+esc(d.calendar.extra.dayName)+' here and it goes on the site and to the members in the same minute, instead of a post people miss.</p>':'<p class="aoc-tiny">Every date on the site comes from this rule and your poster events. Change it here, the calendar follows.</p>')+'</div>')+
+        card('<h3>Chrono limits</h3><span class="aoc-sp"></span>'+(S.chrono?chip("Your published limits","go"):chip("Not published, you tell us","ph")),'<div class="aoc-bd"><div class="aoc-form">'+chronoField("aeg","AEG, full auto")+chronoField("dmr","DMR")+chronoField("sniper","Bolt action")+chronoField("med","Minimum engagement")+'</div><p class="aoc-tiny" style="margin-top:8px">'+(S.chrono?"These print on the booking confirmation and in the site's FAQ, and the chrono bench measures every reading against them.":"Once filled in, these print on the booking confirmation and the site's FAQ, and the chrono bench measures against them. Until then the site says nothing about them, because you do not.")+'</p></div>')+
+        card('<h3>Age and safety</h3>','<div class="aoc-bd">'+kv("Minimum age",'<span class="wrap">'+esc(S.minAge||"Not published")+'</span>',"wrap")+kv("Under-18s",'<span class="wrap">'+esc(S.under18||"Not published")+'</span>',"wrap")+kv("Payment",'<span class="wrap">Card online, cash at the gate</span>',"wrap")+'<p class="aoc-tiny" style="margin-top:8px">'+(S.minAge?"The age rules are your published ones and the site enforces them at the checkout: a player under 18 cannot finish a booking without the guardian\'s tick.":"You publish no age rule, so the checkout asks nothing until you set one here.")+'</p></div>')+
+      '</div></div>'+
+    '<p class="aoc-tiny" style="margin-top:12px" data-aoc="saveMsg"></p>';
+}
+function saveFares(inst){
+  const d=inst.data;let changed=0;
+  qa("[data-aoc-fare]",inst.el).forEach(inp=>{const [key,who]=[inp.dataset.aocFare.slice(0,-2),inp.dataset.aocFare.slice(-1)];const tk=d.tickets.find(x=>x.key===key);if(!tk)return;const v=Math.max(0,+inp.value||0);if(who==="m"&&tk.member!==v){tk.member=v;changed++;}if(who==="n"&&tk.price!==v){tk.price=v;changed++;}});
+  const mp=q('[data-aoc="memPrice"]',inst.el);if(mp&&+mp.value!==d.membership.price){d.membership.price=Math.max(0,+mp.value||0);changed++;}
+  const my=q('[data-aoc="memYear"]',inst.el);if(my)d.membership.year=my.value;
+  const g=k=>(q('[data-aoc="'+k+'"]',inst.el)||{}).value||"";
+  const times=[g("tGate"),g("tGame"),g("tEnd")].filter(Boolean);if(times.length===3){d.calendar.times=times;d.calendar.lunch=g("tLunch");}
+  const ch={};qa("[data-aoc-chrono]",inst.el).forEach(i=>{if(i.value.trim())ch[i.dataset.aocChrono]=i.value.trim();});d.settings.chrono=Object.keys(ch).length?ch:null;
+  inst.m.limit=parseInt((ch.aeg||"").replace(/[^\d]/g,""),10)||0;
+  const r=g("rule");if(r)d.settings.rule=r;
+  inst.m.players.forEach(p=>{p.ticket=ticketFor(d,p.kind,p.sess);p.price=p.member?p.ticket.member:p.ticket.price;});
+  inst.m.plans=buildPlans(d,inst.m.customers);
+  inst.m.schedule=buildSchedule(d);
+  q('[data-aoc="saveMsg"]',inst.el).textContent=changed?"Saved. "+plural(changed,"price")+" changed: on the live system the fare board, the checkout and every confirmation email carry the new figures from this minute.":"Saved. Nothing changed.";
+  toast(inst,changed?"Saved: the site's fare board and checkout follow these prices.":"Saved.");
+  if(typeof inst.opts.onSave==="function")inst.opts.onSave(clone(d.tickets),clone(d.membership));
+  paintAll(inst,["settings"]);
+}
+
+/* ---------- Dashboards and Marketing: later, once a year of real data has gone through ---------- */
+function hover(inst,el,text){const tip=q(".aoc-tip",inst.el);el.addEventListener("mousemove",e=>{tip.textContent=text;tip.classList.add("on");tip.style.left=(e.clientX+12)+"px";tip.style.top=(e.clientY-30)+"px";});el.addEventListener("mouseleave",()=>tip.classList.remove("on"));}
+function drawDash(inst){
+  const d=inst.data,m=inst.m,sports=d.business.sports,r=rng(seedFrom(d.business.name+"dash"));
+  const W=ticketFor(d,"walkon","full"),avg=(W.price+W.member)/2+d.model.addAvg*0.3;
+  const perMonth=d.model.days/12*m.players.length*avg;
+  const MONTHS=["Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep"],season=[.9,.75,.5,.6,.75,1,1.15,1.2,1.3,1.35,1.25,1.05];
+  const series=sports.slice(0,2).map((s,si)=>season.map(k=>Math.round(perMonth*k*(si===0?1:.45)*(.92+r()*.16)/100)/10));
+  const total=series.flat().reduce((a,b)=>a+b,0)*1000;
+  body(inst,"dash").innerHTML=banner("Later","Once a year of real data has gone through the console, these are the questions it can answer. Sample figures here, shaped from your fares and your calendar.")+
+    head("Dashboards","Revenue and bookings")+
+    '<div class="aoc-tiles">'+tile("Revenue, 12 months",gbp(total),"key")+tile("Average per player",gbp2(avg))+tile("Came back within a year","38%","good")+tile("Did not turn up","4.1%")+'</div>'+
+    card('<h3>Revenue by month</h3>','<div class="aoc-bd"><div class="aoc-chart" data-aoc="chRev"></div><div class="aoc-legend">'+sports.slice(0,2).map((s,i)=>'<span><i style="background:var(--aoc-c'+(i+1)+')"></i>'+esc(s)+'</span>').join("")+'</div></div>')+
+    '<div class="aoc-grid half" style="margin-top:14px">'+card('<h3>How far ahead people book</h3>','<div class="aoc-bd"><div class="aoc-chart" data-aoc="chLead"></div><p class="aoc-lbl" style="margin-top:10px">Nearly half book inside the last week, which is exactly what the automations on the Marketing screen are for.</p></div>')+card('<h3>Where the money comes from</h3>','<div class="aoc-bd"><div class="aoc-chart" data-aoc="chMix"></div></div>')+'</div>';
+  /* revenue by month */
+  (function(){const Wd=760,H=230,PL=44,PB=26,PT=10,PR=6,max=Math.max(1,Math.ceil(Math.max(...series.flat())*1.15));const iw=Wd-PL-PR,ih=H-PB-PT,slot=iw/12;let g='';
+    for(let v=0;v<=max;v+=Math.max(1,Math.round(max/2))){const y=PT+ih-(v/max)*ih;g+='<line x1="'+PL+'" x2="'+(Wd-PR)+'" y1="'+y+'" y2="'+y+'" stroke="var(--aoc-line)"/><text x="'+(PL-8)+'" y="'+(y+4)+'" text-anchor="end" font-size="11" fill="var(--aoc-text-3)">£'+v+'k</text>';}
+    MONTHS.forEach((mo,i)=>{const x0=PL+i*slot,bw=(slot-10)/Math.max(1,series.length);series.forEach((s,si)=>{const v=s[i],h=(v/max)*ih,y=PT+ih-h;g+='<rect class="bar" data-tip="'+mo+" · "+esc(sports[si])+" · £"+(v*1000).toLocaleString("en-GB")+'" x="'+(x0+5+si*(bw+2))+'" y="'+y+'" width="'+bw+'" height="'+h+'" rx="3" fill="var(--aoc-c'+(si+1)+')"/>';});g+='<text x="'+(x0+slot/2)+'" y="'+(H-8)+'" text-anchor="middle" font-size="11" fill="var(--aoc-text-3)">'+mo+'</text>';});
+    q('[data-aoc="chRev"]',inst.el).innerHTML='<svg viewBox="0 0 '+Wd+' '+H+'" role="img" aria-label="Monthly revenue">'+g+'</svg>';})();
+  const bars=(key,data,max,col)=>{const Wd=420,H=190,PL=118,PR=54,PT=6,bh=24,gap=8;let g='';data.forEach((x,i)=>{const y=PT+i*(bh+gap),w=(x[1]/max)*(Wd-PL-PR);g+='<text x="'+(PL-10)+'" y="'+(y+bh/2+4)+'" text-anchor="end" font-size="12.5" fill="var(--aoc-text-2)">'+esc(x[0])+'</text><rect class="bar" data-tip="'+esc(x[0])+" · "+x[2]+'" x="'+PL+'" y="'+y+'" width="'+w+'" height="'+bh+'" rx="3" fill="'+(x[3]||col)+'"/><text x="'+(PL+w+8)+'" y="'+(y+bh/2+4)+'" font-size="12.5" fill="var(--aoc-text-2)">'+x[2]+'</text>';});q('[data-aoc="'+key+'"]',inst.el).innerHTML='<svg viewBox="0 0 '+Wd+' '+H+'" role="img">'+g+'</svg>';};
+  bars("chLead",[["Same week",46,"46%"],["8 to 14 days",21,"21%"],["15 to 30 days",18,"18%"],["1 to 2 months",11,"11%"],["Longer",4,"4%"]],50,"var(--aoc-c2)");
+  const mixT=total;bars("chMix",[["Tickets",.68,gbp(mixT*.68),"var(--aoc-c1)"],["Pre-orders",.14,gbp(mixT*.14),"var(--aoc-c2)"],["Membership",.11,gbp(mixT*.11),"var(--aoc-c3)"],["Parties and hire",.07,gbp(mixT*.07),"var(--aoc-c4)"]],.8,"var(--aoc-c1)");
+  qa(".bar",body(inst,"dash")).forEach(b=>hover(inst,b,b.dataset.tip));
+}
+function drawMarketing(inst){
+  const d=inst.data,day=d.calendar.regular.dayName;
+  const AUTOS=[["Fill the gaps","A "+day+" is under 60% booked, 5 days out","Played in the last 6 months, opted in",true,"4 Sep","312","11"],["Pre-order nudge","48 hours before a running day","Everyone booked on that date",true,"Yesterday","29","14"],["First-timer follow-up","7 days after a first visit","That player",true,"2 days ago","18","5"],["Lapsed player win-back","No booking for 4 months","Opted in, played before",false,"Never","0","0"],["Party enquiry chase","Quote not accepted after 48 hours","The organiser",true,"6 Sep","7","3"],["Membership card declined","A renewal payment fails","That member",true,"1 Sep","2","2"]];
+  body(inst,"marketing").innerHTML=banner("Later","The console knows who has played, what they spent and which dates are short. Automations put those facts together without anybody remembering to.")+
+    head("Marketing","Rules that run themselves",'<button class="aoc-btn p" data-aoc-act="newAuto">New automation</button>')+
+    '<div class="aoc-grid two"><div>'+AUTOS.map(a=>'<div class="aoc-switch'+(a[3]?" on":"")+'" data-aoc-auto><span class="aoc-sw"></span><div style="flex:1"><b style="font-size:16px">'+a[0]+'</b><p class="aoc-small aoc-muted" style="margin-top:2px">When '+a[1].toLowerCase()+', send to '+a[2].toLowerCase()+'.</p><div class="aoc-row" style="gap:14px;margin-top:8px"><span class="aoc-lbl">Last run '+a[4]+'</span><span class="aoc-lbl">Sent '+a[5]+'</span><span class="aoc-lbl aoc-go-c">Booked '+a[6]+'</span></div></div></div>').join("")+'</div>'+
+    '<div class="aoc-stack">'+card('<h3>Edit: fill the gaps</h3>','<div class="aoc-bd"><div class="aoc-fld"><span class="aoc-lbl">When</span><select class="aoc-f"><option>A '+esc(day)+' is under 60% booked</option><option>A date is under 40% booked</option><option>A date has sold out</option></select></div><div class="aoc-fld"><span class="aoc-lbl">How long before</span><select class="aoc-f"><option>5 days</option><option>3 days</option><option>48 hours</option></select></div><div class="aoc-fld"><span class="aoc-lbl">Send to</span><select class="aoc-f"><option>Played in the last 6 months, opted in</option><option>Everyone opted in</option><option>Members only</option></select></div><div class="aoc-fld"><span class="aoc-lbl">Message</span><select class="aoc-f"><option>"Places left this '+esc(day)+'"</option><option>"Bring a mate, both get '+gbp(5)+' off"</option></select></div><button class="aoc-btn p wide" data-aoc-act="saveRule">Save the rule</button></div>')+
+    card('<h3>Last 30 days</h3>','<div class="aoc-bd">'+kv("Messages sent","1,204")+kv("Opened","41%")+kv("Bookings from them",'<span class="aoc-go-c">37</span>')+kv("Revenue attributed",'<span class="aoc-go-c">'+gbp(1290)+'</span>')+kv("Unsubscribed","6")+'</div>')+'</div></div>';
+}
+
+/* ---------- The Proposal: what this rebuild is actually for. 1066's structure, every site's own facts ---------- */
+function list(items,cls){return '<ul class="aoc-check'+(cls?" "+cls:"")+'">'+(items||[]).map(i=>'<li>'+i+'</li>').join("")+'</ul>';}
+function drawProposal(inst){
+  const d=inst.data,B=d.business,P=d.proposal,W=ticketFor(d,"walkon","full"),H=ticketFor(d,"hire","full"),MO=d.model,wg=d.wedge;
+  const day=d.calendar.regular.dayName;
+  const lede=P.lede||("Three things. Take your money online instead of "+esc(d.settings.todayTake)+". Sell the membership at the moment it saves someone money. And make your site the thing an assistant quotes when somebody near "+esc(B.town||"you")+" asks where to play airsoft on "+esc(day)+".");
+  const wedge=P.wedge||{};
+  const model=Object.assign({players:40,memShare:40,hire:25,members:Math.max(20,d.membership.count||120),groups:12,attach:30,playersMax:120,membersMax:500,groupsMax:60},P.model||{});
+  const lines=Object.assign({tickets:["Day tickets, "+d.labels.walkon.toLowerCase()+" and "+d.labels.hire.toLowerCase(),"In "+d.settings.todayTake],members:["Memberships",d.membership.published?"By hand":"Not sold today"],add:["Pre-orders: food, consumables, kit","New"],groups:["Parties and group bookings","By message"]},model.lines||{});
+  const assumptions=model.assumptions||("Fixed assumptions: "+MO.days+" running days a year; "+(d.tickets.some(t=>t.published!==false)?"your published fares":"the sample fares")+"; "+gbp(MO.addAvg)+" average pre-order; "+gbp(MO.groupAvg)+" average group booking"+(d.membership.published?"; your "+gbp(d.membership.price)+" membership":"; a sample "+gbp(d.membership.price)+" membership")+". Gift vouchers are switched off in this proposal and not counted. Every one of these is a guess until you replace it.");
+  const isPlat=wg.kind==="platform"&&wg.name;
+  const slider=(id,label,val,min,max,suf)=>'<div class="aoc-sl"><label class="aoc-eyebrow" for="aoc-'+id+'">'+label+': <span class="aoc-mono" data-aoc="'+id+'Out">'+val+(suf||"")+'</span></label><input class="aoc-slider" type="range" id="aoc-'+id+'" data-aoc-model="'+id+'" min="'+min+'" max="'+max+'" value="'+val+'"></div>';
+  const disc=P.discovery||{};
+  const answers=disc.answers||[{q:"Where is it?",a:[B.street,B.town,B.postcode].filter(Boolean).join(", "),src:"site"},{q:"How do I reach you?",a:[B.phone,B.email].filter(Boolean).join(", "),src:"site"},{q:"What does it cost?",a:W.published===false?"Not on your site":gbp(W.price)+" "+d.labels.walkon.toLowerCase()+(H?", "+gbp(H.price)+" "+d.labels.hire.toLowerCase():"")+(W.member<W.price?", less for members":""),src:W.published===false?"you":"site"},{q:"Minimum age?",a:d.settings.minAge||"Not published",src:d.settings.minAge?"site":"you"},{q:"When is the next running day?",a:d.settings.rule||d.calendar.regular.detail||"Not published",src:d.settings.rule?"site":"you"},{q:"Chrono limits?",a:d.settings.chrono?Object.values(d.settings.chrono).join(" / "):"Not published",src:d.settings.chrono?"site":"you"},{q:"Email?",a:B.email||"Not published",src:B.email?"site":"you"}];
+  const srcPill=s=>s==="site"?chip("Your site","go"):s==="google"?chip("Your Google listing","go"):s==="poster"?chip("Your poster","go"):s==="second"?chip("Second-hand","warn"):chip("You tell us","ph");
+  const rest=disc.rest||["A real URL per running day, so a specific "+day+" can rank and be linked","FAQPage and Event markup validated in Search Console","Name, address and phone identical on the site, Google Business Profile and every airsoft directory","robots.txt explicitly allowing GPTBot, ClaudeBot, PerplexityBot and Google-Extended","A meta description with the fee, the day and the age rule in it","Text, not images, for prices and times: a JPEG price list is invisible to an assistant","Sub-second first paint on 4G in a field"];
+  const inh=P.inhouse||{};
+  const inhRows=inh.rows||[[esc(d.settings.todayTake)+" reconciled by hand","Card, before "+day],["Membership by hand","Sold in the basket"],[isPlat?wg.name+" window":"Booking by message","Your own checkout"],["Parties by message","Quote and deposit"],["Waiver on paper","Signed once, kept a year"],["Customer list","Yours"]];
+  const phases=P.phases||{};
+  const phRows=phases.rows||[["<b>Phase 1</b>: the site, booking, payments, membership, waivers, pre-orders, party quotes","Now"],["<b>Phase 2</b>: a marshal's phone at the gate: check-in, kit issue, chrono log","After go-live"],["<b>Phase 3</b>: game control, the screen in the safe zone, dashboards, automations","Later"]];
+  const ld=(function(){const o=[];o.push('<span class="t">"@type"</span>: "SportsActivityLocation",');o.push('<span class="t">"name"</span>: "'+esc(B.name)+'",');o.push('<span class="t">"address"</span>: { "streetAddress": "'+esc(B.street||"")+'",');o.push('  "addressLocality": "'+esc(B.town||"")+'",'+(B.county?' "addressRegion": "'+esc(B.county)+'",':''));o.push('  "postalCode": "'+esc(B.postcode||"")+'", "addressCountry": "GB" },');if(B.phoneE164)o.push('<span class="t">"telephone"</span>: "'+esc(B.phoneE164)+'",');if(B.email)o.push('<span class="t">"email"</span>: "'+esc(B.email)+'",');
+    if(!d.calendar.timesSample&&(d.calendar.times||[]).length>1)o.push('<span class="t">"openingHoursSpecification"</span>: [{ "dayOfWeek": "'+esc(day)+'",\n  "opens": "'+esc(d.calendar.times[0])+'", "closes": "'+esc(d.calendar.times[d.calendar.times.length-1])+'" }],');
+    const offers=d.tickets.filter(t=>t.published!==false).slice(0,4).map(t=>'  { "name": "'+esc(t.label)+'", "price": "'+t.price.toFixed(2)+'" }');if(d.membership.published)offers.push('  { "name": "Membership, '+(d.membership.per==="month"?"monthly":"annual")+'", "price": "'+d.membership.price.toFixed(2)+'" }');
+    if(offers.length)o.push('<span class="t">"makesOffer"</span>: [\n'+offers.join(",\n")+' ],');o.push('<span class="t">"event"</span>: "<span class="t">one SportsEvent per running day</span>",');o.push('<span class="t">"aggregateRating"</span>: "<span class="t">wired to Google, never typed</span>"');return "{\n"+o.join("\n")+"\n}";})();
+  body(inst,"proposal").innerHTML='<div class="aoc-wrap">'+
+    '<p class="aoc-eyebrow">Proposal. Not a public page.</p><h2>What this rebuild is actually for</h2><p class="aoc-lede">'+lede+'</p>'+
+    /* the wedge */
+    (wedge.title?card('','<div class="aoc-bd"><p class="aoc-eyebrow">'+(wedge.eyebrow||"Your site, read closely")+'</p><h3>'+wedge.title+'</h3><div class="aoc-split"><div>'+(wedge.body||"")+(wedge.quote?'<p class="aoc-quote">'+wedge.quote+'</p>':"")+(wedge.after||"")+(wedge.note?'<p class="aoc-muted" style="margin-top:14px" data-ph="1">'+ph(wedge.noteTag||"A question, not a claim")+wedge.note+'</p>':"")+'</div><div><p class="aoc-eyebrow" style="color:var(--aoc-warn);margin-bottom:8px">'+(wedge.cannotTitle||"What today's set-up cannot do")+'</p>'+list(wedge.cannot,"x")+'</div></div></div>',"aoc-hi"):"")+
+    /* provenance */
+    card('','<div class="aoc-bd"><p class="aoc-eyebrow">Read this first</p><h3>What in here is yours, and what is invented</h3><p class="aoc-muted" style="max-width:74ch">A prototype needs content to be a prototype. Everything in the right-hand column is placeholder and has to be replaced with your real figures before any of this goes near a customer. Every screen of this console and every amber block on the site is sample until then.</p><div class="aoc-split" style="margin-top:18px"><div>'+
+      '<p class="aoc-eyebrow" style="color:var(--aoc-go);margin-bottom:8px">'+(P.yoursTitle||"Taken from your own site"+(B.domain?", "+esc(B.domain):""))+'</p>'+list(P.yours||[B.street?[B.street,B.town,B.county,B.postcode].filter(Boolean).join(", "):"","Your phone number"+(B.email?" and email":""),d.tickets.filter(t=>t.published!==false).map(t=>t.label+" "+gbp(t.price)).join("; "),d.membership.published?"Membership "+gbp(d.membership.price)+", "+d.membership.year:"",d.settings.rule,"Your logo and your colours"].filter(Boolean))+
+      (P.google&&P.google.length?'<p class="aoc-eyebrow" style="color:var(--aoc-go);margin:14px 0 8px">'+(P.googleTitle||"From your Google listing")+'</p>'+list(P.google):(B.rating?'<p class="aoc-eyebrow" style="color:var(--aoc-go);margin:14px 0 8px">From your Google listing</p>'+list([B.rating+" rating"+(B.reviews?" from "+B.reviews+" reviews":"")]):""))+
+      (P.second&&P.second.length?'<p class="aoc-eyebrow" style="color:var(--aoc-warn);margin:14px 0 8px">'+(P.secondTitle||"Second-hand: from directory listings, not your site")+'</p>'+list(P.second,"x"):"")+
+      '</div><div><p class="aoc-eyebrow" style="color:var(--aoc-warn);margin-bottom:8px">Invented placeholder, needs your real data</p>'+list(P.invented||["Every name, count and figure in this console","Every figure in the revenue model","Every places-remaining figure on the calendar","Pre-order items and prices","Party packages and the deposit"],"x")+
+      '<p class="aoc-eyebrow" style="color:var(--aoc-text-3);margin:14px 0 8px">Omitted, because it could not be sourced</p>'+list(P.omitted||Object.values(d.omitted||{}),"x grey")+(P.removed?'<p class="aoc-tiny" style="margin-top:12px">'+P.removed+'</p>':"")+'</div></div></div>')+
+    /* revenue model */
+    '<div class="aoc-card" data-ph="1">'+ph("Every input is a guess until you replace it")+'<div class="aoc-bd"><p class="aoc-eyebrow">Indicative revenue model. Drag the sliders.</p><h3>What the new lines are worth</h3><div class="aoc-split"><div class="aoc-stack" style="gap:14px">'+
+      slider("players",model.labels&&model.labels.players||"Players per running day",model.players,6,model.playersMax)+slider("memShare",model.labels&&model.labels.memShare||"Share who are members",model.memShare,0,100,"%")+slider("hire",model.labels&&model.labels.hire||"Share on "+d.labels.hire.toLowerCase()+" kit",model.hire,0,100,"%")+slider("members",model.labels&&model.labels.members||"Paid members a year",model.members,0,model.membersMax)+slider("groups",model.labels&&model.labels.groups||"Party and group bookings a year",model.groups,0,model.groupsMax)+slider("attach",model.labels&&model.labels.attach||"Pre-order attach rate",model.attach,0,80,"%")+
+      '<p class="aoc-tiny" style="line-height:1.5">'+assumptions+'</p></div><div>'+tbl(["Revenue line","Today","num:Per year"],'<tr><td>'+lines.tickets[0]+'</td><td>'+lines.tickets[1]+'</td><td class="num" data-aoc="rTickets"></td></tr><tr><td>'+lines.members[0]+'</td><td>'+lines.members[1]+'</td><td class="num" data-aoc="rMem"></td></tr><tr><td>'+lines.add[0]+'</td><td>'+(lines.add[1]==="New"?chip("New","brand"):lines.add[1])+'</td><td class="num" data-aoc="rAdd"></td></tr><tr><td>'+lines.groups[0]+'</td><td>'+lines.groups[1]+'</td><td class="num" data-aoc="rGrp"></td></tr>')+
+      '<div class="aoc-card aoc-hi" style="margin-top:14px"><div class="aoc-bd"><p class="aoc-eyebrow">Modelled annual revenue</p><p class="aoc-bigfig" data-aoc="rTotal"></p><p class="aoc-eyebrow" style="color:var(--aoc-go);margin-top:14px" data-aoc="rDelta"></p></div></div></div></div></div></div>'+
+    /* the platform cost */
+    '<div class="aoc-card" data-ph="1">'+ph(isPlat?"Rates are "+esc(wg.name)+"'s published ones; your statement gives the real figure":"Sample volumes from the model above")+'<div class="aoc-bd"><p class="aoc-eyebrow">'+(isPlat?"Booking fees":"What it costs to take money")+'</p><h3>'+(isPlat?"What "+esc(wg.name)+" is costing you":"The fee is small. The thing it replaces is not.")+'</h3>'+
+      (isPlat?'<p class="aoc-muted" style="max-width:74ch">'+(wg.line||esc(wg.name)+" charges a fee on every booking, on top of card processing. Card processing you pay either way: roughly 1.5% plus 20p to Stripe on your own checkout. The fee is the part that disappears when the booking system is yours.")+'</p>':'<p class="aoc-muted" style="max-width:74ch">You take money in '+esc(d.settings.todayTake)+' today, so there is no platform fee to save. What you pay instead is the '+esc(day)+' morning: names matched to transfers, kit counted at the gate, and every sale that never happened because nobody could pay at 11pm. Here is what the new system costs to run against what the model above says it collects.</p>')+
+      '<div class="aoc-split" style="margin-top:20px"><div><div class="aoc-row" style="align-items:flex-end;gap:12px">'+(isPlat?'<div class="aoc-fld" style="flex:1 1 130px"><span class="aoc-lbl">'+esc(wg.name)+' fee %</span><input class="aoc-f aoc-mono" data-aoc-fee="pct" type="number" min="0" max="25" step="0.05" value="'+(wg.feePct||0)+'"></div><div class="aoc-fld" style="flex:1 1 130px"><span class="aoc-lbl">Plus, per ticket £</span><input class="aoc-f aoc-mono" data-aoc-fee="per" type="number" min="0" max="5" step="0.01" value="'+(wg.feePer||0)+'"></div>':"")+'<div class="aoc-fld" style="flex:1 1 130px"><span class="aoc-lbl">Our platform fee %</span><input class="aoc-f aoc-mono" data-aoc-fee="pf" type="number" min="0" max="10" step="0.25" value="'+Math.round((d.money.platformFeePct||0.02)*10000)/100+'"></div></div>'+
+      (isPlat?'<p class="aoc-tiny" style="margin:-4px 0 16px">Pre-filled with '+esc(wg.name)+'\'s published rate. It changes and varies by plan: put your own statement figures in these boxes before quoting the number to anyone.</p><div class="aoc-row" style="gap:8px"><label class="aoc-radio'+(wg.paysBy!=="customer"?" sel":"")+'" data-aoc-who="absorb"><input type="radio" name="aoc-who" value="absorb"'+(wg.paysBy!=="customer"?" checked":"")+'><span><b>You absorb the fee</b><br><span class="aoc-small aoc-muted">The ticket says '+gbp(W.price)+', you keep less.</span></span></label><label class="aoc-radio'+(wg.paysBy==="customer"?" sel":"")+'" data-aoc-who="pass"><input type="radio" name="aoc-who" value="pass"'+(wg.paysBy==="customer"?" checked":"")+'><span><b>Your customer pays it</b><br><span class="aoc-small aoc-muted">The checkout total goes up, not your margin.</span></span></label></div><div class="aoc-note"><b>£</b><span>Either way you lose. Absorb it and it comes off a thin margin; pass it on and your advertised '+gbp(W.price)+' rings up at a number you cannot advertise, on the checkout page where people are most likely to walk away.</span></div>':'<p class="aoc-tiny" style="margin:-4px 0 16px">Card processing is roughly 1.5% plus 20p per payment and is the same on any system. The platform fee applies to everything the console collects: tickets, membership, pre-orders and deposits, and comes back on a refund.</p>')+
+      '</div><div class="aoc-card aoc-hi"><div class="aoc-bd"><p class="aoc-eyebrow" style="margin-bottom:6px">All figures per year, from the model above</p>'+kv("Tickets sold a year",'<span data-aoc="ebTix"></span>')+kv("Gross ticket revenue a year",'<span data-aoc="ebGross"></span>')+(isPlat?kv("What "+esc(wg.name)+" takes now",'<span class="aoc-stop-c" data-aoc="ebFee"></span>'):"")+kv("What the new system takes",'<span data-aoc="pfFee"></span>')+kv("Card processing (payable either way)",'<span data-aoc="ebCard"></span>')+'<p class="aoc-eyebrow" style="margin-top:14px">'+(isPlat?"Net saving":"New revenue, net of both fees")+'</p><p class="aoc-bigfig"><span data-aoc="ebSave"></span> <small>a year</small></p><div class="aoc-row" style="gap:8px;margin-top:10px"><span class="aoc-chip"><b class="aoc-mono" data-aoc="ebMonth"></b>&nbsp;a month</span><span class="aoc-chip"><b class="aoc-mono" data-aoc="ebDay"></b>&nbsp;a running day</span></div><p class="aoc-small aoc-muted" style="margin-top:12px" data-aoc="ebLine"></p>'+(isPlat?'<hr style="border:0;border-top:1px solid var(--aoc-line);margin:14px 0"><p class="aoc-small aoc-muted">And the things no fee line shows: the customer list stays '+esc(wg.name)+'\'s, payouts arrive after the event rather than on the day, and you cannot sell a membership, a kit upgrade or a bag of BBs through it.</p>':"")+'</div></div></div></div></div>'+
+    /* discovery */
+    card('','<div class="aoc-bd"><p class="aoc-eyebrow">Search and AI discovery</p><h3>Built to be quoted, not just crawled</h3><p class="aoc-muted" style="max-width:72ch">'+(disc.lede||"People increasingly ask an assistant rather than a search engine: <em>\"where can my 12-year-old play airsoft near "+esc(B.town||"here")+"?\"</em> Assistants answer from pages that state facts plainly, mark them up as data, and are allowed to be read. Most airsoft sites fail all three: the information is stuck in a Facebook post or a JPEG of a price list.")+'</p><div class="aoc-split" style="margin-top:20px"><div><p class="aoc-eyebrow" style="margin-bottom:8px">Answer-ready facts, in the HTML</p>'+tbl(["Question asked","Answer the page states","Source"],answers.map(a=>'<tr><td>'+a.q+'</td><td'+(a.src==="you"?' class="aoc-ph"':'')+'>'+a.a+'</td><td>'+srcPill(a.src)+'</td></tr>').join(""))+'</div><div><p class="aoc-eyebrow" style="margin-bottom:8px">Structured data on every page</p><div class="aoc-code"><pre>'+ld+'</pre></div><p class="aoc-eyebrow" style="margin:16px 0 8px">The rest of the discovery work</p>'+list(rest)+'</div></div></div>')+
+    /* in-house and phases */
+    '<div class="aoc-grid half">'+card('','<div class="aoc-bd"><p class="aoc-eyebrow">What comes in-house</p><h3>'+(inh.title||(isPlat?"No platform in the money path":"No form in the money path"))+'</h3>'+inhRows.map(r=>kv(r[0],'<span class="wrap">'+r[1]+'</span>',"wrap")).join("")+'<p class="aoc-tiny" style="margin-top:12px">'+(inh.note||"Card processing is roughly 1.5% plus 20p to Stripe, which you "+(isPlat?"already pay inside "+esc(wg.name)+"'s fee":"do not pay today")+". Against that: the membership sold, the kit counted on Friday, the party deposited, and no "+esc(day)+" morning spent matching money to names.")+'</p></div>')+
+      card('','<div class="aoc-bd"><p class="aoc-eyebrow">How it would be built</p><h3>'+(phases.title||(phRows.length===2?"Two phases":"Three phases"))+'</h3>'+phRows.map(r=>kv(r[0],r[1])).join("")+'<p class="aoc-small aoc-muted" style="margin-top:12px">'+(phases.note||"Phase 1 is built on a proper customer record with staff roles, so Phase 2 is a new screen over data that already exists rather than a rebuild.")+'</p><p class="aoc-tiny" style="margin-top:10px">This prototype is front-end only. The flows work, nothing is stored, no card is charged.</p></div>')+'</div>'+
+    '<div class="aoc-foot"><span>Design proposal by ThinkWork for discussion with you at '+esc(B.name)+'. Everything marked sample awaits your real figures. Not the live system. No live payments.</span><span class="aoc-mono">AOC '+VERSION+' · thinkwork.info</span></div></div>';
+  rCalc(inst);
+}
+function rCalc(inst){
+  const d=inst.data,W=ticketFor(d,"walkon","full"),H=ticketFor(d,"hire","full")||W,MO=d.model,wg=d.wedge,g=k=>q('[data-aoc="'+k+'"]',inst.el),v=k=>+(q('[data-aoc-model="'+k+'"]',inst.el)||{value:0}).value;
+  if(!g("rTotal"))return;
+  const pl=v("players"),ms=v("memShare")/100,hs=v("hire")/100,mem=v("members"),grp=v("groups"),att=v("attach")/100;
+  g("playersOut").textContent=pl;g("memShareOut").textContent=pc(ms);g("hireOut").textContent=pc(hs);g("membersOut").textContent=mem;g("groupsOut").textContent=grp;g("attachOut").textContent=pc(att);
+  const avgTicket=(1-hs)*(ms*W.member+(1-ms)*W.price)+hs*(ms*H.member+(1-ms)*H.price);
+  const tickets=MO.days*pl*avgTicket,memRev=mem*d.membership.price*(d.membership.per==="month"?12:1),add=MO.days*pl*att*MO.addAvg,grpRev=grp*MO.groupAvg,total=tickets+memRev+add+grpRev;
+  g("rTickets").textContent=gbp(tickets);g("rMem").textContent=gbp(memRev);g("rAdd").textContent=gbp(add);g("rGrp").textContent=gbp(grpRev);g("rTotal").textContent=gbp(total);
+  g("rDelta").textContent=gbp(add+grpRev)+" of that is new and collected online, and "+gbp(tickets+memRev)+" moves from "+d.settings.todayTake+" to card.";
+  /* the platform cost, off the same volumes */
+  const fee=k=>parseFloat((q('[data-aoc-fee="'+k+'"]',inst.el)||{value:0}).value)||0;
+  const tix=MO.days*pl,gross=tickets,pct=fee("pct"),per=fee("per"),pf=gross*fee("pf")/100,card=gross*0.015+tix*0.20,fees=gross*pct/100+tix*per;
+  const isPlat=wg.kind==="platform"&&wg.name;
+  g("ebTix").textContent=Math.round(tix).toLocaleString("en-GB");g("ebGross").textContent=gbp(gross);if(g("ebFee"))g("ebFee").textContent=gbp(fees);g("pfFee").textContent=gbp(pf);g("ebCard").textContent=gbp(card);
+  const net=isPlat?fees-pf:(add+grpRev+memRev)-pf-card*((add+grpRev+memRev)/Math.max(1,total));
+  g("ebSave").textContent=gbp(net);g("ebMonth").textContent=gbp(net/12);g("ebDay").textContent=gbp(net/Math.max(1,MO.days));
+  const who=(q('input[name="aoc-who"]:checked',inst.el)||{}).value||"absorb";
+  qa("[data-aoc-who]",inst.el).forEach(l=>l.classList.toggle("sel",l.dataset.aocWho===who));
+  g("ebLine").textContent=isPlat?(who==="absorb"?"After our platform fee. Money that currently leaves the business for good, and now mostly stays in it.":"Your advertised "+gbp(W.price)+" day rings up at "+gbp2(W.price*(1+pct/100)+per)+" at their checkout. On your own system it rings up at "+gbp(W.price)+"."):"The new lines (memberships, pre-orders and deposited group bookings) after our fee and their share of card processing. The tickets you already take are not counted as new.";
+}
+
+/* ---------- the feed, repaint, roles, routing ---------- */
+function log(inst,t,msg){inst.m.feed.unshift({t,msg});if(inst.m.feed.length>9)inst.m.feed.pop();const f=q('[data-aoc="feed"]',inst.el);if(f)f.innerHTML=inst.m.feed.map(x=>'<div><time>'+esc(x.t)+'</time><span>'+esc(x.msg)+'</span></div>').join("");}
+function repaint(inst){paintToday(inst);paintGate(inst);paintReception(inst);paintChrono(inst);paintGC(inst);}
+const DRAW={today:drawToday,bookings:drawBookings,calendar:drawCalendar,customers:drawCustomers,members:drawMembers,money:drawMoney,shop:drawStock,history:drawHistory,gate:drawGate,reception:drawReception,chrono:drawChrono,gameday:drawGameday,daysheet:drawDaysheet,team:drawTeam,settings:drawSettings,dash:drawDash,marketing:drawMarketing,proposal:drawProposal};
+function paintAll(inst,only){for(const k of Object.keys(DRAW)){if(only&&!only.includes(k))continue;DRAW[k](inst);}}
+function setRole(inst,r){
+  inst.role=r;const R=ROLES[r]||ROLES.owner;
+  q('[data-aoc="whoRole"]',inst.el).textContent=R.label;q('[data-aoc="whoAv"]',inst.el).textContent=R.label[0];
+  q('[data-aoc="whoName"]',inst.el).textContent=r==="owner"?inst.data.team.owner:firstName(inst.m.players[{manager:9,marshal:3,gate:21}[r]].name);
+  qa("[data-aoc-role]",inst.el).forEach(b=>b.setAttribute("aria-pressed",b.dataset.aocRole===r));
+  qa(".aoc-rail a",inst.el).forEach(a=>a.classList.toggle("locked",!!R.can&&!R.can.includes(a.dataset.aocGo)));
+  if(R.can&&!R.can.includes(inst.screen))go(inst,R.can[0]);
+}
+function go(inst,name){
+  if(!DRAW[name])name="today";
+  inst.screen=name;
+  qa(".aoc-screen",inst.el).forEach(s=>s.classList.toggle("on",s.dataset.aocScreen===name));
+  qa(".aoc-rail a",inst.el).forEach(a=>a.classList.toggle("on",a.dataset.aocGo===name));
+  if(name==="daysheet")drawDaysheet(inst);
+  if(typeof inst.opts.onGo==="function")inst.opts.onGo(name);
+  if(inst.opts.scroll!==false){const top=inst.el.getBoundingClientRect().top+window.scrollY-(inst.opts.scrollOffset||0);if(window.scrollY>top)window.scrollTo({top,behavior:inst.reduce?"auto":"smooth"});}
+}
+
+/* ---------- every click and input in the console lands here ---------- */
+function wire(inst){
+  const el=inst.el,d=inst.data,m=inst.m;
+  el.addEventListener("click",e=>{
+    const nav=e.target.closest("[data-aoc-go]");if(nav&&el.contains(nav)){e.preventDefault();go(inst,nav.dataset.aocGo);return;}
+    const role=e.target.closest("[data-aoc-role]");if(role){setRole(inst,role.dataset.aocRole);return;}
+    const th=e.target.closest("[data-aoc-theme]");if(th){inst.theme.colours=th.dataset.aocTheme;applyTheme(inst);return;}
+    if(e.target.closest("[data-aoc-mode-btn]")){inst.theme.mode=inst.theme.mode==="dark"?"light":"dark";applyTheme(inst);return;}
+    const book=e.target.closest("[data-aoc-book]");if(book){inst.sel.booking=inst.sel.booking===book.dataset.aocBook?null:book.dataset.aocBook;paintBookings(inst,(q('[data-aoc="bkSearch"]',el)||{}).value);return;}
+    const date=e.target.closest("[data-aoc-date]");if(date){inst.sel.date=+date.dataset.aocDate;paintCalendar(inst);return;}
+    const hist=e.target.closest("[data-aoc-hist]");if(hist){inst.sel.hist=+hist.dataset.aocHist;qa("[data-aoc-hist]",el).forEach(r=>r.classList.toggle("on",r===hist));paintHistDetail(inst);return;}
+    const chk=e.target.closest("[data-aoc-check]");if(chk){checkIn(inst,m.players[+chk.dataset.aocCheck]);return;}
+    const phase=e.target.closest("[data-aoc-phase]");if(phase){inst.g.phase=+phase.dataset.aocPhase;inst.g.simSec=mins(m.schedule[inst.g.phase].t)*60;inst.g.bigState="sched";inst.g.podName=null;paintRod(inst);paintGC(inst);renderBig(inst);return;}
+    const win=e.target.closest("[data-aoc-win]");if(win){inst.g.winSel=win.dataset.aocWin;qa("[data-aoc-win]",el).forEach(b=>b.setAttribute("aria-pressed",b===win));return;}
+    const plan=e.target.closest("[data-aoc-plan]");if(plan){loadPlan(inst,+plan.dataset.aocPlan);return;}
+    const auto=e.target.closest("[data-aoc-auto]");if(auto&&e.target.closest(".aoc-sw")){auto.classList.toggle("on");return;}
+    const a=e.target.closest("[data-aoc-act]");if(!a)return;
+    act(inst,a.dataset.aocAct,a);
+  });
+  el.addEventListener("input",e=>{
+    const t=e.target;
+    if(t.matches('[data-aoc="bkSearch"]'))paintBookings(inst,t.value);
+    else if(t.matches('[data-aoc="recSearch"]'))paintReception(inst);
+    else if(t.matches('[data-aoc="memFilter"]'))paintMembers(inst);
+    else if(t.matches('[data-aoc="chLow"],[data-aoc="chHigh"]')){const l=+q('[data-aoc="chLow"]',el).value,h=+q('[data-aoc="chHigh"]',el).value;q('[data-aoc="chAvg"]',el).textContent=(l&&h)?Math.round((l+h)/2):"..";}
+    else if(t.matches('[data-aoc="ceDate"],[data-aoc="ceRep"],[data-aoc="ceCount"],[data-aoc="ceName"],[data-aoc="ceDraft"],[data-aoc="ceSport"]'))cePreview(inst);
+    else if(t.matches("[data-aoc-model],[data-aoc-fee],input[name='aoc-who']"))rCalc(inst);
+  });
+  el.addEventListener("change",e=>{const t=e.target;if(t.matches('[data-aoc="memFilter"]'))paintMembers(inst);else if(t.matches("input[name='aoc-who']"))rCalc(inst);else if(t.matches("[data-aoc-kit]")){const p=m.players[+t.dataset.aocKit];p.kitOut=t.checked;t.closest("label").classList.toggle("on",t.checked);q('[data-aoc="kitPill"]',el).textContent=m.players.filter(x=>x.kit&&x.kitOut).length+" of "+m.players.filter(x=>x.kit).length+" out";if(t.checked)log(inst,nowHM(),d.labels.hire+" kit issued: "+p.name);paintToday(inst);}else if(t.matches('[data-aoc="ceDate"],[data-aoc="ceRep"],[data-aoc="ceDraft"],[data-aoc="ceSport"]'))cePreview(inst);});
+  el.addEventListener("keydown",e=>{if(e.key==="Escape"){closeBig(inst);closePlans(inst);}const a=e.target.closest&&e.target.closest("a[data-aoc-go]");if(a&&(e.key==="Enter"||e.key===" ")){e.preventDefault();go(inst,a.dataset.aocGo);}});
+  addEventListener("keydown",e=>{if(e.key==="Escape"){closeBig(inst);closePlans(inst);}});
+  /* the game clock */
+  inst.g.timer=setInterval(()=>{if(!el.isConnected){clearInterval(inst.g.timer);return;}inst.g.simSec++;if(toNext(inst)<=0&&nextStep(inst)){inst.g.phase++;paintRod(inst);paintGC(inst);}renderBig(inst);},1000);
+}
+function act(inst,name,btn){
+  const d=inst.data,m=inst.m,el=inst.el,say=t=>toast(inst,t),msg=(k,t)=>{const e=q('[data-aoc="'+k+'"]',el);if(e){e.textContent=t;setTimeout(()=>{if(e.textContent===t)e.textContent=" ";},3200);}};
+  const b=m.bookings.find(x=>x.ref===inst.sel.booking);
+  switch(name){
+    case "remind":{const n=m.players.filter(p=>!p.waiver).length;say(n?"Reminder sent to "+plural(n,"player")+": a link to sign the safety form on the phone before "+d.calendar.regular.dayName+".":"Nobody to remind: every form is signed.");break;}
+    case "addBooking":say("On the live system this opens a booking taken by hand: a phone booking, a walk-up paid in cash, the same record as everyone else.");break;
+    case "refund":if(b){b.status="refunded";say(gbp(b.paid)+" goes back to the card it came from within five working days. "+firstName(b.name)+" gets the email; the platform fee comes back too.");paintBookings(inst,(q('[data-aoc="bkSearch"]',el)||{}).value);}break;
+    case "move":if(b){const to=m.dates.find(x=>!x.tba&&x!==b.date);if(to){const was=b.paid;b.date=to;b.status="moved";const nb=buildBookings({...d,bookings:[]},m.dates,[]);say("Moved to "+fmtLong(to.dt)+". The money moves with the booking"+(to.price&&to.price!==was?"; the difference is "+(to.price>was?"charged":"refunded")+" and the confirmation says so":"; nothing else to charge")+".");paintBookings(inst,(q('[data-aoc="bkSearch"]',el)||{}).value);}}break;
+    case "resend":if(b)say("Pass re-sent to "+firstName(b.name)+" by email and text: the QR, the date, the gate time and what was paid.");break;
+    case "focusAdd":{const i=q('[data-aoc="ceName"]',el);if(i){i.focus();i.select();}break;}
+    case "ceGo":{const n=cePreview(inst);msg("ceMsg",plural(n,"date")+" created"+(q('[data-aoc="ceDraft"]',el).checked?" as drafts":" and on sale"));break;}
+    case "draw":{const x=m.dates[inst.sel.date];const ents=(d.entrants.length?d.entrants:m.players.map(p=>p.name)).slice(0,Math.max(0,x.cap-(x.left||0)));const r=rng(seedFrom(x.name));const order=[...ents].sort(()=>r()-.5);const B=d.money.bracketSize||32;let h="";for(let i=0;i<B/2;i++){const a=order[i]||null,c=order[B-1-i]||null;h+='<div><i>'+(i+1)+'</i><span>'+esc(a||"bye")+'</span><em>v</em><span>'+esc(c||"bye")+'</span></div>';}const br=q('[data-aoc="bracket"]',el);br.innerHTML='<p class="aoc-lbl" style="margin-bottom:8px">Round one, drawn at random. Byes fill the empty slots.</p><div class="aoc-bracket">'+h+'</div>';br.hidden=false;q('[data-aoc="evNote"]',el).textContent="Drawn. Every entrant gets the pairing by text the moment you press publish.";break;}
+    case "msgEntrants":case "msgBooked":q('[data-aoc="evNote"]',el).textContent="Message sent to everyone booked on this date, by email and text. You write it once; the console knows who is on the list.";break;
+    case "postEvent":q('[data-aoc="evNote"]',el).textContent="Posted to your Facebook page with the booking link. The same words go on the site's Events page.";break;
+    case "mailMembers":q('[data-aoc="evNote"]',el).textContent="Sent to every member: the date, the discount already applied to their fares, and the booking link.";break;
+    case "setDate":q('[data-aoc="evNote"]',el).textContent="On the live system: pick the date, it goes on the site, in the structured data and to every member in the same minute.";break;
+    case "closeSales":q('[data-aoc="evNote"]',el).textContent="Sales closed: the site shows this date as full and the waiting list opens.";break;
+    case "export":say("On the live system this downloads a spreadsheet of what is on screen. Nothing leaves this prototype.");break;
+    case "emailList":say("On the live system this opens a message to everyone opted in. Nothing is sent from this prototype.");break;
+    case "renewAll":{const M=d.membership,n=M.count||memberRows(inst).length;q('[data-aoc="queued"]',el).textContent=n;q('[data-aoc="renewed"]',el).textContent=Math.round(n*0.31);q('[data-aoc="renewMsg"]',el).textContent="Queued for "+M.renewMonth+": one email, one "+gbp(M.price)+" pay link each. "+Math.round(n*0.31)+" would have paid in the first week at last year's rate.";say("Renewal run queued for "+n+" members.");break;}
+    case "editPlans":openPlans(inst);break;
+    case "closePlans":closePlans(inst);break;
+    case "pSave":{const dp=draftPlan(inst),i=m.plans.findIndex(x=>x.id===inst.sel.plan);if(i>=0)m.plans[i]=dp;paintPlanList(inst);q('[data-aoc="pMsg"]',el).textContent="Saved";setTimeout(()=>{q('[data-aoc="pMsg"]',el).textContent="";},2500);paintMembers(inst);break;}
+    case "pNew":{const id=Math.max(...m.plans.map(p=>p.id))+1;m.plans.push({id,name:"New plan",kind:"sub",price:15,per:"month",disc:5,bbs:6,guests:0,early:72,status:"Draft",members:0,note:"Draft"});loadPlan(inst,id);break;}
+    case "cardLink":say("A card-update link is sent by email and text. The membership carries on the moment it is paid.");break;
+    case "stockTake":say("On the live system: count the shelf, type the numbers, every difference is logged with your name and the time.");break;
+    case "delivery":say("On the live system: pick the items, type the quantities, the free stock goes up and the picking list follows.");break;
+    case "addProduct":say("On the live system: name, price, member price, reorder level, and whether it sells online, on the day, or both.");break;
+    case "printPick":case "print":if(typeof window.print==="function")window.print();break;
+    case "bag":{const row=btn.closest("[data-aoc-pre]");if(row){row.style.opacity=".55";btn.textContent="Bagged";btn.disabled=true;say("Bagged and named. The player collects at the safe zone.");}break;}
+    case "regGo":{const sel=q('[data-aoc="regWho"]',el);if(!sel.value)return;const p=m.players[+sel.value],reg=(q('[data-aoc="regIn"]',el).value||"").toUpperCase().trim();p.arrived=true;p.reg=reg||REGS[p.id%REGS.length];q('[data-aoc="regIn"]',el).value="";msg("regMsg",p.name+" marked arrived");log(inst,nowHM(),"Arrived: "+p.name+", "+p.reg);repaint(inst);break;}
+    case "scan":{const p=m.players.find(x=>!x.in);if(!p){q('[data-aoc="recCount"]',el).textContent="Everyone is in";return;}checkIn(inst,p);break;}
+    case "okNext":q('[data-aoc="okPane"]',el).hidden=true;q('[data-aoc="scanPane"]',el).hidden=false;break;
+    case "kitAll":m.players.filter(p=>p.kit).forEach(p=>p.kitOut=true);log(inst,nowHM(),"Every "+d.labels.hire.toLowerCase()+" kit issued");repaint(inst);break;
+    case "chSave":{const sel=q('[data-aoc="chWho"]',el);if(!sel.value)return;const p=m.players[+sel.value],l=+q('[data-aoc="chLow"]',el).value||314,h=+q('[data-aoc="chHigh"]',el).value||(l+11);p.chrono={low:l,high:h,t:nowHM()};q('[data-aoc="chLow"]',el).value="";q('[data-aoc="chHigh"]',el).value="";q('[data-aoc="chAvg"]',el).textContent="..";msg("chMsg",p.name+" logged at "+Math.round((l+h)/2)+" fps average");log(inst,nowHM(),"Chrono logged: "+p.name+", "+l+"/"+h+" fps"+(m.limit&&h>m.limit?" (OVER)":""));repaint(inst);break;}
+    case "spGo":{const sel=q('[data-aoc="spWho"]',el),out=q('[data-aoc="spOut"]',el);if(!sel.value){out.innerHTML='<p class="aoc-lbl">Log a reading first.</p>';return;}const p=m.players[+sel.value],v=+q('[data-aoc="spVal"]',el).value;if(!v){out.innerHTML='<p class="aoc-lbl">Enter a reading.</p>';return;}const a=Math.round((p.chrono.low+p.chrono.high)/2),diff=v-a,bad=(m.limit&&v>m.limit)||diff>12;p.flagged=bad;out.innerHTML=kv("This morning's average",a+" fps")+kv("Now",v+" fps")+kv("Difference",'<span class="'+(bad?"aoc-stop-c":"aoc-go-c")+'">'+(diff>0?"+":"")+diff+' fps</span>')+'<p style="margin-top:10px">'+chip(bad?"Over the limit or turned up: marshal to pull the gun":"Consistent with this morning",bad?"stop":"go")+'</p>';log(inst,nowHM(),"Spot check: "+p.name+", "+v+" fps"+(bad?" (FLAGGED)":""));q('[data-aoc="spVal"]',el).value="";repaint(inst);break;}
+    case "spin":spin(inst);break;
+    case "bigOpen":openBig(inst);break;
+    case "bigClose":closeBig(inst);break;
+    case "gcSave":{const G=inst.g,g=curGame(inst);if(!g){msg("gcMsg","Jump to a game on the run of day first");return;}if(!G.winSel){msg("gcMsg","Pick who won it");return;}const id=q('[data-aoc="gcPotm"]',el).value,p=id===""?null:m.players[+id];G.games.push({g,mode:G.spinMode?G.spinMode[0]:"Team deathmatch",won:G.winSel,potm:p?p.name:"none"});if(p)p.pts+=3;G.bigState="result";openBig(inst);log(inst,hhmm(Math.floor(G.simSec/60)),"Game "+g+": "+G.winSel+" won, player of the match "+(p?p.name:"none"));G.winSel=null;qa("[data-aoc-win]",el).forEach(x=>x.setAttribute("aria-pressed",false));msg("gcMsg","Logged and on the screen");paintGC(inst);break;}
+    case "pod":{const top=[...m.players].sort((a,b)=>b.pts-a.pts)[0];inst.g.podName=top.name;inst.g.bigState="pod";openBig(inst);log(inst,hhmm(Math.floor(inst.g.simSec/60)),"Player of the day: "+top.name);break;}
+    case "invite":say("On the live system: an email with a link; they pick a password and land on the screens their role allows.");break;
+    case "saveFares":saveFares(inst);break;
+    case "resetFares":{d.tickets.forEach(t=>{if(t._orig){t.price=t._orig.price;t.member=t._orig.member;}});d.membership.price=d.membership._orig!=null?d.membership._orig:d.membership.price;drawSettings(inst);say("Back to what your site publishes.");break;}
+    case "newAuto":say("On the live system: pick a trigger, an audience and a message, and it runs until you switch it off.");break;
+    case "saveRule":say("Rule saved. It runs on its own from the next date that qualifies.");break;
+  }
+}
+
+/* ---------- the live switch, for a site whose toolbar shows a running day ---------- */
+function live(inst,on,L){
+  const P=inst.m.players,LV=Object.assign({},inst.data.live,L||{});
+  if(on){inst._liveSaved=P.map(p=>[p.arrived,p.in]);const n=Math.min(P.length,LV.inGate||Math.round(P.length*0.95));P.forEach((p,i)=>{p.arrived=i<n||p.arrived;p.in=i<n;});}
+  else if(inst._liveSaved){P.forEach((p,i)=>{[p.arrived,p.in]=inst._liveSaved[i];});inst._liveSaved=null;}
+  const c=q('[data-aoc="liveChip"]',inst.el);if(c){c.hidden=!on;c.textContent="Live "+LV.time+" · game "+LV.game+" of "+LV.of+" · "+(LV.onSite||P.length)+" on site";}
+  repaint(inst);
+}
+
+/* ---------- mount ---------- */
+function mount(el,opts){
+  opts=opts||{};
+  const inst={el,opts,brand:Object.assign({name:"Your site",short:"",logo:"",colours:{}},opts.brand||{}),theme:Object.assign({colours:"client",mode:"light"},opts.theme||{}),data:normalise(opts.data),role:"owner",screen:"today",sel:{booking:null,date:0,hist:null,plan:null},reduce:matchMedia("(prefers-reduced-motion:reduce)").matches};
+  if(!inst.brand.short)inst.brand.short=inst.brand.name;
+  if(inst.theme.mode==="auto")inst.theme.mode=matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light";
+  const d=inst.data;
+  d.tickets.forEach(t=>{t._orig={price:t.price,member:t.member};});d.membership._orig=d.membership.price;
+  inst.r=rng(seedFrom(d.business.name));
+  const dates=buildDates(d.calendar,d.events);
+  const players=buildRoster(d,inst.r);
+  const m=inst.m={dates,next:dates.find(x=>!x.tba)||dates[0]||{dt:new Date(),name:"Next running day",kind:"day"},players,feed:[],customers:0,limit:parseInt(String((d.settings.chrono||{}).aeg||"").replace(/[^\d]/g,""),10)||0};
+  m.preTotal=d.preorders.reduce((a,p)=>a+p.n*p.price,0);
+  m.bookings=buildBookings(d,dates,players);
+  m.refOf=p=>{const b=m.bookings.find(x=>x.name===p.name);return b?b.ref:d.ref+"-"+(1000+p.id*37).toString(36).toUpperCase().slice(0,4);};
+  m.sessionsPerMonth=Math.max(1,Math.round(30/(d.calendar.regular.every||7)));
+  m.customers=Math.max(players.length*9,120);
+  m.plans=buildPlans(d,m.customers);
+  m.stock=buildStock(d,rng(seedFrom(d.business.name+"stock")));
+  m.history=buildHistory(d,players,rng(seedFrom(d.business.name+"hist")));
+  m.schedule=buildSchedule(d);
+  const day=d.calendar.regular.dayName;
+  [["21:14","Booked: "+players[7].name+", 2 "+d.labels.walkon.toLowerCase()+", "+fmtDM(m.next.dt)],["20:52","Pre-order: "+players[12].name+", "+(d.preorders[0]?d.preorders[0].label.toLowerCase():"lunch")],["19:40","Day sheet printed for "+day],["18:31","Safety form signed: "+players[3].name],["17:05","Joined as a member at the checkout: "+players[15].name],["16:12","Booked: "+players[22].name+", 1 "+d.labels.hire.toLowerCase()+", "+fmtDM(m.next.dt)]].forEach(f=>m.feed.push({t:f[0],msg:f[1]}));
+  inst.g={phase:2,simSec:(mins(m.schedule[2].t)||600)*60,bigState:"sched",spinMode:null,rot:0,podName:null,games:[],winSel:null};
+  el.classList.add("aoc");
+  if(opts.ph)el.setAttribute("data-ph-on","");
+  shell(inst);
+  applyTheme(inst);
+  paintAll(inst);
+  wire(inst);
+  setRole(inst,"owner");
+  let first=opts.screen||"today";
+  if(opts.readQuery!==false){try{const u=new URLSearchParams(location.search);const s=u.get("screen")||u.get("tab");if(s&&DRAW[s])first=s;}catch(e){}}
+  inst.opts.scroll=false;go(inst,first);inst.opts.scroll=opts.scroll;
+  inst.go=n=>go(inst,n);inst.setTheme=t=>{Object.assign(inst.theme,t||{});applyTheme(inst);};inst.setBrand=b=>{Object.assign(inst.brand,b||{});if(b&&b.colours)Object.assign(inst.brand.colours,b.colours);applyTheme(inst);};inst.live=(on,L)=>live(inst,on,L);
+  instances.push(inst);
+  return inst;
+}
+return {VERSION,mount,instances,live:(on,L)=>instances.forEach(i=>live(i,on,L)),setBrand:b=>instances.forEach(i=>i.setBrand(b)),setTheme:t=>instances.forEach(i=>i.setTheme(t))};
+})();
+if(typeof window!=="undefined")window.AOC=AOC;
+
+</script>
+<script>
+(function(){
+  var opts={"brand":{"name":"NSC Airsoft","short":"NSC","logo":"../assets/logo.png","colours":{"accent":"#1A62EE","accent2":"","ground":""}},"data":{"business":{"name":"NSC Airsoft","short":"NSC","kind":"outdoor woodland airsoft club and game site","street":"Bygate Plantation, Black Heddon","town":"Belsay","county":"Newcastle upon Tyne","postcode":"NE20 0JR","phone":"07983 333521","phoneE164":"+447983333521","email":"Info@nscairsoft.co.uk","site":"https://www.nscairsoft.co.uk","domain":"nscairsoft.co.uk","rating":"4.9","reviews":"67","sourcedOn":"2026-09-24","sports":["Airsoft"]},"labels":{"walkon":"Walk-on","hire":"Hire","half":"half day","full":"full day"},"tickets":[{"key":"walkon.full","kind":"walkon","sess":"full","label":"Walk-on, full day","price":20,"member":20,"published":true},{"key":"hire.full","kind":"hire","sess":"full","label":"Hire, full day","price":40,"member":40,"published":true}],"membership":{"price":25,"per":"year","year":"twelve months from joining","yearEnd":"twelve months on","renewMonth":"the month it runs out","count":84,"sample":true},"block":{"price":170,"days":10,"dayRate":17,"label":"Ten-Sunday block, proposed"},"calendar":{"regular":{"day":0,"dayName":"Sunday","label":"Sunday game day","detail":"Gates 08:30 (your Google listing). Game and finish times are yours to confirm.","count":12},"extra":{"day":6,"dayName":"Saturday","label":"Saturday event day","detail":"Not published. Nothing is added until you say so.","fromMonth":13,"toMonth":13,"tba":true},"times":["08:30"],"lunch":"","cap":60,"breakFrom":"12-25","breakTo":"12-25","timesSample":true,"spaces":[38,21,47,29,12,44,31,55,17,40,50,26]},"events":[{"key":"night","name":"Sample: Halloween night game","short":"Night game","iso":"2026-10-31","dayName":"Saturday","detail":"A sample event to show the shape of the page. Not yours, not announced. Sample: £25 entry, £10 deposit to secure.","times":["16:00"],"price":25,"deposit":10,"prize":false,"left":14,"cap":40,"sample":true},{"key":"newyear","name":"Sample: New Year game day","short":"New Year","iso":"2027-01-03","dayName":"Sunday","detail":"A sample event to show the shape of the page. Not yours, not announced. Sample: 10% off the walk-on fee.","times":["08:30"],"prize":false,"off":0.9,"offLabel":"Sample: 10% off game day fees","prizes":5,"sample":true}],"roster":{"names":["Sam Ridley","Ethan Lowes","Toby Lax","Aaron Purvis","Adam Featherstone","Jordan Peart","Jack Hetherington","Sophie Gill","Callum Fenwick","Kieran Walton","Amy Proud","Connor Raine","Liam Stobbs","Harvey Blackett","Lewis Armstrong","Olivia Dodds","Ryan Coates","Tyler Burnip","Mason Craggs","Zak Elliott","Reece Hutchinson","Finlay Dent","Alfie Marley","Charlie Wearmouth","George Pickering","Kyle Snowdon","Lucy Cummings","Priya Nair","Nathan Bell","Owen Hodgson","Isaac Thwaites","Louie Dixon","Freddie Wren","Archie Bowes","Chloe Bainbridge","Dan Metcalfe","Ellis Vickers","Joel Sowerby","Max Teasdale","Rhys Oliver","Ben Nattrass","Molly Errington","Jake Ramshaw"],"mix":[["walkon","full",true,12],["walkon","full",false,15],["hire","full",true,2],["hire","full",false,10]],"noWaiver":[2,7,13,19,26,31,38],"under18":[4,11,17,24,33],"pinName":"Priya Nair"},"preorders":[{"key":"lunch","label":"Hot food","n":17,"price":6},{"key":"hpa","label":"Nuprol mags","n":5,"price":14.99},{"key":"bb","label":"Bags of BBs","n":9,"price":10}],"products":[["Tippmann .25g BBs, 4000rd",10,"Your shop, your price"],["Tippmann .30g BBs, 1kg",15,"Your shop, your price"],["Tippmann Tracer .25 BBs, 1kg",16.5,"Your shop, your price"],["Blaster Devil 0.25g BBs, 3000",8,"Your shop, your price"],["Nuprol N-Mag high-cap, 350rd",14.99,"Your shop, your price"],["Ares Amoeba 0.25g BBs, 1kg",10,"Your shop, your price"]],"bookings":[["NSC-4K7Q","Sam Ridley","next",1,0,"full",true,"paid"],["NSC-9M2A","Ethan Lowes","next",2,1,"full",false,"paid",12],["NSC-3P8H","Sophie Gill","next",1,0,"full",true,"paid",6,true],["NSC-7R1X","Callum Fenwick","next",1,1,"full",false,"paid"],["NSC-2Z6L","Amy Proud","next",3,0,"full",false,"refunded"],["NSC-5D4M","Connor Raine",1,1,0,"full",true,"paid"],["NSC-8V3N","Olivia Dodds",1,2,2,"full",false,"paid",24],["NSC-6B9C","Ryan Coates",2,1,0,"full",true,"paid"],["NSC-1H5F","Priya Nair",2,1,1,"full",false,"moved"],["NSC-0J2T","Nathan Bell",3,4,0,"full",false,"paid",6]],"members":[["Sam Ridley","12 Mar",9,0],["Ethan Lowes","3 Apr",7,0],["Sophie Gill","18 Apr",11,0],["Callum Fenwick","2 May",5,0],["Amy Proud","16 May",8,0],["Connor Raine","6 Jun",6,0],["Olivia Dodds","20 Jun",4,0],["Ryan Coates","4 Jul",10,0],["Priya Nair","25 Jul",3,0],["Nathan Bell","8 Aug",2,0]],"entrants":["Sam Ridley","Ethan Lowes","Toby Lax","Aaron Purvis","Adam Featherstone","Jordan Peart","Jack Hetherington","Sophie Gill","Callum Fenwick","Kieran Walton","Amy Proud","Connor Raine","Liam Stobbs","Harvey Blackett","Lewis Armstrong","Olivia Dodds","Ryan Coates","Tyler Burnip"],"money":{"lines":[["Sunday tickets","walk-on and hire, paid ahead",1640],["Hire packages","booked and paid before Sunday",520],["Memberships","with UKARA registration",375],["Shop pre-orders","BBs, mags, collected at the safe zone",286],["Event deposits","sample night game",140],["Group bookings","deposits held",200],["Gift vouchers","switched off in this proposal",0]],"payouts":[["Sun 6 Sep","Wed 9 Sep",612,"paid"],["Sun 13 Sep","Wed 16 Sep",688,"paid"],["Sun 20 Sep","Wed 23 Sep",704,"paid"],["Sun 27 Sep","Wed 30 Sep",0,"expected"]],"cardFees":58,"lastYear":780,"lastYearPlayers":0,"walkups":160,"platformFeePct":0.02,"joinedToday":2,"chronoTime":"09:15","bracketSize":32},"settings":{"rule":"Gates 08:30 (your Google listing). Game and finish times are yours to confirm.","chrono":null,"minAge":"Players from 11 years of age","under18":"","payment":"","todayTake":"cash at the gate"},"live":{"time":"11:02","game":2,"of":4,"next":"11:40","onSite":39,"inGate":37,"closed":"10:00"},"model":{"days":50,"addAvg":9,"groupAvg":400,"foodPer":6,"depositPct":0.25},"proposed":[{"label":"Book a Sunday online and pay by card","enabled":true},{"label":"Hire package pre-booked, counted on Friday","enabled":true},{"label":"Membership and UKARA registration bought on the page","enabled":true},{"label":"Shop pre-order, collect at the safe zone on Sunday","enabled":true},{"label":"Player account, waiver on file, game count for UKARA","enabled":true},{"label":"Group and party quote on screen with a deposit","enabled":true},{"label":"Events page with one address per date","enabled":true},{"label":"Gift vouchers","enabled":false}],"omitted":{"reviews":"The Google listing returns no usable snippets. Nothing is quoted; the aggregate sits beside three empty slots.","times":"Your site publishes no gate, game or finish times. Gates 08:30 comes from your Google listing; every other time on the page is a proposal and marked.","membership_price":"Your site lists annual membership and UKARA registration under game day fees with no price. The £25 on the page is a sample figure, marked, and you set it.","half_day":"No half day is published, so none is sold.","member_rate":"No member rate is published, so members pay the walk-on fare on the page until you say otherwise.","events":"You publish no dated events. The two on the Events page are samples to show the shape and say so.","owner_name":"Your admin is known only as Mick on Facebook and Instagram; no name is used on the page.","reseller":"A Battlezone Paintball Ltd listing sells Airsoft Newcastle sessions at £35 a head through a booking platform at your postcode. Whether that is you, a partner or a reseller is asked as a question in the proposal, never stated as a fact, and nothing from that listing is used on the site.","stock_imagery":"The Call of Duty artwork and the two shop banners on your homepage look like stock or game imagery, so they are not reused."},"wedge":{"kind":"phone","name":"the phone","feePct":0,"feePer":0,"paysBy":"you","todayTake":"cash at the gate"},"proposal":{},"ref":"NSC","team":{"owner":"You"}},"site":"../index.html","theme":{"colours":"client","mode":"light"},"version":"0.1.0"};
+  opts.ph=true;
+  var inst; try{ inst=AOC.mount(document.getElementById("aoc"),opts); }catch(e){ window.__aocError=String(e&&e.stack||e); throw e; }
+  var page=document.getElementById("page"),host=document.getElementById("aoc");
+  document.getElementById("devDesk").addEventListener("click",function(){page.classList.remove("tablet");this.setAttribute("aria-pressed",true);document.getElementById("devTab").setAttribute("aria-pressed",false);});
+  document.getElementById("devTab").addEventListener("click",function(){page.classList.add("tablet");this.setAttribute("aria-pressed",true);document.getElementById("devDesk").setAttribute("aria-pressed",false);});
+  document.getElementById("phBtn").addEventListener("click",function(){var on=host.toggleAttribute("data-ph-on");this.setAttribute("aria-pressed",on);});
+  /* the toolbar of the site this console belongs to links here with ?screen=<name>; the same works for the rail */
+  window.__aoc=inst;
+})();
+</script>
+</body>
+</html>

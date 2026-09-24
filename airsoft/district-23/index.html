@@ -133,15 +133,22 @@ body:not(.ph-on) #phLegend{display:none}
 [data-ph]{position:relative}
 body.ph-on [data-ph]{outline:1.5px dashed var(--ph);outline-offset:7px;border-radius:2px}
 body.ph-on [data-ph]>.phtag{display:inline-flex}
+/* the chip parks 13px above its box; a box that clips its overflow (a card, a tile, a torn slab) cut the chip in half ("SAMPLE CARD" on the past-events cards). While placeholders show, a box with a chip does not clip. */
+/* In the flow, the chip takes real space at the top of its box: a floating chip covered a field label 100% (No Limits), was cut in half by a clipping card (NTAC) and sat on a heading (District 23). Grid boxes give it a full row; a key-value row wraps it onto its own line; a button cannot hold it, so there it hangs above. */
+.kv:has(>.phtag){flex-wrap:wrap}
+.kv>.phtag{flex:0 0 100%;margin:0 0 4px}
+button>.phtag{position:absolute;top:auto;bottom:calc(100% + 2px);left:0;margin:0}
 body.ph-on .tiers .tier[data-ph]{outline-offset:-1px}
 .kv[data-ph]{margin-top:18px}
-.phtag{display:none;position:absolute;top:-13px;left:8px;z-index:6;align-items:center;gap:5px;background:var(--ph);color:var(--on-ph);
+.phtag{display:none;position:relative;margin:0 0 8px;grid-column:1/-1;justify-self:start;align-self:flex-start;z-index:6;align-items:center;gap:5px;background:var(--ph);color:var(--on-ph);
   font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:2px 8px;border-radius:2px;
-  max-width:calc(100% - 16px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.5}
+  max-width:calc(100% - 16px);white-space:normal;line-height:1.35}   /* wraps: a truncated chip cut mid-word ("YOUR POSTER R") is a chip nobody can read */
 .ph{text-decoration:none}
 body.ph-on .ph{border-bottom:1.5px dashed var(--ph);padding-bottom:1px}
 .note{display:none;gap:10px;align-items:flex-start;margin-top:14px;padding:10px 12px;border:1px dashed var(--red-ink);background:var(--red-ghost);border-radius:3px;font-size:13.5px;line-height:1.45;color:var(--text)}
 .notes-on .note{display:flex}
+.note,.note span{font-family:var(--ui);font-size:13.5px;font-weight:400;font-style:normal;text-transform:none;letter-spacing:0;text-align:left;line-height:1.45;filter:none;text-shadow:none;color:var(--text-2)}
+.note span{display:block;flex:1 1 auto;min-width:0}   /* a note inside a display-type band inherits none of it: the label and the text piled on top of each other on Dirty Dog */
 .notesonly{display:none}
 .notes-on .notesonly{display:block}
 .note b{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--red-ink);flex:none;padding-top:3px}
@@ -232,13 +239,14 @@ nav.main button.on{color:var(--text);box-shadow:inset 0 -3px 0 var(--red-hi)}
 /* ---------- panels ---------- */
 .enamel{position:relative;background:var(--surface);border:1px solid var(--line-strong);border-radius:3px;box-shadow:var(--shadow)}
 .enamel::before,.enamel::after{display:none}
-.enamel.red{background:var(--red);color:#fff;border-color:var(--red-2)}
+.enamel.red{background:var(--red);color:var(--on-red,#fff);border-color:var(--red-2)}
 .enamel .pad{padding:clamp(20px,2.2cqi,32px)}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:3px}
 .pad{padding:clamp(16px,1.8cqi,24px)}
 .grid{display:grid;gap:14px}
 .cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
 .split{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,3.4cqi,56px);align-items:start}
+.split>*{min-width:0}   /* 1fr is minmax(auto,1fr): a wide child widens the column instead of wrapping */
 .split.rev{grid-template-columns:.9fr 1.1fr}
 .stick{align-self:stretch}.stick>*{position:sticky;top:120px}#app.mobile .stick>*{position:static}
 .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -286,6 +294,7 @@ h1,h2,h3,h4,.bigfig,.fare tbody th,.tt .t,.day .date b,.board .r .d,.tier .price
 /* Saira Stencil One carries tall ascent and descent metrics, so every display line box is opened up and every heading gets clear air above and below */
 h1{line-height:1}h2{line-height:1.08;margin-top:16px!important;margin-bottom:14px!important}h3{line-height:1.12;margin-top:12px!important}
 .bigfig,.tt .t,.day .date b,.board .r .d,.fare tbody th,.fare td.p,.tier .price,.sign b,.feat b,.icons b,.tt h4,.chrono td b,.rip{line-height:1.1}
+.rip{margin-top:28px}   /* the stencil face's line box runs past its glyphs; the date rip sat a third of the way into the event title */
 .tt h4{margin-bottom:12px;line-height:1.4}.tt p{margin-top:6px}.tt li{padding-block:18px}.bigfig{margin-top:24px!important;line-height:1.15}html{scroll-padding-top:140px}.icons .l{margin-top:6px}
 .eyebrow.red{color:var(--red-ink)}
 /* ---------- hero: split. Type on asphalt, your slider photograph on the right behind a hazard edge, the star as a watermark ---------- */
@@ -310,7 +319,7 @@ h1{line-height:1}h2{line-height:1.08;margin-top:16px!important;margin-bottom:14p
 @keyframes drip-down{from{clip-path:inset(0 0 58% 0)}to{clip-path:inset(0 0 0 0)}}
 html.splat-done .hero .splat{animation:none}
 @media (prefers-reduced-motion:reduce){.hero .splat{animation:none}}
-.hero .wrap{position:relative;z-index:2;padding-block:clamp(22px,2.6cqi,40px) clamp(28px,3.4cqi,56px);width:100%}
+.hero .wrap{position:relative;z-index:2;padding-block:clamp(22px,2.6cqi,40px) clamp(28px,3.4cqi,56px)}
 .hero .copy{max-width:min(62%,780px)}
 .hero .place{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:24px}
 .hero .place .eyebrow{color:var(--text);white-space:nowrap}
@@ -449,8 +458,9 @@ html.splat-done .hero .splat{animation:none}
 .steps{display:flex;border:1px solid var(--line-strong);border-radius:3px;overflow:hidden;background:var(--surface);margin-bottom:24px}
 .steps div{flex:1;padding:11px 14px;border-right:1px solid var(--line);font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
 .steps div:last-child{border-right:0}
-.steps div.on{background:var(--red);color:#fff}
+.steps div.on{background:var(--red);color:var(--on-red,#fff)}
 .steps div.done{color:var(--go)}
+.steps div.on.done{color:var(--on-red,#fff)}   /* after paying every step is done and the last is still the active one: green on the accent read 1.1:1 */
 .booklayout{display:grid;grid-template-columns:1fr 350px;gap:24px;align-items:start}
 .booklayout>*{min-width:0}
 #bkDate{min-width:0;width:100%}
@@ -478,7 +488,7 @@ html.splat-done .hero .splat{animation:none}
 .addon .p{margin-left:auto;font-family:var(--mono);font-weight:600;font-size:16px;white-space:nowrap}
 .field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
 .field label{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);font-weight:500}
-.field input,.field select,.field textarea{background:var(--sunk);border:1px solid var(--line-strong);border-radius:2px;padding:11px 12px;min-height:44px}
+.field input,.field select,.field textarea{background:var(--sunk);border:1px solid var(--line-strong);border-radius:2px;padding:11px 12px;min-height:44px;width:100%;max-width:100%;min-width:0}   /* a select's min-content is its longest option: 452px on the parties calculator, and it pushed the whole card past a 390 screen on four sites */
 .check{display:flex;gap:10px;align-items:flex-start;padding:9px 0;font-size:14.5px;color:var(--text-2);cursor:pointer}
 .check input{margin-top:4px;accent-color:var(--red);width:18px;height:18px;flex:none}
 .upsell{border:2px solid var(--red-hi);border-radius:3px;padding:14px 16px;background:var(--red-ghost);margin-top:16px}
@@ -488,7 +498,7 @@ html.splat-done .hero .splat{animation:none}
 /* ---------- tiers ---------- */
 .tiers{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:16px;align-items:start}
 .tier{display:flex;flex-direction:column}
-.tier .price{font-family:var(--display);font-size:54px;line-height:1;margin-top:10px}
+.tier .price{font-family:var(--display);font-size:54px;line-height:1;margin-top:18px}   /* the stencil face's line box runs past its glyphs; the price sat 30% into the plan name's box */
 .tier .price small{font-family:var(--ui);font-size:15px;font-weight:400;color:var(--text-3);text-transform:none}
 .tier ul{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:9px;flex:1}
 .tier li{position:relative;padding-left:22px;font-size:15.5px;color:var(--text-2)}
@@ -593,7 +603,6 @@ footer.site ul button:hover{color:var(--red-ink)}
   .kv{flex-direction:column;align-items:flex-start;gap:2px}
   .kv b{white-space:normal}
   .kv[data-ph]{margin-top:12px}
-  .kv[data-ph]>.phtag{position:static;top:auto;bottom:auto;left:auto;margin:0 0 4px;max-width:100%}
   .wordmark{font-size:17px}
   .wordmark small{display:none}
   .brandmark{width:34px;height:34px}
@@ -604,8 +613,6 @@ footer.site ul button:hover{color:var(--red-ink)}
   .hero .wrap{padding-top:22px}
   .hero .brandmark{width:60px;height:60px}
   .hero h1{font-size:38px}
-  .phtag{white-space:normal;line-height:1.35;top:auto;bottom:calc(100% - 9px)}
-  .tile>.phtag{top:8px;bottom:auto}
   .brandrow img{height:32px}
   .brandrow .mark-star{height:40px}
   .rip{font-size:22px}
@@ -678,7 +685,7 @@ body.ph-on .mapframe[data-ph]{outline-offset:4px}
 .pin{position:absolute;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:44px;min-height:44px;padding:0 4px 2px;transform:translate(-50%,-100%);transform-origin:50% 100%;cursor:pointer;color:var(--text)}
 .pin i{display:block;width:16px;height:16px;border-radius:50%;background:var(--red-hi);border:3px solid #F2ECE3;box-shadow:0 0 0 2px rgba(0,0,0,.55),0 6px 14px rgba(0,0,0,.6);order:2}
 .pin span{order:1;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;background:#1F1613;color:#F2ECE3;border:1px solid var(--line-strong);padding:5px 8px;border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,.5)}
-.pin:hover span,.pin[aria-pressed="true"] span{background:var(--red);border-color:var(--red-2);color:#fff}
+.pin:hover span,.pin[aria-pressed="true"] span{background:var(--red);border-color:var(--red-2);color:var(--on-red,#fff)}
 .pin[aria-pressed="true"] i{background:#fff;border-color:var(--red-hi)}
 /* the marker we could not place: dashed, and amber once Placeholders is on */
 .pin.guess i{background:transparent;border:2px dashed #F2ECE3;width:22px;height:22px}
@@ -999,7 +1006,7 @@ body.ph-on .mapgames[data-ph]{outline-offset:4px}
    .bk-flash span to overwrite while it is on.
    Reads no CONFIG. Behaviour and the sample figures are live.js. */
 /* ---------- live Sunday mode: the home page at 11:00 on a running day. Every figure is sample ---------- */
-#liveBtn[aria-pressed="true"]{background:var(--red);color:#fff}
+#liveBtn[aria-pressed="true"]{background:var(--red);color:var(--on-red,#fff)}
 #liveBtn::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#666;margin-right:6px;vertical-align:1px}
 #liveBtn[aria-pressed="true"]::before{background:#fff;animation:livepulse 1.6s ease-in-out infinite}
 @keyframes livepulse{0%,100%{opacity:1}50%{opacity:.35}}
@@ -1014,7 +1021,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 /* the board's live row, in place of the next date */
 .board .r.live{background:rgba(154,12,14,.28);border-left:4px solid var(--red-hi);padding-left:12px}
 .board .r.live .d{color:var(--red-ink)}
-.board .r.live .status.live{color:#fff;background:var(--red);border-color:var(--red);margin-top:6px;animation:livepulse 1.6s ease-in-out infinite}
+.board .r.live .status.live{color:var(--on-red,#fff);background:var(--red);border-color:var(--red);margin-top:6px;animation:livepulse 1.6s ease-in-out infinite}
 .board .r.live .n b{color:#fff}
 .board .r.live>.phtag{top:6px;right:12px;left:auto;bottom:auto}
 @container page (max-width:960px){
@@ -1047,7 +1054,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 .evkick{font-family:var(--display);font-weight:900;font-size:clamp(64px,6.4cqi,104px);line-height:.92;text-transform:none;letter-spacing:.005em;color:var(--text)}
 .evsub{font-family:var(--display);font-weight:700;font-size:clamp(22px,2cqi,28px);text-transform:uppercase;letter-spacing:.05em;color:var(--text-2);margin-top:14px;line-height:1}
 /* the red ripped banner off the poster: a skewed red slab, torn corners, heavy white type */
-.rip{display:inline-block;margin:18px 0 4px;background:var(--red);color:#fff;padding:10px 24px 10px 20px;transform:skewX(-8deg);clip-path:polygon(0 0,100% 5%,98% 100%,1.5% 95%)}
+.rip{display:inline-block;margin:18px 0 4px;background:var(--red);color:var(--on-red,#fff);padding:10px 24px 10px 20px;transform:skewX(-8deg);clip-path:polygon(0 0,100% 5%,98% 100%,1.5% 95%)}
 .rip span{display:inline-block;font-family:var(--display);font-weight:900;font-size:clamp(24px,2.3cqi,32px);text-transform:uppercase;line-height:1;letter-spacing:.02em;white-space:nowrap}
 /* icon-plus-label rows: white disc, black glyph, as on the poster */
 .evrows{list-style:none;margin:14px 0 0;padding:0}
@@ -1060,10 +1067,11 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 .evrows span{display:block;font-size:13.5px;color:var(--text-2);margin-top:4px}
 /* the price slabs: red, torn, white figures */
 .evprice{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
-.evprice>div{background:var(--red);color:#fff;padding:14px 16px 16px;clip-path:polygon(0 0,100% 2%,99% 100%,1% 98%)}
+.evprice>div{position:relative;isolation:isolate;color:var(--on-red,#fff);padding:14px 16px 16px}
+.evprice>div::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--red);clip-path:polygon(0 0,100% 2%,99% 100%,1% 98%)}
 .evprice b{display:block;font-family:var(--display);font-weight:900;font-size:clamp(40px,3.8cqi,54px);line-height:.9;font-variant-numeric:tabular-nums}
 .evprice b .in{display:inline;font-size:.6em;letter-spacing:0;margin:0}
-.evprice small{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin-top:7px;color:#fff;font-weight:500}
+.evprice small{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin-top:7px;color:inherit;font-weight:500}
 .evprice em{display:inline-block;margin-top:9px;font-style:normal;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;background:#F2ECE3;color:#1F1613;padding:3px 8px;transform:skewX(-8deg)}
 .evprizes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 .evprizes>div{border:1px solid var(--line-strong);border-radius:2px;padding:12px 14px;display:grid;grid-template-columns:32px 1fr;column-gap:10px;align-items:center;background:var(--surface)}
@@ -1092,7 +1100,8 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 .evpast article{display:flex;flex-direction:column;align-items:stretch;gap:0;overflow:hidden}
 .phead{position:relative;background:#0E0A09;padding:16px 16px 14px;min-height:160px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:16px;overflow:hidden;isolation:isolate;border-bottom:3px solid var(--red)}
 .phead::before{content:"";position:absolute;right:-30%;top:-40%;width:110%;aspect-ratio:1;background:var(--tex-1) center/cover no-repeat;mix-blend-mode:screen;opacity:.6;pointer-events:none;transform:rotate(20deg);z-index:-1}
-.pban{display:inline-block;background:var(--red);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding:5px 12px 4px 10px;transform:skewX(-8deg);clip-path:polygon(0 0,100% 6%,98% 100%,2% 94%)}
+.phead::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(14,10,9,.1) 0%,rgba(14,10,9,.85) 100%);pointer-events:none}   /* the heading always sits on dark, whatever the layout's texture is */
+.pban{display:inline-block;background:var(--red);color:var(--on-red,#fff);font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding:5px 12px 4px 10px;transform:skewX(-8deg);clip-path:polygon(0 0,100% 6%,98% 100%,2% 94%)}
 .phead h3{color:#F2ECE3;font-size:clamp(26px,2.4cqi,34px);font-weight:900;line-height:.95;filter:url(#grit);text-shadow:0 2px 0 rgba(0,0,0,.5)}
 .evpast p{font-size:14px;color:var(--text-2);padding:12px 16px 16px}
 @container (max-width:360px){
@@ -1139,7 +1148,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 .bk-panel{padding-top:22px}
 .bk-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;flex-wrap:wrap;margin-bottom:18px}
 .bk-title{font-size:clamp(28px,3cqi,44px);font-weight:900;margin-top:8px}
-.bk-flash{display:inline-block;background:var(--red);color:#fff;font-family:var(--display);font-weight:900;font-size:clamp(22px,2.2cqi,30px);line-height:1;text-transform:uppercase;letter-spacing:.02em;padding:9px 18px 8px;transform:skew(-8deg);border-radius:1px;flex:none;margin-inline:6px}
+.bk-flash{display:inline-block;background:var(--red);color:var(--on-red,#fff);font-family:var(--display);font-weight:900;font-size:clamp(22px,2.2cqi,30px);line-height:1;text-transform:uppercase;letter-spacing:.02em;padding:9px 18px 8px;transform:skew(-8deg);border-radius:1px;flex:none;margin-inline:6px}
 .bk-flash>span{display:inline-block;transform:skew(8deg)}
 .bk-flash.sm{font-size:20px;padding:7px 14px 6px}
 .bk-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:10px;margin-bottom:16px}
@@ -1272,7 +1281,8 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 #app .rip.tilt{background:#F5C400;color:#141312;border-color:#141312}
 #app .rip.ink{background:#0A0B0D;color:#F4F4F1;border-color:#F4F4F1}
 #app .rip.sm{font-size:clamp(18px,1.8cqi,26px)}
-#app .rip small{display:block;font-family:var(--mono);font-size:.3em;letter-spacing:.14em;font-weight:500;margin-top:.3em;opacity:.92;text-transform:uppercase}
+#app .evsub{margin-bottom:14px}   /* the sign restyle below zeroes the rip's margin; the stencil subtitle needs clear air above the date sign */
+.rip small{display:block;font-family:var(--mono);font-size:.3em;letter-spacing:.14em;font-weight:500;margin-top:10px;opacity:.92;text-transform:uppercase}   /* the stencil face's glyph box runs under its line box; the small line sat a quarter of the way into the figure above it */
 #app .rip span{font-weight:400;line-height:1.1}
 /* the events page in this layout: the kicker is set like every other heading, in the stencil, upright, one weight; no grit filter (that is another site's device) */
 #app .evkick{text-transform:uppercase;font-weight:400;font-size:clamp(44px,5cqi,80px);letter-spacing:.02em}
@@ -2588,199 +2598,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 
 
 <!-- ============ PROPOSAL (for you, not part of the public site) ============ -->
-<section data-screen="prop" hidden>
-  <div class="band tight">
-    <div class="wrap">
-      <p class="eyebrow">Proposal. Not a public page.</p>
-      <h2 style="margin:10px 0 10px">What this rebuild is actually for</h2>
-      <p class="lede" style="margin-bottom:26px">Three things. Take your bookings on your own checkout instead of through a platform that adds its fee to every ticket. Put one customer record behind booking, waiver and membership instead of FareHarbor plus Bookeo. And make your site the thing an assistant quotes when somebody in Teesside asks where their 13-year-old can play airsoft indoors.</p>
-
-      <!-- the wedge -->
-      <div class="enamel" style="margin-bottom:16px"><div class="pad">
-        <p class="eyebrow">Your site, read closely</p>
-        <h3 style="margin:8px 0 12px">You take bookings. Two platforms take the customer.</h3>
-        <div class="split">
-          <div>
-            <p class="muted">Your Book Now button opens a FareHarbor window. Your Customer Area link opens Bookeo. Your membership page ends with, in your own words:</p>
-            <p style="margin:14px 0;padding:12px 16px;border-left:3px solid var(--red-ink);font-size:18px;font-weight:700">&ldquo;To Join, please see one of the staff on site or fire us an email.&rdquo;</p>
-            <p class="muted">Your homepage has no price on it and carries the address only in its footer. Your meta description is empty. Parties and business events are a heading on your About page with nothing under it.</p>
-            <p class="muted" style="margin-top:14px" data-ph="1"><span class="phtag">Your FareHarbor statement gives the real figure</span>FareHarbor's published model is a booking fee added to the ticket at checkout, paid by your customer, plus card processing. What that has cost across a year of your bookings is on your FareHarbor dashboard, and it is the number this proposal is measured against.</p>
-          </div>
-          <div>
-            <p class="eyebrow" style="color:var(--ph);margin-bottom:8px">What a FareHarbor window and a Bookeo login cannot do</p>
-            <ul class="checklist x">
-              <li>Show a price on your own page, where search and assistants read it</li>
-              <li>Sell the &pound;60 membership at the moment it saves someone money</li>
-              <li>Hold one account for booking, waiver, membership and the free birthday session</li>
-              <li>Know on Friday how many rentals go out on Saturday</li>
-              <li>Take a party deposit from an organiser at 11pm</li>
-              <li>Put a session date into Google's event results</li>
-              <li>Keep the fee that sits on top of every ticket</li>
-              <li>Own the customer list</li>
-            </ul>
-          </div>
-        </div>
-      </div></div>
-
-      <!-- provenance -->
-      <div class="card pad" style="margin-bottom:16px">
-        <p class="eyebrow">Read this first</p>
-        <h3 style="margin:8px 0 10px">What in here is yours, and what is invented</h3>
-        <p class="muted" style="max-width:74ch">A prototype needs content to be a prototype. Everything in the right-hand column is placeholder and has to be replaced with your real figures before any of this goes near a customer. Leave <b>Placeholders</b> switched on in the toolbar and every invented block is outlined on screen.</p>
-        <div class="split" style="margin-top:18px">
-          <div>
-            <p class="eyebrow" style="color:var(--go);margin-bottom:8px">Taken from your own site, district23.co.uk</p>
-            <ul class="checklist">
-              <li>17,000 sq. feet; buildings which recreate an American Midtown District; blind corners and alleys; props including vehicles; sky bridges</li>
-              <li>Nerf, paintball, airsoft and gel blaster; tactical gear provided; dual play markers as standard; airsoft tasters</li>
-              <li>7 days, 10am to 10pm, dependent on bookings; call before visiting</li>
-              <li>Membership &pound;60 for 12 months: discounts on field fees, retailer discounts, club patch, member only social events, free game perk offers, free birthday session</li>
-              <li>HPA refills &pound;1 a fill, free for members</li>
-              <li>FPS limits 350 / 313 / 296 at 0.20g / 0.25g / 0.28g, three weights only</li>
-              <li>18+ approved eye protection; under 18 full face; ages 12 to 17 may be dropped off with a contact number; no minimum engagement distance; surrender offer allowed; no smoking or vaping indoors</li>
-              <li>Release of liability for all members and casual players; rental for anyone without gear</li>
-              <li>Parties and business events; fun for all ages</li>
-              <li>Leeholme Road, Billingham, TS23 3TA; 07848 162614; info@district23.co.uk; facebook.com/district23billingham; instagram.com/district23airsoft</li>
-              <li>Book Now: FareHarbor embed. Customer Area: bookeo.com/district23/customer</li>
-              <li>Black and white, Saira Stencil One and Pragati Narrow: the colours and the two fonts your site loads</li>
-              <li>Your star roundel, the Nerf and Gel Blaster marks as you show them, your three slider photographs (stock, labelled)</li>
-              <li>Four testimonials, verbatim from your About page; "What our soldiers have said"; "not for the faint of heart"</li>
-            </ul>
-            <p class="eyebrow" style="color:var(--go);margin:14px 0 8px">From the Google listing, 24 September 2026</p>
-            <ul class="checklist"><li>4.7 rating from 318 reviews</li></ul>
-          </div>
-          <div>
-            <p class="eyebrow" style="color:var(--ph);margin-bottom:8px">Invented placeholder, needs your real data</p>
-            <ul class="checklist x">
-              <li>Every session price: eight sample figures on the fare board and in the checkout</li>
-              <li>Which days run, the session times after 10am, every places-left figure</li>
-              <li>The two events, their dates, prices and deposits</li>
-              <li>The ten-session block</li>
-              <li>Party packages, prices and the deposit</li>
-              <li>Every pre-order item except the &pound;1 HPA</li>
-              <li>All account, history and back-end data</li>
-              <li>Every figure in the revenue model, including the platform fee rate</li>
-              <li>The three map markers</li>
-            </ul>
-            <p class="eyebrow" style="color:var(--text-3);margin:14px 0 8px">Omitted, because it could not be sourced</p>
-            <ul class="checklist x">
-              <li>Your session prices: inside FareHarbor, not on your site</li>
-              <li>Google review quotes: the listing returns them truncated</li>
-              <li>What is in a rental package</li>
-              <li>Paintball detail: named on your homepage, described nowhere</li>
-              <li>Your names: Companies House lists the directors; your site does not, so nor does this</li>
-              <li>A photograph of the arena: your site has none, so four generated pictures stand in, stamped</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- revenue model -->
-      <div class="card pad" style="margin-bottom:16px" data-ph="1"><span class="phtag">Every input is a guess until you replace it</span>
-        <p class="eyebrow">Indicative revenue model. Drag the sliders.</p>
-        <h3 style="margin:8px 0 18px">What the new lines are worth</h3>
-        <div class="split">
-          <div class="stack" style="gap:16px">
-            <div><label class="eyebrow" for="rPlayers">Players per session: <span class="mono" id="rPlayersOut">30</span></label><input class="slider" type="range" id="rPlayers" min="10" max="120" value="30"></div>
-            <div><label class="eyebrow" for="rMemShare">Share who are members: <span class="mono" id="rMemShareOut">30%</span></label><input class="slider" type="range" id="rMemShare" min="0" max="100" value="30"></div>
-            <div><label class="eyebrow" for="rHire">Share on rental: <span class="mono" id="rHireOut">40%</span></label><input class="slider" type="range" id="rHire" min="0" max="100" value="40"></div>
-            <div><label class="eyebrow" for="rMembers">Paid members a year: <span class="mono" id="rMembersOut">120</span></label><input class="slider" type="range" id="rMembers" min="0" max="500" value="120"></div>
-            <div><label class="eyebrow" for="rGroups">Party and business bookings a year: <span class="mono" id="rGroupsOut">40</span></label><input class="slider" type="range" id="rGroups" min="0" max="200" value="40"></div>
-            <div><label class="eyebrow" for="rAttach">Pre-order attach rate: <span class="mono" id="rAttachOut">30%</span></label><input class="slider" type="range" id="rAttach" min="0" max="80" value="30"></div>
-            <p class="tiny" style="line-height:1.5">Fixed assumptions: 104 sessions a year (two a week; you open when booked, so this is a guess); the sample fares; &pound;6 average pre-order; &pound;380 average group booking. Gift vouchers are switched off in this proposal and not counted. The platform fee line is what a booking-fee model would take on the ticket line at a sample rate; your FareHarbor statement gives the real one.</p>
-          </div>
-          <div>
-            <div class="tblscroll"><table class="tbl">
-              <tr><th>Revenue line</th><th>Today</th><th class="num">Per year</th></tr>
-              <tr><td>Session tickets, own kit and rental</td><td>Through FareHarbor</td><td class="num" id="rTickets"></td></tr>
-              <tr><td>Memberships</td><td>At the desk or by email</td><td class="num" id="rMem"></td></tr>
-              <tr><td>Pre-orders: HPA, consumables, rental held</td><td><span class="pill red">New</span></td><td class="num" id="rAdd"></td></tr>
-              <tr><td>Parties and business events</td><td>By message</td><td class="num" id="rGrp"></td></tr>
-            </table></div>
-            <div class="enamel" style="margin-top:14px"><div class="pad">
-              <p class="eyebrow">Modelled annual revenue</p>
-              <p class="bigfig" id="rTotal" style="margin-top:20px"></p>
-              <p class="eyebrow" style="color:var(--go);margin-top:18px" id="rDelta"></p>
-            </div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- AI discovery -->
-      <div class="card pad" style="margin-bottom:16px">
-        <p class="eyebrow">Search and AI discovery</p>
-        <h3 style="margin:8px 0 10px">Built to be quoted, not just crawled</h3>
-        <p class="muted" style="max-width:72ch">People increasingly ask an assistant rather than a search engine: <em>"where can my 13-year-old play airsoft indoors near Middlesbrough?"</em> Assistants answer from pages that state facts plainly, mark them up as data, and are allowed to be read. Your site has the facts spread over six pages, with no meta description, no structured data, no price, and the address only in the homepage footer.</p>
-        <div class="split" style="margin-top:20px">
-          <div>
-            <p class="eyebrow" style="margin-bottom:8px">Answer-ready facts, in the HTML</p>
-            <div class="tblscroll"><table class="tbl">
-              <tr><th>Question asked</th><th>Answer the page states</th><th>Source</th></tr>
-              <tr><td>Where is it?</td><td>Leeholme Road, Billingham, TS23 3TA</td><td><span class="pill ok">Your site</span></td></tr>
-              <tr><td>How do I reach you?</td><td>07848 162614, info@district23.co.uk</td><td><span class="pill ok">Your site</span></td></tr>
-              <tr><td>How big?</td><td>17,000 sq. feet, an American Midtown District</td><td><span class="pill ok">Your site</span></td></tr>
-              <tr><td>Minimum age?</td><td>Under 18 full face; 12 to 17 may be dropped off</td><td><span class="pill ok">Your site</span></td></tr>
-              <tr><td>When are you open?</td><td>7 days, 10am to 10pm, when booked</td><td><span class="pill ok">Your site</span></td></tr>
-              <tr><td>Membership?</td><td>&pound;60 for 12 months, six perks</td><td><span class="pill ok">Your site</span></td></tr>
-              <tr><td>Chrono limits?</td><td>350 / 313 / 296 fps</td><td><span class="pill ok">Your site</span></td></tr>
-              <tr><td>What does it cost?</td><td class="ph">Not on your site</td><td><span class="pill ph">You</span></td></tr>
-              <tr><td>Which days run?</td><td class="ph">Not on your site</td><td><span class="pill ph">You</span></td></tr>
-            </table></div>
-          </div>
-          <div>
-            <p class="eyebrow" style="margin-bottom:8px">Structured data on every page</p>
-            <div class="codebox"><pre>{
-  <span class="t">"@type"</span>: "SportsActivityLocation",
-  <span class="t">"name"</span>: "District 23",
-  <span class="t">"address"</span>: { "streetAddress": "Leeholme Road",
-    "addressLocality": "Billingham",
-    "addressRegion": "Stockton-on-Tees",
-    "postalCode": "TS23 3TA", "addressCountry": "GB" },
-  <span class="t">"telephone"</span>: "+447848162614",
-  <span class="t">"makesOffer"</span>: [
-    { "name": "Annual membership", "price": "60.00" } ],
-  <span class="t">"event"</span>: "<span class="t">one Event per real session</span>",
-  <span class="t">"aggregateRating"</span>: "<span class="t">wired to Google, never typed</span>"
-}</pre></div>
-            <p class="eyebrow" style="margin:16px 0 8px">The rest of the discovery work</p>
-            <ul class="checklist">
-              <li>A real URL per session, so a specific Saturday can rank and be linked</li>
-              <li>FAQPage and Event markup validated in Search Console</li>
-              <li>Name, address and phone identical on the site, Google Business Profile and every airsoft directory</li>
-              <li>robots.txt naming GPTBot, ClaudeBot, PerplexityBot and Google-Extended as welcome; today yours closes /wp-admin and says nothing about them</li>
-              <li>A meta description: yours today is empty</li>
-              <li>Location pages for Billingham, Stockton, Middlesbrough, Hartlepool and Darlington</li>
-              <li>Sub-second first paint on a phone in a car park</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- build -->
-      <div class="split" style="gap:16px">
-        <div class="card pad">
-          <p class="eyebrow">What comes in-house</p>
-          <h3 style="margin:8px 0 12px">No platform in the money path</h3>
-          <div class="kv"><span>FareHarbor window</span><b>Your own checkout</b></div>
-          <div class="kv"><span>Bookeo customer area</span><b>One account, yours</b></div>
-          <div class="kv"><span>Membership by email</span><b>Sold in the basket</b></div>
-          <div class="kv"><span>"Parties &amp; Business Events"</span><b>Quote and deposit</b></div>
-          <div class="kv"><span>Waiver on the booking email</span><b>Signed once, kept a year</b></div>
-          <div class="kv"><span>Customer list</span><b>Yours</b></div>
-          <p class="tiny" style="margin-top:12px">Card processing is roughly 1.5% plus 20p to Stripe. Against that: no booking fee on the ticket, the membership sold, the rental counted, the party deposited, and one login for your players instead of two.</p>
-        </div>
-        <div class="card pad">
-          <p class="eyebrow">How it would be built</p>
-          <h3 style="margin:8px 0 12px">Two phases</h3>
-          <div class="kv"><span><b>Phase 1</b>: the site, booking, payments, membership, waivers, pre-orders, party quotes</span><b>Now</b></div>
-          <div class="kv"><span><b>Phase 2</b>: a marshal's phone at the desk: check-in, rental issue, chrono log</span><b>After go-live</b></div>
-          <p class="small muted" style="margin-top:12px">Phase 1 is built on a proper customer record, so Phase 2 is a screen over data that already exists rather than a rebuild.</p>
-          <p class="tiny" style="margin-top:10px">This prototype is front-end only. The flows work, nothing is stored, no card is charged.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- the proposal lives in the operator console (AOC): Proposal in the toolbar opens it -->
 
 <!-- ============ FOOTER ============ -->
 <div class="tagline plate alt"><p>17,000 square feet. Blind corners. <em>Work for that line of fire.</em></p><p class="note"><b>Why</b><span>Ours, cut from your own homepage line. Swap it for your own in a minute.</span></p></div>
@@ -2848,7 +2666,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 /* One object, written by engine/build.mjs out of businesses/<slug>.json. Every
    engine part reads its business-specific values from here, so no part carries
    a client's name, price, date, copy or file name. */
-const CONFIG = {"slug":"district-23","layout":"midtown-grid","business":{"name":"District 23","short":"District 23","legalName":"District 23 Indoor Paintball, Airsoft and Nerf Arena","kind":"indoor CQB arena: airsoft, paintball, Nerf and gel blaster","site":"https://district23.co.uk","domain":"district23.co.uk","phone":"07848 162614","phoneE164":"+447848162614","street":"Leeholme Road","town":"Billingham","county":"Stockton-on-Tees","postcode":"TS23 3TA","facebook":"https://www.facebook.com/district23billingham","email":"info@district23.co.uk","rating":"4.7","reviews":"318","geo":{"lat":"54.606925","lng":"-1.27917"},"addressLine":"Leeholme Road, Billingham, Stockton-on-Tees, TS23 3TA","postcodeUrl":"TS23+3TA"},"design":{"display":"Saira Stencil One","body":"Pragati Narrow","mono":"Chakra Petch","accent":"#F5C400","hero":"split: type left on asphalt, their slider photograph right, the star as a watermark","images":"theirs: the star roundel, the Nerf and Gel Blaster marks, three slider photographs (stock, labelled). Generated and flagged: arena, alley, rental, briefing. The aerial is a locked frame of Google's 3D imagery.","flyin":{"style":"sat-intel","placement":"the-ground","motion":"static-push","tint":"amber","reveal":"scan-wipe","source":"still","duration":3,"pitch":-45,"heading":0,"fields":[{"label":"Site","value":"Leeholme Road"},{"label":"Grid","value":"TS23 3TA"},{"label":"Arena","value":"17,000 sq. feet"},{"label":"Open","value":"10am -10pm"}],"fields_source":"facts.address_street, facts.postcode, facts.arena_size, facts.hours","target":{"lat":54.606925,"lng":-1.27917},"target_source":"https://api.postcodes.io/postcodes/TS233TA","target_note":"Postcode centroid. Which roof on Leeholme Road is yours is not something we can read off imagery, so the reticle settles on the postcode and the note says so.","stillZoom":1.4,"stillFocus":{"x":"62%","y":"38%"}},"map":{"spots":{"gate":{"x":62,"y":40},"street":{"x":50,"y":55},"safe":{"x":30,"y":62}}}},"assets":{"logo-star":"assets/logo-star.png","logo-star.png":"assets/logo-star.png","logo-nerf":"assets/logo-nerf.png","logo-nerf.png":"assets/logo-nerf.png","logo-gel":"assets/logo-gel.png","logo-gel.png":"assets/logo-gel.png","slider-cqb":"assets/slider-cqb.jpg","slider-cqb.jpg":"assets/slider-cqb.jpg","slider-optic":"assets/slider-optic.jpg","slider-optic.jpg":"assets/slider-optic.jpg","slider-kit":"assets/slider-kit.jpg","slider-kit.jpg":"assets/slider-kit.jpg","aerial":"assets/aerial.jpg","aerial.jpg":"assets/aerial.jpg","arena":"assets/arena.jpg","arena.jpg":"assets/arena.jpg","alley":"assets/alley.jpg","alley.jpg":"assets/alley.jpg","rental":"assets/rental.jpg","rental.jpg":"assets/rental.jpg","briefing":"assets/briefing.jpg","briefing.jpg":"assets/briefing.jpg"},"siteUrl":"https://thinkwork.info/airsoft/district-23/","aocUrl":"","fares":{"walkon":{"full":{"n":25,"m":20},"half":{"n":15,"m":12}},"hire":{"full":{"n":35,"m":30},"half":{"n":22,"m":18}},"sample":true},"membership":{"price":60,"year":"12 months from the day you join","yearEnd":"12 months on","renewMonth":"the month it runs out"},"schedule":{"times":["10:00","10:30","14:00"],"timesSample":true,"lunch":"12:00","regular":{"day":6,"dayName":"Saturday","label":"Open session","detail":"Sample pattern. We open 7 days, 10am to 10pm, when events are booked; which days run is to be confirmed.","count":12},"extra":{"day":0,"dayName":"Sunday","label":"Sunday session","detail":"Sample: a Sunday session each month, date to be announced.","fromMonth":0,"toMonth":11,"tba":true},"breakFrom":"12-24","breakTo":"01-01","cap":40},"events":[{"key":"night","name":"Night skirmish","iso":"2026-10-24","dayName":"Saturday","detail":"Sample event to show the shape: an evening session with a deposit to hold the place. Times, price and deposit are placeholders.","times":["18:00","18:30","22:00"],"price":30,"deposit":10,"prize":false,"left":9,"cap":40,"short":"Night"},{"key":"members","name":"Members' night","iso":"2026-11-14","dayName":"Saturday","detail":"Sample event: a members-only social with 10% off the session, the kind of 'member only social event' our membership page promises.","times":["18:00","18:30","22:00"],"off":0.9,"offLabel":"Members' night: 10% off","prizes":3,"short":"Members"}],"ref":"D23","copy":{"fareboard":{"sumOwn":"Sample prices.<br>Our live prices are in FareHarbor.","sumMember":"Members pay less.<br>Sample gap, real perk.","lineOwn":"Members get discounts on field fees; by how much is not yet published. These are sample figures so the board has a shape; our live ladder is in FareHarbor.","lineMember":"Membership is £60 for 12 months and takes a sample £5 off every session here. The board does the sum for anyone with their card out."},"breakEven":"At a £5 gap the £60 pays back on the twelfth session; at £10 it is the sixth.","renewToast":"Renewal opens a month before it runs out: one £60 pay link, 12 months from the day you join."},"sample":{"fares":{"price_nonmember_walkon_full":25,"price_member_walkon_full":20,"price_nonmember_walkon_half":15,"price_member_walkon_half":12,"price_nonmember_hire_full":35,"price_member_hire_full":30,"price_nonmember_hire_half":22,"price_member_hire_half":18},"spaces":[24,11,31,18,6,27,14,36,9,22,29,16],"addons":[{"id":"hpa","n":"HPA fill","s":"£1 a fill, as on our rules page; free for members. Real price.","p":1,"per":false,"on":false},{"id":"bb","n":"2,000 BBs, 0.25g","s":"One of our three allowed weights. Sample item and price.","p":11,"per":false,"on":false},{"id":"rental","n":"Rental gun and mask, held for you","s":"Rental as on our rules page. Sample price.","p":10,"per":true,"on":false},{"id":"flex","n":"Flexi-booking","s":"Move your session free up to 24 hours before.","p":2,"per":true,"on":false}],"block":{"price":200,"days":10,"dayRate":20,"label":"Ten-session block, proposed"},"products":[["HPA fill",1,"On our rules page · real price"],["2,000 BBs, 0.25g",11,"Sample item"],["2,000 BBs, 0.28g",12,"Sample item"],["Green gas, 1 litre",9,"Sample item"]],"model":{"days":104,"addAvg":6,"groupAvg":380,"foodPer":0,"depositPct":0.25,"platformFeePct":0.06},"live":{"day":"Saturday","time":"11:02","game":2,"of":6,"next":"11:30","onSite":31,"inGate":29,"closed":"10:30"},"backend":{"names":["Sam Ridley","Ethan Lowes","Toby Lax","Aaron Purvis","Adam Featherstone","Jordan Peart","Jack Hetherington","Sophie Gill","Callum Fenwick","Kieran Walton","Amy Proud","Connor Raine","Liam Stobbs","Harvey Blackett","Lewis Armstrong","Olivia Dodds","Ryan Coates","Tyler Burnip","Mason Craggs","Zak Elliott","Reece Hutchinson","Finlay Dent","Alfie Marley","Charlie Wearmouth","George Pickering","Kyle Snowdon","Lucy Cummings","Priya Nair","Nathan Bell","Owen Hodgson","Isaac Thwaites","Louie Dixon","Freddie Wren","Archie Bowes","Chloe Bainbridge","Dan Metcalfe","Ellis Vickers","Joel Sowerby","Max Teasdale","Rhys Oliver","Ben Nattrass","Molly Errington","Jake Ramshaw"],"mix":[["walkon","full",true,8],["walkon","full",false,9],["walkon","half",false,3],["hire","full",true,2],["hire","full",false,7],["hire","half",false,2]],"bookings":[["D23-4K7Q","Sam Ridley","next",1,0,"full",true,"paid",0,false],["D23-7H2M","Lewis Armstrong","next",2,0,"full",false,"paid",0,false],["D23-9P1X","Chloe Bainbridge","next",0,1,"full",false,"paid",6,false],["D23-2R8C","Dan Metcalfe","next",0,3,"full",false,"paid",0,false],["D23-5T3L","Priya Nair","next",1,0,"half",false,"waiver",0,false],["D23-8W6B","Josh Tennant",0,1,0,"full",false,"paid",0,false],["D23-3M9K","Ellie Robson",0,1,0,"full",true,"paid",0,false],["D23-6Q4D","Callum Fenwick",2,1,0,"full",true,"paid",0,true],["D23-1Z7N","Kate Harrison",2,2,1,"half",false,"paid",0,false],["D23-0V5S","Tom Applegarth",3,0,1,"full",true,"paid",0,false],["D23-4J2F","Megan Storey",3,4,0,"full",false,"paid",0,false],["D23-7B8H","Ryan Coates",1,1,0,"full",false,"paid",0,false]],"members":[["Callum Fenwick","20 Sep",1,0],["Ellie Robson","14 Sep",2,0],["Tom Applegarth","6 Sep",3,0],["Sam Ridley","1 Mar",4,0],["Amy Proud","1 Mar",11,2],["Kieran Walton","1 Mar",14,0],["Jordan Peart","1 Mar",8,3],["Liam Stobbs","1 Mar",19,1],["Sophie Gill","1 Mar",6,6],["Harvey Blackett","1 Mar",22,0]],"lastYear":905,"lastYearPlayers":38,"noWaiver":[2,7,13,19,26,29,30],"under18":[4,11,17,24,28],"pinName":"Priya Nair","pre":{"lunch":{"n":6,"p":10,"label":"Rentals held"},"hpa":{"n":7,"p":1,"label":"HPA fills"},"bb":{"n":11,"p":11,"label":"Bags of BBs"}},"joinedToday":2,"walkups":190,"cardFees":71,"chronoTime":"10:30","bracketSize":32,"membersCount":112,"entrants":["Josh Tennant","Ellie Robson","Kieran Walton","Liam Stobbs","Harvey Blackett","Mason Craggs","Zak Elliott","Reece Hutchinson","Finlay Dent","Alfie Marley","Charlie Wearmouth","George Pickering","Kyle Snowdon","Adam Featherstone","Nathan Bell","Owen Hodgson","Isaac Thwaites","Louie Dixon"],"moneyLines":[["Session tickets, own kit","61 players over four sessions, sample",1220],["Rental","42 rentals out, booked ahead",1260],["Memberships","14 joined at the checkout",840],["Pre-orders","HPA, BBs, rentals held",214],["Parties and business events","3 deposits held",270],["Gift vouchers","switched off",0]],"payouts":[["Sat 5 Sep","Tue 8 Sep",1362,"paid"],["Sat 12 Sep","Tue 15 Sep",1527,"paid"],["Sat 19 Sep","Tue 22 Sep",1488,"paid"],["Sat 26 Sep","Tue 29 Sep",0,"pending"]],"annPost":"Members' night. Saturday 14 November. 10% off, free game perks. Book on the site."}},"content":{"jsonld":{"description":"Indoor airsoft, paintball, Nerf and gel blaster arena on Leeholme Road, Billingham. 17,000 sq. feet of buildings that recreate an American Midtown District: blind corners, alleys, vehicles and sky bridges. Open 7 days, 10am to 10pm, when events are booked. Membership £60 for 12 months.","fareLabels":{"walkon":"Own kit","hire":"Rental"},"faq":[{"q":"Where is District 23?","a":"Leeholme Road, Billingham, Stockton-on-Tees, TS23 3TA. Phone 07848 162614, email info@district23.co.uk."},{"q":"When is District 23 open?","a":"7 days, 10am to 10pm, dependent on bookings. Please call before visiting, as the arena only opens when events are booked."},{"q":"How big is the District 23 arena?","a":"The main airsoft arena is built over 17,000 sq. feet, housing buildings which recreate an American Midtown District, with plenty of blind corners and alleys, props including vehicles, and sky bridges."},{"q":"How much is membership at District 23?","a":"Memberships are £60 for 12 months, with discounts on field fees, retailer discounts, a club patch, member-only social events, free game perk offers and a free birthday session. Join by seeing staff on site or by email."},{"q":"What are the FPS limits at District 23?","a":"0.20g at 350 fps, 0.25g at 313 fps and 0.28g at 296 fps. Only those three BB weights are allowed."},{"q":"Do under-18s need full face protection at District 23?","a":"Yes. Anyone under 18 must wear full face protection. Players 18 and over must wear approved eye protection. Minors aged 12 to 17 may be dropped off by a parent or guardian and left to play, with a contact phone number."},{"q":"Can I rent a gun at District 23?","a":"Yes. If you do not have your own gear and require an airsoft rental, choose a rental when you book."},{"q":"Do you do HPA refills at District 23?","a":"Yes. Refills cost £1 per fill, and are free with a site membership."},{"q":"Does District 23 do birthday parties?","a":"Yes. District 23 hosts parties and business events, and describes itself as fun for all ages."}]},"labels":{"walkon":"Own kit","hire":"Rental","half":"short session","_note":"Ticket vocabulary read by days.js, booking.js and backend.js. Your site never says walk-on; own kit and rental are your rules-page words."}},"cesiumToken":""};
+const CONFIG = {"slug":"district-23","layout":"midtown-grid","business":{"name":"District 23","short":"District 23","legalName":"District 23 Indoor Paintball, Airsoft and Nerf Arena","kind":"indoor CQB arena: airsoft, paintball, Nerf and gel blaster","site":"https://district23.co.uk","domain":"district23.co.uk","phone":"07848 162614","phoneE164":"+447848162614","street":"Leeholme Road","town":"Billingham","county":"Stockton-on-Tees","postcode":"TS23 3TA","facebook":"https://www.facebook.com/district23billingham","email":"info@district23.co.uk","rating":"4.7","reviews":"318","geo":{"lat":"54.606925","lng":"-1.27917"},"addressLine":"Leeholme Road, Billingham, Stockton-on-Tees, TS23 3TA","postcodeUrl":"TS23+3TA"},"design":{"display":"Saira Stencil One","body":"Pragati Narrow","mono":"Chakra Petch","accent":"#F5C400","hero":"split: type left on asphalt, their slider photograph right, the star as a watermark","images":"theirs: the star roundel, the Nerf and Gel Blaster marks, three slider photographs (stock, labelled). Generated and flagged: arena, alley, rental, briefing. The aerial is a locked frame of Google's 3D imagery.","flyin":{"style":"sat-intel","placement":"the-ground","motion":"static-push","tint":"amber","reveal":"scan-wipe","source":"still","duration":3,"pitch":-45,"heading":0,"fields":[{"label":"Site","value":"Leeholme Road"},{"label":"Grid","value":"TS23 3TA"},{"label":"Arena","value":"17,000 sq. feet"},{"label":"Open","value":"10am -10pm"}],"fields_source":"facts.address_street, facts.postcode, facts.arena_size, facts.hours","target":{"lat":54.606925,"lng":-1.27917},"target_source":"https://api.postcodes.io/postcodes/TS233TA","target_note":"Postcode centroid. Which roof on Leeholme Road is yours is not something we can read off imagery, so the reticle settles on the postcode and the note says so.","stillZoom":1.4,"stillFocus":{"x":"62%","y":"38%"}},"map":{"spots":{"gate":{"x":62,"y":40},"street":{"x":50,"y":55},"safe":{"x":30,"y":62}}}},"assets":{"logo-star":"assets/logo-star.png","logo-star.png":"assets/logo-star.png","logo-nerf":"assets/logo-nerf.png","logo-nerf.png":"assets/logo-nerf.png","logo-gel":"assets/logo-gel.png","logo-gel.png":"assets/logo-gel.png","slider-cqb":"assets/slider-cqb.jpg","slider-cqb.jpg":"assets/slider-cqb.jpg","slider-optic":"assets/slider-optic.jpg","slider-optic.jpg":"assets/slider-optic.jpg","slider-kit":"assets/slider-kit.jpg","slider-kit.jpg":"assets/slider-kit.jpg","aerial":"assets/aerial.jpg","aerial.jpg":"assets/aerial.jpg","arena":"assets/arena.jpg","arena.jpg":"assets/arena.jpg","alley":"assets/alley.jpg","alley.jpg":"assets/alley.jpg","rental":"assets/rental.jpg","rental.jpg":"assets/rental.jpg","briefing":"assets/briefing.jpg","briefing.jpg":"assets/briefing.jpg"},"siteUrl":"https://thinkwork.info/airsoft/district-23/","aocUrl":"aoc/index.html","fares":{"walkon":{"full":{"n":25,"m":20},"half":{"n":15,"m":12}},"hire":{"full":{"n":35,"m":30},"half":{"n":22,"m":18}},"sample":true},"membership":{"price":60,"year":"12 months from the day you join","yearEnd":"12 months on","renewMonth":"the month it runs out"},"schedule":{"times":["10:00","10:30","14:00"],"timesSample":true,"lunch":"12:00","regular":{"day":6,"dayName":"Saturday","label":"Open session","detail":"Sample pattern. We open 7 days, 10am to 10pm, when events are booked; which days run is to be confirmed.","count":12},"extra":{"day":0,"dayName":"Sunday","label":"Sunday session","detail":"Sample: a Sunday session each month, date to be announced.","fromMonth":0,"toMonth":11,"tba":true},"breakFrom":"12-24","breakTo":"01-01","cap":40},"events":[{"key":"night","name":"Night skirmish","iso":"2026-10-24","dayName":"Saturday","detail":"Sample event to show the shape: an evening session with a deposit to hold the place. Times, price and deposit are placeholders.","times":["18:00","18:30","22:00"],"price":30,"deposit":10,"prize":false,"left":9,"cap":40,"short":"Night"},{"key":"members","name":"Members' night","iso":"2026-11-14","dayName":"Saturday","detail":"Sample event: a members-only social with 10% off the session, the kind of 'member only social event' our membership page promises.","times":["18:00","18:30","22:00"],"off":0.9,"offLabel":"Members' night: 10% off","prizes":3,"short":"Members"}],"ref":"D23","copy":{"fareboard":{"sumOwn":"Sample prices.<br>Our live prices are in FareHarbor.","sumMember":"Members pay less.<br>Sample gap, real perk.","lineOwn":"Members get discounts on field fees; by how much is not yet published. These are sample figures so the board has a shape; our live ladder is in FareHarbor.","lineMember":"Membership is £60 for 12 months and takes a sample £5 off every session here. The board does the sum for anyone with their card out."},"breakEven":"At a £5 gap the £60 pays back on the twelfth session; at £10 it is the sixth.","renewToast":"Renewal opens a month before it runs out: one £60 pay link, 12 months from the day you join."},"sample":{"fares":{"price_nonmember_walkon_full":25,"price_member_walkon_full":20,"price_nonmember_walkon_half":15,"price_member_walkon_half":12,"price_nonmember_hire_full":35,"price_member_hire_full":30,"price_nonmember_hire_half":22,"price_member_hire_half":18},"spaces":[24,11,31,18,6,27,14,36,9,22,29,16],"addons":[{"id":"hpa","n":"HPA fill","s":"£1 a fill, as on our rules page; free for members. Real price.","p":1,"per":false,"on":false},{"id":"bb","n":"2,000 BBs, 0.25g","s":"One of our three allowed weights. Sample item and price.","p":11,"per":false,"on":false},{"id":"rental","n":"Rental gun and mask, held for you","s":"Rental as on our rules page. Sample price.","p":10,"per":true,"on":false},{"id":"flex","n":"Flexi-booking","s":"Move your session free up to 24 hours before.","p":2,"per":true,"on":false}],"block":{"price":200,"days":10,"dayRate":20,"label":"Ten-session block, proposed"},"products":[["HPA fill",1,"On our rules page · real price"],["2,000 BBs, 0.25g",11,"Sample item"],["2,000 BBs, 0.28g",12,"Sample item"],["Green gas, 1 litre",9,"Sample item"]],"model":{"days":104,"addAvg":6,"groupAvg":380,"foodPer":0,"depositPct":0.25,"platformFeePct":0.06},"live":{"day":"Saturday","time":"11:02","game":2,"of":6,"next":"11:30","onSite":31,"inGate":29,"closed":"10:30"},"backend":{"names":["Sam Ridley","Ethan Lowes","Toby Lax","Aaron Purvis","Adam Featherstone","Jordan Peart","Jack Hetherington","Sophie Gill","Callum Fenwick","Kieran Walton","Amy Proud","Connor Raine","Liam Stobbs","Harvey Blackett","Lewis Armstrong","Olivia Dodds","Ryan Coates","Tyler Burnip","Mason Craggs","Zak Elliott","Reece Hutchinson","Finlay Dent","Alfie Marley","Charlie Wearmouth","George Pickering","Kyle Snowdon","Lucy Cummings","Priya Nair","Nathan Bell","Owen Hodgson","Isaac Thwaites","Louie Dixon","Freddie Wren","Archie Bowes","Chloe Bainbridge","Dan Metcalfe","Ellis Vickers","Joel Sowerby","Max Teasdale","Rhys Oliver","Ben Nattrass","Molly Errington","Jake Ramshaw"],"mix":[["walkon","full",true,8],["walkon","full",false,9],["walkon","half",false,3],["hire","full",true,2],["hire","full",false,7],["hire","half",false,2]],"bookings":[["D23-4K7Q","Sam Ridley","next",1,0,"full",true,"paid",0,false],["D23-7H2M","Lewis Armstrong","next",2,0,"full",false,"paid",0,false],["D23-9P1X","Chloe Bainbridge","next",0,1,"full",false,"paid",6,false],["D23-2R8C","Dan Metcalfe","next",0,3,"full",false,"paid",0,false],["D23-5T3L","Priya Nair","next",1,0,"half",false,"waiver",0,false],["D23-8W6B","Josh Tennant",0,1,0,"full",false,"paid",0,false],["D23-3M9K","Ellie Robson",0,1,0,"full",true,"paid",0,false],["D23-6Q4D","Callum Fenwick",2,1,0,"full",true,"paid",0,true],["D23-1Z7N","Kate Harrison",2,2,1,"half",false,"paid",0,false],["D23-0V5S","Tom Applegarth",3,0,1,"full",true,"paid",0,false],["D23-4J2F","Megan Storey",3,4,0,"full",false,"paid",0,false],["D23-7B8H","Ryan Coates",1,1,0,"full",false,"paid",0,false]],"members":[["Callum Fenwick","20 Sep",1,0],["Ellie Robson","14 Sep",2,0],["Tom Applegarth","6 Sep",3,0],["Sam Ridley","1 Mar",4,0],["Amy Proud","1 Mar",11,2],["Kieran Walton","1 Mar",14,0],["Jordan Peart","1 Mar",8,3],["Liam Stobbs","1 Mar",19,1],["Sophie Gill","1 Mar",6,6],["Harvey Blackett","1 Mar",22,0]],"lastYear":905,"lastYearPlayers":38,"noWaiver":[2,7,13,19,26,29,30],"under18":[4,11,17,24,28],"pinName":"Priya Nair","pre":{"lunch":{"n":6,"p":10,"label":"Rentals held"},"hpa":{"n":7,"p":1,"label":"HPA fills"},"bb":{"n":11,"p":11,"label":"Bags of BBs"}},"joinedToday":2,"walkups":190,"cardFees":71,"chronoTime":"10:30","bracketSize":32,"membersCount":112,"entrants":["Josh Tennant","Ellie Robson","Kieran Walton","Liam Stobbs","Harvey Blackett","Mason Craggs","Zak Elliott","Reece Hutchinson","Finlay Dent","Alfie Marley","Charlie Wearmouth","George Pickering","Kyle Snowdon","Adam Featherstone","Nathan Bell","Owen Hodgson","Isaac Thwaites","Louie Dixon"],"moneyLines":[["Session tickets, own kit","61 players over four sessions, sample",1220],["Rental","42 rentals out, booked ahead",1260],["Memberships","14 joined at the checkout",840],["Pre-orders","HPA, BBs, rentals held",214],["Parties and business events","3 deposits held",270],["Gift vouchers","switched off",0]],"payouts":[["Sat 5 Sep","Tue 8 Sep",1362,"paid"],["Sat 12 Sep","Tue 15 Sep",1527,"paid"],["Sat 19 Sep","Tue 22 Sep",1488,"paid"],["Sat 26 Sep","Tue 29 Sep",0,"pending"]],"annPost":"Members' night. Saturday 14 November. 10% off, free game perks. Book on the site."}},"content":{"jsonld":{"description":"Indoor airsoft, paintball, Nerf and gel blaster arena on Leeholme Road, Billingham. 17,000 sq. feet of buildings that recreate an American Midtown District: blind corners, alleys, vehicles and sky bridges. Open 7 days, 10am to 10pm, when events are booked. Membership £60 for 12 months.","fareLabels":{"walkon":"Own kit","hire":"Rental"},"faq":[{"q":"Where is District 23?","a":"Leeholme Road, Billingham, Stockton-on-Tees, TS23 3TA. Phone 07848 162614, email info@district23.co.uk."},{"q":"When is District 23 open?","a":"7 days, 10am to 10pm, dependent on bookings. Please call before visiting, as the arena only opens when events are booked."},{"q":"How big is the District 23 arena?","a":"The main airsoft arena is built over 17,000 sq. feet, housing buildings which recreate an American Midtown District, with plenty of blind corners and alleys, props including vehicles, and sky bridges."},{"q":"How much is membership at District 23?","a":"Memberships are £60 for 12 months, with discounts on field fees, retailer discounts, a club patch, member-only social events, free game perk offers and a free birthday session. Join by seeing staff on site or by email."},{"q":"What are the FPS limits at District 23?","a":"0.20g at 350 fps, 0.25g at 313 fps and 0.28g at 296 fps. Only those three BB weights are allowed."},{"q":"Do under-18s need full face protection at District 23?","a":"Yes. Anyone under 18 must wear full face protection. Players 18 and over must wear approved eye protection. Minors aged 12 to 17 may be dropped off by a parent or guardian and left to play, with a contact phone number."},{"q":"Can I rent a gun at District 23?","a":"Yes. If you do not have your own gear and require an airsoft rental, choose a rental when you book."},{"q":"Do you do HPA refills at District 23?","a":"Yes. Refills cost £1 per fill, and are free with a site membership."},{"q":"Does District 23 do birthday parties?","a":"Yes. District 23 hosts parties and business events, and describes itself as fun for all ages."}]},"labels":{"walkon":"Own kit","hire":"Rental","half":"short session","_note":"Ticket vocabulary read by days.js, booking.js and backend.js. Your site never says walk-on; own kit and rental are your rules-page words."}},"cesiumToken":""};
 /* ---- part: helpers.js ----
    The four things every other part uses: $ and $$, the money formatters, the
    toast, and the two page-level constants (`root`, and `reduce` for
@@ -2931,8 +2749,8 @@ function go(name){
 }
 document.addEventListener("click",e=>{const t=e.target.closest("[data-go]"); if(!t)return; e.preventDefault(); go(t.dataset.go);});
 $("#viewSite").addEventListener("click",()=>go(lastSite));
-$("#viewBack").addEventListener("click",()=>{ if(CONFIG.aocUrl){ location.href=CONFIG.aocUrl; return; } go("back"); });   /* a hosted operator console (AOC) replaces the in-page desk once the site has one */
-$("#viewProp").addEventListener("click",()=>{ if(CONFIG.aocUrl && CONFIG.aocProposal!==false){ location.href=CONFIG.aocUrl+"?screen=proposal"; return; } go("prop"); });   /* the Proposal lives in the console too, once the console exists */
+$("#viewBack").addEventListener("click",()=>{ if(CONFIG.aocUrl){ location.href=CONFIG.aocUrl; return; } if($('section[data-screen="back"]')) go("back"); });   /* a hosted operator console (AOC) replaces the in-page desk once the site has one */
+$("#viewProp").addEventListener("click",()=>{ if(CONFIG.aocUrl && CONFIG.aocProposal!==false){ location.href=CONFIG.aocUrl+"?screen=proposal"; return; } if($('section[data-screen="prop"]')) go("prop"); });   /* the proposal lives in the console; a build without one has no proposal screen to fall back to */   /* the Proposal lives in the console too, once the console exists */
 $("#burger").addEventListener("click",()=>{const n=$("#nav");const o=n.classList.toggle("open");$("#burger").setAttribute("aria-expanded",o);});
 
 /* ---- part: days.js ----
@@ -3200,7 +3018,14 @@ $("#passBtn").addEventListener("click",()=>{const p=$("#acctPass");p.hidden=!p.h
 $("#chgBtn").addEventListener("click",()=>{setDate(FIRST_SUN);draw();go("book");toast("Pick the new date. What you paid moves with the booking; any difference is charged or refunded.");});
 $("#renewBtn").addEventListener("click",()=>{go("members");toast(CONFIG.copy.renewToast);});
 draw(); setStep(1);
-(function(){const q=new URLSearchParams(location.search).get("screen"); if(q&&$('section[data-screen="'+q+'"]')) go(q);})();
+(function(){const p=new URLSearchParams(location.search),q=p.get("screen"); if(q&&$('section[data-screen="'+q+'"]')) go(q);
+  /* the gates open every state through the URL, synchronously at load, so each one is measured settled:
+     ?screen=book&step=2|3|4|done, ?screen=account&pass=1, ?screen=home&menu=1 (a click on a timer while the
+     backdrop passes run is how a footer reads 1:1) */
+  const st=p.get("step"); if(st==="done"){setStep(4);$("#payBtn").click();} else if(st&&+st>=1&&+st<=4) setStep(+st);
+  if(p.get("pass")==="1"&&$("#passBtn")) $("#passBtn").click();
+  if(p.get("menu")==="1"){$("#nav").classList.add("open");$("#burger").setAttribute("aria-expanded",true);}
+})();
 
 function drawQR(sel,seed){
   const c=$(sel),x=c.getContext("2d"),N=33;
@@ -3213,19 +3038,18 @@ function drawQR(sel,seed){
 }
 
 /* ---- part: calculators.js ----
-   The four small working calculators the proposal turns on:
+   The three small working calculators the proposal turns on:
      1. the membership sum on the Fares screen (pay on the day against
         membership against membership plus a prepaid block)
      2. the party and team-building quote, with a deposit figure
      3. the on-site pre-order grid and its basket
-     4. the revenue model on the Proposal screen
-   Every figure in 2, 3 and 4 is sample content and is marked as such on the
+   (The revenue model moved to the operator console with the proposal, AOC,
+   2026-09-24.)
+   Every figure in 2 and 3 is sample content and is marked as such on the
    page; the fares and the membership price underneath them are the real ones.
    Expects: #mSlider #mGames #mPayg #mMem #mBlk #mBest; #evPack #evSize
    #evSizeOut #evFood #evDate #qSize #qPack #qFood #qTotal #qDep #qBook #qMsg;
-   #prodGrid #basketPill and [data-add], [data-v], [data-join] buttons;
-   #rPlayers #rMemShare #rHire #rMembers #rGroups #rAttach with their #...Out
-   outputs and #rTickets #rMem #rAdd #rGrp #rTotal #rDelta.
+   #prodGrid #basketPill and [data-add], [data-v], [data-join] buttons.
    CONFIG: fares and membership through days.js, sample.block, sample.products,
    sample.model (days a year, average pre-order, average group, the food price
    per head, the deposit share), copy.breakEven, schedule.regular.dayName.
@@ -3267,18 +3091,7 @@ document.addEventListener("click",e=>{const j=e.target.closest("[data-join]");if
 
 /* ---------- revenue model ---------- */
 /* copy.todayTake names how the money is taken today ("cash and bank transfer" when unset) */
-const DAYS=CONFIG.sample.model.days, ADDAVG=CONFIG.sample.model.addAvg, GROUPAVG=CONFIG.sample.model.groupAvg;
-function rCalc(){
-  const pl=+$("#rPlayers").value, ms=+$("#rMemShare").value/100, hs=+$("#rHire").value/100, mem=+$("#rMembers").value, grp=+$("#rGroups").value, att=+$("#rAttach").value/100;
-  $("#rPlayersOut").textContent=pl;$("#rMemShareOut").textContent=Math.round(ms*100)+"%";$("#rHireOut").textContent=Math.round(hs*100)+"%";$("#rMembersOut").textContent=mem;$("#rGroupsOut").textContent=grp;$("#rAttachOut").textContent=Math.round(att*100)+"%";
-  const avgTicket=(1-hs)*(ms*FARE.walkon.full.m+(1-ms)*FARE.walkon.full.n)+hs*(ms*FARE.hire.full.m+(1-ms)*FARE.hire.full.n);
-  const tickets=DAYS*pl*avgTicket, memRev=mem*MEMBERSHIP, add=DAYS*pl*att*ADDAVG, grpRev=grp*GROUPAVG;
-  $("#rTickets").textContent=gbp(tickets);$("#rMem").textContent=gbp(memRev);$("#rAdd").textContent=gbp(add);$("#rGrp").textContent=gbp(grpRev);
-  const total=tickets+memRev+add+grpRev;
-  $("#rTotal").textContent=gbp(total);
-  $("#rDelta").textContent=gbp(add+grpRev)+" of that is new and collected online, and "+gbp(tickets+memRev)+" moves from "+(((CONFIG.copy||{}).todayTake)||"cash and bank transfer")+" to card.";
-}
-["rPlayers","rMemShare","rHire","rMembers","rGroups","rAttach"].forEach(id=>$("#"+id).addEventListener("input",rCalc));rCalc();
+/* the revenue model (rCalc) moved to the operator console with the proposal (AOC, 2026-09-24) */
 
 /* ---- part: brand.js ----
    The brand panel, prototype chrome only: drop in a logo and a brand colour and

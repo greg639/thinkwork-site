@@ -141,15 +141,22 @@ body:not(.ph-on) #phLegend{display:none}
 [data-ph]{position:relative}
 body.ph-on [data-ph]{outline:1.5px dashed var(--ph);outline-offset:7px;border-radius:2px}
 body.ph-on [data-ph]>.phtag{display:inline-flex}
+/* the chip parks 13px above its box; a box that clips its overflow (a card, a tile, a torn slab) cut the chip in half ("SAMPLE CARD" on the past-events cards). While placeholders show, a box with a chip does not clip. */
+/* In the flow, the chip takes real space at the top of its box: a floating chip covered a field label 100% (No Limits), was cut in half by a clipping card (NTAC) and sat on a heading (District 23). Grid boxes give it a full row; a key-value row wraps it onto its own line; a button cannot hold it, so there it hangs above. */
+.kv:has(>.phtag){flex-wrap:wrap}
+.kv>.phtag{flex:0 0 100%;margin:0 0 4px}
+button>.phtag{position:absolute;top:auto;bottom:calc(100% + 2px);left:0;margin:0}
 body.ph-on .tiers .tier[data-ph]{outline-offset:-1px}
 .kv[data-ph]{margin-top:18px}
-.phtag{display:none;position:absolute;top:-13px;left:8px;z-index:6;align-items:center;gap:5px;background:var(--ph);color:var(--on-ph);
+.phtag{display:none;position:relative;margin:0 0 8px;grid-column:1/-1;justify-self:start;align-self:flex-start;z-index:6;align-items:center;gap:5px;background:var(--ph);color:var(--on-ph);
   font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:2px 8px;border-radius:2px;
-  max-width:calc(100% - 16px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.5}
+  max-width:calc(100% - 16px);white-space:normal;line-height:1.35}   /* wraps: a truncated chip cut mid-word ("YOUR POSTER R") is a chip nobody can read */
 .ph{text-decoration:none}
 body.ph-on .ph{border-bottom:1.5px dashed var(--ph);padding-bottom:1px}
 .note{display:none;gap:10px;align-items:flex-start;margin-top:14px;padding:10px 12px;border:1px dashed var(--red-ink);background:var(--red-ghost);border-radius:3px;font-size:13.5px;line-height:1.45;color:var(--text)}
 .notes-on .note{display:flex}
+.note,.note span{font-family:var(--ui);font-size:13.5px;font-weight:400;font-style:normal;text-transform:none;letter-spacing:0;text-align:left;line-height:1.45;filter:none;text-shadow:none;color:var(--text-2)}
+.note span{display:block;flex:1 1 auto;min-width:0}   /* a note inside a display-type band inherits none of it: the label and the text piled on top of each other on Dirty Dog */
 .notesonly{display:none}
 .notes-on .notesonly{display:block}
 .note b{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--red-ink);flex:none;padding-top:3px}
@@ -240,13 +247,14 @@ nav.main button.on{color:var(--text);box-shadow:inset 0 -3px 0 var(--red-hi)}
 /* ---------- panels ---------- */
 .enamel{position:relative;background:var(--surface);border:1px solid var(--line-strong);border-radius:3px;box-shadow:var(--shadow)}
 .enamel::before,.enamel::after{display:none}
-.enamel.red{background:var(--red);color:#fff;border-color:var(--red-2)}
+.enamel.red{background:var(--red);color:var(--on-red,#fff);border-color:var(--red-2)}
 .enamel .pad{padding:clamp(20px,2.2cqi,32px)}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:3px}
 .pad{padding:clamp(16px,1.8cqi,24px)}
 .grid{display:grid;gap:14px}
 .cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
 .split{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,3.4cqi,56px);align-items:start}
+.split>*{min-width:0}   /* 1fr is minmax(auto,1fr): a wide child widens the column instead of wrapping */
 .split.rev{grid-template-columns:.9fr 1.1fr}
 .stick{align-self:stretch}.stick>*{position:sticky;top:120px}#app.mobile .stick>*{position:static}
 .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -297,7 +305,7 @@ body.ph-on .tiles,body.ph-on .cols2[data-ph]{padding-top:12px}
 }}
 .hero::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(180deg,rgba(31,22,19,.38) 0%,rgba(31,22,19,.5) 40%,rgba(31,22,19,.92) 74%,#1F1613 100%),
-             linear-gradient(90deg,rgba(31,22,19,.92) 0%,rgba(31,22,19,.8) 42%,rgba(31,22,19,.15) 100%)}
+             linear-gradient(90deg,rgba(31,22,19,.92) 0%,rgba(31,22,19,.86) 56%,rgba(31,22,19,.15) 100%)}   /* the type now sits on the 1240 measure, further right over the aerial ground: the dark zone reaches under the whole headline (the red line read 2.95:1 at 42%) */
 .hero .splat{position:absolute;right:0;top:-8%;width:min(56vw,700px);aspect-ratio:1;background:url(assets/splatter.jpg) center/cover no-repeat;mix-blend-mode:screen;opacity:.85;pointer-events:none;z-index:1;--rot:0deg;transform:rotate(var(--rot));transform-origin:55% 28%;
   animation:splat-in 220ms cubic-bezier(.3,1.6,.5,1) both,drip-down 1.4s cubic-bezier(.25,.6,.3,1) 200ms both}
 /* ---- part: texture-lands.css ----
@@ -313,7 +321,7 @@ body.ph-on .tiles,body.ph-on .cols2[data-ph]{padding-top:12px}
 @keyframes drip-down{from{clip-path:inset(0 0 58% 0)}to{clip-path:inset(0 0 0 0)}}
 html.splat-done .hero .splat{animation:none}
 @media (prefers-reduced-motion:reduce){.hero .splat{animation:none}}
-.hero .wrap{position:relative;z-index:2;padding-block:clamp(28px,3cqi,44px) clamp(28px,3.4cqi,56px);width:100%}
+.hero .wrap{position:relative;z-index:2;padding-block:clamp(28px,3cqi,44px) clamp(28px,3.4cqi,56px)}
 .hero .place{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:26px}
 .hero .place .eyebrow{color:var(--text)}
 .hero .place .eyebrow+.eyebrow::before{content:"\00b7";color:var(--red-ink);margin-right:14px}
@@ -435,8 +443,9 @@ html.splat-done .hero .splat{animation:none}
 .steps{display:flex;border:1px solid var(--line-strong);border-radius:3px;overflow:hidden;background:var(--surface);margin-bottom:24px}
 .steps div{flex:1;padding:11px 14px;border-right:1px solid var(--line);font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
 .steps div:last-child{border-right:0}
-.steps div.on{background:var(--red);color:#fff}
+.steps div.on{background:var(--red);color:var(--on-red,#fff)}
 .steps div.done{color:var(--go)}
+.steps div.on.done{color:var(--on-red,#fff)}   /* after paying every step is done and the last is still the active one: green on the accent read 1.1:1 */
 .booklayout{display:grid;grid-template-columns:1fr 350px;gap:24px;align-items:start}
 .booklayout>*{min-width:0}
 #bkDate{min-width:0;width:100%}
@@ -464,7 +473,7 @@ html.splat-done .hero .splat{animation:none}
 .addon .p{margin-left:auto;font-family:var(--mono);font-weight:600;font-size:16px;white-space:nowrap}
 .field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
 .field label{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);font-weight:500}
-.field input,.field select,.field textarea{background:var(--sunk);border:1px solid var(--line-strong);border-radius:2px;padding:11px 12px;min-height:44px}
+.field input,.field select,.field textarea{background:var(--sunk);border:1px solid var(--line-strong);border-radius:2px;padding:11px 12px;min-height:44px;width:100%;max-width:100%;min-width:0}   /* a select's min-content is its longest option: 452px on the parties calculator, and it pushed the whole card past a 390 screen on four sites */
 .check{display:flex;gap:10px;align-items:flex-start;padding:9px 0;font-size:14.5px;color:var(--text-2);cursor:pointer}
 .check input{margin-top:4px;accent-color:var(--red);width:18px;height:18px;flex:none}
 .upsell{border:2px solid var(--red-hi);border-radius:3px;padding:14px 16px;background:var(--red-ghost);margin-top:16px}
@@ -565,7 +574,6 @@ footer.site ul button:hover{color:var(--red-ink)}
   .kv{flex-direction:column;align-items:flex-start;gap:2px}
   .kv b{white-space:normal}
   .kv[data-ph]{margin-top:12px}
-  .kv[data-ph]>.phtag{position:static;top:auto;bottom:auto;left:auto;margin:0 0 4px;max-width:100%}
   .wordmark{font-size:17px}
   .wordmark small{display:none}
   .brandmark{width:34px;height:34px}
@@ -577,8 +585,6 @@ footer.site ul button:hover{color:var(--red-ink)}
   .hero::after{background:linear-gradient(180deg,rgba(31,22,19,.75) 0%,rgba(31,22,19,.9) 22%,#1F1613 100%)}
   .hero .brandmark{width:72px;height:72px}
   h1{font-size:40px}
-  .phtag{white-space:normal;line-height:1.35;top:auto;bottom:calc(100% - 9px)}
-  .tile>.phtag{top:8px;bottom:auto}
 }
 @media (max-width:640px){
   /* on a phone the two-row toolbar is chrome, not the site: it scrolls away rather than eating 90px of every screen */
@@ -679,7 +685,7 @@ body.ph-on .mapframe[data-ph]{outline-offset:4px}
 .pin{position:absolute;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:44px;min-height:44px;padding:0 4px 2px;transform:translate(-50%,-100%);transform-origin:50% 100%;cursor:pointer;color:var(--text)}
 .pin i{display:block;width:16px;height:16px;border-radius:50%;background:var(--red-hi);border:3px solid #F2ECE3;box-shadow:0 0 0 2px rgba(0,0,0,.55),0 6px 14px rgba(0,0,0,.6);order:2}
 .pin span{order:1;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;background:#1F1613;color:#F2ECE3;border:1px solid var(--line-strong);padding:5px 8px;border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,.5)}
-.pin:hover span,.pin[aria-pressed="true"] span{background:var(--red);border-color:var(--red-2);color:#fff}
+.pin:hover span,.pin[aria-pressed="true"] span{background:var(--red);border-color:var(--red-2);color:var(--on-red,#fff)}
 .pin[aria-pressed="true"] i{background:#fff;border-color:var(--red-hi)}
 /* the marker we could not place: dashed, and amber once Placeholders is on */
 .pin.guess i{background:transparent;border:2px dashed #F2ECE3;width:22px;height:22px}
@@ -1000,7 +1006,7 @@ body.ph-on .mapgames[data-ph]{outline-offset:4px}
    .bk-flash span to overwrite while it is on.
    Reads no CONFIG. Behaviour and the sample figures are live.js. */
 /* ---------- live Sunday mode: the home page at 11:00 on a running day. Every figure is sample ---------- */
-#liveBtn[aria-pressed="true"]{background:var(--red);color:#fff}
+#liveBtn[aria-pressed="true"]{background:var(--red);color:var(--on-red,#fff)}
 #liveBtn::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#666;margin-right:6px;vertical-align:1px}
 #liveBtn[aria-pressed="true"]::before{background:#fff;animation:livepulse 1.6s ease-in-out infinite}
 @keyframes livepulse{0%,100%{opacity:1}50%{opacity:.35}}
@@ -1015,7 +1021,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 /* the board's live row, in place of the next date */
 .board .r.live{background:rgba(154,12,14,.28);border-left:4px solid var(--red-hi);padding-left:12px}
 .board .r.live .d{color:var(--red-ink)}
-.board .r.live .status.live{color:#fff;background:var(--red);border-color:var(--red);margin-top:6px;animation:livepulse 1.6s ease-in-out infinite}
+.board .r.live .status.live{color:var(--on-red,#fff);background:var(--red);border-color:var(--red);margin-top:6px;animation:livepulse 1.6s ease-in-out infinite}
 .board .r.live .n b{color:#fff}
 .board .r.live>.phtag{top:6px;right:12px;left:auto;bottom:auto}
 @container page (max-width:960px){
@@ -1048,7 +1054,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 .evkick{font-family:var(--display);font-weight:900;font-size:clamp(64px,6.4cqi,104px);line-height:.92;text-transform:none;letter-spacing:.005em;color:var(--text)}
 .evsub{font-family:var(--display);font-weight:700;font-size:clamp(22px,2cqi,28px);text-transform:uppercase;letter-spacing:.05em;color:var(--text-2);margin-top:14px;line-height:1}
 /* the red ripped banner off the poster: a skewed red slab, torn corners, heavy white type */
-.rip{display:inline-block;margin:18px 0 4px;background:var(--red);color:#fff;padding:10px 24px 10px 20px;transform:skewX(-8deg);clip-path:polygon(0 0,100% 5%,98% 100%,1.5% 95%)}
+.rip{display:inline-block;margin:18px 0 4px;background:var(--red);color:var(--on-red,#fff);padding:10px 24px 10px 20px;transform:skewX(-8deg);clip-path:polygon(0 0,100% 5%,98% 100%,1.5% 95%)}
 .rip span{display:inline-block;font-family:var(--display);font-weight:900;font-size:clamp(24px,2.3cqi,32px);text-transform:uppercase;line-height:1;letter-spacing:.02em;white-space:nowrap}
 /* icon-plus-label rows: white disc, black glyph, as on the poster */
 .evrows{list-style:none;margin:14px 0 0;padding:0}
@@ -1061,10 +1067,11 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 .evrows span{display:block;font-size:13.5px;color:var(--text-2);margin-top:4px}
 /* the price slabs: red, torn, white figures */
 .evprice{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
-.evprice>div{background:var(--red);color:#fff;padding:14px 16px 16px;clip-path:polygon(0 0,100% 2%,99% 100%,1% 98%)}
+.evprice>div{position:relative;isolation:isolate;color:var(--on-red,#fff);padding:14px 16px 16px}
+.evprice>div::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--red);clip-path:polygon(0 0,100% 2%,99% 100%,1% 98%)}
 .evprice b{display:block;font-family:var(--display);font-weight:900;font-size:clamp(40px,3.8cqi,54px);line-height:.9;font-variant-numeric:tabular-nums}
 .evprice b .in{display:inline;font-size:.6em;letter-spacing:0;margin:0}
-.evprice small{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin-top:7px;color:#fff;font-weight:500}
+.evprice small{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin-top:7px;color:inherit;font-weight:500}
 .evprice em{display:inline-block;margin-top:9px;font-style:normal;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;background:#F2ECE3;color:#1F1613;padding:3px 8px;transform:skewX(-8deg)}
 .evprizes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 .evprizes>div{border:1px solid var(--line-strong);border-radius:2px;padding:12px 14px;display:grid;grid-template-columns:32px 1fr;column-gap:10px;align-items:center;background:var(--surface)}
@@ -1093,7 +1100,8 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 .evpast article{display:flex;flex-direction:column;align-items:stretch;gap:0;overflow:hidden}
 .phead{position:relative;background:#0E0A09;padding:16px 16px 14px;min-height:160px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:16px;overflow:hidden;isolation:isolate;border-bottom:3px solid var(--red)}
 .phead::before{content:"";position:absolute;right:-30%;top:-40%;width:110%;aspect-ratio:1;background:var(--tex-1) center/cover no-repeat;mix-blend-mode:screen;opacity:.6;pointer-events:none;transform:rotate(20deg);z-index:-1}
-.pban{display:inline-block;background:var(--red);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding:5px 12px 4px 10px;transform:skewX(-8deg);clip-path:polygon(0 0,100% 6%,98% 100%,2% 94%)}
+.phead::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(14,10,9,.1) 0%,rgba(14,10,9,.85) 100%);pointer-events:none}   /* the heading always sits on dark, whatever the layout's texture is */
+.pban{display:inline-block;background:var(--red);color:var(--on-red,#fff);font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding:5px 12px 4px 10px;transform:skewX(-8deg);clip-path:polygon(0 0,100% 6%,98% 100%,2% 94%)}
 .phead h3{color:#F2ECE3;font-size:clamp(26px,2.4cqi,34px);font-weight:900;line-height:.95;filter:url(#grit);text-shadow:0 2px 0 rgba(0,0,0,.5)}
 .evpast p{font-size:14px;color:var(--text-2);padding:12px 16px 16px}
 @container (max-width:360px){
@@ -1140,7 +1148,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 .bk-panel{padding-top:22px}
 .bk-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;flex-wrap:wrap;margin-bottom:18px}
 .bk-title{font-size:clamp(28px,3cqi,44px);font-weight:900;margin-top:8px}
-.bk-flash{display:inline-block;background:var(--red);color:#fff;font-family:var(--display);font-weight:900;font-size:clamp(22px,2.2cqi,30px);line-height:1;text-transform:uppercase;letter-spacing:.02em;padding:9px 18px 8px;transform:skew(-8deg);border-radius:1px;flex:none;margin-inline:6px}
+.bk-flash{display:inline-block;background:var(--red);color:var(--on-red,#fff);font-family:var(--display);font-weight:900;font-size:clamp(22px,2.2cqi,30px);line-height:1;text-transform:uppercase;letter-spacing:.02em;padding:9px 18px 8px;transform:skew(-8deg);border-radius:1px;flex:none;margin-inline:6px}
 .bk-flash>span{display:inline-block;transform:skew(8deg)}
 .bk-flash.sm{font-size:20px;padding:7px 14px 6px}
 .bk-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:10px;margin-bottom:16px}
@@ -2625,204 +2633,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 </section>
 
 <!-- ============ PROPOSAL (for you, not part of the public site) ============ -->
-<section data-screen="prop" hidden>
-  <div class="band tight">
-    <div class="wrap">
-      <p class="eyebrow">Proposal. Not a public page.</p>
-      <h2 style="margin:10px 0 10px">What this rebuild is actually for</h2>
-      <p class="lede" style="margin-bottom:26px">Three things. Take your money online instead of by bank transfer. Sell the membership you already have, at the moment it saves someone money. And make your site the thing an assistant quotes when somebody in County Durham asks where to play airsoft on Sunday.</p>
-
-      <!-- the wedge -->
-      <div class="enamel" style="margin-bottom:16px"><div class="pad">
-        <p class="eyebrow">The one-page site, read closely</p>
-        <h3 style="margin:8px 0 12px">You built the price ladder. The form cannot collect it.</h3>
-        <div class="split">
-          <div>
-            <p class="muted">Your whole site is one page. On it is a four-by-two fare table: member and non-member, full day and half day, walk-on and hire. It is a considered ladder. The &pound;40 membership pays for itself on the fourth full day. And then, underneath it, in your own words:</p>
-            <p style="margin:14px 0;padding:12px 16px;border-left:3px solid var(--red-ink);font-size:18px;font-weight:600">&ldquo;Payments can be made by cash or bank transfer only.&rdquo;</p>
-            <p class="muted">Your booking is a Google Form behind a link that says "Click Here". Private parties are "Please message for info".</p>
-          </div>
-          <div>
-            <p class="eyebrow" style="color:var(--ph);margin-bottom:8px">What a Google Form and a bank transfer cannot do</p>
-            <ul class="checklist x">
-              <li>Take the &pound;40 membership</li>
-              <li>Tell a member from a walk-on at the point of paying</li>
-              <li>Hold a place, or count how many are coming</li>
-              <li>Know on Friday how many hire guns go out on Sunday</li>
-              <li>Sell the second thing: food, HPA, a second day</li>
-              <li>Take a deposit on a party</li>
-              <li>Store a waiver</li>
-              <li>Tell anyone who searched for it that it exists</li>
-            </ul>
-          </div>
-        </div>
-      </div></div>
-
-      <!-- provenance -->
-      <div class="card pad" style="margin-bottom:16px">
-        <p class="eyebrow">Read this first</p>
-        <h3 style="margin:8px 0 10px">What in here is yours, and what is invented</h3>
-        <p class="muted" style="max-width:74ch">A prototype needs content to be a prototype. Everything in the right-hand column is placeholder and has to be replaced with your real figures before any of this goes near a customer. Leave <b>Placeholders</b> switched on in the toolbar and every invented block is outlined on screen.</p>
-        <div class="split" style="margin-top:18px">
-          <div>
-            <p class="eyebrow" style="color:var(--go);margin-bottom:8px">Taken from your own site, dirtydogairsoft.co.uk</p>
-            <ul class="checklist">
-              <li>Every price on the fare board: &pound;15 / &pound;10 / &pound;25 / &pound;15 / &pound;30 / &pound;25 / &pound;40 / &pound;30</li>
-              <li>Membership &pound;40, running March to February</li>
-              <li>Every Sunday except Christmas and New Year; one Saturday a month, April to November</li>
-              <li>Gates 8am; games 10am till 4pm; lunch 12:30</li>
-              <li>15 acres; two-storey shipping container village; woodland, trenches</li>
-              <li>On-site toilets, hot food, HPA refills</li>
-              <li>Walk-ons welcome; age 11 and over; under-18s in full face protection</li>
-              <li>Cash or bank transfer only; booking by Google Form</li>
-              <li>Private parties and team building, "please message for info"</li>
-              <li>Sunnydale, Shildon, DL4 2ER; 07712 588700; facebook.com/DirtyDogAirsoft</li>
-              <li>Black, white and your red, rgb(154,12,14)</li>
-              <li>Your logo (the patch), your aerial photograph and your mascot photo</li>
-              <li>1v1 tournament, Saturday 26 September, 09:30 to 16:00, gates 08:00, &pound;35 entry, &pound;10 non-refundable deposit, &pound;50 and &pound;30 prizes: the poster on your homepage</li>
-              <li>Ten years: anniversary game day Sunday 1 November, 10% off game day fees, ten prizes, cake: your other poster</li>
-              <li>"Fast. Precise. One shot. One winner.": your 1v1 poster, quoted on the opening screen</li>
-            </ul>
-            <p class="eyebrow" style="color:var(--go);margin:14px 0 8px">From the Google listing, 23 September 2026</p>
-            <ul class="checklist"><li>4.9 rating from 289 reviews</li></ul>
-          </div>
-          <div>
-            <p class="eyebrow" style="color:var(--ph);margin-bottom:8px">Invented placeholder, needs your real data</p>
-            <ul class="checklist x">
-              <li>Which Saturday each month, and every places-remaining figure</li>
-              <li>The chrono and brief slot at 09:00</li>
-              <li>The descriptions under container village, trenches and woodland</li>
-              <li>What hire kit includes</li>
-              <li>The ten-day block and the pro-rating figures</li>
-              <li>Party packages, prices and the deposit</li>
-              <li>Every pre-order item and price</li>
-              <li>All account, history and UKARA data</li>
-              <li>Every figure in the revenue model</li>
-            </ul>
-            <p class="eyebrow" style="color:var(--text-3);margin:14px 0 8px">Omitted, because it could not be sourced</p>
-            <ul class="checklist x">
-              <li>An email address: you publish none</li>
-              <li>Review quotes: the listing returns them truncated, and a truncated quote is not verbatim</li>
-              <li>Zone names beyond your three words</li>
-              <li>A shop: your site does not mention one</li>
-              <li>Your name: not on your site, and not in Companies House under this trading name</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- revenue model -->
-      <div class="card pad" style="margin-bottom:16px" data-ph="1"><span class="phtag">Every input is a guess until you replace it</span>
-        <p class="eyebrow">Indicative revenue model. Drag the sliders.</p>
-        <h3 style="margin:8px 0 18px">What the new lines are worth</h3>
-        <div class="split">
-          <div class="stack" style="gap:16px">
-            <div><label class="eyebrow" for="rPlayers">Players per running day: <span class="mono" id="rPlayersOut">40</span></label><input class="slider" type="range" id="rPlayers" min="10" max="120" value="40"></div>
-            <div><label class="eyebrow" for="rMemShare">Share who are members: <span class="mono" id="rMemShareOut">40%</span></label><input class="slider" type="range" id="rMemShare" min="0" max="100" value="40"></div>
-            <div><label class="eyebrow" for="rHire">Share on hire kit: <span class="mono" id="rHireOut">25%</span></label><input class="slider" type="range" id="rHire" min="0" max="100" value="25"></div>
-            <div><label class="eyebrow" for="rMembers">Paid members a year: <span class="mono" id="rMembersOut">120</span></label><input class="slider" type="range" id="rMembers" min="0" max="500" value="120"></div>
-            <div><label class="eyebrow" for="rGroups">Party and group bookings a year: <span class="mono" id="rGroupsOut">12</span></label><input class="slider" type="range" id="rGroups" min="0" max="60" value="12"></div>
-            <div><label class="eyebrow" for="rAttach">Pre-order attach rate: <span class="mono" id="rAttachOut">30%</span></label><input class="slider" type="range" id="rAttach" min="0" max="80" value="30"></div>
-            <p class="tiny" style="line-height:1.5">Fixed assumptions: 58 running days a year (50 Sundays after the Christmas break, plus 8 Saturdays); the published fares; &pound;7 average pre-order; &pound;450 average group booking. Gift vouchers are switched off in this proposal and not counted. Day tickets and hire are what you already take, in cash. The new lines are the ones your current site cannot collect.</p>
-          </div>
-          <div>
-            <div class="tblscroll"><table class="tbl">
-              <tr><th>Revenue line</th><th>Today</th><th class="num">Per year</th></tr>
-              <tr><td>Day tickets, walk-on and hire</td><td>Cash on the day</td><td class="num" id="rTickets"></td></tr>
-              <tr><td>Memberships</td><td>Bank transfer</td><td class="num" id="rMem"></td></tr>
-              <tr><td>Pre-orders: food, HPA, consumables</td><td><span class="pill red">New</span></td><td class="num" id="rAdd"></td></tr>
-              <tr><td>Parties and team building</td><td>By message</td><td class="num" id="rGrp"></td></tr>
-            </table></div>
-            <div class="enamel" style="margin-top:14px"><div class="pad">
-              <p class="eyebrow">Modelled annual revenue</p>
-              <p class="bigfig" id="rTotal" style="margin-top:20px"></p>
-              <p class="eyebrow" style="color:var(--go);margin-top:18px" id="rDelta"></p>
-            </div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- AI discovery -->
-      <div class="card pad" style="margin-bottom:16px">
-        <p class="eyebrow">Search and AI discovery</p>
-        <h3 style="margin:8px 0 10px">Built to be quoted, not just crawled</h3>
-        <p class="muted" style="max-width:72ch">People increasingly ask an assistant rather than a search engine: <em>"where can my 12-year-old play airsoft near Darlington?"</em> Assistants answer from pages that state facts plainly, mark them up as data, and are allowed to be read. Your current page has the facts, in text, on one page. That is more than most. What it lacks is the markup, the per-date pages, a meta description with the facts in it, and any way for someone to act on the answer.</p>
-        <div class="split" style="margin-top:20px">
-          <div>
-            <p class="eyebrow" style="margin-bottom:8px">Answer-ready facts, in the HTML</p>
-            <div class="tblscroll"><table class="tbl">
-              <tr><th>Question asked</th><th>Answer the page states</th><th>Source</th></tr>
-              <tr><td>Where is it?</td><td>Sunnydale, Shildon, DL4 2ER</td><td><span class="pill ok">Your site</span></td></tr>
-              <tr><td>How do I reach you?</td><td>07712 588700</td><td><span class="pill ok">Your site</span></td></tr>
-              <tr><td>What does it cost?</td><td>&pound;25 walk-on, &pound;40 hire, less for members</td><td><span class="pill ok">Your site</span></td></tr>
-              <tr><td>Minimum age?</td><td>11, under-18s full face</td><td><span class="pill ok">Your site</span></td></tr>
-              <tr><td>When is the next game day?</td><td>Every Sunday, gates 8am</td><td><span class="pill ok">Your site</span></td></tr>
-              <tr><td>Which Saturday?</td><td>26 September, the 1v1. The rest are announced.</td><td><span class="pill ok">Your poster</span></td></tr>
-              <tr><td>What does hire include?</td><td class="ph">Not published</td><td><span class="pill ph">You</span></td></tr>
-              <tr><td>Chrono limits?</td><td class="ph">Not published</td><td><span class="pill ph">You</span></td></tr>
-              <tr><td>Email?</td><td class="ph">Not published</td><td><span class="pill ph">You</span></td></tr>
-            </table></div>
-          </div>
-          <div>
-            <p class="eyebrow" style="margin-bottom:8px">Structured data on every page</p>
-            <div class="codebox"><pre>{
-  <span class="t">"@type"</span>: "SportsActivityLocation",
-  <span class="t">"name"</span>: "Dirty Dog Airsoft",
-  <span class="t">"address"</span>: { "streetAddress": "Sunnydale",
-    "addressLocality": "Shildon",
-    "addressRegion": "County Durham",
-    "postalCode": "DL4 2ER", "addressCountry": "GB" },
-  <span class="t">"telephone"</span>: "+447712588700",
-  <span class="t">"openingHoursSpecification"</span>: [{
-    "dayOfWeek": "Sunday",
-    "opens": "08:00", "closes": "16:00" }],
-  <span class="t">"makesOffer"</span>: [
-    { "name": "Walk-on, full day", "price": "25.00" },
-    { "name": "Walk-on, full day, member", "price": "15.00" },
-    { "name": "Hire, full day", "price": "40.00" },
-    { "name": "Membership, annual", "price": "40.00" } ],
-  <span class="t">"event"</span>: "<span class="t">one SportsEvent per running day</span>",
-  <span class="t">"aggregateRating"</span>: "<span class="t">wired to Google, never typed</span>"
-}</pre></div>
-            <p class="eyebrow" style="margin:16px 0 8px">The rest of the discovery work</p>
-            <ul class="checklist">
-              <li>A real URL per running day, so a specific Sunday can rank and be linked</li>
-              <li>FAQPage and Event markup validated in Search Console</li>
-              <li>Name, address and phone identical on the site, Google Business Profile and every airsoft directory</li>
-              <li>robots.txt explicitly allowing GPTBot, ClaudeBot, PerplexityBot and Google-Extended</li>
-              <li>A fuller meta description: yours today reads 'Dirty Dog Airsoft Shildon Durham - Airsoft games every sunday', with no prices, times or age rule in it</li>
-              <li>Location pages for Shildon, Bishop Auckland, Darlington, Durham and Newton Aycliffe</li>
-              <li>Sub-second first paint on 4G in a field</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- build -->
-      <div class="split" style="gap:16px">
-        <div class="card pad">
-          <p class="eyebrow">What comes in-house</p>
-          <h3 style="margin:8px 0 12px">No form in the money path</h3>
-          <div class="kv"><span>Bank transfers reconciled by hand</span><b>Card, before Sunday</b></div>
-          <div class="kv"><span>Membership by transfer</span><b>Sold in the basket</b></div>
-          <div class="kv"><span>Google Form</span><b>Your own checkout</b></div>
-          <div class="kv"><span>"Message for info"</span><b>Quote and deposit</b></div>
-          <div class="kv"><span>Waiver</span><b>Signed once, kept a year</b></div>
-          <div class="kv"><span>Customer list</span><b>Yours</b></div>
-          <p class="tiny" style="margin-top:12px">Card processing is roughly 1.5% plus 20p to Stripe, which you do not pay today. Against that: the membership sold, the hire counted, the party deposited, and no Sunday morning spent matching transfers to names.</p>
-        </div>
-        <div class="card pad">
-          <p class="eyebrow">How it would be built</p>
-          <h3 style="margin:8px 0 12px">Two phases</h3>
-          <div class="kv"><span><b>Phase 1</b>: the site, booking, payments, membership, waivers, pre-orders, party quotes</span><b>Now</b></div>
-          <div class="kv"><span><b>Phase 2</b>: a marshal's phone at the gate: check-in, hire issue, chrono log</span><b>After go-live</b></div>
-          <p class="small muted" style="margin-top:12px">Phase 1 is built on a proper customer record, so Phase 2 is a screen over data that already exists rather than a rebuild.</p>
-          <p class="tiny" style="margin-top:10px">This prototype is front-end only. The flows work, nothing is stored, no card is charged.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- the proposal lives in the operator console (AOC): Proposal in the toolbar opens it -->
 
 <!-- ============ FOOTER ============ -->
 <div class="tagline plate alt"><p>Every Sunday. Gates at eight. <em>Games at ten. Home by tea.</em></p><p class="note"><b>Why</b><span>Ours, written in your poster's register for your Sundays. Swap it for your own line in a minute.</span></p></div>
@@ -2894,7 +2705,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 /* One object, written by engine/build.mjs out of businesses/<slug>.json. Every
    engine part reads its business-specific values from here, so no part carries
    a client's name, price, date, copy or file name. */
-const CONFIG = {"slug":"dirty-dog","layout":"mud-and-blood","business":{"name":"Dirty Dog Airsoft","short":"Dirty Dog","legalName":"Dirty Dog Airsoft Shildon","kind":"outdoor woodland airsoft site","site":"https://www.dirtydogairsoft.co.uk","domain":"dirtydogairsoft.co.uk","phone":"07712 588700","phoneE164":"+447712588700","street":"Sunnydale","town":"Shildon","county":"County Durham","postcode":"DL4 2ER","facebook":"https://www.facebook.com/DirtyDogAirsoft","email":"","rating":"4.9","reviews":"289","geo":{"lat":"54.63601","lng":"-1.638558"},"addressLine":"Sunnydale, Shildon, County Durham, DL4 2ER","postcodeUrl":"DL4+2ER"},"design":{"display":"Big Shoulders Display","body":"Archivo","mono":"Azeret Mono","accent":"#9A0C0E","hero":"typographic","images":"theirs: logo patch, aerial (hero), mascot. Generated and flagged: containers, trenches, woodland, squad, kit, food, and three splatter textures.","flyin":{"style":"drone-feed","placement":"the-ground","motion":"descend","tint":"brand","reveal":"redaction","source":"video","duration":2.5,"pitch":-40,"heading":22,"fields":[{"label":"Site","value":"Sunnydale"},{"label":"Grid","value":"DL4 2ER"},{"label":"Area","value":"15 acres"},{"label":"Gates","value":"08:00"}],"target":{"lat":54.6381,"lng":-1.63059},"fields_source":"facts.address_street, facts.postcode, facts.acres, facts.gates: every slab on the HUD is a ledgered fact, uppercased by the CSS","target_source":"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/83372/129883","target_note":"The container rows themselves, read off Esri World Imagery against their own aerial photograph: the container village, the woodland behind it and the quad track to the south east all line up. About 570 metres north east of the DL4 2ER centroid, which is why the centroid is not the shot.","stillZoom":1.62,"stillFocus":{"x":"26%","y":"48%"},"still_note":"When the ground falls back to the still, the stage opens cropped on the container rows so it is a different view of your aerial from the map underneath it, not the same picture twice.","targetHeight":148,"targetHeight_source":"https://api.opentopodata.org/v1/eudem25m?locations=54.6381,-1.63059","targetHeight_note":"148 metres above the ellipsoid at the container rows (EU DEM 25m). The camera aims at the ground, not at a point under it, so the reticle settles on the village instead of the field south of it, and ALT 700 M is 700 metres above the site.","credit":["Imagery: Google Maps","Cesium ion"],"altitude":350},"map":{"spots":{"village":{"x":18,"y":52},"wood":{"x":47,"y":34},"gate":{"x":44,"y":82},"trench":{"x":68,"y":60}}}},"assets":{"logo":"assets/logo.webp","logo.webp":"assets/logo.webp","aerial":"assets/aerial.jpg","aerial.jpg":"assets/aerial.jpg","dog":"assets/dog.jpg","dog.jpg":"assets/dog.jpg","dog-cutout":"assets/dog-cutout.webp","dog-cutout.webp":"assets/dog-cutout.webp","poster-1v1":"assets/poster-1v1.jpg","poster-1v1.jpg":"assets/poster-1v1.jpg","poster-10-years":"assets/poster-10-years.jpg","poster-10-years.jpg":"assets/poster-10-years.jpg","containers":"assets/containers.jpg","containers.jpg":"assets/containers.jpg","trenches":"assets/trenches.jpg","trenches.jpg":"assets/trenches.jpg","woodland":"assets/woodland.jpg","woodland.jpg":"assets/woodland.jpg","squad":"assets/squad.jpg","squad.jpg":"assets/squad.jpg","kit":"assets/kit.jpg","kit.jpg":"assets/kit.jpg","food":"assets/food.jpg","food.jpg":"assets/food.jpg","splatter":"assets/splatter.jpg","splatter.jpg":"assets/splatter.jpg","splatter-2":"assets/splatter-2.jpg","splatter-2.jpg":"assets/splatter-2.jpg","splatter-3":"assets/splatter-3.jpg","splatter-3.jpg":"assets/splatter-3.jpg","flyin":"assets/flyin.mp4","flyin.mp4":"assets/flyin.mp4","flyin.webm":"assets/flyin.webm","flyin-poster":"assets/flyin-poster.jpg","flyin-poster.jpg":"assets/flyin-poster.jpg"},"siteUrl":"https://thinkwork.info/airsoft/dirty-dog/","aocUrl":"","fares":{"walkon":{"full":{"n":25,"m":15},"half":{"n":15,"m":10}},"hire":{"full":{"n":40,"m":30},"half":{"n":30,"m":25}}},"membership":{"price":40,"year":"March to February","yearEnd":"28 Feb 2027","renewMonth":"1 February"},"schedule":{"times":["08:00","10:00","16:00"],"lunch":"12:30","regular":{"day":0,"dayName":"Sunday","label":"Sunday game day","detail":"Gates 08:00, games 10:00 till 16:00, lunch 12:30.","count":12},"extra":{"day":6,"dayName":"Saturday","label":"Saturday game day","detail":"One a month, April to November. Which Saturday is announced nearer the time.","fromMonth":3,"toMonth":10,"tba":true},"breakFrom":"12-24","breakTo":"01-02","cap":60},"events":[{"key":"1v1","name":"1v1 tournament","iso":"2026-09-26","dayName":"Saturday","detail":"Bring your own gun, limited ammo. 09:30 to 16:00, gates 08:00. £35 entry, £10 deposit to secure, non-refundable. £50 to the winner, £30 runner-up.","times":["08:00","09:30","16:00"],"price":35,"deposit":10,"prize":true,"left":6,"cap":24,"fact":"event_1v1","ld":{"type":"SportsEvent","name":"1v1 tournament","description":"One on one airsoft tournament at Dirty Dog Airsoft, Sunnydale, Shildon. Bring your own gun, limited ammo. 9:30am to 4:00pm, gates open 8:00am. £35 entry, £10 deposit to secure, non-refundable. Overall winner £50 prize, runner up £30 prize. Limited places.","image":"https://www.dirtydogairsoft.co.uk/wip/images/sized/m_17893011134857_6794.jpeg","startDate":"2026-09-26T09:30:00+01:00","endDate":"2026-09-26T16:00:00+01:00","doorTime":"2026-09-26T08:00:00+01:00","offerName":"Entry","offerPrice":"35.00","availability":"LimitedAvailability"},"short":"1v1"},{"key":"anniversary","name":"Ten years of Dirty Dog","iso":"2026-11-01","dayName":"Sunday","detail":"Anniversary game day. 10% off game day fees, ten prizes given away on the day, birthday cake.","times":["08:00","10:00","16:00"],"off":0.9,"offLabel":"Ten years: 10% off game day fees","prizes":10,"fact":"anniversary","ld":{"type":"Event","name":"10 years stronger together","description":"Dirty Dog Airsoft tenth anniversary game day at Sunnydale, Shildon. 10% off game day fees, 10 prizes given away on the day, birthday cake.","image":"https://www.dirtydogairsoft.co.uk/wip/images/sized/m_17893011111932_6745.jpeg","startDate":"2026-11-01"},"short":"Ten years"}],"ref":"DD","copy":{"fareboard":{"sumOwn":"Four full days<br>and the &pound;40 is paid back","sumMember":"You save &pound;10<br>every full day","lineOwn":"Membership saves £10 on every full day, walk-on or hire, and £5 on a half day. Anyone who comes more than three times a year should be a member.","lineMember":"Walk-on or hire, full day, membership takes £10 off. Half days save £5. Over a year of most Sundays that is the membership back several times over."},"breakEven":"Membership breaks even at four.","renewToast":"Renewal opens on 1 February: one £40 pay link for the March year.","sumOwn":"Four full days<br>and the &pound;40 is back","lineOwn":"Members pay £15 instead of £25 for a full day, and £30 instead of £40 for hire: £10 back every full day, £5 every half day. Four full days as a non-member cost £100; as a member, £40 plus £60, level. Ten days: £250 against £190.","sumMember":"&pound;10 back<br>every full day","lineMember":"Walk-on or hire, a full day is £10 less and a half day £5 less. Most Sundays in a year and the £40 is back many times over."},"sample":{"spaces":[41,18,52,33,9,46,27,57,14,38,49,22],"addons":[{"id":"food","n":"Hot lunch, pre-ordered","s":"Hot food, paid for now and waiting at 12:30 with your name on it. Sample price.","p":6,"per":true,"on":true},{"id":"hpa","n":"HPA fill","s":"Refill on site, already paid. Real service, sample price.","p":3,"per":false,"on":false},{"id":"bb","n":"2,000 BBs, 0.25g bio","s":"Bagged with your name on. Sample item.","p":11,"per":false,"on":false},{"id":"flex","n":"Flexi-booking","s":"Move your date free up to 24 hours before.","p":2,"per":true,"on":false}],"block":{"price":130,"days":10,"dayRate":13,"label":"Ten-day block, proposed"},"products":[["Hot lunch, pre-ordered",6,"On site · sample price"],["HPA fill",3,"On site · sample price"],["2,000 BBs, 0.25g bio",11,"Sample item"],["Green gas, 1 litre",9,"Sample item"]],"model":{"days":58,"addAvg":7,"groupAvg":450,"foodPer":6,"depositPct":0.25},"live":{"time":"11:02","game":2,"of":4,"next":"11:40","onSite":43,"inGate":41,"closed":"10:00"},"backend":{"names":["Sam Ridley","Ethan Lowes","Toby Lax","Aaron Purvis","Adam Featherstone","Jordan Peart","Jack Hetherington","Sophie Gill","Callum Fenwick","Kieran Walton","Amy Proud","Connor Raine","Liam Stobbs","Harvey Blackett","Lewis Armstrong","Olivia Dodds","Ryan Coates","Tyler Burnip","Mason Craggs","Zak Elliott","Reece Hutchinson","Finlay Dent","Alfie Marley","Charlie Wearmouth","George Pickering","Kyle Snowdon","Lucy Cummings","Priya Nair","Nathan Bell","Owen Hodgson","Isaac Thwaites","Louie Dixon","Freddie Wren","Archie Bowes","Chloe Bainbridge","Dan Metcalfe","Ellis Vickers","Joel Sowerby","Max Teasdale","Rhys Oliver","Ben Nattrass","Molly Errington","Jake Ramshaw"],"mix":[["walkon","full",true,14],["walkon","full",false,13],["walkon","half",false,4],["hire","full",true,3],["hire","full",false,9]],"noWaiver":[2,7,13,19,26,31,38],"under18":[4,11,17,24,33],"pinName":"Priya Nair","pre":{"lunch":{"n":19,"p":6,"label":"Hot lunches"},"hpa":{"n":7,"p":3,"label":"HPA fills"},"bb":{"n":11,"p":11,"label":"Bags of BBs"}},"joinedToday":2,"lastYear":905,"walkups":190,"cardFees":71,"chronoTime":"09:00","bracketSize":32,"membersCount":112,"bookings":[["DD-4K7Q","Sam Ridley","next",1,0,"full",true,"paid",0,false],["DD-7H2M","Lewis Armstrong","next",2,0,"full",false,"paid",0,false],["DD-9P1X","Chloe Bainbridge","next",0,1,"full",false,"paid",6,false],["DD-2R8C","Dan Metcalfe","next",0,3,"full",false,"paid",0,false],["DD-5T3L","Priya Nair","next",1,0,"half",false,"waiver",0,false],["DD-8W6B","Josh Tennant",0,1,0,"full",false,"paid",0,false],["DD-3M9K","Ellie Robson",0,1,0,"full",true,"paid",0,false],["DD-6Q4D","Callum Fenwick",2,1,0,"full",true,"paid",0,true],["DD-1Z7N","Kate Harrison",2,2,1,"half",false,"paid",0,false],["DD-0V5S","Tom Applegarth",3,0,1,"full",true,"paid",0,false],["DD-4J2F","Megan Storey",3,4,0,"full",false,"paid",0,false],["DD-7B8H","Ryan Coates",1,1,0,"full",false,"paid",0,false]],"members":[["Callum Fenwick","20 Sep",1,0],["Ellie Robson","14 Sep",2,0],["Tom Applegarth","6 Sep",3,0],["Sam Ridley","1 Mar",4,0],["Amy Proud","1 Mar",11,2],["Kieran Walton","1 Mar",14,0],["Jordan Peart","1 Mar",8,3],["Liam Stobbs","1 Mar",19,1],["Sophie Gill","1 Mar",6,6],["Harvey Blackett","1 Mar",22,0]],"entrants":["Josh Tennant","Ellie Robson","Kieran Walton","Liam Stobbs","Harvey Blackett","Mason Craggs","Zak Elliott","Reece Hutchinson","Finlay Dent","Alfie Marley","Charlie Wearmouth","George Pickering","Kyle Snowdon","Adam Featherstone","Nathan Bell","Owen Hodgson","Isaac Thwaites","Louie Dixon"],"moneyLines":[["Day tickets, walk-on","89 players over three Sundays",2145],["Hire","35 guns out, booked ahead",1290],["Membership","6 joined at the checkout",240],["Pre-orders","lunches, HPA, BBs",612],["Parties","one party paid in full, twelve players",450],["Vouchers","switched off in this proposal",0]],"payouts":[["Sun 6 Sep","Tue 8 Sep",1362,"paid"],["Sun 13 Sep","Tue 15 Sep",1527,"paid"],["Thu 17 Sep, a party paid in full","Sat 19 Sep",450,"paid"],["Sun 20 Sep","Tue 22 Sep",1398,"paid"]],"annPost":"Ten years. Sunday 1 November. 10% off, ten prizes, cake. Book on the site."}},"content":{"jsonld":{"description":"Airsoft site at Sunnydale, Shildon, County Durham. Fifteen acres of woodland, trenches and a two-storey shipping container village. Every Sunday, gates 8am, games 10am till 4pm. Age 11 and over.","fareLabels":{"walkon":"Walk-on","hire":"Hire"},"faq":[{"q":"How old do you have to be to play at Dirty Dog Airsoft?","a":"Eleven or older. Everyone under 18 wears full face protection."},{"q":"How much does a day at Dirty Dog Airsoft cost?","a":"Walk-on with your own kit is £25 for a full day or £15 for a half day. Hire is £40 full day or £30 half day. Members pay £15 and £10 to walk on, or £30 and £25 for hire."},{"q":"Do I need to be a member?","a":"No. Walk-ons are welcome. Membership is £40 a year, runs March to February, and takes £10 off every full day."},{"q":"When is Dirty Dog Airsoft open?","a":"Every Sunday except Christmas and New Year, gates at 8am, games from 10am till 4pm with lunch at 12:30. Also one Saturday a month from April to November."},{"q":"When is the next Saturday game at Dirty Dog Airsoft?","a":"Saturday 26 September 2026 is a 1v1 tournament, 09:30 to 16:00, gates 08:00, £35 entry with a £10 non-refundable deposit. Sunday 1 November is the tenth-anniversary game day."},{"q":"Can I hire a gun?","a":"Yes. Hire is £40 for a full day or £30 for a half day; £30 or £25 for members."},{"q":"Do you do HPA refills?","a":"Yes, HPA refills are available on site."},{"q":"Is there food?","a":"Hot food is available on site, and there are toilets."},{"q":"Where is Dirty Dog Airsoft?","a":"Sunnydale, Shildon, County Durham, DL4 2ER. Phone 07712 588700."}]}},"cesiumToken":""};
+const CONFIG = {"slug":"dirty-dog","layout":"mud-and-blood","business":{"name":"Dirty Dog Airsoft","short":"Dirty Dog","legalName":"Dirty Dog Airsoft Shildon","kind":"outdoor woodland airsoft site","site":"https://www.dirtydogairsoft.co.uk","domain":"dirtydogairsoft.co.uk","phone":"07712 588700","phoneE164":"+447712588700","street":"Sunnydale","town":"Shildon","county":"County Durham","postcode":"DL4 2ER","facebook":"https://www.facebook.com/DirtyDogAirsoft","email":"","rating":"4.9","reviews":"289","geo":{"lat":"54.63601","lng":"-1.638558"},"addressLine":"Sunnydale, Shildon, County Durham, DL4 2ER","postcodeUrl":"DL4+2ER"},"design":{"display":"Big Shoulders Display","body":"Archivo","mono":"Azeret Mono","accent":"#9A0C0E","hero":"typographic","images":"theirs: logo patch, aerial (hero), mascot. Generated and flagged: containers, trenches, woodland, squad, kit, food, and three splatter textures.","flyin":{"style":"drone-feed","placement":"the-ground","motion":"descend","tint":"brand","reveal":"redaction","source":"video","duration":2.5,"pitch":-40,"heading":22,"fields":[{"label":"Site","value":"Sunnydale"},{"label":"Grid","value":"DL4 2ER"},{"label":"Area","value":"15 acres"},{"label":"Gates","value":"08:00"}],"target":{"lat":54.6381,"lng":-1.63059},"fields_source":"facts.address_street, facts.postcode, facts.acres, facts.gates: every slab on the HUD is a ledgered fact, uppercased by the CSS","target_source":"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/83372/129883","target_note":"The container rows themselves, read off Esri World Imagery against their own aerial photograph: the container village, the woodland behind it and the quad track to the south east all line up. About 570 metres north east of the DL4 2ER centroid, which is why the centroid is not the shot.","stillZoom":1.62,"stillFocus":{"x":"26%","y":"48%"},"still_note":"When the ground falls back to the still, the stage opens cropped on the container rows so it is a different view of your aerial from the map underneath it, not the same picture twice.","targetHeight":148,"targetHeight_source":"https://api.opentopodata.org/v1/eudem25m?locations=54.6381,-1.63059","targetHeight_note":"148 metres above the ellipsoid at the container rows (EU DEM 25m). The camera aims at the ground, not at a point under it, so the reticle settles on the village instead of the field south of it, and ALT 700 M is 700 metres above the site.","credit":["Imagery: Google Maps","Cesium ion"],"altitude":350},"map":{"spots":{"village":{"x":18,"y":52},"wood":{"x":47,"y":34},"gate":{"x":44,"y":82},"trench":{"x":68,"y":60}}}},"assets":{"logo":"assets/logo.webp","logo.webp":"assets/logo.webp","aerial":"assets/aerial.jpg","aerial.jpg":"assets/aerial.jpg","dog":"assets/dog.jpg","dog.jpg":"assets/dog.jpg","dog-cutout":"assets/dog-cutout.webp","dog-cutout.webp":"assets/dog-cutout.webp","poster-1v1":"assets/poster-1v1.jpg","poster-1v1.jpg":"assets/poster-1v1.jpg","poster-10-years":"assets/poster-10-years.jpg","poster-10-years.jpg":"assets/poster-10-years.jpg","containers":"assets/containers.jpg","containers.jpg":"assets/containers.jpg","trenches":"assets/trenches.jpg","trenches.jpg":"assets/trenches.jpg","woodland":"assets/woodland.jpg","woodland.jpg":"assets/woodland.jpg","squad":"assets/squad.jpg","squad.jpg":"assets/squad.jpg","kit":"assets/kit.jpg","kit.jpg":"assets/kit.jpg","food":"assets/food.jpg","food.jpg":"assets/food.jpg","splatter":"assets/splatter.jpg","splatter.jpg":"assets/splatter.jpg","splatter-2":"assets/splatter-2.jpg","splatter-2.jpg":"assets/splatter-2.jpg","splatter-3":"assets/splatter-3.jpg","splatter-3.jpg":"assets/splatter-3.jpg","flyin":"assets/flyin.mp4","flyin.mp4":"assets/flyin.mp4","flyin.webm":"assets/flyin.webm","flyin-poster":"assets/flyin-poster.jpg","flyin-poster.jpg":"assets/flyin-poster.jpg"},"siteUrl":"https://thinkwork.info/airsoft/dirty-dog/","aocUrl":"aoc/index.html","fares":{"walkon":{"full":{"n":25,"m":15},"half":{"n":15,"m":10}},"hire":{"full":{"n":40,"m":30},"half":{"n":30,"m":25}}},"membership":{"price":40,"year":"March to February","yearEnd":"28 Feb 2027","renewMonth":"1 February"},"schedule":{"times":["08:00","10:00","16:00"],"lunch":"12:30","regular":{"day":0,"dayName":"Sunday","label":"Sunday game day","detail":"Gates 08:00, games 10:00 till 16:00, lunch 12:30.","count":12},"extra":{"day":6,"dayName":"Saturday","label":"Saturday game day","detail":"One a month, April to November. Which Saturday is announced nearer the time.","fromMonth":3,"toMonth":10,"tba":true},"breakFrom":"12-24","breakTo":"01-02","cap":60},"events":[{"key":"1v1","name":"1v1 tournament","iso":"2026-09-26","dayName":"Saturday","detail":"Bring your own gun, limited ammo. 09:30 to 16:00, gates 08:00. £35 entry, £10 deposit to secure, non-refundable. £50 to the winner, £30 runner-up.","times":["08:00","09:30","16:00"],"price":35,"deposit":10,"prize":true,"left":6,"cap":24,"fact":"event_1v1","ld":{"type":"SportsEvent","name":"1v1 tournament","description":"One on one airsoft tournament at Dirty Dog Airsoft, Sunnydale, Shildon. Bring your own gun, limited ammo. 9:30am to 4:00pm, gates open 8:00am. £35 entry, £10 deposit to secure, non-refundable. Overall winner £50 prize, runner up £30 prize. Limited places.","image":"https://www.dirtydogairsoft.co.uk/wip/images/sized/m_17893011134857_6794.jpeg","startDate":"2026-09-26T09:30:00+01:00","endDate":"2026-09-26T16:00:00+01:00","doorTime":"2026-09-26T08:00:00+01:00","offerName":"Entry","offerPrice":"35.00","availability":"LimitedAvailability"},"short":"1v1"},{"key":"anniversary","name":"Ten years of Dirty Dog","iso":"2026-11-01","dayName":"Sunday","detail":"Anniversary game day. 10% off game day fees, ten prizes given away on the day, birthday cake.","times":["08:00","10:00","16:00"],"off":0.9,"offLabel":"Ten years: 10% off game day fees","prizes":10,"fact":"anniversary","ld":{"type":"Event","name":"10 years stronger together","description":"Dirty Dog Airsoft tenth anniversary game day at Sunnydale, Shildon. 10% off game day fees, 10 prizes given away on the day, birthday cake.","image":"https://www.dirtydogairsoft.co.uk/wip/images/sized/m_17893011111932_6745.jpeg","startDate":"2026-11-01"},"short":"Ten years"}],"ref":"DD","copy":{"fareboard":{"sumOwn":"Four full days<br>and the &pound;40 is paid back","sumMember":"You save &pound;10<br>every full day","lineOwn":"Membership saves £10 on every full day, walk-on or hire, and £5 on a half day. Anyone who comes more than three times a year should be a member.","lineMember":"Walk-on or hire, full day, membership takes £10 off. Half days save £5. Over a year of most Sundays that is the membership back several times over."},"breakEven":"Membership breaks even at four.","renewToast":"Renewal opens on 1 February: one £40 pay link for the March year.","sumOwn":"Four full days<br>and the &pound;40 is back","lineOwn":"Members pay £15 instead of £25 for a full day, and £30 instead of £40 for hire: £10 back every full day, £5 every half day. Four full days as a non-member cost £100; as a member, £40 plus £60, level. Ten days: £250 against £190.","sumMember":"&pound;10 back<br>every full day","lineMember":"Walk-on or hire, a full day is £10 less and a half day £5 less. Most Sundays in a year and the £40 is back many times over."},"sample":{"spaces":[41,18,52,33,9,46,27,57,14,38,49,22],"addons":[{"id":"food","n":"Hot lunch, pre-ordered","s":"Hot food, paid for now and waiting at 12:30 with your name on it. Sample price.","p":6,"per":true,"on":true},{"id":"hpa","n":"HPA fill","s":"Refill on site, already paid. Real service, sample price.","p":3,"per":false,"on":false},{"id":"bb","n":"2,000 BBs, 0.25g bio","s":"Bagged with your name on. Sample item.","p":11,"per":false,"on":false},{"id":"flex","n":"Flexi-booking","s":"Move your date free up to 24 hours before.","p":2,"per":true,"on":false}],"block":{"price":130,"days":10,"dayRate":13,"label":"Ten-day block, proposed"},"products":[["Hot lunch, pre-ordered",6,"On site · sample price"],["HPA fill",3,"On site · sample price"],["2,000 BBs, 0.25g bio",11,"Sample item"],["Green gas, 1 litre",9,"Sample item"]],"model":{"days":58,"addAvg":7,"groupAvg":450,"foodPer":6,"depositPct":0.25},"live":{"time":"11:02","game":2,"of":4,"next":"11:40","onSite":43,"inGate":41,"closed":"10:00"},"backend":{"names":["Sam Ridley","Ethan Lowes","Toby Lax","Aaron Purvis","Adam Featherstone","Jordan Peart","Jack Hetherington","Sophie Gill","Callum Fenwick","Kieran Walton","Amy Proud","Connor Raine","Liam Stobbs","Harvey Blackett","Lewis Armstrong","Olivia Dodds","Ryan Coates","Tyler Burnip","Mason Craggs","Zak Elliott","Reece Hutchinson","Finlay Dent","Alfie Marley","Charlie Wearmouth","George Pickering","Kyle Snowdon","Lucy Cummings","Priya Nair","Nathan Bell","Owen Hodgson","Isaac Thwaites","Louie Dixon","Freddie Wren","Archie Bowes","Chloe Bainbridge","Dan Metcalfe","Ellis Vickers","Joel Sowerby","Max Teasdale","Rhys Oliver","Ben Nattrass","Molly Errington","Jake Ramshaw"],"mix":[["walkon","full",true,14],["walkon","full",false,13],["walkon","half",false,4],["hire","full",true,3],["hire","full",false,9]],"noWaiver":[2,7,13,19,26,31,38],"under18":[4,11,17,24,33],"pinName":"Priya Nair","pre":{"lunch":{"n":19,"p":6,"label":"Hot lunches"},"hpa":{"n":7,"p":3,"label":"HPA fills"},"bb":{"n":11,"p":11,"label":"Bags of BBs"}},"joinedToday":2,"lastYear":905,"walkups":190,"cardFees":71,"chronoTime":"09:00","bracketSize":32,"membersCount":112,"bookings":[["DD-4K7Q","Sam Ridley","next",1,0,"full",true,"paid",0,false],["DD-7H2M","Lewis Armstrong","next",2,0,"full",false,"paid",0,false],["DD-9P1X","Chloe Bainbridge","next",0,1,"full",false,"paid",6,false],["DD-2R8C","Dan Metcalfe","next",0,3,"full",false,"paid",0,false],["DD-5T3L","Priya Nair","next",1,0,"half",false,"waiver",0,false],["DD-8W6B","Josh Tennant",0,1,0,"full",false,"paid",0,false],["DD-3M9K","Ellie Robson",0,1,0,"full",true,"paid",0,false],["DD-6Q4D","Callum Fenwick",2,1,0,"full",true,"paid",0,true],["DD-1Z7N","Kate Harrison",2,2,1,"half",false,"paid",0,false],["DD-0V5S","Tom Applegarth",3,0,1,"full",true,"paid",0,false],["DD-4J2F","Megan Storey",3,4,0,"full",false,"paid",0,false],["DD-7B8H","Ryan Coates",1,1,0,"full",false,"paid",0,false]],"members":[["Callum Fenwick","20 Sep",1,0],["Ellie Robson","14 Sep",2,0],["Tom Applegarth","6 Sep",3,0],["Sam Ridley","1 Mar",4,0],["Amy Proud","1 Mar",11,2],["Kieran Walton","1 Mar",14,0],["Jordan Peart","1 Mar",8,3],["Liam Stobbs","1 Mar",19,1],["Sophie Gill","1 Mar",6,6],["Harvey Blackett","1 Mar",22,0]],"entrants":["Josh Tennant","Ellie Robson","Kieran Walton","Liam Stobbs","Harvey Blackett","Mason Craggs","Zak Elliott","Reece Hutchinson","Finlay Dent","Alfie Marley","Charlie Wearmouth","George Pickering","Kyle Snowdon","Adam Featherstone","Nathan Bell","Owen Hodgson","Isaac Thwaites","Louie Dixon"],"moneyLines":[["Day tickets, walk-on","89 players over three Sundays",2145],["Hire","35 guns out, booked ahead",1290],["Membership","6 joined at the checkout",240],["Pre-orders","lunches, HPA, BBs",612],["Parties","one party paid in full, twelve players",450],["Vouchers","switched off in this proposal",0]],"payouts":[["Sun 6 Sep","Tue 8 Sep",1362,"paid"],["Sun 13 Sep","Tue 15 Sep",1527,"paid"],["Thu 17 Sep, a party paid in full","Sat 19 Sep",450,"paid"],["Sun 20 Sep","Tue 22 Sep",1398,"paid"]],"annPost":"Ten years. Sunday 1 November. 10% off, ten prizes, cake. Book on the site."}},"content":{"jsonld":{"description":"Airsoft site at Sunnydale, Shildon, County Durham. Fifteen acres of woodland, trenches and a two-storey shipping container village. Every Sunday, gates 8am, games 10am till 4pm. Age 11 and over.","fareLabels":{"walkon":"Walk-on","hire":"Hire"},"faq":[{"q":"How old do you have to be to play at Dirty Dog Airsoft?","a":"Eleven or older. Everyone under 18 wears full face protection."},{"q":"How much does a day at Dirty Dog Airsoft cost?","a":"Walk-on with your own kit is £25 for a full day or £15 for a half day. Hire is £40 full day or £30 half day. Members pay £15 and £10 to walk on, or £30 and £25 for hire."},{"q":"Do I need to be a member?","a":"No. Walk-ons are welcome. Membership is £40 a year, runs March to February, and takes £10 off every full day."},{"q":"When is Dirty Dog Airsoft open?","a":"Every Sunday except Christmas and New Year, gates at 8am, games from 10am till 4pm with lunch at 12:30. Also one Saturday a month from April to November."},{"q":"When is the next Saturday game at Dirty Dog Airsoft?","a":"Saturday 26 September 2026 is a 1v1 tournament, 09:30 to 16:00, gates 08:00, £35 entry with a £10 non-refundable deposit. Sunday 1 November is the tenth-anniversary game day."},{"q":"Can I hire a gun?","a":"Yes. Hire is £40 for a full day or £30 for a half day; £30 or £25 for members."},{"q":"Do you do HPA refills?","a":"Yes, HPA refills are available on site."},{"q":"Is there food?","a":"Hot food is available on site, and there are toilets."},{"q":"Where is Dirty Dog Airsoft?","a":"Sunnydale, Shildon, County Durham, DL4 2ER. Phone 07712 588700."}]}},"cesiumToken":""};
 /* ---- part: helpers.js ----
    The four things every other part uses: $ and $$, the money formatters, the
    toast, and the two page-level constants (`root`, and `reduce` for
@@ -2977,8 +2788,8 @@ function go(name){
 }
 document.addEventListener("click",e=>{const t=e.target.closest("[data-go]"); if(!t)return; e.preventDefault(); go(t.dataset.go);});
 $("#viewSite").addEventListener("click",()=>go(lastSite));
-$("#viewBack").addEventListener("click",()=>{ if(CONFIG.aocUrl){ location.href=CONFIG.aocUrl; return; } go("back"); });   /* a hosted operator console (AOC) replaces the in-page desk once the site has one */
-$("#viewProp").addEventListener("click",()=>go("prop"));
+$("#viewBack").addEventListener("click",()=>{ if(CONFIG.aocUrl){ location.href=CONFIG.aocUrl; return; } if($('section[data-screen="back"]')) go("back"); });   /* a hosted operator console (AOC) replaces the in-page desk once the site has one */
+$("#viewProp").addEventListener("click",()=>{ if(CONFIG.aocUrl && CONFIG.aocProposal!==false){ location.href=CONFIG.aocUrl+"?screen=proposal"; return; } if($('section[data-screen="prop"]')) go("prop"); });   /* the proposal lives in the console; a build without one has no proposal screen to fall back to */   /* the Proposal lives in the console too, once the console exists */
 $("#burger").addEventListener("click",()=>{const n=$("#nav");const o=n.classList.toggle("open");$("#burger").setAttribute("aria-expanded",o);});
 
 /* ---- part: days.js ----
@@ -3246,7 +3057,14 @@ $("#passBtn").addEventListener("click",()=>{const p=$("#acctPass");p.hidden=!p.h
 $("#chgBtn").addEventListener("click",()=>{setDate(FIRST_SUN);draw();go("book");toast("Pick the new date. What you paid moves with the booking; any difference is charged or refunded.");});
 $("#renewBtn").addEventListener("click",()=>{go("members");toast(CONFIG.copy.renewToast);});
 draw(); setStep(1);
-(function(){const q=new URLSearchParams(location.search).get("screen"); if(q&&$('section[data-screen="'+q+'"]')) go(q);})();
+(function(){const p=new URLSearchParams(location.search),q=p.get("screen"); if(q&&$('section[data-screen="'+q+'"]')) go(q);
+  /* the gates open every state through the URL, synchronously at load, so each one is measured settled:
+     ?screen=book&step=2|3|4|done, ?screen=account&pass=1, ?screen=home&menu=1 (a click on a timer while the
+     backdrop passes run is how a footer reads 1:1) */
+  const st=p.get("step"); if(st==="done"){setStep(4);$("#payBtn").click();} else if(st&&+st>=1&&+st<=4) setStep(+st);
+  if(p.get("pass")==="1"&&$("#passBtn")) $("#passBtn").click();
+  if(p.get("menu")==="1"){$("#nav").classList.add("open");$("#burger").setAttribute("aria-expanded",true);}
+})();
 
 function drawQR(sel,seed){
   const c=$(sel),x=c.getContext("2d"),N=33;
@@ -3259,19 +3077,18 @@ function drawQR(sel,seed){
 }
 
 /* ---- part: calculators.js ----
-   The four small working calculators the proposal turns on:
+   The three small working calculators the proposal turns on:
      1. the membership sum on the Fares screen (pay on the day against
         membership against membership plus a prepaid block)
      2. the party and team-building quote, with a deposit figure
      3. the on-site pre-order grid and its basket
-     4. the revenue model on the Proposal screen
-   Every figure in 2, 3 and 4 is sample content and is marked as such on the
+   (The revenue model moved to the operator console with the proposal, AOC,
+   2026-09-24.)
+   Every figure in 2 and 3 is sample content and is marked as such on the
    page; the fares and the membership price underneath them are the real ones.
    Expects: #mSlider #mGames #mPayg #mMem #mBlk #mBest; #evPack #evSize
    #evSizeOut #evFood #evDate #qSize #qPack #qFood #qTotal #qDep #qBook #qMsg;
-   #prodGrid #basketPill and [data-add], [data-v], [data-join] buttons;
-   #rPlayers #rMemShare #rHire #rMembers #rGroups #rAttach with their #...Out
-   outputs and #rTickets #rMem #rAdd #rGrp #rTotal #rDelta.
+   #prodGrid #basketPill and [data-add], [data-v], [data-join] buttons.
    CONFIG: fares and membership through days.js, sample.block, sample.products,
    sample.model (days a year, average pre-order, average group, the food price
    per head, the deposit share), copy.breakEven, schedule.regular.dayName.
@@ -3313,18 +3130,7 @@ document.addEventListener("click",e=>{const j=e.target.closest("[data-join]");if
 
 /* ---------- revenue model ---------- */
 /* copy.todayTake names how the money is taken today ("cash and bank transfer" when unset) */
-const DAYS=CONFIG.sample.model.days, ADDAVG=CONFIG.sample.model.addAvg, GROUPAVG=CONFIG.sample.model.groupAvg;
-function rCalc(){
-  const pl=+$("#rPlayers").value, ms=+$("#rMemShare").value/100, hs=+$("#rHire").value/100, mem=+$("#rMembers").value, grp=+$("#rGroups").value, att=+$("#rAttach").value/100;
-  $("#rPlayersOut").textContent=pl;$("#rMemShareOut").textContent=Math.round(ms*100)+"%";$("#rHireOut").textContent=Math.round(hs*100)+"%";$("#rMembersOut").textContent=mem;$("#rGroupsOut").textContent=grp;$("#rAttachOut").textContent=Math.round(att*100)+"%";
-  const avgTicket=(1-hs)*(ms*FARE.walkon.full.m+(1-ms)*FARE.walkon.full.n)+hs*(ms*FARE.hire.full.m+(1-ms)*FARE.hire.full.n);
-  const tickets=DAYS*pl*avgTicket, memRev=mem*MEMBERSHIP, add=DAYS*pl*att*ADDAVG, grpRev=grp*GROUPAVG;
-  $("#rTickets").textContent=gbp(tickets);$("#rMem").textContent=gbp(memRev);$("#rAdd").textContent=gbp(add);$("#rGrp").textContent=gbp(grpRev);
-  const total=tickets+memRev+add+grpRev;
-  $("#rTotal").textContent=gbp(total);
-  $("#rDelta").textContent=gbp(add+grpRev)+" of that is new and collected online, and "+gbp(tickets+memRev)+" moves from "+(((CONFIG.copy||{}).todayTake)||"cash and bank transfer")+" to card.";
-}
-["rPlayers","rMemShare","rHire","rMembers","rGroups","rAttach"].forEach(id=>$("#"+id).addEventListener("input",rCalc));rCalc();
+/* the revenue model (rCalc) moved to the operator console with the proposal (AOC, 2026-09-24) */
 
 /* ---- part: brand.js ----
    The brand panel, prototype chrome only: drop in a logo and a brand colour and

@@ -137,15 +137,22 @@ body:not(.ph-on) #phLegend{display:none}
 [data-ph]{position:relative}
 body.ph-on [data-ph]{outline:1.5px dashed var(--ph);outline-offset:7px;border-radius:2px}
 body.ph-on [data-ph]>.phtag{display:inline-flex}
+/* the chip parks 13px above its box; a box that clips its overflow (a card, a tile, a torn slab) cut the chip in half ("SAMPLE CARD" on the past-events cards). While placeholders show, a box with a chip does not clip. */
+/* In the flow, the chip takes real space at the top of its box: a floating chip covered a field label 100% (No Limits), was cut in half by a clipping card (NTAC) and sat on a heading (District 23). Grid boxes give it a full row; a key-value row wraps it onto its own line; a button cannot hold it, so there it hangs above. */
+.kv:has(>.phtag){flex-wrap:wrap}
+.kv>.phtag{flex:0 0 100%;margin:0 0 4px}
+button>.phtag{position:absolute;top:auto;bottom:calc(100% + 2px);left:0;margin:0}
 body.ph-on .tiers .tier[data-ph]{outline-offset:-1px}
 .kv[data-ph]{margin-top:18px}
-.phtag{display:none;position:absolute;top:-13px;left:8px;z-index:6;align-items:center;gap:5px;background:var(--ph);color:var(--on-ph);
+.phtag{display:none;position:relative;margin:0 0 8px;grid-column:1/-1;justify-self:start;align-self:flex-start;z-index:6;align-items:center;gap:5px;background:var(--ph);color:var(--on-ph);
   font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:2px 8px;border-radius:2px;
-  max-width:calc(100% - 16px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.5}
+  max-width:calc(100% - 16px);white-space:normal;line-height:1.35}   /* wraps: a truncated chip cut mid-word ("YOUR POSTER R") is a chip nobody can read */
 .ph{text-decoration:none}
 body.ph-on .ph{border-bottom:1.5px dashed var(--ph);padding-bottom:1px}
 .note{display:none;gap:10px;align-items:flex-start;margin-top:14px;padding:10px 12px;border:1px dashed var(--red-ink);background:var(--red-ghost);border-radius:3px;font-size:13.5px;line-height:1.45;color:var(--text)}
 .notes-on .note{display:flex}
+.note,.note span{font-family:var(--ui);font-size:13.5px;font-weight:400;font-style:normal;text-transform:none;letter-spacing:0;text-align:left;line-height:1.45;filter:none;text-shadow:none;color:var(--text-2)}
+.note span{display:block;flex:1 1 auto;min-width:0}   /* a note inside a display-type band inherits none of it: the label and the text piled on top of each other on Dirty Dog */
 .notesonly{display:none}
 .notes-on .notesonly{display:block}
 .note b{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--red-ink);flex:none;padding-top:3px}
@@ -236,13 +243,14 @@ nav.main button.on{color:var(--text);box-shadow:inset 0 -3px 0 var(--red-hi)}
 /* ---------- panels ---------- */
 .enamel{position:relative;background:var(--surface);border:1px solid var(--line-strong);border-radius:3px;box-shadow:var(--shadow)}
 .enamel::before,.enamel::after{display:none}
-.enamel.red{background:var(--red);color:#fff;border-color:var(--red-2)}
+.enamel.red{background:var(--red);color:var(--on-red,#fff);border-color:var(--red-2)}
 .enamel .pad{padding:clamp(20px,2.2cqi,32px)}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:3px}
 .pad{padding:clamp(16px,1.8cqi,24px)}
 .grid{display:grid;gap:14px}
 .cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
 .split{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,3.4cqi,56px);align-items:start}
+.split>*{min-width:0}   /* 1fr is minmax(auto,1fr): a wide child widens the column instead of wrapping */
 .split.rev{grid-template-columns:.9fr 1.1fr}
 .stick{align-self:stretch}.stick>*{position:sticky;top:120px}#app.mobile .stick>*{position:static}
 .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -314,7 +322,7 @@ h2{font-size:clamp(30px,3.6cqi,56px);line-height:1}
 @keyframes drip-down{from{clip-path:inset(0 0 58% 0)}to{clip-path:inset(0 0 0 0)}}
 html.splat-done .hero .splat{animation:none}
 @media (prefers-reduced-motion:reduce){.hero .splat{animation:none}}
-.hero .wrap{position:relative;z-index:2;padding-block:clamp(22px,2.6cqi,40px) clamp(24px,3cqi,48px);width:100%}
+.hero .wrap{position:relative;z-index:2;padding-block:clamp(22px,2.6cqi,40px) clamp(24px,3cqi,48px)}
 .herogrid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(20px,3cqi,48px);align-items:start}
 .hero .herologo{display:block;width:auto;height:clamp(56px,6cqi,74px);margin-bottom:14px;filter:drop-shadow(0 6px 18px rgba(0,0,0,.6))}
 .hero .place{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
@@ -471,8 +479,9 @@ html.splat-done .hero .splat{animation:none}
 .steps{display:flex;border:1px solid var(--line-strong);border-radius:3px;overflow:hidden;background:var(--surface);margin-bottom:24px}
 .steps div{flex:1;padding:11px 14px;border-right:1px solid var(--line);font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
 .steps div:last-child{border-right:0}
-.steps div.on{background:var(--red);color:#fff}
+.steps div.on{background:var(--red);color:var(--on-red,#fff)}
 .steps div.done{color:var(--go)}
+.steps div.on.done{color:var(--on-red,#fff)}   /* after paying every step is done and the last is still the active one: green on the accent read 1.1:1 */
 .booklayout{display:grid;grid-template-columns:1fr 350px;gap:24px;align-items:start}
 .booklayout>*{min-width:0}
 #bkDate{min-width:0;width:100%}
@@ -500,7 +509,7 @@ html.splat-done .hero .splat{animation:none}
 .addon .p{margin-left:auto;font-family:var(--mono);font-weight:600;font-size:16px;white-space:nowrap}
 .field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
 .field label{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);font-weight:500}
-.field input,.field select,.field textarea{background:var(--sunk);border:1px solid var(--line-strong);border-radius:2px;padding:11px 12px;min-height:44px}
+.field input,.field select,.field textarea{background:var(--sunk);border:1px solid var(--line-strong);border-radius:2px;padding:11px 12px;min-height:44px;width:100%;max-width:100%;min-width:0}   /* a select's min-content is its longest option: 452px on the parties calculator, and it pushed the whole card past a 390 screen on four sites */
 .check{display:flex;gap:10px;align-items:flex-start;padding:9px 0;font-size:14.5px;color:var(--text-2);cursor:pointer}
 .check input{margin-top:4px;accent-color:var(--red);width:18px;height:18px;flex:none}
 .upsell{border:2px solid var(--red-hi);border-radius:3px;padding:14px 16px;background:var(--red-ghost);margin-top:16px}
@@ -616,7 +625,6 @@ body[data-screen="back"] .deskbar{display:flex}
   .kv{flex-direction:column;align-items:flex-start;gap:2px}
   .kv b{white-space:normal}
   .kv[data-ph]{margin-top:12px}
-  .kv[data-ph]>.phtag{position:static;top:auto;bottom:auto;left:auto;margin:0 0 4px;max-width:100%}
   .wordmark{font-size:16px}
   .wordmark small{display:none}
   .brandmark{width:76px;height:36px}
@@ -635,8 +643,6 @@ body[data-screen="back"] .deskbar{display:flex}
   .gpanel .gn{font-size:9px;padding:2px 6px}
   .gpanel .credit{display:none}
   .tagline p{font-size:20px}
-  .phtag{white-space:normal;line-height:1.35;top:auto;bottom:calc(100% - 9px)}
-  .tile>.phtag{top:8px;bottom:auto}
   #head{position:static}
 }
 @media (max-width:640px){
@@ -679,7 +685,7 @@ body.ph-on .mapframe[data-ph]{outline-offset:4px}
 .pin{position:absolute;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:44px;min-height:44px;padding:0 4px 2px;transform:translate(-50%,-100%);transform-origin:50% 100%;cursor:pointer;color:var(--text)}
 .pin i{display:block;width:16px;height:16px;border-radius:50%;background:var(--red-hi);border:3px solid #F2ECE3;box-shadow:0 0 0 2px rgba(0,0,0,.55),0 6px 14px rgba(0,0,0,.6);order:2}
 .pin span{order:1;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;background:#1F1613;color:#F2ECE3;border:1px solid var(--line-strong);padding:5px 8px;border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,.5)}
-.pin:hover span,.pin[aria-pressed="true"] span{background:var(--red);border-color:var(--red-2);color:#fff}
+.pin:hover span,.pin[aria-pressed="true"] span{background:var(--red);border-color:var(--red-2);color:var(--on-red,#fff)}
 .pin[aria-pressed="true"] i{background:#fff;border-color:var(--red-hi)}
 /* the marker we could not place: dashed, and amber once Placeholders is on */
 .pin.guess i{background:transparent;border:2px dashed #F2ECE3;width:22px;height:22px}
@@ -959,7 +965,7 @@ body.ph-on .mapgames[data-ph]{outline-offset:4px}
    .bk-flash span to overwrite while it is on.
    Reads no CONFIG. Behaviour and the sample figures are live.js. */
 /* ---------- live Sunday mode: the home page at 11:00 on a running day. Every figure is sample ---------- */
-#liveBtn[aria-pressed="true"]{background:var(--red);color:#fff}
+#liveBtn[aria-pressed="true"]{background:var(--red);color:var(--on-red,#fff)}
 #liveBtn::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#666;margin-right:6px;vertical-align:1px}
 #liveBtn[aria-pressed="true"]::before{background:#fff;animation:livepulse 1.6s ease-in-out infinite}
 @keyframes livepulse{0%,100%{opacity:1}50%{opacity:.35}}
@@ -974,7 +980,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 /* the board's live row, in place of the next date */
 .board .r.live{background:rgba(154,12,14,.28);border-left:4px solid var(--red-hi);padding-left:12px}
 .board .r.live .d{color:var(--red-ink)}
-.board .r.live .status.live{color:#fff;background:var(--red);border-color:var(--red);margin-top:6px;animation:livepulse 1.6s ease-in-out infinite}
+.board .r.live .status.live{color:var(--on-red,#fff);background:var(--red);border-color:var(--red);margin-top:6px;animation:livepulse 1.6s ease-in-out infinite}
 .board .r.live .n b{color:#fff}
 .board .r.live>.phtag{top:6px;right:12px;left:auto;bottom:auto}
 @container page (max-width:960px){
@@ -1008,7 +1014,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 .bk-panel{padding-top:22px}
 .bk-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;flex-wrap:wrap;margin-bottom:18px}
 .bk-title{font-size:clamp(28px,3cqi,44px);font-weight:900;margin-top:8px}
-.bk-flash{display:inline-block;background:var(--red);color:#fff;font-family:var(--display);font-weight:900;font-size:clamp(22px,2.2cqi,30px);line-height:1;text-transform:uppercase;letter-spacing:.02em;padding:9px 18px 8px;transform:skew(-8deg);border-radius:1px;flex:none;margin-inline:6px}
+.bk-flash{display:inline-block;background:var(--red);color:var(--on-red,#fff);font-family:var(--display);font-weight:900;font-size:clamp(22px,2.2cqi,30px);line-height:1;text-transform:uppercase;letter-spacing:.02em;padding:9px 18px 8px;transform:skew(-8deg);border-radius:1px;flex:none;margin-inline:6px}
 .bk-flash>span{display:inline-block;transform:skew(8deg)}
 .bk-flash.sm{font-size:20px;padding:7px 14px 6px}
 .bk-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:10px;margin-bottom:16px}
@@ -2253,196 +2259,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 </section>
 
 <!-- ============ PROPOSAL (for you, not part of the public site) ============ -->
-<section data-screen="prop" hidden>
-  <div class="band tight">
-    <div class="wrap">
-      <p class="eyebrow">Proposal. Not a public page.</p>
-      <h2 style="margin:10px 0 10px">What this rebuild is actually for</h2>
-      <p class="lede" style="margin-bottom:26px">Three things. Take your bookings and your money online instead of on the phone. Sell the &pound;25 membership you already have, at the moment it saves someone money. And make your site the thing an assistant quotes when somebody in Newcastle asks where to play paintball indoors on Saturday.</p>
-
-      <!-- the wedge -->
-      <div class="enamel" style="margin-bottom:16px"><div class="pad">
-        <p class="eyebrow">Your site, read closely</p>
-        <h3 style="margin:8px 0 12px">Three games, published prices, fixed slots, and one phone number.</h3>
-        <div class="split">
-          <div>
-            <p class="note"><b>Why</b><span>Your prices page is complete: paintball &pound;40, laser tag &pound;20 and &pound;30, the airsoft experience &pound;40, walk-ons at &pound;30 and &pound;23 with member prices under each, hire &pound;10, membership &pound;25. Your paintball page says, in your own words:</span></p>
-            <p style="margin:14px 0;padding:12px 16px;border-left:3px solid var(--yel);font-size:18px;font-weight:600">&ldquo;Sessions run to fixed time slots. Advance booking required.&rdquo;</p>
-            <p class="muted">And the way to book is the header button on every page: CALL &amp; BOOK. Four times on the home page. Your airsoft FAQ on numbers says "Contact us to confirm availability and numbers." There is no booking system and no third party taking a cut, which is the good news: nothing has to be unpicked.</p>
-          </div>
-          <div>
-            <p class="eyebrow" style="color:var(--ph);margin-bottom:8px">What a phone number cannot do</p>
-            <ul class="checklist x">
-              <li>Sell a slot at 11pm when the organiser is deciding</li>
-              <li>Take a deposit and hold the slot</li>
-              <li>Take the &pound;25 membership</li>
-              <li>Tell a member from a walk-on at the point of paying</li>
-              <li>Know the night before how many hire rifles go out</li>
-              <li>Sign the parental disclaimer before the group arrives</li>
-              <li>Sell the second thing: consumables, a second hour, a voucher</li>
-              <li>Tell anyone who searched for it that a slot is free</li>
-            </ul>
-          </div>
-        </div>
-      </div></div>
-
-      <!-- provenance -->
-      <div class="card pad" style="margin-bottom:16px">
-        <p class="eyebrow">Read this first</p>
-        <h3 style="margin:8px 0 10px">What in here is yours, and what is invented</h3>
-        <p class="muted" style="max-width:74ch">A prototype needs content to be a prototype. Everything in the right-hand column is placeholder and has to be replaced with your real figures before any of this goes near a customer. Leave <b>Placeholders</b> switched on in the toolbar and every invented block is outlined on screen.</p>
-        <div class="split" style="margin-top:18px">
-          <div>
-            <p class="eyebrow" style="color:var(--go);margin-bottom:8px">Taken from your own site, nolimitspaintballandlaser.co.uk</p>
-            <ul class="checklist">
-              <li>Paintball &pound;40 per person, 3 hours, marker, vest and mask, unlimited reballs, multiple game missions, the indoor multi level arena, ages 11+</li>
-              <li>Laser tag &pound;20 for 1 hour, &pound;30 for 2 hours, laser equipment, full head protection, vest, trained marshals, ages 6+</li>
-              <li>Airsoft experience &pound;40, 2 hours, rental rifle, 1,000 BBs, full face protection, ages 11+</li>
-              <li>Sunday walk-on 7 hours &pound;30, members &pound;25; Wednesday walk-on 4 hours &pound;23, members &pound;20; equipment hire &pound;10</li>
-              <li>Club membership &pound;25 per year: walk-on discounts, consumables discounts, member events, UKARA eligibility</li>
-              <li>UKARA: three games over at least two months, 18+, card shown at sign-in</li>
-              <li>Under-18s at airsoft: parent or guardian present, parental disclaimer</li>
-              <li>Indoor warehouse arena, purpose built CQB, multi level; no weather cancellations</li>
-              <li>Unit 4, King Street (rear), Gateshead, NE8 2YP; free parking; five minutes from Newcastle city centre</li>
-              <li>07464 482410; info@nolimitspaintballandlaser.co.uk</li>
-              <li>Your yellow rgb(243,190,44) on black; your 2026 logo</li>
-              <li>Every quoted line: "Indoor arena. Fast game turnaround. No weather cancellations", "Safety first. Intensity always.", "One price. One session. Unlimited reballs.", and your FAQ answers</li>
-            </ul>
-            <p class="eyebrow" style="color:var(--go);margin:14px 0 8px">From the Google listing, 24 September 2026</p>
-            <ul class="checklist"><li>4.2 rating from 332 reviews</li></ul>
-          </div>
-          <div>
-            <p class="eyebrow" style="color:var(--ph);margin-bottom:8px">Invented placeholder, needs your real data</p>
-            <ul class="checklist x">
-              <li>Every clock time: doors, games, the slot times in the picker</li>
-              <li>Every places-remaining figure and the walk-on capacity</li>
-              <li>The deposit share on a group booking and the extra-hour add-on</li>
-              <li>The five-Sunday block</li>
-              <li>Every pre-order item and price</li>
-              <li>All account, history and UKARA count data</li>
-              <li>Every name and figure in the back end</li>
-              <li>Every figure in the revenue model</li>
-              <li>All six pictures, and the 3D ground frame</li>
-            </ul>
-            <p class="eyebrow" style="color:var(--text-3);margin:14px 0 8px">Omitted, because it could not be sourced</p>
-            <ul class="checklist x">
-              <li>Opening hours and start times: you publish the length of a day, not the clock</li>
-              <li>Review quotes: the listing returns them truncated, and a truncated quote is not verbatim</li>
-              <li>Social links: none on your site</li>
-              <li>Capacity per session: group sizes vary</li>
-              <li>A party room, food or drink: your site does not mention them</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- revenue model -->
-      <div class="card pad" style="margin-bottom:16px" data-ph="1"><span class="phtag">Every input is a guess until you replace it</span>
-        <p class="eyebrow">Indicative revenue model. Drag the sliders.</p>
-        <h3 style="margin:8px 0 18px">What the new lines are worth</h3>
-        <div class="split">
-          <div class="stack" style="gap:16px">
-            <div><label class="eyebrow" for="rPlayers">Walk-on players per day: <span class="mono" id="rPlayersOut">24</span></label><input class="slider" type="range" id="rPlayers" min="6" max="80" value="24"></div>
-            <div><label class="eyebrow" for="rMemShare">Share who are members: <span class="mono" id="rMemShareOut">40%</span></label><input class="slider" type="range" id="rMemShare" min="0" max="100" value="40"></div>
-            <div><label class="eyebrow" for="rHire">Share on hire kit: <span class="mono" id="rHireOut">35%</span></label><input class="slider" type="range" id="rHire" min="0" max="100" value="35"></div>
-            <div><label class="eyebrow" for="rMembers">Paid members a year: <span class="mono" id="rMembersOut">90</span></label><input class="slider" type="range" id="rMembers" min="0" max="400" value="90"></div>
-            <div><label class="eyebrow" for="rGroups">Group sessions a year: <span class="mono" id="rGroupsOut">120</span></label><input class="slider" type="range" id="rGroups" min="0" max="500" value="120"></div>
-            <div><label class="eyebrow" for="rAttach">Pre-order attach rate: <span class="mono" id="rAttachOut">30%</span></label><input class="slider" type="range" id="rAttach" min="0" max="80" value="30"></div>
-            <p class="tiny" style="line-height:1.5">Fixed assumptions: 100 walk-on days a year (Sundays and Wednesdays, less the Christmas week); the published fares; &pound;6 average pre-order; &pound;480 average group session (twelve at &pound;40). Gift vouchers are switched off in this proposal and not counted. Walk-ons are what you already take at the desk. The group line is what you already take by phone. The new lines are the ones your current site cannot collect.</p>
-          </div>
-          <div>
-            <div class="tblscroll"><table class="tbl">
-              <tr><th>Revenue line</th><th>Today</th><th class="num">Per year</th></tr>
-              <tr><td>Walk-on tickets and hire</td><td>At the desk</td><td class="num" id="rTickets"></td></tr>
-              <tr><td>Memberships</td><td>At the desk</td><td class="num" id="rMem"></td></tr>
-              <tr><td>Pre-orders: consumables</td><td><span class="pill red">New</span></td><td class="num" id="rAdd"></td></tr>
-              <tr><td>Group sessions, booked and deposited online</td><td>By phone</td><td class="num" id="rGrp"></td></tr>
-            </table></div>
-            <div class="enamel" style="margin-top:14px"><div class="pad">
-              <p class="eyebrow">Modelled annual revenue</p>
-              <p class="bigfig" id="rTotal" style="margin-top:20px"></p>
-              <p class="eyebrow" style="color:var(--go);margin-top:18px" id="rDelta"></p>
-            </div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- AI discovery -->
-      <div class="card pad" style="margin-bottom:16px">
-        <p class="eyebrow">Search and AI discovery</p>
-        <h3 style="margin:8px 0 10px">Built to be quoted, not just crawled</h3>
-        <p class="muted" style="max-width:72ch">People increasingly ask an assistant rather than a search engine: <em>"indoor paintball near Newcastle for a 12-year-old's birthday"</em>. Assistants answer from pages that state facts plainly, mark them up as data, and are allowed to be read. Your site has the facts across five pages. What it lacks is the markup, a page per slot, and any way for someone to act on the answer.</p>
-        <div class="split" style="margin-top:20px">
-          <div>
-            <p class="eyebrow" style="margin-bottom:8px">Answer-ready facts, in the HTML</p>
-            <div class="tblscroll"><table class="tbl">
-              <tr><th>Question asked</th><th>Answer the page states</th><th>Source</th></tr>
-              <tr><td>Where is it?</td><td>Unit 4, King Street (rear), Gateshead, NE8 2YP</td><td><span class="pill ok">Your site</span></td></tr>
-              <tr><td>How do I reach you?</td><td>07464 482410, info@nolimitspaintballandlaser.co.uk</td><td><span class="pill ok">Your site</span></td></tr>
-              <tr><td>What does paintball cost?</td><td>&pound;40, three hours, unlimited reballs</td><td><span class="pill ok">Your site</span></td></tr>
-              <tr><td>Minimum age?</td><td>6 for laser tag, 11 for paintball and airsoft</td><td><span class="pill ok">Your site</span></td></tr>
-              <tr><td>When are the walk-ons?</td><td>Sundays 7 hours, Wednesdays 4 hours</td><td><span class="pill ok">Your site</span></td></tr>
-              <tr><td>What time do you open?</td><td class="ph">Not published</td><td><span class="pill ph">You</span></td></tr>
-              <tr><td>Which slots are free on Saturday?</td><td class="ph">Not published</td><td><span class="pill ph">You</span></td></tr>
-              <tr><td>Is there parking?</td><td>Free, on site</td><td><span class="pill ok">Your site</span></td></tr>
-            </table></div>
-          </div>
-          <div>
-            <p class="eyebrow" style="margin-bottom:8px">Structured data on every page</p>
-            <div class="codebox"><pre>{
-  <span class="t">"@type"</span>: "SportsActivityLocation",
-  <span class="t">"name"</span>: "No Limits Paintball and Laser",
-  <span class="t">"address"</span>: { "streetAddress": "Unit 4, King Street (rear)",
-    "addressLocality": "Gateshead",
-    "postalCode": "NE8 2YP", "addressCountry": "GB" },
-  <span class="t">"telephone"</span>: "+447464482410",
-  <span class="t">"makesOffer"</span>: [
-    { "name": "Paintball, 3 hours", "price": "40.00" },
-    { "name": "Laser tag, 1 hour", "price": "20.00" },
-    { "name": "Airsoft walk-on, Sunday", "price": "30.00" },
-    { "name": "Membership, annual", "price": "25.00" } ],
-  <span class="t">"event"</span>: "<span class="t">one Event per walk-on day</span>",
-  <span class="t">"aggregateRating"</span>: "<span class="t">wired to Google, never typed</span>"
-}</pre></div>
-            <p class="eyebrow" style="margin:16px 0 8px">The rest of the discovery work</p>
-            <ul class="checklist">
-              <li>A real URL per walk-on day and per session slot, so a specific Saturday can rank and be linked</li>
-              <li>FAQPage and Event markup validated in Search Console</li>
-              <li>Name, address and phone identical on the site, the Google Business Profile and every activity directory; the listing currently shows no address or hours</li>
-              <li>robots.txt explicitly allowing GPTBot, ClaudeBot, PerplexityBot and Google-Extended</li>
-              <li>A meta description with the prices, the ages and the postcode in it</li>
-              <li>Location pages for Gateshead, Newcastle, Sunderland, Durham and South Shields</li>
-              <li>Sub-second first paint on 4G</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- build -->
-      <div class="split" style="gap:16px">
-        <div class="card pad">
-          <p class="eyebrow">What comes in-house</p>
-          <h3 style="margin:8px 0 12px">No phone call in the money path</h3>
-          <div class="kv"><span>Call and book</span><b>Slot picker and card</b></div>
-          <div class="kv"><span>Deposits by arrangement</span><b>Taken on the page</b></div>
-          <div class="kv"><span>Membership at the desk</span><b>Sold in the basket</b></div>
-          <div class="kv"><span>"Contact us to confirm numbers"</span><b>Places shown per slot</b></div>
-          <div class="kv"><span>Parental disclaimer on paper</span><b>Signed once, kept a year</b></div>
-          <div class="kv"><span>Customer list</span><b>Yours</b></div>
-          <p class="tiny" style="margin-top:12px">Card processing is roughly 1.5% plus 20p to Stripe, which you do not pay today. Against that: the slot sold at 11pm, the deposit held, the membership sold, the hire counted, and no morning spent on the phone.</p>
-        </div>
-        <div class="card pad">
-          <p class="eyebrow">How it would be built</p>
-          <h3 style="margin:8px 0 12px">Two phases</h3>
-          <div class="kv"><span><b>Phase 1</b>: the site, the session picker, payments, membership, disclaimers, pre-orders</span><b>Now</b></div>
-          <div class="kv"><span><b>Phase 2</b>: a marshal's phone at the desk: sign-in, hire issue, the UKARA count</span><b>After go-live</b></div>
-          <p class="small muted" style="margin-top:12px">Phase 1 is built on a proper customer record, so Phase 2 is a screen over data that already exists rather than a rebuild.</p>
-          <p class="tiny" style="margin-top:10px">This prototype is front-end only. The flows work, nothing is stored, no card is charged.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- the proposal lives in the operator console (AOC): Proposal in the toolbar opens it -->
 
 <!-- ============ FOOTER ============ -->
 <div class="tagline plate"><p>Safety first. Intensity always. <em>No chaos. No babysitting.</em></p><div class="note"><b>Why</b><span>Your lines, word for word off your airsoft page.</span></div></div>
@@ -2512,7 +2329,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 /* One object, written by engine/build.mjs out of businesses/<slug>.json. Every
    engine part reads its business-specific values from here, so no part carries
    a client's name, price, date, copy or file name. */
-const CONFIG = {"slug":"no-limits","layout":"hazard-yellow","business":{"name":"No Limits Paintball and Laser","short":"No Limits","legalName":"No Limits Paintball and Laser","kind":"indoor warehouse arena: paintball, laser tag and airsoft","site":"https://nolimitspaintballandlaser.co.uk","domain":"nolimitspaintballandlaser.co.uk","phone":"07464 482410","phoneE164":"+447464482410","street":"Unit 4, King Street (rear)","town":"Gateshead","county":"Tyne and Wear","postcode":"NE8 2YP","facebook":"https://nolimitspaintballandlaser.co.uk","email":"info@nolimitspaintballandlaser.co.uk","rating":"4.2","reviews":"332","geo":{"lat":"54.949756","lng":"-1.62131"},"addressLine":"Unit 4, King Street (rear), Gateshead, Tyne and Wear, NE8 2YP","postcodeUrl":"NE8+2YP"},"design":{"display":"Alfa Slab One","body":"Barlow","mono":"Space Mono","accent":"#F3BE2C","hero":"three-panel game switcher","images":"theirs: logo. Render, flagged: the 3D ground frame. Generated and flagged: arena, airsoft, laser, paintball, party, briefing.","flyin":{"style":"sat-intel","placement":"the-ground","motion":"static-push","tint":"brand","reveal":"typewriter","source":"still","duration":2.5,"pitch":-40,"heading":0,"fields":[{"label":"Site","value":"Unit 4"},{"label":"Grid","value":"NE8 2YP"},{"label":"Arena","value":"Indoor"},{"label":"Parking","value":"Free"}],"fields_source":"facts.address_street, facts.postcode, facts.arena, facts.parking: every slab on the HUD is a ledgered fact","stillZoom":1.4,"stillFocus":{"x":"45%","y":"55%"},"stillCredit":"Imagery: Google 3D tiles of NE8 2YP, a render, not your photograph"},"map":{"spots":{"unit":{"x":46,"y":58}}}},"assets":{"logo":"assets/logo.webp","logo.webp":"assets/logo.webp","img-1":"assets/img-1.png","img-1.png":"assets/img-1.png","img-2":"assets/img-2.png","img-2.png":"assets/img-2.png","aerial":"assets/aerial.jpg","aerial.jpg":"assets/aerial.jpg","arena":"assets/arena.jpg","arena.jpg":"assets/arena.jpg","airsoft":"assets/airsoft.jpg","airsoft.jpg":"assets/airsoft.jpg","laser":"assets/laser.jpg","laser.jpg":"assets/laser.jpg","paintball":"assets/paintball.jpg","paintball.jpg":"assets/paintball.jpg","party":"assets/party.jpg","party.jpg":"assets/party.jpg","briefing":"assets/briefing.jpg","briefing.jpg":"assets/briefing.jpg"},"siteUrl":"https://thinkwork.info/airsoft/no-limits/","aocUrl":"","fares":{"walkon":{"full":{"n":30,"m":25},"half":{"n":23,"m":20}},"hire":{"full":{"n":40,"m":35},"half":{"n":33,"m":30}}},"membership":{"price":25,"year":"twelve months","yearEnd":"twelve months from joining","renewMonth":"the month each one runs out"},"schedule":{"times":["10:00","10:30","17:00"],"timesSample":true,"lunch":"13:00","regular":{"day":0,"dayName":"Sunday","label":"Sunday walk-on","detail":"Seven hours of airsoft. Own kit, or hire a rifle, 1,000 BBs and full face protection for £10.","count":12,"sess":"full"},"extra":{"day":3,"dayName":"Wednesday","label":"Wednesday walk-on","detail":"Four hours of airsoft, midweek. Own kit, or hire for £10.","weekly":true,"sess":"half"},"breakFrom":"12-24","breakTo":"01-01","cap":40,"times_note":"Sample. You publish 7 hours on Sunday and 4 on Wednesday, not the clock, so no time reaches the structured data (schedule.timesSample)."},"events":[],"ref":"NL","copy":{"fareboard":{"sumOwn":"Five Sundays<br>and the &pound;25 is paid back","sumMember":"You save &pound;5<br>every Sunday","lineOwn":"Membership takes £5 off every Sunday walk-on and £3 off every Wednesday. Your own site says it pays for itself fast if you play more than once, but nowhere does the sum for anybody.","lineMember":"Sunday £25 instead of £30, Wednesday £20 instead of £23, plus the consumables discount and the UKARA route. Most Sundays in a year is the £25 back many times over."},"breakEven":"Membership breaks even at five Sundays.","renewToast":"Renewal is one £25 pay link, sent the month your year runs out.","todayTake":"the phone and the desk","lineOwn":"Membership takes £5 off every Sunday walk-on and £3 off every Wednesday. At £25 a year, five Sunday walk-ons and it is paid back; every visit after that is money in your pocket."},"sample":{"spaces":[31,14,38,22,9,35,19,40,12,27,33,16],"addons":[{"id":"bb","n":"Extra 1,000 BBs","s":"Bagged at sign-in with your name on. Sample price; members pay less.","p":5,"per":true,"on":false},{"id":"gas","n":"Green gas, one can","s":"Sample item, sample price.","p":9,"per":false,"on":false},{"id":"flex","n":"Flexi-booking","s":"Move your date free up to 24 hours before.","p":2,"per":true,"on":false}],"block":{"price":100,"days":5,"dayRate":20,"label":"Five-Sunday block, proposed"},"products":[["Extra 1,000 BBs",5,"Consumable · sample price"],["Green gas, one can",9,"Consumable · sample price"],["Spare mesh mask",12,"Sample item"],["Equipment hire, Sunday",10,"Your published price"]],"model":{"days":100,"addAvg":6,"groupAvg":480,"foodPer":10,"depositPct":0.25},"live":{"time":"11:02","game":2,"of":6,"next":"11:40","onSite":28,"inGate":26,"closed":"10:30"},"backend":{"names":["Liam Charlton","Ethan Robson","Jack Milburn","Aaron Scott","Adam Hedley","Jordan Foster","Kyle Armstrong","Sophie Dodds","Callum Stokoe","Kieran Ord","Amy Purvis","Connor Bell","Lewis Turnbull","Harvey Pattinson","Ryan Elliott","Olivia Ross","Tyler Wardle","Mason Fenwick","Zak Nicholson","Reece Hall","Finlay Nixon","Alfie Thompson","Charlie Bewick","George Charlton","Kyle Snowball","Lucy Gibson","Priya Nair","Nathan Carr","Owen Hedley","Isaac Dunn","Louie Ridley","Freddie Wren","Archie Bowes","Chloe Burns","Dan Wilkinson","Ellis Gray","Joel Reay","Max Teasdale","Rhys Oliver","Ben Hardy","Molly Errington","Jake Ramshaw","Sam Ridley","Kate Harrison"],"mix":[["walkon","full",true,10],["walkon","full",false,9],["walkon","half",false,3],["hire","full",true,2],["hire","full",false,10]],"noWaiver":[2,7,13,19,26,31],"under18":[4,11,17,24,33],"pinName":"Priya Nair","pre":{"lunch":{"n":12,"p":5,"label":"Bags of BBs"},"hpa":{"n":4,"p":9,"label":"Green gas"},"bb":{"n":3,"p":12,"label":"Spare masks"}},"joinedToday":2,"lastYear":690,"walkups":150,"cardFees":48,"chronoTime":"10:00","bracketSize":32,"membersCount":86,"bookings":[["NL-4K7Q","Sam Ridley","next",1,0,"full",true,"paid",0,false],["NL-7H2M","Lewis Turnbull","next",2,0,"full",false,"paid",0,false],["NL-9P1X","Chloe Burns","next",0,1,"full",false,"paid",5,false],["NL-2R8C","Dan Wilkinson","next",0,3,"full",false,"paid",0,false],["NL-5T3L","Priya Nair","next",1,0,"full",false,"waiver",0,false],["NL-8W6B","Josh Tennant",0,1,0,"full",false,"paid",0,false],["NL-3M9K","Ellie Robson",0,1,0,"full",true,"paid",0,false],["NL-6Q4D","Callum Stokoe",2,1,0,"full",true,"paid",0,true],["NL-1Z7N","Kate Harrison",2,2,1,"half",false,"paid",0,false],["NL-0V5S","Tom Applegarth",3,0,1,"full",true,"paid",0,false],["NL-4J2F","Megan Storey",3,4,0,"full",false,"paid",0,false],["NL-7B8H","Ryan Elliott",1,1,0,"full",false,"paid",0,false]],"members":[["Callum Stokoe","20 Sep",1,0],["Ellie Robson","14 Sep",2,0],["Tom Applegarth","6 Sep",3,0],["Sam Ridley","1 Mar",4,0],["Amy Purvis","1 Mar",11,2],["Kieran Ord","1 Mar",14,0],["Jordan Foster","1 Mar",8,3],["Lewis Turnbull","1 Mar",19,1],["Sophie Dodds","1 Mar",6,6],["Harvey Pattinson","1 Mar",22,0]],"entrants":[],"moneyLines":[["Group sessions: paintball, laser, airsoft","9 groups paid in full, 112 players",3960],["Walk-on tickets","71 players over three Sundays and three Wednesdays",1985],["Equipment hire","38 rifles out, booked ahead",380],["Membership","7 joined at the checkout",175],["Pre-orders","BBs, gas, masks",212],["Vouchers","switched off in this proposal",0]],"payouts":[["Sat 5 Sep, two group sessions","Mon 7 Sep",920,"paid"],["Sun 13 Sep","Tue 15 Sep",1127,"paid"],["Thu 17 Sep, a corporate group paid in full","Sat 19 Sep",640,"paid"],["Sun 20 Sep","Tue 22 Sep",998,"paid"]],"annPost":""}},"content":{"jsonld":{"description":"Indoor warehouse arena in Gateshead for paintball, laser tag and airsoft. Unit 4, King Street (rear), NE8 2YP, five minutes from Newcastle city centre. Paintball £40 for three hours, laser tag £20 an hour, airsoft experience £40 for two hours, Sunday and Wednesday airsoft walk-ons. Free parking.","fareLabels":{"walkon":"Airsoft walk-on","hire":"Airsoft walk-on with equipment hire"},"faq":[{"q":"How much is paintball at No Limits Paintball and Laser?","a":"£40 per person for a three-hour indoor session with a professional marker, tactical vest and mask, unlimited reballs and multiple game missions. Ages 11 and over."},{"q":"How much is laser tag at No Limits?","a":"£20 per person for one hour or £30 for two hours, with safe laser equipment, full head protection, a tactical vest and trained marshals. Ages 6 and over."},{"q":"How much is airsoft at No Limits?","a":"The two-hour Airsoft Experience is £40 per person with a rental rifle, 1,000 BBs and full face protection. Sunday walk-on is £30 for seven hours (£25 for members), Wednesday walk-on is £23 for four hours (£20 for members). Equipment hire is £10."},{"q":"Is there a minimum age?","a":"Laser tag is ages 6 and over. Paintball and airsoft are 11 and over, and under-18s at airsoft need a parent or guardian present to sign the parental disclaimer."},{"q":"Is it suitable for beginners?","a":"Yes. All sessions are marshalled and structured, every group is briefed before play, and no experience is needed."},{"q":"What should I wear?","a":"Comfortable clothing you can move in and trainers. All essential equipment is provided on site."},{"q":"Does paintball hurt?","a":"Paintball is a high impact activity. Protective equipment is provided and games are supervised. Most players describe it as intense rather than painful."},{"q":"Do we need to buy extra paint?","a":"No. All paintball sessions include unlimited reballs, with no mid-game purchases or add-ons."},{"q":"How much is membership?","a":"Club membership is £25 a year, with discounts on walk-ons and consumables, member events, and eligibility for UKARA registration after three games over at least two months (18 and over)."},{"q":"Where is No Limits Paintball and Laser?","a":"Unit 4, King Street (rear), Gateshead, NE8 2YP, five minutes from Newcastle city centre, with free parking on site. Phone 07464 482410."}]}},"cesiumToken":""};
+const CONFIG = {"slug":"no-limits","layout":"hazard-yellow","business":{"name":"No Limits Paintball and Laser","short":"No Limits","legalName":"No Limits Paintball and Laser","kind":"indoor warehouse arena: paintball, laser tag and airsoft","site":"https://nolimitspaintballandlaser.co.uk","domain":"nolimitspaintballandlaser.co.uk","phone":"07464 482410","phoneE164":"+447464482410","street":"Unit 4, King Street (rear)","town":"Gateshead","county":"Tyne and Wear","postcode":"NE8 2YP","facebook":"https://nolimitspaintballandlaser.co.uk","email":"info@nolimitspaintballandlaser.co.uk","rating":"4.2","reviews":"332","geo":{"lat":"54.949756","lng":"-1.62131"},"addressLine":"Unit 4, King Street (rear), Gateshead, Tyne and Wear, NE8 2YP","postcodeUrl":"NE8+2YP"},"design":{"display":"Alfa Slab One","body":"Barlow","mono":"Space Mono","accent":"#F3BE2C","hero":"three-panel game switcher","images":"theirs: logo. Render, flagged: the 3D ground frame. Generated and flagged: arena, airsoft, laser, paintball, party, briefing.","flyin":{"style":"sat-intel","placement":"the-ground","motion":"static-push","tint":"brand","reveal":"typewriter","source":"still","duration":2.5,"pitch":-40,"heading":0,"fields":[{"label":"Site","value":"Unit 4"},{"label":"Grid","value":"NE8 2YP"},{"label":"Arena","value":"Indoor"},{"label":"Parking","value":"Free"}],"fields_source":"facts.address_street, facts.postcode, facts.arena, facts.parking: every slab on the HUD is a ledgered fact","stillZoom":1.4,"stillFocus":{"x":"45%","y":"55%"},"stillCredit":"Imagery: Google 3D tiles of NE8 2YP, a render, not your photograph"},"map":{"spots":{"unit":{"x":46,"y":58}}}},"assets":{"logo":"assets/logo.webp","logo.webp":"assets/logo.webp","img-1":"assets/img-1.png","img-1.png":"assets/img-1.png","img-2":"assets/img-2.png","img-2.png":"assets/img-2.png","aerial":"assets/aerial.jpg","aerial.jpg":"assets/aerial.jpg","arena":"assets/arena.jpg","arena.jpg":"assets/arena.jpg","airsoft":"assets/airsoft.jpg","airsoft.jpg":"assets/airsoft.jpg","laser":"assets/laser.jpg","laser.jpg":"assets/laser.jpg","paintball":"assets/paintball.jpg","paintball.jpg":"assets/paintball.jpg","party":"assets/party.jpg","party.jpg":"assets/party.jpg","briefing":"assets/briefing.jpg","briefing.jpg":"assets/briefing.jpg"},"siteUrl":"https://thinkwork.info/airsoft/no-limits/","aocUrl":"aoc/index.html","fares":{"walkon":{"full":{"n":30,"m":25},"half":{"n":23,"m":20}},"hire":{"full":{"n":40,"m":35},"half":{"n":33,"m":30}}},"membership":{"price":25,"year":"twelve months","yearEnd":"twelve months from joining","renewMonth":"the month each one runs out"},"schedule":{"times":["10:00","10:30","17:00"],"timesSample":true,"lunch":"13:00","regular":{"day":0,"dayName":"Sunday","label":"Sunday walk-on","detail":"Seven hours of airsoft. Own kit, or hire a rifle, 1,000 BBs and full face protection for £10.","count":12,"sess":"full"},"extra":{"day":3,"dayName":"Wednesday","label":"Wednesday walk-on","detail":"Four hours of airsoft, midweek. Own kit, or hire for £10.","weekly":true,"sess":"half"},"breakFrom":"12-24","breakTo":"01-01","cap":40,"times_note":"Sample. You publish 7 hours on Sunday and 4 on Wednesday, not the clock, so no time reaches the structured data (schedule.timesSample)."},"events":[],"ref":"NL","copy":{"fareboard":{"sumOwn":"Five Sundays<br>and the &pound;25 is paid back","sumMember":"You save &pound;5<br>every Sunday","lineOwn":"Membership takes £5 off every Sunday walk-on and £3 off every Wednesday. Your own site says it pays for itself fast if you play more than once, but nowhere does the sum for anybody.","lineMember":"Sunday £25 instead of £30, Wednesday £20 instead of £23, plus the consumables discount and the UKARA route. Most Sundays in a year is the £25 back many times over."},"breakEven":"Membership breaks even at five Sundays.","renewToast":"Renewal is one £25 pay link, sent the month your year runs out.","todayTake":"the phone and the desk","lineOwn":"Membership takes £5 off every Sunday walk-on and £3 off every Wednesday. At £25 a year, five Sunday walk-ons and it is paid back; every visit after that is money in your pocket."},"sample":{"spaces":[31,14,38,22,9,35,19,40,12,27,33,16],"addons":[{"id":"bb","n":"Extra 1,000 BBs","s":"Bagged at sign-in with your name on. Sample price; members pay less.","p":5,"per":true,"on":false},{"id":"gas","n":"Green gas, one can","s":"Sample item, sample price.","p":9,"per":false,"on":false},{"id":"flex","n":"Flexi-booking","s":"Move your date free up to 24 hours before.","p":2,"per":true,"on":false}],"block":{"price":100,"days":5,"dayRate":20,"label":"Five-Sunday block, proposed"},"products":[["Extra 1,000 BBs",5,"Consumable · sample price"],["Green gas, one can",9,"Consumable · sample price"],["Spare mesh mask",12,"Sample item"],["Equipment hire, Sunday",10,"Your published price"]],"model":{"days":100,"addAvg":6,"groupAvg":480,"foodPer":10,"depositPct":0.25},"live":{"time":"11:02","game":2,"of":6,"next":"11:40","onSite":28,"inGate":26,"closed":"10:30"},"backend":{"names":["Liam Charlton","Ethan Robson","Jack Milburn","Aaron Scott","Adam Hedley","Jordan Foster","Kyle Armstrong","Sophie Dodds","Callum Stokoe","Kieran Ord","Amy Purvis","Connor Bell","Lewis Turnbull","Harvey Pattinson","Ryan Elliott","Olivia Ross","Tyler Wardle","Mason Fenwick","Zak Nicholson","Reece Hall","Finlay Nixon","Alfie Thompson","Charlie Bewick","George Charlton","Kyle Snowball","Lucy Gibson","Priya Nair","Nathan Carr","Owen Hedley","Isaac Dunn","Louie Ridley","Freddie Wren","Archie Bowes","Chloe Burns","Dan Wilkinson","Ellis Gray","Joel Reay","Max Teasdale","Rhys Oliver","Ben Hardy","Molly Errington","Jake Ramshaw","Sam Ridley","Kate Harrison"],"mix":[["walkon","full",true,10],["walkon","full",false,9],["walkon","half",false,3],["hire","full",true,2],["hire","full",false,10]],"noWaiver":[2,7,13,19,26,31],"under18":[4,11,17,24,33],"pinName":"Priya Nair","pre":{"lunch":{"n":12,"p":5,"label":"Bags of BBs"},"hpa":{"n":4,"p":9,"label":"Green gas"},"bb":{"n":3,"p":12,"label":"Spare masks"}},"joinedToday":2,"lastYear":690,"walkups":150,"cardFees":48,"chronoTime":"10:00","bracketSize":32,"membersCount":86,"bookings":[["NL-4K7Q","Sam Ridley","next",1,0,"full",true,"paid",0,false],["NL-7H2M","Lewis Turnbull","next",2,0,"full",false,"paid",0,false],["NL-9P1X","Chloe Burns","next",0,1,"full",false,"paid",5,false],["NL-2R8C","Dan Wilkinson","next",0,3,"full",false,"paid",0,false],["NL-5T3L","Priya Nair","next",1,0,"full",false,"waiver",0,false],["NL-8W6B","Josh Tennant",0,1,0,"full",false,"paid",0,false],["NL-3M9K","Ellie Robson",0,1,0,"full",true,"paid",0,false],["NL-6Q4D","Callum Stokoe",2,1,0,"full",true,"paid",0,true],["NL-1Z7N","Kate Harrison",2,2,1,"half",false,"paid",0,false],["NL-0V5S","Tom Applegarth",3,0,1,"full",true,"paid",0,false],["NL-4J2F","Megan Storey",3,4,0,"full",false,"paid",0,false],["NL-7B8H","Ryan Elliott",1,1,0,"full",false,"paid",0,false]],"members":[["Callum Stokoe","20 Sep",1,0],["Ellie Robson","14 Sep",2,0],["Tom Applegarth","6 Sep",3,0],["Sam Ridley","1 Mar",4,0],["Amy Purvis","1 Mar",11,2],["Kieran Ord","1 Mar",14,0],["Jordan Foster","1 Mar",8,3],["Lewis Turnbull","1 Mar",19,1],["Sophie Dodds","1 Mar",6,6],["Harvey Pattinson","1 Mar",22,0]],"entrants":[],"moneyLines":[["Group sessions: paintball, laser, airsoft","9 groups paid in full, 112 players",3960],["Walk-on tickets","71 players over three Sundays and three Wednesdays",1985],["Equipment hire","38 rifles out, booked ahead",380],["Membership","7 joined at the checkout",175],["Pre-orders","BBs, gas, masks",212],["Vouchers","switched off in this proposal",0]],"payouts":[["Sat 5 Sep, two group sessions","Mon 7 Sep",920,"paid"],["Sun 13 Sep","Tue 15 Sep",1127,"paid"],["Thu 17 Sep, a corporate group paid in full","Sat 19 Sep",640,"paid"],["Sun 20 Sep","Tue 22 Sep",998,"paid"]],"annPost":""}},"content":{"jsonld":{"description":"Indoor warehouse arena in Gateshead for paintball, laser tag and airsoft. Unit 4, King Street (rear), NE8 2YP, five minutes from Newcastle city centre. Paintball £40 for three hours, laser tag £20 an hour, airsoft experience £40 for two hours, Sunday and Wednesday airsoft walk-ons. Free parking.","fareLabels":{"walkon":"Airsoft walk-on","hire":"Airsoft walk-on with equipment hire"},"faq":[{"q":"How much is paintball at No Limits Paintball and Laser?","a":"£40 per person for a three-hour indoor session with a professional marker, tactical vest and mask, unlimited reballs and multiple game missions. Ages 11 and over."},{"q":"How much is laser tag at No Limits?","a":"£20 per person for one hour or £30 for two hours, with safe laser equipment, full head protection, a tactical vest and trained marshals. Ages 6 and over."},{"q":"How much is airsoft at No Limits?","a":"The two-hour Airsoft Experience is £40 per person with a rental rifle, 1,000 BBs and full face protection. Sunday walk-on is £30 for seven hours (£25 for members), Wednesday walk-on is £23 for four hours (£20 for members). Equipment hire is £10."},{"q":"Is there a minimum age?","a":"Laser tag is ages 6 and over. Paintball and airsoft are 11 and over, and under-18s at airsoft need a parent or guardian present to sign the parental disclaimer."},{"q":"Is it suitable for beginners?","a":"Yes. All sessions are marshalled and structured, every group is briefed before play, and no experience is needed."},{"q":"What should I wear?","a":"Comfortable clothing you can move in and trainers. All essential equipment is provided on site."},{"q":"Does paintball hurt?","a":"Paintball is a high impact activity. Protective equipment is provided and games are supervised. Most players describe it as intense rather than painful."},{"q":"Do we need to buy extra paint?","a":"No. All paintball sessions include unlimited reballs, with no mid-game purchases or add-ons."},{"q":"How much is membership?","a":"Club membership is £25 a year, with discounts on walk-ons and consumables, member events, and eligibility for UKARA registration after three games over at least two months (18 and over)."},{"q":"Where is No Limits Paintball and Laser?","a":"Unit 4, King Street (rear), Gateshead, NE8 2YP, five minutes from Newcastle city centre, with free parking on site. Phone 07464 482410."}]}},"cesiumToken":""};
 /* ---- part: helpers.js ----
    The four things every other part uses: $ and $$, the money formatters, the
    toast, and the two page-level constants (`root`, and `reduce` for
@@ -2595,8 +2412,8 @@ function go(name){
 }
 document.addEventListener("click",e=>{const t=e.target.closest("[data-go]"); if(!t)return; e.preventDefault(); go(t.dataset.go);});
 $("#viewSite").addEventListener("click",()=>go(lastSite));
-$("#viewBack").addEventListener("click",()=>{ if(CONFIG.aocUrl){ location.href=CONFIG.aocUrl; return; } go("back"); });   /* a hosted operator console (AOC) replaces the in-page desk once the site has one */
-$("#viewProp").addEventListener("click",()=>{ if(CONFIG.aocUrl && CONFIG.aocProposal!==false){ location.href=CONFIG.aocUrl+"?screen=proposal"; return; } go("prop"); });   /* the Proposal lives in the console too, once the console exists */
+$("#viewBack").addEventListener("click",()=>{ if(CONFIG.aocUrl){ location.href=CONFIG.aocUrl; return; } if($('section[data-screen="back"]')) go("back"); });   /* a hosted operator console (AOC) replaces the in-page desk once the site has one */
+$("#viewProp").addEventListener("click",()=>{ if(CONFIG.aocUrl && CONFIG.aocProposal!==false){ location.href=CONFIG.aocUrl+"?screen=proposal"; return; } if($('section[data-screen="prop"]')) go("prop"); });   /* the proposal lives in the console; a build without one has no proposal screen to fall back to */   /* the Proposal lives in the console too, once the console exists */
 $("#burger").addEventListener("click",()=>{const n=$("#nav");const o=n.classList.toggle("open");$("#burger").setAttribute("aria-expanded",o);});
 
 /* ---------- this layout's own behaviour: the three-panel game switcher in the hero ---------- */
@@ -2883,7 +2700,14 @@ $("#passBtn").addEventListener("click",()=>{const p=$("#acctPass");p.hidden=!p.h
 $("#chgBtn").addEventListener("click",()=>{setDate(FIRST_SUN);draw();go("book");toast("Pick the new date. What you paid moves with the booking; any difference is charged or refunded.");});
 $("#renewBtn").addEventListener("click",()=>{go("members");toast(CONFIG.copy.renewToast);});
 draw(); setStep(1);
-(function(){const q=new URLSearchParams(location.search).get("screen"); if(q&&$('section[data-screen="'+q+'"]')) go(q);})();
+(function(){const p=new URLSearchParams(location.search),q=p.get("screen"); if(q&&$('section[data-screen="'+q+'"]')) go(q);
+  /* the gates open every state through the URL, synchronously at load, so each one is measured settled:
+     ?screen=book&step=2|3|4|done, ?screen=account&pass=1, ?screen=home&menu=1 (a click on a timer while the
+     backdrop passes run is how a footer reads 1:1) */
+  const st=p.get("step"); if(st==="done"){setStep(4);$("#payBtn").click();} else if(st&&+st>=1&&+st<=4) setStep(+st);
+  if(p.get("pass")==="1"&&$("#passBtn")) $("#passBtn").click();
+  if(p.get("menu")==="1"){$("#nav").classList.add("open");$("#burger").setAttribute("aria-expanded",true);}
+})();
 
 function drawQR(sel,seed){
   const c=$(sel),x=c.getContext("2d"),N=33;
@@ -2896,19 +2720,18 @@ function drawQR(sel,seed){
 }
 
 /* ---- part: calculators.js ----
-   The four small working calculators the proposal turns on:
+   The three small working calculators the proposal turns on:
      1. the membership sum on the Fares screen (pay on the day against
         membership against membership plus a prepaid block)
      2. the party and team-building quote, with a deposit figure
      3. the on-site pre-order grid and its basket
-     4. the revenue model on the Proposal screen
-   Every figure in 2, 3 and 4 is sample content and is marked as such on the
+   (The revenue model moved to the operator console with the proposal, AOC,
+   2026-09-24.)
+   Every figure in 2 and 3 is sample content and is marked as such on the
    page; the fares and the membership price underneath them are the real ones.
    Expects: #mSlider #mGames #mPayg #mMem #mBlk #mBest; #evPack #evSize
    #evSizeOut #evFood #evDate #qSize #qPack #qFood #qTotal #qDep #qBook #qMsg;
-   #prodGrid #basketPill and [data-add], [data-v], [data-join] buttons;
-   #rPlayers #rMemShare #rHire #rMembers #rGroups #rAttach with their #...Out
-   outputs and #rTickets #rMem #rAdd #rGrp #rTotal #rDelta.
+   #prodGrid #basketPill and [data-add], [data-v], [data-join] buttons.
    CONFIG: fares and membership through days.js, sample.block, sample.products,
    sample.model (days a year, average pre-order, average group, the food price
    per head, the deposit share), copy.breakEven, schedule.regular.dayName.
@@ -2950,18 +2773,7 @@ document.addEventListener("click",e=>{const j=e.target.closest("[data-join]");if
 
 /* ---------- revenue model ---------- */
 /* copy.todayTake names how the money is taken today ("cash and bank transfer" when unset) */
-const DAYS=CONFIG.sample.model.days, ADDAVG=CONFIG.sample.model.addAvg, GROUPAVG=CONFIG.sample.model.groupAvg;
-function rCalc(){
-  const pl=+$("#rPlayers").value, ms=+$("#rMemShare").value/100, hs=+$("#rHire").value/100, mem=+$("#rMembers").value, grp=+$("#rGroups").value, att=+$("#rAttach").value/100;
-  $("#rPlayersOut").textContent=pl;$("#rMemShareOut").textContent=Math.round(ms*100)+"%";$("#rHireOut").textContent=Math.round(hs*100)+"%";$("#rMembersOut").textContent=mem;$("#rGroupsOut").textContent=grp;$("#rAttachOut").textContent=Math.round(att*100)+"%";
-  const avgTicket=(1-hs)*(ms*FARE.walkon.full.m+(1-ms)*FARE.walkon.full.n)+hs*(ms*FARE.hire.full.m+(1-ms)*FARE.hire.full.n);
-  const tickets=DAYS*pl*avgTicket, memRev=mem*MEMBERSHIP, add=DAYS*pl*att*ADDAVG, grpRev=grp*GROUPAVG;
-  $("#rTickets").textContent=gbp(tickets);$("#rMem").textContent=gbp(memRev);$("#rAdd").textContent=gbp(add);$("#rGrp").textContent=gbp(grpRev);
-  const total=tickets+memRev+add+grpRev;
-  $("#rTotal").textContent=gbp(total);
-  $("#rDelta").textContent=gbp(add+grpRev)+" of that is new and collected online, and "+gbp(tickets+memRev)+" moves from "+(((CONFIG.copy||{}).todayTake)||"cash and bank transfer")+" to card.";
-}
-["rPlayers","rMemShare","rHire","rMembers","rGroups","rAttach"].forEach(id=>$("#"+id).addEventListener("input",rCalc));rCalc();
+/* the revenue model (rCalc) moved to the operator console with the proposal (AOC, 2026-09-24) */
 
 /* ---- part: brand.js ----
    The brand panel, prototype chrome only: drop in a logo and a brand colour and

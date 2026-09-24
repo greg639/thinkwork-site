@@ -1,0 +1,2272 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>1066 Airsoft Redesign</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%226%22%20fill%3D%22%231b1f1a%22/%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%228%22%20fill%3D%22none%22%20stroke%3D%22%23ff6a13%22%20stroke-width%3D%223%22/%3E%3Cpath%20d%3D%22M16%204v7M16%2021v7M4%2016h7M21%2016h7%22%20stroke%3D%22%23ff6a13%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bevan&family=Barlow+Semi+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* ---------- tokens: light (bare :root) ---------- */
+:root{
+  --display:"Bevan",Rockwell,Georgia,serif;
+  --ui:"Barlow Semi Condensed",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  /* BRAND — lifted from 1066's own site: red #DD3333 on near-black #11151C.
+     --brand-* is set by the prototype toolbar's colour picker; the fallbacks are the real thing. */
+  --logo:url(assets/logo.png);
+  --bg:#F2F2F0; --surface:#FFFFFF; --surface-2:#E9E9E5; --sunk:#EBEBE7;
+  --line:#D9D9D3; --line-soft:#E6E6E1; --line-strong:#B7B7AF;
+  --text:#11151C; --text-2:#495059; --text-3:#767D86;
+  --brass:var(--brand-light,#C0271F); --brass-2:var(--brand-light-2,#DD3333);
+  --brass-ghost:var(--brand-light-ghost,#FBE6E4); --btn-fg:#FFFFFF;
+  --claret:#9A5B06; --claret-ghost:#FBEDD8;
+  --go:#2F7A4F; --go-ghost:#DEEDE3;
+  --shadow:0 1px 0 rgba(17,21,28,.05), 0 14px 32px -24px rgba(17,21,28,.5);
+  --radius:3px;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --logo:url(assets/logo.png);
+  --bg:#0C1016; --surface:#11151C; --surface-2:#191F28; --sunk:#080B10;
+  --line:#242B36; --line-soft:#1A202A; --line-strong:#3A4451;
+  --text:#F1F1EE; --text-2:#A6AEB8; --text-3:#7B838E;
+  --brass:var(--brand-dark,#E8453B); --brass-2:var(--brand-dark-2,#FF5F55);
+  --brass-ghost:var(--brand-dark-ghost,#2B1211); --btn-fg:#FFFFFF;
+  --claret:#E0A245; --claret-ghost:#2C2110;
+  --go:#5FB584; --go-ghost:#102419;
+  --shadow:0 1px 0 rgba(0,0,0,.45), 0 18px 40px -28px #000;
+}}
+:root[data-theme="dark"]{
+  --logo:url(assets/logo.png);
+  --bg:#0C1016; --surface:#11151C; --surface-2:#191F28; --sunk:#080B10;
+  --line:#242B36; --line-soft:#1A202A; --line-strong:#3A4451;
+  --text:#F1F1EE; --text-2:#A6AEB8; --text-3:#7B838E;
+  --brass:var(--brand-dark,#E8453B); --brass-2:var(--brand-dark-2,#FF5F55);
+  --brass-ghost:var(--brand-dark-ghost,#2B1211); --btn-fg:#FFFFFF;
+  --claret:#E0A245; --claret-ghost:#2C2110;
+  --go:#5FB584; --go-ghost:#102419;
+  --shadow:0 1px 0 rgba(0,0,0,.45), 0 18px 40px -28px #000;
+}
+/* surfaces that stay dark in both themes, the way their site does */
+.onblack{--bg:#0C1016;--surface:#141922;--surface-2:#1C222C;--sunk:#0A0E14;
+  --line:#28303B;--line-soft:#1E2530;--line-strong:#404A58;
+  --text:#F1F1EE;--text-2:#B4BAC3;--text-3:#8A919B;
+  --brass:#E8453B;--brass-2:#FF5F55;--brass-ghost:#2B1211;--btn-fg:#FFFFFF;
+  --claret:#E0A245;--claret-ghost:#2C2110;--go:#5FB584;--go-ghost:#102419;
+  background:var(--bg);color:var(--text)}
+
+/* ---------- base ---------- */
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--ui);
+  font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2{font-family:var(--display);font-weight:400;line-height:1.04;letter-spacing:.005em;
+  text-transform:uppercase;text-wrap:balance;margin:0}
+h3,h4{font-family:var(--ui);font-weight:700;line-height:1.08;letter-spacing:.015em;
+  text-transform:uppercase;text-wrap:balance;margin:0}
+h1{font-size:clamp(30px,4.3cqi,58px)}
+h2{font-size:clamp(23px,2.5cqi,34px)}
+h3{font-size:21px}
+p{margin:0}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0}
+:where(a,button,input,select,summary,[tabindex]):focus-visible{outline:2px solid var(--brass);outline-offset:2px;border-radius:2px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--text-3)}
+.lede{font-size:clamp(16px,1.35cqi,19px);color:var(--text-2);max-width:62ch}
+.tnum{font-variant-numeric:tabular-nums}
+hr.rule{border:0;border-top:1px solid var(--line);margin:0}
+
+/* ---------- prototype toolbar ---------- */
+#bar{position:sticky;top:0;z-index:60;background:var(--sunk);
+  border-bottom:1px solid var(--line);
+  padding:8px 16px;padding-top:calc(8px + env(safe-area-inset-top,0px));
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+#bar .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-3)}
+#bar .tag b{color:var(--text);font-weight:600}
+.seg{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:var(--surface)}
+.seg button{font-family:var(--mono);font-size:11px;letter-spacing:.08em;
+  text-transform:uppercase;padding:5px 10px;color:var(--text-3);border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg a{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;color:var(--text-3);border-right:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--brass);color:var(--btn-fg)}
+#bar .spacer{flex:1 1 auto;min-width:0}
+
+/* ---------- app shell ---------- */
+#app{container-type:inline-size;container-name:page;background:var(--bg);overflow-x:clip;
+  transition:max-width .25s ease}
+#app.mobile{max-width:412px;margin-inline:auto;border-inline:1px solid var(--line);
+  overflow:clip;box-shadow:var(--shadow)}
+.wrap{width:min(1180px,100%);margin-inline:auto;padding-inline:20px}
+section[data-screen]{padding-block:0 0}
+.band{padding-block:clamp(44px,5.2cqi,88px);border-top:1px solid var(--line-soft)}
+.band.tight{padding-block:clamp(30px,3.4cqi,52px)}
+.band.sunk{background:var(--sunk)}
+
+/* ---------- site header ---------- */
+#head{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+#app.mobile #head{position:static}
+.headrow{display:flex;align-items:center;gap:14px;padding-block:12px}
+.mark{display:flex;align-items:center;gap:9px;text-decoration:none;color:inherit}
+.brandmark{display:block;width:46px;height:52px;background:var(--logo) center/contain no-repeat}
+.wordmark{font-family:var(--display);font-size:19px;line-height:1;letter-spacing:.02em;
+  text-transform:uppercase;white-space:nowrap}
+.wordmark em{font-style:normal;color:var(--brass)}
+.hero .brandmark{width:210px;height:108px;background-position:center}
+footer.site .brandmark{width:150px;height:56px}
+/* reticle: the crosshair from their logo, used as the system's rule */
+.xh{display:flex;align-items:center;gap:12px;color:var(--brass);margin:10px 0 0}
+.xh::before,.xh::after{content:"";height:1px;background:currentColor;opacity:.45;flex:1}
+.xh i{width:11px;height:11px;border:2px solid currentColor;border-radius:50%;flex:none}
+.ticked{position:relative}
+.ticked::before,.ticked::after{content:"";position:absolute;width:11px;height:11px;
+  border:2px solid var(--brass);pointer-events:none}
+.ticked::before{top:-1px;left:-1px;border-right:0;border-bottom:0}
+.ticked::after{bottom:-1px;right:-1px;border-left:0;border-top:0}
+.utility{background:#DD3333;color:#fff;font-size:14px}
+.utility .wrap{display:flex;gap:10px 26px;justify-content:center;flex-wrap:wrap;padding-block:7px}
+.utility a{color:#fff;text-decoration:none;font-weight:600}
+.utility a:hover{text-decoration:underline}
+.utility span{opacity:.88}
+#brandPanel{background:var(--sunk);border-bottom:1px solid var(--line);padding:10px 16px;
+  display:flex;gap:16px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--text-2)}
+#brandPanel label{display:flex;gap:7px;align-items:center;font-family:var(--mono);
+  font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+#brandPanel input[type=color]{width:34px;height:26px;padding:0;border:1px solid var(--line);background:none}
+#brandPanel input[type=file]{font-size:12px;max-width:210px}
+.mark .shield{width:26px;height:30px;flex:none}
+.mark .n{font-family:var(--ui);font-weight:800;font-size:25px;letter-spacing:.01em;line-height:1}
+.mark .s{font-family:var(--mono);font-size:9.5px;letter-spacing:.3em;color:var(--text-3);line-height:1;margin-top:3px}
+nav.main{display:flex;gap:0;margin-left:auto;flex-wrap:wrap}
+nav.main button{font-family:var(--ui);font-weight:600;font-size:15px;
+  text-transform:uppercase;letter-spacing:.02em;padding:8px 8px;color:var(--text-2);border-radius:3px}
+nav.main button:hover{color:var(--text);background:var(--surface-2)}
+nav.main button.on{color:var(--text);box-shadow:inset 0 -2px 0 var(--brass)}
+.headcta{display:flex;gap:8px;align-items:center}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:var(--ui);font-weight:700;text-transform:uppercase;
+  letter-spacing:.05em;font-size:15px;padding:11px 18px;border-radius:3px;
+  border:1px solid transparent;white-space:nowrap;transition:transform .08s ease,background .15s}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--brass);color:var(--btn-fg)}
+.btn.primary:hover{background:var(--brass-2)}
+.btn.ghost{border-color:var(--line-strong);color:var(--text)}
+.btn.ghost:hover{background:var(--surface-2)}
+.btn.quiet{color:var(--text-2);padding-inline:10px}
+.btn.quiet:hover{color:var(--text)}
+.btn.sm{font-size:13px;padding:7px 12px}
+.btn.wide{width:100%}
+.btn[disabled]{opacity:.45;pointer-events:none}
+
+/* ---------- bits ---------- */
+.pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);
+  font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;
+  border:1px solid var(--line);border-radius:999px;color:var(--text-2);background:var(--surface)}
+.pill.hot{color:var(--claret);border-color:var(--claret);background:var(--claret-ghost)}
+.pill.ok{color:var(--go);border-color:var(--go);background:var(--go-ghost)}
+.pill.br{color:var(--brass);border-color:var(--brass);background:var(--brass-ghost)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+.pad{padding:clamp(16px,1.7cqi,24px)}
+.grid{display:grid;gap:14px}
+.cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.cols3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}
+.colsauto{display:grid;grid-template-columns:1fr auto;align-items:center}
+.stack{display:flex;flex-direction:column}
+.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.meter{height:5px;background:var(--surface-2);border-radius:999px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--brass);border-radius:999px}
+.meter.low i{background:var(--claret)}
+.kv{display:flex;justify-content:space-between;gap:16px;padding-block:7px;border-bottom:1px dashed var(--line)}
+.kv:last-child{border-bottom:0}
+.kv span:first-child{color:var(--text-2)}
+.note{display:none;gap:9px;align-items:flex-start;margin-top:12px;padding:9px 11px;
+  border:1px dashed var(--brass);background:var(--brass-ghost);border-radius:3px;
+  font-size:12.5px;line-height:1.45;color:var(--text)}
+.notes-on .note{display:flex}
+/* placeholder marking: anything not verified from their own site is flagged */
+[data-ph]{position:relative}
+body.ph-on [data-ph]{outline:1px dashed var(--claret);outline-offset:6px;border-radius:2px}
+body.ph-on [data-ph]>.phtag{display:inline-flex}
+body.ph-on .vitals{overflow:visible}
+.phtag{display:none;position:absolute;top:-12px;left:6px;z-index:6;align-items:center;gap:5px;
+  background:var(--claret);color:#fff;font-family:var(--mono);font-size:10px;font-weight:500;
+  letter-spacing:.09em;text-transform:uppercase;padding:2px 8px;border-radius:2px;
+  max-width:calc(100% - 12px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ph{text-decoration:none}
+body.ph-on .ph{border-bottom:1px dashed var(--claret);padding-bottom:1px}
+#phLegend{background:var(--claret-ghost);border-bottom:1px solid var(--claret);
+  padding:7px 16px;font-size:13px;color:var(--text)}
+body:not(.ph-on) #phLegend{display:none}
+.note b{font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--brass);flex:none;padding-top:2px}
+.photo{position:relative;background:var(--surface-2);border:1px solid var(--line);
+  aspect-ratio:16/10;max-width:100%;border-radius:3px;overflow:hidden;
+  background-image:repeating-linear-gradient(135deg,transparent 0 9px,var(--line-soft) 9px 10px)}
+.photo figcaption{position:absolute;left:8px;bottom:7px;font-family:var(--mono);
+  font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);
+  background:var(--surface);border:1px solid var(--line);padding:2px 6px;border-radius:2px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:clip;border-bottom:3px solid var(--brass)}
+.hero::before{content:"";position:absolute;inset:0;background:url(assets/hero.jpg) center/cover;
+  filter:grayscale(1) contrast(1.08);opacity:.5}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(105deg,rgba(12,16,22,.94) 6%,rgba(12,16,22,.74) 56%,rgba(12,16,22,.42) 100%)}
+.photoband{position:relative;overflow:clip}
+.photoband::before{content:"";position:absolute;inset:0;background:url(assets/band.jpg) center/cover;
+  filter:grayscale(1);opacity:.22}
+.photoband::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg) 20%,rgba(12,16,22,.55));pointer-events:none}
+.photoband .wrap{position:relative;z-index:1}
+.hero .wrap{position:relative;z-index:1;padding-block:clamp(36px,4.6cqi,76px) clamp(30px,3.4cqi,56px)}
+.herogrid{display:grid;grid-template-columns:1.25fr .85fr;gap:clamp(20px,3cqi,46px);align-items:end}
+.hero h1{margin-block:14px 16px}
+.hero h1 em{font-style:normal;color:var(--brass)}
+.vitals{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;
+  border:1px solid var(--line);border-radius:3px;background:var(--line-soft);
+  margin-top:22px;overflow:hidden}
+.vitals div{padding:9px 12px;background:var(--surface)}
+.vitals dt{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--text-3)}
+.vitals dd{margin:2px 0 0;font-family:var(--ui);font-weight:700;font-size:19px;white-space:nowrap}
+.nextcard{border:1px solid var(--line-strong);background:var(--surface);border-radius:4px;
+  box-shadow:var(--shadow);overflow:hidden}
+.nextcard header{padding:12px 16px;border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;background:var(--surface-2)}
+.count{display:flex;gap:6px;margin:12px 0 14px}
+.count div{flex:1;border:1px solid var(--line);border-radius:3px;padding:7px 4px;text-align:center;background:var(--sunk)}
+.count b{display:block;font-family:var(--ui);font-size:27px;font-weight:800;line-height:1}
+.count span{font-family:var(--mono);font-size:9px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-3)}
+
+/* ---------- spinner ---------- */
+.spinwrap{display:grid;grid-template-columns:300px 1fr;gap:clamp(20px,3cqi,44px);align-items:center}
+#wheel{width:300px;height:300px;max-width:100%;display:block;touch-action:manipulation}
+.spinstage{position:relative;width:300px;max-width:100%}
+.spinstage .needle{position:absolute;top:-4px;left:50%;transform:translateX(-50%);
+  width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;
+  border-top:16px solid var(--brass);filter:drop-shadow(0 1px 0 var(--bg))}
+.modeout{border-left:2px solid var(--brass);padding-left:16px;min-height:96px}
+.modeout h3{font-size:clamp(24px,2.6cqi,34px);text-transform:uppercase}
+
+/* ---------- map cards ---------- */
+.maps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.maps article{border:1px solid var(--line);background:var(--surface);border-radius:3px;overflow:hidden}
+.maps .photo{border:0;border-bottom:1px solid var(--line);border-radius:0;aspect-ratio:3/2}
+.maps .body{padding:13px 15px 16px}
+.maps h3{font-size:19px;text-transform:uppercase}
+
+/* ---------- faq ---------- */
+.faq{border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:15px 34px 15px 0;position:relative;
+  font-family:var(--ui);font-weight:600;font-size:19px;text-transform:uppercase}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:12px;font-size:22px;color:var(--brass);
+  font-family:var(--mono)}
+.faq details[open] summary::after{content:"\2212"}
+.faq .ans{padding:0 0 16px;color:var(--text-2);max-width:74ch}
+
+/* ---------- game days ---------- */
+.gdlist{display:grid;gap:10px}
+.gd{display:grid;grid-template-columns:96px 1fr 210px 130px;gap:16px;align-items:center;
+  border:1px solid var(--line);background:var(--surface);border-radius:3px;padding:14px 16px}
+.gd .date{border-right:1px solid var(--line);padding-right:14px}
+.gd .date b{display:block;font-family:var(--ui);font-size:32px;font-weight:800;line-height:.95}
+.gd .date span{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.gd h3{font-size:19px;text-transform:uppercase}
+.gd .price{text-align:right;font-family:var(--ui)}
+.gd .price b{font-size:25px;font-weight:800}
+.gd .price s{color:var(--text-3);font-size:14px}
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.filters button{font-family:var(--mono);font-size:11px;letter-spacing:.09em;
+  text-transform:uppercase;padding:6px 11px;border:1px solid var(--line);border-radius:999px;color:var(--text-2)}
+.filters button[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+
+/* ---------- booking ---------- */
+.steps{display:flex;gap:0;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:var(--surface);margin-bottom:22px}
+.steps div{flex:1;padding:10px 14px;border-right:1px solid var(--line-soft);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.steps div:last-child{border-right:0}
+.steps div.on{background:var(--brass-ghost);color:var(--brass)}
+.steps div.done{color:var(--go)}
+.booklayout{display:grid;grid-template-columns:1fr 340px;gap:22px;align-items:start}
+.summary{position:sticky;top:84px}
+#app.mobile .summary{position:static}
+.ticket{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;
+  padding:14px 0;border-bottom:1px solid var(--line)}
+.ticket:last-of-type{border-bottom:0}
+.ticket h4{font-family:var(--ui);font-size:18px;text-transform:uppercase;margin:0}
+.ticket p{font-size:13.5px;color:var(--text-2)}
+.stepper{display:flex;align-items:center;border:1px solid var(--line-strong);border-radius:3px;overflow:hidden}
+.stepper button{width:34px;height:34px;font-size:18px;line-height:1;color:var(--text-2)}
+.stepper button:hover{background:var(--surface-2);color:var(--text)}
+.stepper output{width:38px;text-align:center;font-family:var(--mono);font-weight:500;
+  border-inline:1px solid var(--line)}
+.addon{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);
+  border-radius:3px;background:var(--surface);cursor:pointer}
+.addon.sel{border-color:var(--brass);background:var(--brass-ghost)}
+.addon input{margin-top:4px;accent-color:var(--brass)}
+.addon .p{margin-left:auto;font-family:var(--ui);font-weight:700;font-size:17px;white-space:nowrap}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.field label{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--text-3)}
+.field input,.field select,.field textarea{background:var(--sunk);border:1px solid var(--line-strong);
+  border-radius:3px;padding:10px 11px}
+.check{display:flex;gap:10px;align-items:flex-start;padding:8px 0;font-size:14px;color:var(--text-2);cursor:pointer}
+.check input{margin-top:3px;accent-color:var(--brass)}
+.squad{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;
+  border:1px solid var(--line);border-radius:3px;background:var(--surface);margin-bottom:8px}
+#qr{width:132px;height:132px;image-rendering:pixelated;border:6px solid #fff;background:#fff;border-radius:3px}
+
+/* ---------- membership ---------- */
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:start}
+.tier{border:1px solid var(--line);background:var(--surface);border-radius:4px;overflow:hidden;display:flex;flex-direction:column}
+.tier.feature{border-color:var(--brass);box-shadow:var(--shadow)}
+.tier header{padding:16px 18px;border-bottom:1px solid var(--line)}
+.tier.feature header{background:var(--brass-ghost)}
+.tier .price{font-family:var(--ui);font-weight:800;font-size:40px;line-height:1;margin-top:8px}
+.tier .price small{font-size:15px;font-weight:600;color:var(--text-3)}
+.tier ul{list-style:none;margin:0;padding:16px 18px;display:flex;flex-direction:column;gap:9px;flex:1}
+.tier li{position:relative;padding-left:20px;font-size:14.5px;color:var(--text-2)}
+.tier li::before{content:"";position:absolute;left:0;top:8px;width:9px;height:9px;
+  border-left:2px solid var(--brass);border-bottom:2px solid var(--brass);transform:rotate(-45deg)}
+.tier footer{padding:0 18px 18px}
+
+/* ---------- shop / events ---------- */
+.prods{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.prod{border:1px solid var(--line);background:var(--surface);border-radius:3px;overflow:hidden;display:flex;flex-direction:column}
+.prod .photo{border:0;border-bottom:1px solid var(--line);border-radius:0;aspect-ratio:4/3}
+.prod .b{padding:12px 13px 14px;display:flex;flex-direction:column;gap:8px;flex:1}
+.prod h4{font-family:var(--ui);font-size:17px;text-transform:uppercase;margin:0}
+.packs{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+
+/* ---------- proposal ---------- */
+.codebox{background:var(--sunk);border:1px solid var(--line);border-radius:3px;
+  max-height:330px;overflow:auto;padding:14px 16px}
+.codebox pre{margin:0;font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--text-2);white-space:pre}
+.codebox .t{color:var(--brass)}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th,.tbl td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl th{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--text-3);font-weight:500}
+.tbl td.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.tblscroll{overflow-x:auto}
+.slider{width:100%;accent-color:var(--brass)}
+.bigfig{font-family:var(--ui);font-weight:800;font-size:clamp(34px,4cqi,56px);line-height:1}
+.checklist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:8px 22px}
+.checklist li{position:relative;padding-left:22px;font-size:14px;color:var(--text-2);padding-block:3px}
+.checklist li::before{content:"";position:absolute;left:1px;top:9px;width:10px;height:10px;
+  border-left:2px solid var(--go);border-bottom:2px solid var(--go);transform:rotate(-45deg)}
+
+/* ---------- footer ---------- */
+footer.site{border-top:3px solid var(--brass);padding-block:40px 26px}
+footer.site ul button:hover{color:var(--brass)}
+.footgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:26px}
+footer.site h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--text-3);font-weight:500;margin-bottom:10px}
+footer.site ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px;font-size:14px;color:var(--text-2)}
+.legal{margin-top:26px;padding-top:16px;border-top:1px solid var(--line);
+  font-size:12px;color:var(--text-3);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+
+/* ---------- responsive (container queries drive the device toggle too) ---------- */
+@container page (max-width:960px){
+  .herogrid{grid-template-columns:1fr}
+  .maps{grid-template-columns:repeat(2,1fr)}
+  .vitals{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .prods{grid-template-columns:repeat(2,1fr)}
+  .booklayout{grid-template-columns:1fr}
+  .tiers{grid-template-columns:1fr}
+  .gd{grid-template-columns:78px 1fr;grid-template-areas:"d t" "p p" "b b";row-gap:12px}
+  .gd .date{grid-area:d}.gd .info{grid-area:t}.gd .cap{grid-area:p}.gd .act{grid-area:b}
+  .gd .price{text-align:left}
+  .footgrid{grid-template-columns:1fr 1fr}
+  .spinwrap{grid-template-columns:1fr}
+}
+@container page (max-width:700px){
+  .colsauto{grid-template-columns:1fr}
+  .colsauto>.btn{width:100%}
+}
+@container page (max-width:640px){
+  nav.main{display:none}
+  nav.main.open{display:flex;position:absolute;left:0;right:0;top:100%;background:var(--surface);
+    border-block:1px solid var(--line);flex-direction:column;padding:8px;gap:2px;z-index:50}
+  .headrow{position:relative}
+  .maps,.prods,.packs,.checklist{grid-template-columns:1fr}
+  .vitals{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .wordmark{font-size:16px}
+  .steps div{font-size:9px;padding:8px 6px;letter-spacing:.06em}
+  .headrow{gap:10px}
+  .wide-only{display:none}
+  .wordmark{font-size:15px}
+  .brandmark{width:38px;height:44px}
+  .headcta{margin-left:auto;gap:6px}
+  .headcta .btn{font-size:13px;padding:8px 10px}
+  .count div{padding:6px 2px}
+  .count b{font-size:22px}
+  .footgrid{grid-template-columns:1fr}
+}
+.burger{display:none}
+@container page (max-width:700px){
+  .colsauto{grid-template-columns:1fr}
+  .colsauto>.btn{width:100%}
+}
+@container page (max-width:640px){.burger{display:inline-flex}}
+@media (max-width:640px){
+  #bar{padding:6px 12px;gap:6px}
+  #bar .tag{display:none}
+  .seg button{padding:5px 8px;font-size:10px}
+  #phLegend{font-size:12px;padding:7px 12px}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+</style>
+
+<!-- ============ PROTOTYPE TOOLBAR (not part of the site) ============ -->
+<div id="bar">
+  <span class="tag"><b>1066 Airsoft</b> &nbsp;/&nbsp; redesign prototype &nbsp;/&nbsp; clickable, no live payments</span>
+  <span class="spacer"></span>
+  <div class="seg" role="group" aria-label="View">
+    <button id="viewSite" aria-pressed="true">Site</button>
+    <a href="/airsoft/1066/aoc/" style="display:inline-flex;align-items:center;text-decoration:none">Back end</a>
+    <button id="viewProp" aria-pressed="false">Proposal</button>
+  </div>
+  <div class="seg" role="group" aria-label="Front door">
+    <button id="frontAs" aria-pressed="true">1066airsoft.com</button>
+    <button id="frontPb" aria-pressed="false">1066paintball.com</button>
+  </div>
+  <div class="seg" role="group" aria-label="Device">
+    <button id="devDesk" aria-pressed="true">Desktop</button>
+    <button id="devMob" aria-pressed="false">Mobile</button>
+  </div>
+  <div class="seg" role="group" aria-label="Options">
+    <button id="phBtn" aria-pressed="true">Placeholders</button>
+    <button id="brandBtn" aria-pressed="false">Brand</button>
+    <button id="notesBtn" aria-pressed="false">Notes</button>
+    <button id="themeBtn" aria-pressed="false">Dark</button>
+  </div>
+</div>
+
+<div id="phLegend">
+  <b>Placeholder mode is on.</b> Everything outlined in amber is invented sample content, not taken from
+  1066 Airsoft &mdash; zone names, timings, limits, prices other than the &pound;30 anchor, reviews and member data
+  all need the owner's real figures. Verified details (address, phone, email, logo, colours, &pound;30 from-price,
+  UKARA, their own wording) are not marked. Turn this off in the toolbar for a clean walkthrough.
+</div>
+
+<div id="brandPanel" hidden>
+  <span class="mono" style="font-size:11px;color:var(--text-3)">Drop in the real identity &mdash; preview only, nothing is uploaded</span>
+  <label for="logoFile">Logo <input type="file" id="logoFile" accept="image/*"></label>
+  <label for="accentPick">Brand colour <input type="color" id="accentPick" value="#DD3333"></label>
+  <button class="btn ghost sm" id="brandReset">Reset</button>
+</div>
+
+<div id="app">
+
+<!-- ============ UTILITY BAR (theirs, kept) ============ -->
+<div class="utility">
+  <div class="wrap">
+    <a href="tel:0772222106">07722 22 1066</a>
+    <a href="mailto:dom@1066airsoft.com">dom@1066airsoft.com</a>
+    <span>Adams Fruit Farm, Ivyhouse Lane, Hastings TN35 4NN</span>
+  </div>
+</div>
+
+<!-- ============ SITE HEADER ============ -->
+<header id="head" class="onblack">
+  <div class="wrap headrow">
+    <a class="mark" href="#" data-go="home" aria-label="1066 Airsoft home">
+      <span class="brandmark" role="img" aria-hidden="true"></span>
+      <span class="wordmark">1066 <em id="wordSport">Airsoft</em></span>
+    </a>
+    <nav class="main" id="nav">
+      <button data-go="games">Game days</button>
+      <button data-go="paintball">Paintball</button>
+      <button data-go="members">Membership</button>
+      <button data-go="events">Parties &amp; hire</button>
+      <button data-go="shop">Pro shop</button>
+      <button data-go="account">My account</button>
+    </nav>
+    <div class="headcta">
+      <button class="btn ghost sm burger" id="burger" aria-expanded="false">Menu</button>
+      <button class="btn primary sm" data-go="book">Book<span class="wide-only" id="ctaSport"> a game day</span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HOME ============ -->
+<section data-screen="home">
+  <div class="hero onblack">
+    <div class="wrap">
+      <div class="herogrid">
+        <div>
+          <span class="brandmark" role="img" aria-label="1066 Paintball and Airsoft"></span>
+          <div id="heroAs">
+          <p class="eyebrow" style="margin-top:18px">Days out in East Sussex</p>
+          <h1>Acres of battle<br>ready countryside</h1>
+          <p class="lede" style="color:var(--text-2)">1066 Airsoft sits on the outskirts of Hastings. Teamwork, strategy and skill
+            across a wide variety of missions and objectives, played out in our unique battlezones &mdash; open fields
+            with bases and barricades through to camouflaged woodland.</p>
+          <div class="row" style="margin-top:22px">
+            <button class="btn primary" data-go="book">Book online today</button>
+            <button class="btn ghost" data-go="games">See all dates</button>
+            <span class="pill br">Prices from just &pound;30 for a full day</span>
+          </div>
+          </div>
+
+          <div id="heroPb" hidden>
+            <p class="eyebrow" style="margin-top:18px">Days out in East Sussex</p>
+            <h1>Acres of paintball<br>prepared countryside</h1>
+            <p class="lede" style="color:var(--text-2)">1066 Paintball sits on the outskirts of Hastings. All the equipment
+              you need, experienced marshals and excellent gaming areas &mdash; for birthdays, stag and hen parties,
+              work days out and anyone who fancies it.</p>
+            <div class="row" style="margin-top:22px">
+              <button class="btn primary" data-go="book">Book online today</button>
+              <button class="btn ghost" data-go="paintball">Packages &amp; prices</button>
+              <span class="pill br">From &pound;24.99 including 300 paintballs</span>
+            </div>
+            <dl class="vitals" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+              <div><dt>From</dt><dd class="mono">&pound;24.99</dd></div>
+              <div><dt>Paintballs</dt><dd class="mono">300&ndash;1,000</dd></div>
+              <div><dt>Gates open</dt><dd class="mono">09:00</dd></div>
+            </dl>
+          </div>
+
+          <dl class="vitals" id="vitalsAs" data-ph="1"><span class="phtag">Times from Dom · limits &amp; age to confirm</span>
+            <div><dt>Chrono limit</dt><dd class="mono">350 fps</dd></div>
+            <div><dt>DMR / sniper</dt><dd class="mono">400 / 500</dd></div>
+            <div><dt>Gates open</dt><dd class="mono">08:00</dd></div>
+            <div><dt>Safety brief</dt><dd class="mono">09:30</dd></div>
+            <div><dt>Endex</dt><dd class="mono">16:00</dd></div>
+            <div><dt>Min age</dt><dd class="mono">12 yrs</dd></div>
+          </dl>
+          <p class="note"><b>AI</b><span>These six facts are the ones people ask assistants about ("how old do you have to be", "what's the fps limit at 1066 Airsoft"). They sit in plain HTML <em>and</em> in the page's structured data, so an AI answer engine can lift them verbatim &mdash; with your site as the source.</span></p>
+        </div>
+
+        <div class="nextcard ticked" id="nextCard" data-ph="1"><span class="phtag">Sample availability &amp; prices</span>
+          <header>
+            <span class="eyebrow" id="nextLabel">Next game day</span>
+            <span class="pill hot" id="nextSpacesPill">&mdash;</span>
+          </header>
+          <div class="pad">
+            <p class="eyebrow" id="nextType">Skirmish</p>
+            <h2 style="margin:4px 0 2px" id="nextDate">&mdash;</h2>
+            <p style="color:var(--text-2);font-size:14px" id="nextTheme">&mdash;</p>
+            <div class="count" id="countdown">
+              <div><b id="cD">00</b><span>days</span></div>
+              <div><b id="cH">00</b><span>hrs</span></div>
+              <div><b id="cM">00</b><span>min</span></div>
+              <div><b id="cS">00</b><span>sec</span></div>
+            </div>
+            <div class="meter" id="nextMeter"><i style="width:60%"></i></div>
+            <p class="eyebrow" style="margin-top:7px" id="nextSpaces">&mdash;</p>
+            <div id="nextPrices" style="margin-top:14px"></div>
+            <button class="btn primary wide" style="margin-top:14px" data-go="book">Book this date</button>
+            <p style="font-size:12px;color:var(--text-3);margin-top:9px;text-align:center">
+              Free date changes up to 72 hours before. Pay in full or hold your place with &pound;10.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- spinner -->
+  <div class="band">
+    <div class="wrap">
+      <p class="eyebrow">Game modes</p>
+      <h2 style="margin:8px 0 6px">The spinner decides</h2>
+      <p class="xh" aria-hidden="true"><i></i></p>
+      <p class="lede" style="margin-bottom:26px">Nobody gets a schedule. On the day, the marshals spin the wheel
+        and that is what you are playing. Give it a go &mdash; this is the same wheel we use.</p>
+      <div class="spinwrap" data-ph="1"><span class="phtag">From a directory listing, not your site</span>
+        <div class="spinstage">
+          <div class="needle"></div>
+          <canvas id="wheel" width="600" height="600" role="img" aria-label="Game mode spinner"></canvas>
+          <button class="btn primary wide" id="spinBtn" style="margin-top:14px">Spin the wheel</button>
+        </div>
+        <div class="modeout" id="modeOut">
+          <p class="eyebrow" id="modeLabel">Result</p>
+          <h3 id="modeName">Give it a spin</h3>
+          <p style="color:var(--text-2);margin-top:8px;max-width:48ch" id="modeDesc">
+            Eight modes are in rotation. Four run on a typical game day, two before lunch
+            and two after.</p>
+        </div>
+      </div>
+      <p class="note"><b>Why</b><span>The spinner is the one thing about this site nobody else has. It is the hero of the page
+        instead of a stock photo of a man in a balaclava &mdash; and it gives first-timers something to play with before they commit.</span></p>
+    </div>
+  </div>
+
+  <!-- rental + first timers -->
+  <div class="band sunk">
+    <div class="wrap">
+      <div class="grid cols2" style="gap:clamp(20px,3cqi,44px)">
+        <div>
+          <p class="eyebrow">First time?</p>
+          <h2 style="margin:8px 0 14px">Everything you need is &pound;45</h2>
+          <p class="lede">One price, one box of kit, handed to you at the Packhouse when you arrive.</p>
+          <div class="card pad" style="margin-top:18px" data-ph="1"><span class="phtag">Sample rental contents</span>
+            <div class="kv"><span>Rental AEG, battery and charged spare</span><b class="mono">&#10003;</b></div>
+            <div class="kv"><span>Full-seal goggles and lower-face mesh</span><b class="mono">&#10003;</b></div>
+            <div class="kv"><span>3,000 BBs &mdash; more when you run dry</span><b class="mono">&#10003;</b></div>
+            <div class="kv"><span>Chest rig, mags and a site marker band</span><b class="mono">&#10003;</b></div>
+            <div class="kv"><span>Hot lunch from the van, tea and coffee all day</span><b class="mono">&#10003;</b></div>
+            <div class="kv"><span>Marshalled safety brief and a beginners' squad</span><b class="mono">&#10003;</b></div>
+          </div>
+        </div>
+        <div>
+          <p class="eyebrow">How a game day runs</p>
+          <h2 style="margin:8px 0 14px">08:00 to 16:00</h2>
+          <ol class="stack" style="gap:2px;padding-left:0;list-style:none;counter-reset:s" data-ph="1"><span class="phtag">Sample running order</span>
+            <li class="card pad" style="margin-bottom:8px"><p class="eyebrow">08:00 &mdash; Arrive</p>
+              <p style="margin-top:4px">Show the QR code on your phone at the gate. Waiver is already signed online, so there is no clipboard queue.</p></li>
+            <li class="card pad" style="margin-bottom:8px"><p class="eyebrow">08:30 &mdash; Chrono &amp; kit</p>
+              <p style="margin-top:4px">Rentals issued, own guns chronographed over the bench. Limits posted at the shed.</p></li>
+            <li class="card pad" style="margin-bottom:8px"><p class="eyebrow">09:30 &mdash; Safety brief</p>
+              <p style="margin-top:4px">Safety rules, call-your-hits, blind-fire, the boundary line. Everyone attends, no exceptions.</p></li>
+            <li class="card pad" style="margin-bottom:8px"><p class="eyebrow">10:00 &mdash; Games one and two</p>
+              <p style="margin-top:4px">Modes picked on the spinner. Two games before the break.</p></li>
+            <li class="card pad" style="margin-bottom:8px"><p class="eyebrow">12:00 &mdash; Lunch</p>
+              <p style="margin-top:4px">Forty-five minutes. Hot food from the van, tea, and a sit down.</p></li>
+            <li class="card pad"><p class="eyebrow">12:45 &mdash; Games three and four, endex 16:00</p>
+              <p style="margin-top:4px">Two more games, then pack up. Chrono bench closes, shop stays open.</p></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- maps -->
+  <div class="band">
+    <div class="wrap">
+      <div class="row" style="justify-content:space-between;align-items:flex-end;margin-bottom:20px">
+        <div>
+          <p class="eyebrow">Battlezones</p>
+          <h2 style="margin-top:8px">Unique battlezones</h2>
+        </div>
+        <p class="mono" style="font-size:12px;color:var(--text-3)">Grid: TQ 83 13 &middot; approx. 40 acres</p>
+      </div>
+      <div class="maps" data-ph="1"><span class="phtag">Placeholder zone names &amp; photos</span>
+        <article><figure class="photo"><figcaption>Site photo &middot; The Packhouse</figcaption></figure>
+          <div class="body"><h3>The Packhouse</h3><p class="mono" style="font-size:11px;color:var(--text-3)">CQB &middot; INDOOR</p>
+          <p style="font-size:14px;color:var(--text-2);margin-top:6px">Two floors of grading sheds, roller doors and pallet racking. Close, loud, and where most of the day's arguments happen.</p></div></article>
+        <article><figure class="photo"><figcaption>Site photo &middot; Conquest Wood</figcaption></figure>
+          <div class="body"><h3>Conquest Wood</h3><p class="mono" style="font-size:11px;color:var(--text-3)">WOODLAND &middot; 11 ACRES</p>
+          <p style="font-size:14px;color:var(--text-2);margin-top:6px">Mature beech with deep leaf litter and no straight lines. Long games, flanking routes, and the best place to be a sniper.</p></div></article>
+        <article><figure class="photo"><figcaption>Site photo &middot; The Orchard</figcaption></figure>
+          <div class="body"><h3>The Orchard</h3><p class="mono" style="font-size:11px;color:var(--text-3)">SEMI-OPEN &middot; ROWS</p>
+          <p style="font-size:14px;color:var(--text-2);margin-top:6px">Rows of old apple trees, waist-high cover and nowhere to hide from a flank. Fast, brutal, over in four minutes.</p></div></article>
+        <article><figure class="photo"><figcaption>Site photo &middot; Senlac Ridge</figcaption></figure>
+          <div class="body"><h3>Senlac Ridge</h3><p class="mono" style="font-size:11px;color:var(--text-3)">SLOPE &middot; ATTACK/DEFEND</p>
+          <p style="font-size:14px;color:var(--text-2);margin-top:6px">Uphill assault onto a dug-in position. Historically a bad idea in this postcode, and still is.</p></div></article>
+        <article><figure class="photo"><figcaption>Site photo &middot; The Hollow</figcaption></figure>
+          <div class="body"><h3>The Hollow</h3><p class="mono" style="font-size:11px;color:var(--text-3)">GULLY &middot; NIGHT OPS</p>
+          <p style="font-size:14px;color:var(--text-2);margin-top:6px">Sunken track with bramble walls. Torches and tracers only after dark &mdash; our night ops finish here.</p></div></article>
+        <article style="display:flex;flex-direction:column;justify-content:center;background:var(--sunk)">
+          <div class="body" style="padding:22px">
+            <h3>Safe zone &amp; facilities</h3>
+            <p style="font-size:14px;color:var(--text-2);margin-top:8px">Covered benches, power for chargers, a tech bench,
+              the pro shop and a hot food van that does a proper bacon roll at 08:45.</p>
+            <p style="font-size:14px;color:var(--text-2);margin-top:8px">Hard standing parking, toilets, and somewhere dry for parents to sit with a coffee.</p>
+          </div></article>
+      </div>
+    </div>
+  </div>
+
+  <!-- membership teaser -->
+  <div class="band tight onblack photoband">
+    <div class="wrap">
+      <div class="row" style="justify-content:space-between;gap:24px">
+        <div style="flex:1 1 380px">
+          <p class="eyebrow">Membership</p>
+          <h2 style="margin:8px 0 10px">Ten game days for &pound;240</h2>
+          <p class="lede">The Season Pass is &pound;24 a day instead of &pound;30, bought once and played off whenever you
+            like over the next twelve months. Booking opens 72 hours early, 10% off the shop, and nothing to cancel.</p>
+        </div>
+        <div style="flex:0 0 auto"><button class="btn primary" data-go="members">See the Season Pass</button></div>
+      </div>
+      <p class="note"><b>&pound;</b><span>Not recurring revenue &mdash; something better suited to a fortnightly business. A prepaid block is
+        cash in the bank before a ball is fired, it locks in ten visits, and there is no monthly billing to fail or cancel.</span></p>
+    </div>
+  </div>
+
+  <!-- reviews -->
+  <div class="band tight">
+    <div class="wrap">
+      <div class="row" style="align-items:flex-end;justify-content:space-between;margin-bottom:6px">
+        <div><p class="eyebrow">What players say</p>
+          <h2 style="margin-top:8px">Your Google reviews, live on the page</h2></div>
+      </div>
+      <p class="lede" style="margin-bottom:20px">No typed-in testimonials. The three most recent reviews from your
+        Google Business Profile render here and refresh themselves, marked up so the star rating can show in search
+        results and be quoted by an AI assistant.</p>
+      <div class="grid cols3" >
+        <blockquote class="card pad" style="margin:0"><p class="mono" style="color:var(--brass)">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <p style="margin-top:8px;color:var(--text-3)">Most recent Google review appears here.</p>
+          <p class="eyebrow" style="margin-top:10px">Reviewer name &middot; Google</p></blockquote>
+        <blockquote class="card pad" style="margin:0"><p class="mono" style="color:var(--brass)">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <p style="margin-top:8px;color:var(--text-3)">Second most recent review appears here.</p>
+          <p class="eyebrow" style="margin-top:10px">Reviewer name &middot; Google</p></blockquote>
+        <blockquote class="card pad" style="margin:0"><p class="mono" style="color:var(--brass)">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <p style="margin-top:8px;color:var(--text-3)">Third most recent review appears here.</p>
+          <p class="eyebrow" style="margin-top:10px">Reviewer name &middot; Google</p></blockquote>
+      </div>
+      <p class="note"><b>Why</b><span>Deliberately left empty rather than filled with invented quotes. Real reviews carry
+        the rating into Google's results; made-up ones carry nothing and are a trading-standards problem.</span></p>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="band sunk">
+    <div class="wrap">
+      <p class="eyebrow">Straight answers</p>
+      <h2 style="margin:8px 0 6px">Questions we get asked every fortnight</h2>
+      <p class="xh" style="margin-bottom:18px" aria-hidden="true"><i></i></p>
+      <div class="faq" data-ph="1"><span class="phtag">Answers need your real details</span>
+        <details open><summary>How old do you have to be to play airsoft at 1066?</summary>
+          <div class="ans">You can play from your 12th birthday. Players aged 12 to 17 need a parent or guardian to sign the
+            consent form &mdash; it is part of the online booking, so there is nothing to print. Under-18s play on rental kit
+            and are briefed separately before the main brief.</div></details>
+        <details><summary>Do I need a UKARA registration to play?</summary>
+          <div class="ans">No. UKARA is only needed to <em>buy</em> a realistic imitation firearm. You can rent and play with us
+            as often as you like without it. If you do want to get registered, play three game days with us over a period of
+            at least 56 days and we will register you &mdash; your account tracks the count automatically.</div></details>
+        <details><summary>How much does a day cost?</summary>
+          <div class="ans">&pound;30 walk-on if you bring your own kit, &pound;45 for the full rental package, &pound;26 for juniors aged
+            12&ndash;17, &pound;5 for spectators. Hot lunch and unlimited tea and coffee are included in every ticket.
+            Season Pass holders pay &pound;24 a day.</div></details>
+        <details><summary>When is the next game day?</summary>
+          <div class="ans">Game days run every other Sunday, all year round, plus scheduled night ops, junior cadet days and
+            6-hour milsim events. The full calendar with live remaining spaces is on the <button class="btn quiet sm" data-go="games" style="padding:0;font-size:inherit;text-transform:none;letter-spacing:0;color:var(--brass)">game days page</button>.</div></details>
+        <details><summary>I have never done this before. Will I be out of my depth?</summary>
+          <div class="ans">About a third of every game day is first-timers. Book the rental package, arrive at 08:00, and a marshal
+            will put you in a beginners' squad with someone who knows what they are doing. You will be fine by the second game.</div></details>
+        <details><summary>Can I book a birthday, stag do or work day out?</summary>
+          <div class="ans">Yes &mdash; packages start at 8 players and include kit, lunch, a private squad and a marshal of your own.
+            Groups of 40 or more can hire the whole site on a non-game-day Saturday. Instant prices are on the
+            <button class="btn quiet sm" data-go="events" style="padding:0;font-size:inherit;text-transform:none;letter-spacing:0;color:var(--brass)">parties and hire page</button>.</div></details>
+        <details><summary>What happens if it rains?</summary>
+          <div class="ans">We play. It is Sussex woodland &mdash; bring boots and a spare pair of socks. Game days are only called off
+            for high winds or lightning, and if we cancel you keep the credit or take a full refund, your choice.</div></details>
+        <details><summary>Where exactly are you?</summary>
+          <div class="ans">Adams Fruit Farm, Ivyhouse Lane, Hastings, East Sussex &mdash; about ten minutes from the A21, with
+            hard standing parking on site. Nearest station is Hastings; we can usually sort a lift from there if you ask in advance.</div></details>
+      </div>
+      <p class="note"><b>AI</b><span>Each question is phrased the way people actually type it into a chatbot, answered in the first sentence, and
+        published as FAQPage structured data. That combination is what gets a site quoted in an AI answer instead of skipped.</span></p>
+    </div>
+  </div>
+  <!-- paintball cross-sell -->
+  <div class="band tight">
+    <div class="wrap">
+      <div class="card pad ticked colsauto" style="gap:24px;align-items:center">
+        <div>
+          <p class="eyebrow">The other half of the badge</p>
+          <h2 style="margin:8px 0 10px">1066 Paintball</h2>
+          <p class="lede">Same farm, same marshals, different weekend. Paintball runs on the Saturdays between airsoft
+            game days &mdash; and with one account, one waiver and one basket, an airsoft regular can book a paintball
+            birthday for their nephew without filling anything in twice.</p>
+        </div>
+        <button class="btn primary" data-go="paintball">See paintball dates</button>
+      </div>
+      <p class="note"><b>&pound;</b><span>Your logo already says "1066 Paintball" and "1066 Airsoft", but the two businesses are sold
+        as if they were strangers. One booking system across both is the cheapest cross-sell you will ever build:
+        every airsoft customer becomes a warm lead for a paintball party, and the other way round.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GAME DAYS ============ -->
+<section data-screen="games" hidden>
+  <div class="band tight">
+    <div class="wrap">
+      <p class="eyebrow">Calendar</p>
+      <h2 style="margin:8px 0 10px">Game days</h2>
+      <p class="lede" style="margin-bottom:22px">Every other Sunday, all year. Spaces update live &mdash; when a date shows red
+        it is nearly gone, and members can book 72 hours before it opens to everyone else.</p>
+      <div class="filters" id="gdFilters">
+        <button data-f="all" aria-pressed="true">All dates</button>
+        <button data-f="Skirmish" aria-pressed="false">Skirmish</button>
+        <button data-f="Night Op" aria-pressed="false">Night ops</button>
+        <button data-f="Junior Cadets" aria-pressed="false">Junior cadets</button>
+        <button data-f="Milsim" aria-pressed="false">Milsim</button>
+        <button data-f="Paintball" aria-pressed="false">Paintball</button>
+      </div>
+      <div class="gdlist" id="gdList" data-ph="1"><span class="phtag">Sample calendar, generated dates</span></div>
+      <p class="note"><b>&pound;</b><span>Every date is its own page and its own Event record in the structured data, with a price, a start time and
+        a "spaces remaining" status. That is what puts a specific Sunday into Google's event results and into AI answers to
+        "airsoft near me this weekend".</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PAINTBALL ============ -->
+<section data-screen="paintball" hidden>
+  <div class="band tight">
+    <div class="wrap">
+      <p class="eyebrow">The other half of the badge</p>
+      <h2 style="margin:8px 0 10px">1066 Paintball</h2>
+      <p class="xh" aria-hidden="true"><i></i></p>
+      <p class="lede" style="margin-top:16px">Same farm, same marshals, different weekend. Birthdays, stag dos, work
+        days out and anyone who fancies it &mdash; from eight years old upwards on low-impact kit.</p>
+
+      <div class="packs" style="margin-top:24px" data-ph="1"><span class="phtag">Prices from directory listings &mdash; confirm</span>
+        <article class="card"><figure class="photo"><figcaption>Site photo &middot; Basic</figcaption></figure>
+          <div class="pad"><h3>Basic</h3><p class="mono" style="font-size:11px;color:var(--text-3)">300 PAINTBALLS</p>
+            <p style="color:var(--text-2);font-size:14.5px;margin-top:8px">All equipment &mdash; marker, mask, overalls, air &mdash;
+              plus 300 paintballs and marshals all day.</p>
+            <p class="mono" style="margin-top:10px;font-size:20px"><b>&pound;24.99</b> <span style="font-size:13px;color:var(--text-3)">per person</span></p></div></article>
+        <article class="card" style="border-color:var(--brass)"><figure class="photo"><figcaption>Site photo &middot; Premium</figcaption></figure>
+          <div class="pad"><div class="row" style="justify-content:space-between"><h3>Premium</h3><span class="pill br">Most chosen</span></div>
+            <p class="mono" style="font-size:11px;color:var(--text-3)">500 PAINTBALLS</p>
+            <p style="color:var(--text-2);font-size:14.5px;margin-top:8px">Two hundred more paintballs than Basic for a tenner.
+              The one most people wish they had picked by lunchtime.</p>
+            <p class="mono" style="margin-top:10px;font-size:20px"><b>&pound;34.99</b> <span style="font-size:13px;color:var(--text-3)">per person</span></p></div></article>
+        <article class="card"><figure class="photo"><figcaption>Site photo &middot; Elite</figcaption></figure>
+          <div class="pad"><h3>Elite</h3><p class="mono" style="font-size:11px;color:var(--text-3)">1,000 PAINTBALLS</p>
+            <p style="color:var(--text-2);font-size:14.5px;margin-top:8px">Enough to stop counting. For stags, serious groups
+              and anyone who has done this before.</p>
+            <p class="mono" style="margin-top:10px;font-size:20px"><b>&pound;59.99</b> <span style="font-size:13px;color:var(--text-3)">per person</span></p></div></article>
+        <article class="card"><figure class="photo"><figcaption>Site photo &middot; Combo weekend</figcaption></figure>
+          <div class="pad"><h3>Paintball + airsoft weekend</h3><p class="mono" style="font-size:11px;color:var(--text-3)">PROPOSED &middot; NEW</p>
+            <p style="color:var(--text-2);font-size:14.5px;margin-top:8px">Paintball on the Saturday, airsoft on the Sunday,
+              one booking. Nobody else within an hour of Hastings runs both.</p>
+            <p class="mono" style="margin-top:10px;font-size:20px"><b>Price TBC</b> <span style="font-size:13px;color:var(--text-3)">owner to set</span></p></div></article>
+      </div>
+
+      <div class="card pad cols2" style="gap:28px;margin-top:20px">
+        <div>
+          <p class="eyebrow">The bit the website should be selling</p>
+          <h3 style="margin:6px 0 10px;font-size:26px">Paint is the business</h3>
+          <p style="color:var(--text-2);font-size:15px">The three packages are paint tiers. Basic to Premium is
+            <b>&pound;10 for 200 more paintballs</b> &mdash; a decision worth making at the moment somebody is choosing,
+            on a page that shows all three side by side, not in a queue at the shed.</p>
+          <p style="color:var(--text-2);font-size:15px;margin-top:10px">Then there is top-up paint, which is currently sold
+            mid-game, in cash, to somebody who has already run out and is missing the game. Pre-ordered online it is money
+            taken before they arrive, a bigger average order, and a stock count you have on Friday night.</p>
+          <p class="note"><b>&pound;</b><span>A single Eventbrite ticket type cannot do any of this. The ladder and the top-ups
+            are the difference between a &pound;24.99 customer and a &pound;45 one, and they only exist in your own checkout.</span></p>
+        </div>
+        <div class="card pad" style="background:var(--sunk)">
+          <p class="eyebrow" style="margin-bottom:8px">Price list</p>
+          <div class="kv"><span>Basic &mdash; 300 paintballs</span><b class="mono">&pound;24.99</b></div>
+          <div class="kv"><span>Premium &mdash; 500 paintballs</span><b class="mono">&pound;34.99</b></div>
+          <div class="kv"><span>Elite &mdash; 1,000 paintballs</span><b class="mono">&pound;59.99</b></div>
+          <div class="kv"><span>Extra paint, 100</span><b class="mono">&pound;7.99</b></div>
+          <div class="kv"><span>Extra paint, 500</span><b class="mono">&pound;34.99</b></div>
+          <div class="kv"><span>Extra paint, 2,000</span><b class="mono">&pound;129.99</b></div>
+          <button class="btn primary wide" style="margin-top:14px" data-go="book">Book a paintball session</button>
+        </div>
+      </div>
+
+      <p class="note"><b>&pound;</b><span>One booking system across both brands, one account, one waiver, one basket. An airsoft
+        regular booking their nephew's paintball birthday never has to re-enter anything &mdash; and every paintball parent
+        becomes a name you can tell about airsoft when the kid turns twelve.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOOKING ============ -->
+<section data-screen="book" hidden>
+  <div class="band tight">
+    <div class="wrap">
+      <p class="eyebrow">Booking &mdash; no third party, no booking fee</p>
+      <h2 style="margin:8px 0 18px">Book a game day</h2>
+      <div class="steps" id="stepBar">
+        <div data-s="1" class="on">01 &mdash; Tickets</div>
+        <div data-s="2">02 &mdash; Add-ons</div>
+        <div data-s="3">03 &mdash; Squad &amp; waiver</div>
+        <div data-s="4">04 &mdash; Pay</div>
+      </div>
+
+      <div class="booklayout">
+        <div>
+          <!-- step 1 -->
+          <div class="card pad" data-step="1" data-ph="1"><span class="phtag">£30 is yours — other tiers proposed</span>
+            <div class="field">
+              <label for="bkDate">Game day</label>
+              <select id="bkDate"></select>
+            </div>
+            <div id="tkAirsoft">
+            <div class="ticket">
+              <div><h4>Walk-on</h4><p>You bring your own gun, goggles and BBs. Lunch and hot drinks included.</p></div>
+              <div class="row" style="gap:14px"><b class="mono" style="font-size:18px">&pound;30</b>
+                <div class="stepper" data-t="walkon"><button data-d="-1" aria-label="fewer">&minus;</button><output>0</output><button data-d="1" aria-label="more">+</button></div></div>
+            </div>
+            <div class="ticket">
+              <div><h4>Full rental package</h4><p>Gun, battery, goggles, mesh, rig, mags, 3,000 BBs, lunch. Nothing else to buy.</p></div>
+              <div class="row" style="gap:14px"><b class="mono" style="font-size:18px">&pound;45</b>
+                <div class="stepper" data-t="rental"><button data-d="-1" aria-label="fewer">&minus;</button><output>2</output><button data-d="1" aria-label="more">+</button></div></div>
+            </div>
+            <div class="ticket">
+              <div><h4>Junior (12&ndash;17)</h4><p>Full rental kit, junior brief, and a parent consent form signed at checkout.</p></div>
+              <div class="row" style="gap:14px"><b class="mono" style="font-size:18px">&pound;26</b>
+                <div class="stepper" data-t="junior"><button data-d="-1" aria-label="fewer">&minus;</button><output>0</output><button data-d="1" aria-label="more">+</button></div></div>
+            </div>
+            <div class="ticket">
+              <div><h4>Spectator</h4><p>Safe-zone pass for parents and non-players. Includes lunch and as much tea as you can drink.</p></div>
+              <div class="row" style="gap:14px"><b class="mono" style="font-size:18px">&pound;5</b>
+                <div class="stepper" data-t="spectator"><button data-d="-1" aria-label="fewer">&minus;</button><output>0</output><button data-d="1" aria-label="more">+</button></div></div>
+            </div>
+            </div>
+
+            <div id="tkPaint" hidden>
+              <div class="ticket">
+                <div><h4>Basic</h4><p>All equipment and 300 paintballs. Marker, mask, overalls, air and a marshal.</p></div>
+                <div class="row" style="gap:14px"><b class="mono" style="font-size:18px">&pound;24.99</b>
+                  <div class="stepper" data-t="pbBasic"><button data-d="-1" aria-label="fewer">&minus;</button><output>0</output><button data-d="1" aria-label="more">+</button></div></div>
+              </div>
+              <div class="ticket">
+                <div><h4>Premium</h4><p>All equipment and 500 paintballs. The one most people wish they had booked.</p></div>
+                <div class="row" style="gap:14px"><b class="mono" style="font-size:18px">&pound;34.99</b>
+                  <div class="stepper" data-t="pbPremium"><button data-d="-1" aria-label="fewer">&minus;</button><output>0</output><button data-d="1" aria-label="more">+</button></div></div>
+              </div>
+              <div class="ticket">
+                <div><h4>Elite</h4><p>All equipment and 1,000 paintballs. Enough to stop counting.</p></div>
+                <div class="row" style="gap:14px"><b class="mono" style="font-size:18px">&pound;59.99</b>
+                  <div class="stepper" data-t="pbElite"><button data-d="-1" aria-label="fewer">&minus;</button><output>0</output><button data-d="1" aria-label="more">+</button></div></div>
+              </div>
+              <div class="ticket">
+                <div><h4>Extra paint &mdash; 100</h4><p>Pre-ordered and waiting with your name on it. No queue mid-game.</p></div>
+                <div class="row" style="gap:14px"><b class="mono" style="font-size:18px">&pound;7.99</b>
+                  <div class="stepper" data-t="pbPaint100"><button data-d="-1" aria-label="fewer">&minus;</button><output>0</output><button data-d="1" aria-label="more">+</button></div></div>
+              </div>
+              <div class="ticket">
+                <div><h4>Extra paint &mdash; 500</h4><p>Cheaper per ball than buying 100 at a time, five times over.</p></div>
+                <div class="row" style="gap:14px"><b class="mono" style="font-size:18px">&pound;34.99</b>
+                  <div class="stepper" data-t="pbPaint500"><button data-d="-1" aria-label="fewer">&minus;</button><output>0</output><button data-d="1" aria-label="more">+</button></div></div>
+              </div>
+              <div class="ticket">
+                <div><h4>Spectator</h4><p>Safe-zone pass for parents and non-players.</p></div>
+                <div class="row" style="gap:14px"><b class="mono" style="font-size:18px">&pound;5</b>
+                  <div class="stepper" data-t="pbSpectator"><button data-d="-1" aria-label="fewer">&minus;</button><output>0</output><button data-d="1" aria-label="more">+</button></div></div>
+              </div>
+            </div>
+
+            <label class="check" style="margin-top:14px;border-top:1px solid var(--line);padding-top:14px">
+              <input type="checkbox" id="bkMember" checked>
+              <span><b style="color:var(--brass)">Use my Season Pass</b> &mdash; 6 days left. A pass day covers the entry for one
+              player; rental kit and extras are charged as normal.
+              <button class="btn quiet sm" data-go="members" style="padding:0;color:var(--brass);text-transform:none;letter-spacing:0">Top up your pass</button></span>
+            </label>
+            <p class="note"><b>&pound;</b><span>Redeeming a pass day in the basket, in front of somebody who has not got one, is the
+              highest-converting place on the site to sell the next block.</span></p>
+          </div>
+
+          <!-- step 2 -->
+          <div class="card pad" data-step="2" hidden>
+            <h3 style="margin-bottom:4px">Anything else before Sunday?</h3>
+            <p style="color:var(--text-2);font-size:14px;margin-bottom:16px">Pre-ordered items are bagged up with your name on
+              and handed over at the Packhouse when you arrive.</p>
+            <div class="grid" id="addonList" style="gap:8px" data-ph="1"><span class="phtag">Proposed add-ons</span></div>
+            <p class="note"><b>&pound;</b><span>Add-ons are the cheapest revenue on the site &mdash; the customer has already decided to come, the card is
+              already out, and pre-orders let you stock the shop to demand instead of guessing. Assume &pound;8&ndash;&pound;14 extra per head.</span></p>
+          </div>
+
+          <!-- step 3 -->
+          <div class="card pad" data-step="3" hidden>
+            <h3 style="margin-bottom:12px">Your squad</h3>
+            <div class="field"><label for="sqName">Squad name (optional)</label>
+              <input id="sqName" value="Ivy Lane Irregulars" placeholder="e.g. Dave's stag do"></div>
+            <div id="squadList">
+              <div class="squad"><span><b>You</b> &middot; greg@thinkwork.info</span><span class="pill ok">Paying now</span></div>
+              <div class="squad"><span><b>Marcus B.</b> &middot; invited</span><span class="pill">Awaiting payment</span></div>
+            </div>
+            <div class="row" style="gap:8px;margin-bottom:16px">
+              <button class="btn ghost sm" id="addMate">Invite another player</button>
+              <button class="btn ghost sm" id="copyLink">Copy pay-your-own-share link</button>
+              <span class="eyebrow" id="copyMsg" style="color:var(--go)"></span>
+            </div>
+            <p class="note"><b>&pound;</b><span>Split payment is the feature that wins birthday and stag bookings. The organiser stops being everyone's
+              bank, so groups book sooner and cancel less. No third-party booking platform in the UK airsoft market does this well.</span></p>
+            <hr class="rule" style="margin:18px 0">
+            <h3 style="margin-bottom:8px">Safety declaration</h3>
+            <label class="check"><input type="checkbox" class="waiver" checked><span>I have read the site safety rules, I will wear eye protection at all times in the game zone, and I will call my hits.</span></label>
+            <label class="check"><input type="checkbox" class="waiver" checked><span>I am 18 or over, or a parent/guardian is signing on my behalf for any junior on this booking.</span></label>
+            <label class="check"><input type="checkbox" class="waiver"><span>I consent to photography on site being used on 1066 Airsoft social channels. (Optional &mdash; leave unticked to opt out.)</span></label>
+            <div class="field" style="margin-top:12px;max-width:340px"><label for="sig">Type your full name to sign</label>
+              <input id="sig" value="Greg Nicholls" placeholder="Full name"></div>
+            <p style="font-size:12.5px;color:var(--text-3)">Signed waivers are stored against your account and re-used for twelve months &mdash; no clipboard at the gate, ever again.</p>
+          </div>
+
+          <!-- step 4 -->
+          <div class="card pad" data-step="4" hidden>
+            <div id="payPane">
+              <h3 style="margin-bottom:12px">Pay</h3>
+              <div class="row" style="gap:8px;margin-bottom:16px">
+                <label class="addon sel" style="flex:1 1 200px"><input type="radio" name="payopt" checked><span><b>Pay in full</b><br><span style="font-size:13px;color:var(--text-2)">Settle the whole booking now.</span></span></label>
+                <label class="addon" style="flex:1 1 200px"><input type="radio" name="payopt"><span><b>&pound;10 deposit</b><br><span style="font-size:13px;color:var(--text-2)">Balance charged 72 hours before.</span></span></label>
+              </div>
+              <div class="field"><label for="cardNo">Card number</label><input id="cardNo" class="mono" value="4242 4242 4242 4242"></div>
+              <div class="row" style="gap:12px">
+                <div class="field" style="flex:1"><label for="cardEx">Expiry</label><input id="cardEx" class="mono" value="09 / 29"></div>
+                <div class="field" style="flex:1"><label for="cardCv">CVC</label><input id="cardCv" class="mono" value="123"></div>
+              </div>
+              <button class="btn primary wide" id="payBtn">Pay <span id="payAmt">&pound;0</span></button>
+              <p style="font-size:12px;color:var(--text-3);margin-top:10px;text-align:center">Demo only &mdash; no card is charged. Live site would take payment direct to your own Stripe account.</p>
+              <p class="note"><b>&pound;</b><span>Your own checkout means no per-ticket commission to an events platform, the customer list is yours,
+                and the money lands in your account on the day instead of after the event.</span></p>
+            </div>
+            <div id="donePane" hidden>
+              <span class="pill ok">Confirmed</span>
+              <h2 style="margin:12px 0 6px">You're in.</h2>
+              <p class="lede" id="doneLine">&mdash;</p>
+              <div class="row" style="gap:20px;align-items:flex-start;margin-top:20px">
+                <canvas id="qr" width="33" height="33" aria-label="Entry QR code"></canvas>
+                <div>
+                  <p class="eyebrow">Booking reference</p>
+                  <p class="mono" style="font-size:24px;font-weight:600" id="doneRef">&mdash;</p>
+                  <p style="font-size:14px;color:var(--text-2);max-width:42ch;margin-top:6px">Show this at the gate. It is in your email,
+                    in your account, and it works offline &mdash; which matters, because the signal at Ivyhouse Lane is what it is.</p>
+                </div>
+              </div>
+              <div class="row" style="gap:8px;margin-top:20px">
+                <button class="btn ghost sm" data-go="account">View in my account</button>
+                <button class="btn ghost sm">Add to calendar</button>
+                <button class="btn ghost sm">Invite the rest of the squad</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:18px;justify-content:space-between">
+            <button class="btn ghost" id="backBtn" hidden>Back</button>
+            <button class="btn primary" id="nextBtn" style="margin-left:auto">Continue to add-ons</button>
+          </div>
+        </div>
+
+        <!-- order summary -->
+        <aside class="card summary">
+          <div class="pad" style="border-bottom:1px solid var(--line)">
+            <p class="eyebrow">Your booking</p>
+            <h3 style="margin-top:4px" id="sumDate">&mdash;</h3>
+          </div>
+          <div class="pad" id="sumLines"></div>
+          <div class="pad" style="border-top:1px solid var(--line);background:var(--sunk)">
+            <div class="row" style="justify-content:space-between">
+              <span class="eyebrow">Total</span>
+              <b class="mono" style="font-size:26px" id="sumTotal">&pound;0</b>
+            </div>
+            <p class="eyebrow" id="sumSaved" style="color:var(--go);margin-top:4px"></p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MEMBERSHIP ============ -->
+<section data-screen="members" hidden>
+  <div class="band tight">
+    <div class="wrap">
+      <p class="eyebrow">Membership</p>
+      <h2 style="margin:8px 0 10px">Three ways to play</h2>
+      <p class="lede" style="margin-bottom:26px">A free account costs nothing. Beyond that there is one pass for most people
+        and one for the die-hards &mdash; no monthly fee that quietly costs you more than it saves.</p>
+      <div class="tiers" data-ph="1"><span class="phtag">Proposed &mdash; Dom to confirm</span>
+        <div class="tier">
+          <header><p class="eyebrow">Free</p><h3>An account</h3>
+            <p class="price">&pound;0<small></small></p>
+            <p style="font-size:13.5px;color:var(--text-2);margin-top:8px">Not a membership. Just somewhere to keep your stuff.</p></header>
+          <ul>
+            <li>Book online and skip the gate queue</li>
+            <li>Safety form stored for twelve months</li>
+            <li>Every pass and receipt in one place</li>
+            <li>First to hear when new dates go up</li>
+            <li>Automatic UKARA game-count tracker</li>
+          </ul>
+          <footer><button class="btn ghost wide">Create a free account</button></footer>
+        </div>
+        <div class="tier feature">
+          <header><div class="row" style="justify-content:space-between"><p class="eyebrow">Ten game days</p><span class="pill br">Best value</span></div>
+            <h3>Season Pass</h3>
+            <p class="price">&pound;240<small> once</small></p>
+            <p style="font-size:13.5px;color:var(--text-2);margin-top:8px"><b>&pound;24 a day instead of &pound;30.</b> Pay once, play them off whenever you like.</p></header>
+          <ul>
+            <li><b>Ten game days for &pound;240</b> &mdash; saves you &pound;60</li>
+            <li>Valid twelve months, use them at your own pace</li>
+            <li>Give a day to a mate if you cannot make one</li>
+            <li>Booking opens 72 hours before general release</li>
+            <li>10% off everything in the pro shop</li>
+            <li><b>No monthly payment and nothing to cancel</b></li>
+          </ul>
+          <footer><button class="btn primary wide" data-join="Season Pass">Buy a Season Pass</button></footer>
+        </div>
+        <div class="tier">
+          <header><p class="eyebrow">For the regulars</p><h3>Regulars' Pass</h3>
+            <p class="price">&pound;45<small> / month</small></p>
+            <p style="font-size:13.5px;color:var(--text-2);margin-top:8px">Play every game day we run. Worth it if you never miss one.</p></header>
+          <ul>
+            <li><b>Every game day, no ticket to buy</b></li>
+            <li>Works out at &pound;22.50 a day if you play both</li>
+            <li>Bring a mate for &pound;20, once a month</li>
+            <li>First to book, and a place held on sold-out dates</li>
+            <li>Pause any month you are away</li>
+          </ul>
+          <footer><button class="btn ghost wide" data-join="Regulars' Pass">Join</button></footer>
+        </div>
+      </div>
+
+      <div class="card pad" style="margin-top:22px">
+        <div class="cols2" style="gap:28px;align-items:center">
+          <div>
+            <p class="eyebrow">Do the sums yourself</p>
+            <h3 style="margin:6px 0 14px;font-size:24px">How many game days a year?</h3>
+            <input class="slider" type="range" id="mSlider" min="2" max="26" value="12">
+            <div class="row" style="justify-content:space-between"><span class="eyebrow" id="mGames">12 game days</span><span class="eyebrow">26 is every one we run</span></div>
+            <p style="font-size:13.5px;color:var(--text-2);margin-top:14px">Season Pass days that run out are just topped up at the
+              normal price &mdash; you are never forced into a second block.</p>
+          </div>
+          <div>
+            <div class="kv"><span>Pay as you go, &pound;30 a day</span><b class="mono" id="mPayg">&pound;0</b></div>
+            <div class="kv"><span>Season Pass, &pound;240 for ten</span><b class="mono" id="mPass">&pound;0</b></div>
+            <div class="kv"><span>Regulars' Pass, &pound;45 a month</span><b class="mono" id="mReg">&pound;0</b></div>
+            <p class="eyebrow" style="margin-top:10px;color:var(--go)" id="mBest">&mdash;</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card pad colsauto" style="margin-top:14px;gap:20px">
+        <div>
+          <p class="eyebrow">For somebody else</p>
+          <h3 style="margin:6px 0 6px;font-size:24px">Gift a Season Pass</h3>
+          <p style="color:var(--text-2);font-size:14.5px;max-width:60ch">Emailed straight away, valid twelve months, and the
+            easiest present anybody has ever bought a teenager. They book their own dates; you never have to ask what they want.</p>
+        </div>
+        <button class="btn primary" data-join="Gift a Season Pass">Buy as a gift</button>
+      </div>
+      <p class="note"><b>&pound;</b><span>Deliberately not a monthly discount scheme. Airsoft runs fortnightly, so a
+        &pound;5-a-session discount can never beat a &pound;10 monthly fee &mdash; people do that sum and cancel. A prepaid block
+        gives a saving they can check, and puts the money in the bank in January rather than a fortnight at a time.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EVENTS & HIRE ============ -->
+<section data-screen="events" hidden>
+  <div class="band tight">
+    <div class="wrap">
+      <p class="eyebrow">Groups</p>
+      <h2 style="margin:8px 0 10px">Parties, stags and work days out</h2>
+      <p class="lede" style="margin-bottom:24px">Eight players or eighty. Your own marshal, your own squad, your own start time,
+        and a price on screen instead of "call us for a quote".</p>
+      <div class="packs" data-ph="1"><span class="phtag">Proposed packages &amp; prices</span>
+        <article class="card"><figure class="photo"><figcaption>Site photo &middot; Birthday squad</figcaption></figure>
+          <div class="pad"><h3>Birthday party</h3><p class="mono" style="font-size:11px;color:var(--text-3)">AGE 12+ &middot; FROM 8 PLAYERS</p>
+            <p style="color:var(--text-2);font-size:14.5px;margin-top:8px">Three hours, full rental kit, your own marshal, a private squad
+              and hot food from the van. Birthday player goes free on groups of twelve or more.</p>
+            <p class="mono" style="margin-top:10px;font-size:20px"><b>&pound;42</b> <span style="font-size:13px;color:var(--text-3)">per player</span></p></div></article>
+        <article class="card"><figure class="photo"><figcaption>Site photo &middot; Stag squad</figcaption></figure>
+          <div class="pad"><h3>Stag &amp; hen</h3><p class="mono" style="font-size:11px;color:var(--text-3)">18+ &middot; FROM 10 PLAYERS</p>
+            <p style="color:var(--text-2);font-size:14.5px;margin-top:8px">Full day, rental kit, the traditional "everyone against the
+              stag" finale, pyro pack included and a photo set afterwards. Split the bill across the group at checkout.</p>
+            <p class="mono" style="margin-top:10px;font-size:20px"><b>&pound;58</b> <span style="font-size:13px;color:var(--text-3)">per player</span></p></div></article>
+        <article class="card"><figure class="photo"><figcaption>Site photo &middot; Corporate day</figcaption></figure>
+          <div class="pad"><h3>Corporate &amp; team building</h3><p class="mono" style="font-size:11px;color:var(--text-3)">WEEKDAYS &middot; FROM 12</p>
+            <p style="color:var(--text-2);font-size:14.5px;margin-top:8px">Weekday exclusive use, structured team scenarios,
+              covered briefing area with power, catering options and an invoice with a PO number on it.</p>
+            <p class="mono" style="margin-top:10px;font-size:20px"><b>&pound;72</b> <span style="font-size:13px;color:var(--text-3)">per player</span></p></div></article>
+        <article class="card"><figure class="photo"><figcaption>Site photo &middot; Private hire</figcaption></figure>
+          <div class="pad"><h3>Whole-site private hire</h3><p class="mono" style="font-size:11px;color:var(--text-3)">SATURDAYS &middot; 40+</p>
+            <p style="color:var(--text-2);font-size:14.5px;margin-top:8px">The farm to yourselves on a non-game-day Saturday. Airsoft
+              clubs, cadet units, film crews and other sites' away-days. Marshals, maps and modes to your brief.</p>
+            <p class="mono" style="margin-top:10px;font-size:20px"><b>&pound;1,850</b> <span style="font-size:13px;color:var(--text-3)">per day</span></p></div></article>
+      </div>
+
+      <div class="card pad" style="margin-top:20px">
+        <p class="eyebrow">Instant quote</p>
+        <h3 style="margin:6px 0 16px;font-size:26px">What would your group cost?</h3>
+        <div class="grid cols2" style="gap:28px;align-items:start">
+          <div>
+            <div class="field"><label for="evPack">Package</label>
+              <select id="evPack">
+                <option value="42">Birthday party &mdash; &pound;42 per player</option>
+                <option value="58" selected>Stag &amp; hen &mdash; &pound;58 per player</option>
+                <option value="72">Corporate team building &mdash; &pound;72 per player</option>
+              </select></div>
+            <div class="field"><label for="evSize">Group size &mdash; <span id="evSizeOut" class="mono">14</span> players</label>
+              <input class="slider" type="range" id="evSize" min="8" max="60" value="14"></div>
+            <div class="field"><label for="evDate">Preferred date</label><input id="evDate" type="date"></div>
+            <label class="check"><input type="checkbox" id="evFood" checked><span>Hot food for the group from the van (&pound;9 a head)</span></label>
+            <label class="check"><input type="checkbox" id="evPhoto"><span>Photographer for the day and a shared gallery (&pound;180)</span></label>
+          </div>
+          <div class="card pad" style="background:var(--sunk)">
+            <div class="kv"><span>Players</span><b class="mono" id="qSize">14</b></div>
+            <div class="kv"><span>Package</span><b class="mono" id="qPack">&pound;812</b></div>
+            <div class="kv"><span>Catering</span><b class="mono" id="qFood">&pound;126</b></div>
+            <div class="kv"><span>Photography</span><b class="mono" id="qPhoto">&pound;0</b></div>
+            <div class="row" style="justify-content:space-between;margin-top:12px">
+              <span class="eyebrow">Total</span><b class="mono" style="font-size:28px" id="qTotal">&pound;938</b></div>
+            <p class="eyebrow" style="margin-top:2px">Deposit today: <b id="qDep">&pound;235</b> &middot; balance 7 days before</p>
+            <button class="btn primary wide" style="margin-top:14px" id="qBook">Hold this date</button>
+            <p class="eyebrow" id="qMsg" style="margin-top:8px;color:var(--go)"></p>
+          </div>
+        </div>
+        <p class="note"><b>&pound;</b><span>Group work is the highest-margin thing an airsoft site sells, and it is almost always lost to whoever
+          answers the phone first. A quote on screen at 11pm on a Tuesday, with a deposit button next to it, converts the
+          organiser while they are still in the group chat.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SHOP ============ -->
+<section data-screen="shop" hidden>
+  <div class="band tight">
+    <div class="wrap">
+      <div class="row" style="justify-content:space-between;align-items:flex-end;margin-bottom:8px">
+        <div><p class="eyebrow">Pro shop</p><h2 style="margin-top:8px">Order now, collect on Sunday</h2></div>
+        <span class="pill br" id="basketPill">Basket: 0 items</span>
+      </div>
+      <p class="lede" style="margin-bottom:22px">No postage, no packing, no returns to deal with. You pay online, it is bagged up with
+        your name on it, and you pick it up at the Packhouse on your next game day.</p>
+      <div class="prods" id="prodGrid" data-ph="1"><span class="phtag">Sample stock</span></div>
+
+      <div class="card pad" style="margin-top:22px">
+        <div class="grid cols2" style="gap:28px">
+          <div>
+            <p class="eyebrow">Gift vouchers</p>
+            <h3 style="margin:6px 0 10px;font-size:26px">The easiest Christmas present in Hastings</h3>
+            <p style="color:var(--text-2);font-size:14.5px">Emailed instantly, valid twelve months, redeemable against game days,
+              rental, membership or anything in the shop. Print it if you want something to put in a card.</p>
+            <div class="row" style="gap:8px;margin-top:14px">
+              <button class="btn ghost sm" data-v="25">&pound;25</button>
+              <button class="btn ghost sm" data-v="50">&pound;50</button>
+              <button class="btn primary sm" data-v="100">&pound;100</button>
+              <button class="btn ghost sm" data-v="0">Other amount</button>
+            </div>
+            <p class="note"><b>&pound;</b><span>Vouchers are cash up front, roughly 10&ndash;15% never get redeemed, and every one that is redeemed
+              brings a brand-new player through the gate. For a site like this, December voucher sales alone can cover the
+              build cost of the website.</span></p>
+          </div>
+          <div>
+            <p class="eyebrow">On-site services</p>
+            <h3 style="margin:6px 0 10px;font-size:26px">Leave your kit here</h3>
+            <div class="kv"><span>Gear locker &mdash; monthly</span><b class="mono">&pound;8</b></div>
+            <div class="kv"><span>Tech bench service &amp; chrono tune</span><b class="mono">&pound;35</b></div>
+            <div class="kv"><span>Battery charging and storage</span><b class="mono">&pound;4 / day</b></div>
+            <div class="kv"><span>Rental-to-own: rent three times, get &pound;45 off a gun</span><b class="mono">&pound;45</b></div>
+            <div class="kv"><span>Site photography pack (30+ shots)</span><b class="mono">&pound;12</b></div>
+            <button class="btn ghost wide" style="margin-top:14px">Add a service to my next booking</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACCOUNT ============ -->
+<section data-screen="account" hidden>
+  <div class="band tight">
+    <div class="wrap">
+      <div class="row" style="justify-content:space-between;align-items:flex-end;margin-bottom:18px">
+        <div><p class="eyebrow">Signed in &mdash; sample member</p><h2 style="margin-top:8px">Greg Nicholls</h2></div>
+        <span class="pill br">Season Pass &middot; 6 days left</span>
+      </div>
+      <div class="grid cols2" style="gap:16px;align-items:start" data-ph="1"><span class="phtag">Sample member data</span>
+        <div class="stack" style="gap:16px">
+          <div class="card pad">
+            <div class="row" style="justify-content:space-between"><p class="eyebrow">Next booking</p><span class="pill ok">Paid</span></div>
+            <h3 style="margin:8px 0 4px;font-size:26px" id="acctNext">&mdash;</h3>
+            <p style="color:var(--text-2);font-size:14.5px">2 &times; full rental, 1 &times; spectator &middot; Squad: Ivy Lane Irregulars &middot; Ref 1066-K4T9</p>
+            <div class="row" style="gap:8px;margin-top:14px">
+              <button class="btn ghost sm">Show entry pass</button>
+              <button class="btn ghost sm">Change date</button>
+              <button class="btn ghost sm">Add someone to this booking</button>
+            </div>
+          </div>
+          <div class="card pad">
+            <p class="eyebrow">UKARA registration</p>
+            <h3 style="margin:8px 0 10px;font-size:24px">Two of three game days done</h3>
+            <div class="meter"><i style="width:66%"></i></div>
+            <p style="color:var(--text-2);font-size:14.5px;margin-top:10px">You need three game days spread over at least 56 days to be
+              registered as a UKARA defence-holder. You are on day 41 of 56. Play once more after
+              <b>8 October</b> and we will file it for you automatically &mdash; no forms, no chasing the shop.</p>
+            <p class="note"><b>AI</b><span>"How do I get UKARA registered near me" is one of the highest-intent searches in UK airsoft. A site that
+              owns that answer &mdash; and then tracks it for the player &mdash; captures people at exactly the moment they commit to the sport.</span></p>
+          </div>
+          <div class="card pad">
+            <p class="eyebrow">History</p>
+            <div class="tblscroll"><table class="tbl" style="margin-top:8px">
+              <tr><th>Date</th><th>Event</th><th>Tickets</th><th class="num">Paid</th></tr>
+              <tr><td class="mono">17 Aug</td><td>Sunday skirmish</td><td>1 walk-on</td><td class="num">&pound;29</td></tr>
+              <tr><td class="mono">03 Aug</td><td>Night op &mdash; The Hollow</td><td>1 walk-on + pyro</td><td class="num">&pound;44</td></tr>
+              <tr><td class="mono">20 Jul</td><td>Sunday skirmish</td><td>2 rental</td><td class="num">&pound;88</td></tr>
+              <tr><td class="mono">06 Jul</td><td>Milsim &mdash; Conquest Wood</td><td>1 walk-on</td><td class="num">&pound;49</td></tr>
+            </table></div>
+          </div>
+        </div>
+        <div class="stack" style="gap:16px">
+          <div class="card pad">
+            <p class="eyebrow">Loyalty</p>
+            <h3 style="margin:8px 0 10px;font-size:22px">7 of 10 stamps</h3>
+            <div class="meter"><i style="width:70%"></i></div>
+            <p style="color:var(--text-2);font-size:14px;margin-top:8px">Three more game days and your tenth is free.</p>
+          </div>
+          <div class="card pad">
+            <p class="eyebrow">Refer a mate</p>
+            <h3 style="margin:8px 0 8px;font-size:22px">&pound;10 for you, &pound;10 for them</h3>
+            <p style="color:var(--text-2);font-size:14px">Your link: <span class="mono" style="color:var(--brass)">1066airsoft.com/r/greg-n</span></p>
+            <button class="btn ghost wide sm" style="margin-top:10px">Copy referral link</button>
+          </div>
+          <div class="card pad">
+            <p class="eyebrow">On file</p>
+            <div class="kv"><span>Safety waiver</span><b class="mono" style="color:var(--go)">Valid to Mar 2027</b></div>
+            <div class="kv"><span>Gear locker</span><b class="mono">No. 14</b></div>
+            <div class="kv"><span>Season Pass</span><b class="mono">6 of 10 days left</b></div>
+            <div class="kv"><span>Chrono record</span><b class="mono">328 fps &middot; 17 Aug</b></div>
+            <button class="btn ghost wide sm" style="margin-top:12px">Manage membership</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROPOSAL (for the owner, not part of the public site) ============ -->
+<section data-screen="prop" hidden>
+  <div class="band tight">
+    <div class="wrap">
+      <p class="eyebrow">Proposal &mdash; not a public page</p>
+      <h2 style="margin:8px 0 10px">What this rebuild is actually for</h2>
+      <p class="lede" style="margin-bottom:26px">Three things: take the booking in-house so you keep the fee and the customer list,
+        turn one-off visitors into recurring revenue, and make the site the thing that AI assistants quote when somebody in Sussex
+        asks where to play airsoft.</p>
+
+      <!-- provenance -->
+      <div class="card pad" style="margin-bottom:16px">
+        <p class="eyebrow">Read this first</p>
+        <h3 style="margin:6px 0 10px;font-size:28px">What in here is yours, and what is invented</h3>
+        <p style="color:var(--text-2);max-width:74ch">A prototype needs content to be a prototype. Everything below the
+          line is placeholder and has to be replaced with the owner's real figures before any of this goes near a
+          customer. Leave <b>Placeholders</b> switched on in the toolbar and every invented block is outlined on screen.</p>
+        <div class="grid cols2" style="gap:20px;margin-top:18px">
+          <div>
+            <p class="eyebrow" style="color:var(--go);margin-bottom:8px">Taken from your own site</p>
+            <ul class="checklist" style="grid-template-columns:1fr">
+              <li>The logo, exactly as drawn</li>
+              <li>Red #DD3333 and near-black #11151C</li>
+              <li>The red phone/email bar</li>
+              <li>Both hero and band photographs</li>
+              <li>Adams Fruit Farm, Ivyhouse Lane, Hastings TN35 4NN</li>
+              <li>07722 22 1066 and dom@1066airsoft.com</li>
+              <li>"From just &pound;30 for a full day"</li>
+              <li>"Acres of battle ready countryside", "unique battlezones", "Book online today"</li>
+              <li>Groups, corporate, birthdays, stag and hen packages</li>
+              <li>UKARA registered site</li>
+              <li>That 1066 Paintball exists and shares the badge</li>
+              <li>They sell tickets through Eventbrite &mdash; live listing "Paintball Skirmish Event", Sat 3 October, 09:00</li>
+              <li>A second website at 1066paintball.com, same address and phone</li>
+              <li>Menu: FAQ, Prices, Contact, Blog; Facebook, Instagram, YouTube, TikTok</li>
+            </ul>
+          </div>
+          <div>
+            <p class="eyebrow" style="color:var(--claret);margin-bottom:8px">Invented placeholder &mdash; needs the owner's real data</p>
+            <ul class="checklist" style="grid-template-columns:1fr">
+              <li>Every battlezone name, description and acreage</li>
+              <li>Chrono limits, gate/brief/endex times, minimum age</li>
+              <li>Every price except the &pound;30 anchor, including rental, junior and spectator</li>
+              <li>The game day calendar &mdash; dates are generated, not real</li>
+              <li>Remaining-places numbers</li>
+              <li>Season Pass and Regulars’ Pass pricing (a proposal, not their current offer)</li>
+              <li>Party, corporate and site-hire prices</li>
+              <li>Pro shop stock and prices</li>
+              <li>All account, loyalty and booking-history data</li>
+              <li>Revenue model assumptions</li>
+              <li>Everything about paintball beyond the brand, the Eventbrite listing and its 09:00 start: prices, how often sessions run, junior age range, paint quantities and the combo weekend</li>
+            </ul>
+            <p class="eyebrow" style="color:var(--claret);margin:14px 0 8px">Second-hand &mdash; from directory listings, not their site</p>
+            <ul class="checklist" style="grid-template-columns:1fr">
+              <li>Game days run fortnightly, all year</li>
+              <li>Game modes chosen by a spinner on the day</li>
+              <li>Lunch and hot drinks included in the price</li>
+              <li>Shop and hot food van on site</li>
+              <li>Paintball prices: Basic &pound;24.99 / Premium &pound;34.99 / Elite &pound;59.99, extra paint &pound;7.99 per 100, &pound;34.99 per 500, &pound;129.99 per 2,000</li>
+              <li>"Acres of paintball prepared countryside" as their paintball wording</li>
+            </ul>
+            <p style="font-size:13px;color:var(--text-3);margin-top:12px">Removed on this pass: three invented customer
+              reviews with names, an invented 4.8 rating, and a phone number picked up from a directory that does not
+              appear on their site.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- revenue model -->
+      <div class="card pad">
+        <p class="eyebrow">Indicative revenue model &mdash; drag the sliders</p>
+        <h3 style="margin:6px 0 18px;font-size:28px">What the new lines are worth</h3>
+        <div class="grid cols2" style="gap:30px;align-items:start">
+          <div class="stack" style="gap:18px">
+            <div>
+              <label class="eyebrow" for="rPlayers">Players per game day &mdash; <span class="mono" id="rPlayersOut">70</span></label>
+              <input class="slider" type="range" id="rPlayers" min="25" max="140" value="70">
+            </div>
+            <div>
+              <label class="eyebrow" for="rMembers">Paying members &mdash; <span class="mono" id="rMembersOut">60</span></label>
+              <input class="slider" type="range" id="rMembers" min="0" max="250" value="60">
+            </div>
+            <div>
+              <label class="eyebrow" for="rGroups">Private / party bookings a year &mdash; <span class="mono" id="rGroupsOut">18</span></label>
+              <input class="slider" type="range" id="rGroups" min="0" max="60" value="18">
+            </div>
+            <div>
+              <label class="eyebrow" for="rPbDays">Paintball sessions a year &mdash; <span class="mono" id="rPbDaysOut">40</span></label>
+              <input class="slider" type="range" id="rPbDays" min="0" max="80" value="40">
+            </div>
+            <div>
+              <label class="eyebrow" for="rPbPlayers">Players per paintball session &mdash; <span class="mono" id="rPbPlayersOut">24</span></label>
+              <input class="slider" type="range" id="rPbPlayers" min="6" max="70" value="24">
+            </div>
+            <div>
+              <label class="eyebrow" for="rAttach">Add-on attach rate &mdash; <span class="mono" id="rAttachOut">35%</span></label>
+              <input class="slider" type="range" id="rAttach" min="0" max="80" value="35">
+            </div>
+            <p style="font-size:12.5px;color:var(--text-3);line-height:1.5">Fixed assumptions: 26 game days a year, &pound;33 average
+              ticket after member discounts, &pound;11 average add-on basket, &pound;4.50 shop spend per head, &pound;900 average group booking,
+              &pound;10 average membership, &pound;3,500 of gift vouchers a year. Paintball: &pound;30 average package across the &pound;24.99/&pound;34.99/&pound;59.99 ladder,
+              plus &pound;12 of top-up paint per player. The Eventbrite saving comes from the calculator below. Every one of these is a guess until the
+              owner replaces it. All editable &mdash; these are starting numbers for a
+              conversation, not a forecast.</p>
+          </div>
+          <div>
+            <div class="tblscroll"><table class="tbl">
+              <tr><th>Revenue line</th><th>Status today</th><th class="num">Per year</th></tr>
+              <tr><td>Airsoft game day tickets</td><td>Existing</td><td class="num" id="rTickets">&mdash;</td></tr>
+              <tr><td>Paintball packages</td><td>Existing</td><td class="num" id="rPbEntry">&mdash;</td></tr>
+              <tr><td>Paintball top-up paint, pre-ordered</td><td><span class="pill br">New online</span></td><td class="num" id="rPbPaint">&mdash;</td></tr>
+              <tr><td>Memberships &amp; season passes</td><td><span class="pill br">New</span></td><td class="num" id="rMem">&mdash;</td></tr>
+              <tr><td>Pre-ordered add-ons at checkout</td><td><span class="pill br">New</span></td><td class="num" id="rAdd">&mdash;</td></tr>
+              <tr><td>Pro shop click &amp; collect</td><td><span class="pill br">New</span></td><td class="num" id="rShop">&mdash;</td></tr>
+              <tr><td>Parties, corporate &amp; private hire</td><td>Existing, badly captured</td><td class="num" id="rGrp">&mdash;</td></tr>
+              <tr><td>Gift vouchers</td><td><span class="pill br">New</span></td><td class="num" id="rVouch">&pound;3,500</td></tr>
+              <tr><td>Booking fees saved, net of our platform fee</td><td><span class="pill ok">Saved</span></td><td class="num" id="rFees">&mdash;</td></tr>
+            </table></div>
+            <div class="card pad" style="margin-top:14px;background:var(--sunk)">
+              <p class="eyebrow">Modelled annual revenue</p>
+              <p class="bigfig" id="rTotal">&mdash;</p>
+              <p class="eyebrow" style="color:var(--go);margin-top:6px" id="rDelta">&mdash;</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card pad" style="margin-bottom:16px">
+        <p class="eyebrow">Two websites</p>
+        <h3 style="margin:6px 0 10px;font-size:28px">One business, one address, two sites</h3>
+        <p style="color:var(--text-2);max-width:74ch">1066airsoft.com and 1066paintball.com are the same company, the same
+          farm, the same phone number and the same badge &mdash; the logo has both names on it. Right now they are two
+          builds, two sets of hosting, two content jobs, two Eventbrite streams and two customer lists that never meet.
+          Use the front-door switch in the toolbar to see the same system answering both domains.</p>
+        <div class="cols2" style="gap:20px;margin-top:18px">
+          <div>
+            <p class="eyebrow" style="color:var(--claret);margin-bottom:8px">What the split costs</p>
+            <ul class="checklist" style="grid-template-columns:1fr">
+              <li>Search authority is halved &mdash; two weak domains instead of one strong one</li>
+              <li>A paintball parent never learns airsoft exists, and the other way round</li>
+              <li>Two of everything to build, host, update and keep accurate</li>
+              <li>Assistants see two entities at one address and trust neither fully</li>
+              <li>No shared account, waiver, basket or membership across the two</li>
+            </ul>
+          </div>
+          <div>
+            <p class="eyebrow" style="color:var(--go);margin-bottom:8px">Recommended: keep both doors, share the building</p>
+            <ul class="checklist" style="grid-template-columns:1fr">
+              <li>Both domains stay live &mdash; they carry real search value for their own name</li>
+              <li>One booking engine, one account, one waiver, one basket, one admin behind them</li>
+              <li>Each domain leads on its own sport, with a real route to the other</li>
+              <li>Organisation markup naming one business at one address, so search engines and
+                  assistants consolidate rather than guess</li>
+              <li>Write each sport's content once, on the domain that owns it &mdash; no duplicate pages</li>
+            </ul>
+            <p style="font-size:13px;color:var(--text-3);margin-top:12px">The alternative is to fold paintball into the
+              airsoft domain and redirect the other. Simpler and stronger for search, but it throws away whatever
+              1066paintball.com has already earned. Worth checking its traffic before deciding &mdash; that is a question
+              for the owner's analytics, not a guess.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- eventbrite -->
+      <div class="card pad" style="margin-top:16px">
+        <p class="eyebrow">Booking fees</p>
+        <h3 style="margin:6px 0 10px;font-size:28px">What Eventbrite is costing you</h3>
+        <div class="card pad" style="background:var(--go-ghost);border-left:3px solid var(--go);margin-bottom:18px">
+          <p class="eyebrow" style="color:var(--go)">Confirmed, not assumed</p>
+          <p style="margin-top:6px"><b>They sell through Eventbrite today.</b> Live listing: &ldquo;Paintball Skirmish
+            Event&rdquo;, Saturday 3 October, 09:00. So every figure below is describing money that is actually
+            leaving the business right now, not a hypothetical.</p>
+        </div>
+        <p style="color:var(--text-2);max-width:74ch">Eventbrite charges a service fee on every ticket, on top of card
+          processing. Card processing you pay either way &mdash; roughly 1.5% + 20p to Stripe on your own checkout. The
+          service fee is the part that disappears when the booking system is yours.</p>
+        <div class="cols2" style="gap:28px;align-items:start;margin-top:20px">
+          <div>
+            <div class="row" style="gap:12px;align-items:flex-end">
+              <div class="field" style="flex:1 1 130px"><label for="ebPct">Service fee %</label>
+                <input class="mono" id="ebPct" type="number" min="0" max="25" step="0.05" value="6.95"></div>
+              <div class="field" style="flex:1 1 130px"><label for="ebPer">Plus, per ticket &pound;</label>
+                <input class="mono" id="ebPer" type="number" min="0" max="5" step="0.01" value="0.49"></div>
+              <div class="field" style="flex:1 1 130px"><label for="pfPct">Our platform fee %</label>
+                <input class="mono" id="pfPct" type="number" min="0" max="10" step="0.25" value="2"></div>
+            </div>
+            <p style="font-size:12.5px;color:var(--text-3);margin:-4px 0 16px">Pre-filled with Eventbrite's published UK
+              rate for their entry package. Their pricing changes and varies by plan &mdash; put your own statement figures
+              in these boxes before quoting the number to anyone.</p>
+            <div class="row" style="gap:8px">
+              <label class="addon sel" style="flex:1 1 200px" id="ebAbsorbL">
+                <input type="radio" name="ebwho" id="ebAbsorb" checked>
+                <span><b>You absorb the fee</b><br><span style="font-size:13px;color:var(--text-2)">Ticket says &pound;30, you keep less.</span></span></label>
+              <label class="addon" style="flex:1 1 200px" id="ebPassL">
+                <input type="radio" name="ebwho" id="ebPass">
+                <span><b>Customer pays it</b><br><span style="font-size:13px;color:var(--text-2)">Checkout total goes up, not your margin.</span></span></label>
+            </div>
+            <p class="note"><b>&pound;</b><span>Either way you lose. Absorb it and it comes off a thin margin; pass it on and
+              your advertised &pound;30 day rings up at a number you cannot advertise, on the checkout page where people
+              are most likely to walk away.</span></p>
+          </div>
+          <div class="card pad" style="background:var(--sunk)">
+            <p class="eyebrow" style="margin-bottom:6px">All figures per year, across airsoft game days and paintball sessions</p>
+            <div class="kv"><span>Tickets sold a year, both sports</span><b class="mono" id="ebTix">&mdash;</b></div>
+            <div class="kv"><span>Gross ticket revenue a year</span><b class="mono" id="ebGross">&mdash;</b></div>
+            <div class="kv"><span>What Eventbrite takes now</span><b class="mono" style="color:var(--claret)" id="ebFee">&mdash;</b></div>
+            <div class="kv"><span>What the new system takes</span><b class="mono" id="pfFee">&mdash;</b></div>
+            <div class="kv"><span>Card processing (payable either way)</span><b class="mono" id="ebCard">&mdash;</b></div>
+            <p class="eyebrow" style="margin-top:14px">Net saving</p>
+            <p class="bigfig"><span id="ebSave">&mdash;</span><span style="font-size:.38em;font-family:var(--ui);font-weight:700;color:var(--text-3)"> a year</span></p>
+            <div class="row" style="gap:8px;margin-top:10px">
+              <span class="pill"><b class="mono" id="ebMonth">&mdash;</b>&nbsp;a month</span>
+              <span class="pill"><b class="mono" id="ebDay">&mdash;</b>&nbsp;an event day</span>
+            </div>
+            <p style="font-size:14px;color:var(--text-2);margin-top:12px" id="ebLine">&mdash;</p>
+            <hr class="rule" style="margin:14px 0">
+            <p style="font-size:13.5px;color:var(--text-2)">And the things no fee line shows: the customer list stays
+              Eventbrite's, payouts arrive after the event rather than on the day, and you cannot sell a membership,
+              a rental upgrade or a bag of paint through it.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card pad" style="margin-top:16px">
+        <p class="eyebrow">The bigger cost</p>
+        <h3 style="margin:6px 0 10px;font-size:28px">The fee is not the worst of it</h3>
+        <p style="color:var(--text-2);max-width:74ch">Their live listing is titled &ldquo;Paintball Skirmish Event&rdquo;.
+          Not 1066. Not Hastings. Not a price. Here is what that costs beyond the percentage:</p>
+        <div class="cols2" style="gap:20px;margin-top:18px">
+          <div>
+            <div class="kv"><span><b>The listing ranks for Eventbrite, not for you</b><br>
+              <span style="font-size:13.5px;color:var(--text-2)">Somebody searching "paintball near Hastings" who finds that
+              page has found Eventbrite. The traffic, the links and the authority accrue there.</span></span></div>
+            <div class="kv"><span><b>The URL dies when the event does</b><br>
+              <span style="font-size:13.5px;color:var(--text-2)">Every session starts from zero. Nothing compounds. A page on
+              your own site at /paintball gets stronger every year instead.</span></span></div>
+          </div>
+          <div>
+            <div class="kv"><span><b>An assistant cannot answer from it</b><br>
+              <span style="font-size:13.5px;color:var(--text-2)">Ask one where to play paintball near Hastings and the best it
+              can cite is a generic event title with no venue, no age policy and no price in it.</span></span></div>
+            <div class="kv"><span><b>The basket ends at the ticket</b><br>
+              <span style="font-size:13.5px;color:var(--text-2)">No paint pre-order, no membership, no combo weekend, no
+              add-ons. The highest-margin things you sell cannot be sold at the moment people are buying.</span></span></div>
+          </div>
+        </div>
+        <p class="note"><b>Ask</b><span>One screenshot of the Eventbrite checkout for that 3 October session &mdash; showing the
+          ticket price and the fee line the customer sees &mdash; and this whole section stops being a model and becomes his
+          own numbers on his own event.</span></p>
+      </div>
+
+      <!-- AI discovery -->
+      <div class="card pad" style="margin-top:16px">
+        <p class="eyebrow">Search &amp; AI discovery</p>
+        <h3 style="margin:6px 0 10px;font-size:28px">Built to be quoted, not just crawled</h3>
+        <p style="color:var(--text-2);max-width:72ch">People increasingly ask an assistant rather than a search engine:
+          <em>"where can my 13-year-old play airsoft near Hastings?"</em>. Assistants answer from pages that state facts plainly,
+          mark them up as data, and are allowed to be read. Most airsoft sites fail all three &mdash; the information is stuck in a
+          Facebook post or a JPEG of a price list.</p>
+        <div class="grid cols2" style="gap:22px;margin-top:20px">
+          <div>
+            <p class="eyebrow" style="margin-bottom:8px">Answer-ready facts, in the HTML</p>
+            <div class="tblscroll"><table class="tbl">
+              <tr><th>Question asked</th><th>Answer the page states</th><th>Source</th></tr>
+              <tr><td>Where is it?</td><td>Adams Fruit Farm, Ivyhouse Lane, Hastings TN35 4NN</td><td><span class="pill ok">Your site</span></td></tr>
+              <tr><td>How do I reach you?</td><td>07722 22 1066, dom@1066airsoft.com</td><td><span class="pill ok">Your site</span></td></tr>
+              <tr><td>What does it cost?</td><td>From &pound;30 for a full day</td><td><span class="pill ok">Your site</span></td></tr>
+              <tr><td>Can I book a party?</td><td>Groups, corporate, birthdays, stag and hen</td><td><span class="pill ok">Your site</span></td></tr>
+              <tr><td>Minimum age?</td><td class="ph">Not published anywhere</td><td><span class="pill hot">You tell us</span></td></tr>
+              <tr><td>When is the next game day?</td><td class="ph">Not published anywhere</td><td><span class="pill hot">You tell us</span></td></tr>
+              <tr><td>Chrono limits?</td><td class="ph">Not published anywhere</td><td><span class="pill hot">You tell us</span></td></tr>
+              <tr><td>Do I need UKARA to play?</td><td class="ph">Not answered on the site</td><td><span class="pill hot">You tell us</span></td></tr>
+              </table></div>
+          </div>
+          <div>
+            <p class="eyebrow" style="margin-bottom:8px">Structured data on every page</p>
+            <div class="codebox"><pre>{
+  <span class="t">"@context"</span>: "https://schema.org",
+  <span class="t">"@type"</span>: "SportsActivityLocation",
+  <span class="t">"name"</span>: "1066 Airsoft",
+  <span class="t">"description"</span>: "Airsoft set in acres of battle ready
+     countryside on the outskirts of Hastings,
+     East Sussex.",
+  <span class="t">"address"</span>: {
+    "@type": "PostalAddress",
+    "streetAddress": "Adams Fruit Farm, Ivyhouse Lane",
+    "addressLocality": "Hastings",
+    "addressRegion": "East Sussex",
+    "postalCode": "TN35 4NN",
+    "addressCountry": "GB"
+  },
+  <span class="t">"telephone"</span>: "+447722221066",
+  <span class="t">"email"</span>: "dom@1066airsoft.com",
+  <span class="t">"sameAs"</span>: [ "<span class="t">TODO</span> Facebook, Instagram,
+     YouTube, TikTok profile URLs" ],
+  <span class="t">"openingHours"</span>: "<span class="t">TODO</span> confirm game day hours",
+  <span class="t">"event"</span>: {
+    "@type": "SportsEvent",
+    "name": "<span class="t">TODO</span> event name",
+    "startDate": "<span class="t">TODO</span> from your real calendar",
+    "eventStatus": "EventScheduled",
+    "offers": {
+      "@type": "Offer",
+      "price": "30.00",          <span class="t">// verified: "from just GBP 30"</span>
+      "priceCurrency": "GBP",
+      "availability": "InStock"
+    }
+  },
+  <span class="t">"aggregateRating"</span>: "<span class="t">TODO</span> pulled from Google, never typed"
+}</pre></div>
+          </div>
+        </div>
+
+        <div class="grid cols2" style="gap:22px;margin-top:22px">
+          <div>
+            <p class="eyebrow" style="margin-bottom:8px">/llms.txt &mdash; a plain-text brief for AI crawlers</p>
+            <div class="codebox" style="max-height:230px"><pre># 1066 Airsoft
+&gt; Airsoft set in acres of battle ready countryside
+&gt; on the outskirts of Hastings, East Sussex.
+&gt; Also 1066 Paintball, same site.
+
+## Facts
+- Address: Adams Fruit Farm, Ivyhouse Lane,
+  Hastings, East Sussex, TN35 4NN
+- Phone: 07722 22 1066 (24 hour)
+- Email: dom@1066airsoft.com
+- Prices: from GBP 30 for a full day
+- Packages: groups, corporate, birthdays,
+  stag and hen parties
+- UKARA registered site
+
+## To confirm before launch
+- Game day dates and frequency
+- Gate, brief and endex times
+- Minimum age and junior policy
+- Chrono limits (AEG / DMR / bolt-action)
+- Full price list and what is included
+- Battlezone names and descriptions</pre></div>
+          </div>
+          <div>
+            <p class="eyebrow" style="margin-bottom:8px">The rest of the discovery work</p>
+            <ul class="checklist" style="grid-template-columns:1fr">
+              <li>A real URL per game day, so a specific Sunday can rank and be linked</li>
+              <li>FAQPage and Event markup validated in Search Console</li>
+              <li>Name, address and phone identical on site, Google Business Profile, Bing Places and every airsoft directory</li>
+              <li>Review markup wired to your Google reviews rather than typed-in quotes</li>
+              <li>robots.txt explicitly allowing GPTBot, ClaudeBot, PerplexityBot and Google-Extended</li>
+              <li>Text, not images, for prices and times &mdash; a JPEG price list is invisible to an assistant</li>
+              <li>Location pages for Hastings, Bexhill, Eastbourne, Rye and Tunbridge Wells</li>
+              <li>Sub-second first paint on 4G in a field &mdash; no page builder bloat</li>
+              <li>Fresh-content feed: each game day writes a short after-action report automatically</li>
+              <li>Accessible markup throughout, which is the same work as machine-readable markup</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- replaces / build -->
+      <div class="grid cols2" style="gap:16px;margin-top:16px">
+        <div class="card pad">
+          <p class="eyebrow">What comes in-house</p>
+          <h3 style="margin:6px 0 12px;font-size:24px">No third parties in the money path</h3>
+          <div class="kv"><span>Ticketing platform commission</span><b class="mono">Removed</b></div>
+          <div class="kv"><span>Customer email list</span><b class="mono">Yours, not theirs</b></div>
+          <div class="kv"><span>Paper waivers at the gate</span><b class="mono">Signed at checkout</b></div>
+          <div class="kv"><span>Phone-and-text group bookings</span><b class="mono">Self-serve with deposit</b></div>
+          <div class="kv"><span>Cash on the day</span><b class="mono">Paid before arrival</b></div>
+          <div class="kv"><span>Payments</span><b class="mono">Direct to your Stripe</b></div>
+          <p style="font-size:13px;color:var(--text-3);margin-top:12px">Card processing is still ~1.5% + 20p to Stripe &mdash; that is
+            unavoidable. What goes away is the 4&ndash;6% platform fee on top of it, and the fact that the platform owns the customer.</p>
+        </div>
+        <div class="card pad">
+          <p class="eyebrow">How it would be built</p>
+          <h3 style="margin:6px 0 12px;font-size:24px">Three phases</h3>
+          <div class="kv"><span><b>Phase 1</b> &mdash; Both sites, booking, payments, waivers, memberships, pre-orders, vouchers, shop</span><b class="mono">Now</b></div>
+          <div class="kv"><span><b>Phase 2</b> &mdash; Marshal tablets: car park, reception check-in, chrono logging</span><b class="mono">After go-live</b></div>
+          <div class="kv"><span><b>Phase 3</b> &mdash; Match results, player of the match, the screen in the safe zone</span><b class="mono">Later</b></div>
+          <p style="font-size:13.5px;color:var(--text-2);margin-top:12px">Phase 1 is built as a proper data model with customer records
+            and staff roles, so Phase 2 is a new screen over data that already exists rather than a rebuild.</p>
+          <p style="font-size:13px;color:var(--text-3);margin-top:10px">This prototype is front-end only &mdash; the flows work, nothing is
+            stored and no card is charged.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site onblack">
+  <div class="wrap">
+    <div class="footgrid">
+      <div>
+        <span class="brandmark" role="img" aria-label="1066 Paintball and Airsoft" style="margin-bottom:14px"></span>
+        <p style="font-size:15px;color:var(--text-2);max-width:34ch">Adams Fruit Farm<br>Ivyhouse Lane<br>Hastings<br>East Sussex<br>TN35 4NN</p>
+        <p class="mono" style="font-size:15px;margin-top:12px">
+          <a href="tel:0772222106" style="text-decoration:none">07722 22 1066</a>
+          <span style="color:var(--text-3)"> (24hr)</span><br>
+          <a href="mailto:dom@1066airsoft.com" style="text-decoration:none;color:var(--brass)">dom@1066airsoft.com</a></p>
+      </div>
+      <div><h4>Menu</h4><ul>
+        <li><button class="btn quiet sm" data-go="games" style="padding:0;text-transform:none;letter-spacing:0;font-size:15px">Game days</button></li>
+        <li><button class="btn quiet sm" data-go="book" style="padding:0;text-transform:none;letter-spacing:0;font-size:15px">Prices &amp; booking</button></li>
+        <li><button class="btn quiet sm" data-go="members" style="padding:0;text-transform:none;letter-spacing:0;font-size:15px">Membership</button></li>
+        <li><button class="btn quiet sm" data-go="events" style="padding:0;text-transform:none;letter-spacing:0;font-size:15px">Parties &amp; hire</button></li>
+        <li>FAQ</li><li>Contact</li><li>Blog</li></ul></div>
+      <div><h4>The site</h4><ul>
+        <li>Battlezones</li><li>Safety rules &amp; chrono limits</li><li>Rental packages</li>
+        <li>Getting here &amp; parking</li><li>UKARA registration</li><li>1066 Paintball</li></ul></div>
+      <div><h4>Opening</h4><ul>
+        <li>Game day Sundays 08:00&ndash;16:00</li><li>Paintball Saturdays</li><li>Pro shop open on game days</li>
+        <li>Weekday private hire by arrangement</li><li>Phone answered 24 hours</li></ul>
+        <h4 style="margin-top:18px">Follow</h4>
+        <ul style="flex-direction:row;gap:14px;flex-wrap:wrap"><li>Facebook</li><li>Instagram</li><li>YouTube</li><li>TikTok</li></ul>
+        <p class="pill br" style="margin-top:14px">UKARA registered site</p>
+      </div>
+    </div>
+    <div class="legal">
+      <span>Prototype for discussion. Logo, colours, photography, address, contact details and the &pound;30 from-price are the owner's own; everything flagged in the toolbar's placeholder mode is invented sample content awaiting their real figures. No live payments.</span>
+      <span class="mono">&copy; 1066 Airsoft &amp; 1066 Paintball</span>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /#app -->
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SportsActivityLocation","name":"1066 Airsoft",
+"description":"Airsoft set in acres of battle ready countryside on the outskirts of Hastings, East Sussex.",
+"address":{"@type":"PostalAddress","streetAddress":"Adams Fruit Farm, Ivyhouse Lane","addressLocality":"Hastings","addressRegion":"East Sussex","postalCode":"TN35 4NN","addressCountry":"GB"},
+"telephone":"+447722221066","email":"dom@1066airsoft.com",
+"makesOffer":[{"@type":"Offer","name":"Full day","price":"30.00","priceCurrency":"GBP"}]}
+</script>
+
+<script>
+(function(){
+"use strict";
+const $=(s,r)=>(r||document).querySelector(s), $$=(s,r)=>[...(r||document).querySelectorAll(s)];
+const gbp=n=>"£"+Math.round(n).toLocaleString("en-GB");
+const gbpp=n=>{const r=Math.round(n*100)/100;
+  return "£"+(Math.abs(r-Math.round(r))<0.005 ? Math.round(r).toLocaleString("en-GB")
+    : r.toLocaleString("en-GB",{minimumFractionDigits:2,maximumFractionDigits:2}));};
+const root=document.documentElement, reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+
+/* ---------- toolbar ---------- */
+const themeBtn=$("#themeBtn"), notesBtn=$("#notesBtn"), app=$("#app");
+function effDark(){return root.dataset.theme?root.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;}
+function syncTheme(){const d=effDark();themeBtn.textContent=d?"Light":"Dark";themeBtn.setAttribute("aria-pressed",d);paintTopo();drawWheel();}
+themeBtn.addEventListener("click",()=>{root.dataset.theme=effDark()?"light":"dark";syncTheme();});
+notesBtn.addEventListener("click",()=>{const on=document.body.classList.toggle("notes-on");notesBtn.setAttribute("aria-pressed",on);});
+document.body.classList.add("ph-on");
+const phBtn=$("#phBtn");
+phBtn.addEventListener("click",()=>{const on=document.body.classList.toggle("ph-on");phBtn.setAttribute("aria-pressed",on);});
+$("#devDesk").addEventListener("click",()=>{app.classList.remove("mobile");$("#devDesk").setAttribute("aria-pressed",true);$("#devMob").setAttribute("aria-pressed",false);paintTopo();});
+$("#devMob").addEventListener("click",()=>{app.classList.add("mobile");$("#devMob").setAttribute("aria-pressed",true);$("#devDesk").setAttribute("aria-pressed",false);paintTopo();});
+
+/* ---------- routing ---------- */
+let lastSite="home";
+function go(name){
+  $$("section[data-screen]").forEach(s=>s.hidden=(s.dataset.screen!==name));
+  $$("nav.main button").forEach(b=>b.classList.toggle("on",b.dataset.go===name));
+  const prop=name==="prop";
+  $("#viewProp").setAttribute("aria-pressed",prop); $("#viewSite").setAttribute("aria-pressed",!prop);
+  if(!prop) lastSite=name;
+  $("#nav").classList.remove("open"); $("#burger").setAttribute("aria-expanded",false);
+  window.scrollTo({top:0,behavior:reduce?"auto":"smooth"});
+  if(name==="home") paintTopo();
+}
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-go]"); if(!t)return; e.preventDefault(); go(t.dataset.go);
+});
+$("#viewSite").addEventListener("click",()=>go(lastSite==="prop"?"home":lastSite));
+$("#viewProp").addEventListener("click",()=>go("prop"));
+$("#burger").addEventListener("click",()=>{const n=$("#nav");const o=n.classList.toggle("open");$("#burger").setAttribute("aria-expanded",o);});
+
+/* ---------- game days ---------- */
+const TYPES=[
+  {t:"Skirmish",n:"Sunday skirmish",d:"Four games across the battlezones, modes picked on the spinner.",p:30},
+  {t:"Skirmish",n:"Sunday skirmish",d:"Standard game day. Beginners' squad runs from the first game.",p:30},
+  {t:"Night Op",n:"Night op — The Hollow",d:"Torches, tracers and low light. 16:00 to 22:00, hot food at 18:30.",p:36},
+  {t:"Skirmish",n:"Sunday skirmish",d:"Packhouse-heavy rotation. Bring something short.",p:30},
+  {t:"Junior Cadets",n:"Junior cadet day",d:"12 to 17 only, lower fps, extra marshals, parents welcome in the safe zone.",p:26},
+  {t:"Skirmish",n:"Sunday skirmish",d:"Full site open including Senlac Ridge.",p:30},
+  {t:"Milsim",n:"Milsim — Conquest Wood",d:"Six hours, one life per phase, squad radios, limited ammo. Pre-brief by email.",p:48},
+  {t:"Skirmish",n:"Sunday skirmish",d:"Charity game day — £5 from every ticket to Hastings Mountain Rescue.",p:30}
+];
+const SPACES=[9,34,48,17,56,26,11,41,52,23,38,15];
+function nextSundays(n){
+  const out=[],d=new Date();d.setHours(8,30,0,0);
+  let add=(7-d.getDay())%7; if(add===0&&Date.now()>d.getTime())add=7;
+  d.setDate(d.getDate()+add);
+  for(let i=0;i<n;i++){const x=new Date(d);x.setDate(d.getDate()+i*14);out.push(x);}
+  return out;
+}
+function nextSaturdays(n){
+  const out=[],d=new Date();d.setHours(10,0,0,0);
+  let add=(6-d.getDay()+7)%7; if(add===0&&Date.now()>d.getTime())add=7;
+  d.setDate(d.getDate()+add);
+  for(let i=0;i<n;i++){const x=new Date(d);x.setDate(d.getDate()+i*7);out.push(x);}
+  return out;
+}
+const PB=[
+  {n:"Paintball Skirmish",d:"Gates 09:00. Open session \u2014 the event they run today, brought onto their own site.",p:24.99},
+  {n:"Junior paintball",d:"Low-impact session for younger players. Format and age range to confirm.",p:24.99},
+  {n:"Paintball Skirmish",d:"Gates 09:00. Open session plus private group slots on the far field.",p:24.99},
+  {n:"Paintball &amp; airsoft combo weekend",d:"Paintball Saturday, airsoft Sunday, booked as one.",p:24.99}
+];
+const AIRSOFT=nextSundays(10).map((dt,i)=>({
+  dt, ...TYPES[i%TYPES.length], left:SPACES[i%SPACES.length], cap:80,
+  label:dt.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"}),
+  short:dt.toLocaleDateString("en-GB",{day:"numeric",month:"short"}),
+  sport:"as"
+}));
+const PAINTDAYS=nextSaturdays(8).map((dt,i)=>({
+  dt, t:"Paintball", ...PB[i%PB.length], left:[18,31,7,26,12,35,21,9][i%8], cap:40,
+  label:dt.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"}),
+  short:dt.toLocaleDateString("en-GB",{day:"numeric",month:"short"}),
+  sport:"pb"
+}));
+const DATES=[...AIRSOFT,...PAINTDAYS].sort((a,b)=>a.dt-b.dt);
+
+/* home: next game day + countdown */
+let nx=AIRSOFT[0];
+$("#acctNext").textContent=nx.dt.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"})+" — "+nx.n;
+function fillNext(d){
+  nx=d;
+  $("#nextDate").textContent=d.dt.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
+  $("#nextType").textContent=d.t;
+  $("#nextTheme").textContent=d.d;
+  $("#nextSpaces").textContent=d.left+" of "+d.cap+" places left";
+  $("#nextSpacesPill").textContent=d.left<20?"Nearly gone":d.left+" places left";
+  $("#nextSpacesPill").className="pill "+(d.left<20?"hot":"br");
+  $("#nextMeter").innerHTML='<i style="width:'+Math.round(100-d.left/d.cap*100)+'%"></i>';
+  $("#nextMeter").classList.toggle("low",d.left<20);
+  $("#nextPrices").innerHTML = d.sport==="pb"
+    ? '<div class="kv"><span>Basic, 300 paintballs</span><b class="mono">\u00A324.99</b></div>'
+      +'<div class="kv"><span>Premium, 500 paintballs</span><b class="mono">\u00A334.99</b></div>'
+      +'<div class="kv"><span>Season Pass rate</span><b class="mono" style="color:var(--brass)">\u00A320 a day</b></div>'
+    : '<div class="kv"><span>Walk-on (own kit)</span><b class="mono">\u00A330</b></div>'
+      +'<div class="kv"><span>Full rental package</span><b class="mono">\u00A345</b></div>'
+      +'<div class="kv"><span>Season Pass rate</span><b class="mono" style="color:var(--brass)">\u00A324 a day</b></div>';
+  tick();
+}
+function setFront(f){
+  const pb=f==="pb";
+  $("#heroAs").hidden=pb; $("#heroPb").hidden=!pb; $("#vitalsAs").hidden=pb;
+  $("#frontPb").setAttribute("aria-pressed",pb); $("#frontAs").setAttribute("aria-pressed",!pb);
+  $("#nextLabel").textContent=pb?"Next paintball session":"Next game day";
+  $("#wordSport").textContent=pb?"Paintball":"Airsoft";
+  $("#ctaSport").textContent=pb?" paintball":" a game day";
+  document.title=pb?"1066 Paintball":"1066 Airsoft";
+  fillNext(pb?PAINTDAYS[0]:AIRSOFT[0]);
+  state.date=DATES.indexOf(pb?PAINTDAYS[0]:AIRSOFT[0]);
+  $("#bkDate").value=state.date; draw();
+}
+function tick(){
+  let ms=nx.dt.getTime()-Date.now(); if(ms<0)ms=0;
+  const s=Math.floor(ms/1000);
+  const pad=v=>String(v).padStart(2,"0");
+  $("#cD").textContent=pad(Math.floor(s/86400));
+  $("#cH").textContent=pad(Math.floor(s%86400/3600));
+  $("#cM").textContent=pad(Math.floor(s%3600/60));
+  $("#cS").textContent=pad(s%60);
+}
+setInterval(tick,1000);
+$("#frontAs").addEventListener("click",()=>setFront("as"));
+$("#frontPb").addEventListener("click",()=>setFront("pb"));
+
+/* game days list */
+let filter="all";
+function renderGD(){
+  $("#gdList").innerHTML=DATES.filter(d=>filter==="all"||d.t===filter).map((d,i)=>{
+    const low=d.left<20, pct=Math.round(100-d.left/d.cap*100);
+    return '<article class="gd">'+
+      '<div class="date"><b>'+d.dt.getDate()+'</b><span>'+d.dt.toLocaleDateString("en-GB",{month:"short"})+'</span></div>'+
+      '<div class="info"><div class="row" style="gap:8px"><h3>'+d.n+'</h3><span class="pill">'+d.t+'</span></div>'+
+        '<p style="font-size:14px;color:var(--text-2);margin-top:4px">'+d.d+'</p></div>'+
+      '<div class="cap"><div class="meter'+(low?" low":"")+'"><i style="width:'+pct+'%"></i></div>'+
+        '<p class="eyebrow" style="margin-top:6px'+(low?";color:var(--claret)":"")+'">'+d.left+' of '+d.cap+' places left</p></div>'+
+      '<div class="act"><div class="price"><b>'+gbpp(d.p)+'</b><br><s>pass '+gbpp(d.p*0.8)+'</s></div>'+
+        '<button class="btn primary sm" style="margin-top:8px" data-book="'+i+'">Book</button></div>'+
+    '</article>';
+  }).join("");
+}
+renderGD();
+$("#gdFilters").addEventListener("click",e=>{
+  const b=e.target.closest("button[data-f]"); if(!b)return;
+  filter=b.dataset.f; $$("#gdFilters button").forEach(x=>x.setAttribute("aria-pressed",x===b)); renderGD();
+});
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-book]"); if(!b)return;
+  const list=DATES.filter(d=>filter==="all"||d.t===filter);
+  const pick=list[+b.dataset.book]; $("#bkDate").value=DATES.indexOf(pick); state.date=DATES.indexOf(pick); $("#bkDate").value=state.date; draw(); go("book");
+});
+
+/* ---------- booking ---------- */
+const PRICE={walkon:30,rental:45,junior:26,spectator:5,
+  pbBasic:24.99,pbPremium:34.99,pbElite:59.99,pbPaint100:7.99,pbPaint500:34.99,pbSpectator:5};
+const KEYS={as:["walkon","rental","junior","spectator"],
+  pb:["pbBasic","pbPremium","pbElite","pbPaint100","pbPaint500","pbSpectator"]};
+const HEADS={as:30,pb:24.99};
+const PASS_LEFT=6;                    // the date's headline price sets the tier offset
+const DISCOUNTABLE=["walkon","rental","junior","pbBasic","pbPremium","pbElite"];
+const NAME={walkon:"Walk-on",rental:"Full rental package",junior:"Junior (12–17)",spectator:"Spectator",
+  pbBasic:"Basic, 300 balls",pbPremium:"Premium, 500 balls",pbElite:"Elite, 1,000 balls",
+  pbPaint100:"Extra paint, 100",pbPaint500:"Extra paint, 500",pbSpectator:"Spectator"};
+const ADDONS=[
+  {id:"bb",sport:"as",n:"2,000 rounds of 0.25g biodegradable",s:"Bagged with your name on it, ready at the Packhouse.",p:12,on:true},
+  {id:"lunch",sport:"both",n:"Upgrade the lunch",s:"Double burger, chips and a can instead of the standard roll.",p:5,on:true},
+  {id:"pyro",sport:"both",n:"Pyro pack",s:"Three smokes and two thunderflashes. Marshal-supervised.",p:10,on:false},
+  {id:"gas",sport:"as",n:"Green gas, 1 litre",s:"For gas blowback pistols and rifles.",p:9,on:false},
+  {id:"upgrade",sport:"as",n:"Rental upgrade",s:"M4 with a red dot and four mid-caps instead of the standard rental.",p:8,on:false},
+  {id:"locker",sport:"both",n:"Day locker",s:"Somewhere dry to leave a bag and a phone.",p:3,on:false},
+  {id:"photos",sport:"both",n:"Photo pack",s:"Thirty-plus shots of your squad, in a gallery by Tuesday.",p:12,on:false},
+  {id:"flex",sport:"both",n:"Flexi-booking",s:"Change your date free of charge up to 24 hours before.",p:3,on:false}
+];
+const state={date:0,step:1,member:true,q:{walkon:0,rental:2,junior:0,spectator:0,
+    pbBasic:0,pbPremium:2,pbElite:0,pbPaint100:0,pbPaint500:0,pbSpectator:0},
+  add:Object.fromEntries(ADDONS.map(a=>[a.id,a.on]))};
+
+$("#bkDate").innerHTML=DATES.map((d,i)=>'<option value="'+i+'">'+(d.sport==="pb"?"Paintball · ":"Airsoft · ")+d.label+" — "+d.n+" (from "+gbpp(d.p)+")</option>").join("");
+ADDONS.push({id:"paint",sport:"pb",n:"Paint top-up voucher",s:"Redeem at the shed any time during the day \u2014 no queue, no cash.",p:10,on:false});
+state.add.paint=false;
+function renderAddons(){
+  $("#addonList").innerHTML=ADDONS.filter(a=>a.sport==="both"||a.sport===sport()).map(a=>{
+  const on=state.add[a.id];
+  return '<label class="addon'+(on?" sel":"")+'" data-a="'+a.id+'"><input type="checkbox"'+(on?" checked":"")+'>'+
+  '<span><b>'+a.n+'</b><br><span style="font-size:13px;color:var(--text-2)">'+a.s+'</span></span>'+
+  '<span class="p">+'+gbp(a.p)+'</span></label>';}).join("");
+}
+
+function sport(){return DATES[state.date].sport;}
+function players(){return KEYS[sport()].filter(k=>DISCOUNTABLE.includes(k)).reduce((a,k)=>a+state.q[k],0);}
+function totals(){
+  const d=DATES[state.date], base=d.p-HEADS[d.sport]; let sub=0,disc=0,lines=[];
+  for(const k of KEYS[d.sport]){
+    const n=state.q[k]; if(!n)continue;
+    const unit=PRICE[k]+(DISCOUNTABLE.includes(k)?base:0);
+    sub+=unit*n; lines.push({n:n+" × "+NAME[k],v:unit*n});
+  }
+  if(state.member){
+    const days=Math.min(PASS_LEFT,players());
+    disc=days*HEADS[d.sport];
+    if(disc)lines.push({n:days+" \u00D7 Season Pass day redeemed",v:-disc,good:true});
+  }
+  let addv=0;
+  ADDONS.forEach(a=>{if((a.sport==="both"||a.sport===d.sport)&&state.add[a.id]){
+    addv+=a.p*(["bb","upgrade","lunch","paint"].includes(a.id)?Math.max(1,players()):1);}});
+  if(addv)lines.push({n:"Add-ons",v:addv});
+  return {total:Math.max(0,sub-disc+addv),lines,disc};
+}
+function draw(){
+  const d=DATES[state.date], t=totals();
+  $("#tkAirsoft").hidden=d.sport!=="as"; $("#tkPaint").hidden=d.sport!=="pb";
+  renderAddons();
+  $("#sumDate").textContent=d.label;
+  $("#sumLines").innerHTML=t.lines.length?t.lines.map(l=>
+    '<div class="kv"><span>'+l.n+'</span><b class="mono"'+(l.good?' style="color:var(--go)"':"")+'>'+(l.v<0?"−":"")+gbpp(Math.abs(l.v))+'</b></div>').join("")
+    :'<p style="color:var(--text-3);font-size:14px">Nothing selected yet.</p>';
+  $("#sumTotal").textContent=gbpp(t.total);
+  $("#sumSaved").textContent=t.disc?"Season Pass covered "+gbpp(t.disc):"";
+  $("#payAmt").textContent=gbpp(t.total);
+  $$(".stepper").forEach(s=>{const v=state.q[s.dataset.t];if(v!==undefined)$("output",s).textContent=v;});
+}
+document.addEventListener("click",e=>{
+  const l=e.target.closest("#addonList .addon"); if(!l)return;
+  setTimeout(()=>{state.add[l.dataset.a]=$("input",l).checked;l.classList.toggle("sel",$("input",l).checked);draw();},0);
+});
+$$(".stepper").forEach(s=>s.addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b)return;
+  const k=s.dataset.t; state.q[k]=Math.max(0,Math.min(40,state.q[k]+(+b.dataset.d))); draw();
+}));
+$("#bkDate").addEventListener("change",e=>{state.date=+e.target.value;draw();});
+$("#bkMember").addEventListener("change",e=>{state.member=e.target.checked;draw();});
+const LABELS=["Continue to add-ons","Continue to squad & waiver","Continue to payment",""];
+function setStep(n){
+  state.step=n;
+  $$("[data-step]").forEach(p=>p.hidden=(+p.dataset.step!==n));
+  $$("#stepBar div").forEach(d=>{const s=+d.dataset.s;d.classList.toggle("on",s===n);d.classList.toggle("done",s<n);});
+  $("#backBtn").hidden=n===1;
+  $("#nextBtn").hidden=n===4;
+  $("#nextBtn").textContent=LABELS[n-1];
+  $("#nextBtn").disabled=(n===1&&players()===0);
+  window.scrollTo({top:0,behavior:reduce?"auto":"smooth"});
+}
+$("#nextBtn").addEventListener("click",()=>setStep(Math.min(4,state.step+1)));
+$("#backBtn").addEventListener("click",()=>setStep(Math.max(1,state.step-1)));
+$("#addMate").addEventListener("click",()=>{
+  const names=["Chris H.","Sam O.","Bex T.","Nathan P.","Aimee L."];
+  const n=$("#squadList").children.length-1;
+  $("#squadList").insertAdjacentHTML("beforeend",
+    '<div class="squad"><span><b>'+(names[n%names.length])+'</b> &middot; invited</span><span class="pill">Awaiting payment</span></div>');
+});
+$("#copyLink").addEventListener("click",()=>{
+  $("#copyMsg").textContent="Link copied — each player pays their own share";
+  setTimeout(()=>$("#copyMsg").textContent="",3500);
+});
+$("#payBtn").addEventListener("click",()=>{
+  const ref="1066-"+Math.random().toString(36).slice(2,6).toUpperCase();
+  $("#doneRef").textContent=ref;
+  $("#doneLine").textContent=DATES[state.date].label+" · "+players()+" player"+(players()===1?"":"s")+
+    (sport()==="pb"?" · paintball session. Your waiver is signed and on file."
+      :" · gates open 08:00, brief at 09:30. Your waiver is signed and on file.");
+  $("#payPane").hidden=true; $("#donePane").hidden=false; drawQR(ref);
+  window.scrollTo({top:0,behavior:reduce?"auto":"smooth"});
+});
+draw(); setStep(1); setFront("as");
+
+function drawQR(seed){
+  const c=$("#qr"),x=c.getContext("2d"),N=33;
+  let h=0; for(const ch of seed)h=(h*31+ch.charCodeAt(0))>>>0;
+  const rnd=()=>{h^=h<<13;h>>>=0;h^=h>>17;h^=h<<5;h>>>=0;return h/4294967296;};
+  x.fillStyle="#fff";x.fillRect(0,0,N,N);x.fillStyle="#000";
+  for(let i=0;i<N;i++)for(let j=0;j<N;j++){if(rnd()>0.52)x.fillRect(i,j,1,1);}
+  const finder=(ox,oy)=>{x.fillStyle="#fff";x.fillRect(ox-1,oy-1,9,9);x.fillStyle="#000";
+    x.fillRect(ox,oy,7,7);x.fillStyle="#fff";x.fillRect(ox+1,oy+1,5,5);x.fillStyle="#000";x.fillRect(ox+2,oy+2,3,3);};
+  finder(0,0);finder(N-7,0);finder(0,N-7);
+}
+
+/* ---------- topo canvas ---------- */
+const topo=$("#topo");
+function paintTopo(){
+  if(!topo)return;
+  const host=topo.parentElement; if(!host)return;
+  const w=host.clientWidth,h=host.clientHeight; if(!w||!h)return;
+  const dpr=Math.min(2,devicePixelRatio||1);
+  topo.width=w*dpr;topo.height=h*dpr;
+  const x=topo.getContext("2d");x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,w,h);
+  x.strokeStyle=getComputedStyle(root).getPropertyValue("--topo").trim()||"rgba(0,0,0,.1)";
+  x.lineWidth=1;
+  const peaks=[{cx:w*0.82,cy:h*0.30,ph:0.7},{cx:w*0.68,cy:h*0.88,ph:2.3},{cx:w*0.06,cy:h*0.72,ph:4.1}];
+  peaks.forEach(p=>{
+    for(let r=16;r<Math.max(w,h)*0.85;r+=19){
+      x.beginPath();
+      for(let a=0;a<=Math.PI*2+0.02;a+=0.06){
+        const k=1+0.17*Math.sin(3*a+p.ph)+0.09*Math.sin(5*a-p.ph*1.7)+0.05*Math.sin(8*a+r*0.01);
+        const px=p.cx+Math.cos(a)*r*k, py=p.cy+Math.sin(a)*r*k*0.62;
+        a===0?x.moveTo(px,py):x.lineTo(px,py);
+      }
+      x.stroke();
+    }
+  });
+}
+addEventListener("resize",()=>{paintTopo();});
+requestAnimationFrame(paintTopo); setTimeout(paintTopo,350);
+
+/* ---------- spinner ---------- */
+const MODES=[
+  ["Team deathmatch","Respawn at your own base until the clock runs out. Loud, simple, and always the first game of the day."],
+  ["Domination","Three points across the Orchard, one clock. Hold two and the timer runs in your favour."],
+  ["Capture the flag","Their flag, your base, no respawns inside the last five minutes."],
+  ["VIP escort","One player has no gun and has to walk from the Packhouse to Senlac Ridge. Good luck."],
+  ["Last man standing","One life. The boundary shrinks every four minutes until somebody wins."],
+  ["Bomb run","Arm it, hold it for ninety seconds, defuse it. Usually decided in the last ten."],
+  ["King of the Packhouse","Both floors, one staircase, endless respawns. Bring something short."],
+  ["Infection","One infected to start. Every hit joins them. The last two humans get the bacon rolls."]
+];
+const wheel=$("#wheel"); let rot=0, spinning=false;
+function drawWheel(){
+  const x=wheel.getContext("2d"),S=600,c=S/2,R=S/2-14,n=MODES.length,seg=Math.PI*2/n;
+  const cs=getComputedStyle(root);
+  const bg=cs.getPropertyValue("--surface").trim(), alt=cs.getPropertyValue("--surface-2").trim(),
+        line=cs.getPropertyValue("--line-strong").trim(), txt=cs.getPropertyValue("--text").trim(),
+        br=cs.getPropertyValue("--brass").trim(), ink=cs.getPropertyValue("--btn-fg").trim();
+  x.clearRect(0,0,S,S);
+  for(let i=0;i<n;i++){
+    const a0=-Math.PI/2+rot+i*seg;
+    x.beginPath();x.moveTo(c,c);x.arc(c,c,R,a0,a0+seg);x.closePath();
+    x.fillStyle=(i%2)?alt:bg; if(i===0)x.fillStyle=br;
+    x.fill();x.strokeStyle=line;x.lineWidth=2;x.stroke();
+    x.save();x.translate(c,c);x.rotate(a0+seg/2);
+    x.fillStyle=(i===0)?ink:txt;
+    x.font='700 25px "Barlow Semi Condensed", sans-serif';x.textAlign="right";x.textBaseline="middle";
+    x.fillText(MODES[i][0].toUpperCase(),R-22,0);
+    x.restore();
+  }
+  x.beginPath();x.arc(c,c,40,0,Math.PI*2);x.fillStyle=bg;x.fill();x.strokeStyle=br;x.lineWidth=3;x.stroke();
+  x.fillStyle=br;x.font='700 27px "Barlow Semi Condensed", sans-serif';x.textAlign="center";x.textBaseline="middle";
+  x.fillText("1066",c,c+1);
+}
+function landed(){
+  const n=MODES.length,seg=Math.PI*2/n;
+  const t=((-rot)%(Math.PI*2)+Math.PI*2)%(Math.PI*2);
+  return Math.floor(t/seg)%n;
+}
+function showMode(){
+  const m=MODES[landed()];
+  $("#modeLabel").textContent="You're playing";
+  $("#modeName").textContent=m[0];
+  $("#modeDesc").textContent=m[1];
+}
+$("#spinBtn").addEventListener("click",()=>{
+  if(spinning)return; spinning=true; $("#spinBtn").textContent="Spinning…";
+  const target=rot+Math.PI*2*(4+Math.random()*3)+Math.random()*Math.PI*2, from=rot, t0=performance.now(), dur=reduce?200:3600;
+  (function frame(t){
+    const k=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-k,3);
+    rot=from+(target-from)*e; drawWheel();
+    if(k<1)requestAnimationFrame(frame);
+    else{spinning=false;$("#spinBtn").textContent="Spin again";showMode();}
+  })(performance.now());
+});
+drawWheel();
+
+/* ---------- membership calculator ---------- */
+function mCalc(){
+  const g=+$("#mSlider").value;
+  $("#mGames").textContent=g+" game day"+(g===1?"":"s");
+  const payg=g*30;
+  let pass=Infinity;
+  for(let k=0;k<=3;k++) pass=Math.min(pass, k*240 + Math.max(0,g-10*k)*30);
+  const reg=540;
+  $("#mPayg").textContent=gbp(payg);$("#mPass").textContent=gbp(pass);$("#mReg").textContent=gbp(reg);
+  const best=Math.min(payg,pass,reg);
+  const nm=best===payg?"Pay as you go":best===pass?"the Season Pass":"the Regulars' Pass";
+  $("#mBest").textContent=best===payg
+    ? "At "+g+" days a year you are better off just paying per day."
+    : "Best value: "+nm+" — you save "+gbp(payg-best)+" a year.";
+}
+$("#mSlider").addEventListener("input",mCalc); mCalc();
+
+/* ---------- events quote ---------- */
+function eCalc(){
+  const per=+$("#evPack").value, n=+$("#evSize").value;
+  $("#evSizeOut").textContent=n;$("#qSize").textContent=n;
+  const pack=per*n, food=$("#evFood").checked?9*n:0, photo=$("#evPhoto").checked?180:0;
+  const tot=pack+food+photo;
+  $("#qPack").textContent=gbp(pack);$("#qFood").textContent=gbp(food);$("#qPhoto").textContent=gbp(photo);
+  $("#qTotal").textContent=gbp(tot);$("#qDep").textContent=gbp(tot*0.25);
+}
+["evPack","evSize","evFood","evPhoto"].forEach(id=>$("#"+id).addEventListener("input",eCalc));
+$("#qBook").addEventListener("click",()=>{
+  $("#qMsg").textContent="Date held for 48 hours — confirmation and split-payment link sent by email.";
+});
+eCalc();
+const dt=new Date(); dt.setDate(dt.getDate()+30); $("#evDate").value=dt.toISOString().slice(0,10);
+
+/* ---------- shop ---------- */
+const PRODS=[
+  ["0.25g biodegradable BBs, 4,000",22,"Consumable"],["Green gas, 1 litre",9,"Consumable"],
+  ["Full-seal anti-fog goggles",34,"Safety"],["Mesh lower-face mask",18,"Safety"],
+  ["Chest rig with four mid-caps",49,"Kit"],["1066 embroidered patch",6,"Merch"]
+];
+let basket=0;
+$("#prodGrid").innerHTML=PRODS.map((p,i)=>
+  '<article class="prod"><figure class="photo"><figcaption>Product photo</figcaption></figure>'+
+  '<div class="b"><p class="mono" style="font-size:10.5px;letter-spacing:.11em;color:var(--text-3)">'+p[2].toUpperCase()+'</p>'+
+  '<h4>'+p[0]+'</h4><p class="mono" style="font-size:19px;margin-top:auto">'+gbp(p[1])+
+  ' <span style="font-size:12px;color:var(--brass)">member '+gbp(p[1]*0.9)+'</span></p>'+
+  '<button class="btn ghost sm wide" data-add="'+i+'">Add to collection order</button></div></article>').join("");
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-add]"); if(!b)return;
+  basket++; $("#basketPill").textContent="Basket: "+basket+" item"+(basket===1?"":"s");
+  b.textContent="Added — collect on "+DATES[0].short; b.classList.add("primary");
+});
+document.addEventListener("click",e=>{
+  const v=e.target.closest("[data-v]"); if(!v)return;
+  $$("[data-v]").forEach(x=>{x.classList.remove("primary");x.classList.add("ghost");});
+  v.classList.add("primary");v.classList.remove("ghost");
+});
+document.addEventListener("click",e=>{
+  const j=e.target.closest("[data-join]"); if(!j)return;
+  j.textContent=j.dataset.join+" — added, you'd go to payment next";
+});
+
+/* ---------- revenue model ---------- */
+const DAYS=26, TICKET=33, ADDBASKET=11, SHOPHEAD=4.5, GROUPAVG=900, MEMAVG=10, VOUCH=3500;
+const STRIPE_PCT=0.015, STRIPE_FIX=0.20;
+const PB_ENTRY=30, PB_PAINT=12;
+function rCalc(){
+  const pl=+$("#rPlayers").value, mem=+$("#rMembers").value, grp=+$("#rGroups").value, att=+$("#rAttach").value/100;
+  const pbDays=+$("#rPbDays").value, pbPl=+$("#rPbPlayers").value;
+  $("#rPlayersOut").textContent=pl;$("#rMembersOut").textContent=mem;$("#rGroupsOut").textContent=grp;$("#rAttachOut").textContent=Math.round(att*100)+"%";
+  $("#rPbDaysOut").textContent=pbDays;$("#rPbPlayersOut").textContent=pbPl;
+  const pbTix=pbDays*pbPl, pbEntry=pbTix*PB_ENTRY, pbPaint=pbTix*PB_PAINT;
+  $("#rPbEntry").textContent=gbp(pbEntry);$("#rPbPaint").textContent=gbp(pbPaint);
+  const tickets=DAYS*pl*TICKET, memRev=mem*MEMAVG*12, add=DAYS*pl*att*ADDBASKET,
+        shop=DAYS*pl*SHOPHEAD, grpRev=grp*GROUPAVG;
+  const tix=DAYS*pl+pbTix, pct=parseFloat($("#ebPct").value)||0, per=parseFloat($("#ebPer").value)||0;
+  const ebGross=tickets+pbEntry;
+  const fees=ebGross*pct/100+tix*per, card=ebGross*STRIPE_PCT+tix*STRIPE_FIX;
+  const pf=ebGross*(parseFloat($("#pfPct").value)||0)/100, net=fees-pf;
+  $("#pfFee").textContent=gbp(pf);
+  const absorbed=$("#ebAbsorb").checked;
+  $("#ebTix").textContent=tix.toLocaleString("en-GB");
+  $("#ebGross").textContent=gbp(ebGross);
+  $("#ebFee").textContent=gbp(fees);
+  $("#ebCard").textContent=gbp(card);
+  $("#rFees").textContent=gbp(net);
+  $("#ebSave").textContent=gbp(net);
+  $("#ebMonth").textContent=gbp(net/12);
+  $("#ebDay").textContent=gbp(net/Math.max(1,DAYS+pbDays));
+  const p2=n=>"\u00A3"+n.toFixed(2);
+  $("#ebLine").textContent=absorbed
+    ? "After our platform fee. Money that currently leaves the business for good, and now mostly stays in it."
+    : "Your advertised \u00A330 day rings up at "+p2(30*(1+pct/100)+per)+" at their checkout. On your own system it rings up at \u00A330.";
+  $("#ebAbsorbL").classList.toggle("sel",absorbed);
+  $("#ebPassL").classList.toggle("sel",!absorbed);
+  $("#rTickets").textContent=gbp(tickets);$("#rMem").textContent=gbp(memRev);$("#rAdd").textContent=gbp(add);
+  $("#rShop").textContent=gbp(shop);$("#rGrp").textContent=gbp(grpRev);
+  const total=tickets+pbEntry+pbPaint+memRev+add+shop+grpRev+VOUCH+net;
+  $("#rTotal").textContent=gbp(total);
+  $("#rDelta").textContent=gbp(total-tickets-grpRev-pbEntry)+" of that is new or recovered revenue the current site cannot collect.";
+}
+["rPlayers","rMembers","rGroups","rAttach","rPbDays","rPbPlayers","ebPct","ebPer","pfPct","ebAbsorb","ebPass"].forEach(id=>{const el=$("#"+id);if(el)el.addEventListener("input",rCalc);});
+$$('input[name="ebwho"]').forEach(r=>r.addEventListener("change",rCalc));
+rCalc();
+
+/* ---------- brand swap (prototype chrome only) ---------- */
+const brandPanel=$("#brandPanel"), brandBtn=$("#brandBtn");
+brandBtn.addEventListener("click",()=>{const o=brandPanel.hidden;brandPanel.hidden=!o;brandBtn.setAttribute("aria-pressed",o);});
+function hexToHsl(hex){
+  const m=hex.replace("#",""); const r=parseInt(m.slice(0,2),16)/255,g=parseInt(m.slice(2,4),16)/255,b=parseInt(m.slice(4,6),16)/255;
+  const mx=Math.max(r,g,b),mn=Math.min(r,g,b); let h=0,s=0; const l=(mx+mn)/2;
+  if(mx!==mn){const d=mx-mn; s=l>.5?d/(2-mx-mn):d/(mx+mn);
+    h=mx===r?((g-b)/d+(g<b?6:0)):mx===g?((b-r)/d+2):((r-g)/d+4); h*=60;}
+  return [h,s*100,l*100];
+}
+function applyAccent(hex){
+  const [h,s]=hexToHsl(hex), st=root.style;
+  st.setProperty("--brand-light","hsl("+h+" "+s+"% 34%)");
+  st.setProperty("--brand-light-2","hsl("+h+" "+s+"% 40%)");
+  st.setProperty("--brand-light-ghost","hsl("+h+" "+Math.min(s,60)+"% 90%)");
+  st.setProperty("--brand-dark","hsl("+h+" "+Math.min(s,72)+"% 62%)");
+  st.setProperty("--brand-dark-2","hsl("+h+" "+Math.min(s,72)+"% 74%)");
+  st.setProperty("--brand-dark-ghost","hsl("+h+" "+Math.min(s,50)+"% 13%)");
+  drawWheel(); paintTopo();
+}
+$("#accentPick").addEventListener("input",e=>applyAccent(e.target.value));
+$("#logoFile").addEventListener("change",e=>{
+  const f=e.target.files&&e.target.files[0]; if(!f)return;
+  const fr=new FileReader();
+  fr.onload=()=>{root.style.setProperty("--logo","url("+fr.result+")");
+    $$(".brandmark").forEach(n=>n.style.backgroundImage="var(--logo)");};
+  fr.readAsDataURL(f);
+});
+$("#brandReset").addEventListener("click",()=>{
+  ["--brand-light","--brand-light-2","--brand-light-ghost","--brand-dark","--brand-dark-2","--brand-dark-ghost","--logo"]
+    .forEach(p=>root.style.removeProperty(p));
+  $$(".brandmark").forEach(n=>n.style.backgroundImage="");
+  $("#logoFile").value=""; $("#accentPick").value="#DD3333"; drawWheel(); paintTopo();
+});
+
+syncTheme();
+matchMedia("(prefers-color-scheme:dark)").addEventListener("change",syncTheme);
+})();
+</script>
+
+</body></html>

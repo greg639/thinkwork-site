@@ -1,0 +1,1690 @@
+<!doctype html><html><head>
+<meta name="robots" content="noindex, nofollow"><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%226%22%20fill%3D%22%231b1f1a%22/%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%228%22%20fill%3D%22none%22%20stroke%3D%22%23ff6a13%22%20stroke-width%3D%223%22/%3E%3Cpath%20d%3D%22M16%204v7M16%2021v7M4%2016h7M21%2016h7%22%20stroke%3D%22%23ff6a13%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
+</head><body>
+<title>1066 Operations Console</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bevan&family=Barlow+Semi+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --display:"Bevan",Rockwell,Georgia,serif;
+  --ui:"Barlow Semi Condensed",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --bg:#F3F4F3; --surface:#FFFFFF; --surface-2:#ECEEEC; --sunk:#E7E9E7; --rail:#11151C;
+  --line:#DEE1DE; --line-soft:#EBEDEB; --line-strong:#B9BEB9;
+  --text:#11151C; --text-2:#4B5259; --text-3:#767D84;
+  --brand:#C0271F; --brand-2:#DD3333; --brand-ghost:#FBE7E5; --on-brand:#FFFFFF;
+  --go:#26734A; --go-ghost:#DFEFE5;
+  --warn:#9A6206; --warn-ghost:#FBEEDA;
+  --stop:#B02318; --stop-ghost:#FBE4E1;
+  --info:#28557F; --info-ghost:#E2ECF6;
+  --c1:#C0392B; --c2:#1268B8; --c3:#8E6A00; --c4:#6B4C9A;
+  --shadow:0 1px 2px rgba(17,21,28,.06), 0 8px 24px -18px rgba(17,21,28,.5);
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#0C1016; --surface:#141A22; --surface-2:#1B222B; --sunk:#090D12; --rail:#080B10;
+  --line:#252D38; --line-soft:#1C232C; --line-strong:#3B4552;
+  --text:#F1F1EE; --text-2:#A7AEB8; --text-3:#7C848F;
+  --brand:#E8453B; --brand-2:#FF5F55; --brand-ghost:#2B1211; --on-brand:#FFFFFF;
+  --go:#5FB584; --go-ghost:#102419;
+  --warn:#E0A245; --warn-ghost:#2B2110;
+  --stop:#EF5A4E; --stop-ghost:#2C1311;
+  --info:#6FA8DC; --info-ghost:#12202E;
+  --c1:#E8645A; --c2:#4390D6; --c3:#B08A2C; --c4:#9074C0;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 12px 32px -22px #000;
+}}
+:root[data-theme="dark"]{
+  --bg:#0C1016; --surface:#141A22; --surface-2:#1B222B; --sunk:#090D12; --rail:#080B10;
+  --line:#252D38; --line-soft:#1C232C; --line-strong:#3B4552;
+  --text:#F1F1EE; --text-2:#A7AEB8; --text-3:#7C848F;
+  --brand:#E8453B; --brand-2:#FF5F55; --brand-ghost:#2B1211; --on-brand:#FFFFFF;
+  --go:#5FB584; --go-ghost:#102419;
+  --warn:#E0A245; --warn-ghost:#2B2110;
+  --stop:#EF5A4E; --stop-ghost:#2C1311;
+  --info:#6FA8DC; --info-ghost:#12202E;
+  --c1:#E8645A; --c2:#4390D6; --c3:#B08A2C; --c4:#9074C0;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 12px 32px -22px #000;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--ui);font-size:16px;line-height:1.45}
+h1,h2,h3,h4{margin:0;font-family:var(--ui);font-weight:700;line-height:1.1;letter-spacing:.01em}
+h1{font-size:26px;text-transform:uppercase}
+h2{font-size:20px;text-transform:uppercase}
+h3{font-size:16px;text-transform:uppercase;letter-spacing:.03em}
+p{margin:0}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0}
+:where(button,input,select,a,[tabindex]):focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:3px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--text-3)}
+
+/* ---------- prototype chrome ---------- */
+#bar{position:sticky;top:0;z-index:70;background:var(--sunk);border-bottom:1px solid var(--line);
+  padding:8px 14px;padding-top:calc(8px + env(safe-area-inset-top,0px));
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+#bar .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3)}
+#bar .tag b{color:var(--text);font-weight:600}
+#bar .sp{flex:1 1 auto;min-width:0}
+.seg{display:flex;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--surface)}
+.seg button{font-family:var(--mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;
+  padding:6px 10px;color:var(--text-3);border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--brand);color:var(--on-brand)}
+
+/* ---------- shell ---------- */
+#app{container-type:inline-size;container-name:con;display:flex;transition:max-width .25s;
+  min-height:calc(100dvh - 48px)}
+#app.tablet{max-width:1024px;margin-inline:auto;border-inline:1px solid var(--line);overflow:clip;box-shadow:var(--shadow)}
+#rail{width:222px;flex:none;background:var(--rail);color:#E7E9EA;padding:14px 10px;display:flex;flex-direction:column;gap:3px}
+#rail .brandrow{display:flex;align-items:center;gap:9px;padding:4px 8px 14px}
+#rail .brandrow img{width:30px;height:34px;object-fit:contain}
+#rail .brandrow b{font-family:var(--display);font-size:14px;letter-spacing:.02em;line-height:1.15}
+#rail .brandrow b i{font-style:normal;color:var(--brand-2)}
+.navsec{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:#6E7681;padding:14px 9px 6px}
+#rail a{display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:5px;color:#C6CBD1;
+  font-size:15px;font-weight:500;text-decoration:none;cursor:pointer}
+#rail a:hover{background:#1A222C;color:#fff}
+#rail a.on{background:var(--brand);color:#fff}
+#rail a .ph{margin-left:auto;font-family:var(--mono);font-size:9px;letter-spacing:.08em;
+  padding:1px 5px;border-radius:3px;background:#2A323D;color:#9AA3AD}
+#rail a.on .ph{background:rgba(0,0,0,.25);color:#fff}
+#rail a.locked{opacity:.38;pointer-events:none}
+main{flex:1;min-width:0;display:flex;flex-direction:column}
+
+#topstrip{display:flex;align-items:center;gap:14px;padding:11px 20px;background:var(--surface);
+  border-bottom:1px solid var(--line);flex-wrap:wrap}
+#topstrip .who{display:flex;align-items:center;gap:9px}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--brand);color:#fff;display:grid;
+  place-items:center;font-weight:700;font-size:14px;flex:none}
+.pad{padding:20px}
+.screen{display:none}
+.screen.on{display:block}
+
+/* ---------- components ---------- */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px}
+.card .hd{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.card .bd{padding:16px}
+.grid{display:grid;gap:14px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:13px 15px}
+.tile b{display:block;font-size:30px;font-weight:700;line-height:1.05;font-variant-numeric:tabular-nums;margin-top:3px}
+.tile.alert{border-color:var(--stop);background:var(--stop-ghost)}
+.tile.alert b{color:var(--stop)}
+.tile.good b{color:var(--go)}
+.meter{height:6px;background:var(--surface-2);border-radius:99px;overflow:hidden;margin-top:9px}
+.meter i{display:block;height:100%;background:var(--brand);border-radius:99px;transition:width .3s}
+.meter.go i{background:var(--go)}
+.chip{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;
+  letter-spacing:.09em;text-transform:uppercase;padding:3px 7px;border-radius:3px;
+  border:1px solid var(--line-strong);color:var(--text-2);white-space:nowrap}
+.chip.go{color:var(--go);border-color:var(--go);background:var(--go-ghost)}
+.chip.warn{color:var(--warn);border-color:var(--warn);background:var(--warn-ghost)}
+.chip.stop{color:var(--stop);border-color:var(--stop);background:var(--stop-ghost)}
+.chip.info{color:var(--info);border-color:var(--info);background:var(--info-ghost)}
+.chip.brand{color:var(--brand);border-color:var(--brand);background:var(--brand-ghost)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:600;font-size:15px;
+  text-transform:uppercase;letter-spacing:.03em;padding:9px 15px;border-radius:5px;border:1px solid transparent}
+.btn:active{transform:translateY(1px)}
+.btn.p{background:var(--brand);color:var(--on-brand)}
+.btn.p:hover{background:var(--brand-2)}
+.btn.g{border-color:var(--line-strong);color:var(--text)}
+.btn.g:hover{background:var(--surface-2)}
+.btn.big{font-size:19px;padding:16px 24px;border-radius:7px}
+.btn.wide{width:100%}
+.btn[disabled]{opacity:.4;pointer-events:none}
+table.t{width:100%;border-collapse:collapse;font-size:15px}
+table.t th,table.t td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line-soft);vertical-align:middle}
+table.t th{font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--text-3);font-weight:500;background:var(--surface-2)}
+table.t tr:hover td{background:var(--surface-2)}
+table.t td.num,table.t th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.tscroll{overflow-x:auto;border-radius:6px}
+.kv{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.kv:last-child{border-bottom:0}
+.kv span:first-child{color:var(--text-2)}
+input.f,select.f{background:var(--surface);border:1px solid var(--line-strong);border-radius:5px;padding:9px 11px;width:100%}
+input.big{font-size:30px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.09em;
+  text-align:center;padding:14px;font-weight:600}
+.phbanner{display:flex;gap:11px;align-items:flex-start;background:var(--info-ghost);
+  border:1px solid var(--info);border-radius:6px;padding:11px 14px;margin-bottom:16px;font-size:14.5px}
+.phbanner b{color:var(--info);font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;flex:none;padding-top:3px}
+.feed{display:flex;flex-direction:column}
+.feed div{display:flex;gap:11px;padding:8px 0;border-bottom:1px solid var(--line-soft);font-size:14.5px}
+.feed div:last-child{border-bottom:0}
+.feed time{font-family:var(--mono);font-size:12px;color:var(--text-3);flex:none;width:44px}
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:9px}
+.person{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);
+  border-radius:6px;background:var(--surface);text-align:left;width:100%}
+.person:hover{border-color:var(--brand)}
+.person.done{background:var(--go-ghost);border-color:var(--go)}
+.person .nm{font-weight:600;font-size:15px}
+.person .sub{font-size:12.5px;color:var(--text-2)}
+.big-ok{display:grid;place-items:center;gap:12px;padding:34px 20px;text-align:center;
+  background:var(--go-ghost);border:2px solid var(--go);border-radius:8px}
+.big-ok .tick{width:58px;height:58px;border-radius:50%;background:var(--go);display:grid;place-items:center}
+.big-ok .tick svg{width:30px;height:30px}
+.sheet{background:#fff;color:#11151C;border:1px solid #CBD0CB;border-radius:6px;padding:20px}
+.sheet table{width:100%;border-collapse:collapse;font-size:13px}
+.sheet th,.sheet td{border:1px solid #CBD0CB;padding:5px 7px;text-align:left}
+.sheet th{background:#EFF1EF;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.tv{background:#07090C;color:#F1F1EE;border-radius:8px;padding:26px;border:1px solid #222}
+.tv h2{font-family:var(--display);font-size:clamp(22px,3cqi,34px);color:#fff;text-transform:uppercase}
+.tv .lead{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid #1E242C}
+.tv .pos{font-family:var(--mono);font-size:20px;color:#6E7681;width:34px;flex:none}
+.tv .nm{font-size:20px;font-weight:600;flex:1}
+.tv .pts{font-family:var(--mono);font-size:22px;color:var(--brand-2)}
+
+@container con (max-width:860px){
+  /* inline column templates are fine on a desk, never on a tablet held sideways */
+  .grid{grid-template-columns:1fr!important}
+  .tiles{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
+}
+@container con (max-width:900px){
+  #app{flex-direction:column}
+  #rail{width:auto;flex-direction:row;overflow-x:auto;gap:4px;padding:8px}
+  #rail .brandrow,#rail .navsec{display:none}
+  #rail a{white-space:nowrap;font-size:14px}
+  #rail a .ph{display:none}
+  .pad{padding:14px}
+}
+
+/* ---------- run of day ---------- */
+.rod{display:flex;flex-direction:column;gap:0}
+.rod .step{display:flex;gap:12px;align-items:flex-start;padding:9px 0;position:relative}
+.rod .step::before{content:"";position:absolute;left:7px;top:26px;bottom:-9px;width:2px;background:var(--line)}
+.rod .step:last-child::before{display:none}
+.rod .dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--line-strong);
+  background:var(--surface);flex:none;margin-top:4px;z-index:1}
+.rod .step.done .dot{background:var(--go);border-color:var(--go)}
+.rod .step.now .dot{background:var(--brand);border-color:var(--brand);box-shadow:0 0 0 4px var(--brand-ghost)}
+.rod .step.now b{color:var(--brand)}
+.rod time{font-family:var(--mono);font-size:13px;color:var(--text-3);width:44px;flex:none;margin-top:5px}
+.teamtog{display:flex;gap:10px}
+.teamtog button{flex:1;padding:16px;border-radius:7px;border:2px solid var(--line-strong);
+  font-weight:700;font-size:18px;text-transform:uppercase}
+.teamtog button.red{color:#C0392B}
+.teamtog button.blue{color:#1268B8}
+.teamtog button.red:hover,.teamtog button.red[aria-pressed="true"]{background:#C0392B;color:#fff;border-color:#C0392B}
+.teamtog button.blue:hover,.teamtog button.blue[aria-pressed="true"]{background:#1268B8;color:#fff;border-color:#1268B8}
+.preview{background:#07090C;border:1px solid #222;border-radius:8px;padding:18px;color:#F2F2EF;min-height:200px;
+  display:flex;flex-direction:column;justify-content:center;text-align:center;gap:8px}
+.preview .mode{font-family:var(--display);font-size:clamp(20px,3cqi,30px);line-height:1.1;color:#fff}
+.preview .cd{font-family:var(--mono);font-size:34px;font-weight:600;color:var(--brand-2)}
+
+/* ---------- the big screen ---------- */
+#big{position:fixed;inset:0;height:100dvh;width:100vw;z-index:300;background:#07090C;color:#F2F2EF;display:none;
+  flex-direction:column;padding:clamp(20px,4vw,56px);overflow:hidden}
+#big.on{display:flex}
+#big .top{display:flex;align-items:center;gap:16px;flex:none}
+#big .top img{width:44px;height:50px;object-fit:contain}
+#big .top .nm{font-family:var(--display);font-size:20px;line-height:1.1}
+#big .top .nm i{font-style:normal;color:#E8453B}
+#big .clock{margin-left:auto;font-family:var(--mono);font-size:clamp(20px,2.6vw,32px);color:#8A939D}
+#big .stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;gap:clamp(10px,2vh,22px);min-height:0}
+#big .kicker{font-family:var(--mono);font-size:clamp(12px,1.5vw,18px);letter-spacing:.3em;
+  text-transform:uppercase;color:#8A939D}
+#big .huge{font-family:var(--display);font-size:clamp(34px,8.5vw,120px);line-height:.98;color:#fff;
+  text-transform:uppercase;max-width:16ch}
+#big .count{font-family:var(--mono);font-size:clamp(44px,11vw,150px);font-weight:600;
+  line-height:1;color:#E8453B;font-variant-numeric:tabular-nums}
+#big .sub{font-size:clamp(15px,2vw,26px);color:#B9C0C8;max-width:30ch}
+#big .board{width:min(760px,100%);text-align:left}
+#big .board .lead{display:flex;align-items:center;gap:16px;padding:clamp(6px,1.4vh,14px) 0;border-bottom:1px solid #1B212A}
+#big .board .pos{font-family:var(--mono);font-size:clamp(16px,2vw,26px);color:#6E7681;width:42px}
+#big .board .nm2{font-size:clamp(17px,2.2vw,30px);font-weight:600;flex:1}
+#big .board .pts{font-family:var(--mono);font-size:clamp(18px,2.4vw,32px);color:#E8453B}
+#big .winner{display:inline-flex;align-items:center;gap:14px;padding:clamp(10px,2vh,20px) clamp(20px,4vw,44px);
+  border-radius:10px;font-family:var(--display);font-size:clamp(26px,6vw,74px);color:#fff}
+#big .winner.red{background:#C0392B}
+#big .winner.blue{background:#1268B8}
+#big .exit{position:absolute;top:14px;right:14px;z-index:5;background:#161C24;color:#9AA3AD;
+  border:1px solid #2A323D;border-radius:6px;padding:7px 12px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.1em;text-transform:uppercase}
+#bigWheel{width:min(46vh,340px);height:min(46vh,340px);max-width:100%}
+.confetti{position:absolute;inset:0;pointer-events:none}
+
+/* ---------- charts ---------- */
+.chartcard svg{width:100%;height:auto;display:block;overflow:visible}
+.legend{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.legend span{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;color:var(--text-2)}
+.legend i{width:11px;height:11px;border-radius:3px;flex:none}
+#tip{position:fixed;z-index:400;background:var(--text);color:var(--bg);font-size:13px;
+  padding:6px 9px;border-radius:5px;pointer-events:none;opacity:0;transition:opacity .12s;
+  font-family:var(--mono);white-space:nowrap}
+#tip.on{opacity:1}
+.auto{display:flex;gap:14px;align-items:flex-start;padding:14px;border:1px solid var(--line);
+  border-radius:7px;background:var(--surface);margin-bottom:10px}
+.auto .sw{width:42px;height:24px;border-radius:99px;background:var(--line-strong);position:relative;flex:none;margin-top:2px}
+.auto .sw::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;
+  background:#fff;transition:left .18s}
+.auto.on .sw{background:var(--go)}
+.auto.on .sw::after{left:21px}
+.matrix td.y{color:var(--go);font-weight:700;text-align:center}
+/* ---------- modal ---------- */
+#modal{position:fixed;inset:0;z-index:250;background:rgba(9,13,18,.62);display:none;
+  align-items:center;justify-content:center;padding:20px}
+#modal.on{display:flex}
+.sheetbox{background:var(--bg);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);
+  width:min(1040px,100%);max-height:88vh;display:flex;flex-direction:column;overflow:hidden}
+.sheetbox header{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);
+  background:var(--surface)}
+.sheetbox .body{display:grid;grid-template-columns:246px 1fr;min-height:0;flex:1}
+.sheetbox .list{border-right:1px solid var(--line);overflow-y:auto;background:var(--surface-2);padding:10px}
+.sheetbox .list button{display:block;width:100%;text-align:left;padding:10px 12px;border-radius:6px;margin-bottom:5px;
+  border:1px solid transparent}
+.sheetbox .list button:hover{background:var(--surface)}
+.sheetbox .list button.on{background:var(--surface);border-color:var(--brand)}
+.sheetbox .list b{display:block;font-size:15px}
+.sheetbox .list span{font-size:12.5px;color:var(--text-2)}
+.sheetbox .edit{overflow-y:auto;padding:18px;display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start}
+.fld{margin-bottom:12px}
+.fld .lbl{display:block;margin-bottom:5px}
+.verdict{border-radius:8px;padding:14px 16px;border:2px solid}
+.verdict.go{border-color:var(--go);background:var(--go-ghost)}
+.verdict.warn{border-color:var(--warn);background:var(--warn-ghost)}
+.verdict.stop{border-color:var(--stop);background:var(--stop-ghost)}
+.verdict h4{font-size:17px;margin-bottom:4px}
+.verdict.go h4{color:var(--go)} .verdict.warn h4{color:var(--warn)} .verdict.stop h4{color:var(--stop)}
+@container con (max-width:860px){.sheetbox .body{grid-template-columns:1fr}.sheetbox .edit{grid-template-columns:1fr}}
+.matrix td.n{color:var(--text-3);text-align:center}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+</style>
+
+<div id="bar">
+  <span class="tag"><b>1066 Operations</b> &nbsp;/&nbsp; staff-side prototype &nbsp;/&nbsp; sample data</span>
+  <span class="sp"></span>
+  <div class="seg" role="group" aria-label="Signed in as">
+    <button data-role="owner" aria-pressed="true">Dom &middot; owner</button>
+    <button data-role="marshal" aria-pressed="false">Kev &middot; marshal</button>
+    <button data-role="gate" aria-pressed="false">Sam &middot; gate</button>
+  </div>
+  <div class="seg" role="group" aria-label="Device">
+    <button id="devFull" aria-pressed="true">Desktop</button>
+    <button id="devTab" aria-pressed="false">Tablet</button>
+  </div>
+  <div class="seg"><button id="themeBtn" aria-pressed="false">Dark</button></div>
+</div>
+
+<div id="app">
+  <nav id="rail">
+    <div class="brandrow">
+      <img src="assets/logo.png" alt="">
+      <b>1066<br><i>Operations</i></b>
+    </div>
+    <div class="navsec">Running the day</div>
+    <a data-go="today" class="on">Today</a>
+    <a data-go="bookings">Bookings</a>
+    <a data-go="calendar">Calendar</a>
+    <a data-go="customers">Customers</a>
+    <a data-go="members">Members</a>
+    <a data-go="money">Money</a>
+    <a data-go="shop">Stock &amp; pre-orders</a>
+    <a data-go="history">History</a>
+    <div class="navsec">On the field</div>
+    <a data-go="gate">Car park<span class="ph">P2</span></a>
+    <a data-go="reception">Reception<span class="ph">P2</span></a>
+    <a data-go="chrono">Chrono<span class="ph">P2</span></a>
+    <a data-go="gameday">Game control<span class="ph">P3</span></a>
+    <a data-go="daysheet">Day sheet</a>
+    <div class="navsec">Admin</div>
+    <a data-go="team">Team &amp; access</a>
+    <div class="navsec">Later</div>
+    <a data-go="dash">Dashboards<span class="ph">P3</span></a>
+    <a data-go="marketing">Marketing<span class="ph">P3</span></a>
+  </nav>
+
+  <main>
+    <div id="topstrip">
+      <div class="who">
+        <span class="avatar" id="whoAv">D</span>
+        <span><span class="lbl" id="whoRole">Owner</span><br><b id="whoName">Dom</b></span>
+      </div>
+      <span style="width:1px;height:30px;background:var(--line)"></span>
+      <div><span class="lbl">Today on site</span><br><b id="evName">Sunday Skirmish</b></div>
+      <span class="sp" style="flex:1"></span>
+      <span class="chip go" id="liveChip">Live &middot; gates open</span>
+    </div>
+
+    <!-- ===================== TODAY ===================== -->
+    <section class="screen on pad" data-screen="today">
+      <div class="row" style="justify-content:space-between;margin-bottom:16px">
+        <div><h1>Today</h1><p class="lbl" id="evDate">&mdash;</p></div>
+        <div class="row"><button class="btn g" data-go="daysheet">Print day sheet</button>
+          <button class="btn p" data-go="reception">Open reception</button></div>
+      </div>
+
+      <div class="tiles" style="margin-bottom:14px">
+        <div class="tile"><span class="lbl">Booked on</span><b id="tBooked">0</b></div>
+        <div class="tile"><span class="lbl">Arrived</span><b id="tArrived">0</b>
+          <div class="meter"><i id="mArrived" style="width:0"></i></div></div>
+        <div class="tile good"><span class="lbl">Checked in</span><b id="tIn">0</b>
+          <div class="meter go"><i id="mIn" style="width:0"></i></div></div>
+        <div class="tile" id="tileChrono"><span class="lbl">Chrono'd</span><b id="tChrono">0</b></div>
+        <div class="tile" id="tileWaiver"><span class="lbl">Forms outstanding</span><b id="tWaiver">0</b></div>
+        <div class="tile"><span class="lbl">Taken online</span><b id="tMoney">&pound;0</b></div>
+      </div>
+
+      <div class="grid" style="grid-template-columns:1.3fr 1fr">
+        <div class="card">
+          <div class="hd"><h3>Needs attention</h3><span class="sp" style="flex:1"></span>
+            <span class="chip stop" id="attnCount">0</span></div>
+          <div class="bd" id="attnList"></div>
+        </div>
+        <div class="card">
+          <div class="hd"><h3>Activity</h3></div>
+          <div class="bd"><div class="feed" id="feed"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== BOOKINGS ===================== -->
+    <section class="screen pad" data-screen="bookings">
+      <div class="row" style="justify-content:space-between;margin-bottom:14px">
+        <div><h1>Bookings</h1><p class="lbl">Everything sold through the site</p></div>
+        <div class="row"><input class="f" id="bkSearch" placeholder="Search name, reference or email" style="width:260px">
+          <button class="btn p">Add a booking</button></div>
+      </div>
+      <div class="card"><div class="tscroll"><table class="t" id="bkTable">
+        <thead><tr><th>Reference</th><th>Name</th><th>Event</th><th>Tickets</th><th>Form</th><th>Status</th><th class="num">Paid</th></tr></thead>
+        <tbody></tbody></table></div></div>
+      <p class="lbl" style="margin-top:10px">Click a row to open the booking &mdash; refund, move to another date, add a player, resend the pass.</p>
+    </section>
+
+    <!-- ===================== CALENDAR ===================== -->
+    <section class="screen pad" data-screen="calendar">
+      <div class="row" style="justify-content:space-between;margin-bottom:14px">
+        <div><h1>Calendar</h1><p class="lbl">Both sports, one calendar</p></div>
+        <button class="btn p">Add an event</button>
+      </div>
+      <div class="grid" style="grid-template-columns:1.35fr 1fr">
+        <div class="card"><div class="tscroll"><table class="t" id="calTable">
+          <thead><tr><th>Date</th><th>Event</th><th>Sport</th><th>Sold</th><th>Capacity</th><th class="num">Taken</th><th>Status</th></tr></thead>
+          <tbody></tbody></table></div></div>
+
+        <div class="card"><div class="hd"><h3>Add an event</h3><span class="sp" style="flex:1"></span>
+            <span class="chip brand">One-off or repeating</span></div>
+          <div class="bd">
+            <div class="row" style="gap:10px;align-items:flex-end">
+              <div style="flex:1 1 130px"><span class="lbl">Sport</span>
+                <select class="f" id="ceSport" style="margin-top:6px"><option>Airsoft</option><option>Paintball</option></select></div>
+              <div style="flex:1 1 130px"><span class="lbl">Starts</span>
+                <input class="f" id="ceDate" type="date" style="margin-top:6px"></div>
+            </div>
+            <div style="margin-top:10px"><span class="lbl">Name</span>
+              <input class="f" id="ceName" value="Sunday Skirmish" style="margin-top:6px"></div>
+            <div class="row" style="gap:10px;align-items:flex-end;margin-top:10px">
+              <div style="flex:1 1 120px"><span class="lbl">Capacity</span>
+                <input class="f mono" id="ceCap" value="40" style="margin-top:6px"></div>
+              <div style="flex:1 1 120px"><span class="lbl">From price</span>
+                <input class="f mono" id="cePrice" value="30" style="margin-top:6px"></div>
+            </div>
+            <div class="row" style="gap:10px;align-items:flex-end;margin-top:10px">
+              <div style="flex:1 1 150px"><span class="lbl">Repeats</span>
+                <select class="f" id="ceRep" style="margin-top:6px">
+                  <option value="0">Does not repeat</option>
+                  <option value="7">Every week</option>
+                  <option value="14" selected>Every two weeks</option>
+                  <option value="28">Every four weeks</option>
+                </select></div>
+              <div style="flex:1 1 110px"><span class="lbl">How many</span>
+                <input class="f mono" id="ceCount" value="12" style="margin-top:6px"></div>
+            </div>
+            <label class="row" style="gap:8px;margin-top:12px;font-size:14.5px;color:var(--text-2);cursor:pointer">
+              <input type="checkbox" id="ceDraft" checked style="accent-color:var(--brand)">
+              <span>Create as drafts so they can be checked before they go on sale</span></label>
+            <p class="lbl" style="margin:14px 0 6px">Would create</p>
+            <div id="cePrev" style="max-height:170px;overflow:auto"></div>
+            <button class="btn p wide" id="ceGo" style="margin-top:12px">Create the series</button>
+            <p class="lbl" style="margin-top:10px;text-align:center" id="ceMsg">&nbsp;</p>
+            <p style="font-size:13.5px;color:var(--text-2);margin-top:10px">Editing one date in a series only changes that
+              date. Special events &mdash; night ops, milsim, a charity day &mdash; get their own name, price and capacity,
+              and can sit inside the same repeating pattern or stand alone.</p>
+          </div></div>
+      </div>
+
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:14px">
+        <div class="card"><div class="bd"><span class="lbl">Publishing</span>
+          <p style="margin-top:6px;font-size:14.5px;color:var(--text-2)">Each date gets its own page and its own event record, so a specific Sunday can rank in search and be quoted by an assistant.</p></div></div>
+        <div class="card"><div class="bd"><span class="lbl">Capacity</span>
+          <p style="margin-top:6px;font-size:14.5px;color:var(--text-2)">Set a cap per event. Sales stop automatically, and the site shows places remaining rather than a booked-out surprise.</p></div></div>
+        <div class="card"><div class="bd"><span class="lbl">Members first</span>
+          <p style="margin-top:6px;font-size:14.5px;color:var(--text-2)">Members can be given a head start on any date, which is most of why people pay for membership.</p></div></div>
+      </div>
+    </section>
+
+    <!-- ===================== CUSTOMERS ===================== -->
+    <section class="screen pad" data-screen="customers">
+      <div class="row" style="justify-content:space-between;margin-bottom:14px">
+        <div><h1>Customers</h1><p class="lbl">Yours, not a ticket platform's</p></div>
+        <div class="row"><button class="btn g">Export</button><button class="btn p">Email the list</button></div>
+      </div>
+      <div class="tiles" style="margin-bottom:14px">
+        <div class="tile"><span class="lbl">On file</span><b>1,184</b></div>
+        <div class="tile"><span class="lbl">Played this year</span><b>412</b></div>
+        <div class="tile"><span class="lbl">Members</span><b>0</b></div>
+        <div class="tile"><span class="lbl">Marketing opt-in</span><b>731</b></div>
+      </div>
+      <div class="card"><div class="tscroll"><table class="t" id="custTable">
+        <thead><tr><th>Name</th><th>Sport</th><th>Visits</th><th>Last on site</th><th>Form</th><th class="num">Lifetime spend</th></tr></thead>
+        <tbody></tbody></table></div></div>
+    </section>
+
+    <!-- ===================== MEMBERS ===================== -->
+    <section class="screen pad" data-screen="members">
+      <div class="row" style="justify-content:space-between;margin-bottom:14px">
+        <div><h1>Members</h1><p class="lbl">Recurring revenue, and the people it comes from</p></div>
+        <div class="row"><button class="btn g">Export</button><button class="btn p">Add a member by hand</button></div>
+      </div>
+      <div class="tiles" style="margin-bottom:16px">
+        <div class="tile"><span class="lbl">Paying members</span><b id="mCount">0</b></div>
+        <div class="tile good"><span class="lbl">Monthly recurring</span><b id="mMrr">&pound;0</b></div>
+        <div class="tile"><span class="lbl">Average stay</span><b>11 mo</b></div>
+        <div class="tile alert" id="mFailTile"><span class="lbl">Payments failed</span><b id="mFail">0</b></div>
+        <div class="tile"><span class="lbl">Cancelled this month</span><b>1</b></div>
+      </div>
+
+      <div class="grid" style="grid-template-columns:1.4fr 1fr">
+        <div class="card"><div class="hd"><h3>Everyone on a plan</h3><span class="sp" style="flex:1"></span>
+            <select class="f" id="memFilter" style="width:150px"><option value="all">All plans</option>
+              <option>Housecarl</option><option>Knight</option></select></div>
+          <div class="tscroll"><table class="t" id="memTable">
+            <thead><tr><th>Name</th><th>Plan</th><th>Member since</th><th>Next payment</th><th>Status</th><th class="num">Paid to date</th></tr></thead>
+            <tbody></tbody></table></div></div>
+
+        <div>
+          <div class="card" style="margin-bottom:14px"><div class="hd"><h3>Plans</h3>
+            <span class="sp" style="flex:1"></span><button class="btn g" id="editPlans" style="padding:5px 10px;font-size:13px">Edit plans</button></div>
+            <div class="bd">
+              <div class="kv"><span><b>Levy</b> &mdash; free account<br><span class="lbl">Booking, waiver on file, history</span></span><b class="mono">842</b></div>
+              <div class="kv"><span><b>Season Pass</b> &mdash; &pound;240 once<br><span class="lbl">Ten game days, saves &pound;60, no subscription</span></span><b class="mono">9</b></div>
+              <div class="kv"><span><b>Regulars' Pass</b> &mdash; &pound;45/month<br><span class="lbl">Play every game day. Draft, not on sale</span></span><b class="mono">0</b></div>
+              <div class="kv"><span><b>Housecarl</b> &mdash; &pound;10/month<br><span class="lbl" style="color:var(--stop)">Retiring &mdash; saves less than it costs</span></span><b class="mono">47</b></div>
+            </div></div>
+
+          <div class="card" style="margin-bottom:14px"><div class="hd"><h3>Failed payments</h3>
+            <span class="chip stop" style="margin-left:auto">Needs a nudge</span></div>
+            <div class="bd" id="dunList"></div>
+            <p style="font-size:14px;color:var(--text-2);margin-top:10px">The system retries on its own three times over
+              ten days and emails a link to update the card. Only what is still failing after that appears here.</p>
+          </div>
+
+          <div class="card"><div class="hd"><h3>How members pay</h3></div><div class="bd">
+            <div class="kv"><span>Card subscription</span><b class="mono">60 of 60</b></div>
+            <div class="kv"><span>Direct Debit (Bacs)</span><b class="mono">Available</b></div>
+            <div class="kv"><span>Billed on</span><b class="mono">Day they joined</b></div>
+            <div class="kv"><span>Cancel or pause</span><b class="mono">Self-serve</b></div>
+            <p style="font-size:14px;color:var(--text-2);margin-top:10px">Cards are instant and simple at &pound;10 a month.
+              Direct Debit is cheaper per payment but takes days to set up and needs a mandate &mdash; worth switching to
+              if the average membership price goes up.</p>
+          </div></div>
+      </div>
+    </section>
+
+    <!-- ===================== MONEY ===================== -->
+    <section class="screen pad" data-screen="money">
+      <h1 style="margin-bottom:4px">Money</h1><p class="lbl" style="margin-bottom:16px">Paid straight into your own Stripe account</p>
+      <div class="tiles" style="margin-bottom:14px">
+        <div class="tile"><span class="lbl">Taken this month</span><b>&pound;6,140</b></div>
+        <div class="tile good"><span class="lbl">Next payout</span><b>&pound;1,880</b><span class="lbl">Tuesday</span></div>
+        <div class="tile"><span class="lbl">Card fees</span><b>&pound;104</b></div>
+        <div class="tile"><span class="lbl">Platform fee</span><b>&pound;123</b></div>
+      </div>
+      <div class="grid" style="grid-template-columns:1.4fr 1fr">
+        <div class="card"><div class="hd"><h3>Recent payouts</h3></div>
+          <div class="tscroll"><table class="t">
+            <thead><tr><th>Date</th><th>Covering</th><th>Bookings</th><th class="num">Amount</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">Tue 15</td><td>9&ndash;14 Sep</td><td>41</td><td class="num">&pound;1,642</td><td><span class="chip go">Paid</span></td></tr>
+              <tr><td class="mono">Tue 8</td><td>2&ndash;7 Sep</td><td>36</td><td class="num">&pound;1,344</td><td><span class="chip go">Paid</span></td></tr>
+              <tr><td class="mono">Tue 1</td><td>26&ndash;31 Aug</td><td>52</td><td class="num">&pound;2,088</td><td><span class="chip go">Paid</span></td></tr>
+            </tbody></table></div></div>
+        <div class="card"><div class="hd"><h3>What it costs to take money</h3></div>
+          <div class="bd">
+            <div class="kv"><span>Card processing</span><b class="mono">1.5% + 20p</b></div>
+            <div class="kv"><span>Platform fee</span><b class="mono">2% of everything collected</b></div>
+            <div class="kv"><span>Total on a &pound;30 ticket</span><b class="mono">&pound;1.25</b></div>
+            <div class="kv"><span>What Eventbrite took</span><b class="mono" style="color:var(--stop)">&pound;2.58</b></div>
+            <div class="kv"><span>Applies to</span><b class="mono" style="font-size:13px">Tickets, memberships, pre-orders, shop</b></div>
+            <p style="font-size:14px;color:var(--text-2);margin-top:12px">Refunds return the platform fee. Money arrives
+              within days of the booking rather than after the event.</p>
+          </div></div>
+      </div>
+    </section>
+
+    <!-- ===================== STOCK ===================== -->
+    <section class="screen pad" data-screen="shop">
+      <div class="row" style="justify-content:space-between;margin-bottom:14px">
+        <div><h1>Stock &amp; pre-orders</h1><p class="lbl">You cannot sell a consumable online without knowing you have it</p></div>
+        <div class="row"><button class="btn g">Stock take</button><button class="btn p">Receive a delivery</button></div>
+      </div>
+      <div class="tiles" style="margin-bottom:16px">
+        <div class="tile"><span class="lbl">Stock on hand</span><b>&pound;4,210</b></div>
+        <div class="tile alert"><span class="lbl">Below reorder level</span><b id="stLow">0</b></div>
+        <div class="tile"><span class="lbl">Reserved by pre-orders</span><b id="stRes">0</b></div>
+        <div class="tile good"><span class="lbl">Sold this month</span><b>&pound;1,940</b></div>
+      </div>
+
+      <div class="card" style="margin-bottom:14px"><div class="hd"><h3>Products</h3>
+        <span class="sp" style="flex:1"></span>
+        <span class="chip">Free stock = on hand, minus what is already promised</span>
+        <button class="btn p" style="padding:5px 10px;font-size:13px;margin-left:8px">Add a product</button></div>
+        <div class="tscroll"><table class="t" id="stTable">
+          <thead><tr><th>Item</th><th>Sold as</th><th class="num">Price</th><th class="num">Member</th>
+            <th class="num">On hand</th><th class="num">Reserved</th><th class="num">Free</th><th>Status</th></tr></thead>
+          <tbody></tbody></table></div></div>
+
+      <div class="grid" style="grid-template-columns:1.1fr 1fr">
+        <div class="card"><div class="hd"><h3>To pick before Sunday</h3><span class="sp" style="flex:1"></span>
+          <button class="btn g" style="padding:5px 10px;font-size:13px">Print picking list</button></div>
+          <div class="tscroll"><table class="t" id="pickTable">
+            <thead><tr><th>Item</th><th>For</th><th class="num">Qty</th><th>Picked</th></tr></thead>
+            <tbody></tbody></table></div>
+          <div class="bd" style="border-top:1px solid var(--line)">
+            <p style="font-size:14px;color:var(--text-2)">Pre-ordered items are picked, bagged with the player's name and
+              handed over at the shed. The stock came off the shelf the moment they paid, so it cannot be sold twice.</p>
+          </div></div>
+
+        <div class="card"><div class="hd"><h3>Stock movements</h3></div>
+          <div class="tscroll"><table class="t">
+            <thead><tr><th>When</th><th>Item</th><th>What happened</th><th class="num">Change</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">Today 09:14</td><td>0.25g BBs, 2,000</td><td>Issued at the shed</td><td class="num" style="color:var(--stop)">&minus;3</td></tr>
+              <tr><td class="mono">Today 08:52</td><td>Green gas, 1L</td><td>Issued at the shed</td><td class="num" style="color:var(--stop)">&minus;1</td></tr>
+              <tr><td class="mono">Fri 16:30</td><td>Paint, 2,000</td><td>Delivery received</td><td class="num" style="color:var(--go)">+20</td></tr>
+              <tr><td class="mono">Thu 21:06</td><td>0.25g BBs, 2,000</td><td>Pre-ordered online</td><td class="num">Reserved 2</td></tr>
+              <tr><td class="mono">Wed 12:40</td><td>Pyro pack</td><td>Stock take correction</td><td class="num" style="color:var(--stop)">&minus;2</td></tr>
+            </tbody></table></div>
+          <div class="bd" style="border-top:1px solid var(--line)">
+            <p style="font-size:14px;color:var(--text-2)">Every movement is logged, so the number on the screen and the
+              number on the shelf stay the same, and a discrepancy has a history to look at.</p>
+          </div></div>
+      </div>
+    </section>
+
+    <!-- ===================== CAR PARK ===================== -->
+    <section class="screen pad" data-screen="gate">
+      <div class="phbanner"><b>Phase 2</b><span>The car park tablet. Not in the current build &mdash; this is what it would look like.
+        Works offline: the day's list is held on the tablet and syncs when the signal comes back.</span></div>
+      <h1 style="margin-bottom:4px">Car park</h1>
+      <p class="lbl" style="margin-bottom:16px">Mark people as arrived and take the registration</p>
+      <div class="grid" style="grid-template-columns:340px 1fr">
+        <div class="card"><div class="bd">
+          <span class="lbl">Registration</span>
+          <input class="f big" id="regIn" placeholder="AB12 CDE" style="margin:8px 0 12px">
+          <span class="lbl">Who is it?</span>
+          <select class="f" id="regWho" style="margin:8px 0 14px"></select>
+          <button class="btn p wide big" id="regGo">Mark arrived</button>
+          <p class="lbl" style="margin-top:12px;text-align:center" id="regMsg">&nbsp;</p>
+        </div></div>
+        <div class="card"><div class="hd"><h3>On site</h3><span class="sp" style="flex:1"></span>
+          <span class="chip" id="gateCount">0 vehicles</span></div>
+          <div class="tscroll" style="max-height:420px;overflow-y:auto"><table class="t" id="gateTable">
+            <thead><tr><th>Reg</th><th>Name</th><th>Booking</th><th>Time</th></tr></thead><tbody></tbody></table></div></div>
+      </div>
+    </section>
+
+    <!-- ===================== RECEPTION ===================== -->
+    <section class="screen pad" data-screen="reception">
+      <div class="phbanner"><b>Phase 2</b><span>The reception tablet. People scan their own pass and sign on their phone;
+        a marshal can also check somebody in by hand. No clipboard, no queue.</span></div>
+      <h1 style="margin-bottom:4px">Reception</h1>
+      <p class="lbl" style="margin-bottom:16px">Check in &middot; safety form &middot; kit issue</p>
+      <div id="scanPane">
+        <div class="row" style="margin-bottom:14px">
+          <button class="btn p big" id="scanBtn">Scan a pass</button>
+          <input class="f" id="recSearch" placeholder="or search by name" style="width:240px">
+          <span class="sp" style="flex:1"></span>
+          <span class="chip" id="recCount">0 of 0 checked in</span>
+        </div>
+        <div class="people" id="recList"></div>
+      </div>
+      <div id="okPane" hidden>
+        <div class="big-ok">
+          <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 10 18 20 6"/></svg></div>
+          <h2 id="okName">&mdash;</h2>
+          <p id="okSub" style="color:var(--text-2)">&mdash;</p>
+          <div class="row" style="justify-content:center"><span class="chip go">Form signed</span>
+            <span class="chip info" id="okKit">Rental kit issued</span></div>
+          <button class="btn g" id="okNext" style="margin-top:8px">Next person</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CHRONO ===================== -->
+    <section class="screen pad" data-screen="chrono">
+      <div class="phbanner"><b>Phase 2</b><span>The chrono bench. Log the lowest and highest reading for each gun,
+        and the average is what spot checks are measured against later in the day.</span></div>
+      <h1 style="margin-bottom:4px">Chrono</h1>
+      <p class="lbl" style="margin-bottom:16px">Every gun, logged and timestamped</p>
+      <div class="grid" style="grid-template-columns:340px 1fr">
+        <div class="card"><div class="bd">
+          <span class="lbl">Player</span>
+          <select class="f" id="chWho" style="margin:8px 0 14px"></select>
+          <div class="row" style="gap:10px;align-items:flex-end">
+            <div style="flex:1"><span class="lbl">Lowest</span>
+              <input class="f big" id="chLow" inputmode="numeric" placeholder="318" style="margin-top:6px"></div>
+            <div style="flex:1"><span class="lbl">Highest</span>
+              <input class="f big" id="chHigh" inputmode="numeric" placeholder="331" style="margin-top:6px"></div>
+          </div>
+          <p class="lbl" style="margin:12px 0;text-align:center">Average <b class="mono" id="chAvg" style="font-size:22px;color:var(--text)">&mdash;</b> fps</p>
+          <button class="btn p wide big" id="chSave">Log reading</button>
+          <p class="lbl" style="margin-top:12px;text-align:center" id="chMsg">&nbsp;</p>
+        </div></div>
+        <div>
+          <div class="card" style="margin-bottom:14px"><div class="hd"><h3>Spot check</h3>
+            <span class="sp" style="flex:1"></span><span class="chip warn">Mid-game</span></div>
+            <div class="bd">
+              <p style="font-size:14.5px;color:var(--text-2);margin-bottom:12px">Pull a player off the field, take one reading,
+                and it is compared to what was logged this morning.</p>
+              <div class="row">
+                <select class="f" id="spWho" style="flex:1 1 180px"></select>
+                <input class="f mono" id="spVal" placeholder="fps" style="width:110px">
+                <button class="btn g" id="spGo">Check</button>
+              </div>
+              <div id="spOut" style="margin-top:12px"></div>
+            </div></div>
+          <div class="card"><div class="hd"><h3>Logged today</h3></div>
+            <div class="tscroll" style="max-height:290px;overflow-y:auto"><table class="t" id="chTable">
+              <thead><tr><th>Player</th><th class="num">Low</th><th class="num">High</th><th class="num">Avg</th><th>Time</th><th>Limit</th></tr></thead>
+              <tbody></tbody></table></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== DAY SHEET ===================== -->
+    <section class="screen pad" data-screen="daysheet">
+      <div class="row" style="justify-content:space-between;margin-bottom:14px">
+        <div><h1>Day sheet</h1><p class="lbl">The paper failsafe &mdash; works when nothing else does</p></div>
+        <button class="btn p" onclick="window.print()">Print</button>
+      </div>
+      <div class="phbanner"><b>Why</b><span>Printed on Saturday night, this runs the whole day on its own. If the internet, the
+        tablets or the power go down, a marshal with this sheet and a pen can still check everyone in and run the games.</span></div>
+      <div class="sheet" id="sheet"></div>
+    </section>
+
+
+
+    <!-- ===================== GAME CONTROL ===================== -->
+    <section class="screen pad" data-screen="gameday">
+      <div class="phbanner"><b>Phase 3</b><span>Run the day from a tablet and put it on the screen in base.
+        Everything here writes to the same records as the rest of the system, so it is history the moment it is logged.</span></div>
+      <div class="row" style="justify-content:space-between;margin-bottom:14px">
+        <div><h1>Game control</h1><p class="lbl">Four games, lunch in the middle, endex at four</p></div>
+        <div class="row">
+          <button class="btn g" id="spinBtn">Spin for the next mode</button>
+          <button class="btn p" id="bigBtn">Open the big screen</button>
+        </div>
+      </div>
+
+      <div class="grid" style="grid-template-columns:270px 1fr 340px">
+        <div class="card"><div class="hd"><h3>Run of day</h3></div>
+          <div class="bd"><div class="rod" id="rod"></div>
+            <p class="lbl" style="margin-top:10px">Tap a step to jump the demo clock</p></div></div>
+
+        <div class="card"><div class="hd"><h3 id="gcTitle">Game 1</h3><span class="sp" style="flex:1"></span>
+            <span class="chip brand" id="gcMode">Not spun yet</span></div>
+          <div class="bd">
+            <span class="lbl">Who won it?</span>
+            <div class="teamtog" style="margin:8px 0 16px">
+              <button class="red" data-win="Red" aria-pressed="false">Red</button>
+              <button class="blue" data-win="Blue" aria-pressed="false">Blue</button>
+            </div>
+            <span class="lbl">Player of the match</span>
+            <select class="f" id="gcPotm" style="margin:8px 0 14px"></select>
+            <button class="btn p wide big" id="gcSave">Log the game</button>
+            <p class="lbl" style="margin-top:10px;text-align:center" id="gcMsg">&nbsp;</p>
+            <div class="tscroll" style="margin-top:12px"><table class="t" id="gcTable">
+              <thead><tr><th>Game</th><th>Mode</th><th>Won</th><th>Player of the match</th></tr></thead>
+              <tbody></tbody></table></div>
+          </div></div>
+
+        <div>
+          <p class="lbl" style="margin-bottom:8px">On the screen in base, right now</p>
+          <div class="preview" id="prev"></div>
+          <div class="card" style="margin-top:12px"><div class="bd">
+            <div class="kv"><span>Games logged</span><b class="mono" id="sGames">0 of 4</b></div>
+            <div class="kv"><span>Red</span><b class="mono" id="sRed">0</b></div>
+            <div class="kv"><span>Blue</span><b class="mono" id="sBlue">0</b></div>
+            <button class="btn g wide" id="podBtn" style="margin-top:12px">Crown the player of the day</button>
+          </div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== HISTORY ===================== -->
+    <section class="screen pad" data-screen="history">
+      <div class="row" style="justify-content:space-between;margin-bottom:14px">
+        <div><h1>History</h1><p class="lbl">Every day that has ever run, kept</p></div>
+        <div class="row"><select class="f" id="hFilter" style="width:160px">
+          <option value="all">Both sports</option><option>Airsoft</option><option>Paintball</option></select>
+          <button class="btn g">Export</button></div>
+      </div>
+      <div class="grid" style="grid-template-columns:1.25fr 1fr">
+        <div class="card"><div class="tscroll"><table class="t" id="hTable">
+          <thead><tr><th>Date</th><th>Event</th><th>Booked</th><th>Turned up</th><th>Chrono</th><th class="num">Took</th></tr></thead>
+          <tbody></tbody></table></div></div>
+        <div class="card" id="hDetail"><div class="bd"><p style="color:var(--text-3)">Pick a day to see how it went.</p></div></div>
+      </div>
+      <p class="lbl" style="margin-top:10px">Attendance, chrono readings, spot checks, results and takings are all kept per day &mdash;
+        useful for insurance questions, for arguments about who won in August, and for knowing which dates are worth running again.</p>
+    </section>
+
+    <!-- ===================== TEAM & ACCESS ===================== -->
+    <section class="screen pad" data-screen="team">
+      <div class="row" style="justify-content:space-between;margin-bottom:14px">
+        <div><h1>Team &amp; access</h1><p class="lbl">Who can see what, and who can change it</p></div>
+        <button class="btn p">Invite someone</button>
+      </div>
+      <div class="card" style="margin-bottom:16px"><div class="tscroll"><table class="t">
+        <thead><tr><th>Name</th><th>Role</th><th>Can reach</th><th>Last seen</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Greg (Thinkwork)</td><td><span class="chip brand">Platform admin</span></td><td>Everything, including permissions</td><td class="mono">Today</td><td><span class="chip go">Active</span></td></tr>
+          <tr><td>Dom</td><td><span class="chip brand">Owner</span></td><td>Everything, including permissions</td><td class="mono">Today</td><td><span class="chip go">Active</span></td></tr>
+          <tr><td>Kev</td><td><span class="chip info">Marshal</span></td><td>The field screens and the day sheet</td><td class="mono">Today</td><td><span class="chip go">Active</span></td></tr>
+          <tr><td>Sam</td><td><span class="chip info">Gate</span></td><td>Car park and the day sheet</td><td class="mono">Today</td><td><span class="chip go">Active</span></td></tr>
+          <tr><td>Jules</td><td><span class="chip">Manager</span></td><td>Bookings, calendar, customers, shop</td><td class="mono">14 Sep</td><td><span class="chip go">Active</span></td></tr>
+          <tr><td>Ash</td><td><span class="chip info">Marshal</span></td><td>The field screens and the day sheet</td><td class="mono">7 Sep</td><td><span class="chip warn">Invite pending</span></td></tr>
+        </tbody></table></div></div>
+      <div class="card"><div class="hd"><h3>What each role can do</h3><span class="sp" style="flex:1"></span>
+          <span class="chip">Only the owner and platform admin can change this</span></div>
+        <div class="tscroll"><table class="t matrix" id="permTable">
+          <thead><tr><th>Can&hellip;</th><th>Platform admin</th><th>Owner</th><th>Manager</th><th>Marshal</th><th>Gate</th></tr></thead>
+          <tbody></tbody></table></div></div>
+    </section>
+
+    <!-- ===================== DASHBOARDS ===================== -->
+    <section class="screen pad" data-screen="dash">
+      <div class="phbanner"><b>Later</b><span>Once a year of real data has gone through the system, these are the questions
+        it can answer. Sample figures here.</span></div>
+      <h1 style="margin-bottom:4px">Dashboards</h1><p class="lbl" style="margin-bottom:16px">Revenue and bookings</p>
+      <div class="tiles" style="margin-bottom:16px">
+        <div class="tile"><span class="lbl">Revenue, 12 months</span><b>&pound;118,400</b></div>
+        <div class="tile"><span class="lbl">Average per player</span><b>&pound;41.20</b></div>
+        <div class="tile good"><span class="lbl">Came back within a year</span><b>38%</b></div>
+        <div class="tile"><span class="lbl">Did not turn up</span><b>4.1%</b></div>
+      </div>
+      <div class="card chartcard" style="margin-bottom:14px"><div class="hd"><h3>Revenue by month</h3></div>
+        <div class="bd"><div id="chRev"></div>
+          <div class="legend"><span><i style="background:var(--c1)"></i>Airsoft</span><span><i style="background:var(--c2)"></i>Paintball</span></div></div></div>
+      <div class="grid" style="grid-template-columns:1fr 1fr">
+        <div class="card chartcard"><div class="hd"><h3>How far ahead people book</h3></div>
+          <div class="bd"><div id="chLead"></div>
+            <p class="lbl" style="margin-top:10px">Nearly half book inside the last week &mdash; which is exactly what the
+              automations below are for.</p></div></div>
+        <div class="card chartcard"><div class="hd"><h3>Where the money comes from</h3></div>
+          <div class="bd"><div id="chMix"></div></div></div>
+      </div>
+    </section>
+
+    <!-- ===================== MARKETING ===================== -->
+    <section class="screen pad" data-screen="marketing">
+      <div class="phbanner"><b>Later</b><span>The system knows who has played, what they spent and which dates are short.
+        Automations put those two facts together without anybody remembering to.</span></div>
+      <div class="row" style="justify-content:space-between;margin-bottom:14px">
+        <div><h1>Marketing</h1><p class="lbl">Rules that run themselves</p></div>
+        <button class="btn p">New automation</button>
+      </div>
+      <div class="grid" style="grid-template-columns:1.3fr 1fr">
+        <div>
+          <div id="autoList"></div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:14px"><div class="hd"><h3>Edit: fill the gaps</h3></div>
+            <div class="bd">
+              <span class="lbl">When</span>
+              <select class="f" style="margin:8px 0 12px"><option>An event is under 60% booked</option>
+                <option>An event is under 40% booked</option><option>An event has sold out</option></select>
+              <span class="lbl">How long before</span>
+              <select class="f" style="margin:8px 0 12px"><option>5 days</option><option>3 days</option><option>48 hours</option></select>
+              <span class="lbl">Send to</span>
+              <select class="f" style="margin:8px 0 12px"><option>Played in the last 6 months, opted in</option>
+                <option>Everyone opted in</option><option>Members only</option></select>
+              <span class="lbl">Message</span>
+              <select class="f" style="margin:8px 0 14px"><option>&ldquo;Spaces left this Sunday&rdquo;</option>
+                <option>&ldquo;Bring a mate, both get &pound;5 off&rdquo;</option></select>
+              <button class="btn p wide">Save the rule</button>
+            </div></div>
+          <div class="card"><div class="hd"><h3>Last 30 days</h3></div><div class="bd">
+            <div class="kv"><span>Messages sent</span><b class="mono">1,204</b></div>
+            <div class="kv"><span>Opened</span><b class="mono">41%</b></div>
+            <div class="kv"><span>Bookings from them</span><b class="mono" style="color:var(--go)">37</b></div>
+            <div class="kv"><span>Revenue attributed</span><b class="mono" style="color:var(--go)">&pound;1,290</b></div>
+            <div class="kv"><span>Unsubscribed</span><b class="mono">6</b></div>
+          </div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="big" aria-hidden="true">
+  <button class="exit" id="bigExit">Close (Esc)</button>
+  <div class="top">
+    <img src="assets/logo.png" alt="">
+    <span class="nm">1066<br><i>Airsoft</i></span>
+    <span class="clock mono" id="bigClock">10:00</span>
+  </div>
+  <div class="stage" id="bigStage"></div>
+</div>
+<div id="tip"></div>
+
+<div id="modal" aria-hidden="true">
+  <div class="sheetbox" role="dialog" aria-label="Edit plans">
+    <header>
+      <h2 style="flex:1">Plans</h2>
+      <span class="chip" id="freqChip">Airsoft runs fortnightly &mdash; 2 sessions a month</span>
+      <button class="btn g" style="padding:6px 12px" id="modalClose">Close</button>
+    </header>
+    <div class="body">
+      <div class="list" id="planList"></div>
+      <div class="edit">
+        <div>
+          <div class="fld"><span class="lbl">Name</span><input class="f" id="pName"></div>
+          <div class="row" style="gap:10px;align-items:flex-start">
+            <div class="fld" style="flex:1 1 170px"><span class="lbl">Type</span>
+              <select class="f" id="pKind">
+                <option value="free">Free account</option>
+                <option value="sub">Subscription</option>
+                <option value="block">Prepaid block of days</option>
+              </select></div>
+            <div class="fld" style="flex:1 1 120px"><span class="lbl">Price &pound;</span>
+              <input class="f mono" id="pPrice" type="number" min="0" step="1"></div>
+            <div class="fld" style="flex:1 1 130px" id="pPerWrap"><span class="lbl">Billed</span>
+              <select class="f" id="pPer"><option>month</option><option>year</option></select></div>
+          </div>
+          <div id="subFields">
+            <p class="lbl" style="margin:6px 0 8px">What a member gets, every session</p>
+            <div class="row" style="gap:10px;align-items:flex-start">
+              <div class="fld" style="flex:1 1 130px"><span class="lbl">&pound; off the ticket</span>
+                <input class="f mono" id="pDisc" type="number" min="0" step="1"></div>
+              <div class="fld" style="flex:1 1 150px"><span class="lbl">Consumables included &pound;</span>
+                <input class="f mono" id="pBbs" type="number" min="0" step="1"></div>
+            </div>
+            <div class="row" style="gap:10px;align-items:flex-start">
+              <div class="fld" style="flex:1 1 150px"><span class="lbl">Guest passes a month</span>
+                <input class="f mono" id="pGuest" type="number" min="0" step="1"></div>
+              <div class="fld" style="flex:1 1 150px"><span class="lbl">Early booking (hours)</span>
+                <input class="f mono" id="pEarly" type="number" min="0" step="12"></div>
+            </div>
+            <label class="row" style="gap:9px;font-size:14.5px;cursor:pointer;margin-bottom:12px;flex-wrap:nowrap;align-items:flex-start">
+              <input type="checkbox" id="pUnlim" style="accent-color:var(--brand);margin-top:3px;flex:none">
+              <span><b>Play as often as they like</b> &mdash; no ticket charge at all</span></label>
+          </div>
+          <div id="blockFields" hidden>
+            <div class="fld" style="max-width:200px"><span class="lbl">Days in the block</span>
+              <input class="f mono" id="pDays" type="number" min="1" step="1"></div>
+          </div>
+          <div class="fld" style="max-width:220px"><span class="lbl">Status</span>
+            <select class="f" id="pStatus"><option>Live</option><option>Draft</option><option>Retiring</option></select></div>
+          <div class="row" style="margin-top:6px">
+            <button class="btn p" id="pSave">Save the plan</button>
+            <button class="btn g" id="pNew">New plan</button>
+            <span class="lbl" id="pMsg" style="color:var(--go)"></span>
+          </div>
+        </div>
+
+        <div>
+          <div class="verdict" id="verdict" style="margin-bottom:14px"></div>
+          <div class="card"><div class="hd"><h3>Is it worth buying?</h3></div>
+            <div class="bd"><div class="tscroll"><table class="t" id="worthTable">
+              <thead><tr><th>Sessions a month</th><th class="num">They pay</th><th class="num">They get</th><th class="num">Better off by</th></tr></thead>
+              <tbody></tbody></table></div>
+              <p class="lbl" style="margin-top:10px">Against a &pound;30 walk-on ticket</p></div></div>
+          <div class="card" style="margin-top:14px"><div class="hd"><h3>What it is worth to you</h3></div>
+            <div class="bd" id="bizPanel"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+const $=(s,r)=>(r||document).querySelector(s), $$=(s,r)=>[...(r||document).querySelectorAll(s)];
+const root=document.documentElement, reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+const gbp=n=>"£"+Math.round(n).toLocaleString("en-GB");
+
+/* ---------- today's roster ---------- */
+const FIRST=["Marcus","Leon","Priya","Dan","Aimee","Nathan","Sofia","Callum","Bex","Tom","Grace","Joe",
+  "Ines","Rhys","Maya","Owen","Hollie","Sam","Kiera","Alfie","Nia","Jonah","Elise","Ryan"];
+const LAST=["Bridges","Okafor","Shah","Whyte","Turner","Doyle","Mendes","Reid","Palmer","Byrne","Hall","Quinn",
+  "Santos","Morgan","Ellis","Pike","Grant","Patel","Novak","Dean","Rees","Ward","Blake","Foley"];
+const TYPES=[["Walk-on",30],["Full rental",45],["Full rental",45],["Walk-on",30],["Junior",26],["Full rental",45]];
+const REGS=["KP19 TZR","LN71 XFD","GY18 MKA","BV22 HRC","WD68 LPS","EA15 NTV","RJ20 CWB","MM17 SDG",
+  "TC69 VNH","HF14 QBL","YX21 JRM","PD16 ZTA"];
+let seed=20261004;
+const rnd=()=>{seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff;};
+
+const ROSTER=FIRST.map((f,i)=>{
+  const [type,price]=TYPES[i%TYPES.length];
+  return {id:i, name:f+" "+LAST[i], init:f[0]+LAST[i][0], type, price,
+    ref:"1066-"+(1000+i*37).toString(36).toUpperCase().slice(0,4),
+    waiver: i%7!==3, arrived:false, in:false, reg:null, chrono:null, flagged:false, pts:0};
+});
+// a plausible half-run morning
+[0,1,2,3,4,5,6,7,8,9].forEach(i=>{ROSTER[i].arrived=true;ROSTER[i].reg=REGS[i%REGS.length];});
+[0,1,2,3,4,5,6].forEach(i=>{ROSTER[i].in=true;});
+[0,1,2,3,4].forEach(i=>{const b=310+Math.floor(rnd()*22);ROSTER[i].chrono={low:b,high:b+8+Math.floor(rnd()*9),t:"09:1"+i};});
+
+const EVENT={name:"Sunday Skirmish", date:"Sunday 4 October", sport:"Airsoft", cap:40, limit:350};
+const feed=[];
+function log(t,msg){feed.unshift({t,msg}); if(feed.length>9)feed.pop(); paintFeed();}
+["09:42","09:38","09:31","09:24","09:12","08:58"].forEach((t,i)=>feed.push({t,msg:[
+  "Chrono logged — Aimee Turner, 318/329 fps","Checked in — Nathan Doyle",
+  "Arrived — Sofia Mendes, RJ20 CWB","Checked in — Dan Whyte",
+  "Paint pre-order picked — Leon Okafor","Gates opened"][i]}));
+
+/* ---------- chrome ---------- */
+function effDark(){return root.dataset.theme?root.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;}
+const themeBtn=$("#themeBtn");
+function syncTheme(){const d=effDark();themeBtn.textContent=d?"Light":"Dark";themeBtn.setAttribute("aria-pressed",d);}
+themeBtn.addEventListener("click",()=>{root.dataset.theme=effDark()?"light":"dark";syncTheme();});
+$("#devFull").addEventListener("click",()=>{$("#app").classList.remove("tablet");$("#devFull").setAttribute("aria-pressed",true);$("#devTab").setAttribute("aria-pressed",false);});
+$("#devTab").addEventListener("click",()=>{$("#app").classList.add("tablet");$("#devTab").setAttribute("aria-pressed",true);$("#devFull").setAttribute("aria-pressed",false);});
+
+/* ---------- roles: who can see what ---------- */
+const ROLES={
+  owner:{name:"Dom",role:"Owner",av:"D",can:null},
+  marshal:{name:"Kev",role:"Marshal",av:"K",can:["today","gate","reception","chrono","daysheet","results"]},
+  gate:{name:"Sam",role:"Gate marshal",av:"S",can:["gate","daysheet"]}
+};
+let role="owner";
+function setRole(r){
+  role=r; const R=ROLES[r];
+  $("#whoName").textContent=R.name; $("#whoRole").textContent=R.role; $("#whoAv").textContent=R.av;
+  $$("#bar [data-role]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.role===r));
+  $$("#rail a").forEach(a=>{
+    const ok=!R.can||R.can.includes(a.dataset.go);
+    a.classList.toggle("locked",!ok);
+  });
+  const cur=$(".screen.on"); if(R.can&&!R.can.includes(cur.dataset.screen)) go(R.can[0]);
+}
+$$("#bar [data-role]").forEach(b=>b.addEventListener("click",()=>setRole(b.dataset.role)));
+
+/* ---------- routing ---------- */
+function go(name){
+  $$(".screen").forEach(s=>s.classList.toggle("on",s.dataset.screen===name));
+  $$("#rail a").forEach(a=>a.classList.toggle("on",a.dataset.go===name));
+  window.scrollTo({top:0,behavior:reduce?"auto":"smooth"});
+  if(name==="daysheet")paintSheet();
+}
+document.addEventListener("click",e=>{const t=e.target.closest("[data-go]");if(!t)return;e.preventDefault();go(t.dataset.go);});
+
+/* ---------- painters ---------- */
+const n=()=>ROSTER.length;
+const cnt=k=>ROSTER.filter(p=>p[k]).length;
+function paintToday(){
+  const arrived=cnt("arrived"), inn=cnt("in"), ch=ROSTER.filter(p=>p.chrono).length,
+        noWaiver=ROSTER.filter(p=>!p.waiver).length;
+  $("#evName").textContent=EVENT.name; $("#evDate").textContent=EVENT.date+" · "+EVENT.sport+" · gates 08:30, brief 09:30";
+  $("#tBooked").textContent=n(); $("#tArrived").textContent=arrived; $("#tIn").textContent=inn;
+  $("#tChrono").textContent=ch; $("#tWaiver").textContent=noWaiver;
+  $("#tMoney").textContent=gbp(ROSTER.reduce((a,p)=>a+p.price,0));
+  $("#mArrived").style.width=(arrived/n()*100)+"%"; $("#mIn").style.width=(inn/n()*100)+"%";
+  $("#tileWaiver").className="tile"+(noWaiver?" alert":" good");
+  $("#tileChrono").className="tile"+(ch<inn?" alert":" good");
+  const attn=[];
+  ROSTER.filter(p=>!p.waiver).forEach(p=>attn.push([p.name,"Safety form not signed","stop"]));
+  ROSTER.filter(p=>p.in&&!p.chrono).forEach(p=>attn.push([p.name,"Checked in, not chrono'd","warn"]));
+  ROSTER.filter(p=>p.flagged).forEach(p=>attn.push([p.name,"Spot check over the limit","stop"]));
+  $("#attnCount").textContent=attn.length;
+  $("#attnList").innerHTML=attn.length?attn.slice(0,8).map(a=>
+    '<div class="kv"><span><b>'+a[0]+'</b></span><span class="chip '+a[2]+'">'+a[1]+'</span></div>').join("")
+    :'<p style="color:var(--go)"><b>Nothing outstanding.</b> Everyone signed, checked in and chrono’d.</p>';
+}
+function paintFeed(){
+  $("#feed").innerHTML=feed.map(f=>'<div><time>'+f.t+'</time><span>'+f.msg+'</span></div>').join("");
+}
+function paintBookings(q){
+  const rows=ROSTER.filter(p=>!q||(p.name+p.ref).toLowerCase().includes(q.toLowerCase()));
+  $("#bkTable tbody").innerHTML=rows.map(p=>
+    '<tr><td class="mono">'+p.ref+'</td><td>'+p.name+'</td><td>'+EVENT.name+'</td><td>'+p.type+'</td>'+
+    '<td>'+(p.waiver?'<span class="chip go">Signed</span>':'<span class="chip stop">Not signed</span>')+'</td>'+
+    '<td>'+(p.in?'<span class="chip go">Checked in</span>':p.arrived?'<span class="chip info">On site</span>':'<span class="chip">Booked</span>')+'</td>'+
+    '<td class="num">'+gbp(p.price)+'</td></tr>').join("");
+}
+$("#bkSearch").addEventListener("input",e=>paintBookings(e.target.value));
+
+function paintCal(){
+  const ev=[["Sun 4 Oct","Sunday Skirmish","Airsoft",24,40,"Live"],
+    ["Sat 10 Oct","Paintball Skirmish","Paintball",18,40,"On sale"],
+    ["Sun 18 Oct","Sunday Skirmish","Airsoft",11,40,"On sale"],
+    ["Sat 24 Oct","Paintball Skirmish","Paintball",6,40,"On sale"],
+    ["Sun 1 Nov","Night Op — The Hollow","Airsoft",31,36,"On sale"],
+    ["Sun 15 Nov","Sunday Skirmish","Airsoft",0,40,"Draft"]];
+  $("#calTable tbody").innerHTML=ev.map(e=>{
+    const pct=Math.round(e[3]/e[4]*100);
+    return '<tr><td class="mono">'+e[0]+'</td><td>'+e[1]+'</td><td>'+e[2]+'</td>'+
+    '<td style="min-width:130px">'+e[3]+'<div class="meter"><i style="width:'+pct+'%"></i></div></td>'+
+    '<td class="mono">'+e[4]+'</td><td class="num">'+gbp(e[3]*34)+'</td>'+
+    '<td><span class="chip '+(e[5]==="Live"?"go":e[5]==="Draft"?"":"info")+'">'+e[5]+'</span></td></tr>';}).join("");
+}
+function paintCust(){
+  $("#custTable tbody").innerHTML=ROSTER.slice(0,10).map((p,i)=>
+    '<tr><td>'+p.name+'</td><td>'+(i%3===0?"Both":i%2?"Airsoft":"Paintball")+'</td>'+
+    '<td class="mono">'+(2+(i*3)%14)+'</td><td class="mono">'+["17 Aug","03 Aug","20 Jul","06 Jul","22 Jun"][i%5]+'</td>'+
+    '<td>'+(p.waiver?'<span class="chip go">Valid</span>':'<span class="chip warn">Expired</span>')+'</td>'+
+    '<td class="num">'+gbp(60+((i*97)%520))+'</td></tr>').join("");
+}
+function paintGate(){
+  const on=ROSTER.filter(p=>p.arrived);
+  $("#gateCount").textContent=on.length+" vehicle"+(on.length===1?"":"s");
+  $("#gateTable tbody").innerHTML=on.map((p,i)=>
+    '<tr><td class="mono">'+(p.reg||"—")+'</td><td>'+p.name+'</td><td class="mono">'+p.ref+'</td>'+
+    '<td class="mono">0'+(8+Math.floor(i/6))+":"+String(30+(i*4)%56).padStart(2,"0")+'</td></tr>').join("");
+  fill("#regWho",ROSTER.filter(p=>!p.arrived));
+}
+function fill(sel,list){
+  $(sel).innerHTML=list.length?list.map(p=>'<option value="'+p.id+'">'+p.name+" · "+p.type+'</option>').join("")
+    :'<option value="">Everybody is accounted for</option>';
+}
+function paintRec(){
+  $("#recCount").textContent=cnt("in")+" of "+n()+" checked in";
+  const q=($("#recSearch").value||"").toLowerCase();
+  const list=ROSTER.filter(p=>!q||p.name.toLowerCase().includes(q));
+  $("#recList").innerHTML=list.map(p=>
+    '<button class="person'+(p.in?" done":"")+'" data-check="'+p.id+'">'+
+    '<span class="avatar" style="background:'+(p.in?"var(--go)":"var(--surface-2)")+';color:'+(p.in?"#fff":"var(--text-2)")+'">'+p.init+'</span>'+
+    '<span><span class="nm">'+p.name+'</span><br><span class="sub">'+p.type+
+    (p.waiver?"":' · <b style="color:var(--stop)">form unsigned</b>')+'</span></span></button>').join("");
+}
+$("#recSearch").addEventListener("input",paintRec);
+function paintChrono(){
+  const done=ROSTER.filter(p=>p.chrono);
+  $("#chTable tbody").innerHTML=done.map(p=>
+    '<tr><td>'+p.name+'</td><td class="num">'+p.chrono.low+'</td><td class="num">'+p.chrono.high+'</td>'+
+    '<td class="num"><b>'+Math.round((p.chrono.low+p.chrono.high)/2)+'</b></td><td class="mono">'+p.chrono.t+'</td>'+
+    '<td>'+(p.chrono.high>EVENT.limit?'<span class="chip stop">Over</span>':'<span class="chip go">Within</span>')+'</td></tr>').join("")
+    ||'<tr><td colspan="6" style="color:var(--text-3)">Nothing logged yet.</td></tr>';
+  fill("#chWho",ROSTER.filter(p=>!p.chrono));
+  fill("#spWho",done);
+}
+function paintSheet(){
+  $("#sheet").innerHTML='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">'+
+    '<div><div style="font-family:var(--display);font-size:20px">1066 AIRSOFT</div>'+
+    '<div style="font-size:13px">'+EVENT.name+' · '+EVENT.date+'</div></div>'+
+    '<div style="font-size:12px;text-align:right">Gates 08:30 · Brief 09:30 · Endex 16:00<br>Chrono limit '+EVENT.limit+' fps<br>Printed Saturday 19:40</div></div>'+
+    '<table><thead><tr><th style="width:26px">#</th><th>Name</th><th>Ticket</th><th>Ref</th><th style="width:60px">Form</th>'+
+    '<th style="width:58px">Reg</th><th style="width:44px">In</th><th style="width:70px">Chrono</th><th>Notes</th></tr></thead><tbody>'+
+    ROSTER.map((p,i)=>'<tr><td>'+(i+1)+'</td><td>'+p.name+'</td><td>'+p.type+'</td><td>'+p.ref+'</td>'+
+    '<td>'+(p.waiver?"Y":"<b>N</b>")+'</td><td>'+(p.reg||"")+'</td><td>'+(p.in?"✓":"")+'</td>'+
+    '<td>'+(p.chrono?p.chrono.low+"/"+p.chrono.high:"")+'</td><td></td></tr>').join("")+
+    '</tbody></table><p style="font-size:11px;margin-top:10px">Any player without a signed form does not go on the field. '+
+    'Spot checks: write the reading next to the name and the time.</p>';
+}
+ROSTER.forEach((p,i)=>p.pts=[9,7,7,6,5,4,4,3,3,2][i]||0);
+
+/* ---------- actions ---------- */
+$("#regGo").addEventListener("click",()=>{
+  const id=$("#regWho").value; if(id==="")return;
+  const p=ROSTER[+id], reg=($("#regIn").value||"").toUpperCase().trim();
+  p.arrived=true; p.reg=reg||REGS[p.id%REGS.length];
+  $("#regIn").value=""; $("#regMsg").textContent=p.name+" marked arrived";
+  setTimeout(()=>$("#regMsg").textContent=" ",3000);
+  log(now(),"Arrived — "+p.name+", "+p.reg); repaint();
+});
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-check]"); if(!b)return;
+  checkIn(ROSTER[+b.dataset.check]);
+});
+$("#scanBtn").addEventListener("click",()=>{
+  const p=ROSTER.find(x=>!x.in); if(!p){$("#recCount").textContent="Everyone is in";return;}
+  checkIn(p);
+});
+function checkIn(p){
+  p.in=true; p.arrived=true; p.reg=p.reg||REGS[p.id%REGS.length]; p.waiver=true;
+  $("#okName").textContent=p.name;
+  $("#okSub").textContent=p.type+" · "+p.ref+" · checked in at "+now();
+  $("#okKit").textContent=p.type==="Walk-on"?"Own kit — to chrono":"Rental kit issued";
+  $("#scanPane").hidden=true; $("#okPane").hidden=false;
+  log(now(),"Checked in — "+p.name); repaint();
+}
+$("#okNext").addEventListener("click",()=>{$("#okPane").hidden=true;$("#scanPane").hidden=false;});
+
+function avg(){const l=+$("#chLow").value,h=+$("#chHigh").value;
+  $("#chAvg").textContent=(l&&h)?Math.round((l+h)/2):"—";}
+$("#chLow").addEventListener("input",avg); $("#chHigh").addEventListener("input",avg);
+$("#chSave").addEventListener("click",()=>{
+  const id=$("#chWho").value; if(id==="")return;
+  const l=+$("#chLow").value||314, h=+$("#chHigh").value||(l+11), p=ROSTER[+id];
+  p.chrono={low:l,high:h,t:now()};
+  $("#chLow").value="";$("#chHigh").value="";avg();
+  $("#chMsg").textContent=p.name+" logged at "+Math.round((l+h)/2)+" fps average";
+  setTimeout(()=>$("#chMsg").textContent=" ",3000);
+  log(now(),"Chrono logged — "+p.name+", "+l+"/"+h+" fps"); repaint();
+});
+$("#spGo").addEventListener("click",()=>{
+  const id=$("#spWho").value; if(id==="")return;
+  const p=ROSTER[+id], v=+$("#spVal").value;
+  if(!v){$("#spOut").innerHTML='<p class="lbl">Enter a reading.</p>';return;}
+  const a=Math.round((p.chrono.low+p.chrono.high)/2), diff=v-a;
+  const bad=v>EVENT.limit||diff>12;
+  p.flagged=bad;
+  $("#spOut").innerHTML='<div class="kv"><span>This morning’s average</span><b class="mono">'+a+' fps</b></div>'+
+    '<div class="kv"><span>Now</span><b class="mono">'+v+' fps</b></div>'+
+    '<div class="kv"><span>Difference</span><b class="mono" style="color:'+(bad?"var(--stop)":"var(--go)")+'">'+
+    (diff>0?"+":"")+diff+' fps</b></div>'+
+    '<p style="margin-top:10px" class="chip '+(bad?"stop":"go")+'">'+
+    (bad?"Over the limit or turned up — marshal to pull the gun":"Consistent with this morning")+'</p>';
+  log(now(),"Spot check — "+p.name+", "+v+" fps"+(bad?" (FLAGGED)":""));
+  $("#spVal").value=""; repaint();
+});
+function now(){const d=new Date();return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");}
+
+function repaint(){paintToday();paintBookings($("#bkSearch").value);paintGate();paintRec();paintChrono();}
+
+/* ================= THE DAY ================= */
+const SCHEDULE=[
+  {t:"08:00",label:"Gates open"},{t:"09:30",label:"Safety brief"},
+  {t:"10:00",label:"Game 1",g:1},{t:"11:00",label:"Game 2",g:2},
+  {t:"12:00",label:"Lunch"},{t:"12:45",label:"Game 3",g:3},
+  {t:"14:15",label:"Game 4",g:4},{t:"16:00",label:"Endex"}
+];
+const MODES=[
+  ["Team deathmatch","Respawn at your base until the clock runs out"],
+  ["Domination","Three points, one clock. Hold two and it runs your way"],
+  ["Capture the flag","Their flag, your base, no respawns in the last five"],
+  ["VIP escort","One player, no gun, a long walk. Good luck"],
+  ["Last man standing","One life. The boundary shrinks every four minutes"],
+  ["Bomb run","Arm it, hold it ninety seconds, defuse it"],
+  ["King of the Packhouse","Both floors, one staircase, endless respawns"],
+  ["Infection","One infected to start. Every hit joins them"]
+];
+const mins=t=>(+t.slice(0,2))*60+(+t.slice(3));
+let phase=2, simSec=mins(SCHEDULE[2].t)*60, bigState="sched", spinMode=null, rot=0, podName=null;
+const games=[];
+const hhmm=sec=>String(Math.floor(sec/3600)%24).padStart(2,"0")+":"+String(Math.floor(sec/60)%60).padStart(2,"0");
+const mmss=sec=>{sec=Math.max(0,sec);return String(Math.floor(sec/60)).padStart(2,"0")+":"+String(Math.floor(sec%60)).padStart(2,"0");};
+function nextStep(){return SCHEDULE[phase+1]||null;}
+function toNext(){const n=nextStep();return n?mins(n.t)*60-simSec:0;}
+function curGame(){return SCHEDULE[phase].g||null;}
+
+function paintRod(){
+  $("#rod").innerHTML=SCHEDULE.map((x,i)=>
+    '<div class="step '+(i<phase?"done":i===phase?"now":"")+'" data-ph="'+i+'">'+
+    '<time>'+x.t+'</time><span class="dot"></span><span><b>'+x.label+'</b></span></div>').join("");
+}
+$("#rod").addEventListener("click",e=>{
+  const st=e.target.closest("[data-ph]"); if(!st)return;
+  phase=+st.dataset.ph; simSec=mins(SCHEDULE[phase].t)*60;
+  bigState="sched"; podName=null; paintRod(); paintGC(); renderBig();
+});
+
+function screenCopy(){
+  const g=curGame(), st=SCHEDULE[phase], n=nextStep();
+  if(bigState==="spin") return {k:"Next game mode",m:spinMode?spinMode[0]:"Spinning…",s:spinMode?spinMode[1]:"",wheel:true};
+  if(bigState==="result"){const last=games[games.length-1];
+    return {k:"Game "+last.g+" — "+last.mode,m:last.won+" take it",s:"Player of the match: "+last.potm,win:last.won};}
+  if(bigState==="pod") return {k:"Player of the day",m:podName||"—",s:"See you in a fortnight",board:true};
+  if(st.label==="Lunch") return {k:"Lunch",m:"Back out at 12:45",s:"Hot food in the safe zone",cd:true};
+  if(st.label==="Endex") return {k:"Endex",m:"That's the day",s:"Chrono bench closed · shop open till five",board:true};
+  if(g) return {k:"Game "+g+" of 4",m:spinMode?spinMode[0]:"Mode to be spun",s:n?"Next up at "+n.t:"",cd:true};
+  return {k:st.label,m:n?n.label+" at "+n.t:"",s:"",cd:true};
+}
+function renderBig(){
+  const c=screenCopy();
+  $("#bigClock").textContent=hhmm(simSec);
+  $("#prev").innerHTML='<span class="lbl" style="color:#8A939D">'+c.k+'</span>'+
+    '<span class="mode">'+c.m+'</span>'+(c.cd?'<span class="cd">'+mmss(toNext())+'</span>':'');
+  if(!$("#big").classList.contains("on"))return;
+  let html='<span class="kicker">'+c.k+'</span>';
+  if(c.win) html+='<span class="winner '+c.win.toLowerCase()+'">'+c.m+'</span>';
+  else html+='<span class="huge">'+c.m+'</span>';
+  if(c.wheel) html+='<canvas id="bigWheel" width="700" height="700" role="img" aria-label="Game mode spinner"></canvas>';
+  if(c.cd) html+='<span class="count">'+mmss(toNext())+'</span>';
+  if(c.s) html+='<span class="sub">'+c.s+'</span>';
+  if(c.board){
+    const top=[...ROSTER].sort((a,b)=>b.pts-a.pts).slice(0,5);
+    html+='<div class="board">'+top.map((p,i)=>'<div class="lead"><span class="pos">'+(i+1)+
+      '</span><span class="nm2">'+p.name+'</span><span class="pts">'+p.pts+'</span></div>').join("")+'</div>';
+  }
+  $("#bigStage").innerHTML=html;
+  if(c.wheel) drawWheel();
+}
+setInterval(()=>{simSec++; if(toNext()<=0&&nextStep()){phase++;paintRod();paintGC();} renderBig();},1000);
+
+/* the wheel, on the big screen */
+function drawWheel(){
+  const cv=$("#bigWheel"); if(!cv)return;
+  const x=cv.getContext("2d"),S=700,c=S/2,R=S/2-16,N=MODES.length,seg=Math.PI*2/N;
+  x.clearRect(0,0,S,S);
+  for(let i=0;i<N;i++){
+    const a0=-Math.PI/2+rot+i*seg;
+    x.beginPath();x.moveTo(c,c);x.arc(c,c,R,a0,a0+seg);x.closePath();
+    x.fillStyle=(i%2)?"#141A22":"#0E131A"; if(spinMode&&MODES[i][0]===spinMode[0])x.fillStyle="#C0392B";
+    x.fill();x.strokeStyle="#2A323D";x.lineWidth=2;x.stroke();
+    x.save();x.translate(c,c);x.rotate(a0+seg/2);
+    x.fillStyle="#E9ECEF";x.font='700 26px "Barlow Semi Condensed", sans-serif';
+    x.textAlign="right";x.textBaseline="middle";x.fillText(MODES[i][0].toUpperCase(),R-26,0);x.restore();
+  }
+  x.beginPath();x.arc(c,c,52,0,Math.PI*2);x.fillStyle="#07090C";x.fill();
+  x.strokeStyle="#E8453B";x.lineWidth=4;x.stroke();
+  x.fillStyle="#E8453B";x.font='700 30px "Barlow Semi Condensed", sans-serif';
+  x.textAlign="center";x.textBaseline="middle";x.fillText("1066",c,c+1);
+  x.beginPath();x.moveTo(c-16,6);x.lineTo(c+16,6);x.lineTo(c,40);x.closePath();x.fillStyle="#E8453B";x.fill();
+}
+$("#spinBtn").addEventListener("click",()=>{
+  bigState="spin"; openBig();
+  const N=MODES.length, pick=Math.floor(Math.random()*N);
+  const target=rot+Math.PI*2*5+((N-pick)%N)*(Math.PI*2/N)-rot%(Math.PI*2);
+  const from=rot,t0=performance.now(),dur=reduce?200:3400;
+  spinMode=null; renderBig();
+  (function fr(t){
+    const k=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-k,3);
+    rot=from+(target-from)*e; drawWheel();
+    if(k<1)requestAnimationFrame(fr);
+    else{spinMode=MODES[pick]; $("#gcMode").textContent=spinMode[0]; renderBig();
+      log(hhmm(simSec),"Mode spun — "+spinMode[0]);}
+  })(performance.now());
+});
+
+/* logging a game */
+let winSel=null;
+$$("[data-win]").forEach(b=>b.addEventListener("click",()=>{
+  winSel=b.dataset.win; $$("[data-win]").forEach(x=>x.setAttribute("aria-pressed",x===b));
+}));
+$("#gcSave").addEventListener("click",()=>{
+  const g=curGame();
+  if(!g){$("#gcMsg").textContent="Jump to a game on the run of day first";return;}
+  if(!winSel){$("#gcMsg").textContent="Pick who won it";return;}
+  const id=$("#gcPotm").value, p=id===""?null:ROSTER[+id];
+  games.push({g,mode:spinMode?spinMode[0]:"Team deathmatch",won:winSel,potm:p?p.name:"—"});
+  if(p)p.pts+=3;
+  bigState="result"; openBig(); renderBig();
+  log(hhmm(simSec),"Game "+g+" — "+winSel+" won, POTM "+(p?p.name:"none"));
+  winSel=null; $$("[data-win]").forEach(x=>x.setAttribute("aria-pressed",false));
+  $("#gcMsg").textContent="Logged and on the screen";
+  setTimeout(()=>$("#gcMsg").textContent=" ",3000);
+  paintGC();
+});
+$("#podBtn").addEventListener("click",()=>{
+  const top=[...ROSTER].sort((a,b)=>b.pts-a.pts)[0];
+  podName=top.name; bigState="pod"; openBig(); renderBig();
+  log(hhmm(simSec),"Player of the day — "+podName);
+});
+function paintGC(){
+  const g=curGame();
+  $("#gcTitle").textContent=g?"Game "+g:SCHEDULE[phase].label;
+  $("#gcMode").textContent=spinMode?spinMode[0]:"Not spun yet";
+  $("#gcTable tbody").innerHTML=games.map(x=>
+    '<tr><td class="mono">'+x.g+'</td><td>'+x.mode+'</td>'+
+    '<td><span class="chip" style="color:'+(x.won==="Red"?"#C0392B":"#1268B8")+';border-color:currentColor">'+x.won+'</span></td>'+
+    '<td>'+x.potm+'</td></tr>').join("")||'<tr><td colspan="4" style="color:var(--text-3)">Nothing logged yet.</td></tr>';
+  $("#sGames").textContent=games.length+" of 4";
+  $("#sRed").textContent=games.filter(x=>x.won==="Red").length;
+  $("#sBlue").textContent=games.filter(x=>x.won==="Blue").length;
+  fill("#gcPotm",ROSTER.filter(p=>p.in));
+}
+function openBig(){$("#big").classList.add("on");$("#big").setAttribute("aria-hidden",false);}
+function closeBig(){$("#big").classList.remove("on");$("#big").setAttribute("aria-hidden",true);}
+$("#bigBtn").addEventListener("click",()=>{openBig();renderBig();});
+$("#bigExit").addEventListener("click",closeBig);
+addEventListener("keydown",e=>{if(e.key==="Escape")closeBig();});
+
+/* ================= HISTORY ================= */
+const HIST=[
+  ["21 Sep","Sunday Skirmish","Airsoft",38,36,34,1284],["14 Sep","Paintball Skirmish","Paintball",31,29,0,1046],
+  ["07 Sep","Sunday Skirmish","Airsoft",40,40,38,1402],["31 Aug","Night Op — The Hollow","Airsoft",34,31,30,1298],
+  ["24 Aug","Paintball Skirmish","Paintball",27,24,0,918],["17 Aug","Sunday Skirmish","Airsoft",36,33,32,1188],
+  ["10 Aug","Paintball — stag group","Paintball",22,22,0,1140],["03 Aug","Sunday Skirmish","Airsoft",29,27,26,974]
+];
+function paintHist(){
+  const f=$("#hFilter").value;
+  $("#hTable tbody").innerHTML=HIST.filter(h=>f==="all"||h[2]===f).map((h,i)=>
+    '<tr data-h="'+HIST.indexOf(h)+'" style="cursor:pointer"><td class="mono">'+h[0]+'</td><td>'+h[1]+'</td>'+
+    '<td class="mono">'+h[3]+'</td><td class="mono">'+h[4]+
+    (h[4]<h[3]?' <span class="chip warn">'+(h[3]-h[4])+' no-show</span>':'')+'</td>'+
+    '<td class="mono">'+(h[5]||"—")+'</td><td class="num">'+gbp(h[6])+'</td></tr>').join("");
+}
+$("#hFilter").addEventListener("change",paintHist);
+document.addEventListener("click",e=>{
+  const r=e.target.closest("[data-h]"); if(!r)return;
+  const h=HIST[+r.dataset.h];
+  $("#hDetail").innerHTML='<div class="hd"><h3>'+h[0]+" · "+h[1]+'</h3></div><div class="bd">'+
+    '<div class="tiles" style="grid-template-columns:repeat(3,1fr);margin-bottom:14px">'+
+    '<div class="tile"><span class="lbl">Turned up</span><b>'+h[4]+'</b></div>'+
+    '<div class="tile"><span class="lbl">Took</span><b>'+gbp(h[6])+'</b></div>'+
+    '<div class="tile"><span class="lbl">Per head</span><b>'+gbp(h[6]/h[4])+'</b></div></div>'+
+    '<span class="lbl">Games</span><table class="t" style="margin:8px 0 14px"><tbody>'+
+    ["Domination — Red","Capture the flag — Blue","Bomb run — Red","Last man standing — Blue"]
+      .map((g,i)=>'<tr><td class="mono">'+(i+1)+'</td><td>'+g.split(" — ")[0]+'</td>'+
+      '<td><span class="chip" style="color:'+(g.endsWith("Red")?"#C0392B":"#1268B8")+';border-color:currentColor">'+
+      g.split(" — ")[1]+'</span></td></tr>').join("")+'</tbody></table>'+
+    '<div class="kv"><span>Chrono readings logged</span><b class="mono">'+(h[5]||"n/a")+'</b></div>'+
+    '<div class="kv"><span>Spot checks</span><b class="mono">'+(h[5]?Math.round(h[5]/6):0)+'</b></div>'+
+    '<div class="kv"><span>Flagged over the limit</span><b class="mono">'+(h[0]==="07 Sep"?"1":"0")+'</b></div>'+
+    '<div class="kv"><span>Player of the day</span><b>'+["Aimee Turner","Leon Okafor","Rhys Morgan","Bex Hall"][h[3]%4]+'</b></div>'+
+    '</div>';
+});
+
+/* ================= PERMISSIONS ================= */
+const CAPS=[["See bookings",[1,1,1,0,0]],["Manage memberships",[1,1,1,0,0]],["Manage stock and products",[1,1,1,0,0]],["Take and refund payments",[1,1,1,0,0]],
+  ["Create and edit events",[1,1,1,0,0]],["Check players in",[1,1,1,1,1]],
+  ["Take car park registrations",[1,1,1,1,1]],["Log chrono readings",[1,1,1,1,0]],
+  ["Log game results",[1,1,1,1,0]],["Drive the big screen",[1,1,1,1,0]],
+  ["See money and payouts",[1,1,0,0,0]],["Export the customer list",[1,1,0,0,0]],
+  ["Send marketing",[1,1,1,0,0]],["Manage users and permissions",[1,1,0,0,0]]];
+$("#permTable tbody").innerHTML=CAPS.map(c=>'<tr><td>'+c[0]+'</td>'+
+  c[1].map(v=>'<td class="'+(v?"y":"n")+'">'+(v?"✓":"—")+'</td>').join("")+'</tr>').join("");
+
+/* ================= AUTOMATIONS ================= */
+const AUTOS=[
+  ["Fill the gaps","Event under 60% booked, 5 days out","Played in the last 6 months",true,"4 Sep","312","11"],
+  ["Paint pre-order nudge","48 hours before a paintball session","Everyone booked on that date",true,"Yesterday","29","14"],
+  ["First-timer follow-up","7 days after a first visit","That player","true","2 days ago","18","5"],
+  ["Lapsed player win-back","No booking for 4 months","Opted in, played before",false,"Never","0","0"],
+  ["Party enquiry chase","Quote not accepted after 48 hours","The organiser",true,"6 Sep","7","3"],
+  ["Membership card declined","Payment fails","That member",true,"1 Sep","2","2"]
+];
+$("#autoList").innerHTML=AUTOS.map(a=>
+  '<div class="auto'+(a[3]===true||a[3]==="true"?" on":"")+'"><span class="sw"></span>'+
+  '<div style="flex:1"><b style="font-size:16px">'+a[0]+'</b>'+
+  '<p style="font-size:14px;color:var(--text-2);margin-top:2px">When '+a[1].toLowerCase()+
+  ' → send to '+a[2].toLowerCase()+'</p>'+
+  '<div class="row" style="gap:14px;margin-top:8px"><span class="lbl">Last run '+a[4]+'</span>'+
+  '<span class="lbl">Sent '+a[5]+'</span><span class="lbl" style="color:var(--go)">Booked '+a[6]+'</span></div></div></div>').join("");
+
+/* ================= CHARTS ================= */
+const tip=$("#tip");
+function hover(el,text){
+  el.addEventListener("mousemove",e=>{tip.textContent=text;tip.classList.add("on");
+    tip.style.left=(e.clientX+12)+"px";tip.style.top=(e.clientY-30)+"px";});
+  el.addEventListener("mouseleave",()=>tip.classList.remove("on"));
+}
+const MONTHS=["Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep"];
+const REV_A=[6.2,5.1,3.4,4.0,5.2,6.8,7.9,8.4,9.1,9.6,8.8,7.4];
+const REV_P=[3.1,2.4,1.9,2.0,2.6,3.4,4.2,4.8,5.6,6.1,5.3,4.1];
+function chartRev(){
+  const W=760,H=230,PL=44,PB=26,PT=10,PR=6, max=11;
+  const iw=W-PL-PR, ih=H-PB-PT, slot=iw/12;
+  let g='';
+  for(let v=0;v<=10;v+=5){const y=PT+ih-(v/max)*ih;
+    g+='<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+y+'" y2="'+y+'" stroke="var(--line)" stroke-width="1"/>'+
+    '<text x="'+(PL-8)+'" y="'+(y+4)+'" text-anchor="end" font-size="11" font-family="var(--mono)" fill="var(--text-3)">£'+v+'k</text>';}
+  MONTHS.forEach((m,i)=>{
+    const x0=PL+i*slot, bw=(slot-10)/2;
+    [[REV_A[i],"var(--c1)",0],[REV_P[i],"var(--c2)",bw+2]].forEach(([v,c,off])=>{
+      const h=(v/max)*ih, y=PT+ih-h;
+      g+='<rect class="bar" data-tip="'+m+" · "+(c==="var(--c1)"?"Airsoft":"Paintball")+" · £"+(v*1000).toLocaleString()+
+      '" x="'+(x0+5+off)+'" y="'+y+'" width="'+bw+'" height="'+h+'" rx="3" fill="'+c+'"/>';
+    });
+    g+='<text x="'+(x0+slot/2)+'" y="'+(H-8)+'" text-anchor="middle" font-size="11" font-family="var(--mono)" fill="var(--text-3)">'+m+'</text>';
+  });
+  $("#chRev").innerHTML='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Monthly revenue by sport">'+g+'</svg>';
+  $$("#chRev .bar").forEach(b=>hover(b,b.dataset.tip));
+}
+const LEAD=[["Same week",46],["8–14 days",21],["15–30 days",18],["1–2 months",11],["Longer",4]];
+function chartLead(){
+  const W=420,H=190,PL=92,PR=40,PT=6, bh=24, gap=8;
+  let g='';
+  LEAD.forEach((d,i)=>{
+    const y=PT+i*(bh+gap), w=(d[1]/50)*(W-PL-PR);
+    g+='<text x="'+(PL-10)+'" y="'+(y+bh/2+4)+'" text-anchor="end" font-size="12.5" fill="var(--text-2)">'+d[0]+'</text>'+
+    '<rect class="bar" data-tip="'+d[0]+" · "+d[1]+'% of bookings" x="'+PL+'" y="'+y+'" width="'+w+'" height="'+bh+'" rx="3" fill="var(--c2)"/>'+
+    '<text x="'+(PL+w+8)+'" y="'+(y+bh/2+4)+'" font-size="12.5" font-family="var(--mono)" fill="var(--text-2)">'+d[1]+'%</text>';
+  });
+  $("#chLead").innerHTML='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Booking lead time">'+g+'</svg>';
+  $$("#chLead .bar").forEach(b=>hover(b,b.dataset.tip));
+}
+const MIX=[["Tickets",80400,"var(--c1)"],["Paint &amp; BBs",16600,"var(--c2)"],
+  ["Memberships",10800,"var(--c3)"],["Shop &amp; vouchers",10600,"var(--c4)"]];
+function chartMix(){
+  const W=420,H=190,PL=118,PR=54,PT=6,bh=24,gap=8,max=90000;
+  let g='';
+  MIX.forEach((d,i)=>{
+    const y=PT+i*(bh+gap), w=(d[1]/max)*(W-PL-PR);
+    g+='<text x="'+(PL-10)+'" y="'+(y+bh/2+4)+'" text-anchor="end" font-size="12.5" fill="var(--text-2)">'+d[0]+'</text>'+
+    '<rect class="bar" data-tip="'+d[0].replace("&amp;","and")+" · £"+d[1].toLocaleString()+'" x="'+PL+'" y="'+y+'" width="'+w+'" height="'+bh+'" rx="3" fill="'+d[2]+'"/>'+
+    '<text x="'+(PL+w+8)+'" y="'+(y+bh/2+4)+'" font-size="12.5" font-family="var(--mono)" fill="var(--text-2)">£'+Math.round(d[1]/1000)+'k</text>';
+  });
+  $("#chMix").innerHTML='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Revenue by source">'+g+'</svg>';
+  $$("#chMix .bar").forEach(b=>hover(b,b.dataset.tip));
+}
+
+
+/* ================= MEMBERS ================= */
+const PLANS={Housecarl:10,Knight:22,"Season Pass":0};
+const MEMBERS=[
+  ["Marcus Bridges","Housecarl","Mar 2025","4 Oct","active",180],["Leon Okafor","Knight","Jan 2025","12 Oct","active",396],
+  ["Priya Shah","Housecarl","Jun 2025","28 Sep","active",100],["Dan Whyte","Housecarl","Nov 2024","7 Oct","past_due",130],
+  ["Aimee Turner","Knight","Aug 2024","19 Oct","active",528],["Nathan Doyle","Housecarl","Feb 2025","1 Oct","active",170],
+  ["Sofia Mendes","Housecarl","Jul 2025","23 Sep","active",80],["Callum Reid","Knight","May 2025","14 Oct","active",242],
+  ["Bex Hall","Housecarl","Apr 2025","30 Sep","paused",110],["Tom Quinn","Housecarl","Sep 2024","9 Oct","active",210],
+  ["Grace Ellis","Housecarl","Dec 2024","16 Oct","past_due",150],["Joe Pike","Knight","Mar 2025","21 Oct","active",308],
+  ["Rhys Morgan","Housecarl","Aug 2025","26 Sep","active",60],["Maya Grant","Housecarl","Oct 2024","3 Oct","cancelled",180]
+];
+const STAT={active:["go","Active"],past_due:["stop","Payment failed"],paused:["warn","Paused"],cancelled:["","Cancelled"]};
+function paintMembers(){
+  const f=$("#memFilter").value;
+  const live=MEMBERS.filter(m=>m[4]==="active"||m[4]==="past_due");
+  $("#mCount").textContent=live.length;
+  $("#mMrr").textContent=gbp(live.reduce((a,m)=>a+PLANS[m[1]],0));
+  const fails=MEMBERS.filter(m=>m[4]==="past_due");
+  $("#mFail").textContent=fails.length;
+  $("#mFailTile").className="tile"+(fails.length?" alert":" good");
+  $("#memTable tbody").innerHTML=MEMBERS.filter(m=>f==="all"||m[1]===f).map(m=>
+    '<tr><td>'+m[0]+'</td><td><span class="chip brand">'+m[1]+'</span></td><td class="mono">'+m[2]+'</td>'+
+    '<td class="mono">'+(m[4]==="cancelled"?"—":m[3])+'</td>'+
+    '<td><span class="chip '+STAT[m[4]][0]+'">'+STAT[m[4]][1]+'</span></td>'+
+    '<td class="num">'+gbp(m[5])+'</td></tr>').join("");
+  $("#dunList").innerHTML=fails.map(m=>
+    '<div class="kv"><span><b>'+m[0]+'</b><br><span class="lbl">'+m[1]+' · retry 2 of 3 · next tomorrow</span></span>'+
+    '<button class="btn g" style="padding:5px 10px;font-size:13px">Send a card link</button></div>').join("")
+    ||'<p style="color:var(--go)"><b>Nothing failing.</b></p>';
+}
+$("#memFilter").addEventListener("change",paintMembers);
+
+/* ================= STOCK ================= */
+const STOCK=[
+  ["0.25g BBs, 2,000","Pre-order &amp; shed",12,10.8,64,9,20],
+  ["0.30g BBs, 2,000","Pre-order &amp; shed",14,12.6,31,2,15],
+  ["Paint, 500","Pre-order &amp; shed",34.99,31.49,26,6,12],
+  ["Paint, 2,000 box","Pre-order &amp; shed",129.99,116.99,7,1,10],
+  ["Green gas, 1L","Shed only",9,8.1,19,1,10],
+  ["Pyro pack","Pre-order only",10,9,22,3,8],
+  ["Full-seal goggles","Shop",34,30.6,11,0,6],
+  ["Mesh lower face mask","Shop",18,16.2,14,0,6],
+  ["1066 patch","Shop",6,5.4,58,0,20]
+];
+function paintStock(){
+  let low=0, res=0;
+  $("#stTable tbody").innerHTML=STOCK.map(p=>{
+    const free=p[4]-p[5]; res+=p[5];
+    const isLow=free<=p[6]; if(isLow)low++;
+    return '<tr><td>'+p[0]+'</td><td class="lbl">'+p[1]+'</td><td class="num">'+gbpp(p[2])+'</td>'+
+    '<td class="num">'+gbpp(p[3])+'</td><td class="num">'+p[4]+'</td>'+
+    '<td class="num">'+(p[5]||"—")+'</td><td class="num"><b>'+free+'</b></td>'+
+    '<td>'+(isLow?'<span class="chip stop">Order more</span>':'<span class="chip go">Fine</span>')+'</td></tr>';
+  }).join("");
+  $("#stLow").textContent=low; $("#stRes").textContent=res;
+  $("#pickTable tbody").innerHTML=[
+    ["0.25g BBs, 2,000","M. Bridges",2,true],["Paint, 500","L. Okafor",1,true],
+    ["Pyro pack","D. Whyte",1,false],["Green gas, 1L","S. Patel",1,false],
+    ["Paint, 2,000 box","Stag — Byrne",1,false],["0.30g BBs, 2,000","A. Turner",2,false]
+  ].map(r=>'<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td class="num">'+r[2]+'</td>'+
+    '<td>'+(r[3]?'<span class="chip go">Picked</span>':'<span class="chip warn">Waiting</span>')+'</td></tr>').join("");
+}
+const gbpp=n=>{const r=Math.round(n*100)/100;
+  return "£"+(Math.abs(r-Math.round(r))<0.005?Math.round(r).toLocaleString("en-GB")
+    :r.toLocaleString("en-GB",{minimumFractionDigits:2,maximumFractionDigits:2}));};
+
+/* ================= RECURRING EVENTS ================= */
+const DOW=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function cePreview(){
+  const start=$("#ceDate").value?new Date($("#ceDate").value+"T09:00"):new Date();
+  const step=+$("#ceRep").value, count=step?Math.min(40,Math.max(1,+$("#ceCount").value||1)):1;
+  const out=[];
+  for(let i=0;i<count;i++){const d=new Date(start);d.setDate(start.getDate()+i*step);out.push(d);}
+  $("#ceCount").disabled=!step;
+  $("#cePrev").innerHTML='<table class="t"><tbody>'+out.map(d=>
+    '<tr><td class="mono" style="width:112px">'+DOW[d.getDay()].slice(0,3)+" "+d.getDate()+" "+MON[d.getMonth()]+'</td>'+
+    '<td>'+($("#ceName").value||"Event")+'</td>'+
+    '<td style="width:74px">'+($("#ceDraft").checked?'<span class="chip">Draft</span>':'<span class="chip go">On sale</span>')+'</td></tr>').join("")+
+    '</tbody></table>';
+  return out.length;
+}
+["ceDate","ceRep","ceCount","ceName","ceDraft","ceSport"].forEach(id=>{
+  const el=$("#"+id); if(el)el.addEventListener("input",cePreview);
+  if(el)el.addEventListener("change",cePreview);
+});
+$("#ceGo").addEventListener("click",()=>{
+  const n=cePreview();
+  $("#ceMsg").textContent=n+" date"+(n===1?"":"s")+" created"+($("#ceDraft").checked?" as drafts":" and on sale");
+  setTimeout(()=>$("#ceMsg").textContent=" ",4000);
+});
+(function(){const d=new Date();d.setDate(d.getDate()+((7-d.getDay())%7||7));
+  $("#ceDate").value=d.toISOString().slice(0,10);})();
+
+paintRod(); paintGC(); renderBig(); paintHist(); chartRev(); chartLead(); chartMix();
+
+/* ================= PLAN EDITOR ================= */
+const TICKET=30, SESSIONS=2;
+const gbpS=n=>(n<0?"\u2212":n>0?"+":"")+gbp(Math.abs(n));   // airsoft is fortnightly, so two a month is the ceiling
+let PLANDEFS=[
+  {id:1,name:"Levy",kind:"free",price:0,per:"month",status:"Live",members:842},
+  {id:2,name:"Season Pass",kind:"block",price:240,days:10,status:"Live",members:9},
+  {id:3,name:"Regulars' Pass",kind:"sub",price:45,per:"month",unlim:true,disc:0,bbs:0,guests:1,early:72,status:"Draft",members:0},
+  {id:4,name:"Housecarl",kind:"sub",price:10,per:"month",unlim:false,disc:5,bbs:0,guests:0,early:72,status:"Retiring",members:47}
+];
+let sel=1;
+function planWorth(p,sessions){
+  if(p.kind==="free") return {pays:0,gets:0};
+  if(p.kind==="block") return {pays:p.price,gets:(p.days||0)*TICKET};
+  const pays=p.per==="year"?p.price/12:p.price;
+  const gets=p.unlim ? sessions*TICKET
+    : sessions*((+p.disc||0)+(+p.bbs||0)) + (+p.guests||0)*10;
+  return {pays,gets};
+}
+function paintPlanList(){
+  $("#planList").innerHTML=PLANDEFS.map(p=>{
+    const w=planWorth(p,SESSIONS);
+    const tone=p.kind==="free"?"":w.gets>w.pays*1.2?"go":w.gets>=w.pays?"warn":"stop";
+    return '<button class="'+(p.id===sel?"on":"")+'" data-plan="'+p.id+'"><b>'+p.name+'</b>'+
+      '<span>'+(p.kind==="free"?"Free":p.kind==="block"?gbp(p.price)+" · "+p.days+" days":gbp(p.price)+"/"+p.per)+
+      ' · '+p.members+'</span>'+
+      (tone?'<span class="chip '+tone+'" style="margin-top:6px">'+
+        (tone==="go"?"Worth buying":tone==="warn"?"Barely":"Costs them money")+'</span>':'')+'</button>';
+  }).join("");
+}
+function loadPlan(id){
+  sel=id; const p=PLANDEFS.find(x=>x.id===id);
+  $("#pName").value=p.name; $("#pKind").value=p.kind; $("#pPrice").value=p.price;
+  $("#pPer").value=p.per||"month"; $("#pDisc").value=p.disc||0; $("#pBbs").value=p.bbs||0;
+  $("#pGuest").value=p.guests||0; $("#pEarly").value=p.early||0; $("#pUnlim").checked=!!p.unlim;
+  $("#pDays").value=p.days||10; $("#pStatus").value=p.status;
+  paintPlanList(); syncKind(); score();
+}
+function syncKind(){
+  const k=$("#pKind").value;
+  $("#subFields").hidden=k!=="sub"; $("#blockFields").hidden=k!=="block";
+  $("#pPerWrap").style.display=k==="sub"?"":"none";
+  $("#pPrice").disabled=k==="free";
+  $$("#subFields input").forEach(i=>{if(i.id!=="pUnlim")i.disabled=$("#pUnlim").checked&&(i.id==="pDisc"||i.id==="pBbs");});
+}
+function draft(){
+  return {id:sel,name:$("#pName").value,kind:$("#pKind").value,price:+$("#pPrice").value||0,
+    per:$("#pPer").value,disc:+$("#pDisc").value||0,bbs:+$("#pBbs").value||0,
+    guests:+$("#pGuest").value||0,early:+$("#pEarly").value||0,unlim:$("#pUnlim").checked,
+    days:+$("#pDays").value||0,status:$("#pStatus").value,
+    members:(PLANDEFS.find(x=>x.id===sel)||{}).members||0};
+}
+function score(){
+  const p=draft();
+  const rows=[1,2,3].map(n=>{const w=planWorth(p,n);return {n,...w,net:w.gets-w.pays};});
+  $("#worthTable tbody").innerHTML=(p.kind==="block"
+    ? '<tr><td>'+p.days+' days, whenever they like</td><td class="num">'+gbp(p.price)+'</td>'+
+      '<td class="num">'+gbp(p.days*TICKET)+'</td><td class="num" style="color:'+
+      (p.days*TICKET>p.price?"var(--go)":"var(--stop)")+'">'+gbpS(p.days*TICKET-p.price)+'</td></tr>'
+    : rows.map(r=>'<tr><td>'+r.n+(r.n>SESSIONS?' <span class="chip stop">not possible</span>':'')+'</td>'+
+      '<td class="num">'+gbp(r.pays)+'</td><td class="num">'+gbp(r.gets)+'</td>'+
+      '<td class="num" style="color:'+(r.net>0?"var(--go)":r.net===0?"var(--warn)":"var(--stop)")+'">'+
+      gbpS(r.net)+'</td></tr>').join(""));
+
+  const v=$("#verdict");
+  if(p.kind==="free"){
+    v.className="verdict go";
+    v.innerHTML='<h4>Nothing to lose</h4><p style="font-size:14.5px">A free account costs nobody anything and gets '+
+      'their waiver on file. Every other plan should be sold from inside it.</p>';
+  } else if(p.kind==="block"){
+    const save=p.days*TICKET-p.price, per=p.price/(p.days||1);
+    v.className="verdict "+(save>0?"go":"stop");
+    v.innerHTML='<h4>'+(save>0?"Worth buying":"Costs more than paying per day")+'</h4>'+
+      '<p style="font-size:14.5px">'+gbp(per)+' a day against '+gbp(TICKET)+
+      '. They save '+gbp(Math.abs(save))+' over the block, and you have the money in January rather than a fortnight at a time. '+
+      'No monthly billing, no failed cards, nobody to win back.</p>';
+  } else {
+    const w2=planWorth(p,SESSIONS), monthly=p.per==="year"?p.price/12:p.price;
+    const perSession=p.unlim?TICKET:(+p.disc||0)+(+p.bbs||0);
+    const be=perSession>0?(monthly-(+p.guests||0)*10)/perSession:Infinity;
+    if(w2.gets>w2.pays*1.2){
+      v.className="verdict go";
+      v.innerHTML='<h4>Worth buying</h4><p style="font-size:14.5px">At '+SESSIONS+' sessions a month a member is '+
+        gbp(w2.gets-w2.pays)+' better off. Break-even lands at '+(be<=0?"the first session":be.toFixed(1)+" sessions")+
+        ', which is inside what the calendar actually offers.</p>';
+    } else if(w2.gets>=w2.pays){
+      v.className="verdict warn";
+      v.innerHTML='<h4>Barely worth it</h4><p style="font-size:14.5px">A member who plays every single game day is only '+
+        gbp(w2.gets-w2.pays)+' better off, and anyone who misses one is out of pocket. People work this out and cancel.</p>';
+    } else {
+      v.className="verdict stop";
+      v.innerHTML='<h4>This costs members money</h4><p style="font-size:14.5px">Break-even needs '+
+        (be===Infinity?"more value than the plan gives":be.toFixed(1)+" sessions a month")+
+        ', and only '+SESSIONS+' exist. Even playing every game day they are '+gbp(w2.pays-w2.gets)+
+        ' down. Do not sell this &mdash; a discount capped by how often you open cannot beat a monthly fee.</p>';
+    }
+  }
+  const w=planWorth(p,SESSIONS);
+  const mrr=p.kind==="sub"?(p.per==="year"?p.price/12:p.price):0;
+  $("#bizPanel").innerHTML=
+    (p.kind==="block"
+      ? '<div class="kv"><span>Cash up front</span><b class="mono">'+gbp(p.price)+'</b></div>'+
+        '<div class="kv"><span>Tickets given up</span><b class="mono">'+gbp(p.days*TICKET)+'</b></div>'+
+        '<div class="kv"><span>Discount you are giving</span><b class="mono">'+gbp(p.days*TICKET-p.price)+'</b></div>'+
+        '<div class="kv"><span>Paid before they play</span><b class="mono" style="color:var(--go)">Yes</b></div>'
+      : p.kind==="free"
+      ? '<div class="kv"><span>Accounts</span><b class="mono">'+p.members+'</b></div>'+
+        '<div class="kv"><span>Revenue</span><b class="mono">None directly</b></div>'+
+        '<div class="kv"><span>Worth</span><b class="mono">Waivers, history, a list</b></div>'
+      : '<div class="kv"><span>Per member, per month</span><b class="mono">'+gbp(mrr)+'</b></div>'+
+        '<div class="kv"><span>Value handed over</span><b class="mono">'+gbp(w.gets)+'</b></div>'+
+        '<div class="kv"><span>Net to you</span><b class="mono" style="color:'+(mrr-w.gets>=0?"var(--go)":"var(--stop)")+'">'+
+        gbpS(mrr-w.gets)+'</b></div>'+
+        '<div class="kv"><span>At '+p.members+' members</span><b class="mono">'+gbp(mrr*p.members)+'/mo</b></div>')+
+    '<p style="font-size:13.5px;color:var(--text-2);margin-top:10px">Our platform fee applies to whatever the plan collects.</p>';
+}
+$("#editPlans").addEventListener("click",()=>{$("#modal").classList.add("on");$("#modal").setAttribute("aria-hidden",false);loadPlan(sel);});
+$("#modalClose").addEventListener("click",()=>{$("#modal").classList.remove("on");$("#modal").setAttribute("aria-hidden",true);});
+$("#modal").addEventListener("click",e=>{if(e.target.id==="modal")$("#modalClose").click();});
+$("#planList").addEventListener("click",e=>{const b=e.target.closest("[data-plan]");if(b)loadPlan(+b.dataset.plan);});
+["pName","pKind","pPrice","pPer","pDisc","pBbs","pGuest","pEarly","pUnlim","pDays","pStatus"].forEach(id=>{
+  const el=$("#"+id);
+  el.addEventListener("input",()=>{syncKind();score();paintPlanList();});
+  el.addEventListener("change",()=>{syncKind();score();paintPlanList();});
+});
+$("#pSave").addEventListener("click",()=>{
+  const d=draft(), i=PLANDEFS.findIndex(x=>x.id===sel);
+  PLANDEFS[i]=d; paintPlanList();
+  $("#pMsg").textContent="Saved"; setTimeout(()=>$("#pMsg").textContent="",2500);
+});
+$("#pNew").addEventListener("click",()=>{
+  const id=Math.max(...PLANDEFS.map(p=>p.id))+1;
+  PLANDEFS.push({id,name:"New plan",kind:"sub",price:15,per:"month",disc:5,bbs:6,guests:0,early:72,status:"Draft",members:0});
+  loadPlan(id);
+});
+paintPlanList();
+
+paintMembers(); paintStock(); cePreview();
+
+paintCal(); paintCust(); paintFeed(); repaint(); setRole("owner"); syncTheme();
+matchMedia("(prefers-color-scheme:dark)").addEventListener("change",syncTheme);
+})();
+</script>
+
+</body></html>

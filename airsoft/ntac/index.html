@@ -121,6 +121,12 @@ body:not(.ph-on) #phLegend{display:none}
 #brandPanel input[type=color]{width:38px;height:30px;padding:0;border:1px solid #444;background:none}
 #brandPanel input[type=file]{font-size:12px;max-width:220px}
 
+
+/* the operator console, framed under the toolbar (routing.js showConsole) */
+#consoleWrap{position:fixed;left:0;right:0;bottom:0;z-index:50;background:#0B0B0B}
+#consoleWrap[hidden]{display:none}
+#consoleWrap iframe{display:block;width:100%;height:100%;border:0;background:#0B0B0B}
+html.console-open{overflow:hidden}
 /* ---- part: placeholders.css ----
    The placeholder system: anything on the page that is not verified from the
    client's own material is wrapped data-ph="1" with a .phtag label inside it, and
@@ -2734,9 +2740,32 @@ function go(name){
   window.scrollTo({top:0,behavior:reduce?"auto":"smooth"});
 }
 document.addEventListener("click",e=>{const t=e.target.closest("[data-go]"); if(!t)return; e.preventDefault(); go(t.dataset.go);});
-$("#viewSite").addEventListener("click",()=>go(lastSite));
-$("#viewBack").addEventListener("click",()=>{ if(CONFIG.aocUrl){ location.href=CONFIG.aocUrl; return; } if($('section[data-screen="back"]')) go("back"); });   /* a hosted operator console (AOC) replaces the in-page desk once the site has one */
-$("#viewProp").addEventListener("click",()=>{ if(CONFIG.aocUrl && CONFIG.aocProposal!==false){ location.href=CONFIG.aocUrl+"?screen=proposal"; return; } if($('section[data-screen="prop"]')) go("prop"); });   /* the proposal lives in the console; a build without one has no proposal screen to fall back to */   /* the Proposal lives in the console too, once the console exists */
+/* The operator console (AOC) opens INSIDE the prototype, under the toolbar, so Site / Back end /
+   Proposal stay in reach whichever view is up (Greg, 25 Sep: "the navigation bar needs to remain
+   for all mockups regardless of tab selected"). Same origin, so the console's own "back to the
+   site" link is retargeted to the top window rather than loading the mock inside itself. */
+function consoleFrame(){
+  let f=$("#consoleFrame"); if(f) return f;
+  const w=document.createElement("div"); w.id="consoleWrap"; w.hidden=true;
+  w.innerHTML='<iframe id="consoleFrame" title="Operator console"></iframe>';
+  document.body.appendChild(w); f=$("#consoleFrame");
+  f.addEventListener("load",()=>{ try{ f.contentDocument.querySelectorAll("a[href]").forEach(a=>{ const h=a.getAttribute("href")||""; if(/^(\.\.\/|\/airsoft\/[a-z0-9-]+\/)(index\.html)?(\?|#|$)/.test(h)) a.target="_top"; }); }catch(e){ /* not ours to read */ } });
+  return f;
+}
+function placeConsole(){ const w=$("#consoleWrap"); if(!w||w.hidden) return; const b=$("#bar"); w.style.top=(b?Math.round(b.getBoundingClientRect().bottom):0)+"px"; }
+function showConsole(query){
+  const f=consoleFrame(), src=CONFIG.aocUrl+(query||"");
+  if(f.getAttribute("src")!==src) f.setAttribute("src",src);
+  $("#consoleWrap").hidden=false; document.documentElement.classList.add("console-open"); placeConsole();
+  const prop=!!query; document.body.dataset.screen=prop?"prop":"back";
+  $("#viewProp").setAttribute("aria-pressed",prop); $("#viewBack").setAttribute("aria-pressed",!prop); $("#viewSite").setAttribute("aria-pressed",false);
+  window.scrollTo({top:0,behavior:"auto"});
+}
+function hideConsole(){ const w=$("#consoleWrap"); if(w) w.hidden=true; document.documentElement.classList.remove("console-open"); }
+window.addEventListener("resize",placeConsole);
+$("#viewSite").addEventListener("click",()=>{ hideConsole(); go(lastSite); });
+$("#viewBack").addEventListener("click",()=>{ if(CONFIG.aocUrl){ showConsole(""); return; } if($('section[data-screen="back"]')) go("back"); });
+$("#viewProp").addEventListener("click",()=>{ if(CONFIG.aocUrl && CONFIG.aocProposal!==false){ showConsole("?screen=proposal"); return; } if($('section[data-screen="prop"]')) go("prop"); });   /* the proposal lives in the console; a build without one has no proposal screen to fall back to */   /* the Proposal lives in the console too, once the console exists */
 $("#burger").addEventListener("click",()=>{const n=$("#nav");const o=n.classList.toggle("open");$("#burger").setAttribute("aria-expanded",o);});
 
 /* ---- part: days.js ----

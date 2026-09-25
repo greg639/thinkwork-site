@@ -2270,11 +2270,25 @@ matchMedia("(prefers-color-scheme:dark)").addEventListener("change",syncTheme);
 </script>
 
 <script>
-/* 1066's operator console (AOC) lives at aoc/ next to this page; the Back end link in the toolbar already opens it, and Proposal opens its proposal screen (Greg's rule: every mock's Back end and Proposal open its own console) */
+/* 1066's operator console (AOC) opens INSIDE this page, under the toolbar, so Site / Back end / Proposal stay in reach (Greg, 25 Sep) */
 (function(){
-  var back=document.getElementById('viewBack'), prop=document.getElementById('viewProp');
-  if(back) back.addEventListener('click', function(e){ e.stopImmediatePropagation(); location.href='aoc/index.html'; }, true);
-  if(prop) prop.addEventListener('click', function(e){ e.stopImmediatePropagation(); e.preventDefault(); location.href='aoc/index.html?screen=proposal'; }, true);
+  var AOC='aoc/index.html', bar=document.getElementById('bar');
+  var wrap=null, frame=null;
+  function ensure(){ if(frame) return frame; wrap=document.createElement('div'); wrap.id='consoleWrap'; wrap.hidden=true;
+    wrap.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:50;background:#0B0B0B';
+    wrap.innerHTML='<iframe id="consoleFrame" title="Operator console" style="display:block;width:100%;height:100%;border:0;background:#0B0B0B"></iframe>';
+    document.body.appendChild(wrap); frame=wrap.firstChild;
+    frame.addEventListener('load',function(){ try{ frame.contentDocument.querySelectorAll('a[href]').forEach(function(a){ var h=a.getAttribute('href')||''; if(/^(\.\.\/|\/airsoft\/1066\/)(index\.html)?(\?|#|$)/.test(h)) a.target='_top'; }); }catch(e){} });
+    return frame; }
+  function place(){ if(!wrap||wrap.hidden) return; wrap.style.top=(bar?Math.round(bar.getBoundingClientRect().bottom):0)+'px'; }
+  function show(q){ var f=ensure(), src=AOC+(q||''); if(f.getAttribute('src')!==src) f.setAttribute('src',src); wrap.hidden=false; document.documentElement.style.overflow='hidden'; place();
+    var prop=document.getElementById('viewProp'), site=document.getElementById('viewSite'); if(prop) prop.setAttribute('aria-pressed',!!q); if(site) site.setAttribute('aria-pressed',false); if(back) back.setAttribute('aria-pressed',!q); window.scrollTo(0,0); }
+  function hide(){ if(wrap) wrap.hidden=true; document.documentElement.style.overflow=''; if(back) back.setAttribute('aria-pressed',false); }
+  var back=null; document.querySelectorAll('#bar a').forEach(function(a){ if(/aoc\/?$/.test(a.getAttribute('href')||'') && /back end/i.test(a.textContent)) back=a; });
+  if(back){ back.addEventListener('click', function(e){ e.preventDefault(); show(''); }); }
+  var prop=document.getElementById('viewProp'); if(prop) prop.addEventListener('click', function(e){ e.stopImmediatePropagation(); e.preventDefault(); show('?screen=proposal'); }, true);
+  var site=document.getElementById('viewSite'); if(site) site.addEventListener('click', function(){ hide(); }, true);
+  window.addEventListener('resize', place);
 })();
 </script>
 </body></html>

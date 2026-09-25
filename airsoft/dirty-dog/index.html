@@ -148,17 +148,17 @@ html.console-open{overflow:hidden}
 body.ph-on [data-ph]{outline:1.5px dashed var(--ph);outline-offset:7px;border-radius:2px}
 body.ph-on [data-ph]>.phtag{display:inline-flex}
 /* the chip parks 13px above its box; a box that clips its overflow (a card, a tile, a torn slab) cut the chip in half ("SAMPLE CARD" on the past-events cards). While placeholders show, a box with a chip does not clip. */
-/* The chip sits in a strip of padding at the top of its box and takes no part in the box's own layout.
-   Floating above the box, it was clipped by cards and covered labels; IN the flow it took a 300px grid row
-   on No Limits' hero tiles and split District 23's date signs onto two lines. A padding strip is the one
-   placement that leaves every box's own layout exactly as designed, block, grid or flex. Buttons cannot
-   carry padding for it, so there it hangs above. */
-body.ph-on [data-ph]:has(>.phtag){padding-top:34px!important}
-body.ph-on button[data-ph]:has(>.phtag){padding-top:revert!important}
-button>.phtag{top:auto;bottom:calc(100% + 2px);left:0}
+/* Where the chip lives. Inside a BLOCK box it is a flow item at the top and wraps freely. Inside a GRID
+   or FLEX box a flow item takes a row or a column (a 300px grid row on No Limits' hero tiles, District 23's
+   date signs split onto two lines), so there toolbar.js marks the box .ph-strip, the chip is absolute at
+   the top, and the box gets a padding strip measured from the chip's own height (--chip-strip), so a
+   two-line chip never runs into the content. Buttons cannot carry either; there the chip hangs above. */
+.ph-strip>.phtag{position:absolute;top:7px;left:8px;margin:0}
+body.ph-on .ph-strip{padding-top:var(--chip-strip,34px)!important}
+button>.phtag{position:absolute;top:auto;bottom:calc(100% + 2px);left:0;margin:0}
 body.ph-on .tiers .tier[data-ph]{outline-offset:-1px}
 .kv[data-ph]{margin-top:18px}
-.phtag{display:none;position:absolute;top:7px;left:8px;margin:0;z-index:6;align-items:center;gap:5px;background:var(--ph);color:var(--on-ph);
+.phtag{display:none;position:relative;margin:0 0 8px;z-index:6;align-items:center;gap:5px;background:var(--ph);color:var(--on-ph);
   font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:2px 8px;border-radius:2px;
   max-width:calc(100% - 16px);white-space:normal;line-height:1.35}   /* wraps: a truncated chip cut mid-word ("YOUR POSTER R") is a chip nobody can read */
 .ph{text-decoration:none}
@@ -2756,6 +2756,22 @@ $("#phBtn").addEventListener("click",()=>{const on=document.body.classList.toggl
 $("#devDesk").addEventListener("click",()=>{app.classList.remove("mobile");$("#devDesk").setAttribute("aria-pressed",true);$("#devMob").setAttribute("aria-pressed",false);});
 $("#devMob").addEventListener("click",()=>{app.classList.add("mobile");$("#devMob").setAttribute("aria-pressed",true);$("#devDesk").setAttribute("aria-pressed",false);});
 
+
+/* ---- placeholder chips: a strip only where a flow item would break the box (grid/flex), sized to the chip ---- */
+function fitChips(){
+  document.querySelectorAll("[data-ph]").forEach(b=>{
+    const chip=b.querySelector(":scope>.phtag"); if(!chip) return;
+    const d=getComputedStyle(b).display, strip=b.tagName!=="BUTTON" && /grid|flex/.test(d);
+    b.classList.toggle("ph-strip",strip);
+    if(strip){ const h=chip.offsetHeight; if(h) b.style.setProperty("--chip-strip",(h+14)+"px"); }
+    else b.style.removeProperty("--chip-strip");
+  });
+}
+fitChips();
+window.addEventListener("load",fitChips);
+window.addEventListener("resize",()=>requestAnimationFrame(fitChips));
+document.addEventListener("click",()=>requestAnimationFrame(fitChips));   /* a click may change the screen or the toggle; chips on a screen just shown measure now */
+new MutationObserver(()=>requestAnimationFrame(fitChips)).observe(document.body,{attributes:true,attributeFilter:["class","data-screen"]});   /* the Placeholders toggle, and a screen change: chips on a hidden screen measure 0 until it shows */
 /* ---- part: texture-lands.js ----
    The brand texture lands once per page load, then holds. Pairs with
    texture-lands.css: that animates .hero .splat, this switches the animation off

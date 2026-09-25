@@ -430,8 +430,7 @@ footer.site ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:co
   <div class="seg" role="group" aria-label="View">
     <button id="viewSite" aria-pressed="true">Site</button>
     <a href="/airsoft/1066/aoc/" style="display:inline-flex;align-items:center;text-decoration:none">Back end</a>
-    <button id="viewBack" aria-pressed="false">Back end</button>
-<button id="viewProp" aria-pressed="false">Proposal</button>
+    <button id="viewProp" aria-pressed="false">Proposal</button>
   </div>
   <div class="seg" role="group" aria-label="Front door">
     <button id="frontAs" aria-pressed="true">1066airsoft.com</button>
@@ -2271,7 +2270,7 @@ matchMedia("(prefers-color-scheme:dark)").addEventListener("change",syncTheme);
 </script>
 
 <script>
-/* 1066's operator console (AOC) lives at aoc/ next to this page (Greg's rule: every mock's Back end and Proposal open its own console) */
+/* 1066's operator console (AOC) lives at aoc/ next to this page; the Back end link in the toolbar already opens it, and Proposal opens its proposal screen (Greg's rule: every mock's Back end and Proposal open its own console) */
 (function(){
   var back=document.getElementById('viewBack'), prop=document.getElementById('viewProp');
   if(back) back.addEventListener('click', function(e){ e.stopImmediatePropagation(); location.href='aoc/index.html'; }, true);

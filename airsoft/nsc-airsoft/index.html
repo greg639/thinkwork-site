@@ -125,7 +125,7 @@ body:not(.ph-on) #phLegend{display:none}
 
 
 /* the operator console, framed under the toolbar (routing.js showConsole) */
-#consoleWrap{position:fixed;left:0;right:0;bottom:0;z-index:50;background:#0B0B0B}
+#consoleWrap{position:fixed;left:0;width:100%;bottom:0;z-index:50;background:#0B0B0B}
 #consoleWrap[hidden]{display:none}
 #consoleWrap iframe{display:block;width:100%;height:100%;border:0;background:#0B0B0B}
 html.console-open{overflow:hidden}
@@ -2733,9 +2733,12 @@ function consoleFrame(){
   f.addEventListener("load",()=>{ try{ f.contentDocument.querySelectorAll("a[href]").forEach(a=>{ const h=a.getAttribute("href")||""; if(/^(\.\.\/|\/airsoft\/[a-z0-9-]+\/)(index\.html)?(\?|#|$)/.test(h)) a.target="_top"; }); }catch(e){ /* not ours to read */ } });
   return f;
 }
-function placeConsole(){ const w=$("#consoleWrap"); if(!w||w.hidden) return; const b=$("#bar"); w.style.top=(b?Math.round(b.getBoundingClientRect().bottom):0)+"px"; }
+/* under the toolbar, and exactly as wide as #app, so the mock's Desktop/Mobile toggle narrows the console with it */
+function placeConsole(){ const w=$("#consoleWrap"); if(!w||w.hidden) return; const b=$("#bar"), app=$("#app"); w.style.top=(b?Math.round(b.getBoundingClientRect().bottom):0)+"px"; if(app){ const r=app.getBoundingClientRect(); w.style.left=Math.round(r.left)+"px"; w.style.width=Math.round(r.width)+"px"; } else { w.style.left="0"; w.style.width="100%"; } }
+if($("#app")) new MutationObserver(placeConsole).observe($("#app"),{attributes:true,attributeFilter:["class"]});
 function showConsole(query){
-  const f=consoleFrame(), src=CONFIG.aocUrl+(query||"");
+  /* embed=1: the console drops its own bar (AOC 0.1.4) and follows the mock's Placeholders toggle, so the mock's toolbar is the only one */
+  const f=consoleFrame(), src=CONFIG.aocUrl+"?embed=1"+(query?"&screen="+query:"");
   if(f.getAttribute("src")!==src) f.setAttribute("src",src);
   $("#consoleWrap").hidden=false; document.documentElement.classList.add("console-open"); placeConsole();
   const prop=!!query; document.body.dataset.screen=prop?"prop":"back";
@@ -2746,7 +2749,7 @@ function hideConsole(){ const w=$("#consoleWrap"); if(w) w.hidden=true; document
 window.addEventListener("resize",placeConsole);
 $("#viewSite").addEventListener("click",()=>{ hideConsole(); go(lastSite); });
 $("#viewBack").addEventListener("click",()=>{ if(CONFIG.aocUrl){ showConsole(""); return; } if($('section[data-screen="back"]')) go("back"); });
-$("#viewProp").addEventListener("click",()=>{ if(CONFIG.aocUrl && CONFIG.aocProposal!==false){ showConsole("?screen=proposal"); return; } if($('section[data-screen="prop"]')) go("prop"); });   /* the proposal lives in the console; a build without one has no proposal screen to fall back to */   /* the Proposal lives in the console too, once the console exists */
+$("#viewProp").addEventListener("click",()=>{ if(CONFIG.aocUrl && CONFIG.aocProposal!==false){ showConsole("proposal"); return; } if($('section[data-screen="prop"]')) go("prop"); });   /* the proposal lives in the console; a build without one has no proposal screen to fall back to */   /* the Proposal lives in the console too, once the console exists */
 $("#burger").addEventListener("click",()=>{const n=$("#nav");const o=n.classList.toggle("open");$("#burger").setAttribute("aria-expanded",o);});
 
 /* ---- part: days.js ----

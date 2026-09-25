@@ -140,13 +140,17 @@ html.console-open{overflow:hidden}
 body.ph-on [data-ph]{outline:1.5px dashed var(--ph);outline-offset:7px;border-radius:2px}
 body.ph-on [data-ph]>.phtag{display:inline-flex}
 /* the chip parks 13px above its box; a box that clips its overflow (a card, a tile, a torn slab) cut the chip in half ("SAMPLE CARD" on the past-events cards). While placeholders show, a box with a chip does not clip. */
-/* In the flow, the chip takes real space at the top of its box: a floating chip covered a field label 100% (No Limits), was cut in half by a clipping card (NTAC) and sat on a heading (District 23). Grid boxes give it a full row; a key-value row wraps it onto its own line; a button cannot hold it, so there it hangs above. */
-.kv:has(>.phtag){flex-wrap:wrap}
-.kv>.phtag{flex:0 0 100%;margin:0 0 4px}
-button>.phtag{position:absolute;top:auto;bottom:calc(100% + 2px);left:0;margin:0}
+/* The chip sits in a strip of padding at the top of its box and takes no part in the box's own layout.
+   Floating above the box, it was clipped by cards and covered labels; IN the flow it took a 300px grid row
+   on No Limits' hero tiles and split District 23's date signs onto two lines. A padding strip is the one
+   placement that leaves every box's own layout exactly as designed, block, grid or flex. Buttons cannot
+   carry padding for it, so there it hangs above. */
+body.ph-on [data-ph]:has(>.phtag){padding-top:34px!important}
+body.ph-on button[data-ph]:has(>.phtag){padding-top:revert!important}
+button>.phtag{top:auto;bottom:calc(100% + 2px);left:0}
 body.ph-on .tiers .tier[data-ph]{outline-offset:-1px}
 .kv[data-ph]{margin-top:18px}
-.phtag{display:none;position:relative;margin:0 0 8px;grid-column:1/-1;justify-self:start;align-self:flex-start;z-index:6;align-items:center;gap:5px;background:var(--ph);color:var(--on-ph);
+.phtag{display:none;position:absolute;top:7px;left:8px;margin:0;z-index:6;align-items:center;gap:5px;background:var(--ph);color:var(--on-ph);
   font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:2px 8px;border-radius:2px;
   max-width:calc(100% - 16px);white-space:normal;line-height:1.35}   /* wraps: a truncated chip cut mid-word ("YOUR POSTER R") is a chip nobody can read */
 .ph{text-decoration:none}

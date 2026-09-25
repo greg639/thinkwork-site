@@ -259,6 +259,99 @@ input.txt:focus{outline:2px solid var(--navy);outline-offset:1px;border-color:va
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%2316150f%22%2F%3E%3Crect%20x%3D%229%22%20y%3D%229%22%20width%3D%2214%22%20height%3D%2214%22%20fill%3D%22%23f2b705%22%20stroke%3D%22%23f4f0e6%22%20stroke-width%3D%222%22%2F%3E%3C%2Fsvg%3E">
 </head>
 <body>
+<style id="tw-shell-css">/* Prototype shell. Deliberately neutral: it must not look like it belongs to
+   any of the businesses, because it is the frame around their site, not part
+   of it. Dark bar, system type, no brand colour. */
+#tw-bar{
+  position:sticky; top:0; z-index:2147483000;
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  padding:8px 16px; padding-top:calc(8px + env(safe-area-inset-top,0px));
+  background:#16150f; color:#f4f0e6; border-bottom:1px solid #2c2a20;
+  font:500 12px/1.3 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  letter-spacing:.01em;
+}
+#tw-bar .tw-tag{color:#a8a496; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+#tw-bar .tw-tag b{color:#f4f0e6; font-weight:650}
+#tw-bar .tw-sep{opacity:.4; padding:0 7px}
+#tw-bar .tw-spacer{flex:1 1 auto; min-width:0}
+.tw-seg{display:flex; border:1px solid #3a3729; border-radius:4px; overflow:hidden; flex:none}
+.tw-seg button{
+  font:inherit; font-size:11.5px; letter-spacing:.06em; text-transform:uppercase;
+  padding:6px 12px; min-height:32px; color:#a8a496; background:transparent;
+  border:0; border-right:1px solid #3a3729; cursor:pointer;
+}
+.tw-seg button:last-child{border-right:0}
+.tw-seg button:hover{color:#f4f0e6}
+.tw-seg button[aria-pressed="true"]{background:#f2b705; color:#16150f; font-weight:650}
+.tw-seg button:focus-visible{outline:2px solid #f2b705; outline-offset:-2px}
+
+/* The site and the proposal are two views of one file. */
+#tw-app, #tw-proposal{display:block}
+body.tw-view-prop #tw-app{display:none}
+body:not(.tw-view-prop) #tw-proposal{display:none}
+
+/* Mobile view: a real 412px viewport in an iframe, not a squeezed desktop one.
+   The templates size themselves with media queries, which read the VIEWPORT,
+   so narrowing a div would only squash the desktop layout. An iframe has a
+   viewport of its own, so the phone breakpoints actually fire. */
+#tw-phone{
+  display:block; margin:26px auto; width:412px; height:min(860px,82vh);
+  border:10px solid #16150f; border-radius:26px; background:#fff;
+  box-shadow:0 22px 60px -28px rgba(0,0,0,.6);
+}
+body.tw-device-mob #tw-app{background:#e8e6de; min-height:60vh}
+
+@media (max-width:720px){
+  #tw-bar{padding:6px 10px; gap:7px}
+  #tw-bar .tw-tag{display:none}
+  .tw-seg button{padding:6px 9px; font-size:11px}
+  #tw-phone{width:100%; border-width:0; border-radius:0; margin:0; height:80vh}
+}
+@media (prefers-reduced-motion:reduce){#tw-bar *{transition:none!important}}
+
+#tw-proposal{background:#f7f6f1; color:#1b1a15; padding:clamp(28px,5vw,64px) 0 80px;
+  font:400 16px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.tw-prop-wrap{width:min(780px,100%); margin-inline:auto; padding-inline:clamp(18px,5vw,32px)}
+#tw-proposal .tw-eyebrow{font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+  color:#7a7566; margin:0 0 10px}
+#tw-proposal h1{font-size:clamp(28px,5vw,44px); line-height:1.08; margin:0 0 14px; letter-spacing:-.02em}
+#tw-proposal h2{font-size:clamp(17px,2.4vw,21px); margin:34px 0 12px; letter-spacing:-.01em}
+#tw-proposal .tw-lede{font-size:clamp(16px,2vw,18px); color:#4a4639; margin:0; max-width:60ch}
+#tw-proposal p{margin:0 0 12px}
+#tw-proposal .tw-note{font-size:14.5px; color:#5c5749; max-width:64ch}
+#tw-proposal ul,#tw-proposal ol{margin:0 0 12px; padding-left:22px}
+#tw-proposal li{margin-bottom:7px; max-width:62ch}
+.tw-built li{font-weight:600}
+.tw-tiers{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr)); gap:12px; margin:0 0 14px}
+.tw-tier{background:#fff; border:1px solid #ded9c9; border-radius:8px; padding:16px 18px}
+.tw-tier.tw-pick{border-color:#16150f; box-shadow:0 1px 0 #16150f}
+.tw-tier h3{margin:0 0 6px; font-size:15px; letter-spacing:.02em; text-transform:uppercase}
+.tw-tier .tw-price{margin:0 0 8px; display:flex; align-items:baseline; gap:6px}
+.tw-tier .tw-price b{font-size:30px; letter-spacing:-.02em}
+.tw-tier .tw-price span{font-size:13px; color:#7a7566}
+.tw-tier .tw-replaces{font-size:13px; color:#7a7566; margin:0 0 6px}
+.tw-tier .tw-includes{font-size:14px; color:#3d3a30; margin:0}
+.tw-sign{margin-top:34px; padding-top:16px; border-top:1px solid #ded9c9; font-size:14.5px; color:#5c5749}
+#tw-proposal a{color:#8a5a00}
+</style>
+<!-- The prototype shell: what the proposal is shown IN, never part of the site.
+     Injected into every build. The token Bourne Motors is the business.
+     Styled by shell.css, driven by shell.js. -->
+<div id="tw-bar" data-tw-shell>
+  <span class="tw-tag"><b>Bourne Motors</b><span class="tw-sep">/</span>ThinkWork design proposal<span class="tw-sep">/</span>clickable, nothing is really sent</span>
+  <span class="tw-spacer"></span>
+  <div class="tw-seg" role="group" aria-label="View">
+    <button type="button" id="twSite" aria-pressed="true">Site</button>
+    <button type="button" id="twProp" aria-pressed="false">Proposal</button>
+  </div>
+  <div class="tw-seg" role="group" aria-label="Device">
+    <button type="button" id="twDesk" aria-pressed="true">Desktop</button>
+    <button type="button" id="twMob" aria-pressed="false">Mobile</button>
+  </div>
+</div>
+
+<div id="tw-app">
+
 
 <div class="site">
 
@@ -504,6 +597,135 @@ input.txt:focus{outline:2px solid var(--navy);outline-offset:1px;border-color:va
 })();
 </script>
 
+
+</div>
+
+<section id="tw-proposal" aria-label="ThinkWork proposal">
+  <div class="tw-prop-wrap">
+    <p class="tw-eyebrow">ThinkWork proposal</p>
+    <h1>Bourne Motors</h1>
+    <p class="tw-lede">Everything in the demo you have just clicked through is buildable. This is what it
+      costs and what happens next. No obligation, and nothing here is a contract.</p>
+
+    
+
+    <h2>What it costs</h2>
+    <div class="tw-tiers">
+      <article class="tw-tier">
+        <h3>Starter</h3>
+        <p class="tw-price"><b>£35</b><span>a month</span></p>
+        <p class="tw-replaces">Instead of Wix / WordPress</p>
+        <p class="tw-includes">Mobile-friendly, easy-to-buy website, hosting, edits</p>
+      </article>
+      <article class="tw-tier tw-pick">
+        <h3>Growth</h3>
+        <p class="tw-price"><b>£99</b><span>a month</span></p>
+        <p class="tw-replaces">Instead of + Calendly / Eventbrite / membership tools</p>
+        <p class="tw-includes">+ booking, memberships, referral systems, growth loops</p>
+      </article>
+      <article class="tw-tier">
+        <h3>Premium</h3>
+        <p class="tw-price"><b>£199</b><span>a month</span></p>
+        <p class="tw-replaces">Instead of + a full AI layer + bespoke software</p>
+        <p class="tw-includes">+ AI discoverability, AI content, AI chat agents, custom systems</p>
+      </article></div>
+    <p class="tw-note">£650 to build and launch it, then the monthly plan on a 12-month minimum term.
+      No-BS Advisory can be added to any plan at £150 a month. Add-on to any tier. Never sold on its own.</p>
+
+    <h2>The terms, in plain words</h2>
+    <ul class="tw-terms">
+      <li>The site goes live, and the setup fee plus the first month fall due, on the same day.</li>
+      <li>You own it. Your domain stays registered to you; we manage the DNS and the hosting.</li>
+      <li>Every monthly plan carries a minimum term, to protect the build from churn right after go-live.</li>
+    </ul>
+
+    <h2>What happens next</h2>
+    <ol class="tw-next">
+      <li>You tell us what is wrong in the demo: the prices, the hours, the photos, the words.</li>
+      <li>We correct it and put your real details in, and you look again.</li>
+      <li>If you want it, it goes live on your own domain, and you own it.</li>
+    </ol>
+
+    <p class="tw-sign">Greg McCallum &middot; ThinkWork &middot;
+      <a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></p>
+  </div>
+</section>
+<script id="tw-shell-js">/* Prototype shell behaviour: two views, two devices.
+ *
+ * Bare mode first. The mobile view loads this same file inside an iframe with
+ * ?tw=bare, and that copy must render as the plain site - no toolbar, no
+ * proposal, or the phone would contain a second toolbar and its own phone.
+ * Nothing else in the page knows the shell exists. */
+(function () {
+  'use strict';
+  var doc = document;
+  var bare = /[?&]tw=bare/.test(location.search);
+
+  var bar = doc.getElementById('tw-bar');
+  var prop = doc.getElementById('tw-proposal');
+
+  if (bare) {
+    if (bar) bar.remove();
+    if (prop) prop.remove();
+    return;
+  }
+  if (!bar) return;
+
+  var app = doc.getElementById('tw-app');
+  var body = doc.body;
+  var press = function (el, on) { if (el) el.setAttribute('aria-pressed', on ? 'true' : 'false'); };
+
+  var site = doc.getElementById('twSite');
+  var proposal = doc.getElementById('twProp');
+  var desk = doc.getElementById('twDesk');
+  var mob = doc.getElementById('twMob');
+
+  function view(which) {
+    var onProp = which === 'prop';
+    body.classList.toggle('tw-view-prop', onProp);
+    press(site, !onProp);
+    press(proposal, onProp);
+    window.scrollTo(0, 0);
+  }
+
+  var phone = null;
+  function device(which) {
+    var onMob = which === 'mob';
+    body.classList.toggle('tw-device-mob', onMob);
+    press(desk, !onMob);
+    press(mob, onMob);
+    if (!app) return;
+    if (onMob) {
+      if (!phone) {
+        phone = doc.createElement('iframe');
+        phone.id = 'tw-phone';
+        phone.title = 'Phone preview';
+        phone.loading = 'eager';
+        // Same file, marked bare, so the phone shows the site and nothing else.
+        var u = location.pathname + (location.search ? location.search + '&' : '?') + 'tw=bare';
+        phone.src = u + location.hash;
+      }
+      app.setAttribute('data-tw-hidden', '');
+      [].forEach.call(app.children, function (c) { if (c !== phone) c.style.display = 'none'; });
+      app.appendChild(phone);
+      phone.style.display = 'block';
+    } else if (phone) {
+      phone.style.display = 'none';
+      app.removeAttribute('data-tw-hidden');
+      [].forEach.call(app.children, function (c) { if (c !== phone) c.style.display = ''; });
+    }
+    window.scrollTo(0, 0);
+  }
+
+  if (site) site.addEventListener('click', function () { view('site'); });
+  if (proposal) proposal.addEventListener('click', function () { view('prop'); });
+  if (desk) desk.addEventListener('click', function () { device('desk'); });
+  if (mob) mob.addEventListener('click', function () { device('mob'); });
+
+  // Deep links, so a proposal can be sent straight to the money page.
+  if (/[?&]tw=proposal/.test(location.search) || location.hash === '#proposal') view('prop');
+})();
+</script>
 
 <style id="hs-base">/* Base, injected into every built site.
  *

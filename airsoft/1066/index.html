@@ -2280,13 +2280,14 @@ matchMedia("(prefers-color-scheme:dark)").addEventListener("change",syncTheme);
     document.body.appendChild(wrap); frame=wrap.firstChild;
     frame.addEventListener('load',function(){ try{ frame.contentDocument.querySelectorAll('a[href]').forEach(function(a){ var h=a.getAttribute('href')||''; if(/^(\.\.\/|\/airsoft\/1066\/)(index\.html)?(\?|#|$)/.test(h)) a.target='_top'; }); }catch(e){} });
     return frame; }
-  function place(){ if(!wrap||wrap.hidden) return; wrap.style.top=(bar?Math.round(bar.getBoundingClientRect().bottom):0)+'px'; }
-  function show(q){ var f=ensure(), src=AOC+(q||''); if(f.getAttribute('src')!==src) f.setAttribute('src',src); wrap.hidden=false; document.documentElement.style.overflow='hidden'; place();
+  function place(){ if(!wrap||wrap.hidden) return; wrap.style.top=(bar?Math.round(bar.getBoundingClientRect().bottom):0)+'px'; var app=document.getElementById('app'); if(app){ var r=app.getBoundingClientRect(); wrap.style.left=Math.round(r.left)+'px'; wrap.style.width=Math.round(r.width)+'px'; wrap.style.right='auto'; } }
+  var appEl=document.getElementById('app'); if(appEl) new MutationObserver(place).observe(appEl,{attributes:true,attributeFilter:['class']});
+  function show(q){ var f=ensure(), src=AOC+'?embed=1'+(q?'&screen='+q:''); if(f.getAttribute('src')!==src) f.setAttribute('src',src); wrap.hidden=false; document.documentElement.style.overflow='hidden'; place();
     var prop=document.getElementById('viewProp'), site=document.getElementById('viewSite'); if(prop) prop.setAttribute('aria-pressed',!!q); if(site) site.setAttribute('aria-pressed',false); if(back) back.setAttribute('aria-pressed',!q); window.scrollTo(0,0); }
   function hide(){ if(wrap) wrap.hidden=true; document.documentElement.style.overflow=''; if(back) back.setAttribute('aria-pressed',false); }
   var back=null; document.querySelectorAll('#bar a').forEach(function(a){ if(/aoc\/?$/.test(a.getAttribute('href')||'') && /back end/i.test(a.textContent)) back=a; });
   if(back){ back.addEventListener('click', function(e){ e.preventDefault(); show(''); }); }
-  var prop=document.getElementById('viewProp'); if(prop) prop.addEventListener('click', function(e){ e.stopImmediatePropagation(); e.preventDefault(); show('?screen=proposal'); }, true);
+  var prop=document.getElementById('viewProp'); if(prop) prop.addEventListener('click', function(e){ e.stopImmediatePropagation(); e.preventDefault(); show('proposal'); }, true);
   var site=document.getElementById('viewSite'); if(site) site.addEventListener('click', function(){ hide(); }, true);
   window.addEventListener('resize', place);
 })();

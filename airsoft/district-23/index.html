@@ -208,7 +208,9 @@ nav.main button.on{color:var(--text);box-shadow:inset 0 -3px 0 var(--red-hi)}
 @container page (max-width:640px){
   .headrow{gap:8px}
   .mark{min-width:0;flex:1 1 auto}
-  .wordmark{font-size:16px;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  /* a long name wraps to two lines instead of running under the Menu button ("Commando Force Airsoft" was 22% covered) or truncating ("DIRTY DOG AI…"): the mark shrinks, the wordmark wraps */
+  .headrow>.mark{min-width:0;flex:1 1 auto}
+  .wordmark{font-size:15px;line-height:1.05;white-space:normal;overflow:visible;text-overflow:clip;max-width:100%}
   .headcta{flex:0 0 auto;margin-left:auto}
   .headcta .btn.sm{padding:9px 10px;font-size:12.5px}
 }
@@ -1133,6 +1135,9 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
   .evrows b{font-size:20px}
   .evtop .splat{left:auto;right:-20%;width:55vw;top:-140px;opacity:.45}
 }
+/* a phone: the two price signs stack. Side by side, a one-word sign ("Deposit") set at display size is wider than
+   half a 390px screen and cannot wrap, so it ran 65px past the right edge on frontline-events' events page (26 Sep). */
+@media (max-width:480px){.evprice{grid-template-columns:1fr}}
 /* ---- part: backend.css ----
    The owner's back end: the same world as the site, laid out as an operator app.
    Rail of tabs, stat tiles, lists, grid tables that stack at phone width instead
@@ -2891,7 +2896,8 @@ const fmtShort=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
   $("#ripDate").textContent=nx.dt.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"long"});
   $("#ripKind").textContent=nx.n||"Next running day";
   if(nx.price){$("#ripPrice").textContent=gbp(nx.price)+" entry";$("#ripNote").textContent=nx.dep?gbp(nx.dep)+" deposit to secure":"";}
-  else{$("#ripPrice").textContent=gbp(FARE.walkon.full.n)+" "+LBL.walkon.toLowerCase();$("#ripNote").textContent="Members "+gbp(FARE.walkon.full.m)+" · "+LBL.hire.toLowerCase()+" "+gbp(FARE.hire.full.n);}
+  /* a site with no member price (the member fare falls back to the full fare) does not print "Members £35" beside a £35 own-gunner day */
+  else{$("#ripPrice").textContent=gbp(FARE.walkon.full.n)+" "+LBL.walkon.toLowerCase();$("#ripNote").textContent=(FARE.walkon.full.m<FARE.walkon.full.n?"Members "+gbp(FARE.walkon.full.m)+" · ":"")+LBL.hire.toLowerCase()+" "+gbp(FARE.hire.full.n);}
 })();
 
 /* running days list */

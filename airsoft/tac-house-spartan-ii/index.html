@@ -9,15 +9,13 @@
 <link rel="preload" as="image" href="assets/frontage.png" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- the fonts load beside the page, not in front of it. display=swap draws the fallback face until each font lands. -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Pragati+Narrow:wght@400;700&family=Chakra+Petch:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Pragati+Narrow:wght@400;700&family=Chakra+Petch:wght@400;500;600;700&display=swap"></noscript>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%226%22%20fill%3D%22%231b1f1a%22%2F%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%228%22%20fill%3D%22none%22%20stroke%3D%22%23ff6a13%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M16%204v7M16%2021v7M4%2016h7M21%2016h7%22%20stroke%3D%22%23ff6a13%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E">
 <style>
 /* ---------- tokens: STEEL CITY. Your identity: the gold Spartan helmet in its meander ring on black, and a derelict red brick tooling factory in Sheffield. ---------- */
 :root{
   --logo:url(assets/logo-helmet.png);
-  --display:"Saira Stencil One","Impact","Arial Narrow",sans-serif;
-  --ui:"Pragati Narrow","Arial Narrow",ui-sans-serif,system-ui,sans-serif;
+  --display:"Cinzel","Trajan Pro",Georgia,serif;
+  --ui:"Barlow Semi Condensed","Arial Narrow",ui-sans-serif,system-ui,sans-serif;
   --mono:"Chakra Petch",ui-monospace,SFMono-Regular,Menlo,monospace;
   /* your site is black on white and white on black. The ground is wet asphalt, not pure black, so it is yours and not 1066's. */
   --bg:#15181D; --surface:#1E2228; --surface-2:#282D35; --sunk:#0F1114;
@@ -303,16 +301,14 @@ body.ph-on .tiles,body.ph-on .cols2[data-ph]{padding-top:12px}
 .btn.primary{color:var(--on-red)}
 .wordmark{font-weight:400}
 h1,h2,h3,h4,.bigfig,.fare tbody th,.tt .t,.day .date b,.board .r .d,.tier .price{font-weight:400}
-/* Saira Stencil One carries tall ascent and descent metrics, so every display line box is opened up and every heading gets clear air above and below */
+/* Cinzel carries tall ascent and descent metrics, so every display line box is opened up and every heading gets clear air above and below */
 h1{line-height:1}h2{line-height:1.08;margin-top:16px!important;margin-bottom:14px!important}h3{line-height:1.12;margin-top:12px!important}
 .bigfig,.tt .t,.day .date b,.board .r .d,.fare tbody th,.fare td.p,.tier .price,.sign b,.feat b,.icons b,.tt h4,.chrono td b,.rip{line-height:1.1}
 .rip{margin-top:28px}   /* the stencil face's line box runs past its glyphs; the date rip sat a third of the way into the event title */
 .tt h4{margin-bottom:12px;line-height:1.4}.tt p{margin-top:6px}.tt li{padding-block:18px}.bigfig{margin-top:24px!important;line-height:1.15}html{scroll-padding-top:140px}.icons .l{margin-top:6px}
 .eyebrow.red{color:var(--red-ink)}
-/* ---------- hero: split. Type on asphalt, your slider photograph on the right behind a hazard edge, the roundel as a watermark ---------- */
+/* ---------- hero: a full-bleed stage of their own pictures behind the type (hero-motion), the roundel as a watermark ---------- */
 .hero{position:relative;overflow:clip;border-bottom:6px solid transparent;border-image:var(--stripe) 1}
-.hero .photo{position:absolute;inset:0 0 0 52%;background:url(assets/frontage.png) 60% 40%/cover no-repeat;filter:saturate(.7) contrast(1.05)}
-.hero .photo::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 55%,transparent) 22%,color-mix(in srgb,var(--bg) 15%,transparent) 60%,color-mix(in srgb,var(--bg) 65%,transparent) 100%),linear-gradient(180deg,color-mix(in srgb,var(--bg) 10%,transparent) 0%,color-mix(in srgb,var(--bg) 5%,transparent) 50%,var(--bg) 100%)}
 .hero::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:var(--stripe);z-index:3}
 .hero .photocredit{position:absolute;right:12px;top:12px;z-index:3;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text);background:var(--sunk);padding:3px 7px;border-radius:2px}
 /* the star lands: your roundel at watermark scale, hits with an overshoot and holds. texture-lands.css animates it. */
@@ -331,6 +327,55 @@ h1{line-height:1}h2{line-height:1.08;margin-top:16px!important;margin-bottom:14p
 @keyframes drip-down{from{clip-path:inset(0 0 58% 0)}to{clip-path:inset(0 0 0 0)}}
 html.splat-done .hero .splat{animation:none}
 @media (prefers-reduced-motion:reduce){.hero .splat{animation:none}}
+/* ---- part: hero-motion.css ----
+   The opening screen moves. A stage of the business's own pictures behind the type: each slide holds
+   (--hold, 5s) with a slow push-in and crossfades to the next; slide k waits k times --hold before its
+   first cycle (a POSITIVE delay: a negative one would start it mid-cycle and reverse the order). Over the pictures: procedural rain on a
+   canvas and a lightning strike (an SVG bolt, a white flash, a brightness pop), both drawn by
+   hero-motion.js and both under the scrim, so the type column is always the flat ground the contrast
+   gate measures. The type arrives once, in about a second (hero-motion.js, Web Animations), so every
+   gate that waits two seconds measures the settled page. Under prefers-reduced-motion nothing moves:
+   the first slide is simply there, the rain and the bolt are not drawn, the type is in place.
+   Expects: .hero > .stage.n3|n4|n5[data-stage] > img.slide[style="--at:Ns;--pos:x y"] (first slide
+   eager), canvas.rain, svg.bolt > path.glow + path.core, .flash; .hero [data-stage-credit]. The headline stays ONE element with <br>s and an <em> for the accent lines: any element per line
+   is flagged by the collision gate under tight leading (its box covers the line above); the reveal slides the whole h1.
+   Reads no CONFIG. Tokens: --bg (the scrim), --hold (seconds per slide). */
+.hero{--hold:5s}
+.hero .stage{position:absolute;inset:0;overflow:hidden;background:var(--sunk,#000)}
+.hero .stage img.slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 40%);opacity:0;
+  filter:saturate(.78) contrast(1.06) brightness(.92);will-change:opacity,transform;
+  animation:slide-cycle-4 calc(var(--hold)*4) linear infinite,slide-kb-4 calc(var(--hold)*4) linear infinite;animation-delay:var(--at,0s)}
+.hero .stage.n3 img.slide{animation-name:slide-cycle-3,slide-kb-3;animation-duration:calc(var(--hold)*3)}
+.hero .stage.n5 img.slide{animation-name:slide-cycle-5,slide-kb-5;animation-duration:calc(var(--hold)*5)}
+/* four slides: each holds a quarter of the cycle, with a 6% crossfade either side */
+@keyframes slide-cycle-4{0%{opacity:0}6%{opacity:1}25%{opacity:1}31%{opacity:0}100%{opacity:0}}
+@keyframes slide-kb-4{0%{transform:scale(1.03)}31%{transform:scale(1.17) translate(-1.6%,-1.2%)}31.001%{transform:scale(1.03)}100%{transform:scale(1.03)}}
+@keyframes slide-cycle-3{0%{opacity:0}7%{opacity:1}33.3%{opacity:1}40.5%{opacity:0}100%{opacity:0}}
+@keyframes slide-kb-3{0%{transform:scale(1.03)}40.5%{transform:scale(1.17) translate(-1.6%,-1.2%)}40.501%{transform:scale(1.03)}100%{transform:scale(1.03)}}
+@keyframes slide-cycle-5{0%{opacity:0}5%{opacity:1}20%{opacity:1}25%{opacity:0}100%{opacity:0}}
+@keyframes slide-kb-5{0%{transform:scale(1.03)}25%{transform:scale(1.17) translate(-1.6%,-1.2%)}25.001%{transform:scale(1.03)}100%{transform:scale(1.03)}}
+/* the weather, drawn by hero-motion.js */
+.hero .stage canvas.rain{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.7}
+.hero .stage svg.bolt{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0;overflow:visible}
+.hero .stage svg.bolt path{fill:none;stroke:#fff;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.hero .stage svg.bolt path.core{stroke-width:3.4;filter:drop-shadow(0 0 4px #fff) drop-shadow(0 0 16px #BFD8FF)}
+.hero .stage svg.bolt path.glow{stroke:#CFE0FF;stroke-width:12;opacity:.45;filter:blur(3px)}
+.hero .stage .flash{position:absolute;inset:0;background:#EAF2FF;opacity:0;pointer-events:none}
+.hero.strike .stage img.slide{filter:saturate(.7) contrast(1.18) brightness(1.5)}
+/* the scrim: the type column is flat ground, the picture lives top right, the lower half fades to the page */
+.hero .stage::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,var(--bg) 0%,var(--bg) 28%,color-mix(in srgb,var(--bg) 90%,transparent) 44%,color-mix(in srgb,var(--bg) 58%,transparent) 58%,color-mix(in srgb,var(--bg) 26%,transparent) 72%,color-mix(in srgb,var(--bg) 10%,transparent) 100%),
+             linear-gradient(180deg,color-mix(in srgb,var(--bg) 30%,transparent) 0%,transparent 26%,color-mix(in srgb,var(--bg) 55%,transparent) 60%,var(--bg) 88%)}
+/* a slow drift of the whole stage as the page scrolls away from it */
+@supports (animation-timeline:scroll()){@media (prefers-reduced-motion:no-preference){
+  .hero .stage{animation:stage-drift linear both;animation-timeline:scroll(root);animation-range:0 100vh}
+  @keyframes stage-drift{from{transform:translateY(0)}to{transform:translateY(14%)}}
+}}
+@media (prefers-reduced-motion:reduce){
+  .hero .stage img.slide{animation:none;opacity:0}
+  .hero .stage img.slide:first-of-type{opacity:1}
+  .hero .stage canvas.rain,.hero .stage svg.bolt,.hero .stage .flash{display:none}
+}
 .hero .wrap{position:relative;z-index:2;padding-block:clamp(22px,2.6cqi,40px) clamp(28px,3.4cqi,56px)}
 .hero .copy{max-width:min(62%,780px)}
 .hero .place{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:24px}
@@ -343,7 +388,7 @@ html.splat-done .hero .splat{animation:none}
 .hero h1 em{font-style:normal;color:var(--red-hi)}
 .hero .lede{color:var(--text-2);margin-top:22px;max-width:52ch}
 .hero .brandmark{width:72px;height:72px;margin-bottom:10px;filter:drop-shadow(0 6px 18px rgba(0,0,0,.6))}
-@media (max-height:820px){
+@media (max-height:940px){
   .hero .wrap{padding-block:14px clamp(28px,3.4cqi,56px)}
   .hero .brandmark{width:56px;height:56px;margin-bottom:6px}
   .hero .place{margin-bottom:8px}
@@ -584,7 +629,7 @@ footer.site ul button:hover{color:var(--red-ink)}
   .day .price{text-align:left}
   .hero .wrap{padding-top:24px}
   .hero .copy{max-width:100%}
-  .hero .photo{inset:0;opacity:.35}
+  .hero .stage{opacity:.58}.hero .stage canvas.rain{opacity:.45}.hero .stage::after{background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 42%,transparent) 0%,color-mix(in srgb,var(--bg) 58%,transparent) 45%,var(--bg) 92%)}.hero h1,.hero .lede,.hero .place,.hero .brandmark{text-shadow:0 2px 14px rgba(0,0,0,.8)}
   .hero .splat{width:60vw;left:auto;right:-20%;bottom:auto;top:-10%;opacity:.06}
 }
 @container page (max-width:1140px){
@@ -1411,8 +1456,16 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 <section data-screen="home">
 
   <div class="hero plate">
-    <div class="photo" aria-hidden="true"></div>
-    <span class="photocredit">From our homepage</span>
+    <div class="stage n4" data-stage aria-hidden="true">
+      <img class="slide" src="assets/hero-players.jpg" alt="" width="1076" height="622" fetchpriority="high" decoding="async" style="--at:0s;--pos:50% 38%" data-credit="Players in the factory, from our homepage" data-rain=".35">
+      <img class="slide" src="assets/hero-frontage.jpg" alt="" width="1280" height="560" decoding="async" style="--at:5s;--pos:40% 40%" data-credit="The Stanley Tools frontage, from our homepage" data-rain=".95" data-lightning="1">
+      <img class="slide" src="assets/hero-phalanx.jpg" alt="" width="836" height="808" decoding="async" style="--at:10s;--pos:50% 30%" data-credit="Our Spartan artwork, illustrative: not a photograph" data-rain=".5" data-lightning="1">
+      <img class="slide" src="assets/hero-spartan.jpg" alt="" width="1076" height="920" decoding="async" style="--at:15s;--pos:50% 28%" data-credit="Our Spartan artwork, illustrative: not a photograph" data-rain=".75" data-lightning="1">
+      <canvas class="rain" aria-hidden="true"></canvas>
+      <svg class="bolt" aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none"><path class="glow" d=""/><path class="core" d=""/></svg>
+      <div class="flash" aria-hidden="true"></div>
+    </div>
+    <span class="photocredit" data-stage-credit>Players in the factory, from our homepage</span>
     <div class="splat" aria-hidden="true"></div>
     <!-- @@HERO-DOG -->
     <div class="wrap">
@@ -1446,8 +1499,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <div class="hd"><span>Day</span><span>Session</span><span>Doors</span><span>Brief</span><span>Endex</span><span></span></div>
         <div id="boardRows"></div>
       </div>
-      <p class="note"><b>Why</b><span>Your opening screen is your own identity pushed harder: the star, your stencil, black and one hazard yellow, and the street. Your homepage today opens on a stock slider with three slogans and no address;
-        this opens on what you are (one hundred thousand square feet of CQB over four floors, in Sheffield), where you are, and a button. The photograph behind it is your own building, the Stanley Tools frontage you put on your homepage.</span></p>
+      <p class="note"><b>Why</b><span>Your opening screen is your own identity pushed harder: your gold Spartan on a crimson ground, the red of your own splatter artwork and the brick of the Stanley Tools frontage, set in Roman inscriptional capitals. It opens on what you are (one hundred thousand square feet of CQB over four floors, in Sheffield), where you are, and a button. Behind it, your own pictures in turn: the players in the factory, the Stanley Tools frontage in a storm, Rutland Road from the air and your Spartan; the rain and the lightning are drawn on the screen, not filmed, and none of it moves for a visitor who has asked for reduced motion.</span></p>
     </div>
   </div>
   <div class="tagline plate"><p>Committed to retaining old skool airsoft values: <em>honour, honesty and respect.</em></p><p class="note"><b>Why</b><span>Your line, word for word off your homepage. It is the first thing you say about yourselves, so it is the line the page repeats.</span></p></div>
@@ -1473,7 +1525,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <div>
           <p class="eyebrow">Prices</p>
           <h2 style="margin:10px 0 8px">One session, two prices</h2>
-          <p class="lede" style="margin-bottom:22px">Members get discounts on field fees. Throw the lever and the board does the sum.</p>
+          <p class="lede" style="margin-bottom:22px">Two prices today, own kit or the hire package. A member price is proposed: throw the lever and the board does the sum.</p>
           <div class="enamel" data-ph="1"><span class="phtag">Your two ticket prices are real; the member and half day columns are proposed</span>
             <div class="pad" style="padding-bottom:10px">
               <table class="fare" aria-describedby="fareNote">
@@ -1482,7 +1534,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
                   <tr><th scope="row">Own kit<small>Your own gun, eyes and BBs, over the chrono</small></th>
                     <td class="p" data-fare="walkon.full"><span class="flap">&pound;35</span><s></s></td>
                     <td class="p" data-fare="walkon.half"><span class="flap">&pound;35</span><s></s></td></tr>
-                  <tr><th scope="row">Rental<small>Gun, mask and tactical gear supplied</small></th>
+                  <tr><th scope="row">Hire package<small>Gun, mask and 3,000 BBs</small></th>
                     <td class="p" data-fare="hire.full"><span class="flap">&pound;59</span><s></s></td>
                     <td class="p" data-fare="hire.half"><span class="flap">&pound;59</span><s></s></td></tr>
                 </tbody>
@@ -1654,13 +1706,14 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <table class="chrono">
               <thead><tr><th>BB weight</th><th>Limit</th><th></th></tr></thead>
               <tbody>
-                <tr><td>0.20g</td><td><b>350</b> fps</td><td class="tiny">One over and it stays in the bag</td></tr>
-                <tr><td>0.25g</td><td><b>313</b> fps</td><td class="tiny">Chrono'd with your own BBs</td></tr>
-                <tr><td>0.28g</td><td><b>296</b> fps</td><td class="tiny">HPA valves mechanically locked</td></tr>
+                <tr><td>0.20g</td><td><b>350</b> fps</td><td class="tiny">328 actual at 1 joule</td></tr>
+                <tr><td>0.25g</td><td><b>314</b> fps</td><td class="tiny">294 actual; 1.14 joule with variance</td></tr>
+                <tr><td>0.28g</td><td><b>296</b> fps</td><td class="tiny">277 actual; semi auto only</td></tr>
+                <tr><td>0.30g</td><td><b>286</b> fps</td><td class="tiny">268 actual; HPA valves locked</td></tr>
               </tbody>
             </table>
-            <p class="tiny" style="margin-top:8px">We only allow these three BB weights.</p>
-            <p class="note"><b>Why</b><span>Every figure is off your Rules and Waivers page. Most sites bury the chrono; yours is clear, so it goes on the front page and into the FAQ an assistant reads.</span></p>
+            <p class="tiny" style="margin-top:8px">BB weights from 0.20g up to and including 0.30g. Every weapon over the chrono before play, with random checks during.</p>
+            <p class="note"><b>Why</b><span>Every figure is off your FPS chart, actual and maximum with variance. Most sites bury the chrono; yours is a chart, so it goes on the front page and into the FAQ an assistant reads.</span></p>
           </div>
           <div class="card pad">
             <p class="eyebrow">When we open</p>
@@ -1749,15 +1802,15 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <details><summary>How much is membership at Tac House Spartan II?</summary>
           <div class="ans"><span class="ph">A membership is proposed, not on sale today: a card that takes a member price off every game day, bought online and renewing itself.</span></div></details>
         <details><summary>What are the FPS limits at Tac House Spartan II?</summary>
-          <div class="ans">0.20g at 350 fps, 0.25g at 313 fps and 0.28g at 296 fps. Only those three BB weights are allowed.</div></details>
+          <div class="ans">350 fps on 0.20g, 314 on 0.25g, 296 on 0.28g and 286 on 0.30g: 1 joule actual, 1.14 joule with variance. Semi auto only, and BB weights from 0.20g up to and including 0.30g.</div></details>
         <details><summary>Do under-18s need full face protection at Tac House Spartan II?</summary>
           <div class="ans">Yes. Players aged 17 and under wear full face protection, and everyone wears eye protection rated to 500 fps point blank at all times in the game zone. The minimum age is 11 with a parent or guardian, or 16 without one.</div></details>
         <details><summary>Can I rent a gun at Tac House Spartan II?</summary>
           <div class="ans">Yes. If you do not have your own gear and require an airsoft rental, choose a rental when you book. <span class="ph">Pre-booking the rental online so it is on the rack when you arrive is proposed.</span></div></details>
-        <details><summary>Do you do HPA refills at Tac House Spartan II?</summary>
-          <div class="ans">Yes, HPA is allowed. The limit for HPA is the 1 joule actual figure with no max variance, and the valve must be mechanically locked so it cannot be tampered with, without tools, within the play area.</div></details>
-        <details><summary>Does Tac House Spartan II do birthday parties?</summary>
-          <div class="ans">Yes. Tac House Spartan II runs private game days for groups and specialist training days for single players or formed teams. <span class="ph">A quote on screen with a deposit button is proposed.</span></div></details>
+        <details><summary>Is HPA allowed at Tac House Spartan II?</summary>
+          <div class="ans">Yes, at 1 joule, and the valve must be mechanically locked so it cannot be tampered with, without tools, within the play area.</div></details>
+        <details><summary>Does Tac House Spartan II do private game days?</summary>
+          <div class="ans">Not today. <span class="ph">Private game days for groups, quoted on screen with a deposit button, are proposed.</span></div></details>
       </div>
       <p class="note"><b>AI</b><span>Each question is phrased the way people type it, answered in the first sentence, and published as FAQPage structured data. Only the verified answers go into the structured data; the proposed sentences are kept out of it so nothing an assistant quotes is invented. The price answer is verified: your ticket page prints £35 and £59, so an assistant can quote them.</span></p>
     </div>
@@ -1773,7 +1826,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
       <p class="lede" style="margin-bottom:22px">Open game days on Sundays, 08:20 to 16:30, safety brief at 09:45. <span class="ph">Your four published Sundays are real; the rows after them are a sample shape.</span></p>
       <div class="filters" id="dayFilters">
         <button data-f="all" aria-pressed="true">All</button>
-        <button data-f="Saturday" aria-pressed="false">Saturdays</button>
+        <button data-f="Sunday" aria-pressed="false">Sundays</button>
         <button data-f="Sunday" aria-pressed="false">Sundays</button>
       </div>
       <div class="days" id="dayList" data-ph="1"><span class="phtag">Sample sessions and sample places left</span></div>
@@ -1892,7 +1945,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           </div>
         </div>
       </div>
-      <p class="note"><b>&pound;</b><span>The deposit is a mechanic your site cannot run today: a held place, a receipt sent, and a count on Friday of who is coming on Saturday, without a platform between you and the money.</span></p>
+      <p class="note"><b>&pound;</b><span>The deposit is a mechanic your site cannot run today: a held place, a receipt sent, and a count on Saturday night of who is coming on Sunday, without a platform between you and the money.</span></p>
     </div>
   </div>
 
@@ -1941,7 +1994,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
                 <div class="stepper" data-t="walkon"><button data-d="-1" aria-label="fewer">&minus;</button><output>1</output><button data-d="1" aria-label="more">+</button></div></div>
             </div>
             <div class="ticket" id="hireRow">
-              <div><h4>Rental</h4><p>Gun, mask and tactical gear supplied. Choose a rental if you have no gear.</p></div>
+              <div><h4>Hire package</h4><p>Gun, mask and 3,000 BBs. Choose the hire package if you have no gear.</p></div>
               <div class="row" style="gap:14px"><span class="pr" data-pr="hire">&pound;59</span>
                 <div class="stepper" data-t="hire"><button data-d="-1" aria-label="fewer">&minus;</button><output>0</output><button data-d="1" aria-label="more">+</button></div></div>
             </div>
@@ -2118,7 +2171,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 <!-- ============ PARTIES & GROUPS ============ -->
 <section data-screen="parties" hidden>
   <div class="band tight plate photoband brief">
-    <span class="bandcredit">Illustrative background</span>
+    <span class="bandcredit">Our artwork, illustrative: not a photograph</span>
     <div class="wrap">
       <p class="eyebrow">Groups</p>
       <h2 style="margin:10px 0 10px">Groups and training days</h2>
@@ -2148,7 +2201,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <button class="btn primary wide" style="margin-top:14px" id="qBook">Hold this date</button>
             <p class="eyebrow" id="qMsg" style="margin-top:8px;color:var(--go)"></p>
           </div></div>
-          <p class="note"><b>&pound;</b><span>Group work is the highest-margin thing you sell, and a private day fills a Saturday the open game days leave empty. A quote on screen with a deposit holds the date without a phone call.</span></p>
+          <p class="note"><b>&pound;</b><span>Group work is the highest-margin thing you sell, and a private day fills a Saturday or a weekday the open Sundays leave empty. A quote on screen with a deposit holds the date without a phone call.</span></p>
         </div>
       </div>
     </div>
@@ -2186,7 +2239,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <p class="eyebrow">Real and on site today</p>
             <div class="kv"><span>Rental gear</span><b style="color:var(--go)">On site today</b></div>
             <div class="kv"><span>Hire package, &pound;59</span><b style="color:var(--go)">On your ticket page today</b></div>
-            <div class="kv"><span>Tactical gear</span><b style="color:var(--go)">On site today</b></div>
+            <div class="kv"><span>Safety rules</span><b style="color:var(--go)">On your rules pages today</b></div>
             <div class="kv"><span>Pre-order and pay online</span><b style="color:var(--ph)">Proposed</b></div>
             <div class="kv"><span>A shop</span><b style="color:var(--text-3)">Not claimed</b></div>
           </div>
@@ -2221,10 +2274,10 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <p class="eyebrow">History</p>
             <div class="tblscroll"><table class="tbl" style="margin-top:8px">
               <tr><th>Date</th><th>Day</th><th>Tickets</th><th class="num">Paid</th></tr>
-              <tr><td class="mono">12 Sep</td><td>Saturday</td><td>1 own kit, full</td><td class="num">&pound;35</td></tr>
-              <tr><td class="mono">29 Aug</td><td>Saturday</td><td>1 own kit, full</td><td class="num">&pound;35</td></tr>
-              <tr><td class="mono">15 Aug</td><td>Saturday</td><td>1 own kit, full</td><td class="num">&pound;35</td></tr>
-              <tr><td class="mono">1 Aug</td><td>Saturday</td><td>1 own kit, full</td><td class="num">&pound;35</td></tr>
+              <tr><td class="mono">13 Sep</td><td>Sunday</td><td>1 own kit, full</td><td class="num">&pound;35</td></tr>
+              <tr><td class="mono">30 Aug</td><td>Sunday</td><td>1 own kit, full</td><td class="num">&pound;35</td></tr>
+              <tr><td class="mono">16 Aug</td><td>Sunday</td><td>1 own kit, full</td><td class="num">&pound;35</td></tr>
+              <tr><td class="mono">2 Aug</td><td>Sunday</td><td>1 own kit, full</td><td class="num">&pound;35</td></tr>
               <tr><td class="mono">3 Mar</td><td>Membership</td><td>12 months</td><td class="num">&pound;60</td></tr>
             </table></div>
           </div>
@@ -2267,7 +2320,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           <div>
             <p class="eyebrow red">Your desk. Not a public page.</p>
             <h2 style="margin-top:8px">Tac House Spartan II</h2>
-            <p class="small muted" style="margin-top:8px;max-width:64ch">This is what you see on a Saturday morning and on a Tuesday night once the site takes the money. Every number on it is sample: it shows the shape of the thing, not your real figures.</p>
+            <p class="small muted" style="margin-top:8px;max-width:64ch">This is what you see on a Sunday morning once the site takes the money. Every number on it is sample: it shows the shape of the thing, not your real figures.</p>
           </div>
         </div>
         <div class="row" style="gap:8px;align-self:flex-start">
@@ -2294,9 +2347,9 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
               <div>
                 <p class="eyebrow">Manifest</p>
                 <h3 class="bk-title" id="bkTodayDate">Next running day</h3>
-                <p class="small muted" style="margin-top:6px">Everyone who has booked and paid, before you open the doors at 10:00. Sample session shape after that.</p>
+                <p class="small muted" style="margin-top:6px">Everyone who has booked and paid, before you open the doors at 08:20. Sample session shape after that.</p>
               </div>
-              <span class="bk-flash"><span>Doors 10:00</span></span>
+              <span class="bk-flash"><span>Doors 08:20</span></span>
             </div>
             <div class="bk-stats">
               <div class="bk-stat"><span class="eyebrow">Players booked</span><b id="bkPlayers">31</b><small id="bkSplit1">20 own kit, 11 rental</small></div>
@@ -2366,7 +2419,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
                   <p class="bk-big muted">&pound;905</p>
                   <p class="small muted">38 players through the Wix ticket page, a service fee on top of every ticket and most of the money collected at the door. No pre-orders, no rentals booked ahead, no membership sold.</p>
                   <div style="margin-top:14px">
-                    <div class="kv"><span>This Saturday, paid ahead</span><b id="bkTakeA">&pound;0</b></div>
+                    <div class="kv"><span>This Sunday, paid ahead</span><b id="bkTakeA">&pound;0</b></div>
                     <div class="kv"><span>Last year, through the platform</span><b>&pound;905</b></div>
                     <div class="kv"><span>Difference</span><b style="color:var(--red-ink)" id="bkTakeD">&pound;0</b></div>
                   </div>
@@ -2459,7 +2512,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <div class="bk-grid2">
               <div class="card pad">
                 <div class="row" style="justify-content:space-between;align-items:flex-start">
-                  <div><p class="eyebrow">Saturday 24 October, sample</p><h4 style="margin-top:6px;font-family:var(--display);font-size:30px;text-transform:uppercase;line-height:1">Night skirmish</h4></div>
+                  <div><p class="eyebrow">Sunday 25 October, sample</p><h4 style="margin-top:6px;font-family:var(--display);font-size:30px;text-transform:uppercase;line-height:1">Night skirmish</h4></div>
                   <span class="bk-flash sm"><span>&pound;30 entry, sample</span></span>
                 </div>
                 <div class="bk-stats" style="margin-top:14px;grid-template-columns:repeat(2,1fr)">
@@ -2468,7 +2521,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
                   <div class="bk-stat key"><span class="eyebrow">Balance due</span><b id="bkEvBal">£620</b><small id="bkEvBalSub">31 &times; &pound;20 on the night</small></div>
                   <div class="bk-stat"><span class="eyebrow">Teams</span><b>2 <span class="bk-of">sides</span></b><small id="bkEvByes">drawn on the night</small></div>
                 </div>
-                <p class="small muted" style="margin-top:12px">Sample shape: 18:00 to 22:00, own kit or rental, three BB weights over the chrono, deposit held on your own checkout.</p>
+                <p class="small muted" style="margin-top:12px">Sample shape: 17:00 to 22:00, own kit or the hire package, every weapon over the chrono, deposit held on your own checkout.</p>
                 <div class="row" style="gap:8px;margin-top:12px">
                   <button class="btn ghost sm" id="bkDraw">Draw the sides</button>
                   <button class="btn ghost sm" id="bkEvMsg">Message all entrants</button>
@@ -2481,7 +2534,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 
               <div class="card pad">
                 <div class="row" style="justify-content:space-between;align-items:flex-start">
-                  <div><p class="eyebrow">Saturday 14 November, sample</p><h4 style="margin-top:6px;font-family:var(--display);font-size:30px;text-transform:uppercase;line-height:1">Members' night</h4></div>
+                  <div><p class="eyebrow">Sunday 15 November, sample</p><h4 style="margin-top:6px;font-family:var(--display);font-size:30px;text-transform:uppercase;line-height:1">Members' night</h4></div>
                   <span class="bk-flash sm"><span>10% off</span></span>
                 </div>
                 <div class="bk-stats" style="margin-top:14px;grid-template-columns:repeat(2,1fr)">
@@ -2525,12 +2578,12 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
                   <p class="eyebrow">Card against cash</p>
                   <h4 style="margin:6px 0 10px">Today, all of it is a deposit through Wix</h4>
                   <div class="bk-bar"><span class="eyebrow">How you take it today</span><div class="bk-barrow"><i class="cash" style="width:100%"></i></div><small class="tiny">Deposit on Wix, the rest at the door: every ticket is a deposit through the Wix ticket page and the balance paid on arrival.</small></div>
-                  <div class="bk-bar" style="margin-top:12px"><span class="eyebrow">This Saturday, in this proposal</span><div class="bk-barrow"><i class="card" id="bkCardBar" style="width:88%"></i><i class="cash" id="bkCashBar" style="width:12%"></i></div><small class="tiny" id="bkCardLine"></small></div>
+                  <div class="bk-bar" style="margin-top:12px"><span class="eyebrow">This Sunday, in this proposal</span><div class="bk-barrow"><i class="card" id="bkCardBar" style="width:88%"></i><i class="cash" id="bkCashBar" style="width:12%"></i></div><small class="tiny" id="bkCardLine"></small></div>
                   <p class="small muted" style="margin-top:12px">Nothing stops you taking cash from a walk-up. The point is that the &pound;60 memberships, the deposits and the pre-orders arrive on your own checkout before anyone has parked.</p>
                 </div></div>
                 <div class="card pad">
                   <p class="eyebrow">Stripe payouts</p>
-                  <h4 style="margin:6px 0 8px">Saturday's takings, in your bank the same week</h4>
+                  <h4 style="margin:6px 0 8px">Sunday's takings, in your bank the same week</h4>
                   <div class="bk-table" id="bkPayouts" style="margin-top:8px"></div>
                   <p class="tiny" style="margin-top:8px">Stripe pays out on a rolling schedule you set once. The days shown are sample. Card fees are shown as a sample line, not a quote.</p>
                 </div>
@@ -2566,7 +2619,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
                 </div>
                 <p class="eyebrow" style="margin:18px 0 8px">Times</p>
                 <div class="bk-form four">
-                  <div class="field"><label for="bkTGate">Doors</label><input type="time" id="bkTGate" value="10:00"></div>
+                  <div class="field"><label for="bkTGate">Doors</label><input type="time" id="bkTGate" value="08:20"></div>
                   <div class="field"><label for="bkTGame">Brief</label><input type="time" id="bkTGame" value="10:30"></div>
                   <div class="field"><label for="bkTLunch">Games</label><input type="time" id="bkTLunch" value="11:00"></div>
                   <div class="field"><label for="bkTEnd">Finish</label><input type="time" id="bkTEnd" value="14:00"></div>
@@ -2582,10 +2635,10 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
                 </div>
                 <div class="card pad">
                   <p class="eyebrow">Chrono limits</p>
-                  <h4 style="margin:6px 0 8px">Off your Rules and Waivers page</h4>
+                  <h4 style="margin:6px 0 8px">Off your FPS chart</h4>
                   <div class="bk-form">
                     <div class="field"><label for="bkChAeg">0.20g</label><input type="text" id="bkChAeg" value="350 fps"></div>
-                    <div class="field"><label for="bkChDmr">0.25g</label><input type="text" id="bkChDmr" value="313 fps"></div>
+                    <div class="field"><label for="bkChDmr">0.25g</label><input type="text" id="bkChDmr" value="314 fps"></div>
                     <div class="field"><label for="bkChSnp">0.28g</label><input type="text" id="bkChSnp" value="296 fps"></div>
                     <div class="field"><label for="bkChMed">Pyro and smoke</label><input type="text" id="bkChMed" value="No pyro on site; no smoke inside"></div>
                   </div>
@@ -2681,7 +2734,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 /* One object, written by engine/build.mjs out of businesses/<slug>.json. Every
    engine part reads its business-specific values from here, so no part carries
    a client's name, price, date, copy or file name. */
-const CONFIG = {"slug":"tac-house-spartan-ii","layout":"steel-city","business":{"name":"Tac House Spartan II","short":"The Stan","legalName":"Tachousespartan Ltd","kind":"indoor CQB airsoft site: 100,000 square feet over four floors of a former tooling factory","site":"https://tachousespartan.com","domain":"tachousespartan.com","phone":"07540 955997","phoneE164":"+447540955997","street":"Former Stanley Tools Factory, Rutland Road","town":"Sheffield","county":"","postcode":"S3 9PP","facebook":"https://www.facebook.com/profile.php?id=100063527293822","email":"tachousespartan@gmail.com","rating":"4.7","reviews":"194","geo":{"lat":"53.39638","lng":"-1.471161"},"addressLine":"Former Stanley Tools Factory, Rutland Road, Sheffield, , S3 9PP","postcodeUrl":"S3+9PP"},"design":{"display":"Cinzel","body":"Barlow Semi Condensed","mono":"Share Tech Mono","accent":"#CCA854","hero":"split: type left on black, the Stanley Tools frontage right, the Spartan roundel as a watermark","images":"theirs: the Spartan roundel, the Stanley Tools frontage, the lightning composite, a gameplay photograph, three pieces of their own Spartan artwork (flagged as artwork, not photographs of the site), the FPS chart.","tokens":{"--display":"\"Cinzel\", \"Trajan Pro\", Georgia, serif","--ui":"\"Barlow Semi Condensed\", \"Arial Narrow\", ui-sans-serif, system-ui, sans-serif","--mono":"\"Share Tech Mono\", ui-monospace, SFMono-Regular, Menlo, monospace","--bg":"#24100C","--surface":"#2E1712","--surface-2":"#3A1F18","--sunk":"#1A0B08","--line":"#4A2A22","--line-soft":"#3A1F18","--line-strong":"#6A3E33","--text":"#F7F2E8","--text-2":"#DCCFC0","--text-3":"#B8A695","--red":"#CCA854","--red-2":"#E4CC84","--red-hi":"#E4CC84","--red-ink":"#E4CC84","--red-ghost":"#3D2712","--on-red":"#12100B","--sign":"#8C3A2B","--sign-ink":"#FFFFFF","--stripe":"repeating-linear-gradient(135deg,#CCA854 0 14px,#12100B 14px 28px)"},"fonts":["Cinzel:wght@700;900","Barlow Semi Condensed:wght@400;500;600;700","Share Tech Mono"],"map":{"spots":{"gate":{"x":47,"y":42},"street":{"x":53,"y":52},"safe":{"x":38,"y":62}}},"flyin":{"style":"sat-intel","placement":"the-ground","motion":"descend","tint":"amber","reveal":"scan-wipe","source":"still","duration":3.9,"pitch":-45,"heading":20,"altitude":420,"target":{"lat":53.39638,"lng":-1.471161},"fields":[{"label":"Site","value":"Rutland Road"},{"label":"Grid","value":"S3 9PP"},{"label":"Floors","value":"Four"},{"label":"Size","value":"100,000 sq ft"}],"fields_source":"facts.address_street, facts.postcode, facts.floors, facts.site_size","note":"Film parked in .parked/tac-house-spartan-ii/ (the recorded passes pan sideways); the page uses the settled frame as the still."}},"assets":{"logo-helmet":"assets/logo-helmet.png","logo-helmet.png":"assets/logo-helmet.png","frontage":"assets/frontage.png","frontage.png":"assets/frontage.png","players":"assets/players.png","players.png":"assets/players.png","lightning":"assets/lightning.jpg","lightning.jpg":"assets/lightning.jpg","art-phalanx":"assets/art-phalanx.png","art-phalanx.png":"assets/art-phalanx.png","art-rain":"assets/art-rain.png","art-rain.png":"assets/art-rain.png","art-splatter":"assets/art-splatter.png","art-splatter.png":"assets/art-splatter.png","fps-chart":"assets/fps-chart.png","fps-chart.png":"assets/fps-chart.png","aerial":"assets/aerial.jpg","aerial.jpg":"assets/aerial.jpg"},"siteUrl":"https://thinkwork.info/airsoft/tac-house-spartan-ii/","aocUrl":"aoc/index.html","fares":{"walkon":{"full":{"n":35,"m":35},"half":{"n":35,"m":35}},"hire":{"full":{"n":59,"m":59},"half":{"n":59,"m":59}}},"membership":{"price":60,"year":"12 months from the day you join","yearEnd":"12 months on","renewMonth":"the month it runs out"},"schedule":{"times":["08:20","09:45","16:30"],"timesSample":false,"lunch":"12:30","regular":{"day":0,"dayName":"Sunday","label":"Open game day","detail":"Your four published Sundays: 27 September, 4, 11 and 18 October. Gates 08:20, safety brief 09:45, off at 16:30.","count":4},"extra":{"day":0,"dayName":"Sunday","label":"Open game day","detail":"Sample: your site publishes no dates past 18 October, so the rows after it are ours until you set them.","fromMonth":9,"toMonth":11,"tba":true},"breakFrom":"12-24","breakTo":"01-01","cap":60},"events":[{"key":"night","name":"The Stan open game day","iso":"2026-09-27","dayName":"Sunday","detail":"Your next published game day. Gates 08:20, safety brief 09:45, off at 16:30. £59 with a hire package or £35 with your own kit; the deposit books the place and the balance is paid on arrival.","times":["08:20","09:45","16:30"],"price":59,"deposit":19,"prize":false,"left":17,"cap":60,"short":"27 Sept","fact":"game_day_hours","ld":{"type":"SportsEvent","name":"The Stan open game day","description":"CQB airsoft over four floors of the former Stanley Tools factory, Rutland Road, Sheffield. Gates 08:20, safety brief 09:45, off at 16:30."}},{"key":"oct","name":"The Stan open game day","iso":"2026-10-04","dayName":"Sunday","detail":"Three more published Sundays: 4, 11 and 18 October. Same day, same terms.","times":["08:20","09:45","16:30"],"price":59,"deposit":19,"prize":false,"left":31,"cap":60,"short":"4 Oct","fact":"game_day_hours","ld":{"type":"SportsEvent","name":"The Stan open game day","description":"CQB airsoft over four floors of the former Stanley Tools factory, Rutland Road, Sheffield. Gates 08:20, safety brief 09:45, off at 16:30."}}],"ref":"TS","copy":{"fareboard":{"sumOwn":"Our prices, on the page.<br>Not behind a button.","sumMember":"A member price<br>is proposed.","lineOwn":"Both figures are ours, off our own ticket page. What is proposed is the member column and the half day: neither is on sale today.","lineMember":"Membership is proposed, not on sale: a price we set, taken off every game day, on a card that renews itself."},"breakEven":"At a £5 gap a £60 membership pays back on the twelfth game day; at £10 it is the sixth. The figures are yours to set.","renewToast":"Renewal opens a month before it runs out: one pay link, 12 months from the day it renews, proposed.","todayTake":"a deposit on your Wix ticket page and the balance at the door"},"sample":{"fares":{"price_nonmember_walkon_full":35,"price_member_walkon_full":30,"price_nonmember_walkon_half":22,"price_member_walkon_half":18,"price_nonmember_hire_full":59,"price_member_hire_full":52,"price_nonmember_hire_half":35,"price_member_hire_half":30},"spaces":[24,11,31,18,6,27,14,36,9,22,29,16],"addons":[{"id":"bb","n":"3,000 BBs, 0.25g","s":"One of your three allowed weights. Sample item and price.","p":10,"per":false,"on":false},{"id":"bb28","n":"3,000 BBs, 0.28g","s":"Sample item and price.","p":11,"per":false,"on":false},{"id":"gas","n":"Green gas, 1 litre","s":"Sample item and price.","p":9,"per":false,"on":false},{"id":"torch","n":"Torch hire","s":"Your safety page tells players to bring one. Sample item and price.","p":3,"per":false,"on":false}],"block":{"price":300,"days":10,"dayRate":30,"label":"Ten game day block, proposed"},"products":[["3,000 BBs, 0.25g",10,"Sample item"],["3,000 BBs, 0.28g",11,"Sample item"],["Green gas, 1 litre",9,"Sample item"],["Torch hire",3,"Sample item"]],"model":{"days":52,"addAvg":6,"groupAvg":420,"foodPer":0,"depositPct":0.32,"platformFeePct":0},"live":{"day":"Sunday","time":"11:02","game":2,"of":6,"next":"11:30","onSite":41,"inGate":38,"closed":"09:45"},"backend":{"names":["Danny Hallam","Rhys Ackroyd","Callum Broadbent","Sophie Wainwright","Tom Illingworth","Kian Marsden","Lewis Hobson","Jordan Beevers","Amy Whitham","Connor Slack","Ellis Naylor","Nathan Crossley","Liam Shirtcliffe","Harvey Ogden","Owen Bardsley","Olivia Gledhill","Ryan Womack","Tyler Sanderson","Mason Bramall","Zak Hinchliffe","Reece Barraclough","Finlay Hepworth","Alfie Sykes","Charlie Rotherforth","George Fretwell","Kyle Swinden","Lucy Thorpe","Priya Chauhan","Ben Micklethwaite","Joel Dransfield","Isaac Bintcliffe","Louie Shaw","Freddie Bagshaw","Archie Womersley","Chloe Bedford","Dan Hemingway","Ellis Cutts","Max Battye","Rhys Oxley","Molly Tinker","Jake Ramsden","Adam Furniss","Aaron Guest"],"mix":[["walkon","full",true,8],["walkon","full",false,9],["walkon","half",false,3],["hire","full",true,2],["hire","full",false,7],["hire","half",false,2]],"bookings":[["D23-4K7Q","Sam Ridley","next",1,0,"full",true,"paid",0,false],["D23-7H2M","Lewis Armstrong","next",2,0,"full",false,"paid",0,false],["D23-9P1X","Chloe Bainbridge","next",0,1,"full",false,"paid",6,false],["D23-2R8C","Dan Metcalfe","next",0,3,"full",false,"paid",0,false],["D23-5T3L","Priya Nair","next",1,0,"half",false,"waiver",0,false],["D23-8W6B","Josh Tennant",0,1,0,"full",false,"paid",0,false],["D23-3M9K","Ellie Robson",0,1,0,"full",true,"paid",0,false],["D23-6Q4D","Callum Fenwick",2,1,0,"full",true,"paid",0,true],["D23-1Z7N","Kate Harrison",2,2,1,"half",false,"paid",0,false],["D23-0V5S","Tom Applegarth",3,0,1,"full",true,"paid",0,false],["D23-4J2F","Megan Storey",3,4,0,"full",false,"paid",0,false],["D23-7B8H","Ryan Coates",1,1,0,"full",false,"paid",0,false]],"members":[["Callum Fenwick","20 Sep",1,0],["Ellie Robson","14 Sep",2,0],["Tom Applegarth","6 Sep",3,0],["Sam Ridley","1 Mar",4,0],["Amy Proud","1 Mar",11,2],["Kieran Walton","1 Mar",14,0],["Jordan Peart","1 Mar",8,3],["Liam Stobbs","1 Mar",19,1],["Sophie Gill","1 Mar",6,6],["Harvey Blackett","1 Mar",22,0]],"lastYear":905,"lastYearPlayers":38,"noWaiver":[2,7,13,19,26,29,30],"under18":[4,11,17,24,28],"pinName":"Danny Hallam","pre":{"lunch":{"n":6,"p":10,"label":"Rentals held"},"hpa":{"n":7,"p":1,"label":"HPA fills"},"bb":{"n":11,"p":11,"label":"Bags of BBs"}},"joinedToday":2,"walkups":190,"cardFees":71,"chronoTime":"10:30","bracketSize":32,"membersCount":112,"entrants":["Josh Tennant","Ellie Robson","Kieran Walton","Liam Stobbs","Harvey Blackett","Mason Craggs","Zak Elliott","Reece Hutchinson","Finlay Dent","Alfie Marley","Charlie Wearmouth","George Pickering","Kyle Snowdon","Adam Featherstone","Nathan Bell","Owen Hodgson","Isaac Thwaites","Louie Dixon"],"moneyLines":[["Session tickets, own kit","61 players over four sessions, sample",1220],["Rental","42 rentals out, booked ahead",1260],["Memberships","14 joined at the checkout",840],["Pre-orders","HPA, BBs, rentals held",214],["Parties and business events","3 deposits held",270],["Gift vouchers","switched off",0]],"payouts":[["Sat 5 Sep","Tue 8 Sep",1362,"paid"],["Sat 12 Sep","Tue 15 Sep",1527,"paid"],["Sat 19 Sep","Tue 22 Sep",1488,"paid"],["Sat 26 Sep","Tue 29 Sep",0,"pending"]],"annPost":"Members' night. Saturday 14 November. 10% off, free game perks. Book on the site."},"names":null},"content":{"jsonld":{"description":"Tac House Spartan II, \"The Stan\": CQB airsoft over four floors of the former Stanley Tools factory, Rutland Road, Sheffield. 100,000 square feet. Open game days on Sundays, 08:20 to 16:30, safety brief 09:45. £59 with a hire package, £35 with your own kit.","fareLabels":{"walkon":"Own gunner","hire":"Hire package"},"faq":[{"q":"Where is The Stan?","a":"The former Stanley Tools factory, Rutland Road, Sheffield S3 9PP. Phone 07540 955997, email tachousespartan@gmail.com."},{"q":"How big is the site?","a":"One hundred thousand square feet of the former Stanley Tools factory, played over four floors."},{"q":"What does a game day cost?","a":"£59 for a game day with a hire gun, face mask and 3,000 BBs, or £35 if you bring your own kit. Both are booked with a deposit and the balance is paid on arrival."},{"q":"What time does a game day run?","a":"Gates from 08:20, safety brief at 09:45, off at 16:30."},{"q":"What is the FPS limit?","a":"350 fps for AEGs, semi auto only. The limit on site is 1 joule actual with a 1.14 joule max variance, and every weapon is chrono checked before play."},{"q":"How old do you have to be?","a":"Eleven years old if you play with a parent or guardian, sixteen if you do not."},{"q":"Can I use pyro?","a":"No. Pyro is not allowed anywhere within the site, and smoke grenades of any type are not allowed inside buildings."},{"q":"What should I bring?","a":"A torch, because in some areas it is dark or the light is dim, and shoes with adequate ankle support. Eye protection must resist 500 fps at point blank, and players aged 17 and under must wear full face protection."}]},"labels":{"walkon":"Own gunner","hire":"Hire package","half":"half day","_note":"Ticket vocabulary read by days.js, booking.js and backend.js, taken from your own ticket page."}},"cesiumToken":""};
+const CONFIG = {"slug":"tac-house-spartan-ii","layout":"steel-city","business":{"name":"Tac House Spartan II","short":"The Stan","legalName":"Tachousespartan Ltd","kind":"indoor CQB airsoft site: 100,000 square feet over four floors of a former tooling factory","site":"https://tachousespartan.com","domain":"tachousespartan.com","phone":"07540 955997","phoneE164":"+447540955997","street":"Former Stanley Tools Factory, Rutland Road","town":"Sheffield","county":"","postcode":"S3 9PP","facebook":"https://www.facebook.com/profile.php?id=100063527293822","email":"tachousespartan@gmail.com","rating":"4.7","reviews":"194","geo":{"lat":"53.39638","lng":"-1.471161"},"addressLine":"Former Stanley Tools Factory, Rutland Road, Sheffield, , S3 9PP","postcodeUrl":"S3+9PP"},"design":{"display":"Cinzel","body":"Barlow Semi Condensed","mono":"Share Tech Mono","accent":"#CCA854","hero":"split: type left on black, the Stanley Tools frontage right, the Spartan roundel as a watermark","images":"theirs: the Spartan roundel, the Stanley Tools frontage, the lightning composite, a gameplay photograph, three pieces of their own Spartan artwork (flagged as artwork, not photographs of the site), the FPS chart.","tokens":{"--display":"\"Cinzel\", \"Trajan Pro\", Georgia, serif","--ui":"\"Barlow Semi Condensed\", \"Arial Narrow\", ui-sans-serif, system-ui, sans-serif","--mono":"\"Share Tech Mono\", ui-monospace, SFMono-Regular, Menlo, monospace","--bg":"#24100C","--surface":"#2E1712","--surface-2":"#3A1F18","--sunk":"#1A0B08","--line":"#4A2A22","--line-soft":"#3A1F18","--line-strong":"#6A3E33","--text":"#F7F2E8","--text-2":"#DCCFC0","--text-3":"#B8A695","--red":"#CCA854","--red-2":"#E4CC84","--red-hi":"#E4CC84","--red-ink":"#E4CC84","--red-ghost":"#3D2712","--on-red":"#12100B","--sign":"#8C3A2B","--sign-ink":"#FFFFFF","--stripe":"repeating-linear-gradient(135deg,#CCA854 0 14px,#12100B 14px 28px)"},"fonts":["Cinzel:wght@700;900","Barlow Semi Condensed:wght@400;500;600;700","Share Tech Mono"],"map":{"spots":{"gate":{"x":47,"y":42},"street":{"x":53,"y":52},"safe":{"x":38,"y":62}}},"flyin":{"style":"sat-intel","placement":"the-ground","motion":"descend","tint":"amber","reveal":"scan-wipe","source":"still","duration":3.9,"pitch":-45,"heading":20,"altitude":420,"target":{"lat":53.39638,"lng":-1.471161},"fields":[{"label":"Site","value":"Rutland Road"},{"label":"Grid","value":"S3 9PP"},{"label":"Floors","value":"Four"},{"label":"Size","value":"100,000 sq ft"}],"fields_source":"facts.address_street, facts.postcode, facts.floors, facts.site_size","note":"Film parked in .parked/tac-house-spartan-ii/ (the recorded passes pan sideways); the page uses the settled frame as the still."}},"assets":{"logo-helmet":"assets/logo-helmet.png","logo-helmet.png":"assets/logo-helmet.png","frontage":"assets/frontage.png","frontage.png":"assets/frontage.png","players":"assets/players.png","players.png":"assets/players.png","lightning":"assets/lightning.jpg","lightning.jpg":"assets/lightning.jpg","art-phalanx":"assets/art-phalanx.png","art-phalanx.png":"assets/art-phalanx.png","art-rain":"assets/art-rain.png","art-rain.png":"assets/art-rain.png","art-splatter":"assets/art-splatter.png","art-splatter.png":"assets/art-splatter.png","fps-chart":"assets/fps-chart.png","fps-chart.png":"assets/fps-chart.png","aerial":"assets/aerial.jpg","aerial.jpg":"assets/aerial.jpg","hero-players":"assets/hero-players.jpg","hero-players.jpg":"assets/hero-players.jpg","hero-frontage":"assets/hero-frontage.jpg","hero-frontage.jpg":"assets/hero-frontage.jpg","hero-spartan":"assets/hero-spartan.jpg","hero-spartan.jpg":"assets/hero-spartan.jpg","hero-phalanx":"assets/hero-phalanx.jpg","hero-phalanx.jpg":"assets/hero-phalanx.jpg"},"siteUrl":"https://thinkwork.info/airsoft/tac-house-spartan-ii/","aocUrl":"aoc/index.html","fares":{"walkon":{"full":{"n":35,"m":35},"half":{"n":35,"m":35}},"hire":{"full":{"n":59,"m":59},"half":{"n":59,"m":59}}},"membership":{"price":60,"year":"12 months from the day you join","yearEnd":"12 months on","renewMonth":"the month it runs out"},"schedule":{"times":["08:20","09:45","16:30"],"timesSample":false,"lunch":"12:30","regular":{"day":0,"dayName":"Sunday","label":"Open game day","detail":"Your four published Sundays: 27 September, 4, 11 and 18 October. Gates 08:20, safety brief 09:45, off at 16:30.","count":4},"extra":{"day":0,"dayName":"Sunday","label":"Open game day","detail":"Sample: your site publishes no dates past 18 October, so the rows after it are ours until you set them.","fromMonth":9,"toMonth":11,"tba":true},"breakFrom":"12-24","breakTo":"01-01","cap":60},"events":[{"key":"night","name":"The Stan open game day","iso":"2026-09-27","dayName":"Sunday","detail":"Your next published game day. Gates 08:20, safety brief 09:45, off at 16:30. £59 with a hire package or £35 with your own kit; the deposit books the place and the balance is paid on arrival.","times":["08:20","09:45","16:30"],"price":59,"deposit":19,"prize":false,"left":17,"cap":60,"short":"27 Sept","fact":"game_day_hours","ld":{"type":"SportsEvent","name":"The Stan open game day","description":"CQB airsoft over four floors of the former Stanley Tools factory, Rutland Road, Sheffield. Gates 08:20, safety brief 09:45, off at 16:30."}},{"key":"oct","name":"The Stan open game day","iso":"2026-10-04","dayName":"Sunday","detail":"Three more published Sundays: 4, 11 and 18 October. Same day, same terms.","times":["08:20","09:45","16:30"],"price":59,"deposit":19,"prize":false,"left":31,"cap":60,"short":"4 Oct","fact":"game_day_hours","ld":{"type":"SportsEvent","name":"The Stan open game day","description":"CQB airsoft over four floors of the former Stanley Tools factory, Rutland Road, Sheffield. Gates 08:20, safety brief 09:45, off at 16:30."}}],"ref":"TS","copy":{"fareboard":{"sumOwn":"Our prices, on the page.<br>Not behind a button.","sumMember":"A member price<br>is proposed.","lineOwn":"Both figures are ours, off our own ticket page. What is proposed is the member column and the half day: neither is on sale today.","lineMember":"Membership is proposed, not on sale: a price we set, taken off every game day, on a card that renews itself."},"breakEven":"At a £5 gap a £60 membership pays back on the twelfth game day; at £10 it is the sixth. The figures are yours to set.","renewToast":"Renewal opens a month before it runs out: one pay link, 12 months from the day it renews, proposed.","todayTake":"a deposit on your Wix ticket page and the balance at the door"},"sample":{"fares":{"price_nonmember_walkon_full":35,"price_member_walkon_full":30,"price_nonmember_walkon_half":22,"price_member_walkon_half":18,"price_nonmember_hire_full":59,"price_member_hire_full":52,"price_nonmember_hire_half":35,"price_member_hire_half":30},"spaces":[24,11,31,18,6,27,14,36,9,22,29,16],"addons":[{"id":"bb","n":"3,000 BBs, 0.25g","s":"One of your three allowed weights. Sample item and price.","p":10,"per":false,"on":false},{"id":"bb28","n":"3,000 BBs, 0.28g","s":"Sample item and price.","p":11,"per":false,"on":false},{"id":"gas","n":"Green gas, 1 litre","s":"Sample item and price.","p":9,"per":false,"on":false},{"id":"torch","n":"Torch hire","s":"Your safety page tells players to bring one. Sample item and price.","p":3,"per":false,"on":false}],"block":{"price":300,"days":10,"dayRate":30,"label":"Ten game day block, proposed"},"products":[["3,000 BBs, 0.25g",10,"Sample item"],["3,000 BBs, 0.28g",11,"Sample item"],["Green gas, 1 litre",9,"Sample item"],["Torch hire",3,"Sample item"]],"model":{"days":52,"addAvg":6,"groupAvg":420,"foodPer":0,"depositPct":0.32,"platformFeePct":0},"live":{"day":"Sunday","time":"11:02","game":2,"of":6,"next":"11:30","onSite":41,"inGate":38,"closed":"09:45"},"backend":{"names":["Danny Hallam","Rhys Ackroyd","Callum Broadbent","Sophie Wainwright","Tom Illingworth","Kian Marsden","Lewis Hobson","Jordan Beevers","Amy Whitham","Connor Slack","Ellis Naylor","Nathan Crossley","Liam Shirtcliffe","Harvey Ogden","Owen Bardsley","Olivia Gledhill","Ryan Womack","Tyler Sanderson","Mason Bramall","Zak Hinchliffe","Reece Barraclough","Finlay Hepworth","Alfie Sykes","Charlie Rotherforth","George Fretwell","Kyle Swinden","Lucy Thorpe","Priya Chauhan","Ben Micklethwaite","Joel Dransfield","Isaac Bintcliffe","Louie Shaw","Freddie Bagshaw","Archie Womersley","Chloe Bedford","Dan Hemingway","Ellis Cutts","Max Battye","Rhys Oxley","Molly Tinker","Jake Ramsden","Adam Furniss","Aaron Guest"],"mix":[["walkon","full",true,8],["walkon","full",false,9],["walkon","half",false,3],["hire","full",true,2],["hire","full",false,7],["hire","half",false,2]],"bookings":[["D23-4K7Q","Sam Ridley","next",1,0,"full",true,"paid",0,false],["D23-7H2M","Lewis Armstrong","next",2,0,"full",false,"paid",0,false],["D23-9P1X","Chloe Bainbridge","next",0,1,"full",false,"paid",6,false],["D23-2R8C","Dan Metcalfe","next",0,3,"full",false,"paid",0,false],["D23-5T3L","Priya Nair","next",1,0,"half",false,"waiver",0,false],["D23-8W6B","Josh Tennant",0,1,0,"full",false,"paid",0,false],["D23-3M9K","Ellie Robson",0,1,0,"full",true,"paid",0,false],["D23-6Q4D","Callum Fenwick",2,1,0,"full",true,"paid",0,true],["D23-1Z7N","Kate Harrison",2,2,1,"half",false,"paid",0,false],["D23-0V5S","Tom Applegarth",3,0,1,"full",true,"paid",0,false],["D23-4J2F","Megan Storey",3,4,0,"full",false,"paid",0,false],["D23-7B8H","Ryan Coates",1,1,0,"full",false,"paid",0,false]],"members":[["Callum Fenwick","20 Sep",1,0],["Ellie Robson","14 Sep",2,0],["Tom Applegarth","6 Sep",3,0],["Sam Ridley","1 Mar",4,0],["Amy Proud","1 Mar",11,2],["Kieran Walton","1 Mar",14,0],["Jordan Peart","1 Mar",8,3],["Liam Stobbs","1 Mar",19,1],["Sophie Gill","1 Mar",6,6],["Harvey Blackett","1 Mar",22,0]],"lastYear":905,"lastYearPlayers":38,"noWaiver":[2,7,13,19,26,29,30],"under18":[4,11,17,24,28],"pinName":"Danny Hallam","pre":{"lunch":{"n":6,"p":10,"label":"Rentals held"},"hpa":{"n":7,"p":1,"label":"HPA fills"},"bb":{"n":11,"p":11,"label":"Bags of BBs"}},"joinedToday":2,"walkups":190,"cardFees":71,"chronoTime":"10:30","bracketSize":32,"membersCount":112,"entrants":["Josh Tennant","Ellie Robson","Kieran Walton","Liam Stobbs","Harvey Blackett","Mason Craggs","Zak Elliott","Reece Hutchinson","Finlay Dent","Alfie Marley","Charlie Wearmouth","George Pickering","Kyle Snowdon","Adam Featherstone","Nathan Bell","Owen Hodgson","Isaac Thwaites","Louie Dixon"],"moneyLines":[["Session tickets, own kit","61 players over four sessions, sample",1220],["Rental","42 rentals out, booked ahead",1260],["Memberships","14 joined at the checkout",840],["Pre-orders","HPA, BBs, rentals held",214],["Parties and business events","3 deposits held",270],["Gift vouchers","switched off",0]],"payouts":[["Sun 6 Sep","Wed 9 Sep",1362,"paid"],["Sun 13 Sep","Wed 16 Sep",1527,"paid"],["Sun 20 Sep","Wed 23 Sep",1488,"paid"],["Sun 27 Sep","Wed 30 Sep",0,"pending"]],"annPost":"Members' night. Sunday 15 November. A member price on the door and free game perks, proposed. Book on the site."},"names":null},"content":{"jsonld":{"description":"Tac House Spartan II, \"The Stan\": CQB airsoft over four floors of the former Stanley Tools factory, Rutland Road, Sheffield. 100,000 square feet. Open game days on Sundays, 08:20 to 16:30, safety brief 09:45. £59 with a hire package, £35 with your own kit.","fareLabels":{"walkon":"Own gunner","hire":"Hire package"},"faq":[{"q":"Where is The Stan?","a":"The former Stanley Tools factory, Rutland Road, Sheffield S3 9PP. Phone 07540 955997, email tachousespartan@gmail.com."},{"q":"How big is the site?","a":"One hundred thousand square feet of the former Stanley Tools factory, played over four floors."},{"q":"What does a game day cost?","a":"£59 for a game day with a hire gun, face mask and 3,000 BBs, or £35 if you bring your own kit. Both are booked with a deposit and the balance is paid on arrival."},{"q":"What time does a game day run?","a":"Gates from 08:20, safety brief at 09:45, off at 16:30."},{"q":"What is the FPS limit?","a":"350 fps for AEGs, semi auto only. The limit on site is 1 joule actual with a 1.14 joule max variance, and every weapon is chrono checked before play."},{"q":"How old do you have to be?","a":"Eleven years old if you play with a parent or guardian, sixteen if you do not."},{"q":"Can I use pyro?","a":"No. Pyro is not allowed anywhere within the site, and smoke grenades of any type are not allowed inside buildings."},{"q":"What should I bring?","a":"A torch, because in some areas it is dark or the light is dim, and shoes with adequate ankle support. Eye protection must resist 500 fps at point blank, and players aged 17 and under must wear full face protection."}]},"labels":{"walkon":"Own gunner","hire":"Hire package","half":"half day","_note":"Ticket vocabulary read by days.js, booking.js and backend.js, taken from your own ticket page."}},"cesiumToken":""};
 /* ---- part: helpers.js ----
    The four things every other part uses: $ and $$, the money formatters, the
    toast, and the two page-level constants (`root`, and `reduce` for
@@ -2757,6 +2810,64 @@ setTimeout(()=>root.classList.add("splat-done"),reduce?0:2100);
 document.addEventListener("click",e=>{const b=e.target.closest(".btn");if(!b||reduce)return;let x=e.clientX,y=e.clientY;if(!e.detail){const r=b.getBoundingClientRect();x=r.left+r.width/2;y=r.top+r.height/2;}
   const h=document.createElement("div");h.className="hit";h.setAttribute("aria-hidden","true");h.style.left=x+"px";h.style.top=y+"px";
   h.innerHTML='<svg viewBox="0 0 36 36"><path d="M5 5l8 8M31 5l-8 8M5 31l8-8M31 31l-8-8"/></svg>';document.body.appendChild(h);setTimeout(()=>h.remove(),340);});
+/* ---- part: hero-motion.js ----
+   Drives the opening screen (hero-motion.css): the type arrives once in about a second (Web Animations,
+   staggered, the gold lines glow as they land), the stage credit follows the slide on screen, procedural
+   rain falls on a canvas at the intensity each slide asks for (data-rain), and lightning strikes on the
+   slides that ask for it (data-lightning): a fresh SVG bolt each time, a two-beat flash, a brightness pop.
+   Everything stops under prefers-reduced-motion, while the tab is hidden, and once the hero is scrolled
+   out of view. Reads no CONFIG. */
+(function(){
+  const hero=document.querySelector(".hero"),stage=hero&&hero.querySelector(".stage");if(!stage)return;
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const slides=[...stage.querySelectorAll("img.slide")],n=slides.length||1;
+  const hold=parseFloat(getComputedStyle(hero).getPropertyValue("--hold"))||5;
+  /* the clock is the first slide's own animation (delay 0), so the credit and the lightning follow what is on screen */
+  const t0=performance.now();
+  const at=()=>{const an=slides[0]&&slides[0].getAnimations&&slides[0].getAnimations().find(a=>a.animationName&&a.animationName.indexOf("slide-cycle")===0);return an&&an.currentTime!=null?an.currentTime/1000:(performance.now()-t0)/1000;};
+  const idx=()=>reduce?0:Math.floor(((at()/hold)%n+n)%n);
+  /* 1. the type arrives */
+  if(!reduce&&"animate" in Element.prototype){
+    const seq=[".brandmark",".place","h1",".lede",".row",".ripstack",".icons li"].flatMap(s=>[...hero.querySelectorAll(s)]);
+    seq.forEach((el,i)=>el.animate([{opacity:0,transform:"translateY(26px)"},{opacity:1,transform:"none"}],{duration:620,delay:55*i,easing:"cubic-bezier(.2,.7,.2,1)",fill:"backwards"}));
+    hero.querySelectorAll("h1 em").forEach((el,i)=>el.animate([{textShadow:"0 0 0 rgba(255,222,150,0)"},{textShadow:"0 0 30px rgba(255,222,150,.8)",offset:.45},{textShadow:"0 0 0 rgba(255,222,150,0)"}],{duration:760,delay:55*(3+i)+560,easing:"ease-out"}));
+  }
+  /* 2. the credit follows the slide */
+  const credit=hero.querySelector("[data-stage-credit]");let shown=-1;
+  const syncCredit=()=>{const i=idx();if(i!==shown){shown=i;if(credit)credit.textContent=slides[i].dataset.credit||"";}};
+  syncCredit();if(reduce)return;setInterval(syncCredit,250);
+  /* 3. rain */
+  const canvas=stage.querySelector("canvas.rain"),ctx=canvas&&canvas.getContext("2d");
+  let W=0,H=0,drops=[],running=false,raf=0,level=0,last=0;const wind=-.22;
+  const spawn=(anywhere)=>({x:Math.random()*(W+160)-40,y:anywhere?Math.random()*H:-40-Math.random()*H*.3,len:14+Math.random()*26,v:9+Math.random()*9,w:Math.random()<.2?1.4:.9,a:.2+Math.random()*.34});
+  const size=()=>{const r=stage.getBoundingClientRect(),dpr=Math.min(1.5,devicePixelRatio||1);W=Math.round(r.width);H=Math.round(r.height);canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);drops=Array.from({length:Math.min(380,Math.round(W/4))},()=>spawn(true));};
+  const draw=(t)=>{if(!running)return;raf=requestAnimationFrame(draw);const dt=last?Math.min(40,t-last):16;last=t;const k=dt/16;
+    const want=parseFloat(slides[idx()].dataset.rain);level+=((isNaN(want)?.5:want)-level)*.02;
+    ctx.clearRect(0,0,W,H);ctx.lineCap="round";const m=Math.round(drops.length*level);
+    for(let i=0;i<m;i++){const d=drops[i];ctx.strokeStyle="rgba(225,232,240,"+d.a+")";ctx.lineWidth=d.w;ctx.beginPath();ctx.moveTo(d.x,d.y);ctx.lineTo(d.x+wind*d.len,d.y+d.len);ctx.stroke();d.y+=d.v*k;d.x+=wind*d.v*k*.9;if(d.y>H+20||d.x<-80)Object.assign(d,spawn(false));}};
+  let onScreen=false;
+  const start=()=>{if(running||!ctx||!onScreen||document.hidden)return;running=true;last=0;raf=requestAnimationFrame(draw);};
+  const stop=()=>{running=false;cancelAnimationFrame(raf);};
+  if(ctx){size();addEventListener("resize",size,{passive:true});
+    /* the stage grows when fonts and pictures land after the script ran: size the canvas to the stage it has now */
+    if("ResizeObserver" in window)new ResizeObserver(()=>size()).observe(stage);
+    new IntersectionObserver(es=>es.forEach(e=>{onScreen=e.isIntersecting;onScreen?start():stop();}),{threshold:.05}).observe(hero);
+    document.addEventListener("visibilitychange",()=>document.hidden?stop():start());}
+  /* 4. lightning */
+  const bolt=stage.querySelector("svg.bolt"),paths=bolt?[...bolt.querySelectorAll("path")]:[],path=paths[0],flash=stage.querySelector(".flash");
+  const boltPath=()=>{let x=52+Math.random()*38,y=0,d="M"+x.toFixed(1)+" 0";const steps=8+Math.floor(Math.random()*5),endY=42+Math.random()*26,branches=[];
+    for(let i=1;i<=steps;i++){y=endY*i/steps;x+=(Math.random()-.5)*11;d+=" L"+x.toFixed(1)+" "+y.toFixed(1);
+      if(i>2&&i<steps-1&&Math.random()<.4){let bx=x,by=y,b="M"+bx.toFixed(1)+" "+by.toFixed(1);for(let j=0;j<3;j++){bx+=(Math.random()-.5)*14;by+=4+Math.random()*6;b+=" L"+bx.toFixed(1)+" "+by.toFixed(1);}branches.push(b);}}
+    return d+" "+branches.join(" ");};
+  const strike=()=>{if(!running||!path||!flash)return;const d=boltPath();paths.forEach(p=>p.setAttribute("d",d));hero.classList.add("strike");
+    bolt.animate([{opacity:0},{opacity:1,offset:.08},{opacity:.3,offset:.3},{opacity:1,offset:.42},{opacity:0}],{duration:540,easing:"linear"});
+    flash.animate([{opacity:0},{opacity:.85,offset:.06},{opacity:.12,offset:.3},{opacity:.55,offset:.4},{opacity:0}],{duration:580,easing:"linear"});
+    setTimeout(()=>hero.classList.remove("strike"),260);};
+  const schedule=()=>{const s=slides[idx()],tIn=((at()/hold)%1)*hold;let wait;
+    if(s&&s.dataset.lightning){wait=tIn<1.2?1.2-tIn:(tIn<3.4?3.4-tIn:hold-tIn+1.2);if(tIn<3.4&&Math.random()<.35)wait+=.5;}else wait=hold-tIn+1.2;
+    setTimeout(()=>{if(slides[idx()].dataset.lightning)strike();schedule();},Math.max(300,wait*1000));};
+  schedule();
+})();
 /* ---- part: routing.js ----
    Routing, generic: any [data-go="<name>"] shows section[data-screen="<name>"],
    marks the matching nav button, sets body[data-screen] and scrolls to the top.
@@ -3801,7 +3912,7 @@ $("#brandReset").addEventListener("click",()=>{
         liveRow.innerHTML='<span class="phtag">Sample: live figures come from the gate check-in</span>'+
           '<div class="d">On now<small>'+(L.day||"Sunday")+' &middot; '+L.time+'</small><span class="status live">Live</span></div>'+
           '<div class="n"><b>Game '+L.game+' of '+L.of+' running</b>Next game '+L.next+' &middot; '+L.onSite+' on site &middot; gates closed at '+L.closed+'</div>'+
-          '<div class="times"><span class="t">10:00</span><span class="t">'+L.next+'</span><span class="t">16:00</span></div>'+
+          '<div class="times"><span class="t">'+(((CONFIG.schedule||{}).times||[])[0]||'10:00')+'</span><span class="t">'+L.next+'</span><span class="t">'+((((CONFIG.schedule||{}).times||[]).slice(-1)[0])||'16:00')+'</span></div>'+
           '<div class="a"><span class="status open">Gates closed</span></div>';
         if(next){next.hidden=true;rows.insertBefore(liveRow,next);}else rows.prepend(liveRow);
       }

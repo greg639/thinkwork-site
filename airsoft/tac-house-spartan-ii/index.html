@@ -2894,7 +2894,8 @@ const fmtShort=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
   $("#ripDate").textContent=nx.dt.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"long"});
   $("#ripKind").textContent=nx.n||"Next running day";
   if(nx.price){$("#ripPrice").textContent=gbp(nx.price)+" entry";$("#ripNote").textContent=nx.dep?gbp(nx.dep)+" deposit to secure":"";}
-  else{$("#ripPrice").textContent=gbp(FARE.walkon.full.n)+" "+LBL.walkon.toLowerCase();$("#ripNote").textContent="Members "+gbp(FARE.walkon.full.m)+" · "+LBL.hire.toLowerCase()+" "+gbp(FARE.hire.full.n);}
+  /* a site with no member price (the member fare falls back to the full fare) does not print "Members £35" beside a £35 own-gunner day */
+  else{$("#ripPrice").textContent=gbp(FARE.walkon.full.n)+" "+LBL.walkon.toLowerCase();$("#ripNote").textContent=(FARE.walkon.full.m<FARE.walkon.full.n?"Members "+gbp(FARE.walkon.full.m)+" · ":"")+LBL.hire.toLowerCase()+" "+gbp(FARE.hire.full.n);}
 })();
 
 /* running days list */

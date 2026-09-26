@@ -1135,6 +1135,9 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
   .evrows b{font-size:20px}
   .evtop .splat{left:auto;right:-20%;width:55vw;top:-140px;opacity:.45}
 }
+/* a phone: the two price signs stack. Side by side, a one-word sign ("Deposit") set at display size is wider than
+   half a 390px screen and cannot wrap, so it ran 65px past the right edge on frontline-events' events page (26 Sep). */
+@media (max-width:480px){.evprice{grid-template-columns:1fr}}
 /* ---- part: backend.css ----
    The owner's back end: the same world as the site, laid out as an operator app.
    Rail of tabs, stat tiles, lists, grid tables that stack at phone width instead

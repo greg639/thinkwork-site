@@ -1,84 +1,69 @@
 #!/usr/bin/env python3
-"""Branded prototype links: thinkwork.info/p/<slug> -> the live prototype.
+"""Put a built mock on thinkwork.info at /p/<slug>/.
 
-The prototypes are served by the Cloudflare worker (scan tracking, operator
-console). thinkwork.info's DNS lives at Wix, so the worker cannot answer a
-thinkwork.info address yet. This writes a small page at /p/<slug>/ that:
+    python3 _src/make_prototype_link.py robs-plumbing "Rob's Plumbing"
 
-  1. records the scan on the worker (same beacon the prototype pages use), and
-  2. sends the visitor on to the prototype.
+This used to write a redirect page: a small stub that recorded the scan and
+then sent the visitor to highstreet.peerlab.workers.dev/b/<slug>. Greg,
+2026-09-25: "the URLs are different. They're a PLAB URL, not ThinkWork URLs."
+He was right. The address a prospect ended up on, and the one left in their
+history, belonged to a company they have never heard of.
 
-So a QR on a business card reads thinkwork.info/p/<slug>, and the scan is still
-counted. Once thinkwork.info's DNS moves to Cloudflare, delete these and let the
-worker serve the address directly.
+So this copies the built page here instead. thinkwork.info is GitHub Pages and
+the build is a single self-contained HTML file, so Pages can serve the real
+thing at the same address and nothing ever leaves thinkwork.info.
 
-    python3 _src/make_prototype_link.py bourne-motors "Bourne Motors"
+The Cloudflare Worker keeps the tracked copy and still receives every scan: the
+beacon compiled into each page posts to it by absolute address. Tracking is
+unaffected; only the address a human sees has changed.
+
+Called by ThinkWork Studio's build job as its "link" step, between the worker
+deploy and the commit, so a build started from Studio publishes the mock rather
+than a redirect back to the worker.
 """
-import html
-import re
+import shutil
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-WORKER = "https://highstreet.peerlab.workers.dev"
-
-TPL = """<!doctype html>
-<html lang="en-GB"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
-<title>{name}</title>
-<!-- The QR lands here first, so this page carries the mark too. -->
-<link rel="icon" type="image/svg+xml" href="/static/tw/favicon.svg">
-<link rel="canonical" href="{worker}/b/{slug}">
-<style>
-body{{margin:0;min-height:100vh;display:grid;place-items:center;background:#16150f;color:#f4f0e6;
-font:400 17px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;padding:24px 16px;text-align:center}}
-b{{display:block;font-size:22px;margin-bottom:8px}}
-a{{color:#f2b705}}
-</style>
-</head><body>
-<div><b>Opening your preview</b>
-<p>One moment. If nothing happens, <a id="go" href="{worker}/b/{slug}">tap here</a>.</p></div>
-<script>
-(function(){{
-  var TO = "{worker}/b/{slug}";
-  var v;
-  try {{
-    v = localStorage.getItem("tw_v");
-    if (!v) {{
-      v = ([].map.call(crypto.getRandomValues(new Uint8Array(12)), function(x){{
-        return "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"[x % 62];
-      }})).join("");
-      localStorage.setItem("tw_v", v);
-    }}
-  }} catch (e) {{ v = "cardscan" + Date.now(); }}
-  function go() {{ location.replace(TO); }}
-  var done = false, t = setTimeout(function(){{ if (!done) {{ done = true; go(); }} }}, 1200);
-  try {{
-    fetch("{worker}/_s", {{
-      method: "POST", headers: {{ "content-type": "application/json" }}, keepalive: true,
-      body: JSON.stringify({{ slug: "{slug}", v: v, src: "qr" }})
-    }}).then(finish, finish);
-  }} catch (e) {{ finish(); }}
-  function finish() {{ if (!done) {{ done = true; clearTimeout(t); go(); }} }}
-}})();
-</script>
-</body></html>
-"""
+DIST = Path("/root/highstreet-eastbourne/spine/dist/sites")
 
 
-def main() -> None:
-    if len(sys.argv) != 3:
-        sys.exit(__doc__)
-    slug, name = sys.argv[1].strip().lower(), sys.argv[2].strip()
-    if not re.fullmatch(r"[a-z0-9][a-z0-9-]{1,62}", slug):
-        sys.exit(f"bad slug: {slug!r}")
-    out = ROOT / "p" / slug / "index.html"
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(TPL.format(slug=slug, name=html.escape(name), worker=WORKER), encoding="utf-8")
-    print(f"wrote {out.relative_to(ROOT)}  ->  https://thinkwork.info/p/{slug}/")
+def main() -> int:
+    if len(sys.argv) < 2:
+        print("usage: make_prototype_link.py <slug> [name]", file=sys.stderr)
+        return 2
+    slug = sys.argv[1].strip().strip("/")
+    if not slug or "/" in slug or slug.startswith("."):
+        print(f"refusing a suspicious slug: {slug!r}", file=sys.stderr)
+        return 2
+
+    built = DIST / f"{slug}.html"
+    if not built.exists():
+        # A build that failed a gate is never written to dist/, which is the
+        # point: this must not publish yesterday's page as if it were today's,
+        # and it must not leave a redirect behind either.
+        print(f"no built page at {built}.", file=sys.stderr)
+        print("  The build either failed a gate or was never run. Nothing published.", file=sys.stderr)
+        return 1
+
+    dest = ROOT / "p" / slug / "index.html"
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    before = dest.read_text(encoding="utf-8") if dest.exists() else None
+    shutil.copyfile(built, dest)
+
+    kb = dest.stat().st_size // 1024
+    if before is None:
+        what = "published"
+    elif "Opening your preview" in before:
+        what = "replaced the old redirect stub"
+    elif before == dest.read_text(encoding="utf-8"):
+        what = "unchanged"
+    else:
+        what = "updated"
+    print(f"{slug}: {what} ({kb}KB) -> https://thinkwork.info/p/{slug}/")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

@@ -317,7 +317,7 @@ body.ph-on .tiles,body.ph-on .cols2[data-ph]{padding-top:12px}
 @keyframes drip-down{from{clip-path:inset(0 0 58% 0)}to{clip-path:inset(0 0 0 0)}}
 html.splat-done .hero .splat{animation:none}
 @media (prefers-reduced-motion:reduce){.hero .splat{animation:none}}
-.hero .wrap{position:relative;z-index:2;padding-block:clamp(22px,2.6cqi,36px) clamp(24px,3cqi,48px);display:grid;grid-template-columns:1.3fr .7fr;gap:clamp(24px,4cqi,64px);align-items:start}   /* on the 1240 measure the headline column must hold "Sixty three acres." on one line: seven one-word lines put the button 79px under the fold at 1920x1080 */
+.hero .wrap{position:relative;z-index:2;padding-block:clamp(22px,2.6cqi,36px) clamp(24px,3cqi,48px);display:grid;grid-template-columns:1.3fr .7fr;gap:clamp(24px,4cqi,64px);align-items:start}   /* on the 1240 measure the headline column must hold the longest headline line on one line: seven one-word lines put the button 79px under the fold at 1920x1080 */
 .hero .copy{min-width:0}
 .hero .place{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
 .hero .place .eyebrow{color:var(--steel)}
@@ -1331,9 +1331,9 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
   <p class="phlead"><b>Placeholder mode is on.</b> Everything in amber is sample<span class="phlead-more"> content, not taken from your site. Turn it off in the toolbar for a clean walkthrough</span>.</p>
   <details class="phmore" open><summary>Show what is sample</summary>
   <p>Every time on the page except the gates time, the membership figure, the two events on the Events page, the places-left counts, the pre-order and party prices, the day block,
-  the account data, every figure in the revenue model and every figure and name in the back end need your real numbers. Your verified details are not marked: walk-on &pound;20, gun hire &pound;40 including 2000 BBs,
-  every Sunday, , players from 11, the hire package, the on-site shop and its prices, hot food and refreshments, free tea and coffee, the safe zone and car park, the toilet block,
-  fully insured and UKARA recognised, your address, phone and email, your blue, your logo and your own photographs. The frame of your ground from the air is Google's 3D imagery, not your photograph,
+  the account data, every figure in the revenue model and every figure and name in the back end need your real numbers. Your verified details are not marked: walk-on &pound;25, gun hire &pound;35 ,
+  every Sunday,  , the hire package, the on-site shop and its prices, hot food and refreshments, free tea and coffee, the safe zone and car park, the toilet block,
+  , your address, phone and email, your blue, your logo and your own photographs. The frame of your ground from the air is Google's 3D imagery, not your photograph,
   and the two generated pictures (the brew and the canopy texture) say so on the picture.</p></details>
 </div>
 
@@ -1406,8 +1406,8 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           <span class="eyebrow">Unit 17, 10 Bell Close, Plympton Park, Newham Industrial Estate, Plympton</span>
           
         </div>
-        <h1><span class="lean">Every Sunday.<br>Sixty three acres.<br><em>Your mates.</em></span></h1>
-        <p class="lede">A friendly airsoft club near Plympton, open to anybody who wishes to play. Walk on for &pound;20, or hire a gun package for &pound;40 with 2000 BBs in it.</p>
+        <h1><span class="lean">Indoor CQB in Plympton. Skirmish days on Drakes Island.</span></h1>
+        <p class="lede">A close quarter battle zone, an indoor shooting range and NERF for the younger ones, run by Bryan and Dave since 2019.</p>
         <div class="row" style="margin:18px 0 22px">
           <button class="btn primary" data-go="book">Book a Sunday</button>
           <button class="btn ghost" data-go="members">Fees and membership</button>
@@ -1417,8 +1417,8 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           <span class="armband steel"><span id="ripPrice">&pound;25 walk-on</span><small id="ripNote">Hire &pound;35</small></span>
         </div>
         <ul class="icons" aria-label="The essentials">
-          <li><span class="ic"><svg aria-hidden="true"><use href="#i-cal"/></svg></span><div><b>Every Sunday</b><span class="l">Gates </span></div></li>
-          <li><span class="ic"><svg aria-hidden="true"><use href="#i-pistol"/></svg></span><div><b>Walk-on <em>&pound;25</em></b><span class="l">Hire &pound;35 with 2000 BBs</span></div></li>
+          <li><span class="ic"><svg aria-hidden="true"><use href="#i-cal"/></svg></span></li>
+          <li><span class="ic"><svg aria-hidden="true"><use href="#i-pistol"/></svg></span></li>
           <li><span class="ic"><svg aria-hidden="true"><use href="#i-bullet"/></svg></span></li>
         </ul>
       </div>
@@ -1467,7 +1467,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
                 <tbody>
                   <tr><th scope="row">Walk-on<small>Your own gun, eyes and BBs</small></th>
                     <td class="p" data-fare="walkon.full"><span class="flap">&pound;25</span><s></s></td></tr>
-                  <tr><th scope="row">Gun hire<small>Walk-on fee including 2000 BBs</small></th>
+                  <tr>
                     <td class="p" data-fare="hire.full"><span class="flap">&pound;35</span><s></s></td></tr>
                 </tbody>
               </table>
@@ -1486,12 +1486,12 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
               <span class="armband steel" style="margin:-4px 0 14px -6px;font-size:22px">Membership<small>with UKARA registration</small></span>
               <p class="eyebrow" style="color:#C9D2CB">The sum</p>
               
-              <p style="margin-top:14px;font-size:15px;opacity:.92" id="sumLine">One walk-on fee, one hire fee, and annual membership with UKARA registration listed under them. What is on the board is what we charge.</p>
+              
             </div>
           </div>
           <div class="card pad" style="margin-top:14px">
             <div class="kv"><span>Walk-on</span><b>&pound;25 a game day</b></div>
-            <div class="kv"><span>Gun hire</span><b>&pound;35, 2000 BBs included</b></div>
+            
             <div class="kv" data-ph="1"><span class="phtag">Sample figure: you set it</span><span>Membership and UKARA</span><b style="color:var(--ph)">&pound;25 a year, sample</b></div>
             <div class="kv"><span>Booking today</span><b style="color:var(--ph)">Phone or email, nothing online</b></div>
             <div class="kv"><span>Booking proposed</span><b style="color:var(--go)">Card, online, before Sunday</b></div>
@@ -1512,21 +1512,21 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           <p class="eyebrow">A Sunday</p>
           <h2 style="margin:10px 0 18px">The working day</h2>
           <ul class="tt">
-            <li class="real"><div class="t"><small>Google listing</small></div><div><h4>Gates open</h4><p>Park up in the safe zone, sign in, sort your kit. Free tea and coffee. If you are hiring, this is when the package is issued.</p></div></li>
+            <li class="real"><div><h4>Gates open</h4><p>Park up in the safe zone, sign in, sort your kit. Free tea and coffee. If you are hiring, this is when the package is issued.</p></div></li>
             <li data-ph="1"><span class="phtag">Proposed slot, time to confirm</span><div class="t">09:15<small>Proposed</small></div><div><h4>Chrono and brief</h4><p>Own guns over the chrono, everyone through the brief on the track.</p></div></li>
-            <li data-ph="1"><span class="phtag">Proposed slot, time to confirm</span><div class="t">10:00<small>Proposed</small></div><div><h4>Games start</h4><p>Sixty three acres of plantation. The rotation is the marshals' call on the day.</p></div></li>
+            <li data-ph="1"><span class="phtag">Proposed slot, time to confirm</span><div class="t">10:00<small>Proposed</small></div><div><h4>Games start</h4></div></li>
             <li data-ph="1"><span class="phtag">Proposed slot, time to confirm</span><div class="t">12:30<small>Proposed</small></div><div><h4>Lunch</h4><p>Hot food and refreshments at the safe zone.</p></div></li>
             <li data-ph="1"><span class="phtag">Proposed slot, time to confirm</span><div class="t">16:00<small>Proposed</small></div><div><h4>Endex</h4><p>Last game called. Hire kit back in.</p></div></li>
           </ul>
-          <p class="note"><b>Why</b><span> is the only time you publish, and it is on your Google listing rather than your site. Every other time is a proposal and marked; the day reads as a day so a first-timer can picture it. The background is your photograph of the brief on the track.</span></p>
+          
         </div>
         <div>
           <div class="card pad">
             <p class="eyebrow">Player requirements</p>
             
             <div class="kv"><span>Insurance</span><b>Fully insured</b></div>
-            <div class="kv"><span>UKARA</span><b>UKARA recognised game site</b></div>
-            <div class="kv"><span>Hire</span><b>Gun package on site, 2000 BBs included</b></div>
+            
+            
           </div>
           <div class="card pad" style="margin-top:14px">
             <p class="eyebrow">On site</p>
@@ -1548,7 +1548,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
   <div class="band">
     <div class="wrap">
       <div class="row" style="justify-content:space-between;align-items:flex-end;margin-bottom:22px;gap:20px">
-        <div><p class="eyebrow red">The plantation</p><h2 style="margin-top:10px"><span class="lean">Sixty three acres,<br>in our own photographs</span></h2></div>
+        <div><p class="eyebrow red">The plantation</p></div>
         <p class="lede" style="max-width:46ch;margin:0">Fern floor, straight rows, snow one week and smoke the next.</p>
       </div>
       <div class="gallery">
@@ -1648,7 +1648,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <div class="kv"><span>Post town</span><b>Devon</b></div>
             <div class="kv"><span>Postcode</span><b>PL7 4FD</b></div>
             <div class="kv"><span>Phone</span><b><a href="tel:+447557046614">07557046614</a></b></div>
-            <div class="kv"><span>Gates</span><b></b></div>
+            
             <a class="btn primary wide" style="margin-top:14px" href="https://www.google.com/maps/dir/?api=1&amp;destination=PL7+4FD" target="_blank" rel="noopener">Directions</a>
             <p class="tiny" style="margin-top:8px">Opens Google Maps in a new tab with PL7 4FD as the destination.</p>
           </div>
@@ -1697,16 +1697,13 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
       <h2 style="margin:10px 0 20px">Questions people type into a search box</h2>
       <div class="faq" id="faq">
         
-        <details><summary>How much does a Sunday at Commando Force Airsoft cost?</summary>
-          <div class="ans">The walk-on game day fee is &pound;20 with your own kit. The gun hire walk-on fee is &pound;40 and includes 2000 BBs.</div></details>
         
-        <details><summary>Can I hire a gun?</summary>
-          <div class="ans">Yes. A hire gun package is available on site: the gun hire walk-on fee is &pound;40 including 2000 BBs. <span class="ph">Booking hire online in advance is proposed, so it is waiting for you at the gate.</span></div></details>
+        
+        
         
         <details><summary>Is there a shop?</summary>
           <div class="ans">Yes, an on-site airsoft shop, and the online shop at commandoforceairsoft.com sells AEGs, sniper rifles, gas pistols, accessories and consumables. <span class="ph">Ordering online to collect on Sunday is proposed.</span></div></details>
-        <details><summary>Is Commando Force Airsoft insured and UKARA recognised?</summary>
-          <div class="ans">Commando Force Airsoft says it is a fully insured, UKARA recognised airsoft game site.</div></details>
+        
         <details><summary>Do I need to be a member?</summary>
           <div class="ans">Walk-on game days run every Sunday, so no. Annual membership with UKARA registration is offered; <span class="ph">the price is not published, and selling it on this page is proposed.</span></div></details>
         <details><summary>How do I book?</summary>
@@ -1725,7 +1722,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
     <div class="wrap">
       <p class="eyebrow">Calendar</p>
       <h2 style="margin:10px 0 10px">Sundays</h2>
-      <p class="lede" style="margin-bottom:22px">Walk-on game days every Sunday, gates . The two dated events are samples to show the shape and say so.</p>
+      
       <div class="filters" id="dayFilters">
         <button data-f="all" aria-pressed="true">All</button>
         <button data-f="Sunday" aria-pressed="false">Sundays</button>
@@ -1791,7 +1788,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <div class="armband"><span>Sunday 3 January</span></div>
             <ul class="evrows">
               <li><i class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></i>
-                <div><b>A Sunday game day</b><span>Gates </span></div></li>
+                </li>
               <li><i class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5L5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg></i>
                 <div><b>10% off the walk-on fee</b><span>Sample</span></div></li>
             </ul>
@@ -1886,7 +1883,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <div class="field"><label for="bkDate">Running day</label><select id="bkDate"></select></div>
             <div class="field" id="sessionRow"><label>Session</label>
               <div class="choice" id="sessionPick">
-                <button data-sess="full" aria-pressed="true">Game day<small>Gates </small></button>
+                
               </div></div>
             <div class="ticket">
               <div><h4 id="tkWalkH">Walk-on</h4><p id="tkWalkP">Your own gun, eye protection and BBs.</p></div>
@@ -1894,7 +1891,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
                 <div class="stepper" data-t="walkon"><button data-d="-1" aria-label="fewer">&minus;</button><output>1</output><button data-d="1" aria-label="more">+</button></div></div>
             </div>
             <div class="ticket" id="hireRow">
-              <div><h4>Gun hire package</h4><p>Walk-on fee including 2000 BBs, issued at the gate.</p></div>
+              <div><h4>Gun hire package</h4></div>
               <div class="row" style="gap:14px"><span class="pr" data-pr="hire">&pound;40</span>
                 <div class="stepper" data-t="hire"><button data-d="-1" aria-label="fewer">&minus;</button><output>0</output><button data-d="1" aria-label="more">+</button></div></div>
             </div>
@@ -1933,7 +1930,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <hr class="rule">
             <h3 style="margin:18px 0 8px">Safety declaration</h3>
             <label class="check"><input type="checkbox" checked><span>I have read the site rules, I will wear eye protection at all times in the game area, and I will call my hits.</span></label>
-            <label class="check"><input type="checkbox" checked><span>I am 18 or over, or a parent or guardian is signing for any player under 18 on this booking. .</span></label>
+            
             <label class="check"><input type="checkbox"><span>Photos of me on site may be used on Commando Force Airsoft social channels. Optional.</span></label>
             <div class="field" style="margin-top:12px;max-width:340px"><label for="sig">Type your full name to sign</label><input id="sig" placeholder="Full name"></div>
             <p class="tiny">Signed waivers are stored against your account and reused for twelve months. No clipboard at the gate.</p>
@@ -2032,7 +2029,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           <div class="row" style="justify-content:space-between"><p class="eyebrow">No commitment</p><span class="pill ok">Verified</span></div>
           <h3 style="margin-top:8px">Walk on</h3>
           <p class="price">&pound;20<small> a game day</small></p>
-          <p class="small muted" style="margin-top:8px">Turn up, pay on the day. Gun hire package &pound;40 including 2000 BBs.</p>
+          
           <ul>
             <li>Walk-on game days every Sunday</li>
             <li class="ph">Book online to hold a place</li>
@@ -2095,7 +2092,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           <h3 style="margin:8px 0 16px">What would your group cost?</h3>
           <div class="field"><label for="evPack">Package</label>
             <select id="evPack">
-              <option value="40">Group of hires on a Sunday, &pound;40 each with 2000 BBs</option>
+              
               <option value="30" selected>Mixed group, some own kit, some hire</option>
               <option value="20">Group of walk-ons, own kit, &pound;20 each</option>
             </select></div>
@@ -2264,9 +2261,9 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
               <div>
                 <p class="eyebrow">Manifest</p>
                 <h3 class="bk-title" id="bkTodayDate">Next running day</h3>
-                <p class="small muted" style="margin-top:6px">Everyone who has booked and paid, before you open the gates at . The rest of the day's times are yours to set.</p>
+                
               </div>
-              <span class="bk-flash"><span>Gates </span></span>
+              <span class="bk-flash"></span>
             </div>
             <div class="bk-stats">
               <div class="bk-stat"><span class="eyebrow">Players booked</span><b id="bkPlayers">43</b><small id="bkSplit1">31 walk-on, 12 hire</small></div>
@@ -2296,7 +2293,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
                     <div><p class="eyebrow">Hire packages to issue</p><h4 style="margin-top:6px">Pre-booked, so you knew on Friday</h4></div>
                     <span class="pill" id="bkIssuedPill">0 of 12 out</span>
                   </div>
-                  <p class="small muted" style="margin:8px 0 12px">Twelve packages booked and paid at &pound;40 with 2000 BBs each. Tick each one as it goes out.</p>
+                  <p class="small muted" style="margin:8px 0 12px">Twelve packages booked and paid at &pound;35 each. Tick each one as it goes out.</p>
                   <div class="bk-checks" id="bkHire"></div>
                   <button class="btn ghost sm" id="bkIssueAll" style="margin-top:12px">Mark all twelve issued</button>
                 </div>
@@ -2604,13 +2601,13 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
       <div><h4>The site</h4><ul>
         <li>Hot food and refreshments, free tea and coffee</li><li>Male and female toilet block</li><li>On-site airsoft shop</li></ul></div>
       <div><h4>Running</h4><ul>
-        <li>Walk-on game days every Sunday</li><li>Gates </li><li>Walk-on &pound;20</li><li>Gun hire package &pound;40 with 2000 BBs</li><li>Fully insured, UKARA recognised</li></ul>
+        <li>Walk-on game days every Sunday</li><li>Walk-on &pound;25</li><li>Hire package &pound;35</li></ul>
         <h4 style="margin-top:18px">Follow</h4>
         <ul><li><a href="https://www.facebook.com/CForceAirsoft/">Facebook</a></li><li><a href="https://www.instagram.com/commandoforceairsoft/?hl=en">Instagram</a></li><li><a href="https://www.facebook.com/CForceAirsoft/">The NSC forum</a></li></ul>
       </div>
     </div>
     <div class="legal">
-      <span>Design proposal by ThinkWork for discussion with you at Commando Force Airsoft. Fees, the hire package, the Sunday rule, facilities, the age rule, address, phone, email, shop prices, colours, logo and photographs are your own, taken from commandoforceairsoft.com on 24 September 2026; gates  and the rating from your Google listing the same day. Everything flagged in the toolbar's placeholder mode is sample content awaiting your real figures. Not the live site. No live payments.</span>
+      
       <span class="mono">thinkwork.info</span>
     </div>
   </div>

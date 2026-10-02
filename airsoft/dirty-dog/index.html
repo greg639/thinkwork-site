@@ -216,7 +216,9 @@ nav.main button.on{color:var(--text);box-shadow:inset 0 -3px 0 var(--red-hi)}
 @container page (max-width:640px){
   .headrow{gap:8px}
   .mark{min-width:0;flex:1 1 auto}
-  .wordmark{font-size:16px;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  /* a long name wraps to two lines instead of running under the Menu button ("Commando Force Airsoft" was 22% covered) or truncating ("DIRTY DOG AI…"): the mark shrinks, the wordmark wraps */
+  .headrow>.mark{min-width:0;flex:1 1 auto}
+  .wordmark{font-size:15px;line-height:1.05;white-space:normal;overflow:visible;text-overflow:clip;max-width:100%}
   .headcta{flex:0 0 auto;margin-left:auto}
   .headcta .btn.sm{padding:9px 10px;font-size:12.5px}
 }
@@ -1133,6 +1135,9 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
   .evrows b{font-size:20px}
   .evtop .splat{left:auto;right:-20%;width:55vw;top:-140px;opacity:.45}
 }
+/* a phone: the two price signs stack. Side by side, a one-word sign ("Deposit") set at display size is wider than
+   half a 390px screen and cannot wrap, so it ran 65px past the right edge on frontline-events' events page (26 Sep). */
+@media (max-width:480px){.evprice{grid-template-columns:1fr}}
 /* ---- part: backend.css ----
    The owner's back end: the same world as the site, laid out as an operator app.
    Rail of tabs, stat tiles, lists, grid tables that stack at phone width instead
@@ -1329,9 +1334,9 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
   <p>The Saturday dates, the party prices, the pre-order items, the day blocks, the account data, every figure in the revenue model,
   the places-left count on the 1v1, the four past events on the Events page and every figure and name in the back end
   need your real numbers. Your verified details are not marked: every price on your fare board, the &pound;40 membership and its
-  March-to-February year, your opening pattern, 08:00 / 10:00 / 12:30 / 16:00, 15 acres, the container village, trenches and woodland,
+  March-to-February year, your opening pattern, your four times, 15 acres of space, two-storey shipping container village, trenches and woodland,
   toilets, hot food, HPA refills, age 11 and over, your phone number, your address, your red, your logo, your aerial and mascot photographs,
-  and your two posters with the two dates off them: the 1v1 on 26 September and the tenth-anniversary day on 1 November. Every other picture is generated
+  and your two posters with the two dates off them: the two dates on them. Every other picture is generated
   and says so on the picture.</p></details>
 </div>
 
@@ -1408,7 +1413,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
       <span class="brandmark hero-mark" role="img" aria-label="Dirty Dog Airsoft, Shildon: the patch"></span>
       <div class="place">
         <span class="eyebrow">Sunnydale, Shildon, County Durham</span>
-        <span class="eyebrow">15 acres</span>
+        <span class="eyebrow">15 acres of space</span>
         <span class="eyebrow">Age 11 and over</span>
         <span class="eyebrow">Celebrating 10 years</span>
       </div>
@@ -1501,7 +1506,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
     <div class="wrap">
       <div class="row" style="justify-content:space-between;align-items:flex-end;margin-bottom:22px;gap:20px">
         <div><p class="eyebrow red">The ground</p><h2 style="margin-top:10px"><span class="lean">Fifteen acres,<br>three kinds of fight</span></h2></div>
-        <p class="lede" style="max-width:46ch;margin:0">Walk on with your own kit or hire ours. Hot food, HPA refills and toilets on site. One Saturday a month from April to November.</p>
+        <p class="lede" style="max-width:46ch;margin:0">Walk on with your own kit or hire ours. Hot food, HPA refills and on-site toilets. One Saturday a month from April to November.</p>
       </div>
       <div class="tiles" data-ph="1"><span class="phtag">Illustrative, generated, not your premises</span>
         <figure class="tile"><img src="assets/containers.jpg" alt="Illustrative: two storeys of stacked shipping containers in a muddy field" width="1200" height="800" loading="lazy" decoding="async"><span class="credit">Illustrative</span>
@@ -1726,7 +1731,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <details><summary>When is Dirty Dog Airsoft open?</summary>
           <div class="ans">Every Sunday except Christmas and New Year, with gates at 8am and games from 10am till 4pm and a lunch break at 12:30. There is also one Saturday a month from April to November.</div></details>
         <details><summary>When is the next Saturday game at Dirty Dog Airsoft?</summary>
-          <div class="ans">Saturday 26 September 2026 is a 1v1 tournament: 09:30 to 16:00, gates 08:00, &pound;35 entry with a &pound;10 non-refundable deposit to secure a place, bring your own gun, limited ammo. Sunday 1 November is the tenth-anniversary game day with 10% off game day fees.</div></details>
+          <div class="ans">1v1 tournament, Saturday September 26th, 9:30am to 4:00pm, gates open 8:00am, £35 entry, £10 deposit to secure, non-refundable, bring your own gun, limited ammo, overall winner £50 prize, runner up £30 prize, limited places, book early to avoid missing out, tagline Fast. Precise. One shot. One winner.</div></details>
         <details><summary>Can I hire a gun?</summary>
           <div class="ans">Yes. Hire is &pound;40 for a full day or &pound;30 for a half day, and &pound;30 or &pound;25 if you are a member. <span class="ph">Booking hire online in advance is proposed, so it is waiting for you at the gate.</span></div></details>
         <details><summary>Do you do HPA refills?</summary>
@@ -1777,7 +1782,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
     <div class="wrap evwrap">
       <p class="eyebrow red">What's on at Sunnydale</p>
       <h2 style="margin:10px 0 10px">Two dates on the board</h2>
-      <p class="lede" style="margin-bottom:30px">The 1v1 tournament on Saturday 26 September and ten years of Dirty Dog on Sunday 1 November.
+      <p class="lede" style="margin-bottom:30px">1v1 tournament, Saturday September 26th, 9:30am to 4:00pm, gates open 8:00am, £35 entry, £10 deposit to secure, non-refundable, bring your own gun, limited ammo, overall winner £50 prize, runner up £30 prize, limited places, book early to avoid missing out, tagline Fast. Precise. One shot. One winner. 10 years stronger together, event date November 1st, 10% of gameday fees, 10 prizes giving away on the day, birthday cake, tagline Come play, have fun & help us celebrate 10 incredible years!
         Book the 1v1 here and pay the &pound;10 deposit online instead of by bank transfer.</p>
 
       <div class="evgrid">
@@ -1833,7 +1838,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           </figure>
           <div class="evfacts">
             <p class="evkick grit"><span class="hot">10</span> YEARS</p>
-            <p class="evsub">Stronger together</p>
+            <p class="evsub">Celebrating 10 years</p>
             <div class="rip"><span>Sunday 1 November</span></div>
             <ul class="evrows">
               <li><i class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></i>
@@ -2501,7 +2506,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
                   <div class="bk-stat key"><span class="eyebrow">Balance due</span><b id="bkEvBal">£450</b><small id="bkEvBalSub">18 &times; &pound;25 on the day</small></div>
                   <div class="bk-stat"><span class="eyebrow">Bracket</span><b>32 <span class="bk-of">slots</span></b><small id="bkEvByes">18 in, 14 byes if it stays there</small></div>
                 </div>
-                <p class="small muted" style="margin-top:12px">Prizes off your poster: &pound;50 to the winner, &pound;30 to the runner-up. Bring your own gun, limited ammo, 09:30 to 16:00, gates 08:00.</p>
+                <p class="small muted" style="margin-top:12px">Prizes off your poster: &pound;50 to the winner, &pound;30 to the runner-up. Bring your own gun, limited ammo, 09:30 to 16:00, gates 8am.</p>
                 <div class="row" style="gap:8px;margin-top:12px">
                   <button class="btn ghost sm" id="bkDraw">Draw round one</button>
                   <button class="btn ghost sm" id="bkEvMsg">Message all entrants</button>
@@ -2667,7 +2672,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
       <div><h4>The site</h4><ul>
         <li>15 acres</li><li>Container village</li><li>Trenches and woodland</li><li>Toilets, hot food, HPA refills</li><li>Age 11 and over</li></ul></div>
       <div><h4>Running</h4><ul>
-        <li>Every Sunday, gates 08:00</li><li>Games 10:00 to 16:00</li><li>Lunch 12:30</li><li>One Saturday a month, April to November</li><li>Closed Christmas and New Year</li></ul>
+        <li>Every Sunday, gates 8am</li><li>Games 10:00 to 16:00</li><li>Lunch 12:30</li><li>One Saturday a month, April to November</li><li>Closed Christmas and New Year</li></ul>
         <h4 style="margin-top:18px">Follow</h4>
         <ul><li><a href="https://www.facebook.com/DirtyDogAirsoft" style="text-decoration:none;color:var(--text-2)">Facebook</a></li><li class="ph">Instagram and TikTok: handles to follow</li></ul>
       </div>
@@ -2930,7 +2935,8 @@ const fmtShort=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
   $("#ripDate").textContent=nx.dt.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"long"});
   $("#ripKind").textContent=nx.n||"Next running day";
   if(nx.price){$("#ripPrice").textContent=gbp(nx.price)+" entry";$("#ripNote").textContent=nx.dep?gbp(nx.dep)+" deposit to secure":"";}
-  else{$("#ripPrice").textContent=gbp(FARE.walkon.full.n)+" "+LBL.walkon.toLowerCase();$("#ripNote").textContent="Members "+gbp(FARE.walkon.full.m)+" · "+LBL.hire.toLowerCase()+" "+gbp(FARE.hire.full.n);}
+  /* a site with no member price (the member fare falls back to the full fare) does not print "Members £35" beside a £35 own-gunner day */
+  else{$("#ripPrice").textContent=gbp(FARE.walkon.full.n)+" "+LBL.walkon.toLowerCase();$("#ripNote").textContent=(FARE.walkon.full.m<FARE.walkon.full.n?"Members "+gbp(FARE.walkon.full.m)+" · ":"")+LBL.hire.toLowerCase()+" "+gbp(FARE.hire.full.n);}
 })();
 
 /* running days list */
@@ -3834,7 +3840,7 @@ $("#brandReset").addEventListener("click",()=>{
         liveRow.innerHTML='<span class="phtag">Sample: live figures come from the gate check-in</span>'+
           '<div class="d">On now<small>'+(L.day||"Sunday")+' &middot; '+L.time+'</small><span class="status live">Live</span></div>'+
           '<div class="n"><b>Game '+L.game+' of '+L.of+' running</b>Next game '+L.next+' &middot; '+L.onSite+' on site &middot; gates closed at '+L.closed+'</div>'+
-          '<div class="times"><span class="t">10:00</span><span class="t">'+L.next+'</span><span class="t">16:00</span></div>'+
+          '<div class="times"><span class="t">'+(((CONFIG.schedule||{}).times||[])[0]||'10:00')+'</span><span class="t">'+L.next+'</span><span class="t">'+((((CONFIG.schedule||{}).times||[]).slice(-1)[0])||'16:00')+'</span></div>'+
           '<div class="a"><span class="status open">Gates closed</span></div>';
         if(next){next.hidden=true;rows.insertBefore(liveRow,next);}else rows.prepend(liveRow);
       }

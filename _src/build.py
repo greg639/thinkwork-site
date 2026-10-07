@@ -482,6 +482,12 @@ def pricing() -> None:
 <span class="kicker">Prices</span>
 <h1 style="max-width:13ch">Everything on the page. <span class="mark">Nothing hidden.</span></h1>
 <p class="lead">Three plans, one setup fee, and an advisory add-on if you want it.</p>
+<div class="hero-facts">
+<div><b>&pound;35</b><span>A month, to start</span></div>
+<div><b>&pound;650</b><span>Setup, once</span></div>
+<div><b>12</b><span>Month minimum, then monthly</span></div>
+<div><b>&pound;0</b><span>Until the day it goes live</span></div>
+</div>
 </div></section>
 
 <section class="band" style="padding-top:48px"><div class="wrap">
@@ -572,15 +578,64 @@ def work() -> None:
     body = """
 <section class="hero"><div class="wrap">
 <span class="kicker">Work</span>
-<h1 style="max-width:13ch">Real builds. <span class="mark">Real numbers.</span> Soon.</h1>
-<p class="lead">ThinkWork is new. The first builds are under way. Case studies go up here once they've been running long enough to show results, not before.</p>
+<h1 style="max-width:14ch">Built, launched, and <span class="mark">handed over.</span></h1>
+<p class="lead">One client site live and running, two more about to launch, and thirteen complete designs for businesses that never asked for one.</p>
+<div class="hero-facts">
+<div><b>1</b><span>Live client site</span></div>
+<div><b>2</b><span>Builds launching</span></div>
+<div><b>13</b><span>Designs built unasked</span></div>
+<div><b>&pound;0</b><span>Paid before launch day</span></div>
+</div>
 </div></section>
 
-<section class="band" style="padding-top:48px"><div class="wrap">
-<div class="docket">
-<div class="docket-row"><span class="when"><span class="status">In build</span></span><h3>Check-in and scoring for an airsoft venue</h3><p>Custom software for how the site runs on a game day: QR check-in and check-out, tablet check-in run by staff, and a log of every player's chrono reading. The kind of thing no off-the-shelf app does properly.</p></div>
+<section class="band" style="padding:clamp(18px,2.5vw,30px) 0 0"><div class="wrap">
+
+<article class="case">
+<a class="case-shot" href="https://www.familypetcare.co/" rel="noopener"><img src="/static/tw/work/familypetcare.jpg" alt="The Family Pet Care website" width="900" height="579" loading="lazy" decoding="async"></a>
+<div>
+<span class="case-tag is-live">Live</span>
+<h3>Family Pet Care</h3>
+<p class="case-sub">Doggy daycare and home boarding &middot; Melbourn, Cambridgeshire</p>
+<p>Christina was renting her website from Wix and paying for the privilege. We rebuilt it, moved the domain, and handed it back to her. She writes her own posts now, bookings go to the software she already used, and if she ever leaves us she takes the lot with her.</p>
+<ul class="case-facts">
+<li><b>Live since</b><span>September 2026, on her own domain</span></li>
+<li><b>Moved from</b><span>Wix, including the domain transfer</span></li>
+<li><b>Bookings</b><span>Stayed where her customers already book</span></li>
+<li><b>Owns</b><span>The site, the domain, the customer list</span></li>
+</ul>
+<a class="btn" href="https://www.familypetcare.co/" rel="noopener">Visit the site</a>
 </div>
-<p class="small" style="margin-top:24px">We won't put a client's name or numbers here without their say-so, and we won't show results we don't have.</p>
+</article>
+
+<article class="case">
+<div class="case-shot is-duo">
+<img src="/static/tw/work/1066-airsoft.jpg" alt="The 1066 Airsoft website" width="900" height="579" loading="lazy" decoding="async">
+<img src="/static/tw/work/1066-paintball.jpg" alt="The 1066 Paintball website" width="900" height="579" loading="lazy" decoding="async">
+</div>
+<div>
+<span class="case-tag is-soon">Launching</span>
+<h3>1066 Airsoft &amp; Paintball</h3>
+<p class="case-sub">Two businesses, one farm &middot; Hastings, East Sussex</p>
+<p>Dom runs airsoft and paintball from the same ground, as two businesses with two sets of customers and two domains. So it is one source and two sites, which means his phone number exists in one place and changes in both. Phase one is the websites. Booking for his regulars comes after, once the sites have settled.</p>
+<ul class="case-facts">
+<li><b>Signed</b><span>October 2026</span></li>
+<li><b>Built</b><span>Two sites, two domains, one source</span></li>
+<li><b>Bookings</b><span>Staying on Eventbrite for launch</span></li>
+<li><b>Next</b><span>Booking for regulars, once phase one is live</span></li>
+</ul>
+<p class="small" style="margin:0">Shown before launch, so the links go up when the domains move across.</p>
+</div>
+</article>
+
+</div></section>
+
+<section class="paper-2 band"><div class="wrap split">
+<div><span class="kicker">The unasked ones</span><h2 style="max-width:12ch">Thirteen designs nobody ordered.</h2></div>
+<div class="body">
+<p>We pick a business, work out how it actually makes money, and build the whole thing before there is any conversation to have. Not a mockup: the pages, the booking, the pricing, and an operator back end for the people running it.</p>
+<p>Fourteen UK airsoft sites have had the full treatment that way. One of them, 1066, is a client now. The other thirteen are still sitting there, unclaimed.</p>
+<p class="small">They live on our airsoft site, which is a separate property with its own audience. Ask and we will send you straight to them.</p>
+</div>
 </div></section>
 
 <section class="paper-2 band"><div class="wrap split">
@@ -602,6 +657,11 @@ def about() -> None:
 <section class="hero"><div class="wrap">
 <span class="kicker">About</span>
 <h1 style="max-width:15ch">The big firms' playbook, <span class="mark">brought to the high street.</span></h1>
+<div class="hero-facts">
+<div><b>15+</b><span>Years in commercial leadership</span></div>
+<div><b>$1B+</b><span>Revenue across the teams he's led</span></div>
+<div><b>Cold caller</b><span>To Chief Commercial Officer</span></div>
+</div>
 </div></section>
 
 <section class="band"><div class="wrap split">

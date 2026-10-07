@@ -22,7 +22,7 @@ def _asset_v() -> str:
     """Cache-buster derived from the asset bytes, so it can never go stale."""
     import hashlib, pathlib
     h = hashlib.md5()
-    for rel in ("static/tw/site.css", "static/tw/site.js"):
+    for rel in ("static/tw/site.css", "static/tw/site.js", "static/tw/book.js"):
         f = pathlib.Path(__file__).resolve().parent.parent / rel
         if f.exists():
             h.update(f.read_bytes())
@@ -705,22 +705,32 @@ def book() -> None:
     checks = "".join(
         f'<label><input type="checkbox" name="current_tools" value="{esc(t)}"> {esc(t)}</label>' for t in tools)
     body = f"""
-<section class="hero"><div class="wrap split">
-<div>
+<section class="hero"><div class="wrap booksplit">
+<aside class="bookside">
 <span class="kicker">Get a free build quote</span>
-<h1 style="font-size:clamp(40px,6.4vw,80px);max-width:11ch">Tell us about your business.</h1>
-<p class="lead" style="margin-top:24px">Two minutes. Greg reads every one and replies himself, with an idea and a price. No pressure, no sales patter.</p>
-<ul class="list-plain" style="margin-top:28px">
-<li><div>What you pay now tells us what you could save.</div></li>
-<li><div>What you'd like more of tells us what to build.</div></li>
-<li><div>Prefer email? <a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></div></li>
-</ul>
+<h1 style="font-size:clamp(38px,5.4vw,66px);max-width:12ch">Tell us about your business.</h1>
+<p class="lead" style="margin-top:22px">Two minutes. What you pay now tells us what you could save; what you'd like more of tells us what to build.</p>
+<div class="whoreads">
+<img src="/static/tw/greg-headshot.jpg" alt="Greg McCallum" width="480" height="600" loading="lazy" decoding="async">
+<div><b>Greg McCallum</b><span>Reads every one and answers it himself. No sales team, no patter.</span></div>
 </div>
+<ol class="nextsteps">
+<li><b>You send this</b><span>Two minutes, and it costs you nothing.</span></li>
+<li><b>Greg comes back</b><span>With one idea for your business, and a price.</span></li>
+<li><b>You decide</b><span>Nothing gets built, and nothing is paid, until you say yes.</span></li>
+</ol>
+<p class="small" style="margin-top:22px">Prefer email? <a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></p>
+<a class="proofcard" href="/work/">
+<img src="/static/tw/work/familypetcare.jpg" alt="The Family Pet Care website" width="900" height="579" loading="lazy" decoding="async">
+<div><b>Christina's went live in September</b><span>Off Wix, onto a site she owns. See the work</span></div>
+</a>
+</aside>
 <form class="form" id="quote" method="post" action="{API}/api/thinkwork/quote" data-return="/book/thanks/">
 <div class="alert" role="alert" hidden>Something was missing. Please check your name, business, email and type of business.</div>
 <input type="hidden" name="return_to" value="{SITE}/book/thanks/">
 <input type="hidden" name="source" value="main">
 <div class="trap" aria-hidden="true"><label for="rt">Leave this empty</label><input id="rt" name="referral_token" tabindex="-1" autocomplete="off"></div>
+<span class="flabel">1 &middot; About you</span>
 <div class="grid2">
 <div class="field"><label for="f-name">Your name</label><input id="f-name" name="full_name" type="text" autocomplete="name" required maxlength="120"></div>
 <div class="field"><label for="f-biz">Business name</label><input id="f-biz" name="business_name" type="text" autocomplete="organization" required maxlength="200"></div>
@@ -729,12 +739,15 @@ def book() -> None:
 <div class="field"><label for="f-type">Type of business</label><select id="f-type" name="business_type" required><option value="">Choose one</option>{types}<option value="other">Something else</option></select></div>
 <div class="field"><label for="f-town">Town</label><input id="f-town" name="town" type="text" autocomplete="address-level2" maxlength="120"></div>
 </div>
+<span class="flabel">2 &middot; What you have now</span>
 <div class="field"><label for="f-site">Current website <span class="hint">(if you have one)</span></label><input id="f-site" name="current_site" type="text" inputmode="url" maxlength="300" placeholder="yourbusiness.co.uk"></div>
 <fieldset class="field"><legend>What do you use now?</legend><div class="checks">{checks}</div></fieldset>
 <div class="field"><label for="f-spend">Roughly what do you pay for all of it, per month? <span class="hint">(a guess is fine)</span></label><div class="money" style="max-width:200px"><input id="f-spend" name="monthly_spend" type="number" inputmode="decimal" min="0" step="1"></div></div>
+<span class="flabel">3 &middot; What you want</span>
 <div class="field"><label for="f-more">What would you like more of?</label><textarea id="f-more" name="wants" maxlength="2000" placeholder="More regulars, fewer no-shows, busier weekdays, pre-orders for Christmas..."></textarea></div>
 <div class="field"><label><input type="checkbox" name="advisory" value="1" style="width:20px;height:20px;vertical-align:-4px;accent-color:var(--ink)"> I'm interested in the monthly advisory too</label></div>
 <button class="btn hi" type="submit">Send it to Greg</button>
+<p class="small" style="margin:16px 0 0">Sending this commits you to nothing. You get an idea and a price before anything is built or paid for.</p>
 </form>
 </div></section>
 """
@@ -749,7 +762,7 @@ def book() -> None:
 <p class="lead" id="book-fallback">He'll email you to arrange a call. If it's urgent, email greg@thinkwork.info.</p>
 <div id="book-call" class="bk" data-source="main" hidden></div>
 </div></section>
-<script src="/static/tw/book.js?v=1" defer></script>
+<script src="/static/tw/book.js?v=""" + CSS_V + """" defer></script>
 """
     out = ROOT / "book" / "thanks" / "index.html"
     out.parent.mkdir(parents=True, exist_ok=True)

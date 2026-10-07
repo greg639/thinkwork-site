@@ -740,7 +740,15 @@ def airsoft() -> None:
     out.write_text(t, encoding="utf-8")
 
 
+def pillion() -> None:
+    """Concept prototype at /pillion/ - a separate property, like /airsoft/."""
+    src = (ROOT / "_src" / "pillion.html").read_text(encoding="utf-8")
+    out = ROOT / "pillion" / "index.html"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(src, encoding="utf-8")
+
+
 if __name__ == "__main__":
     home(); what_we_build(); pricing(); advisory(); work(); about(); book()
-    airsoft(); llms_txt(); sitemap()
+    airsoft(); pillion(); llms_txt(); sitemap()
     print("built")

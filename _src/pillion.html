@@ -1,0 +1,841 @@
+<!doctype html>
+<html lang="en-GB"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Pillion - a point-to-point motorcycle commute for London employers. Concept prototype.">
+<meta property="og:title" content="Pillion">
+<meta property="og:description" content="Your people are in traffic. The lane beside them is empty.">
+<meta property="og:image" content="https://thinkwork.info/pillion/img/hero.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<title>Pillion</title>
+</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap">
+
+<style>
+:root{
+  /* drawn from the photography: wet london dusk, sodium amber, brake-light red */
+  --night:#080D14;
+  --night-2:#0D1623;
+  --night-3:#122032;
+  --glass:rgba(255,255,255,.055);
+  --glass-line:rgba(255,255,255,.10);
+  --paper:#F6F3EE;
+  --paper-2:#CFD8E2;
+  --slate:#92A4B8;
+  --slate-2:#6B7F95;
+  --amber:#FFA42E;
+  --amber-2:#FFCC72;
+  --amber-ink:#2A1A02;
+  --ember:#FF5340;
+  --mint:#5FD9B0;
+  --maxw:1240px;
+  --s--1:clamp(.8rem,.78rem + .1vw,.87rem);
+  --s-0:clamp(1.02rem,.99rem + .16vw,1.12rem);
+  --s-1:clamp(1.18rem,1.08rem + .45vw,1.42rem);
+  --s-2:clamp(1.5rem,1.26rem + 1vw,2.1rem);
+  --s-3:clamp(2rem,1.45rem + 2.4vw,3.3rem);
+  --s-4:clamp(2.5rem,1.5rem + 3.9vw,4.6rem);
+  --r-lg:30px;
+  --r-md:22px;
+  --r-sm:15px;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--night);color:var(--paper);
+  font-family:"Hanken Grotesk",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:var(--s-0);line-height:1.62;font-weight:400;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+h1,h2,h3,h4{
+  font-family:Outfit,"Hanken Grotesk",system-ui,sans-serif;
+  font-weight:800;letter-spacing:-.022em;line-height:1.02;text-wrap:balance;margin:0;
+}
+p{margin:0}
+img{display:block;max-width:100%}
+a{color:var(--paper)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:4px;border-radius:12px}
+
+.wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:22px}
+.lab{
+  font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--amber);display:inline-flex;align-items:center;gap:9px;
+}
+.lab::before{content:"";width:22px;height:2px;border-radius:2px;background:var(--amber);opacity:.7}
+
+/* ---------------- nav ---------------- */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;padding:14px 0;transition:background .3s ease,backdrop-filter .3s ease}
+.nav.stuck{background:rgba(8,13,20,.78);backdrop-filter:blur(18px) saturate(1.3)}
+.nav-in{max-width:var(--maxw);margin-inline:auto;padding-inline:22px;display:flex;align-items:center;gap:18px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+.brand svg{width:30px;height:30px;flex:none}
+.brand b{font-family:Outfit,sans-serif;font-weight:800;font-size:1.26rem;letter-spacing:-.04em}
+.nav-links{display:flex;align-items:center;gap:30px;margin-left:auto}
+.nav-links a:not(.btn){font-size:.92rem;color:var(--paper-2);text-decoration:none;font-weight:500;transition:color .2s}
+.nav-links a:not(.btn):hover{color:var(--amber-2)}
+@media(max-width:860px){.nav-links a:not(.btn){display:none}}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:Outfit,sans-serif;font-weight:700;font-size:.95rem;letter-spacing:-.01em;
+  padding:13px 24px;border-radius:999px;border:1px solid transparent;
+  text-decoration:none;cursor:pointer;white-space:nowrap;
+  transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .18s ease,background .18s ease;
+}
+.btn-amber{
+  background:linear-gradient(135deg,var(--amber-2),var(--amber));color:var(--amber-ink);
+  box-shadow:0 8px 28px -10px rgba(255,164,46,.6);
+}
+.btn-amber:hover{transform:translateY(-2px);box-shadow:0 14px 36px -10px rgba(255,164,46,.75)}
+.btn-glass{background:var(--glass);color:var(--paper);border-color:var(--glass-line);backdrop-filter:blur(10px)}
+.btn-glass:hover{transform:translateY(-2px);background:rgba(255,255,255,.1)}
+.btn-lg{padding:17px 30px;font-size:1.04rem}
+
+/* ---------------- hero ---------------- */
+.hero{position:relative;isolation:isolate;min-height:min(90svh,800px);display:flex;flex-direction:column;margin-top:-72px;padding-top:72px}
+.hero-bg{position:absolute;inset:0;z-index:-2;overflow:hidden}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:52% 48%;animation:drift 34s ease-in-out infinite alternate}
+@keyframes drift{from{transform:scale(1.04)}to{transform:scale(1.14) translate3d(-1.2%,-1%,0)}}
+.hero-bg::after{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(120% 90% at 78% 32%,rgba(8,13,20,0) 0%,rgba(8,13,20,.55) 58%,rgba(8,13,20,.9) 100%),
+    linear-gradient(to right,rgba(8,13,20,.94) 0%,rgba(8,13,20,.74) 34%,rgba(8,13,20,.22) 66%,rgba(8,13,20,.5) 100%),
+    linear-gradient(to top,var(--night) 1%,rgba(8,13,20,.45) 26%,rgba(8,13,20,0) 56%);
+}
+@media(max-width:900px){
+  .hero-bg::after{background:linear-gradient(to top,var(--night) 3%,rgba(8,13,20,.72) 40%,rgba(8,13,20,.4) 100%)}
+  .hero-bg img{object-position:58% 50%}
+}
+.hero-in{position:relative;width:100%;max-width:var(--maxw);margin-inline:auto;padding:clamp(34px,5vw,58px) 22px clamp(30px,4vw,44px);flex:1;display:flex;flex-direction:column;justify-content:center}
+.hero-grid{display:grid;gap:clamp(30px,4vw,56px);grid-template-columns:minmax(0,1.15fr) minmax(0,.68fr);align-items:center}
+@media(max-width:980px){.hero-grid{grid-template-columns:1fr}}
+h1{font-size:var(--s-4);font-weight:900;max-width:18ch;letter-spacing:-.035em}
+.sheen{
+  background:linear-gradient(104deg,var(--amber-2) 8%,var(--amber) 52%,var(--ember) 96%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-sub{margin-top:20px;max-width:50ch;font-size:var(--s-1);color:var(--paper-2);line-height:1.5;font-weight:300}
+.hero-sub b{color:var(--paper);font-weight:600}
+.hero-cta{display:flex;flex-wrap:wrap;gap:13px;margin-top:28px}
+.hero-foot{margin-top:22px;font-size:.88rem;color:var(--slate);max-width:42ch}
+.rise{animation:rise .9s cubic-bezier(.16,.84,.3,1) both}
+.rise-2{animation-delay:.1s}.rise-3{animation-delay:.2s}.rise-4{animation-delay:.3s}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+.glass{
+  background:linear-gradient(160deg,rgba(255,255,255,.1),rgba(255,255,255,.035));
+  border:1px solid var(--glass-line);border-radius:var(--r-lg);
+  backdrop-filter:blur(22px) saturate(1.2);
+  padding:10px 24px 18px;
+  box-shadow:0 30px 70px -36px rgba(0,0,0,.85);
+}
+.glass h4{font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--slate);font-family:"Hanken Grotesk",sans-serif;padding:14px 0 4px}
+.g-row{display:flex;justify-content:space-between;align-items:baseline;gap:18px;padding:13px 0;border-top:1px solid rgba(255,255,255,.07)}
+.g-row span{font-size:.88rem;color:var(--slate);font-weight:400}
+.g-row b{font-family:Outfit,sans-serif;font-weight:700;font-size:1rem;text-align:right;letter-spacing:-.01em}
+.g-row b.hl{color:var(--amber-2)}
+
+/* ---------------- generic section ---------------- */
+section{position:relative;padding-block:clamp(72px,9vw,130px)}
+.glow::before{
+  content:"";position:absolute;z-index:-1;pointer-events:none;
+  width:min(780px,110%);aspect-ratio:1.4;left:50%;top:-18%;transform:translateX(-50%);
+  background:radial-gradient(closest-side,rgba(255,164,46,.12),rgba(255,164,46,0) 72%);
+}
+.head{display:grid;gap:clamp(20px,3.5vw,56px);grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);align-items:start}
+@media(max-width:900px){.head{grid-template-columns:1fr}}
+.head h2{font-size:var(--s-3);max-width:19ch;margin-top:20px}
+.head-body{display:grid;gap:17px;color:var(--paper-2);max-width:58ch;font-weight:300;font-size:1.06rem}
+.head-body strong{color:var(--amber-2);font-weight:600}
+.quiet{color:var(--slate-2);font-size:.95rem}
+
+/* ---------------- aerial band ---------------- */
+.band{position:relative;min-height:clamp(380px,52vw,560px);display:grid;place-items:center;overflow:hidden;isolation:isolate}
+.band img{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover}
+.band::after{content:"";position:absolute;inset:0;z-index:-1;background:
+  radial-gradient(70% 70% at 50% 50%,rgba(8,13,20,.3),rgba(8,13,20,.88) 85%),
+  linear-gradient(var(--night),rgba(8,13,20,0) 22%,rgba(8,13,20,0) 78%,var(--night))}
+.band-in{text-align:center;padding:40px 22px;max-width:38ch}
+.band-num{
+  font-family:Outfit,sans-serif;font-weight:900;letter-spacing:-.05em;line-height:.85;
+  font-size:clamp(4.6rem,16vw,11rem);
+  background:linear-gradient(170deg,var(--amber-2),var(--amber) 55%,#E07A1C);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 10px 50px rgba(255,164,46,.3));
+}
+.band-num i{font-style:normal;font-size:.26em;letter-spacing:-.02em}
+.band-in p{margin-top:18px;font-size:var(--s-1);color:var(--paper);font-weight:300}
+.band-in small{display:block;margin-top:12px;color:var(--slate);font-size:.9rem}
+
+/* ---------------- lane figure ---------------- */
+.fig{
+  margin-top:clamp(38px,5vw,60px);border-radius:var(--r-lg);overflow:hidden;
+  background:linear-gradient(165deg,var(--night-3),var(--night-2));
+  border:1px solid var(--glass-line);padding:clamp(16px,3vw,34px);
+  box-shadow:0 40px 90px -50px #000;
+}
+.fig-scroll{overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:560px;height:auto}
+.fig-cap{display:flex;flex-wrap:wrap;gap:6px 24px;justify-content:space-between;color:var(--slate-2);font-size:.82rem;padding:0 4px 16px}
+.pills{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(26px,3.5vw,38px)}
+.pill-stat{
+  display:flex;align-items:baseline;gap:10px;padding:14px 22px;border-radius:999px;
+  background:var(--glass);border:1px solid var(--glass-line);
+}
+.pill-stat b{font-family:Outfit,sans-serif;font-weight:800;font-size:1.35rem;letter-spacing:-.03em}
+.pill-stat span{font-size:.86rem;color:var(--slate)}
+.pill-stat.key{background:linear-gradient(135deg,rgba(255,204,114,.16),rgba(255,164,46,.08));border-color:rgba(255,164,46,.4)}
+.pill-stat.key b{color:var(--amber-2)}
+
+/* ---------------- steps ---------------- */
+.steps{display:grid;gap:18px;margin-top:clamp(36px,5vw,58px)}
+.stepc{
+  display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(18px,3vw,34px);align-items:start;
+  padding:clamp(24px,3vw,36px);border-radius:var(--r-lg);
+  background:linear-gradient(150deg,rgba(255,255,255,.055),rgba(255,255,255,.015));
+  border:1px solid var(--glass-line);
+}
+@media(max-width:620px){.stepc{grid-template-columns:1fr;gap:16px}}
+.dot{
+  width:50px;height:50px;border-radius:999px;display:grid;place-items:center;flex:none;
+  background:linear-gradient(140deg,var(--amber-2),var(--amber));color:var(--amber-ink);
+  font-family:Outfit,sans-serif;font-weight:800;font-size:1.1rem;
+  box-shadow:0 10px 26px -12px rgba(255,164,46,.7);
+}
+.stepc h3{font-size:var(--s-2);max-width:26ch}
+.stepc p{margin-top:12px;color:var(--paper-2);max-width:60ch;font-weight:300}
+.ribbon{
+  display:inline-block;margin-top:18px;padding:7px 15px;border-radius:999px;
+  font-size:.78rem;font-weight:600;color:var(--amber-2);
+  background:rgba(255,164,46,.1);border:1px solid rgba(255,164,46,.26);
+}
+
+/* ---------------- split with photo ---------------- */
+.split{display:grid;gap:clamp(28px,4vw,62px);grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center}
+@media(max-width:880px){.split{grid-template-columns:1fr}}
+.shot{position:relative;border-radius:var(--r-lg);overflow:hidden;box-shadow:0 44px 90px -46px #000}
+.shot img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3.1}
+.shot figcaption{
+  position:absolute;left:16px;right:16px;bottom:16px;padding:13px 18px;border-radius:var(--r-md);
+  background:rgba(8,13,20,.62);backdrop-filter:blur(14px);border:1px solid var(--glass-line);
+  font-size:.86rem;color:var(--paper-2);
+}
+.ticks{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:18px}
+.ticks li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:15px;color:var(--paper-2);font-weight:300}
+.ticks b{color:var(--paper);font-weight:600}
+.tk{width:26px;height:26px;border-radius:999px;flex:none;display:grid;place-items:center;margin-top:3px;background:rgba(255,164,46,.14);border:1px solid rgba(255,164,46,.3)}
+.tk svg{width:12px;height:12px}
+
+/* ---------------- honest cards ---------------- */
+.honest{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));margin-top:clamp(36px,5vw,54px)}
+.hc{
+  padding:clamp(26px,3vw,34px);border-radius:var(--r-lg);
+  background:linear-gradient(155deg,rgba(255,83,64,.08),rgba(255,255,255,.018));
+  border:1px solid rgba(255,83,64,.2);
+}
+.hc h3{font-size:var(--s-1);max-width:21ch}
+.hc p{margin-top:13px;color:var(--slate);font-size:.97rem;font-weight:300}
+
+/* ---------------- ledger ---------------- */
+.ledger{display:grid;gap:12px;margin-top:clamp(34px,4.5vw,52px)}
+.lr{
+  display:grid;grid-template-columns:minmax(0,1.5fr) auto auto;gap:14px 26px;align-items:center;
+  padding:20px clamp(20px,2.4vw,28px);border-radius:var(--r-md);
+  background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.075);
+}
+@media(max-width:760px){.lr{grid-template-columns:minmax(0,1fr) auto}}
+.lr .n{font-weight:500}
+.lr .n small{display:block;color:var(--slate-2);font-size:.84rem;font-weight:300;margin-top:4px;max-width:52ch}
+.lr .val{font-family:Outfit,sans-serif;font-weight:800;font-size:1.18rem;letter-spacing:-.02em;white-space:nowrap;text-align:right}
+.lr .val.empty{color:var(--slate-2);font-weight:400}
+@media(max-width:760px){.lr .val{grid-column:2;text-align:right}.lr .chip{grid-column:1/-1;justify-self:start}}
+.chip{display:inline-block;padding:6px 14px;border-radius:999px;font-size:.74rem;font-weight:600;white-space:nowrap;border:1px solid}
+.c-ok{color:var(--mint);background:rgba(95,217,176,.1);border-color:rgba(95,217,176,.28)}
+.c-go{color:var(--amber-2);background:rgba(255,164,46,.1);border-color:rgba(255,164,46,.3)}
+.c-wait{color:var(--slate);background:rgba(146,164,184,.08);border-color:rgba(146,164,184,.22)}
+
+/* ---------------- waitlist ---------------- */
+.list{background:linear-gradient(180deg,var(--night),var(--night-2) 42%,var(--night))}
+.lg{display:grid;gap:clamp(32px,4.5vw,66px);grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);align-items:start}
+@media(max-width:940px){.lg{grid-template-columns:1fr}}
+.counter{margin-top:30px;padding:28px 30px;border-radius:var(--r-lg);background:var(--glass);border:1px solid var(--glass-line)}
+.counter b{
+  display:block;font-family:Outfit,sans-serif;font-weight:900;font-size:clamp(3rem,7vw,4.4rem);
+  line-height:.88;letter-spacing:-.05em;
+  background:linear-gradient(150deg,var(--amber-2),var(--amber));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.counter span{display:block;margin-top:14px;font-size:.92rem;color:var(--slate);font-weight:300}
+.bar{height:7px;border-radius:999px;background:rgba(255,255,255,.08);margin-top:20px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--amber),var(--amber-2));width:0;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+
+form{border-radius:var(--r-lg);overflow:hidden;background:linear-gradient(165deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border:1px solid var(--glass-line);box-shadow:0 40px 90px -50px #000}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px}
+.tab{
+  appearance:none;border:1px solid transparent;background:transparent;cursor:pointer;
+  padding:14px 10px;border-radius:999px;color:var(--slate);
+  font-family:Outfit,sans-serif;font-weight:700;font-size:.95rem;transition:all .2s;
+}
+.tab:hover{color:var(--paper)}
+.tab[aria-selected="true"]{background:linear-gradient(135deg,var(--amber-2),var(--amber));color:var(--amber-ink)}
+.fields{padding:8px clamp(20px,3vw,30px) clamp(22px,3vw,30px);display:grid;gap:17px}
+.pair{display:grid;gap:17px;grid-template-columns:1fr 1fr}
+@media(max-width:540px){.pair{grid-template-columns:1fr}}
+label{display:grid;gap:8px}
+label>span{font-size:.78rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--slate)}
+input,select{
+  width:100%;background:rgba(8,13,20,.5);border:1px solid rgba(255,255,255,.12);color:var(--paper);
+  font-family:inherit;font-size:1rem;padding:14px 17px;border-radius:var(--r-sm);transition:border-color .2s,box-shadow .2s;
+}
+input::placeholder{color:#5D7187}
+input:focus,select:focus{outline:none;border-color:rgba(255,164,46,.6);box-shadow:0 0 0 4px rgba(255,164,46,.13)}
+.msg{font-size:.92rem;padding:15px 18px;border-radius:var(--r-sm);border:1px solid}
+.msg.ok{color:var(--mint);background:rgba(95,217,176,.09);border-color:rgba(95,217,176,.3)}
+.msg.bad{color:#FF9B8C;background:rgba(255,83,64,.09);border-color:rgba(255,83,64,.3)}
+.consent{font-size:.84rem;color:var(--slate-2);font-weight:300}
+
+/* ---------------- footer ---------------- */
+footer{padding-block:clamp(54px,6vw,78px) 54px;background:var(--night);border-top:1px solid rgba(255,255,255,.06)}
+.fg{display:grid;gap:34px;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr)}
+@media(max-width:720px){.fg{grid-template-columns:1fr 1fr}}
+footer h4{font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--slate-2);font-family:"Hanken Grotesk",sans-serif}
+footer ul{list-style:none;padding:0;margin:16px 0 0;display:grid;gap:11px;font-size:.93rem}
+footer a{color:var(--slate);text-decoration:none;transition:color .2s}
+footer a:hover{color:var(--amber-2)}
+.fnote{
+  margin-top:46px;padding:22px 26px;border-radius:var(--r-md);
+  background:rgba(255,255,255,.028);border:1px solid rgba(255,255,255,.07);
+  font-size:.82rem;color:var(--slate-2);line-height:1.66;font-weight:300;
+}
+.fnote em{font-style:normal;color:var(--paper-2);font-weight:500}
+.fnote .tagp{display:inline-block;padding:4px 12px;border-radius:999px;background:rgba(255,164,46,.12);color:var(--amber-2);font-weight:600;font-size:.74rem;letter-spacing:.08em;margin-right:8px}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.001ms!important}
+}
+</style>
+
+<nav class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top">
+      <svg viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="19" fill="url(#bg)"></circle>
+        <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#FFCC72"></stop><stop offset="1" stop-color="#FF8A1E"></stop>
+        </linearGradient></defs>
+        <circle cx="13.4" cy="25.6" r="5.2" fill="none" stroke="#2A1A02" stroke-width="2.6"></circle>
+        <circle cx="28.4" cy="25.6" r="5.2" fill="none" stroke="#2A1A02" stroke-width="2.6"></circle>
+        <path d="M13.4 25.6 L19 16.4 L26 16.4 L28.4 25.6" fill="none" stroke="#2A1A02" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path>
+        <circle cx="22.6" cy="10.4" r="3.1" fill="#2A1A02"></circle>
+      </svg>
+      <b>Pillion</b>
+    </a>
+    <div class="nav-links">
+      <a href="#gap">The gap</a>
+      <a href="#pilot">The pilot</a>
+      <a href="#ledger">What we know</a>
+      <a href="#riders">Riders</a>
+      <a class="btn btn-amber" href="#waitlist">Join the list</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-bg">
+    <img src="img/hero.jpg" alt="A rider on a small motorcycle filtering through the gap between two lanes of stationary traffic on a wet London street at dusk, Westminster lit in the distance.">
+  </div>
+  <div class="hero-in">
+    <div class="hero-grid">
+      <div>
+        <span class="lab rise">London · Corridor 01 · Spring 2027</span>
+        <h1 class="rise rise-2" style="margin-top:20px">Your people are in traffic. The lane <span class="sheen">beside</span> them is empty.</h1>
+        <p class="hero-sub rise rise-3">Pillion is a point-to-point motorcycle commute for London employers. We're signing five pilot companies and measuring their routes <b>before</b> we carry a single passenger.</p>
+        <div class="hero-cta rise rise-4">
+          <a class="btn btn-amber btn-lg" href="#waitlist">Join the pilot waiting list</a>
+          <a class="btn btn-glass btn-lg" href="#riders">Ride with us</a>
+        </div>
+        <p class="hero-foot rise rise-4">Nothing to download, nothing to pay. We come to you with the numbers from your own corridor.</p>
+      </div>
+      <div class="glass rise rise-4">
+        <h4>Where we actually are</h4>
+        <div class="g-row"><span>Operating area</span><b>Inside the M25</b></div>
+        <div class="g-row"><span>Machines</span><b>125–400cc</b></div>
+        <div class="g-row"><span>Fleet we own</span><b class="hl">None — riders own theirs</b></div>
+        <div class="g-row"><span>Pilot employers wanted</span><b class="hl">5</b></div>
+        <div class="g-row"><span>Rides completed to date</span><b>0</b></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- =============== the gap =============== -->
+<div class="band" id="gap">
+  <img src="img/aerial.jpg" alt="Long-exposure aerial view of a road at night: lanes of white and red light with a single unbroken amber streak threading the gap between them.">
+  <div class="band-in">
+    <div class="band-num">1.85<i> m</i></div>
+    <p>of empty tarmac runs along the lane line of every queue in London.</p>
+    <small>It is there because of how roads are built, not because of anything clever we did.</small>
+  </div>
+</div>
+
+<section class="glow">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="lab">Why two wheels</span>
+        <h2>We didn't invent the gap. Highway engineering did.</h2>
+      </div>
+      <div class="head-body">
+        <p>A standard British urban traffic lane is 3.65 metres wide. A family car is about 1.80 metres across. Put two cars side by side in neighbouring lanes and roughly <strong>1.85 metres of empty road</strong> opens up along the white line between them.</p>
+        <p>A 125 is under 0.80 metres across the bars. It fits, with better than half a metre of air either side. Filtering through slow and stationary traffic is lawful in the UK and taught as a core riding skill — it is the entire reason a two-wheeled commute doesn't queue.</p>
+        <p class="quiet">Filtering is lawful where it's done safely and at a sensible speed difference. It's also where the risk sits, which is exactly why we're starting with one corridor and experienced riders instead of a fleet.</p>
+      </div>
+    </div>
+
+    <figure class="fig" style="margin-block-end:0">
+      <div class="fig-cap">
+        <span>Two-lane urban carriageway, viewed from above</span>
+        <span>Drawn to scale · 1 m = 46 px</span>
+      </div>
+      <div class="fig-scroll">
+        <svg viewBox="0 0 920 372" role="img" aria-label="Scale diagram of two 3.65 metre traffic lanes. A 1.80 metre car sits in each lane, leaving a 1.85 metre gap along the lane line, through which a 0.75 metre wide motorcycle passes.">
+          <defs>
+            <linearGradient id="road" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#16253A"></stop><stop offset="1" stop-color="#101C2C"></stop>
+            </linearGradient>
+            <linearGradient id="car" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#2A3B52"></stop><stop offset="1" stop-color="#1D2B3E"></stop>
+            </linearGradient>
+            <linearGradient id="amb" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#FFA42E" stop-opacity="0"></stop>
+              <stop offset="1" stop-color="#FFCC72"></stop>
+            </linearGradient>
+            <filter id="soft" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="13"></feGaussianBlur>
+            </filter>
+          </defs>
+
+          <rect x="0" y="18" width="920" height="336" rx="28" fill="url(#road)"></rect>
+
+          <!-- lane line -->
+          <g stroke="#43566E" stroke-width="3" stroke-linecap="round" stroke-dasharray="26 22" opacity=".65">
+            <line x1="34" y1="186" x2="886" y2="186"></line>
+          </g>
+
+          <!-- glow in the gap -->
+          <rect x="34" y="166" width="852" height="40" rx="20" fill="#FFA42E" opacity=".14" filter="url(#soft)"></rect>
+
+          <!-- upper lane cars -->
+          <g fill="url(#car)">
+            <rect x="46" y="60" width="198" height="83" rx="30"></rect>
+            <rect x="296" y="60" width="198" height="83" rx="30"></rect>
+            <rect x="546" y="60" width="198" height="83" rx="30"></rect>
+          </g>
+          <g fill="#0E1826" opacity=".75">
+            <rect x="106" y="74" width="80" height="55" rx="22"></rect>
+            <rect x="356" y="74" width="80" height="55" rx="22"></rect>
+            <rect x="606" y="74" width="80" height="55" rx="22"></rect>
+          </g>
+          <g fill="#FF5340" opacity=".8">
+            <rect x="52" y="70" width="9" height="16" rx="4.5"></rect><rect x="52" y="117" width="9" height="16" rx="4.5"></rect>
+            <rect x="302" y="70" width="9" height="16" rx="4.5"></rect><rect x="302" y="117" width="9" height="16" rx="4.5"></rect>
+            <rect x="552" y="70" width="9" height="16" rx="4.5"></rect><rect x="552" y="117" width="9" height="16" rx="4.5"></rect>
+          </g>
+
+          <!-- lower lane cars -->
+          <g fill="url(#car)">
+            <rect x="22" y="229" width="198" height="83" rx="30"></rect>
+            <rect x="272" y="229" width="198" height="83" rx="30"></rect>
+            <rect x="522" y="229" width="198" height="83" rx="30"></rect>
+            <rect x="772" y="229" width="198" height="83" rx="30"></rect>
+          </g>
+          <g fill="#0E1826" opacity=".75">
+            <rect x="82" y="243" width="80" height="55" rx="22"></rect>
+            <rect x="332" y="243" width="80" height="55" rx="22"></rect>
+            <rect x="582" y="243" width="80" height="55" rx="22"></rect>
+            <rect x="832" y="243" width="80" height="55" rx="22"></rect>
+          </g>
+          <g fill="#FF5340" opacity=".8">
+            <rect x="28" y="239" width="9" height="16" rx="4.5"></rect><rect x="28" y="286" width="9" height="16" rx="4.5"></rect>
+            <rect x="278" y="239" width="9" height="16" rx="4.5"></rect><rect x="278" y="286" width="9" height="16" rx="4.5"></rect>
+            <rect x="528" y="239" width="9" height="16" rx="4.5"></rect><rect x="528" y="286" width="9" height="16" rx="4.5"></rect>
+            <rect x="778" y="239" width="9" height="16" rx="4.5"></rect><rect x="778" y="286" width="9" height="16" rx="4.5"></rect>
+          </g>
+
+          <!-- the rider -->
+          <rect x="230" y="181" width="190" height="10" rx="5" fill="url(#amb)" opacity=".55"></rect>
+          <g>
+            <rect x="420" y="169" width="82" height="34" rx="17" fill="#FFCC72"></rect>
+            <rect x="476" y="162" width="11" height="48" rx="5.5" fill="#FFA42E"></rect>
+            <circle cx="494" cy="186" r="13" fill="#FFCC72" opacity=".5" filter="url(#soft)"></circle>
+          </g>
+
+          <!-- soft dimension capsules -->
+          <g>
+            <rect x="247" y="76" width="98" height="30" rx="15" fill="#0B1420" opacity=".9"></rect>
+            <text x="296" y="96" fill="#CFD8E2" font-family="Outfit,sans-serif" font-size="15" font-weight="700" text-anchor="middle">1.80 m</text>
+            <line x1="266" y1="62" x2="326" y2="62" stroke="#6B7F95" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="266" y1="141" x2="326" y2="141" stroke="#6B7F95" stroke-width="2" stroke-linecap="round"></line>
+          </g>
+          <g>
+            <rect x="748" y="171" width="124" height="32" rx="16" fill="#0B1420" opacity=".92" stroke="#FFA42E" stroke-opacity=".5"></rect>
+            <text x="810" y="192" fill="#FFCC72" font-family="Outfit,sans-serif" font-size="16" font-weight="800" text-anchor="middle">1.85 m gap</text>
+            <line x1="762" y1="150" x2="858" y2="150" stroke="#FFA42E" stroke-width="2" stroke-linecap="round" opacity=".75"></line>
+            <line x1="762" y1="224" x2="858" y2="224" stroke="#FFA42E" stroke-width="2" stroke-linecap="round" opacity=".75"></line>
+          </g>
+          <g>
+            <rect x="534" y="171" width="92" height="30" rx="15" fill="#0B1420" opacity=".9"></rect>
+            <text x="580" y="191" fill="#CFD8E2" font-family="Outfit,sans-serif" font-size="14" font-weight="700" text-anchor="middle">0.75 m</text>
+          </g>
+          <g>
+            <rect x="46" y="166" width="104" height="30" rx="15" fill="#0B1420" opacity=".9"></rect>
+            <text x="98" y="186" fill="#92A4B8" font-family="Outfit,sans-serif" font-size="14" font-weight="700" text-anchor="middle">3.65 m lane</text>
+          </g>
+        </svg>
+      </div>
+    </figure>
+
+    <div class="pills">
+      <div class="pill-stat"><b>3.65 m</b><span>Standard UK urban lane</span></div>
+      <div class="pill-stat"><b>1.80 m</b><span>Family car, mirrors folded</span></div>
+      <div class="pill-stat key"><b>1.85 m</b><span>Road left over</span></div>
+      <div class="pill-stat"><b>0.75 m</b><span>A 125 across the bars</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== pilot =============== -->
+<section id="pilot" style="background:linear-gradient(180deg,var(--night),var(--night-2) 50%,var(--night))">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="lab">How a pilot works</span>
+        <h2>Three steps, and you can stop after any of them.</h2>
+      </div>
+      <div class="head-body">
+        <p>You don't buy anything to find out whether this works for your people. You give us two postcodes, we spend a fortnight riding the route at your hours, and you get the times in writing. Then you decide.</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <article class="stepc">
+        <div class="dot">1</div>
+        <div>
+          <h3>You give us postcodes and times.</h3>
+          <p>Where your staff travel from, and the hours they actually travel. Nothing else — no headcount data, no contract, no commitment. Five minutes on a call.</p>
+          <span class="ribbon">You commit nothing</span>
+        </div>
+      </article>
+      <article class="stepc">
+        <div class="dot">2</div>
+        <div>
+          <h3>We ride your corridor for two weeks and publish what we find.</h3>
+          <p>Same postcodes, same hours, both directions, every weekday. Door to door, measured against the Tube, the bus and a car doing the same journey. You get the raw table — including the days we lose.</p>
+          <span class="ribbon">Measured, not modelled</span>
+        </div>
+      </article>
+      <article class="stepc">
+        <div class="dot">3</div>
+        <div>
+          <h3>If the numbers hold, five employers launch on one corridor.</h3>
+          <p>A fixed number of monthly seats at a fixed monthly price. No surge, no dynamic pricing, nothing your finance team has to explain twice. One corridor until it works properly, then the next.</p>
+          <span class="ribbon">Spring 2027 target</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =============== arrival / employers =============== -->
+<section class="glow">
+  <div class="wrap">
+    <div class="split">
+      <figure class="shot" style="margin:0">
+        <img src="img/arrive.jpg" alt="A commuter in a camel coat steps off the pillion seat outside a glass office building in low morning sun, handing the helmet back to the rider.">
+        <figcaption>The arrival is the product. Twenty-five minutes on the back of a bike, not fifty-five standing up on the Northern line.</figcaption>
+      </figure>
+      <div>
+        <span class="lab">For employers</span>
+        <h2 style="font-size:var(--s-3);margin-top:20px;max-width:20ch">When the commute already costs you, this is the cheapest thing you can try.</h2>
+        <p style="margin-top:20px;color:var(--paper-2);font-weight:300;max-width:46ch">It suits companies of roughly 200 to 800 people, where a slow commute shows up in late starts, tired afternoons and the people you lose to a shorter one.</p>
+        <ul class="ticks">
+          <li><span class="tk"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1.6 6.3 L4.4 9 L10.3 2.8" fill="none" stroke="#FFCC72" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            <span><b>Time back, measured on your routes.</b> Not an industry average — your postcodes, your hours, published whether or not it flatters us.</span></li>
+          <li><span class="tk"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1.6 6.3 L4.4 9 L10.3 2.8" fill="none" stroke="#FFCC72" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            <span><b>A commute people don't arrive angry from.</b> Standing on a platform at Bank in August is a wellbeing cost you already pay, in sick days and in attrition.</span></li>
+          <li><span class="tk"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1.6 6.3 L4.4 9 L10.3 2.8" fill="none" stroke="#FFCC72" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            <span><b>No fleet, no capital, nothing on your balance sheet.</b> Riders are licensed, insured and assessed by us. You buy seats, not vehicles.</span></li>
+          <li><span class="tk"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1.6 6.3 L4.4 9 L10.3 2.8" fill="none" stroke="#FFCC72" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            <span><b>You can walk away after the study.</b> The two-week measurement costs you nothing, and you keep the data either way.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== riders =============== -->
+<section id="riders" style="background:linear-gradient(180deg,var(--night),var(--night-2) 50%,var(--night))">
+  <div class="wrap">
+    <div class="split">
+      <div>
+        <span class="lab">For riders</span>
+        <h2 style="font-size:var(--s-3);margin-top:20px;max-width:18ch">You own the machine. We bring the work.</h2>
+        <p style="margin-top:20px;color:var(--paper-2);font-weight:300;max-width:46ch">The brand, the kit and a passenger who's expecting you — at both ends of the day, on a route you already know by heart.</p>
+        <ul class="ticks">
+          <li><span class="tk"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1.6 6.3 L4.4 9 L10.3 2.8" fill="none" stroke="#FFCC72" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            <span><b>Your bike stays yours.</b> We don't lease you a machine and we don't take a cut of one. We help you onto the right cover and the right licence class.</span></li>
+          <li><span class="tk"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1.6 6.3 L4.4 9 L10.3 2.8" fill="none" stroke="#FFCC72" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            <span><b>Branding, uniform and a spare lid.</b> Jacket, top box, passenger helmet, visor wipes — so your passenger steps off looking like they came from an office, not a rally.</span></li>
+          <li><span class="tk"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1.6 6.3 L4.4 9 L10.3 2.8" fill="none" stroke="#FFCC72" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            <span><b>Booked commutes, not a feed of pings.</b> Regular passengers, regular hours, a known route. Peak-hour work without hunting for it.</span></li>
+          <li><span class="tk"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1.6 6.3 L4.4 9 L10.3 2.8" fill="none" stroke="#FFCC72" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            <span><b>Experienced riders only, and we mean it.</b> Full licence, clean record, and an assessed ride with one of us before you ever carry a passenger. This is the part we'll be unreasonable about.</span></li>
+        </ul>
+      </div>
+      <figure class="shot" style="margin:0">
+        <img src="img/detail.jpg" alt="Close-up of a gloved hand on the handlebar of a small commuter motorcycle, rain beads on the lever, London street blurred behind at dusk.">
+        <figcaption>Riders bring their own machines. We bring the brand, the kit, the cover and the passengers.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- =============== straight answers =============== -->
+<section class="glow">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="lab">Straight answers</span>
+        <h2>What we're not claiming yet.</h2>
+      </div>
+      <div class="head-body">
+        <p>Every pre-launch transport company on the internet promises you a number. We'd rather tell you which of ours are real, which are being measured, and which we've only made a plan to find out.</p>
+      </div>
+    </div>
+    <div class="honest">
+      <div class="hc">
+        <h3>We have never carried a paying passenger.</h3>
+        <p>Not one. Everything on this page is a plan with a date on it, not a track record. If you need a supplier with references, come back after the pilot.</p>
+      </div>
+      <div class="hc">
+        <h3>Our fuel figure isn't verified.</h3>
+        <p>Small bikes get quoted anywhere from 100 to 180 mpg, a range wide enough to be useless. We're metering our own machines on our own routes and will publish the method next to the number.</p>
+      </div>
+      <div class="hc">
+        <h3>We're not calling ourselves green yet.</h3>
+        <p>Petrol is petrol. The honest comparison is per passenger-kilometre against a single-occupancy car, a full bus and an EV — and we haven't finished that sum. When we have, it goes here whichever way it lands.</p>
+      </div>
+      <div class="hc">
+        <h3>You won't be asked to download anything.</h3>
+        <p>The first corridor runs on a phone number, a named rider and a fixed pick-up time outside your building. If an app would genuinely make your mornings easier, we'll build one then.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== ledger =============== -->
+<section id="ledger" style="background:linear-gradient(180deg,var(--night),var(--night-2) 50%,var(--night))">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="lab">Open ledger</span>
+        <h2>The numbers, and whether we actually know them.</h2>
+      </div>
+      <div class="head-body">
+        <p>This is the real state of our evidence as of October 2026. Blank means blank. It fills in publicly as the pilot runs, and we won't quietly delete the rows that go against us.</p>
+      </div>
+    </div>
+
+    <div class="ledger">
+      <div class="lr">
+        <div class="n">Urban traffic lane width, UK<small>Highway design guidance for all-purpose urban roads</small></div>
+        <div class="val">3.65 m</div><div><span class="chip c-ok">Published standard</span></div>
+      </div>
+      <div class="lr">
+        <div class="n">Typical family car width<small>Manufacturer figures, mirrors folded</small></div>
+        <div class="val">≈1.80 m</div><div><span class="chip c-ok">Published standard</span></div>
+      </div>
+      <div class="lr">
+        <div class="n">125cc commuter, width across bars<small>Manufacturer figures, three common models</small></div>
+        <div class="val">≈0.75 m</div><div><span class="chip c-ok">Published standard</span></div>
+      </div>
+      <div class="lr">
+        <div class="n">Fuel economy, our machines<small>A claimed range only. Brim-to-brim metering starts with the pilot bikes</small></div>
+        <div class="val">100–180 mpg</div><div><span class="chip c-go">Measuring</span></div>
+      </div>
+      <div class="lr">
+        <div class="n">CO₂e per passenger-km vs a car with one person in it<small>Needs our verified fuel figure first. Comparison set: car, full bus, EV</small></div>
+        <div class="val empty">not yet</div><div><span class="chip c-go">Calculating</span></div>
+      </div>
+      <div class="lr">
+        <div class="n">Door-to-door time, pilot corridor<small>Two-week ride study, begins once a corridor is chosen</small></div>
+        <div class="val empty">not yet</div><div><span class="chip c-wait">Not measured</span></div>
+      </div>
+      <div class="lr">
+        <div class="n">Insurance, per rider per month<small>Hire-and-reward cover for every rider carrying a passenger</small></div>
+        <div class="val empty">not yet</div><div><span class="chip c-go">Quotes out</span></div>
+      </div>
+      <div class="lr">
+        <div class="n">Licensing position with the regulator<small>Private hire rules weren't written with two wheels in mind. Advice being taken</small></div>
+        <div class="val empty">open</div><div><span class="chip c-wait">Open question</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== waitlist =============== -->
+<section class="list glow" id="waitlist">
+  <div class="wrap">
+    <div class="lg">
+      <div>
+        <span class="lab">The waiting list</span>
+        <h2 style="font-size:var(--s-3);margin-top:20px;max-width:17ch">Get on the list. Make us prove it.</h2>
+        <p style="margin-top:20px;color:var(--paper-2);font-weight:300;max-width:44ch">Joining costs nothing and commits you to nothing. It puts your corridor in the queue to be measured, and you get the results whether or not you take it further.</p>
+
+        <div class="counter">
+          <b id="count">0</b>
+          <span id="count-label">No one yet — you'd be the first. We need five pilot employers to launch Corridor 01.</span>
+          <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+        </div>
+
+        <p style="margin-top:26px;font-size:.88rem;color:var(--slate-2);font-weight:300;max-width:42ch">Corridor 01 opens once five employers on one route have signed up. We'll tell you where you are in that five.</p>
+      </div>
+
+      <form id="signup" novalidate>
+        <div class="tabs" role="tablist" aria-label="Who are you?">
+          <button type="button" class="tab" id="tab-employer" role="tab" aria-selected="true" aria-controls="fields-employer">I run a business</button>
+          <button type="button" class="tab" id="tab-rider" role="tab" aria-selected="false" aria-controls="fields-rider">I ride</button>
+        </div>
+
+        <div class="fields" id="fields-employer" role="tabpanel" aria-labelledby="tab-employer">
+          <div class="pair">
+            <label for="e-name"><span>Your name</span><input id="e-name" name="e-name" type="text" autocomplete="name" placeholder="Alex Okonjo"></label>
+            <label for="e-company"><span>Company</span><input id="e-company" name="e-company" type="text" autocomplete="organization" placeholder="Northbank Legal"></label>
+          </div>
+          <label for="e-email"><span>Work email</span><input id="e-email" name="e-email" type="email" autocomplete="email" placeholder="alex@northbanklegal.co.uk"></label>
+          <div class="pair">
+            <label for="e-size"><span>People on site</span>
+              <select id="e-size" name="e-size"><option>Under 50</option><option>50–200</option><option selected>200–800</option><option>800+</option></select>
+            </label>
+            <label for="e-route"><span>Main commute corridor</span><input id="e-route" name="e-route" type="text" placeholder="EC2 ← SE15, CR0"></label>
+          </div>
+        </div>
+
+        <div class="fields" id="fields-rider" role="tabpanel" aria-labelledby="tab-rider" hidden>
+          <div class="pair">
+            <label for="r-name"><span>Your name</span><input id="r-name" name="r-name" type="text" autocomplete="name" placeholder="Danny Whelan"></label>
+            <label for="r-email"><span>Email</span><input id="r-email" name="r-email" type="email" autocomplete="email" placeholder="danny@example.com"></label>
+          </div>
+          <div class="pair">
+            <label for="r-licence"><span>Licence held</span>
+              <select id="r-licence" name="r-licence"><option>Full A (unrestricted)</option><option>A2</option><option selected>A1 / 125 CBT</option><option>Working towards it</option></select>
+            </label>
+            <label for="r-years"><span>Years riding in London</span>
+              <select id="r-years" name="r-years"><option>Under 2</option><option selected>2–5</option><option>5–10</option><option>10+</option></select>
+            </label>
+          </div>
+          <label for="r-bike"><span>What you ride</span><input id="r-bike" name="r-bike" type="text" placeholder="Honda CB125F, 2022"></label>
+        </div>
+
+        <div class="fields" style="padding-top:0">
+          <div id="form-msg" class="msg" hidden></div>
+          <button class="btn btn-amber btn-lg" type="submit" id="submit">Join the waiting list</button>
+          <p class="consent">One email when we've measured a corridor near you, and one when the pilot opens. No newsletter, no selling your details on, one click out of both.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div>
+        <a class="brand" href="#top" style="margin-bottom:16px">
+          <svg viewBox="0 0 40 40" aria-hidden="true">
+            <circle cx="20" cy="20" r="19" fill="url(#bg2)"></circle>
+            <defs><linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#FFCC72"></stop><stop offset="1" stop-color="#FF8A1E"></stop>
+            </linearGradient></defs>
+            <circle cx="13.4" cy="25.6" r="5.2" fill="none" stroke="#2A1A02" stroke-width="2.6"></circle>
+            <circle cx="28.4" cy="25.6" r="5.2" fill="none" stroke="#2A1A02" stroke-width="2.6"></circle>
+            <path d="M13.4 25.6 L19 16.4 L26 16.4 L28.4 25.6" fill="none" stroke="#2A1A02" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path>
+            <circle cx="22.6" cy="10.4" r="3.1" fill="#2A1A02"></circle>
+          </svg>
+          <b>Pillion</b>
+        </a>
+        <p style="font-size:.92rem;color:var(--slate);max-width:32ch;font-weight:300">A point-to-point motorcycle commute for London employers. Pre-launch, and saying so.</p>
+      </div>
+      <div>
+        <h4>The plan</h4>
+        <ul>
+          <li><a href="#gap">Why two wheels</a></li>
+          <li><a href="#pilot">How the pilot runs</a></li>
+          <li><a href="#ledger">Open ledger</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Join</h4>
+        <ul>
+          <li><a href="#waitlist">Employer waiting list</a></li>
+          <li><a href="#waitlist">Rider waiting list</a></li>
+          <li><a href="#riders">Ride with us</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fnote">
+      <span class="tagp">PROTOTYPE</span>
+      This is a concept landing page, not a live service. <em>Pillion</em> is a placeholder name; the company is not yet incorporated, and no registration number, insurance cover or regulatory permission is in place. Lane, vehicle and licence dimensions are published-standard values shown for illustration. Every figure marked <em>Measuring</em>, <em>Calculating</em>, <em>Quotes out</em> or <em>Not measured</em> is exactly that — unverified, and not to be quoted to a customer, an insurer or an investor until it has been checked. The launch window is a target, not a commitment. Photography is illustrative.
+    </p>
+  </div>
+</footer>
+
+
+<script>
+(function(){
+  var nav=document.getElementById('nav');
+  var on=function(){ nav.classList.toggle('stuck', window.scrollY>40); };
+  on(); window.addEventListener('scroll',on,{passive:true});
+})();
+
+/* Waiting list - concept page: nothing is sent anywhere yet. */
+(function(){
+  var form=document.getElementById('signup');
+  var tabE=document.getElementById('tab-employer'), tabR=document.getElementById('tab-rider');
+  var panE=document.getElementById('fields-employer'), panR=document.getElementById('fields-rider');
+  var msg=document.getElementById('form-msg'), btn=document.getElementById('submit');
+  var kind='employer';
+  function pick(k){
+    kind=k; var isE=k==='employer';
+    tabE.setAttribute('aria-selected',isE?'true':'false');
+    tabR.setAttribute('aria-selected',isE?'false':'true');
+    panE.hidden=!isE; panR.hidden=isE;
+    btn.textContent=isE?'Join the waiting list':'Register as a rider';
+  }
+  tabE.addEventListener('click',function(){pick('employer');});
+  tabR.addEventListener('click',function(){pick('rider');});
+  function say(t,ok){ msg.textContent=t; msg.className='msg '+(ok?'ok':'bad'); msg.hidden=false; }
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var email;
+    if(kind==='employer'){
+      email=document.getElementById('e-email').value.trim();
+      if(!document.getElementById('e-company').value.trim()||!email){
+        say('We need a company name and a work email to put a corridor in the queue.',false); return; }
+    }else{
+      email=document.getElementById('r-email').value.trim();
+      if(!document.getElementById('r-name').value.trim()||!email){
+        say('We need a name and an email before we can assess a ride.',false); return; }
+    }
+    if(email.indexOf('@')<1){ say('That email address is missing an @ - check it and try again.',false); return; }
+    say('This is a concept page - the waiting list is not collecting entries yet, so nothing was sent. The form is here to show how it will work.',true);
+    form.querySelectorAll('input').forEach(function(i){ i.value=''; });
+  });
+})();
+</script>
+</body></html>

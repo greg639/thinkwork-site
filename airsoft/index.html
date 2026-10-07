@@ -172,9 +172,83 @@ section{scroll-margin-top:70px}
 .terms{margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));border-top:1px solid var(--line)}
 .terms div{padding:16px 18px 16px 0;border-bottom:1px solid var(--line);font-size:16px;color:var(--mute)}
 .terms b{display:block;color:var(--text)}
+
+/* ===================== hero motion stage ===================== */
+:root{--e:cubic-bezier(.2,.7,.2,1)}
+.hero{min-height:min(88vh,720px);display:flex;flex-direction:column;justify-content:flex-end;
+  padding:0;border-top:0;position:relative;isolation:isolate;overflow:hidden;background:#0d100c}
+.hero::before{display:none}
+.stage{position:absolute;inset:0;z-index:-3;background:#0d100c}
+.sl{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:64% center;opacity:0;
+  transition:opacity 1000ms linear;will-change:opacity,transform}
+.sl.on{opacity:1;animation:push 7.2s linear both}
+@keyframes push{from{transform:scale(1.01)}to{transform:scale(1.08)}}
+/* the type sits on a near-flat scrim: legibility is measured off these pixels */
+.veil{position:absolute;inset:0;z-index:-2;background:
+  linear-gradient(98deg,rgba(14,17,12,.74) 0%,rgba(14,17,12,.93) 18%,rgba(14,17,12,.95) 42%,rgba(14,17,12,.72) 58%,rgba(14,17,12,.26) 78%,rgba(14,17,12,.58) 100%),
+  linear-gradient(0deg,rgba(14,17,12,.92) 0%,rgba(14,17,12,.08) 44%)}
+.grit{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.26) 0 1px,transparent 1px 3px)}
+.heroin{padding-top:clamp(36px,5vw,68px);padding-bottom:clamp(20px,2.6vw,30px);position:relative}
+.heroin .tag{margin-bottom:14px}
+.hero h1{font-size:clamp(50px,8.2vw,118px);margin-bottom:20px;max-width:15ch;text-shadow:0 2px 24px rgba(0,0,0,.55)}
+.hero .lead{margin-bottom:24px;max-width:42ch}
+.herocta{display:flex;flex-wrap:wrap;gap:12px}
+.hero .fmts{margin:0;border:0;border-top:1px solid var(--line);background:rgba(10,12,9,.72);
+  backdrop-filter:blur(3px);position:relative}
+.legend{position:absolute;right:var(--gut);bottom:60px;z-index:2;font:700 10px var(--mono);
+  letter-spacing:.12em;text-transform:uppercase;color:rgba(232,228,214,.38)}
+@media (max-width:860px){.legend{display:none}}
+/* reduced motion: the complete still page, nothing drawn */
+@media (prefers-reduced-motion:reduce){
+  .sl{transition:none}.sl.on{animation:none;transform:none}
+  .reveal{opacity:1!important;transform:none!important}
+}
+.js .reveal{opacity:0}
+/* ===================== full-bleed photo bands ===================== */
+.strip{position:relative;padding:0;border-top:1px solid var(--line);overflow:hidden}
+.strip img{display:block;width:100%;height:clamp(230px,36vw,430px);object-fit:cover;
+  filter:saturate(.78) contrast(1.07) brightness(.92)}
+.strip .cap{position:absolute;left:0;right:0;bottom:0;padding:clamp(20px,4vw,40px) 0;
+  background:linear-gradient(0deg,rgba(14,17,12,.93) 10%,rgba(14,17,12,0) 100%)}
+.strip .cap p{margin:0;font:900 clamp(26px,3.8vw,52px)/.95 var(--display);text-transform:uppercase;max-width:17ch}
+.strip .cap em{font-style:normal;color:var(--hot)}
+/* two-up photographs inside a section */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,2vw,22px);margin-top:clamp(26px,4vw,44px)}
+.duo figure{margin:0;position:relative}
+.duo img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--line);
+  filter:saturate(.8) contrast(1.06)}
+.duo figcaption{font:700 12px var(--mono);text-transform:uppercase;letter-spacing:.08em;
+  color:var(--mute);margin-top:10px}
+@media (max-width:700px){.duo{grid-template-columns:1fr}}
+/* ===================== the work gallery ===================== */
+.works{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:clamp(14px,2vw,24px);margin-top:clamp(28px,4vw,46px)}
+.wk{position:relative;display:block;text-decoration:none;background:#0e110d;
+  border:1px solid var(--line);overflow:hidden;transition:border-color 220ms var(--e),transform 300ms var(--e)}
+.wk:hover,.wk:focus-visible{border-color:var(--a);transform:translateY(-3px)}
+.wkshot{display:block;position:relative;overflow:hidden;aspect-ratio:900/500;background:#0b0d0a}
+.wkshot img,.wkshot video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center}
+.wkshot img{transition:transform 700ms var(--e),opacity 300ms linear}
+.wk:hover .wkshot img{transform:scale(1.045)}
+.wkshot video{opacity:0;transition:opacity 320ms linear;object-position:center}
+.wk.playing .wkshot video{opacity:1}
+.wk .meta{display:block;padding:15px 17px 17px;border-top:3px solid var(--a)}
+.wk .nm{font:900 23px/1 var(--display);text-transform:uppercase;display:block;margin-bottom:7px;color:var(--text)}
+.wk .hl{margin:0;font-size:15px;line-height:1.4;color:var(--mute)}
+.wk .go{position:absolute;top:0;right:0;z-index:3;background:var(--a);color:var(--ai);
+  font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:7px 11px;
+  opacity:0;transform:translateY(-100%);transition:opacity 200ms,transform 260ms var(--e)}
+.wk:hover .go,.wk:focus-visible .go{opacity:1;transform:translateY(0)}
+.wk .film{position:absolute;top:10px;left:10px;z-index:3;background:rgba(10,12,9,.82);
+  color:var(--text);font:700 10px var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:5px 8px;
+  border:1px solid rgba(232,228,214,.3)}
+.worknote{margin-top:clamp(24px,4vw,40px);border-left:4px solid var(--hot);padding:16px 0 16px 20px;
+  color:var(--mute);font-size:16.5px;max-width:72ch}
+.worknote b{color:var(--text)}
 </style>
 </head>
 <body>
+<script>document.documentElement.className+=" js"</script>
 <header class="top"><div class="w">
 <a class="logo" href="/airsoft/"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="9" fill="none" stroke="#ff6a13" stroke-width="3"/><path d="M16 3v8M16 21v8M3 16h8M21 16h8" stroke="#ff6a13" stroke-width="3"/></svg>ThinkWork Airsoft</a>
 <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
@@ -182,13 +256,23 @@ section{scroll-margin-top:70px}
 </div></header>
 <main>
 
-<section class="hero"><div class="w">
-<span class="tag">Bespoke, for airsoft sites</span>
-<h1>Built for <em>your game day.</em></h1>
-<p class="lead">Your website, bookings and site software, built around how your airsoft site actually runs, and around the ways it could be earning more. Players pay before they turn up. Check-in takes seconds. Every chrono reading is on record.</p>
-<a class="btn" href="#talk">Talk it through, free</a>
+<section class="hero">
+<div class="stage" aria-hidden="true">
+<video class="sl on" src="/static/air/film/advance.mp4" poster="/static/air/film/advance.jpg" muted playsinline loop preload="auto"></video>
+<video class="sl" src="/static/air/film/smoke.mp4" poster="/static/air/film/smoke.jpg" muted playsinline loop preload="none"></video>
+<video class="sl" src="/static/air/film/cqb.mp4" poster="/static/air/film/cqb.jpg" muted playsinline loop preload="none"></video>
+</div>
+<div class="veil" aria-hidden="true"></div>
+<div class="grit" aria-hidden="true"></div>
+<span class="legend">Film is illustrative</span>
+<div class="w heroin">
+<span class="tag reveal">Bespoke, for airsoft sites</span>
+<h1><span class="reveal">Built for</span> <span class="reveal"><em>your game day.</em></span></h1>
+<p class="lead reveal">Your website, bookings and site software, built around how your airsoft site actually runs, and around the ways it could be earning more. Players pay before they turn up. Check-in takes seconds. Every chrono reading is on record.</p>
+<div class="herocta reveal"><a class="btn" href="#talk">Talk it through, free</a><a class="btn line" href="#work">See fourteen builds</a></div>
+</div>
 <div class="fmts" aria-label="Formats we build for"><span>Milsim</span><span>Skirmish days</span><span>CQB</span><span>Indoor</span><span>Walk-on</span></div>
-</div></section>
+</section>
 
 <section><div class="w two">
 <div><span class="tag">Sound familiar?</span><h2>Game day runs on paper and WhatsApp.</h2></div>
@@ -200,6 +284,10 @@ section{scroll-margin-top:70px}
 <li><b>Quiet months</b><div>Busy in summer, quiet in winter, and nothing coming in to smooth it out.</div></li>
 </ul>
 </div></section>
+<section class="strip" aria-label="Players waiting at the gate on a game-day morning">
+<img src="/static/air/gate.jpg" alt="Airsoft players in kit waiting at a site gate in morning mist" width="1600" height="1067" loading="lazy">
+<div class="cap"><div class="w"><p>The queue at the gate is <em>money standing still.</em></p></div></div>
+</section>
 
 <section id="greg"><div class="w">
 <div class="two">
@@ -251,6 +339,10 @@ section{scroll-margin-top:70px}
 <div><span class="id">Safety</span><h3>Chrono log</h3><p>Every player's chrono reading recorded against their name, every game day.</p></div>
 <div><span class="id">Players</span><h3>Your player list</h3><p>Everyone who's booked, played or bought a pass, in one place you own.</p></div>
 </div>
+<div class="duo">
+<figure><img src="/static/air/tablet.jpg" alt="A marshal holding a rugged tablet at a woodland airsoft site" width="1600" height="1067" loading="lazy"><figcaption>Check-in on a tablet, at the gate</figcaption></figure>
+<figure><img src="/static/air/chrono.jpg" alt="A chronograph held to the muzzle of an airsoft rifle" width="1600" height="1067" loading="lazy"><figcaption>Every chrono reading, against a name</figcaption></figure>
+</div>
 <p class="note"><b>That's the point.</b> If your site needs something no app does, we build it.</p>
 </div></section>
 
@@ -276,6 +368,10 @@ section{scroll-margin-top:70px}
 <div class="own"><span>Your site</span><span>Your domain</span><span>Your player list</span><span>Yours if you leave</span></div>
 </div></section>
 
+<section class="strip" aria-label="Game-day kit laid out">
+<img src="/static/air/kit.jpg" alt="Airsoft mask, goggles, rifle, magazine and chronograph laid out on steel" width="1600" height="1067" loading="lazy">
+<div class="cap"><div class="w"><p>Everything a game day needs. <em>One system behind it.</em></p></div></div>
+</section>
 <section id="prices"><div class="w">
 <span class="tag">Prices</span>
 <h2 style="margin-bottom:14px;max-width:14ch">Clear prices. From &pound;35 a month.</h2>
@@ -289,11 +385,32 @@ section{scroll-margin-top:70px}
 <div class="terms"><div><b>&pound;650 setup, once</b>Design, build and launch.</div><div><b>12-month minimum</b>Then month to month.</div><div><b>Pay on launch day</b>Setup and first month are due the day it goes live. Nothing before.</div><div><b>Yours to keep</b>Your site, your domain, your player list.</div></div>
 </div></section>
 
-<section id="work"><div class="w two">
-<div><span class="tag">In the field</span><h2>First build under way.</h2></div>
-<div class="intel">
+<section id="work"><div class="w">
+<div class="two" style="align-items:end">
+<div><span class="tag">The work</span>
+<h2 style="margin:0;max-width:16ch">Fourteen airsoft sites. Redesigned before anyone asked.</h2></div>
+<div><p class="lead mute" style="margin:0;max-width:46ch">Nobody commissioned these. We picked fourteen real UK airsoft sites, worked out how each one runs, and built each a complete design: its own look, its own game-day booking, its own operator back end. Click any one and walk the whole thing.</p></div>
+</div>
+<div class="works">
+<a class="wk" style="--a:#9A5B06;--ai:#ffffff" href="/airsoft/1066/"><span class="go">Walk through</span><div class="wkshot"><img src="/static/air/work/1066.jpg" alt="The 1066 Airsoft design, a full page of it" width="900" height="579" loading="lazy" decoding="async"></div><div class="meta"><span class="nm">1066 Airsoft</span><p class="hl">Acres of battle ready countryside</p></div></a>
+<a class="wk has-film" style="--a:#E8B733;--ai:#0b0d0a" href="/airsoft/ntac/"><span class="go">Walk through</span><div class="wkshot"><img src="/static/air/work/ntac.jpg" alt="The NTAC Airsoft design, a full page of it" width="900" height="579" loading="lazy" decoding="async"><video src="/static/air/pv/ntac.mp4" muted loop playsinline preload="none" aria-hidden="true"></video><span class="film">Fly-in film</span></div><div class="meta"><span class="nm">NTAC Airsoft</span><p class="hl">Every Sunday. Twenty-five acres. Every day is game day.</p></div></a>
+<a class="wk has-film" style="--a:#9A0C0E;--ai:#ffffff" href="/airsoft/dirty-dog/"><span class="go">Walk through</span><div class="wkshot"><img src="/static/air/work/dirty-dog.jpg" alt="The Dirty Dog Airsoft design, a full page of it" width="900" height="579" loading="lazy" decoding="async"><video src="/static/air/pv/dirty-dog.mp4" muted loop playsinline preload="none" aria-hidden="true"></video><span class="film">Fly-in film</span></div><div class="meta"><span class="nm">Dirty Dog Airsoft</span><p class="hl">Gates at eight. Games ten till four. Every Sunday.</p></div></a>
+<a class="wk has-film" style="--a:#F5C400;--ai:#0b0d0a" href="/airsoft/district-23/"><span class="go">Walk through</span><div class="wkshot"><img src="/static/air/work/district-23.jpg" alt="The District 23 design, a full page of it" width="900" height="579" loading="lazy" decoding="async"><video src="/static/air/pv/district-23.mp4" muted loop playsinline preload="none" aria-hidden="true"></video><span class="film">Fly-in film</span></div><div class="meta"><span class="nm">District 23</span><p class="hl">An American midtown district. Indoors. In Billingham.</p></div></a>
+<a class="wk has-film" style="--a:#F3BE2C;--ai:#0b0d0a" href="/airsoft/no-limits/"><span class="go">Walk through</span><div class="wkshot"><img src="/static/air/work/no-limits.jpg" alt="The No Limits design, a full page of it" width="900" height="579" loading="lazy" decoding="async"><video src="/static/air/pv/no-limits.mp4" muted loop playsinline preload="none" aria-hidden="true"></video><span class="film">Fly-in film</span></div><div class="meta"><span class="nm">No Limits</span><p class="hl">Three games. One roof. No weather.</p></div></a>
+<a class="wk has-film" style="--a:#1A62EE;--ai:#ffffff" href="/airsoft/nsc-airsoft/"><span class="go">Walk through</span><div class="wkshot"><img src="/static/air/work/nsc-airsoft.jpg" alt="The NSC Airsoft design, a full page of it" width="900" height="579" loading="lazy" decoding="async"><video src="/static/air/pv/nsc-airsoft.mp4" muted loop playsinline preload="none" aria-hidden="true"></video><span class="film">Fly-in film</span></div><div class="meta"><span class="nm">NSC Airsoft</span><p class="hl">Every Sunday. Sixty three acres. Your mates.</p></div></a>
+<a class="wk" style="--a:#FF7E00;--ai:#0b0d0a" href="/airsoft/empire-airsoft/"><span class="go">Walk through</span><div class="wkshot"><img src="/static/air/work/empire-airsoft.jpg" alt="The Empire Airsoft design, a full page of it" width="900" height="579" loading="lazy" decoding="async"></div><div class="meta"><span class="nm">Empire Airsoft</span><p class="hl">Not a skirmish. A milsim. Choose a side.</p></div></a>
+<a class="wk" style="--a:#CCA854;--ai:#0b0d0a" href="/airsoft/tac-house-spartan-ii/"><span class="go">Walk through</span><div class="wkshot"><img src="/static/air/work/tac-house-spartan-ii.jpg" alt="The Tac House Spartan II design, a full page of it" width="900" height="579" loading="lazy" decoding="async"></div><div class="meta"><span class="nm">Tac House Spartan II</span><p class="hl">One hundred thousand square feet. Four floors.</p></div></a>
+<a class="wk" style="--a:#FF5A1F;--ai:#0b0d0a" href="/airsoft/predator-combat/"><span class="go">Walk through</span><div class="wkshot"><img src="/static/air/work/predator-combat.jpg" alt="The Predator Combat design, a full page of it" width="900" height="579" loading="lazy" decoding="async"></div><div class="meta"><span class="nm">Predator Combat</span><p class="hl">Airsoft. Adventure. One site.</p></div></a>
+<a class="wk" style="--a:#F08A1C;--ai:#0b0d0a" href="/airsoft/ace-combat-airsoft/"><span class="go">Walk through</span><div class="wkshot"><img src="/static/air/work/ace-combat-airsoft.jpg" alt="The Ace Combat Airsoft design, a full page of it" width="900" height="579" loading="lazy" decoding="async"></div><div class="meta"><span class="nm">Ace Combat Airsoft</span><p class="hl">Fourteen years. Fifty-plus games. Deal me in.</p></div></a>
+<a class="wk" style="--a:#D2AE18;--ai:#0b0d0a" href="/airsoft/ace-airsoft-war-games/"><span class="go">Walk through</span><div class="wkshot"><img src="/static/air/work/ace-airsoft-war-games.jpg" alt="The Ace Airsoft War Games design, a full page of it" width="900" height="579" loading="lazy" decoding="async"></div><div class="meta"><span class="nm">Ace Airsoft War Games</span><p class="hl">The Wasteland. The Lost Kingdom. One hundred acres.</p></div></a>
+<a class="wk" style="--a:#F3BE2C;--ai:#0b0d0a" href="/airsoft/commando-force-airsoft/"><span class="go">Walk through</span><div class="wkshot"><img src="/static/air/work/commando-force-airsoft.jpg" alt="The Commando Force Airsoft design, a full page of it" width="900" height="579" loading="lazy" decoding="async"></div><div class="meta"><span class="nm">Commando Force Airsoft</span><p class="hl">Indoor CQB. Drakes Island skirmishes.</p></div></a>
+<a class="wk" style="--a:#D8191E;--ai:#ffffff" href="/airsoft/frontline-events/"><span class="go">Walk through</span><div class="wkshot"><img src="/static/air/work/frontline-events.jpg" alt="The Frontline Events design, a full page of it" width="900" height="579" loading="lazy" decoding="async"></div><div class="meta"><span class="nm">Frontline Events</span><p class="hl">Salm River. December 2026.</p></div></a>
+<a class="wk" style="--a:#A8813F;--ai:#0b0d0a" href="/airsoft/aber-airsoft/"><span class="go">Walk through</span><div class="wkshot"><img src="/static/air/work/aber-airsoft.jpg" alt="The AberAirsoft Events design, a full page of it" width="900" height="579" loading="lazy" decoding="async"></div><div class="meta"><span class="nm">AberAirsoft Events</span><p class="hl">Woodland and CQB. Game days across Wales.</p></div></a>
+</div>
+<p class="worknote"><b>These are design proposals, not live sites.</b> Each one is a working prototype built from what the site publishes about itself. Sample content is labelled inside, nothing takes a real payment, and no site has paid us a penny. If one of them is yours and you would rather it came down, email Greg and it is gone the same day.</p>
+<div class="intel" style="margin-top:clamp(26px,4vw,44px)">
 <span class="st">In build</span>
-<p style="margin:0">A UK airsoft site's game-day system is being built now.</p>
+<p style="margin:0">Beyond the prototypes, a UK airsoft site's game-day system is being built now.</p>
 <ul><li>QR check-in and check-out</li><li>Tablet check-in run by staff</li><li>Chrono score logging per player</li></ul>
 <p class="mute" style="margin:18px 0 0">A full write-up, with the site's say-so, once it has run a season of game days.</p>
 </div>
@@ -329,11 +446,51 @@ section{scroll-margin-top:70px}
 </div></section>
 
 </main>
-<footer><div class="w"><span>&copy; 2026 ThinkWork Airsoft</span><a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></div></footer>
+<footer><div class="w"><span>&copy; 2026 ThinkWork Airsoft &middot; film and field photography on this page are illustrative</span><a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></div></footer>
 <script>
 (function(){var p=new URLSearchParams(location.search);if(p.get("error"))document.querySelectorAll(".alert").forEach(function(a){a.hidden=false});
 var mb=document.querySelector(".menu-btn"),nv=document.getElementById("nav");if(mb&&nv){mb.addEventListener("click",function(){var o=nv.classList.toggle("open");mb.setAttribute("aria-expanded",o?"true":"false")});nv.addEventListener("click",function(e){if(e.target.tagName==="A"){nv.classList.remove("open");mb.setAttribute("aria-expanded","false")}})}
 document.querySelectorAll("form[data-return]").forEach(function(f){var r=f.querySelector("[name=return_to]");if(r)r.value=location.origin+f.getAttribute("data-return")})})();
+</script>
+<script>
+(function(){
+var RM=window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches;
+/* hero stage: our own film, one decoder running at a time */
+var st=document.querySelector(".stage");
+if(st&&!RM){
+  var sl=[].slice.call(st.querySelectorAll(".sl"));
+  if(sl.length>1){
+    var i=0,HOLD=5200;
+    var go=function(v){try{v.currentTime=0}catch(e){}var pr=v.play();if(pr&&pr.catch)pr.catch(function(){})};
+    go(sl[0]);
+    setTimeout(function(){sl.slice(1).forEach(function(v){v.preload="auto";v.load()})},1400);
+    setInterval(function(){
+      if(document.hidden)return;
+      var n=(i+1)%sl.length,cur=sl[i],nx=sl[n];
+      go(nx);nx.classList.add("on");cur.classList.remove("on");
+      setTimeout(function(){if(!cur.classList.contains("on"))cur.pause()},1100);
+      i=n;
+    },HOLD);
+  }
+}
+/* type reveal, finished inside a second */
+var rv=[].slice.call(document.querySelectorAll(".hero .reveal"));
+if(rv.length){
+  if(RM||!document.documentElement.animate){rv.forEach(function(e){e.style.opacity=1})}
+  else rv.forEach(function(e,k){
+    e.animate([{opacity:0,transform:"translateY(14px)"},{opacity:1,transform:"none"}],
+      {duration:460,delay:90*k,easing:"cubic-bezier(.2,.7,.2,1)",fill:"both"});
+  });
+}
+/* the fly-in film loads only on a deliberate hover */
+if(!RM)[].slice.call(document.querySelectorAll(".wk.has-film")).forEach(function(a){
+  var v=a.querySelector("video");if(!v)return;var t=null;
+  var on=function(){t=setTimeout(function(){v.preload="auto";var pr=v.play();if(pr&&pr.catch)pr.catch(function(){});a.classList.add("playing")},160)};
+  var off=function(){clearTimeout(t);a.classList.remove("playing");v.pause()};
+  a.addEventListener("mouseenter",on);a.addEventListener("mouseleave",off);
+  a.addEventListener("focus",on);a.addEventListener("blur",off);
+});
+})();
 </script>
 </body>
 </html>

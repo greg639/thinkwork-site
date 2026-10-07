@@ -216,6 +216,9 @@ def page(path: str, title: str, desc: str, body: str, extra_ld: list | None = No
 # shared blocks
 # ---------------------------------------------------------------------------
 
+TRADE_ALT = {'butcher': 'A butcher trimming a cut of beef on a wooden block', 'bakery': 'Floury hands shaping a round of bread dough', 'garage': 'A mechanic fitting a torque wrench to an alloy wheel', 'trades': 'An engineer tightening a brass fitting on copper pipework', 'studio': 'Chalked hands gripping a cast-iron kettlebell', 'clinic': 'Folded white towels at the end of a treatment couch', 'florist': 'Hands wrapping cut stems in brown kraft paper', 'venue': 'Hands clipping a carabiner onto a climbing harness'}
+
+
 def picker(cta: bool = True) -> str:
     tabs, panels = [], []
     for i, (key, label, ideas) in enumerate(IDEAS):
@@ -227,8 +230,10 @@ def picker(cta: bool = True) -> str:
             for n, d in ideas)
         foot = (f'<div class="picker-foot"><p>Starting points, not a menu. We pick the one that fits you when we talk it through.</p>'
                 f'<a class="btn" href="/book/?type={key}#quote">Talk it through, free</a></div>') if cta else ""
+        shot = (f'<figure class="pp-shot"><img src="/static/tw/trade/{key}.jpg" alt="{esc(TRADE_ALT[key])}"'
+                f' width="1200" height="800" loading="lazy" decoding="async"></figure>')
         panels.append(f'<div class="picker-panel" role="tabpanel" id="p-{key}" aria-labelledby="t-{key}"{"" if sel else " hidden"}>'
-                      f'<h3>{esc(label)}</h3>{rows}{foot}</div>')
+                      f'<div class="pp-body"><h3>{esc(label)}</h3>{rows}</div>{shot}{foot}</div>')
     return (f'<div class="picker" data-picker><div class="picker-list" role="tablist" aria-label="Type of business">'
             f'{"".join(tabs)}</div><div>{"".join(panels)}</div></div>')
 
@@ -313,7 +318,7 @@ def calculator() -> str:
 
 def home() -> None:
     body = f"""
-<section class="hero"><div class="wrap hero-grid">
+<section class="hero with-strip"><div class="wrap hero-grid">
 <div class="rv">
 <span class="kicker">Websites and money-making systems for local businesses</span>
 <h1>Stop renting your website. <span class="mark">Make it earn.</span></h1>
@@ -333,7 +338,9 @@ def home() -> None:
 <div class="ln tot"><span>One ThinkWork plan</span><span>from &pound;35/mo</span></div>
 <div class="foot">Work out yours on the <a href="/pricing/#calculator">prices page</a></div>
 </div>
-</div></section>
+</div>
+<div class="tradestrip" aria-label="The kinds of local business we build for"><figure><img src="/static/tw/trade/butcher.jpg" alt="A butcher trimming a cut of beef on a wooden block" width="1200" height="800" loading="lazy" decoding="async"><figcaption>Butchers &amp; delis</figcaption></figure><figure><img src="/static/tw/trade/bakery.jpg" alt="Floury hands shaping a round of bread dough" width="1200" height="800" loading="lazy" decoding="async"><figcaption>Bakeries &amp; cafes</figcaption></figure><figure><img src="/static/tw/trade/garage.jpg" alt="A mechanic fitting a torque wrench to an alloy wheel" width="1200" height="800" loading="lazy" decoding="async"><figcaption>Garages &amp; MOT</figcaption></figure><figure><img src="/static/tw/trade/trades.jpg" alt="An engineer tightening a brass fitting on copper pipework" width="1200" height="800" loading="lazy" decoding="async"><figcaption>Trades</figcaption></figure><figure><img src="/static/tw/trade/studio.jpg" alt="Chalked hands gripping a cast-iron kettlebell" width="1200" height="800" loading="lazy" decoding="async"><figcaption>Gyms &amp; studios</figcaption></figure><figure><img src="/static/tw/trade/florist.jpg" alt="Hands wrapping cut stems in brown kraft paper" width="1200" height="800" loading="lazy" decoding="async"><figcaption>Florists</figcaption></figure></div>
+</section>
 
 <section class="dark band"><div class="wrap split">
 <div><span class="kicker">Sound familiar?</span>
@@ -350,6 +357,13 @@ def home() -> None:
 <h2 style="max-width:18ch;margin-bottom:36px">The website gets you in the door. <span class="mark">This is what pays.</span></h2>
 {picker()}
 </div></section>
+
+<section class="filmband" aria-label="A workbench at dawn">
+<video src="/static/tw/film/bench.mp4" poster="/static/tw/film/bench.jpg" muted loop playsinline preload="none" aria-hidden="true"></video>
+<div class="filmband-in"><div class="wrap">
+<p>Your trade is already good. <span class="mark">The system around it isn't.</span></p>
+</div></div>
+</section>
 
 <section class="paper-2 band"><div class="wrap">
 <span class="kicker">How it works</span>

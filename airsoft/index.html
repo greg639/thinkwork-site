@@ -235,6 +235,10 @@ section{scroll-margin-top:70px}
 .wk .meta{display:block;padding:15px 17px 17px;border-top:3px solid var(--a)}
 .wk .nm{font:900 23px/1 var(--display);text-transform:uppercase;display:block;margin-bottom:7px;color:var(--text)}
 .wk .hl{margin:0;font-size:15px;line-height:1.4;color:var(--mute)}
+.wk.is-client{cursor:default}
+.wk.is-client:hover{transform:none;border-color:var(--line)}
+.wk.is-client:hover .wkshot img{transform:none}
+.wk.is-client .go{opacity:1;transform:none}
 .wk .go{position:absolute;top:0;right:0;z-index:3;background:var(--a);color:var(--ai);
   font:700 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:7px 11px;
   opacity:0;transform:translateY(-100%);transition:opacity 200ms,transform 260ms var(--e)}
@@ -242,6 +246,9 @@ section{scroll-margin-top:70px}
 .wk .film{position:absolute;top:10px;left:10px;z-index:3;background:rgba(10,12,9,.82);
   color:var(--text);font:700 10px var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:5px 8px;
   border:1px solid rgba(232,228,214,.3)}
+#work .workh2{font-size:clamp(34px,4.5vw,60px)}
+#work .two{grid-template-columns:1.05fr .95fr}
+@media (max-width:860px){#work .two{grid-template-columns:1fr}}
 .worknote{margin-top:clamp(24px,4vw,40px);border-left:4px solid var(--hot);padding:16px 0 16px 20px;
   color:var(--mute);font-size:16.5px;max-width:72ch}
 .worknote b{color:var(--text)}
@@ -269,7 +276,7 @@ section{scroll-margin-top:70px}
 <span class="tag reveal">Bespoke, for airsoft sites</span>
 <h1><span class="reveal">Built for</span> <span class="reveal"><em>your game day.</em></span></h1>
 <p class="lead reveal">Your website, bookings and site software, built around how your airsoft site actually runs, and around the ways it could be earning more. Players pay before they turn up. Check-in takes seconds. Every chrono reading is on record.</p>
-<div class="herocta reveal"><a class="btn" href="#talk">Talk it through, free</a><a class="btn line" href="#work">See fourteen builds</a></div>
+<div class="herocta reveal"><a class="btn" href="#talk">Talk it through, free</a><a class="btn line" href="#work">See fifteen builds</a></div>
 </div>
 <div class="fmts" aria-label="Formats we build for"><span>Milsim</span><span>Skirmish days</span><span>CQB</span><span>Indoor</span><span>Walk-on</span></div>
 </section>
@@ -388,11 +395,12 @@ section{scroll-margin-top:70px}
 <section id="work"><div class="w">
 <div class="two" style="align-items:end">
 <div><span class="tag">The work</span>
-<h2 style="margin:0;max-width:16ch">Fourteen airsoft sites. Redesigned before anyone asked.</h2></div>
-<div><p class="lead mute" style="margin:0;max-width:46ch">Nobody commissioned these. We picked fourteen real UK airsoft sites, worked out how each one runs, and built each a complete design: its own look, its own game-day booking, its own operator back end. Click any one and walk the whole thing.</p></div>
+<h2 class="workh2" style="margin:0">Fifteen builds. Thirteen nobody asked for.</h2></div>
+<div><p class="lead mute" style="margin:0;max-width:46ch">We picked thirteen real UK airsoft sites, worked out how each one runs, and built each a complete design, unasked: its own look, its own game-day booking, its own operator back end. Then 1066 in Hastings hired us, and we built them two. Click any proposal and walk the whole thing.</p></div>
 </div>
 <div class="works">
-<a class="wk" style="--a:#9A5B06;--ai:#ffffff" href="/airsoft/1066/"><span class="go">Walk through</span><div class="wkshot"><img src="/static/air/work/1066.jpg" alt="The 1066 Airsoft design, a full page of it" width="900" height="579" loading="lazy" decoding="async"></div><div class="meta"><span class="nm">1066 Airsoft</span><p class="hl">Acres of battle ready countryside</p></div></a>
+<div class="wk is-client" style="--a:#DD3333;--ai:#0b0d0a"><span class="go">Client build</span><div class="wkshot"><img src="/static/air/work/1066-airsoft.jpg" alt="The 1066 Airsoft design, a full page of it" width="900" height="579" loading="lazy" decoding="async"></div><div class="meta"><span class="nm">1066 Airsoft</span><p class="hl">Acres of battle ready countryside</p></div></div>
+<div class="wk is-client" style="--a:#DD3333;--ai:#0b0d0a"><span class="go">Client build</span><div class="wkshot"><img src="/static/air/work/1066-paintball.jpg" alt="The 1066 Paintball design, a full page of it" width="900" height="579" loading="lazy" decoding="async"></div><div class="meta"><span class="nm">1066 Paintball</span><p class="hl">Paintball in Hastings</p></div></div>
 <a class="wk has-film" style="--a:#E8B733;--ai:#0b0d0a" href="/airsoft/ntac/"><span class="go">Walk through</span><div class="wkshot"><img src="/static/air/work/ntac.jpg" alt="The NTAC Airsoft design, a full page of it" width="900" height="579" loading="lazy" decoding="async"><video src="/static/air/pv/ntac.mp4" muted loop playsinline preload="none" aria-hidden="true"></video><span class="film">Fly-in film</span></div><div class="meta"><span class="nm">NTAC Airsoft</span><p class="hl">Every Sunday. Twenty-five acres. Every day is game day.</p></div></a>
 <a class="wk has-film" style="--a:#9A0C0E;--ai:#ffffff" href="/airsoft/dirty-dog/"><span class="go">Walk through</span><div class="wkshot"><img src="/static/air/work/dirty-dog.jpg" alt="The Dirty Dog Airsoft design, a full page of it" width="900" height="579" loading="lazy" decoding="async"><video src="/static/air/pv/dirty-dog.mp4" muted loop playsinline preload="none" aria-hidden="true"></video><span class="film">Fly-in film</span></div><div class="meta"><span class="nm">Dirty Dog Airsoft</span><p class="hl">Gates at eight. Games ten till four. Every Sunday.</p></div></a>
 <a class="wk has-film" style="--a:#F5C400;--ai:#0b0d0a" href="/airsoft/district-23/"><span class="go">Walk through</span><div class="wkshot"><img src="/static/air/work/district-23.jpg" alt="The District 23 design, a full page of it" width="900" height="579" loading="lazy" decoding="async"><video src="/static/air/pv/district-23.mp4" muted loop playsinline preload="none" aria-hidden="true"></video><span class="film">Fly-in film</span></div><div class="meta"><span class="nm">District 23</span><p class="hl">An American midtown district. Indoors. In Billingham.</p></div></a>
@@ -407,7 +415,7 @@ section{scroll-margin-top:70px}
 <a class="wk" style="--a:#D8191E;--ai:#ffffff" href="/airsoft/frontline-events/"><span class="go">Walk through</span><div class="wkshot"><img src="/static/air/work/frontline-events.jpg" alt="The Frontline Events design, a full page of it" width="900" height="579" loading="lazy" decoding="async"></div><div class="meta"><span class="nm">Frontline Events</span><p class="hl">Salm River. December 2026.</p></div></a>
 <a class="wk" style="--a:#A8813F;--ai:#0b0d0a" href="/airsoft/aber-airsoft/"><span class="go">Walk through</span><div class="wkshot"><img src="/static/air/work/aber-airsoft.jpg" alt="The AberAirsoft Events design, a full page of it" width="900" height="579" loading="lazy" decoding="async"></div><div class="meta"><span class="nm">AberAirsoft Events</span><p class="hl">Woodland and CQB. Game days across Wales.</p></div></a>
 </div>
-<p class="worknote"><b>These are design proposals, not live sites.</b> Each one is a working prototype built from what the site publishes about itself. Sample content is labelled inside, nothing takes a real payment, and no site has paid us a penny. If one of them is yours and you would rather it came down, email Greg and it is gone the same day.</p>
+<p class="worknote"><b>The thirteen proposals are not live sites.</b> Each is a working prototype built from what the site publishes about itself. Sample content is labelled inside, nothing takes a real payment, and none of those sites has paid us a penny. If one of them is yours and you would rather it came down, email Greg and it is gone the same day. <b>1066 Airsoft and 1066 Paintball are a paying client's builds, not proposals</b>, and go live on their own domains.</p>
 <div class="intel" style="margin-top:clamp(26px,4vw,44px)">
 <span class="st">In build</span>
 <p style="margin:0">Beyond the prototypes, a UK airsoft site's game-day system is being built now.</p>

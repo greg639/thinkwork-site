@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="Pillion - a point-to-point motorcycle commute for London employers. Concept prototype.">
+<meta name="description" content="Pillion - a point-to-point motorcycle commute for London employers. Five founding places, held by deposit. Concept prototype.">
 <meta property="og:title" content="Pillion">
 <meta property="og:description" content="Your people are in traffic. The lane beside them is empty.">
 <meta property="og:image" content="https://thinkwork.info/pillion/img/hero.jpg">
@@ -259,6 +259,13 @@ section{position:relative;padding-block:clamp(72px,9vw,130px)}
 .c-go{color:var(--amber-2);background:rgba(255,164,46,.1);border-color:rgba(255,164,46,.3)}
 .c-wait{color:var(--slate);background:rgba(146,164,184,.08);border-color:rgba(146,164,184,.22)}
 
+/* ---------------- terms ---------------- */
+.terms{display:grid;gap:14px;margin-top:clamp(32px,4vw,46px);grid-template-columns:repeat(auto-fit,minmax(248px,1fr))}
+.tm{padding:26px 24px;border-radius:var(--r-lg);background:linear-gradient(155deg,rgba(255,164,46,.1),rgba(255,255,255,.02));border:1px solid rgba(255,164,46,.24)}
+.tm b{display:block;font-family:Outfit,sans-serif;font-weight:800;font-size:1.9rem;letter-spacing:-.03em;color:var(--amber-2);line-height:1}
+.tm span{display:block;margin-top:11px;font-size:.95rem;color:var(--paper-2);font-weight:300}
+.tm small{display:block;margin-top:9px;font-size:.84rem;color:var(--slate-2);font-weight:300}
+
 /* ---------------- waitlist ---------------- */
 .list{background:linear-gradient(180deg,var(--night),var(--night-2) 42%,var(--night))}
 .lg{display:grid;gap:clamp(32px,4.5vw,66px);grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);align-items:start}
@@ -340,7 +347,7 @@ footer a:hover{color:var(--amber-2)}
       <a href="#pilot">The pilot</a>
       <a href="#ledger">What we know</a>
       <a href="#riders">Riders</a>
-      <a class="btn btn-amber" href="#waitlist">Join the list</a>
+      <a class="btn btn-amber" href="#secure">Secure a place</a>
     </div>
   </div>
 </nav>
@@ -354,19 +361,20 @@ footer a:hover{color:var(--amber-2)}
       <div>
         <span class="lab rise">London · Corridor 01 · Spring 2027</span>
         <h1 class="rise rise-2" style="margin-top:20px">Your people are in traffic. The lane <span class="sheen">beside</span> them is empty.</h1>
-        <p class="hero-sub rise rise-3">Pillion is a point-to-point motorcycle commute for London employers. We're signing five pilot companies and measuring their routes <b>before</b> we carry a single passenger.</p>
+        <p class="hero-sub rise rise-3">A point-to-point motorcycle commute for London employers. <b>Five founding places</b> on Corridor 01, held by deposit, riding from Spring 2027.</p>
         <div class="hero-cta rise rise-4">
-          <a class="btn btn-amber btn-lg" href="#waitlist">Join the pilot waiting list</a>
+          <a class="btn btn-amber btn-lg" href="#secure">Secure a founding place</a>
           <a class="btn btn-glass btn-lg" href="#riders">Ride with us</a>
         </div>
-        <p class="hero-foot rise rise-4">Nothing to download, nothing to pay. We come to you with the numbers from your own corridor.</p>
+        <p class="hero-foot rise rise-4">&pound;500 holds a place. It comes off your first invoice, and you get it back in full if we don’t launch.</p>
       </div>
       <div class="glass rise rise-4">
         <h4>Where we actually are</h4>
         <div class="g-row"><span>Operating area</span><b>Inside the M25</b></div>
         <div class="g-row"><span>Machines</span><b>125–400cc</b></div>
         <div class="g-row"><span>Fleet we own</span><b class="hl">None — riders own theirs</b></div>
-        <div class="g-row"><span>Pilot employers wanted</span><b class="hl">5</b></div>
+        <div class="g-row"><span>Founding places</span><b class="hl">5</b></div>
+        <div class="g-row"><span>Deposit to hold one</span><b class="hl">£500, refundable</b></div>
         <div class="g-row"><span>Rides completed to date</span><b>0</b></div>
       </div>
     </div>
@@ -514,11 +522,11 @@ footer a:hover{color:var(--amber-2)}
   <div class="wrap">
     <div class="head">
       <div>
-        <span class="lab">How a pilot works</span>
-        <h2>Three steps, and you can stop after any of them.</h2>
+        <span class="lab">What the deposit buys</span>
+        <h2>Three steps, and your money is refundable until the last one.</h2>
       </div>
       <div class="head-body">
-        <p>You don't buy anything to find out whether this works for your people. You give us two postcodes, we spend a fortnight riding the route at your hours, and you get the times in writing. Then you decide.</p>
+        <p>A deposit holds one of five founding places and pays for us to measure your corridor. You see real times and a real seat price before you commit to anything ongoing — and if either disappoints you, the deposit comes straight back.</p>
       </div>
     </div>
 
@@ -526,27 +534,34 @@ footer a:hover{color:var(--amber-2)}
       <article class="stepc">
         <div class="dot">1</div>
         <div>
-          <h3>You give us postcodes and times.</h3>
-          <p>Where your staff travel from, and the hours they actually travel. Nothing else — no headcount data, no contract, no commitment. Five minutes on a call.</p>
-          <span class="ribbon">You commit nothing</span>
+          <h3>You take one of five founding places.</h3>
+          <p>&pound;500 holds it, along with the postcodes your staff travel from and the hours they travel. Founding rate locked for twelve months from launch, and first call on seats as the corridor fills.</p>
+          <span class="ribbon">&pound;500, fully refundable</span>
         </div>
       </article>
       <article class="stepc">
         <div class="dot">2</div>
         <div>
-          <h3>We ride your corridor for two weeks and publish what we find.</h3>
-          <p>Same postcodes, same hours, both directions, every weekday. Door to door, measured against the Tube, the bus and a car doing the same journey. You get the raw table — including the days we lose.</p>
+          <h3>We ride your corridor for two weeks and show you the times.</h3>
+          <p>Same postcodes, same hours, both directions, every weekday — door to door, against the Tube, the bus and a car doing the same journey. Paid for out of the deposit, not out of your budget. You get the raw table, including the days we lose.</p>
           <span class="ribbon">Measured, not modelled</span>
         </div>
       </article>
       <article class="stepc">
         <div class="dot">3</div>
         <div>
-          <h3>If the numbers hold, five employers launch on one corridor.</h3>
-          <p>A fixed number of monthly seats at a fixed monthly price. No surge, no dynamic pricing, nothing your finance team has to explain twice. One corridor until it works properly, then the next.</p>
-          <span class="ribbon">Spring 2027 target</span>
+          <h3>You see the seat price, then you commit or you walk.</h3>
+          <p>A fixed monthly price per seat — no surge, no dynamic pricing, nothing your finance team has to explain twice. Say yes and the deposit comes off your first invoice. Say no and you get it back in full, times and all.</p>
+          <span class="ribbon">Riding from Spring 2027</span>
         </div>
       </article>
+    </div>
+
+    <div class="terms">
+      <div class="tm"><b>&pound;500</b><span>Holds one of five founding places on Corridor 01.</span><small>One invoice link, paid once. Nothing recurring until you launch with us.</small></div>
+      <div class="tm"><b>Credited</b><span>Comes off your first invoice in full when you go live.</span><small>So a founding place costs you nothing extra if you stay.</small></div>
+      <div class="tm"><b>Refundable</b><span>Back in full if the times or the price don't work for you.</span><small>Also refunded in full if we don't launch by Spring 2027.</small></div>
+      <div class="tm"><b>12 months</b><span>Founding seat rate held for a year from launch.</span><small>And first call on seats as the corridor fills up.</small></div>
     </div>
   </div>
 </section>
@@ -571,7 +586,7 @@ footer a:hover{color:var(--amber-2)}
           <li><span class="tk"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1.6 6.3 L4.4 9 L10.3 2.8" fill="none" stroke="#FFCC72" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
             <span><b>No fleet, no capital, nothing on your balance sheet.</b> Riders are licensed, insured and assessed by us. You buy seats, not vehicles.</span></li>
           <li><span class="tk"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1.6 6.3 L4.4 9 L10.3 2.8" fill="none" stroke="#FFCC72" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
-            <span><b>You can walk away after the study.</b> The two-week measurement costs you nothing, and you keep the data either way.</span></li>
+            <span><b>Your money is refundable right up to launch.</b> If the measured times or the seat price don’t work for you, you take the deposit back and keep the data.</span></li>
         </ul>
       </div>
     </div>
@@ -677,7 +692,7 @@ footer a:hover{color:var(--amber-2)}
         <div class="val empty">not yet</div><div><span class="chip c-wait">Not measured</span></div>
       </div>
       <div class="lr">
-        <div class="n">Insurance, per rider per month<small>Hire-and-reward cover for every rider carrying a passenger</small></div>
+        <div class="n">Insurance, per rider per month<small>Hire-and-reward cover for every rider. It sets the seat price, which is why founding members see that price before they commit</small></div>
         <div class="val empty">not yet</div><div><span class="chip c-go">Quotes out</span></div>
       </div>
       <div class="lr">
@@ -689,26 +704,26 @@ footer a:hover{color:var(--amber-2)}
 </section>
 
 <!-- =============== waitlist =============== -->
-<section class="list glow" id="waitlist">
+<section class="list glow" id="secure">
   <div class="wrap">
     <div class="lg">
       <div>
-        <span class="lab">The waiting list</span>
-        <h2 style="font-size:var(--s-3);margin-top:20px;max-width:17ch">Get on the list. Make us prove it.</h2>
-        <p style="margin-top:20px;color:var(--paper-2);font-weight:300;max-width:44ch">Joining costs nothing and commits you to nothing. It puts your corridor in the queue to be measured, and you get the results whether or not you take it further.</p>
+        <span class="lab">Founding places</span>
+        <h2 style="font-size:var(--s-3);margin-top:20px;max-width:17ch">Five places. Make us earn yours.</h2>
+        <p style="margin-top:20px;color:var(--paper-2);font-weight:300;max-width:44ch">&pound;500 holds one of five founding places on Corridor 01. It pays for your corridor to be measured, comes off your first invoice when you launch with us, and is refunded in full if you decide not to.</p>
 
         <div class="counter">
-          <b id="count">0</b>
-          <span id="count-label">No one yet — you'd be the first. We need five pilot employers to launch Corridor 01.</span>
+          <b id="count">0<span style="font-size:.4em;font-weight:700;color:var(--slate);letter-spacing:0"> / 5</span></b>
+          <span id="count-label">founding places taken. Deposits are open now — you'd be the first.</span>
           <div class="bar" aria-hidden="true"><i id="bar"></i></div>
         </div>
 
-        <p style="margin-top:26px;font-size:.88rem;color:var(--slate-2);font-weight:300;max-width:42ch">Corridor 01 opens once five employers on one route have signed up. We'll tell you where you are in that five.</p>
+        <p style="margin-top:26px;font-size:.88rem;color:var(--slate-2);font-weight:300;max-width:42ch">Places are taken in the order deposits arrive. When five are gone the next corridor opens — and founding rates go with it.</p>
       </div>
 
       <form id="signup" novalidate>
         <div class="tabs" role="tablist" aria-label="Who are you?">
-          <button type="button" class="tab" id="tab-employer" role="tab" aria-selected="true" aria-controls="fields-employer">I run a business</button>
+          <button type="button" class="tab" id="tab-employer" role="tab" aria-selected="true" aria-controls="fields-employer">Reserve a place</button>
           <button type="button" class="tab" id="tab-rider" role="tab" aria-selected="false" aria-controls="fields-rider">I ride</button>
         </div>
 
@@ -744,8 +759,8 @@ footer a:hover{color:var(--amber-2)}
 
         <div class="fields" style="padding-top:0">
           <div id="form-msg" class="msg" hidden></div>
-          <button class="btn btn-amber btn-lg" type="submit" id="submit">Join the waiting list</button>
-          <p class="consent">One email when we've measured a corridor near you, and one when the pilot opens. No newsletter, no selling your details on, one click out of both.</p>
+          <button class="btn btn-amber btn-lg" type="submit" id="submit">Reserve a place &mdash; &pound;500</button>
+          <p class="consent">We send a single invoice link to hold the place — no card details are taken on this page. No newsletter, no selling your details on.</p>
         </div>
       </form>
     </div>
@@ -782,8 +797,8 @@ footer a:hover{color:var(--amber-2)}
       <div>
         <h4>Join</h4>
         <ul>
-          <li><a href="#waitlist">Employer waiting list</a></li>
-          <li><a href="#waitlist">Rider waiting list</a></li>
+          <li><a href="#secure">Secure a founding place</a></li>
+          <li><a href="#secure">Register as a rider</a></li>
           <li><a href="#riders">Ride with us</a></li>
         </ul>
       </div>
@@ -803,7 +818,7 @@ footer a:hover{color:var(--amber-2)}
   on(); window.addEventListener('scroll',on,{passive:true});
 })();
 
-/* Waiting list - concept page: nothing is sent anywhere yet. */
+/* Founding places - concept page: no reservation is recorded and no money is taken. */
 (function(){
   var form=document.getElementById('signup');
   var tabE=document.getElementById('tab-employer'), tabR=document.getElementById('tab-rider');
@@ -815,7 +830,7 @@ footer a:hover{color:var(--amber-2)}
     tabE.setAttribute('aria-selected',isE?'true':'false');
     tabR.setAttribute('aria-selected',isE?'false':'true');
     panE.hidden=!isE; panR.hidden=isE;
-    btn.textContent=isE?'Join the waiting list':'Register as a rider';
+    btn.innerHTML=isE?'Reserve a place \u2014 \u00a3500':'Register as a rider';
   }
   tabE.addEventListener('click',function(){pick('employer');});
   tabR.addEventListener('click',function(){pick('rider');});
@@ -826,14 +841,14 @@ footer a:hover{color:var(--amber-2)}
     if(kind==='employer'){
       email=document.getElementById('e-email').value.trim();
       if(!document.getElementById('e-company').value.trim()||!email){
-        say('We need a company name and a work email to put a corridor in the queue.',false); return; }
+        say('We need a company name and a work email to send the invoice link to.',false); return; }
     }else{
       email=document.getElementById('r-email').value.trim();
       if(!document.getElementById('r-name').value.trim()||!email){
         say('We need a name and an email before we can assess a ride.',false); return; }
     }
     if(email.indexOf('@')<1){ say('That email address is missing an @ - check it and try again.',false); return; }
-    say('This is a concept page - the waiting list is not collecting entries yet, so nothing was sent. The form is here to show how it will work.',true);
+    say('This is a concept page - no place was reserved and no payment was taken. The form is here to show how it will work.',true);
     form.querySelectorAll('input').forEach(function(i){ i.value=''; });
   });
 })();

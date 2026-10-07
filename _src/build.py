@@ -593,11 +593,11 @@ def work() -> None:
 <section class="hero"><div class="wrap">
 <span class="kicker">Work</span>
 <h1 style="max-width:14ch">Built, launched, and <span class="mark">handed over.</span></h1>
-<p class="lead">One client site live and running, two more about to launch, and thirteen complete designs for businesses that never asked for one.</p>
+<p class="lead">One client site live and running, two more about to launch, and seventeen complete designs for businesses that never asked for one.</p>
 <div class="hero-facts">
 <div><b>1</b><span>Live client site</span></div>
 <div><b>2</b><span>Builds launching</span></div>
-<div><b>13</b><span>Designs built unasked</span></div>
+<div><b>17</b><span>Designs built unasked</span></div>
 <div><b>Yours</b><span>Site, domain, customer list</span></div>
 </div>
 </div></section>
@@ -644,14 +644,15 @@ def work() -> None:
 </div></section>
 
 <section class="paper-2 band"><div class="wrap split">
-<div><span class="kicker">The unasked ones</span><h2 style="max-width:12ch">Thirteen designs nobody ordered.</h2></div>
+<div><span class="kicker">The unasked ones</span><h2 style="max-width:12ch">Seventeen designs nobody ordered.</h2></div>
 <div class="body">
-<p>We pick a business, work out how it actually makes money, and build the whole thing before there is any conversation to have. Not a mockup: the pages, the booking, the pricing, and an operator back end for the people running it.</p>
-<p>Fourteen UK airsoft sites have had the full treatment that way. One of them, 1066, is a client now. The other thirteen are still sitting there, unclaimed.</p>
-<div class="row-btns" style="margin-top:4px"><a class="btn hi" href="/airsoft/#work">Walk through all thirteen</a></div>
+<p>We pick a business, work out how it actually makes money, and build the whole thing before there is any conversation to have. Not a mockup: the pages, the booking, the pricing, and the back end for whoever runs it.</p>
+<p>Four Eastbourne high-street businesses have had the full treatment that way &mdash; a butcher, a bakery, a garage and a plumber &mdash; alongside thirteen airsoft sites. Click any one and walk the whole thing.</p>
 </div>
 </div>
-<div class="wrap"><div class="proofstrip"><a class="pt" href="/airsoft/ntac/"><img src="/static/air/work/ntac.jpg" alt="The NTAC Airsoft design" width="900" height="579" loading="lazy" decoding="async"><span>NTAC Airsoft</span></a><a class="pt" href="/airsoft/dirty-dog/"><img src="/static/air/work/dirty-dog.jpg" alt="The Dirty Dog Airsoft design" width="900" height="579" loading="lazy" decoding="async"><span>Dirty Dog Airsoft</span></a><a class="pt" href="/airsoft/district-23/"><img src="/static/air/work/district-23.jpg" alt="The District 23 design" width="900" height="579" loading="lazy" decoding="async"><span>District 23</span></a><a class="pt" href="/airsoft/no-limits/"><img src="/static/air/work/no-limits.jpg" alt="The No Limits design" width="900" height="579" loading="lazy" decoding="async"><span>No Limits</span></a><a class="pt" href="/airsoft/tac-house-spartan-ii/"><img src="/static/air/work/tac-house-spartan-ii.jpg" alt="The Tac House Spartan II design" width="900" height="579" loading="lazy" decoding="async"><span>Tac House Spartan II</span></a><a class="pt pt-more" href="/airsoft/#work"><span class="pt-n">+8</span><span>more, all walkable</span></a></div></div>
+<div class="wrap"><div class="proofstrip"><a class="pt" href="https://highstreet.peerlab.workers.dev/b/victoria-butchers" rel="noopener"><img src="/static/tw/work/spec/victoria-butchers.jpg" alt="The Victoria Butchers design" width="900" height="579" loading="lazy" decoding="async"><span><b>Victoria Butchers</b>Butcher &middot; Eastbourne</span></a><a class="pt" href="https://highstreet.peerlab.workers.dev/b/to-the-rise" rel="noopener"><img src="/static/tw/work/spec/to-the-rise.jpg" alt="The To The Rise design" width="900" height="579" loading="lazy" decoding="async"><span><b>To The Rise</b>Bakery &middot; Eastbourne</span></a><a class="pt" href="https://highstreet.peerlab.workers.dev/b/bourne-motors" rel="noopener"><img src="/static/tw/work/spec/bourne-motors.jpg" alt="The Bourne Motors design" width="900" height="579" loading="lazy" decoding="async"><span><b>Bourne Motors</b>Garage &amp; MOT &middot; Eastbourne</span></a><a class="pt" href="https://highstreet.peerlab.workers.dev/b/robs-plumbing" rel="noopener"><img src="/static/tw/work/spec/robs-plumbing.jpg" alt="The Rob's Plumbing design" width="900" height="579" loading="lazy" decoding="async"><span><b>Rob's Plumbing</b>Plumber &middot; Eastbourne</span></a><a class="pt pt-more" href="/airsoft/#work"><span class="pt-n">+13</span><span>airsoft sites, all walkable</span></a></div>
+<p class="small" style="margin-top:16px;max-width:76ch">Built from what each business already publishes about itself, and clearly marked inside as a design concept rather than their live site. If one of these is yours and you would rather it came down, email Greg and it is gone the same day.</p>
+</div>
 </section>
 
 <section class="paper-2 band"><div class="wrap split">

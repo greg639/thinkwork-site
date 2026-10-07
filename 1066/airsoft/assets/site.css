@@ -1,0 +1,598 @@
+/* 1066 Airsoft & Paintball: their own near-black and red, taken from the live
+   sites and their badge (#DD3333 on #11151C). Dark is the identity here, not a
+   preference, so there is one palette and no light variant - a light theme
+   would not look like them.
+
+   Only the token block below carries colour. Every component reads through
+   --accent / --accent-deep / --accent-soft, so a recolour is a swap of this
+   block and nothing else.
+
+   Contrast, measured against the #11151C ground:
+     --fg          #E9ECF1  15.6:1  body text
+     --muted       #9AA3AE   7.2:1  secondary text
+     --accent-deep #FF6B5E   6.6:1  links and small text - the red that reads
+     --accent      #DD3333   4.06:1 their exact brand red. Display sizes only
+                                    (>=24px, where AA asks 3:1). Never body text.
+     --on-accent   #FFFFFF   4.55:1 ON the filled red button, so AA for normal text
+
+   Their brand red is simply too dark on near-black for small text; brightening
+   it enough to read stops being their red. So --accent carries display type and
+   fills, --accent-deep carries anything small. Same split the Family Pet Care
+   palette needed in the other direction, for the same reason. */
+:root{
+  --paper:#11151C; --surface:#171C25; --surface-2:#1E2530;
+  --ink:#E9ECF1; --ink-2:#9AA3AE; --line:#2A323E;
+  --brand:#DD3333; --brand-deep:#FF6B5E; --brand-head:#DD3333;
+  --brand-soft:#2A1619;
+  --sage:#9FB06A; --sage-soft:#1B2117;
+  --star:#E7B45C;
+  --bg:var(--paper); --fg:var(--ink); --muted:var(--ink-2); --card:var(--surface);
+  --band:var(--surface-2); --rule:var(--line);
+  --accent:var(--brand); --accent-deep:var(--brand-deep); --accent-soft:var(--brand-soft);
+  --accent-head:var(--brand-head);
+  --on-accent:#FFFFFF;
+  --shadow:0 1px 2px rgba(0,0,0,.45), 0 14px 34px -14px rgba(0,0,0,.65);
+  --display:"Bevan",Georgia,"Times New Roman",serif;
+  --sans:"Barlow Semi Condensed",ui-sans-serif,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --wrap:1140px; --narrow:760px;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);
+     font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto}
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:24px}
+.narrow{max-width:var(--narrow)}
+h1,h2,h3,h4{font-family:var(--display);font-weight:600;text-wrap:balance;
+            letter-spacing:-.01em;margin:0}
+h1{font-size:clamp(2.3rem,5.2vw,3.9rem);line-height:1.05}
+h2{font-size:clamp(1.8rem,3.2vw,2.6rem);line-height:1.14}
+h3{font-size:1.3rem;line-height:1.28}
+p{margin:0}
+a{color:inherit}
+.skip{position:absolute;left:-9999px;top:0;background:var(--accent);color:var(--on-accent);
+      padding:12px 18px;z-index:100;border-radius:0 0 8px 0}
+.skip:focus{left:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.eyebrow{font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+         color:var(--muted)}
+
+/* ---------- header ---------- */
+.utility{background:var(--fg);color:var(--bg);font-size:.82rem}
+.utility .wrap{display:flex;flex-wrap:wrap;gap:6px 22px;align-items:center;
+               justify-content:space-between;padding-block:9px}
+.utility a{text-decoration:none}
+.utility a:hover{text-decoration:underline}
+header{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 90%,transparent);
+       backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
+header .wrap{display:flex;align-items:center;gap:24px;padding-block:12px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;margin-right:auto}
+.brand img{width:46px;height:auto;display:block}
+.brand b{font-family:var(--display);font-size:1.16rem;font-weight:600;letter-spacing:-.01em;
+         line-height:1.05;display:block}
+.brand>span>span{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+header nav{display:flex;gap:22px;font-size:.92rem}
+header nav a{text-decoration:none;color:var(--muted);padding-block:4px;
+             border-bottom:2px solid transparent;white-space:nowrap}
+header nav a:hover{color:var(--fg);border-color:var(--accent)}
+header nav a.here{color:var(--fg);border-color:var(--accent)}
+.navtoggle,.burger{display:none}
+
+@media (max-width:1040px){
+  header .wrap{flex-wrap:wrap}
+  .burger{display:flex;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;
+          padding:10px;cursor:pointer;border:1px solid var(--rule);border-radius:10px}
+  .burger span{display:block;height:2px;background:var(--fg);border-radius:2px}
+  header nav{display:none;width:100%;flex-direction:column;gap:0;padding-bottom:8px}
+  .navtoggle:checked ~ nav{display:flex}
+  /* full width, not sized to the label: a 30px-wide target is a miss waiting
+     to happen, and the burger menu appears from 1040px down, not 640px */
+  header nav a{display:block;width:100%;padding:12px 2px;
+               border-bottom:1px solid var(--rule);border-left:2px solid transparent}
+  header nav a.here{border-left-color:var(--accent);padding-left:10px}
+  /* specificity beats .btn, which is declared later in this file */
+  header .hide-sm{display:none}
+}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:.95rem;
+     font-weight:600;text-decoration:none;padding:13px 24px;border-radius:999px;
+     border:1.5px solid transparent;cursor:pointer;
+     transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:0 8px 20px -10px var(--accent)}
+.btn-ghost{border-color:var(--rule);color:var(--fg)}
+.btn-ghost:hover{border-color:var(--accent)}
+.btn:hover{transform:translateY(-2px)}
+.btn-sm{padding:9px 18px;font-size:.88rem}
+.more{font-size:.94rem;font-weight:600;text-decoration:none;border-bottom:2px solid var(--accent);
+      padding-bottom:2px;align-self:flex-start;display:inline-block}
+.more:hover{color:var(--accent-deep)}
+
+/* ---------- sections ---------- */
+section{padding-block:80px}
+section.tight{padding-block:0 80px}
+.sec-head{max-width:62ch;display:flex;flex-direction:column;gap:14px;margin-bottom:42px}
+.sec-head p{color:var(--muted)}
+.band{background:var(--band);border-block:1px solid var(--rule)}
+.prose{display:flex;flex-direction:column;gap:18px}
+.prose p,.prose li{color:var(--muted)}
+.prose h2,.prose h3{margin-top:18px}
+.prose ul,.prose ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:8px}
+.prose strong{color:var(--fg)}
+
+/* ---------- page hero ---------- */
+.phero{position:relative;overflow:hidden;border-bottom:1px solid var(--rule)}
+.phero::before{content:"";position:absolute;inset:-40% 50% 30% -20%;
+  background:radial-gradient(closest-side,var(--accent-soft),transparent 70%);opacity:.7;
+  pointer-events:none}
+.phero .wrap{position:relative;padding-block:62px;display:flex;flex-direction:column;
+             gap:16px;align-items:flex-start;max-width:min(var(--wrap),100%)}
+/* Contact is an action page, not a reading page: its whole job is the two
+   buttons, so the hero is shorter to keep them above the fold. */
+.phero.compact{padding-block:0}          /* section{} adds 80px on top of the
+                                            wrap's own padding; the compact hero
+                                            does not want both */
+.phero.compact .wrap{padding-block:34px}
+@media (max-width:640px){
+  /* most of her traffic is mobile, where the stacked hero is taller   trim it
+     further so the first booking option is reachable without a scroll */
+  .phero.compact .wrap{padding-block:20px}
+  .phero.compact h1{font-size:2rem}
+  .steps{gap:16px}
+  .step{padding:22px}
+}
+.phero p.lede{font-size:1.12rem;color:var(--muted);max-width:60ch}
+
+/* ---------- home hero ---------- */
+.hero{position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-30% 55% 40% -20%;
+  background:radial-gradient(closest-side,var(--accent-soft),transparent 70%);opacity:.75;
+  pointer-events:none}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:60px;
+            align-items:center;padding-block:72px 80px}
+.hero h1 em{font-style:normal;color:var(--accent-head)}
+.hero p.lede{font-size:1.14rem;color:var(--muted);max-width:52ch;margin-top:20px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:32px;padding-top:22px;
+           border-top:1px solid var(--rule);font-size:.9rem;color:var(--muted)}
+.hero-meta b{color:var(--fg);font-family:var(--display);font-size:1.05rem}
+/* minmax(0,1fr), not 1fr: `1fr` is minmax(auto,1fr), and .tall's aspect-ratio
+   across two rows gave the first track a 233px min-content floor inside a 342px
+   box, so the right-hand photos were pushed off the screen and clipped. The
+   0 minimum lets both tracks stay equal. Reported from an iPhone, 2026-09-03. */
+.collage{position:relative;display:grid;
+         grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.collage img{width:100%;height:100%;object-fit:cover;border-radius:14px;display:block;
+             box-shadow:var(--shadow)}
+/* no aspect-ratio: spanning both rows already defines the height, and a ratio
+   here fought the track width (that was the blowout) and then left the photo
+   short of the two stacked squares. Stretch to the span; cover does the rest. */
+.collage .tall{grid-row:span 2}
+.collage .sq{aspect-ratio:1/1}
+.collage figure{margin:0}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr;gap:40px;padding-block:44px 56px}}
+
+/* ---------- credential strip ---------- */
+.creds .wrap{display:flex;flex-wrap:wrap;gap:12px 36px;justify-content:space-between;
+             align-items:center;padding-block:18px;font-size:.86rem;color:var(--muted)}
+.creds .item{display:flex;align-items:center;gap:10px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex:none}
+.dot.sage{background:var(--sage)}
+
+/* ---------- split ---------- */
+.split{display:grid;grid-template-columns:.95fr 1.05fr;gap:56px;align-items:center}
+.split.rev{grid-template-columns:1.05fr .95fr}
+.split img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:18px;box-shadow:var(--shadow)}
+.split .body{display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.split .body p{color:var(--muted)}
+@media (max-width:900px){.split,.split.rev{grid-template-columns:1fr;gap:30px}}
+
+/* ---------- cards ---------- */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.cards.three{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:20px;overflow:hidden;
+      display:flex;flex-direction:column;box-shadow:var(--shadow);
+      transition:transform .2s ease}
+.card:hover{transform:translateY(-4px)}
+/* Client feedback 2026-08-20: 16:10 cropped the dogs through the head. 4:3 is
+   closer to the source photos, and the crop is anchored high so faces survive. */
+.card>img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:center 30%;
+          display:block}
+/* Standalone dog portraits (the About page pair) get a taller frame again. */
+.card.portrait>img{aspect-ratio:4/5}
+.card .pad{padding:26px 28px 28px;display:flex;flex-direction:column;gap:12px;flex:1}
+.card p{color:var(--muted)}
+.card ul{margin:0;padding-left:20px;color:var(--muted);display:flex;flex-direction:column;gap:7px}
+.price{margin-top:auto;padding-top:18px;border-top:1px solid var(--rule);display:flex;
+       flex-wrap:wrap;align-items:baseline;gap:6px 16px}
+.price b{font-family:var(--display);font-size:1.7rem;font-weight:600}
+.price span{font-size:.82rem;color:var(--muted)}
+.price .alt{width:100%;font-size:.9rem;color:var(--muted)}
+.price .alt b{font-size:1.05rem;color:var(--fg)}
+@media (max-width:860px){.cards,.cards.three{grid-template-columns:1fr}}
+
+/* ---------- pricing table ---------- */
+.ptable{border:1px solid var(--rule);border-radius:18px;overflow:hidden;background:var(--card)}
+.ptable .row{display:flex;justify-content:space-between;align-items:baseline;gap:20px;
+             padding:15px 24px;border-top:1px solid var(--rule)}
+.ptable .row:first-child{border-top:0}
+.ptable .row span{color:var(--muted)}
+.ptable .row b{font-family:var(--display);font-size:1.2rem;font-variant-numeric:tabular-nums;
+               white-space:nowrap}
+.ptable .row.total{background:var(--accent-soft);border-top:2px solid var(--accent)}
+.ptable .row.total span,.ptable .row.total b{color:var(--fg)}
+
+/* ---------- team ---------- */
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.member{display:flex;flex-direction:column;gap:14px}
+.member img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:16px;box-shadow:var(--shadow)}
+.member p{color:var(--muted);font-size:.96rem}
+@media (max-width:860px){.team{grid-template-columns:1fr}}
+
+/* ---------- awards ---------- */
+.awards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.award{border:1px solid var(--rule);border-radius:16px;padding:22px;background:var(--card);
+       display:flex;flex-direction:column;gap:6px}
+.award b{font-family:var(--display);font-size:1.1rem}
+.award span{font-size:.85rem;color:var(--muted)}
+@media (max-width:860px){.awards{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.awards{grid-template-columns:1fr}}
+
+/* ---------- quotes ---------- */
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.quote{background:var(--card);border:1px solid var(--rule);border-radius:18px;padding:28px;
+       display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow)}
+.quote p.q{font-family:var(--display);font-size:1.12rem;line-height:1.45}
+.quote footer{font-size:.84rem;color:var(--muted);margin-top:auto}
+.stars{color:var(--star);letter-spacing:.15em;font-size:.9rem}
+.quote.wide{grid-column:1/-1}
+@media (max-width:860px){.quotes{grid-template-columns:1fr}}
+
+/* ---------- faq ---------- */
+.faq{display:flex;flex-direction:column;gap:12px;max-width:var(--narrow)}
+.faq details{border:1px solid var(--rule);border-radius:14px;background:var(--card);
+             overflow:hidden}
+.faq summary{cursor:pointer;padding:18px 22px;font-weight:600;list-style:none;
+             display:flex;justify-content:space-between;gap:16px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--accent);font-size:1.4rem;line-height:1;flex:none}
+.faq details[open] summary::after{content:"\2013"}
+.faq details p{padding:0 22px 20px;color:var(--muted);margin:0}
+
+/* ---------- steps ---------- */
+.steps{display:grid;grid-template-columns:1fr 1fr;gap:26px;counter-reset:step}
+.step{border:1px solid var(--rule);border-radius:18px;padding:28px;background:var(--card);
+      display:flex;flex-direction:column;gap:12px;align-items:flex-start;counter-increment:step}
+.step::before{content:counter(step);font-family:var(--display);font-size:1.1rem;width:38px;
+  height:38px;border-radius:50%;background:var(--accent-soft);color:var(--accent-deep);
+  display:grid;place-items:center;font-weight:600}
+.step p{color:var(--muted)}
+@media (max-width:820px){.steps{grid-template-columns:1fr}}
+
+/* ---------- contact ---------- */
+.contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:start}
+.infobox{border:1px solid var(--rule);border-radius:18px;padding:28px;background:var(--card);
+         display:flex;flex-direction:column;gap:16px}
+.infobox h3{font-size:1.15rem}
+.infobox address{font-style:normal;color:var(--muted);line-height:1.7}
+.infobox a{color:var(--fg)}
+@media (max-width:860px){.contact-grid{grid-template-columns:1fr;gap:30px}}
+
+/* ---------- cta ---------- */
+.cta{background:var(--fg);color:var(--bg);border-radius:24px;padding:60px 44px;text-align:center;
+     display:flex;flex-direction:column;align-items:center;gap:16px}
+.cta p{max-width:52ch;opacity:.8}
+.cta .btn-ghost{border-color:color-mix(in srgb,var(--bg) 40%,transparent);color:var(--bg)}
+.cta .eyebrow{color:inherit;opacity:.7}
+
+/* ---------- blog ---------- */
+.posts{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.post-card{background:var(--card);border:1px solid var(--rule);border-radius:18px;padding:28px;
+           display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow)}
+.post-card h3 a{text-decoration:none}
+.post-card h3 a:hover{color:var(--accent-deep)}
+.post-date{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.post-excerpt{color:var(--muted);font-size:.96rem}
+.post-card .more{margin-top:auto}
+@media (max-width:860px){.posts{grid-template-columns:1fr}}
+article.post{max-width:var(--narrow);margin-inline:auto}
+article.post .body{display:flex;flex-direction:column;gap:18px;margin-top:28px}
+article.post .body p,article.post .body li{color:var(--muted)}
+article.post .body h2{font-size:1.7rem;margin-top:20px}
+article.post .body h3{font-size:1.25rem;margin-top:14px}
+article.post .body ul,article.post .body ol{margin:0;padding-left:22px;display:flex;
+  flex-direction:column;gap:8px}
+article.post .body strong{color:var(--fg)}
+.post-foot{margin-top:44px;padding-top:24px;border-top:1px solid var(--rule);
+           display:flex;flex-wrap:wrap;gap:16px 28px;justify-content:space-between}
+
+/* ---------- footer ---------- */
+footer.site{border-top:1px solid var(--rule);margin-top:80px;padding-block:52px 32px;
+            background:var(--band)}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
+.fgrid .brand{margin-bottom:16px}
+.fgrid h4{font-family:var(--sans);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;
+          color:var(--muted);margin:0 0 14px;font-weight:600}
+.fgrid ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;
+          font-size:.95rem}
+.fgrid a{text-decoration:none;color:var(--muted)}
+.fgrid a:hover{color:var(--fg)}
+.fgrid address{font-style:normal;color:var(--muted);font-size:.95rem;line-height:1.7;
+               margin-bottom:12px}
+.legal{margin-top:36px;padding-top:20px;border-top:1px solid var(--rule);font-size:.8rem;
+       color:var(--muted);display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+@media (max-width:820px){.fgrid{grid-template-columns:1fr}}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important;animation:none!important}
+}
+
+/* ---------- time-limited event (open day) ----------
+   Added 2026-08-20 for the move to Summerhouse Farm. Both the strip and the
+   section carry data-expires and are removed automatically. When the date has
+   passed, build.py stops emitting this markup entirely and these rules become
+   dead code, so delete them then. */
+.eventbar{background:var(--accent);color:var(--on-accent)}
+.eventbar .wrap{display:flex;flex-wrap:wrap;gap:6px 20px;align-items:center;
+                justify-content:center;text-align:center;padding-block:11px;font-size:.92rem}
+.eventbar p{margin:0}
+.eventbar a{color:inherit;font-weight:600;text-underline-offset:3px}
+.eventbar a:hover{text-decoration-thickness:2px}
+
+.event{padding-block:0;margin-block:56px;
+       /* the header is sticky, so anchoring here must clear it */
+       scroll-margin-top:104px}
+.event-card{display:grid;grid-template-columns:1.55fr 1fr;gap:0;overflow:hidden;
+            border:1px solid var(--rule);border-radius:22px;background:var(--card);
+            box-shadow:var(--shadow)}
+.event-main{padding:40px 42px;display:flex;flex-direction:column;gap:16px}
+.event-main .lede{color:var(--muted);font-size:1.06rem;max-width:52ch}
+.event-facts{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:12px}
+.event-facts li{display:flex;flex-wrap:wrap;gap:2px 16px;align-items:baseline;
+                padding-top:12px;border-top:1px solid var(--rule)}
+.event-facts li:first-child{padding-top:0;border-top:0}
+.event-facts span{flex:0 0 92px;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+                  color:var(--muted)}
+.event-facts b{font-family:var(--display);font-size:1.22rem;font-weight:600}
+.event-note{margin-top:4px;padding:14px 18px;border-radius:12px;background:var(--sage-soft);
+            color:var(--fg);font-size:.93rem}
+.event-side{padding:40px 34px;background:var(--accent-soft);display:flex;flex-direction:column;
+            gap:14px;align-items:flex-start;justify-content:flex-start}
+.event-chips{list-style:none;margin:0 0 6px;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.event-chips li{background:var(--card);border:1px solid var(--rule);border-radius:999px;
+                padding:7px 15px;font-size:.9rem;font-weight:600}
+.event-small{font-size:.85rem;color:var(--muted)}
+@media (max-width:860px){
+  .event-card{grid-template-columns:1fr}
+  .event-main{padding:30px 24px}
+  .event-side{padding:26px 24px}
+  .event{margin-block:36px}
+}
+
+/* ═══════════════ mobile ═══════════════
+   Roughly two thirds of her visitors are on a phone, so this is the primary
+   experience, not a fallback. Three things this block fixes, all found by
+   auditing the rendered pages rather than by eye:
+
+   1. TAP TARGETS. Links were rendering 15-29px tall. Apple and Google both ask
+      for 44px. Footer navigation and the phone number were the worst, and they
+      are exactly what someone taps one-handed while holding a lead.
+   2. TEXT SIZE. The smallest text was 10.88px. Letter-spaced uppercase reads
+      smaller than its size suggests, so the eyebrows get a lift too.
+   3. VERTICAL RHYTHM. 80px section padding is right on a desktop and enormous
+      on a 390px screen; it made the home page about 10,000px long. Tightening
+      it removes roughly a fifth of the scrolling without crowding anything. */
+@media (max-width: 640px) {
+
+  /* --- less endless scrolling --- */
+  section              { padding-block: 52px }
+  section.tight        { padding-block: 0 52px }
+  .sec-head            { margin-bottom: 28px }
+  .phero .wrap         { padding-block: 40px }
+  /* same doubled padding as the contact hero: section{} adds its own on top */
+  .hero                { padding-block: 0 }
+  .hero .wrap          { padding-block: 28px 40px }
+  footer.site          { margin-top: 52px; padding-block: 40px 28px }
+  .cards, .cards.three, .quotes, .team, .posts { gap: 18px }
+
+  /* --- tap targets: 44px is the standard, and these are one-handed taps --- */
+  /* standalone links become proper blocks */
+  .utility a,
+  .eventbar a,
+  .more,
+  .post-card h3 a      { display: inline-block; min-height: 44px;
+                         line-height: 44px; }
+  /* links INSIDE a sentence must stay inline, or they break the paragraph.
+     Vertical padding grows the tap area without touching the line box, which
+     is the one way to make a mid-sentence link easier to hit. */
+  .prose p a,
+  .faq details p a,
+  .infobox p a         { padding-block: 12px; }
+  /* footer links sit in a vertical list, so the whole row is the target rather
+     than just the width of the word: "FAQ" as inline-block is only 30px wide */
+  .fgrid a             { display: block; min-height: 44px; line-height: 44px }
+  .fgrid ul            { gap: 0 }
+  .more                { line-height: 44px }
+  .btn                 { min-height: 48px; padding-block: 0; line-height: 48px }
+  .btn-sm              { min-height: 44px; line-height: 44px }
+  .faq summary         { padding-block: 20px; min-height: 44px }
+
+  /* the "Blog · date" breadcrumb on a post */
+  article.post + *, .phero .eyebrow a { display: inline-block; min-height: 44px;
+                                        line-height: 44px }
+
+  /* a blog card is one destination, so let the whole card be the target */
+  .post-card           { position: relative }
+  .post-card h3 a::after { content: ""; position: absolute; inset: 0 }
+
+  /* --- readable text --- */
+  body                 { font-size: 17px }
+  .utility .wrap       { font-size: 14px }
+  .brand > span > span { font-size: 12px }
+  .eyebrow             { font-size: 12.5px; letter-spacing: .12em }
+  .legal               { font-size: 13.5px }
+  .price span          { font-size: 14px }
+  .post-date, .small, .event-small, .card ul, .member p { font-size: 15px }
+}
+
+/* Both top bars stacked to two and three lines on a phone, costing about 150px
+   of an 844px screen before any content appeared. The location and hours are
+   repeated in the footer and on the contact page, so the phone number is the
+   only thing that earns its place up here. */
+.eventbar p.short { display: none }
+@media (max-width: 640px) {
+  /* the phone link already carries its own 44px tap height, so the bar does
+     not need padding on top of it */
+  .utility .wrap    { justify-content: center; padding-block: 0 }
+  header .wrap      { padding-block: 8px }
+  .hide-phone       { display: none }
+  .eventbar p.long  { display: none }
+  .eventbar p.short { display: inline }
+  .eventbar         { position: relative }
+  .eventbar .wrap   { gap: 4px 14px; min-height: 44px; padding-block: 6px;
+                      font-size: 14px }
+  /* the link itself is only 20px tall once the bar is slim, so the whole strip
+     becomes the target: a full-width 44px band is very forgiving to tap */
+  .eventbar a       { min-height: 0; line-height: 1.4 }
+  .eventbar a::after{ content: ""; position: absolute; inset: 0 }
+}
+
+/* ---- 1066 display type -------------------------------------------------- */
+/* Bevan ships one weight only, so a font-weight above 400 would synthesise a
+   fake bold. Headings get size and tracking instead. */
+h1,h2,h3,.brand b{font-family:var(--display);font-weight:400;letter-spacing:.005em}
+h1{line-height:1.04;text-transform:uppercase}
+h2{line-height:1.1;text-transform:uppercase}
+.eyebrow{font-family:var(--sans);font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+
+/* ---- footer social row -------------------------------------------------- */
+.social{list-style:none;display:flex;flex-wrap:wrap;gap:8px 18px;margin:16px 0 0;padding:0}
+.social a{color:var(--muted);text-decoration:none;font-size:15px}
+.social a:hover,.social a:focus-visible{color:var(--accent-deep);text-decoration:underline}
+
+/* ---- 1066 hero art ------------------------------------------------------ */
+/* Their site publishes no usable photography, so the opening screen is the
+   drawn field: a dusk treeline in their own black and red. Vector, so it is
+   sharp at any width, and honest - it is not pretending to be their site.
+   Swap for a real photograph the moment Dom sends one. */
+.hero{position:relative;overflow:hidden}
+.hero-art{position:absolute;inset:0;z-index:0;pointer-events:none}
+.hero-art img{width:100%;height:100%;object-fit:cover;display:block;opacity:.55}
+.hero > .wrap{position:relative;z-index:1}
+.hero::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(90deg,var(--bg) 8%,rgba(17,21,28,.72) 52%,rgba(17,21,28,.35) 100%)}
+@media (max-width:900px){
+  .hero::after{background:linear-gradient(180deg,rgba(17,21,28,.55) 0%,var(--bg) 88%)}
+}
+.art-note{margin-top:28px;font-size:13px;color:var(--muted);opacity:.85}
+
+/* ---- outstanding facts -------------------------------------------------- */
+/* Every figure we have not been given is marked rather than invented, because
+   invented prices and zone names had to be stripped from this project once
+   already. These are visible on purpose: they are the list of what the owner
+   still owes us, and none of them survives go-live. */
+.todo{display:inline-block;font-family:var(--sans);font-size:.78em;font-weight:600;
+      letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;
+      color:var(--accent-deep);background:var(--accent-soft);
+      border:1px dashed var(--accent);border-radius:999px;padding:1px 10px;
+      vertical-align:baseline}
+
+/* ---- 1066 overrides ----------------------------------------------------- */
+/* Their own site runs a red phone and email bar across the top. The inherited
+   rule painted it with --fg, which on a dark ground is near-white: a bright
+   strip above a black site. */
+.utility{background:var(--accent);color:var(--on-accent)}
+.utility a{color:var(--on-accent)}
+
+/* The inherited hero is a two-column grid built for a photo collage. There are
+   no usable photographs here, so the second column was simply empty: half the
+   opening screen, dead. One column, with the drawn field carrying the rest. */
+.hero .wrap{grid-template-columns:minmax(0,1fr);gap:0;padding-block:84px 72px}
+.hero .wrap > div{max-width:46rem}
+.hero-art img{opacity:.92}
+/* Let the treeline read on the right instead of washing it out. Dark enough
+   over the text to keep --fg at its measured 15.6:1, clear on the right. */
+.hero::after{background:
+  linear-gradient(90deg,var(--bg) 0%,rgba(17,21,28,.92) 28%,rgba(17,21,28,.55) 62%,rgba(17,21,28,.18) 100%)}
+@media (max-width:900px){
+  .hero .wrap{padding-block:56px 52px}
+  .hero::after{background:linear-gradient(180deg,rgba(17,21,28,.42) 0%,rgba(17,21,28,.88) 46%,var(--bg) 92%)}
+}
+
+/* The hero now carries a real photograph of the site, pulled from their own
+   gallery before the old hosting goes. A photograph needs the opposite
+   treatment to the drawn field that preceded it: no brightness lift, a slight
+   darkening so the headline keeps its contrast, and a crop that favours the
+   right of the frame, where the gradient is clearest and the subject sits. */
+.hero-art img{opacity:1;filter:brightness(.82) saturate(1.05);object-position:62% 42%}
+@media (max-width:900px){.hero-art img{object-position:60% 38%}}
+
+/* ---- outstanding facts -------------------------------------------------- */
+/* Every figure we have not been given is marked rather than invented, because
+   invented prices and zone names had to be stripped from this project once
+   already. These are visible on purpose: they are the list of what the owner
+   still owes us, and none of them survives go-live. */
+.todo{display:inline-block;font-family:var(--sans);font-size:.78em;font-weight:600;
+      letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;
+      color:var(--accent-deep);background:var(--accent-soft);
+      border:1px dashed var(--accent);border-radius:999px;padding:1px 10px;
+      vertical-align:baseline}
+
+/* ---- 1066 overrides ----------------------------------------------------- */
+/* Their own site runs a red phone and email bar across the top. The inherited
+   rule painted it with --fg, which on a dark ground is near-white: a bright
+   strip above a black site. */
+.utility{background:var(--accent);color:var(--on-accent)}
+.utility a{color:var(--on-accent)}
+
+/* The inherited hero is a two-column grid built for a photo collage. There are
+   no usable photographs here, so the second column was simply empty: half the
+   opening screen, dead. One column, with the drawn field carrying the rest. */
+.hero .wrap{grid-template-columns:minmax(0,1fr);gap:0;padding-block:84px 72px}
+.hero .wrap > div{max-width:46rem}
+.hero-art img{opacity:.92}
+/* Let the treeline read on the right instead of washing it out. Dark enough
+   over the text to keep --fg at its measured 15.6:1, clear on the right. */
+.hero::after{background:
+  linear-gradient(90deg,var(--bg) 0%,rgba(17,21,28,.92) 28%,rgba(17,21,28,.55) 62%,rgba(17,21,28,.18) 100%)}
+@media (max-width:900px){
+  .hero .wrap{padding-block:56px 52px}
+  .hero::after{background:linear-gradient(180deg,rgba(17,21,28,.42) 0%,rgba(17,21,28,.88) 46%,var(--bg) 92%)}
+}
+
+/* The drawn field is built from #12171f, #0c1016, #070a0e and #04060a: four
+   near-blacks that separate beautifully on their own white-backed canvas and
+   vanish completely over our #11151C ground. Lifting it here rather than
+   editing the SVG keeps the artwork reusable, and brings up the red dusk glow
+   that is already inside it. object-position holds the treeline and horizon in
+   frame when a wide, short hero crops a 16:9 drawing. */
+.hero-art img{opacity:1;filter:brightness(2.35) contrast(1.22) saturate(1.35);
+              object-position:50% 46%}
+@media (max-width:900px){.hero-art img{object-position:62% 48%}}
+
+/* ---- the call to action ------------------------------------------------- */
+/* The inherited rule painted this with --fg, which on a dark ground is a white
+   slab dropped into the middle of a black page. Same mistake as the utility
+   bar: a fill token used without its matching ink token. */
+.cta{background:var(--surface-2);color:var(--fg);border:1px solid var(--rule)}
+.cta p{color:var(--muted);opacity:1}
+.cta .btn-ghost{border-color:var(--rule);color:var(--fg)}
+.cta .btn-ghost:hover{border-color:var(--accent);color:var(--accent-deep)}
+
+/* ---- gallery ------------------------------------------------------------ */
+/* Their photographs are mostly 1200x1600 portrait, shot on a phone, so the grid
+   is built for upright frames rather than cropping them to landscape and
+   cutting people off at the chest. */
+.gallery{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.gallery figure{margin:0}
+.gallery img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;
+             border-radius:14px;border:1px solid var(--rule)}
+@media (max-width:1040px){.gallery{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:560px){.gallery{grid-template-columns:repeat(2,1fr);gap:10px}}
+
+/* A card image sits above its text; theirs are portrait, so cap the height or a
+   single phone photo pushes the card to three times the height of its sibling. */
+.card > img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.split img{aspect-ratio:4/5}

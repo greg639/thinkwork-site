@@ -18,7 +18,18 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://thinkwork.info"
 API = "https://app.peerlab.ai"
-CSS_V = "2"
+def _asset_v() -> str:
+    """Cache-buster derived from the asset bytes, so it can never go stale."""
+    import hashlib, pathlib
+    h = hashlib.md5()
+    for rel in ("static/tw/site.css", "static/tw/site.js"):
+        f = pathlib.Path(__file__).resolve().parent.parent / rel
+        if f.exists():
+            h.update(f.read_bytes())
+    return h.hexdigest()[:8]
+
+
+CSS_V = _asset_v()
 
 FONTS = ("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900"
          "&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap")
@@ -171,6 +182,7 @@ def head(title: str, desc: str, path: str, extra_ld: list | None = None) -> str:
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{FONTS}">
 <link rel="stylesheet" href="/static/tw/site.css?v={CSS_V}">
+<noscript><style>.rv{{opacity:1!important;transform:none!important}}</style></noscript>
 {"".join(jsonld(b) for b in blocks)}
 </head>
 <body>
@@ -190,7 +202,7 @@ def header(path: str) -> str:
 """
 
 
-FOOTER = """</main>
+FOOTER = f"""</main>
 <footer class="site-foot"><div class="wrap">
 <div class="cols">
 <div><a class="brand" href="/"><i aria-hidden="true"></i>ThinkWork</a>
@@ -200,7 +212,7 @@ FOOTER = """</main>
 </div>
 <div class="legal">&copy; 2026 ThinkWork. Prices exclude VAT where it applies.</div>
 </div></footer>
-<script src="/static/tw/site.js?v=2" defer></script>
+<script src="/static/tw/site.js?v={CSS_V}" defer></script>
 </body>
 </html>
 """
@@ -267,7 +279,7 @@ TERMS = f"""<div class="terms">
 <div><b>Yours to keep</b>Your site, your domain, your customer list.</div>
 </div>"""
 
-CTA_BAND = """<section class="dark band"><div class="wrap cta-band">
+CTA_BAND = """<section class="photoband"><img src="/static/tw/scene/chat.jpg" alt="Two people talking across a shop counter" width="1800" height="1013" loading="lazy" decoding="async"><div class="wrap cta-band">
 <span class="kicker">Next step</span>
 <h2>Find out what your business could be earning.</h2>
 <p>Tell us what you run and what you pay for now. We'll come back with an idea and a price.</p>
@@ -342,8 +354,8 @@ def home() -> None:
 <div class="tradestrip" aria-label="The kinds of local business we build for"><figure><img src="/static/tw/trade/butcher.jpg" alt="A butcher trimming a cut of beef on a wooden block" width="1200" height="800" loading="lazy" decoding="async"><figcaption>Butchers &amp; delis</figcaption></figure><figure><img src="/static/tw/trade/bakery.jpg" alt="Floury hands shaping a round of bread dough" width="1200" height="800" loading="lazy" decoding="async"><figcaption>Bakeries &amp; cafes</figcaption></figure><figure><img src="/static/tw/trade/garage.jpg" alt="A mechanic fitting a torque wrench to an alloy wheel" width="1200" height="800" loading="lazy" decoding="async"><figcaption>Garages &amp; MOT</figcaption></figure><figure><img src="/static/tw/trade/trades.jpg" alt="An engineer tightening a brass fitting on copper pipework" width="1200" height="800" loading="lazy" decoding="async"><figcaption>Trades</figcaption></figure><figure><img src="/static/tw/trade/studio.jpg" alt="Chalked hands gripping a cast-iron kettlebell" width="1200" height="800" loading="lazy" decoding="async"><figcaption>Gyms &amp; studios</figcaption></figure><figure><img src="/static/tw/trade/florist.jpg" alt="Hands wrapping cut stems in brown kraft paper" width="1200" height="800" loading="lazy" decoding="async"><figcaption>Florists</figcaption></figure></div>
 </section>
 
-<section class="dark band"><div class="wrap split">
-<div><span class="kicker">Sound familiar?</span>
+<section class="photoband"><img src="/static/tw/scene/nightdesk.jpg" alt="A small business desk at night, piled with paperwork" width="1800" height="1013" loading="lazy" decoding="async"><div class="wrap split">
+<div class="rv"><span class="kicker">Sound familiar?</span>
 <p class="pull">A website, a booking app, something for emails. None of it talks to each other.</p></div>
 <div class="body">
 <p>And none of it brings in a penny you weren't getting already. It just sits there, costing you every month.</p>
@@ -376,8 +388,8 @@ def home() -> None:
 </div>
 </div></section>
 
-<section class="dark band"><div class="wrap split">
-<div><span class="kicker">The AI part, in plain English</span>
+<section class="photoband"><img src="/static/tw/scene/phone.jpg" alt="A customer looking at their phone late in the evening" width="1800" height="1013" loading="lazy" decoding="async"><div class="wrap split">
+<div class="rv"><span class="kicker">The AI part, in plain English</span>
 <h2 style="max-width:12ch">People ask AI now. Make sure it knows you.</h2></div>
 <ul class="list-plain">
 <li><div><b>Found by AI.</b> More people ask ChatGPT or Google's AI for a recommendation. Your site is built so those assistants can read it and point people to you.</div></li>
@@ -395,7 +407,8 @@ def home() -> None:
 <div class="row-btns" style="margin-top:24px"><a class="btn" href="/pricing/">Full prices and the savings calculator</a></div>
 </div></section>
 
-<section class="paper-2 band"><div class="wrap split">
+<section class="paper-2 band"><div class="wrap figsplit">
+<figure class="fig rv"><img src="/static/tw/scene/keys.jpg" alt="A hand setting a set of keys down on a wooden counter" width="1800" height="1200" loading="lazy" decoding="async"></figure>
 <div><span class="kicker">Owned, not rented</span><h2 style="max-width:12ch">Yours. Not ours.</h2></div>
 <div class="body"><p>Your website, your domain and your customer list belong to you. We host it and keep it running. If you ever leave, they go with you.</p>
 <p class="small">The plans have a 12-month minimum, then run month to month.</p></div>

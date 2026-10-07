@@ -431,3 +431,61 @@ a.case-shot:hover img { transform: scale(1.03); }
   color: var(--ink); letter-spacing: -.02em; }
 .proofstrip .pt-more:hover { background: #ffc92b; }
 @media (max-width: 780px) { .proofstrip { grid-template-columns: repeat(3, 1fr); } }
+
+/* ================= facelift 2: texture, depth, rhythm ================= */
+/* Print grain over everything. Cheap, and it is most of why the paper reads
+   as paper rather than as #f4f0e6. */
+:root { --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E"); }
+body::after { content: ""; position: fixed; inset: 0; z-index: 900; pointer-events: none;
+  opacity: .055; background-image: var(--grain); mix-blend-mode: multiply; }
+@media (prefers-reduced-motion: no-preference) { body::after { will-change: auto; } }
+
+/* Dark sections stop being flat rectangles */
+.dark { position: relative; isolation: isolate; }
+.dark::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(120% 90% at 18% 0%, rgba(242,183,5,.09), transparent 62%),
+    radial-gradient(100% 80% at 100% 100%, rgba(255,255,255,.05), transparent 60%); }
+
+/* The receipt is the best idea on the page. Treat it like an object. */
+.receipt { background: #fffdf7; transform: rotate(-.85deg); transform-origin: 60% 0;
+  box-shadow: 0 1px 0 var(--line), 0 2px 1px rgba(22,21,15,.05),
+              0 26px 50px -28px rgba(22,21,15,.55); }
+.receipt::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  opacity: .5; background-image: var(--grain); mix-blend-mode: multiply; }
+.hero-grid .receipt { font-size: 14.5px; padding: 30px 30px 38px; }
+.hero-grid .receipt h4 { font-size: 12px; letter-spacing: .16em; margin-bottom: 18px;
+  padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+@media (max-width: 880px) { .receipt { transform: none; } }
+
+/* A photographic band: imagery with a flat scrim, the same device as the film
+   band, which is the best-looking section on the page. */
+.photoband { position: relative; isolation: isolate; overflow: hidden;
+  background: var(--ink); color: var(--on-dark); border-top: 2px solid var(--ink); }
+.photoband > img { position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: -2; opacity: .66; }
+.photoband::before { content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(92deg, rgba(22,21,15,.90) 0%, rgba(22,21,15,.76) 46%, rgba(22,21,15,.40) 100%); }
+.photoband .wrap { position: relative; padding-top: clamp(56px,7vw,104px);
+  padding-bottom: clamp(56px,7vw,104px); }
+.photoband .kicker, .photoband .small { color: var(--on-dark-mute); }
+.photoband .mark { color: var(--ink); }
+
+/* the hero stands on a street, faintly, under the paper */
+.hero.with-strip { position: relative; isolation: isolate; overflow: hidden; }
+.hero.with-strip::before { content: ""; position: absolute; inset: 0; z-index: -2;
+  background: url("/static/tw/scene/highstreet.jpg") center 30%/cover no-repeat; opacity: .30; }
+.hero.with-strip::after { content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(94deg, var(--paper) 0%, rgba(244,240,230,.94) 32%,
+    rgba(244,240,230,.60) 70%, rgba(244,240,230,.90) 100%); }
+
+/* a picture beside the words: the one section that is not a two-column of text */
+.figsplit { display: grid; grid-template-columns: .9fr 1.1fr;
+  gap: clamp(14px, 2vw, 24px) clamp(26px, 5vw, 66px); align-items: center; }
+.figsplit .fig { margin: 0; grid-column: 1; grid-row: 1 / span 2; align-self: stretch; }
+.figsplit > div { grid-column: 2; }
+.figsplit .fig img { height: 100%; }
+.figsplit .fig img { display: block; width: 100%; height: auto; min-height: 100%; aspect-ratio: 4/3;
+  object-fit: cover; border: 2px solid var(--ink); }
+@media (max-width: 880px) { .figsplit { grid-template-columns: 1fr; }
+  .figsplit .fig, .figsplit > div { grid-column: 1; grid-row: auto; } }

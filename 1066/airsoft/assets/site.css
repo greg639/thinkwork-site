@@ -680,3 +680,11 @@ h1{letter-spacing:-.005em}
 .hero::after{background:
   linear-gradient(90deg,var(--bg) 0%,rgba(17,21,28,.92) 28%,rgba(17,21,28,.52) 62%,rgba(17,21,28,.2) 100%),
   radial-gradient(130% 90% at 50% 45%,transparent 45%,rgba(10,13,18,.5) 100%)}
+
+/* ---- build credit ------------------------------------------------------- */
+/* Quieter than the "Designed by Elegant Themes | Powered by WordPress" the old
+   site carried. Brand anchor text on purpose: a keyword anchor repeated across
+   every client site is the pattern Google treats as a link scheme, and that
+   would put the client's rankings at risk to buy us very little. */
+.legal .credit a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--rule)}
+.legal .credit a:hover{color:var(--accent-deep);border-bottom-color:var(--accent)}

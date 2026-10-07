@@ -106,7 +106,7 @@
   </div>
 </section>
 
-<section class="nextup" data-dates='["10 January", "24 January", "7 February", "21 February", "7 March", "21 March", "4 April", "18 April", "2 May", "16 May", "30 May", "13 June", "27 June", "11 July", "25 July", "8 August", "22 August", "5 September", "19 September", "3 October", "17 October", "31 October", "14 November", "28 November", "12 December"]'>
+<section class="nextup" data-dates='["2026-01-10", "2026-01-24", "2026-02-07", "2026-02-21", "2026-03-07", "2026-03-21", "2026-04-04", "2026-04-18", "2026-05-02", "2026-05-16", "2026-05-30", "2026-06-13", "2026-06-27", "2026-07-11", "2026-07-25", "2026-08-08", "2026-08-22", "2026-09-05", "2026-09-19", "2026-10-03", "2026-10-17", "2026-10-31", "2026-11-14", "2026-11-28", "2026-12-12"]'>
   <div class="wrap">
     <p class="eyebrow">Next session</p>
     <h2 id="nextDate">See the full session calendar</h2>
@@ -257,29 +257,27 @@
 
 
 <script>
-/* The next game day, worked out in the visitor's browser from the published
-   list, so the home page is never showing a date that has already gone. The
-   dates live on the section as data, and the fallback text in the markup is
-   what a visitor with no JavaScript sees. */
+/* The next game day, chosen in the visitor's browser from the published list,
+   so the page can never show a date that has gone. Dates are full ISO, because
+   an earlier version assumed the year was 2026 and would have gone quietly
+   blank on 1 January 2027. The markup's own text is the no-JavaScript case. */
 (function(){
   var el = document.querySelector('.nextup'); if(!el) return;
   var dates; try { dates = JSON.parse(el.dataset.dates||'[]'); } catch(e){ return; }
-  var year = 2026, now = new Date(); now.setHours(0,0,0,0);
-  var months = ['January','February','March','April','May','June','July',
-                'August','September','October','November','December'];
+  var now = new Date(); now.setHours(0,0,0,0);
   for (var i=0;i<dates.length;i++){
-    var bits = dates[i].split(' '), d = parseInt(bits[0],10), m = months.indexOf(bits[1]);
-    if (m < 0) continue;
-    var when = new Date(year, m, d);
-    if (when >= now){
-      var days = Math.round((when-now)/86400000);
-      document.getElementById('nextDate').textContent =
-        when.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
-      document.getElementById('nextMeta').textContent =
-        days === 0 ? 'Today.' : days === 1 ? 'Tomorrow.' : 'In ' + days + ' days.';
-      return;
-    }
+    var when = new Date(dates[i]+'T00:00:00');
+    if (isNaN(when) || when < now) continue;
+    var days = Math.round((when-now)/86400000);
+    document.getElementById('nextDate').textContent =
+      when.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+    document.getElementById('nextMeta').textContent =
+      days === 0 ? 'Today.' : days === 1 ? 'Tomorrow.' : 'In ' + days + ' days.';
+    return;
   }
+  /* Out of dates. Say so plainly rather than showing a stale one. */
+  document.getElementById('nextMeta').textContent =
+    'Call us for the next available date.';
 })();
 </script>
 </body>

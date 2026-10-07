@@ -409,3 +409,25 @@ a.case-shot:hover img { transform: scale(1.03); }
 /* the marker pen cleared the descenders it used to cut through */
 .mark { background: linear-gradient(transparent 52%, var(--accent) 52%, var(--accent) 96%, transparent 96%);
   padding: 0 .06em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+
+/* ---------- proof strip: the unasked builds, actually clickable ---------- */
+.proofstrip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 2px;
+  margin-top: clamp(26px, 4vw, 40px); background: var(--ink);
+  border: 2px solid var(--ink); }
+.proofstrip .pt { position: relative; display: block; overflow: hidden;
+  text-decoration: none; background: var(--ink); }
+.proofstrip .pt img { display: block; width: 100%; height: auto; aspect-ratio: 900/579;
+  object-fit: cover; object-position: top center;
+  transition: transform 600ms var(--ease-out), opacity 200ms linear; }
+.proofstrip .pt:hover img { transform: scale(1.06); opacity: .82; }
+.proofstrip .pt > span { position: absolute; inset: auto 0 0 0; padding: 9px 10px;
+  font: 700 10px var(--mono); letter-spacing: .07em; text-transform: uppercase;
+  color: var(--on-dark); background: linear-gradient(0deg, rgba(22,21,15,.92), rgba(22,21,15,0)); }
+.proofstrip .pt-more { display: grid; align-content: center; justify-items: center;
+  gap: 4px; aspect-ratio: 900/579; background: var(--accent); padding: 10px; text-align: center; }
+.proofstrip .pt-more > span { position: static; background: none; padding: 0;
+  color: var(--accent-ink); }
+.proofstrip .pt-more .pt-n { font: 700 clamp(26px, 3vw, 40px)/1 var(--display);
+  color: var(--ink); letter-spacing: -.02em; }
+.proofstrip .pt-more:hover { background: #ffc92b; }
+@media (max-width: 780px) { .proofstrip { grid-template-columns: repeat(3, 1fr); } }

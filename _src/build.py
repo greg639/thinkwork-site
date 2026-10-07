@@ -93,7 +93,7 @@ IDEAS = [
 PLANS = [
     {
         "key": "starter", "name": "Starter", "price": 35,
-        "replaces": "Wix, Squarespace or WordPress, and whoever fixes it when it breaks.",
+        "replaces": ["Wix, Squarespace or WordPress", "Whoever fixes it when it breaks"],
         "includes": ["A website that works on phones and is easy to buy from",
                      "Hosting, security and updates",
                      "Edits when you need them",
@@ -101,7 +101,7 @@ PLANS = [
     },
     {
         "key": "growth", "name": "Growth", "price": 99, "pick": True,
-        "replaces": "Starter, plus the booking app, the membership app and the pre-order add-on.",
+        "replaces": ["Everything Starter replaces", "The booking app", "The membership app", "The pre-order add-on"],
         "includes": ["Everything in Starter",
                      "Bookings",
                      "Memberships and subscriptions",
@@ -112,7 +112,7 @@ PLANS = [
     },
     {
         "key": "premium", "name": "Premium", "price": 199,
-        "replaces": "Growth, plus the chat tool, the copywriter and the software you'd otherwise have made.",
+        "replaces": ["Everything Growth replaces", "The chat tool", "The copywriter", "Software you'd have had made"],
         "includes": ["Everything in Growth",
                      "Work to get you found by AI assistants",
                      "New articles for your site every month",
@@ -254,13 +254,14 @@ def ledger() -> str:
     rows = []
     for p in PLANS:
         inc = "".join(f"<li>{esc(x)}</li>" for x in p["includes"])
-        tag = '<span class="tag">Where we\'d start</span>' if p.get("pick") else ""
+        out = "".join(f"<li>{esc(x)}</li>" for x in p["replaces"])
+        tag = '<span class="stamp">Where we\'d start</span>' if p.get("pick") else ""
         rows.append(
             f'<tr{PICK if p.get("pick") else ""} id="{p["key"]}">'
             f'<td><span class="plan-name">{p["name"]}</span>{tag}</td>'
             f'<td data-h="Monthly"><span class="from">From</span><span class="price">&pound;{p["price"]}<small> / month</small></span></td>'
             f'<td data-h="What you get"><ul>{inc}</ul></td>'
-            f'<td data-h="Replaces" class="replaces">{esc(p["replaces"])}</td></tr>')
+            f'<td data-h="Replaces" class="replaces"><ul class="struck">{out}</ul></td></tr>')
     return ('<table class="ledger"><thead><tr><th>Plan</th><th>Monthly</th><th>What you get</th><th>Replaces</th></tr></thead>'
             f'<tbody>{"".join(rows)}</tbody></table>')
 
@@ -769,7 +770,7 @@ def llms_txt() -> None:
         "",
     ]
     for p in PLANS:
-        lines.append(f"- {p['name']}: from £{p['price']}/month. {'; '.join(p['includes'])}. Replaces: {p['replaces']}")
+        lines.append(f"- {p['name']}: from £{p['price']}/month. {'; '.join(p['includes'])}. Replaces: {'; '.join(p['replaces'])}")
     lines += [
         f"- Setup: £{SETUP} one-off, due on launch day with the first month. Nothing is paid before launch.",
         f"- No-BS Advisory: £{ADVISORY}/month add-on to any plan. One hour a month with Greg McCallum. Clients only.",

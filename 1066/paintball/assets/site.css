@@ -510,7 +510,7 @@ h2{line-height:1.1;text-transform:uppercase}
    no usable photographs here, so the second column was simply empty: half the
    opening screen, dead. One column, with the drawn field carrying the rest. */
 .hero .wrap{grid-template-columns:minmax(0,1fr);gap:0;padding-block:84px 72px}
-.hero .wrap > div{max-width:46rem}
+.hero .wrap > div{max-width:54rem}
 .hero-art img{opacity:.92}
 /* Let the treeline read on the right instead of washing it out. Dark enough
    over the text to keep --fg at its measured 15.6:1, clear on the right. */
@@ -528,49 +528,6 @@ h2{line-height:1.1;text-transform:uppercase}
    right of the frame, where the gradient is clearest and the subject sits. */
 .hero-art img{opacity:1;filter:brightness(.82) saturate(1.05);object-position:62% 42%}
 @media (max-width:900px){.hero-art img{object-position:60% 38%}}
-
-/* ---- outstanding facts -------------------------------------------------- */
-/* Every figure we have not been given is marked rather than invented, because
-   invented prices and zone names had to be stripped from this project once
-   already. These are visible on purpose: they are the list of what the owner
-   still owes us, and none of them survives go-live. */
-.todo{display:inline-block;font-family:var(--sans);font-size:.78em;font-weight:600;
-      letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;
-      color:var(--accent-deep);background:var(--accent-soft);
-      border:1px dashed var(--accent);border-radius:999px;padding:1px 10px;
-      vertical-align:baseline}
-
-/* ---- 1066 overrides ----------------------------------------------------- */
-/* Their own site runs a red phone and email bar across the top. The inherited
-   rule painted it with --fg, which on a dark ground is near-white: a bright
-   strip above a black site. */
-.utility{background:var(--accent);color:var(--on-accent)}
-.utility a{color:var(--on-accent)}
-
-/* The inherited hero is a two-column grid built for a photo collage. There are
-   no usable photographs here, so the second column was simply empty: half the
-   opening screen, dead. One column, with the drawn field carrying the rest. */
-.hero .wrap{grid-template-columns:minmax(0,1fr);gap:0;padding-block:84px 72px}
-.hero .wrap > div{max-width:46rem}
-.hero-art img{opacity:.92}
-/* Let the treeline read on the right instead of washing it out. Dark enough
-   over the text to keep --fg at its measured 15.6:1, clear on the right. */
-.hero::after{background:
-  linear-gradient(90deg,var(--bg) 0%,rgba(17,21,28,.92) 28%,rgba(17,21,28,.55) 62%,rgba(17,21,28,.18) 100%)}
-@media (max-width:900px){
-  .hero .wrap{padding-block:56px 52px}
-  .hero::after{background:linear-gradient(180deg,rgba(17,21,28,.42) 0%,rgba(17,21,28,.88) 46%,var(--bg) 92%)}
-}
-
-/* The drawn field is built from #12171f, #0c1016, #070a0e and #04060a: four
-   near-blacks that separate beautifully on their own white-backed canvas and
-   vanish completely over our #11151C ground. Lifting it here rather than
-   editing the SVG keeps the artwork reusable, and brings up the red dusk glow
-   that is already inside it. object-position holds the treeline and horizon in
-   frame when a wide, short hero crops a 16:9 drawing. */
-.hero-art img{opacity:1;filter:brightness(2.35) contrast(1.22) saturate(1.35);
-              object-position:50% 46%}
-@media (max-width:900px){.hero-art img{object-position:62% 48%}}
 
 /* ---- the call to action ------------------------------------------------- */
 /* The inherited rule painted this with --fg, which on a dark ground is a white
@@ -682,3 +639,44 @@ h2{line-height:1.1;text-transform:uppercase}
   .hero-art img{animation:heroPush 26s ease-out both}
 }
 @keyframes heroPush{from{transform:scale(1.001)}to{transform:scale(1.07)}}
+
+/* ---- photo grade -------------------------------------------------------- */
+/* Their pictures span 2016 to 2023 on different phones, so exposure and colour
+   wander from frame to frame and the page reads as assembled rather than
+   designed. One grade across every photograph pulls them together: a little
+   contrast, a little desaturation towards the brand's near-black, and a touch
+   off the highlights so nothing glares against a dark ground. The hero keeps
+   its own treatment because it sits under a gradient. */
+.card > img,.split img,.gallery img{
+  filter:contrast(1.07) saturate(.9) brightness(.94);
+  transition:filter .3s ease,transform .3s ease}
+.card:hover > img,.gallery figure:hover img{filter:contrast(1.04) saturate(1) brightness(1)}
+.gallery figure{overflow:hidden;border-radius:14px}
+.gallery figure:hover img{transform:scale(1.04)}
+
+/* ---- finish ------------------------------------------------------------- */
+/* A red button on a near-black page does not need a glow to be found. The
+   inherited shadow was doing too much; this keeps the lift and drops the halo. */
+.btn-primary{box-shadow:0 1px 2px rgba(0,0,0,.4),0 8px 20px -10px rgba(221,51,51,.55)}
+.btn-primary:hover{box-shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px -10px rgba(221,51,51,.75);
+                   transform:translateY(-1px)}
+.btn{transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,color .18s ease}
+
+/* A hairline of brand colour on hover, so a card feels like a thing you can
+   press without having to animate the whole page. */
+.card{position:relative}
+.card::before{content:"";position:absolute;inset:0 0 auto;height:2px;
+  background:var(--accent);opacity:0;transition:opacity .25s ease}
+.card:hover::before{opacity:1}
+
+/* Bevan sets tight and wide. At display sizes the leading needs opening up and
+   the tracking pulling in, or the headline reads as a block of texture. */
+h1{letter-spacing:-.005em}
+.hero h1{font-size:clamp(2.5rem,4.9vw,3.9rem);line-height:1.04;max-width:16ch}
+.phero h1{font-size:clamp(2.2rem,4.4vw,3.4rem)}
+
+/* The opening gradient gets a vignette as well as the left-to-right wash, so
+   the frame holds the eye instead of leaking at the corners. */
+.hero::after{background:
+  linear-gradient(90deg,var(--bg) 0%,rgba(17,21,28,.92) 28%,rgba(17,21,28,.52) 62%,rgba(17,21,28,.2) 100%),
+  radial-gradient(130% 90% at 50% 45%,transparent 45%,rgba(10,13,18,.5) 100%)}

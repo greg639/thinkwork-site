@@ -274,9 +274,9 @@ ADDON = f"""<div class="addon">
 </div>"""
 
 TERMS = f"""<div class="terms">
-<div><b>&pound;{SETUP} setup, once</b>Design, build and launch.</div>
+<div><b>&pound;{SETUP} up front</b>Design, build and launch, paid before we start.</div>
 <div><b>12-month minimum</b>Then month to month.</div>
-<div><b>Pay on launch day</b>Setup and first month are due the day it goes live. Nothing before.</div>
+<div><b>Monthly starts at launch</b>Your plan begins the day your site goes live, not before.</div>
 <div><b>Yours to keep</b>Your site, your domain, your customer list.</div>
 </div>"""
 
@@ -383,8 +383,8 @@ def home() -> None:
 <h2 style="max-width:16ch;margin-bottom:36px">From a chat to money coming in.</h2>
 <div class="docket">
 <div class="docket-row"><span class="when">Step one</span><h3>Talk it through</h3><p>We learn how your business makes money now, and pick the idea that fits. Free, and no pressure.</p></div>
-<div class="docket-row"><span class="when">Step two</span><h3>We build it</h3><p>Your website and the system behind it, built for you. You check everything before it goes live.</p></div>
-<div class="docket-row"><span class="when">Launch day</span><h3>It goes live</h3><p>You pay the setup and first month the same day. Not a penny before.</p></div>
+<div class="docket-row"><span class="when">Step two</span><h3>We build it</h3><p>The &pound;650 build fee is paid up front, and we get to work. You check everything before it goes live.</p></div>
+<div class="docket-row"><span class="when">Launch day</span><h3>It goes live</h3><p>Your monthly plan starts the day it goes live, not a day before.</p></div>
 <div class="docket-row"><span class="when">Every month</span><h3>We keep it running</h3><p>Hosting, fixes and edits are covered. You see what's coming in, and we tell you what to try next.</p></div>
 </div>
 </div></section>
@@ -498,9 +498,9 @@ def pricing() -> None:
 <p class="lead">Three plans, one setup fee, and an advisory add-on if you want it.</p>
 <div class="hero-facts">
 <div><b>&pound;35</b><span>A month, to start</span></div>
-<div><b>&pound;650</b><span>Setup, once</span></div>
+<div><b>&pound;650</b><span>Up front, to build it</span></div>
 <div><b>12</b><span>Month minimum, then monthly</span></div>
-<div><b>&pound;0</b><span>Until the day it goes live</span></div>
+<div><b>At launch</b><span>When your monthly starts</span></div>
 </div>
 </div></section>
 
@@ -524,7 +524,7 @@ def pricing() -> None:
 {CTA_BAND}
 """
     page("/pricing/", "Prices | ThinkWork",
-         f"Starter from £35, Growth from £99, Premium from £199 a month. £{SETUP} setup, paid on launch day. Optional £{ADVISORY} a month advisory. Savings calculator included.",
+         f"Starter from £35, Growth from £99, Premium from £199 a month. £{SETUP} build fee paid up front, then monthly from the day it goes live. Optional £{ADVISORY} a month advisory. Savings calculator included.",
          body, [faq_ld, offers])
 
 
@@ -598,7 +598,7 @@ def work() -> None:
 <div><b>1</b><span>Live client site</span></div>
 <div><b>2</b><span>Builds launching</span></div>
 <div><b>13</b><span>Designs built unasked</span></div>
-<div><b>&pound;0</b><span>Paid before launch day</span></div>
+<div><b>Yours</b><span>Site, domain, customer list</span></div>
 </div>
 </div></section>
 
@@ -772,7 +772,7 @@ def llms_txt() -> None:
     for p in PLANS:
         lines.append(f"- {p['name']}: from £{p['price']}/month. {'; '.join(p['includes'])}. Replaces: {'; '.join(p['replaces'])}")
     lines += [
-        f"- Setup: £{SETUP} one-off, due on launch day with the first month. Nothing is paid before launch.",
+        f"- Build fee: £{SETUP} one-off, paid up front before the build starts. The monthly plan begins the day the site goes live.",
         f"- No-BS Advisory: £{ADVISORY}/month add-on to any plan. One hour a month with Greg McCallum. Clients only.",
         "- Ownership: the client owns their site, domain and customer list.",
         "",

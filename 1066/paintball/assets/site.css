@@ -596,3 +596,45 @@ h2{line-height:1.1;text-transform:uppercase}
    single phone photo pushes the card to three times the height of its sibling. */
 .card > img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
 .split img{aspect-ratio:4/5}
+
+/* ---- date list ---------------------------------------------------------- */
+/* Twenty five dates. A single column is a scroll; a grid reads as a calendar. */
+.datelist{list-style:none;margin:22px 0 0;padding:0;display:grid;
+          grid-template-columns:repeat(5,1fr);gap:10px}
+.datelist li{background:var(--card);border:1px solid var(--rule);border-radius:12px;
+             padding:12px 14px;font-size:.95rem}
+.datelist b{font-weight:600;color:var(--fg)}
+@media (max-width:1040px){.datelist{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:560px){.datelist{grid-template-columns:repeat(2,1fr);gap:8px}}
+
+/* ---- game modes and site rules ------------------------------------------ */
+.modes{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.mode{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:18px 20px}
+.mode b{display:block;font-family:var(--display);font-weight:400;font-size:1.02rem;
+        letter-spacing:.01em;margin-bottom:6px}
+.mode span{color:var(--muted);font-size:.95rem}
+@media (max-width:760px){.modes{grid-template-columns:1fr}}
+
+.rules{list-style:none;margin:0;padding:0;display:grid;
+       grid-template-columns:repeat(3,1fr);gap:12px;counter-reset:rule}
+.rules li{counter-increment:rule;background:var(--card);border:1px solid var(--rule);
+          border-radius:12px;padding:14px 16px;color:var(--muted);font-size:.95rem;
+          display:flex;gap:12px;align-items:flex-start}
+.rules li::before{content:counter(rule);font-family:var(--display);color:var(--accent);
+                  font-size:.9rem;flex:none;line-height:1.5}
+@media (max-width:900px){.rules{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.rules{grid-template-columns:1fr}}
+
+/* ---- price inside a card ------------------------------------------------ */
+.card .price{display:flex;align-items:baseline;gap:8px;margin:2px 0 10px}
+.card .price b{font-family:var(--display);font-weight:400;font-size:1.9rem;color:var(--accent-head)}
+.card .price span{color:var(--muted);font-size:.9rem}
+.infobox ul{margin:12px 0 0;padding-left:20px;color:var(--muted)}
+.infobox li{margin-bottom:6px}
+.infobox li b{color:var(--fg)}
+
+/* A page hero carries an eyebrow, a heading and one line. The inherited padding
+   was sized for a hero with a photograph in it and left a dead band under the
+   lede on every interior page. */
+.phero .wrap{padding-block:58px 50px}
+@media (max-width:760px){.phero .wrap{padding-block:40px 34px}}

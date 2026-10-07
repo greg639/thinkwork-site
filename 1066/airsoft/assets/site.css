@@ -638,3 +638,47 @@ h2{line-height:1.1;text-transform:uppercase}
    lede on every interior page. */
 .phero .wrap{padding-block:58px 50px}
 @media (max-width:760px){.phero .wrap{padding-block:40px 34px}}
+
+/* ---- stats strip -------------------------------------------------------- */
+/* Five verified numbers directly under the hero. Every one of them is from
+   their own site, which is the point: it is the fastest way for a visitor to
+   see what a day costs and who it is for. */
+.statstrip{background:var(--surface-2);border-block:1px solid var(--rule)}
+.statstrip .wrap{display:grid;grid-template-columns:repeat(5,1fr);gap:0;padding-block:0}
+.stat{padding:26px 20px;text-align:center;border-left:1px solid var(--rule)}
+.stat:first-child{border-left:0}
+.stat b{display:block;font-family:var(--display);font-weight:400;font-size:2rem;
+        line-height:1;color:var(--accent-head)}
+.stat span{display:block;margin-top:8px;font-size:.84rem;letter-spacing:.06em;
+           text-transform:uppercase;color:var(--muted)}
+@media (max-width:900px){
+  .statstrip .wrap{grid-template-columns:repeat(2,1fr)}
+  .stat{border-top:1px solid var(--rule);padding:20px 14px}
+  .stat:nth-child(odd){border-left:0}
+  .stat b{font-size:1.6rem}
+  .stat:last-child{grid-column:1/-1}
+}
+
+/* ---- next date ---------------------------------------------------------- */
+.nextup{border-bottom:1px solid var(--rule)}
+.nextup .wrap{padding-block:54px;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.nextup h2{margin:0;color:var(--fg)}
+.nextup .lede{margin:0;color:var(--muted)}
+
+/* ---- full bleed photo band ---------------------------------------------- */
+.photoband{position:relative;height:clamp(220px,30vw,380px);overflow:hidden;
+           border-block:1px solid var(--rule)}
+.photoband img{width:100%;height:100%;object-fit:cover;object-position:50% 46%;
+               filter:brightness(.72) saturate(1.05)}
+.photoband::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(17,21,28,.55),rgba(17,21,28,.15) 40%,rgba(17,21,28,.75))}
+
+.doclinks{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:14px}
+
+/* ---- hero motion -------------------------------------------------------- */
+/* A very slow push on the opening photograph. Enough that the screen is not
+   dead on arrival, slow enough that nobody watching it notices it move. */
+@media (prefers-reduced-motion:no-preference){
+  .hero-art img{animation:heroPush 26s ease-out both}
+}
+@keyframes heroPush{from{transform:scale(1.001)}to{transform:scale(1.07)}}

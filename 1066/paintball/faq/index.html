@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bevan&family=Barlow+Semi+Condensed:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="/1066/paintball/assets/site.css?v=d097995f">
+<link rel="stylesheet" href="/1066/paintball/assets/site.css?v=f92b213d">
 <script type="application/ld+json">
 {
  "@context":"https://schema.org",
@@ -171,5 +171,32 @@
   </div>
 </footer>
 
+
+<script>
+/* The next game day, worked out in the visitor's browser from the published
+   list, so the home page is never showing a date that has already gone. The
+   dates live on the section as data, and the fallback text in the markup is
+   what a visitor with no JavaScript sees. */
+(function(){
+  var el = document.querySelector('.nextup'); if(!el) return;
+  var dates; try { dates = JSON.parse(el.dataset.dates||'[]'); } catch(e){ return; }
+  var year = 2026, now = new Date(); now.setHours(0,0,0,0);
+  var months = ['January','February','March','April','May','June','July',
+                'August','September','October','November','December'];
+  for (var i=0;i<dates.length;i++){
+    var bits = dates[i].split(' '), d = parseInt(bits[0],10), m = months.indexOf(bits[1]);
+    if (m < 0) continue;
+    var when = new Date(year, m, d);
+    if (when >= now){
+      var days = Math.round((when-now)/86400000);
+      document.getElementById('nextDate').textContent =
+        when.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+      document.getElementById('nextMeta').textContent =
+        days === 0 ? 'Today.' : days === 1 ? 'Tomorrow.' : 'In ' + days + ' days.';
+      return;
+    }
+  }
+})();
+</script>
 </body>
 </html>

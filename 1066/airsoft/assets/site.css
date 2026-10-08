@@ -688,3 +688,26 @@ h1{letter-spacing:-.005em}
    would put the client's rankings at risk to buy us very little. */
 .legal .credit a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--rule)}
 .legal .credit a:hover{color:var(--accent-deep);border-bottom-color:var(--accent)}
+
+/* ---- touch targets ------------------------------------------------------ */
+/* Measured at 390px: the phone number and email in the utility bar and footer
+   were 18 to 20px tall. On a phone the phone number is the primary action on
+   the whole site, and a 20px target is a miss waiting to happen. Padding only,
+   so nothing moves on desktop where a cursor is precise. */
+@media (max-width:760px){
+  .utility .wrap{gap:2px 18px;padding-block:4px}
+  .utility a{display:inline-flex;align-items:center;min-height:34px;padding:0 2px}
+  footer.site address a,
+  footer.site .more,
+  .legal .credit a,
+  /* every phone and email link, wherever it sits. These are the two actions a
+     visitor on a phone is most likely to want, and they were the two smallest
+     targets on the site. */
+  a[href^="tel:"],
+  a[href^="mailto:"]{display:inline-flex;align-items:center;min-height:34px}
+  .faq summary{padding-block:16px}
+}
+/* The brand sub-line measured 12px, which is below where small type stays
+   comfortable on a phone. */
+.brand span span{font-size:.82rem}
+@media (max-width:760px){.brand span span{font-size:.8rem}}

@@ -5,7 +5,7 @@ Plain static HTML for GitHub Pages: fast, readable by AI assistants, no build
 chain to break. Shared header, footer and head live here once so pages cannot
 drift. Run from anywhere:  python3 _src/build.py
 
-The airsoft page is a separate property on purpose (its own look, no links to
+The airsoft page keeps its own look, but /work/ now links into its gallery (no links to
 or from the main site), so it is built from _src/airsoft.html, not from the
 shared layout.
 """
@@ -18,7 +18,18 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://thinkwork.info"
 API = "https://app.peerlab.ai"
-CSS_V = "2"
+def _asset_v() -> str:
+    """Cache-buster derived from the asset bytes, so it can never go stale."""
+    import hashlib, pathlib
+    h = hashlib.md5()
+    for rel in ("static/tw/site.css", "static/tw/site.js", "static/tw/book.js"):
+        f = pathlib.Path(__file__).resolve().parent.parent / rel
+        if f.exists():
+            h.update(f.read_bytes())
+    return h.hexdigest()[:8]
+
+
+CSS_V = _asset_v()
 
 FONTS = ("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900"
          "&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap")
@@ -82,7 +93,7 @@ IDEAS = [
 PLANS = [
     {
         "key": "starter", "name": "Starter", "price": 35,
-        "replaces": "Wix, Squarespace or WordPress, and whoever fixes it when it breaks.",
+        "replaces": ["Wix, Squarespace or WordPress", "Whoever fixes it when it breaks"],
         "includes": ["A website that works on phones and is easy to buy from",
                      "Hosting, security and updates",
                      "Edits when you need them",
@@ -90,7 +101,7 @@ PLANS = [
     },
     {
         "key": "growth", "name": "Growth", "price": 99, "pick": True,
-        "replaces": "Starter, plus the booking app, the membership app and the pre-order add-on.",
+        "replaces": ["Everything Starter replaces", "The booking app", "The membership app", "The pre-order add-on"],
         "includes": ["Everything in Starter",
                      "Bookings",
                      "Memberships and subscriptions",
@@ -101,7 +112,7 @@ PLANS = [
     },
     {
         "key": "premium", "name": "Premium", "price": 199,
-        "replaces": "Growth, plus the chat tool, the copywriter and the software you'd otherwise have made.",
+        "replaces": ["Everything Growth replaces", "The chat tool", "The copywriter", "Software you'd have had made"],
         "includes": ["Everything in Growth",
                      "Work to get you found by AI assistants",
                      "New articles for your site every month",
@@ -135,7 +146,7 @@ ORG = {
     "logo": SITE + "/static/tw/og-thinkwork.png",
     "image": SITE + "/static/tw/og-thinkwork.png",
     "email": "greg@thinkwork.info",
-    "description": ("ThinkWork builds local businesses one owned system: website, bookings, "
+    "description": ("ThinkWork builds local businesses bespoke websites and software: the site, "
                     "memberships, subscriptions and pre-orders, picked with the owner to bring "
                     "in more money, for less than the separate apps it replaces."),
     "areaServed": {"@type": "Country", "name": "United Kingdom"},
@@ -171,6 +182,7 @@ def head(title: str, desc: str, path: str, extra_ld: list | None = None) -> str:
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{FONTS}">
 <link rel="stylesheet" href="/static/tw/site.css?v={CSS_V}">
+<noscript><style>.rv{{opacity:1!important;transform:none!important}}</style></noscript>
 {"".join(jsonld(b) for b in blocks)}
 </head>
 <body>
@@ -190,7 +202,7 @@ def header(path: str) -> str:
 """
 
 
-FOOTER = """</main>
+FOOTER = f"""</main>
 <footer class="site-foot"><div class="wrap">
 <div class="cols">
 <div><a class="brand" href="/"><i aria-hidden="true"></i>ThinkWork</a>
@@ -200,7 +212,7 @@ FOOTER = """</main>
 </div>
 <div class="legal">&copy; 2026 ThinkWork. Prices exclude VAT where it applies.</div>
 </div></footer>
-<script src="/static/tw/site.js?v=2" defer></script>
+<script src="/static/tw/site.js?v={CSS_V}" defer></script>
 </body>
 </html>
 """
@@ -216,6 +228,9 @@ def page(path: str, title: str, desc: str, body: str, extra_ld: list | None = No
 # shared blocks
 # ---------------------------------------------------------------------------
 
+TRADE_ALT = {'butcher': 'A butcher trimming a cut of beef on a wooden block', 'bakery': 'Floury hands shaping a round of bread dough', 'garage': 'A mechanic fitting a torque wrench to an alloy wheel', 'trades': 'An engineer tightening a brass fitting on copper pipework', 'studio': 'Chalked hands gripping a cast-iron kettlebell', 'clinic': 'Folded white towels at the end of a treatment couch', 'florist': 'Hands wrapping cut stems in brown kraft paper', 'venue': 'Hands clipping a carabiner onto a climbing harness'}
+
+
 def picker(cta: bool = True) -> str:
     tabs, panels = [], []
     for i, (key, label, ideas) in enumerate(IDEAS):
@@ -227,8 +242,10 @@ def picker(cta: bool = True) -> str:
             for n, d in ideas)
         foot = (f'<div class="picker-foot"><p>Starting points, not a menu. We pick the one that fits you when we talk it through.</p>'
                 f'<a class="btn" href="/book/?type={key}#quote">Talk it through, free</a></div>') if cta else ""
+        shot = (f'<figure class="pp-shot"><img src="/static/tw/trade/{key}.jpg" alt="{esc(TRADE_ALT[key])}"'
+                f' width="1200" height="800" loading="lazy" decoding="async"></figure>')
         panels.append(f'<div class="picker-panel" role="tabpanel" id="p-{key}" aria-labelledby="t-{key}"{"" if sel else " hidden"}>'
-                      f'<h3>{esc(label)}</h3>{rows}{foot}</div>')
+                      f'<div class="pp-body"><h3>{esc(label)}</h3>{rows}</div>{shot}{foot}</div>')
     return (f'<div class="picker" data-picker><div class="picker-list" role="tablist" aria-label="Type of business">'
             f'{"".join(tabs)}</div><div>{"".join(panels)}</div></div>')
 
@@ -237,13 +254,14 @@ def ledger() -> str:
     rows = []
     for p in PLANS:
         inc = "".join(f"<li>{esc(x)}</li>" for x in p["includes"])
-        tag = '<span class="tag">Where we\'d start</span>' if p.get("pick") else ""
+        out = "".join(f"<li>{esc(x)}</li>" for x in p["replaces"])
+        tag = '<span class="stamp">Where we\'d start</span>' if p.get("pick") else ""
         rows.append(
             f'<tr{PICK if p.get("pick") else ""} id="{p["key"]}">'
             f'<td><span class="plan-name">{p["name"]}</span>{tag}</td>'
             f'<td data-h="Monthly"><span class="from">From</span><span class="price">&pound;{p["price"]}<small> / month</small></span></td>'
             f'<td data-h="What you get"><ul>{inc}</ul></td>'
-            f'<td data-h="Replaces" class="replaces">{esc(p["replaces"])}</td></tr>')
+            f'<td data-h="Replaces" class="replaces"><ul class="struck">{out}</ul></td></tr>')
     return ('<table class="ledger"><thead><tr><th>Plan</th><th>Monthly</th><th>What you get</th><th>Replaces</th></tr></thead>'
             f'<tbody>{"".join(rows)}</tbody></table>')
 
@@ -256,13 +274,13 @@ ADDON = f"""<div class="addon">
 </div>"""
 
 TERMS = f"""<div class="terms">
-<div><b>&pound;{SETUP} setup, once</b>Design, build and launch.</div>
+<div><b>&pound;{SETUP} up front</b>Design, build and launch, paid before we start.</div>
 <div><b>12-month minimum</b>Then month to month.</div>
-<div><b>Pay on launch day</b>Setup and first month are due the day it goes live. Nothing before.</div>
+<div><b>Monthly starts at launch</b>Your plan begins the day your site goes live, not before.</div>
 <div><b>Yours to keep</b>Your site, your domain, your customer list.</div>
 </div>"""
 
-CTA_BAND = """<section class="dark band"><div class="wrap cta-band">
+CTA_BAND = """<section class="photoband"><img src="/static/tw/scene/chat.jpg" alt="Two people talking across a shop counter" width="1800" height="1013" loading="lazy" decoding="async"><div class="wrap cta-band">
 <span class="kicker">Next step</span>
 <h2>Find out what your business could be earning.</h2>
 <p>Tell us what you run and what you pay for now. We'll come back with an idea and a price.</p>
@@ -313,11 +331,11 @@ def calculator() -> str:
 
 def home() -> None:
     body = f"""
-<section class="hero"><div class="wrap hero-grid">
+<section class="hero with-strip"><div class="wrap hero-grid">
 <div class="rv">
-<span class="kicker">Websites and money-making systems for local businesses</span>
+<span class="kicker">Bespoke websites and software for local businesses</span>
 <h1>Stop renting your website. <span class="mark">Make it earn.</span></h1>
-<p class="lead">One system for your business: website, bookings, memberships, pre-orders. Picked with you, built for you, owned by you. For less than the apps you pay for now.</p>
+<p class="lead">Every build is different, because every business is. A website people find and buy from, plus whatever sits behind it: booking, memberships, or software nobody sells off the shelf. Picked with you, built for you, owned by you.</p>
 <div class="row-btns"><a class="btn hi" href="/book/#quote">Get a free build quote</a><a class="btn ghost" href="/pricing/">See prices</a></div>
 <p class="hero-note">Built by a commercial operator, not a web agency.</p>
 </div>
@@ -333,10 +351,12 @@ def home() -> None:
 <div class="ln tot"><span>One ThinkWork plan</span><span>from &pound;35/mo</span></div>
 <div class="foot">Work out yours on the <a href="/pricing/#calculator">prices page</a></div>
 </div>
-</div></section>
+</div>
+<div class="tradestrip" aria-label="The kinds of local business we build for"><figure><img src="/static/tw/trade/butcher.jpg" alt="A butcher trimming a cut of beef on a wooden block" width="1200" height="800" loading="lazy" decoding="async"><figcaption>Butchers &amp; delis</figcaption></figure><figure><img src="/static/tw/trade/bakery.jpg" alt="Floury hands shaping a round of bread dough" width="1200" height="800" loading="lazy" decoding="async"><figcaption>Bakeries &amp; cafes</figcaption></figure><figure><img src="/static/tw/trade/garage.jpg" alt="A mechanic fitting a torque wrench to an alloy wheel" width="1200" height="800" loading="lazy" decoding="async"><figcaption>Garages &amp; MOT</figcaption></figure><figure><img src="/static/tw/trade/trades.jpg" alt="An engineer tightening a brass fitting on copper pipework" width="1200" height="800" loading="lazy" decoding="async"><figcaption>Trades</figcaption></figure><figure><img src="/static/tw/trade/studio.jpg" alt="Chalked hands gripping a cast-iron kettlebell" width="1200" height="800" loading="lazy" decoding="async"><figcaption>Gyms &amp; studios</figcaption></figure><figure><img src="/static/tw/trade/florist.jpg" alt="Hands wrapping cut stems in brown kraft paper" width="1200" height="800" loading="lazy" decoding="async"><figcaption>Florists</figcaption></figure></div>
+</section>
 
-<section class="dark band"><div class="wrap split">
-<div><span class="kicker">Sound familiar?</span>
+<section class="photoband"><img src="/static/tw/scene/nightdesk.jpg" alt="A small business desk at night, piled with paperwork" width="1800" height="1013" loading="lazy" decoding="async"><div class="wrap split">
+<div class="rv"><span class="kicker">Sound familiar?</span>
 <p class="pull">A website, a booking app, something for emails. None of it talks to each other.</p></div>
 <div class="body">
 <p>And none of it brings in a penny you weren't getting already. It just sits there, costing you every month.</p>
@@ -351,19 +371,26 @@ def home() -> None:
 {picker()}
 </div></section>
 
+<section class="filmband" aria-label="A workbench at dawn">
+<video src="/static/tw/film/bench.mp4" poster="/static/tw/film/bench.jpg" muted loop playsinline preload="none" aria-hidden="true"></video>
+<div class="filmband-in"><div class="wrap">
+<p>Your trade is already good. <span class="mark">The system around it isn't.</span></p>
+</div></div>
+</section>
+
 <section class="paper-2 band"><div class="wrap">
 <span class="kicker">How it works</span>
 <h2 style="max-width:16ch;margin-bottom:36px">From a chat to money coming in.</h2>
 <div class="docket">
 <div class="docket-row"><span class="when">Step one</span><h3>Talk it through</h3><p>We learn how your business makes money now, and pick the idea that fits. Free, and no pressure.</p></div>
-<div class="docket-row"><span class="when">Step two</span><h3>We build it</h3><p>Your website and the system behind it, built for you. You check everything before it goes live.</p></div>
-<div class="docket-row"><span class="when">Launch day</span><h3>It goes live</h3><p>You pay the setup and first month the same day. Not a penny before.</p></div>
+<div class="docket-row"><span class="when">Step two</span><h3>We build it</h3><p>The &pound;650 build fee is paid up front, and we get to work. You check everything before it goes live.</p></div>
+<div class="docket-row"><span class="when">Launch day</span><h3>It goes live</h3><p>Your monthly plan starts the day it goes live, not a day before.</p></div>
 <div class="docket-row"><span class="when">Every month</span><h3>We keep it running</h3><p>Hosting, fixes and edits are covered. You see what's coming in, and we tell you what to try next.</p></div>
 </div>
 </div></section>
 
-<section class="dark band"><div class="wrap split">
-<div><span class="kicker">The AI part, in plain English</span>
+<section class="photoband"><img src="/static/tw/scene/phone.jpg" alt="A customer looking at their phone late in the evening" width="1800" height="1013" loading="lazy" decoding="async"><div class="wrap split">
+<div class="rv"><span class="kicker">The AI part, in plain English</span>
 <h2 style="max-width:12ch">People ask AI now. Make sure it knows you.</h2></div>
 <ul class="list-plain">
 <li><div><b>Found by AI.</b> More people ask ChatGPT or Google's AI for a recommendation. Your site is built so those assistants can read it and point people to you.</div></li>
@@ -381,7 +408,8 @@ def home() -> None:
 <div class="row-btns" style="margin-top:24px"><a class="btn" href="/pricing/">Full prices and the savings calculator</a></div>
 </div></section>
 
-<section class="paper-2 band"><div class="wrap split">
+<section class="paper-2 band"><div class="wrap figsplit">
+<figure class="fig rv"><img src="/static/tw/scene/keys.jpg" alt="A hand setting a set of keys down on a wooden counter" width="1800" height="1200" loading="lazy" decoding="async"></figure>
 <div><span class="kicker">Owned, not rented</span><h2 style="max-width:12ch">Yours. Not ours.</h2></div>
 <div class="body"><p>Your website, your domain and your customer list belong to you. We host it and keep it running. If you ever leave, they go with you.</p>
 <p class="small">The plans have a 12-month minimum, then run month to month.</p></div>
@@ -394,22 +422,22 @@ def home() -> None:
                 "description": "; ".join(p["includes"]), "url": f"{SITE}/pricing/#{p['key']}"}
                for p in PLANS]}
     page("/", "ThinkWork: websites that earn, for local businesses",
-         "One owned system for your business: website, bookings, memberships and pre-orders, picked with you to bring in more money. From £35 a month.",
+         "Bespoke websites and software for local businesses. Every build is designed for one business: yours, from the website to whatever has to sit behind it. Owned by you, from £35 a month.",
          body, [faq])
 
 
 def what_we_build() -> None:
     parts = [
-        ("The website", "Fast, works on phones, and easy to buy from. Designed around your business, not a template everyone else has.", "All plans"),
+        ("The website", "Designed for your business, not a template everyone else has. Fast, built mobile-first, easy to buy from, and built to be found by search engines and AI assistants alike.", "All plans"),
         ("Bookings", "Customers book and pay online, straight into your diary.", "Growth and Premium"),
         ("Memberships and subscriptions", "Monthly clubs, plans and boxes, taken and renewed automatically.", "Growth and Premium"),
         ("Pre-orders", "Big days and busy seasons sold weeks ahead, so you buy the right stock.", "Growth and Premium"),
         ("Rewards for bringing a friend", "Customers earn something for every new customer they send you. Tracked for you.", "Growth and Premium"),
         ("Your customer list", "Everyone who books, buys or joins, in one place you own.", "Growth and Premium"),
-        ("Found by AI", "Work to make sure AI assistants can read your business and recommend it.", "Premium, and every site is built AI-readable"),
+        ("Found by search and AI", "Ongoing work on how you rank and how you read: the search basics done properly, and your business written so AI assistants can understand and recommend it.", "Premium, and every site is built to be found"),
         ("Articles every month", "Written with AI, checked by a person, published for you.", "Premium"),
         ("AI chat assistant", "Answers questions and takes bookings on your site, day and night.", "Premium"),
-        ("Software for how you run", "Check-in, tracking, staff tablets. Whatever your business needs that no app does properly.", "Premium"),
+        ("Software built for you", "Front end, back end, or both. Check-in, tracking, staff tablets, an operator console, a tool that makes you money nobody else sells. If no app does it properly, we build it.", "Premium"),
     ]
     rows = "".join(
         f'<div class="docket-row"><span class="when">{esc(w)}</span><h3>{esc(t)}</h3><p>{esc(d)}</p></div>'
@@ -417,8 +445,14 @@ def what_we_build() -> None:
     body = f"""
 <section class="hero"><div class="wrap">
 <span class="kicker">What we build</span>
-<h1 style="max-width:14ch">Everything your business runs on. <span class="mark">In one place.</span></h1>
-<p class="lead">A website and the systems behind it. Built once for you, run by us, owned by you.</p>
+<h1 style="max-width:14ch">Built for you. <span class="mark">Not picked off a shelf.</span></h1>
+<p class="lead">We do not sell a fixed package. Below is the range we build from, so you can see what is possible. What you actually get is decided with you, and if the thing your business needs is not on this list, we can still build it.</p>
+<div class="hero-facts">
+<div><b>Bespoke</b><span>Every single build</span></div>
+<div><b>Mobile-first</b><span>As standard, not an extra</span></div>
+<div><b>Found</b><span>By search and by AI</span></div>
+<div><b>Yours</b><span>Site, domain, customer list</span></div>
+</div>
 </div></section>
 
 <section class="band" style="padding-top:48px"><div class="wrap">
@@ -440,7 +474,7 @@ def what_we_build() -> None:
 {CTA_BAND}
 """
     page("/what-we-build/", "What we build | ThinkWork",
-         "Websites, bookings, memberships, subscriptions, pre-orders, AI chat and bespoke software for local businesses. Built for you and owned by you.",
+         "Bespoke websites and software for local businesses: the site, the booking, the memberships, the AI, and custom tools nobody sells off the shelf. Decided with you, built for you, owned by you.",
          body)
 
 
@@ -468,6 +502,12 @@ def pricing() -> None:
 <span class="kicker">Prices</span>
 <h1 style="max-width:13ch">Everything on the page. <span class="mark">Nothing hidden.</span></h1>
 <p class="lead">Three plans, one setup fee, and an advisory add-on if you want it.</p>
+<div class="hero-facts">
+<div><b>&pound;35</b><span>A month, to start</span></div>
+<div><b>&pound;650</b><span>Up front, to build it</span></div>
+<div><b>12</b><span>Month minimum, then monthly</span></div>
+<div><b>At launch</b><span>When your monthly starts</span></div>
+</div>
 </div></section>
 
 <section class="band" style="padding-top:48px"><div class="wrap">
@@ -490,7 +530,7 @@ def pricing() -> None:
 {CTA_BAND}
 """
     page("/pricing/", "Prices | ThinkWork",
-         f"Starter from £35, Growth from £99, Premium from £199 a month. £{SETUP} setup, paid on launch day. Optional £{ADVISORY} a month advisory. Savings calculator included.",
+         f"Starter from £35, Growth from £99, Premium from £199 a month. £{SETUP} build fee paid up front, then monthly from the day it goes live. Optional £{ADVISORY} a month advisory. Savings calculator included.",
          body, [faq_ld, offers])
 
 
@@ -558,16 +598,68 @@ def work() -> None:
     body = """
 <section class="hero"><div class="wrap">
 <span class="kicker">Work</span>
-<h1 style="max-width:13ch">Real builds. <span class="mark">Real numbers.</span> Soon.</h1>
-<p class="lead">ThinkWork is new. The first builds are under way. Case studies go up here once they've been running long enough to show results, not before.</p>
+<h1 style="max-width:14ch">Built, launched, and <span class="mark">handed over.</span></h1>
+<p class="lead">One client site live and running, two more about to launch, and seventeen complete designs for businesses that never asked for one.</p>
+<div class="hero-facts">
+<div><b>1</b><span>Live client site</span></div>
+<div><b>2</b><span>Builds launching</span></div>
+<div><b>17</b><span>Designs built unasked</span></div>
+<div><b>Yours</b><span>Site, domain, customer list</span></div>
+</div>
 </div></section>
 
-<section class="band" style="padding-top:48px"><div class="wrap">
-<div class="docket">
-<div class="docket-row"><span class="when"><span class="status">In build</span></span><h3>Check-in and scoring for an airsoft venue</h3><p>Custom software for how the site runs on a game day: QR check-in and check-out, tablet check-in run by staff, and a log of every player's chrono reading. The kind of thing no off-the-shelf app does properly.</p></div>
+<section class="band" style="padding:clamp(18px,2.5vw,30px) 0 0"><div class="wrap">
+
+<article class="case">
+<a class="case-shot" href="https://www.familypetcare.co/" rel="noopener"><img src="/static/tw/work/familypetcare.jpg" alt="The Family Pet Care website" width="900" height="579" loading="lazy" decoding="async"></a>
+<div>
+<span class="case-tag is-live">Live</span>
+<h3>Family Pet Care</h3>
+<p class="case-sub">Doggy daycare and home boarding &middot; Melbourn, Cambridgeshire</p>
+<p>Christina was renting her website from Wix and paying for the privilege. We rebuilt it, moved the domain, and handed it back to her. She writes her own posts now, bookings go to the software she already used, and if she ever leaves us she takes the lot with her.</p>
+<ul class="case-facts">
+<li><b>Live since</b><span>September 2026, on her own domain</span></li>
+<li><b>Moved from</b><span>Wix, including the domain transfer</span></li>
+<li><b>Bookings</b><span>Stayed where her customers already book</span></li>
+<li><b>Owns</b><span>The site, the domain, the customer list</span></li>
+</ul>
+<a class="btn" href="https://www.familypetcare.co/" rel="noopener">Visit the site</a>
 </div>
-<p class="small" style="margin-top:24px">We won't put a client's name or numbers here without their say-so, and we won't show results we don't have.</p>
+</article>
+
+<article class="case">
+<div class="case-shot is-duo">
+<img src="/static/tw/work/1066-airsoft.jpg" alt="The 1066 Airsoft website" width="900" height="579" loading="lazy" decoding="async">
+<img src="/static/tw/work/1066-paintball.jpg" alt="The 1066 Paintball website" width="900" height="579" loading="lazy" decoding="async">
+</div>
+<div>
+<span class="case-tag is-soon">Launching</span>
+<h3>1066 Airsoft &amp; Paintball</h3>
+<p class="case-sub">Two businesses, one farm &middot; Hastings, East Sussex</p>
+<p>Dom runs airsoft and paintball from the same ground, as two businesses with two sets of customers and two domains. So it is one source and two sites, which means his phone number exists in one place and changes in both. Phase one is the websites. Booking for his regulars comes after, once the sites have settled.</p>
+<ul class="case-facts">
+<li><b>Signed</b><span>October 2026</span></li>
+<li><b>Built</b><span>Two sites, two domains, one source</span></li>
+<li><b>Bookings</b><span>Staying on Eventbrite for launch</span></li>
+<li><b>Next</b><span>Booking for regulars, once phase one is live</span></li>
+</ul>
+<p class="small" style="margin:0">Shown before launch, so the links go up when the domains move across.</p>
+</div>
+</article>
+
 </div></section>
+
+<section class="paper-2 band"><div class="wrap split">
+<div><span class="kicker">The unasked ones</span><h2 style="max-width:12ch">Seventeen designs nobody ordered.</h2></div>
+<div class="body">
+<p>We pick a business, work out how it actually makes money, and build the whole thing before there is any conversation to have. Not a mockup: the pages, the booking, the pricing, and the back end for whoever runs it.</p>
+<p>Four Eastbourne high-street businesses have had the full treatment that way &mdash; a butcher, a bakery, a garage and a plumber &mdash; alongside thirteen airsoft sites. Click any one and walk the whole thing.</p>
+</div>
+</div>
+<div class="wrap"><div class="proofstrip"><a class="pt" href="/spec/victoria-butchers/"><img src="/static/tw/work/spec/victoria-butchers.jpg" alt="The Victoria Butchers design" width="900" height="579" loading="lazy" decoding="async"><span><b>Victoria Butchers</b>Butcher &middot; Eastbourne</span></a><a class="pt" href="/spec/to-the-rise/"><img src="/static/tw/work/spec/to-the-rise.jpg" alt="The To The Rise design" width="900" height="579" loading="lazy" decoding="async"><span><b>To The Rise</b>Bakery &middot; Eastbourne</span></a><a class="pt" href="/spec/bourne-motors/"><img src="/static/tw/work/spec/bourne-motors.jpg" alt="The Bourne Motors design" width="900" height="579" loading="lazy" decoding="async"><span><b>Bourne Motors</b>Garage &amp; MOT &middot; Eastbourne</span></a><a class="pt" href="/spec/robs-plumbing/"><img src="/static/tw/work/spec/robs-plumbing.jpg" alt="The Rob's Plumbing design" width="900" height="579" loading="lazy" decoding="async"><span><b>Rob's Plumbing</b>Plumber &middot; Eastbourne</span></a><a class="pt pt-more" href="/airsoft/#work"><span class="pt-n">+13</span><span>airsoft sites, all walkable</span></a></div>
+<p class="small" style="margin-top:16px;max-width:76ch">Built from what each business already publishes about itself, and clearly marked inside as a design concept rather than their live site. If one of these is yours and you would rather it came down, email Greg and it is gone the same day.</p>
+</div>
+</section>
 
 <section class="paper-2 band"><div class="wrap split">
 <div><span class="kicker">Be one of the first</span><h2 style="max-width:12ch">Want your business here?</h2></div>
@@ -588,6 +680,11 @@ def about() -> None:
 <section class="hero"><div class="wrap">
 <span class="kicker">About</span>
 <h1 style="max-width:15ch">The big firms' playbook, <span class="mark">brought to the high street.</span></h1>
+<div class="hero-facts">
+<div><b>15+</b><span>Years in commercial leadership</span></div>
+<div><b>$1B+</b><span>Revenue across the teams he's led</span></div>
+<div><b>Cold caller</b><span>To Chief Commercial Officer</span></div>
+</div>
 </div></section>
 
 <section class="band"><div class="wrap split">
@@ -615,22 +712,32 @@ def book() -> None:
     checks = "".join(
         f'<label><input type="checkbox" name="current_tools" value="{esc(t)}"> {esc(t)}</label>' for t in tools)
     body = f"""
-<section class="hero"><div class="wrap split">
-<div>
+<section class="hero"><div class="wrap booksplit">
+<aside class="bookside">
 <span class="kicker">Get a free build quote</span>
-<h1 style="font-size:clamp(40px,6.4vw,80px);max-width:11ch">Tell us about your business.</h1>
-<p class="lead" style="margin-top:24px">Two minutes. Greg reads every one and replies himself, with an idea and a price. No pressure, no sales patter.</p>
-<ul class="list-plain" style="margin-top:28px">
-<li><div>What you pay now tells us what you could save.</div></li>
-<li><div>What you'd like more of tells us what to build.</div></li>
-<li><div>Prefer email? <a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></div></li>
-</ul>
+<h1 style="font-size:clamp(38px,5.4vw,66px);max-width:12ch">Tell us about your business.</h1>
+<p class="lead" style="margin-top:22px">Two minutes. What you pay now tells us what you could save; what you'd like more of tells us what to build.</p>
+<div class="whoreads">
+<img src="/static/tw/greg-headshot.jpg" alt="Greg McCallum" width="480" height="600" loading="lazy" decoding="async">
+<div><b>Greg McCallum</b><span>Reads every one and answers it himself. No sales team, no patter.</span></div>
 </div>
+<ol class="nextsteps">
+<li><b>You send this</b><span>Two minutes, and it costs you nothing.</span></li>
+<li><b>Greg comes back</b><span>With one idea for your business, and a price.</span></li>
+<li><b>You decide</b><span>Nothing gets built, and nothing is paid, until you say yes.</span></li>
+</ol>
+<p class="small" style="margin-top:22px">Prefer email? <a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></p>
+<a class="proofcard" href="/work/">
+<img src="/static/tw/work/familypetcare.jpg" alt="The Family Pet Care website" width="900" height="579" loading="lazy" decoding="async">
+<div><b>Christina's went live in September</b><span>Off Wix, onto a site she owns. See the work</span></div>
+</a>
+</aside>
 <form class="form" id="quote" method="post" action="{API}/api/thinkwork/quote" data-return="/book/thanks/">
 <div class="alert" role="alert" hidden>Something was missing. Please check your name, business, email and type of business.</div>
 <input type="hidden" name="return_to" value="{SITE}/book/thanks/">
 <input type="hidden" name="source" value="main">
 <div class="trap" aria-hidden="true"><label for="rt">Leave this empty</label><input id="rt" name="referral_token" tabindex="-1" autocomplete="off"></div>
+<span class="flabel">1 &middot; About you</span>
 <div class="grid2">
 <div class="field"><label for="f-name">Your name</label><input id="f-name" name="full_name" type="text" autocomplete="name" required maxlength="120"></div>
 <div class="field"><label for="f-biz">Business name</label><input id="f-biz" name="business_name" type="text" autocomplete="organization" required maxlength="200"></div>
@@ -639,12 +746,15 @@ def book() -> None:
 <div class="field"><label for="f-type">Type of business</label><select id="f-type" name="business_type" required><option value="">Choose one</option>{types}<option value="other">Something else</option></select></div>
 <div class="field"><label for="f-town">Town</label><input id="f-town" name="town" type="text" autocomplete="address-level2" maxlength="120"></div>
 </div>
+<span class="flabel">2 &middot; What you have now</span>
 <div class="field"><label for="f-site">Current website <span class="hint">(if you have one)</span></label><input id="f-site" name="current_site" type="text" inputmode="url" maxlength="300" placeholder="yourbusiness.co.uk"></div>
 <fieldset class="field"><legend>What do you use now?</legend><div class="checks">{checks}</div></fieldset>
 <div class="field"><label for="f-spend">Roughly what do you pay for all of it, per month? <span class="hint">(a guess is fine)</span></label><div class="money" style="max-width:200px"><input id="f-spend" name="monthly_spend" type="number" inputmode="decimal" min="0" step="1"></div></div>
+<span class="flabel">3 &middot; What you want</span>
 <div class="field"><label for="f-more">What would you like more of?</label><textarea id="f-more" name="wants" maxlength="2000" placeholder="More regulars, fewer no-shows, busier weekdays, pre-orders for Christmas..."></textarea></div>
 <div class="field"><label><input type="checkbox" name="advisory" value="1" style="width:20px;height:20px;vertical-align:-4px;accent-color:var(--ink)"> I'm interested in the monthly advisory too</label></div>
 <button class="btn hi" type="submit">Send it to Greg</button>
+<p class="small" style="margin:16px 0 0">Sending this commits you to nothing. You get an idea and a price before anything is built or paid for.</p>
 </form>
 </div></section>
 """
@@ -659,7 +769,7 @@ def book() -> None:
 <p class="lead" id="book-fallback">He'll email you to arrange a call. If it's urgent, email greg@thinkwork.info.</p>
 <div id="book-call" class="bk" data-source="main" hidden></div>
 </div></section>
-<script src="/static/tw/book.js?v=1" defer></script>
+<script src="/static/tw/book.js?v=""" + CSS_V + """" defer></script>
 """
     out = ROOT / "book" / "thanks" / "index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -672,17 +782,19 @@ def llms_txt() -> None:
     lines = [
         "# ThinkWork",
         "",
-        "> ThinkWork builds local, independent businesses one owned system: a website plus bookings, "
-        "memberships, subscriptions and pre-orders, picked with the owner to bring in more money, "
-        "for less than the separate apps it replaces. Founded by Greg McCallum. UK.",
+        "> ThinkWork builds local, independent businesses bespoke websites and software. Every "
+        "build is different: the site itself, and whatever has to sit behind it, which may be "
+        "bookings, memberships, subscriptions, pre-orders, an AI assistant or custom software "
+        "nobody sells off the shelf. Decided with the owner, built for them, owned by them. "
+        "Founded by Greg McCallum. UK.",
         "",
         "## Plans (monthly, 12-month minimum, prices exclude VAT where it applies)",
         "",
     ]
     for p in PLANS:
-        lines.append(f"- {p['name']}: from £{p['price']}/month. {'; '.join(p['includes'])}. Replaces: {p['replaces']}")
+        lines.append(f"- {p['name']}: from £{p['price']}/month. {'; '.join(p['includes'])}. Replaces: {'; '.join(p['replaces'])}")
     lines += [
-        f"- Setup: £{SETUP} one-off, due on launch day with the first month. Nothing is paid before launch.",
+        f"- Build fee: £{SETUP} one-off, paid up front before the build starts. The monthly plan begins the day the site goes live.",
         f"- No-BS Advisory: £{ADVISORY}/month add-on to any plan. One hour a month with Greg McCallum. Clients only.",
         "- Ownership: the client owns their site, domain and customer list.",
         "",

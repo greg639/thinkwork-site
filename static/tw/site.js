@@ -139,3 +139,19 @@
     });
   });
 })();
+
+/* The one film on the page plays only while it is on screen, and never for
+   someone who asked for less motion. preload stays "none" until then. */
+(function () {
+  var band = document.querySelector('.filmband video');
+  if (!band || !window.IntersectionObserver) return;
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (e.isIntersecting) {
+        if (band.preload !== 'auto') { band.preload = 'auto'; band.load(); }
+        var p = band.play(); if (p && p.catch) p.catch(function () {});
+      } else { band.pause(); }
+    });
+  }, { threshold: 0.22 }).observe(band);
+})();

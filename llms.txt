@@ -1,6 +1,6 @@
 # ThinkWork
 
-> ThinkWork builds local, independent businesses one owned system: a website plus bookings, memberships, subscriptions and pre-orders, picked with the owner to bring in more money, for less than the separate apps it replaces. Founded by Greg McCallum. UK.
+> ThinkWork builds local, independent businesses bespoke websites and software. Every build is different: the site itself, and whatever has to sit behind it, which may be bookings, memberships, subscriptions, pre-orders, an AI assistant or custom software nobody sells off the shelf. Decided with the owner, built for them, owned by them. Founded by Greg McCallum. UK.
 
 ## Plans (monthly, 12-month minimum, prices exclude VAT where it applies)
 

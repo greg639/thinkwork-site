@@ -105,10 +105,10 @@ section { padding: clamp(64px, 9vw, 120px) 0; }
 .paper-2 { background: var(--paper-2); }
 
 /* ---------- hero ---------- */
-.hero { padding: clamp(36px, 4.6vw, 74px) 0 clamp(56px, 8vw, 96px); }
+.hero { padding: clamp(30px, 3.8vw, 60px) 0 clamp(56px, 8vw, 96px); }
 .hero-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
-.hero h1 { margin-bottom: 28px; }
-.hero .lead { margin-bottom: 30px; }
+.hero h1 { margin-bottom: 22px; }
+.hero .lead { margin-bottom: 26px; }
 .hero-note { margin-top: 18px; font-size: 15px; color: var(--mute); }
 @media (max-width: 880px) { .hero-grid { grid-template-columns: 1fr; } }
 

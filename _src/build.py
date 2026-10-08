@@ -146,7 +146,7 @@ ORG = {
     "logo": SITE + "/static/tw/og-thinkwork.png",
     "image": SITE + "/static/tw/og-thinkwork.png",
     "email": "greg@thinkwork.info",
-    "description": ("ThinkWork builds local businesses one owned system: website, bookings, "
+    "description": ("ThinkWork builds local businesses bespoke websites and software: the site, "
                     "memberships, subscriptions and pre-orders, picked with the owner to bring "
                     "in more money, for less than the separate apps it replaces."),
     "areaServed": {"@type": "Country", "name": "United Kingdom"},
@@ -333,9 +333,9 @@ def home() -> None:
     body = f"""
 <section class="hero with-strip"><div class="wrap hero-grid">
 <div class="rv">
-<span class="kicker">Websites and money-making systems for local businesses</span>
+<span class="kicker">Bespoke websites and software for local businesses</span>
 <h1>Stop renting your website. <span class="mark">Make it earn.</span></h1>
-<p class="lead">One system for your business: website, bookings, memberships, pre-orders. Picked with you, built for you, owned by you. For less than the apps you pay for now.</p>
+<p class="lead">Every build is different, because every business is. A website people find and buy from, plus whatever sits behind it: booking, memberships, or software nobody sells off the shelf. Picked with you, built for you, owned by you.</p>
 <div class="row-btns"><a class="btn hi" href="/book/#quote">Get a free build quote</a><a class="btn ghost" href="/pricing/">See prices</a></div>
 <p class="hero-note">Built by a commercial operator, not a web agency.</p>
 </div>
@@ -422,22 +422,22 @@ def home() -> None:
                 "description": "; ".join(p["includes"]), "url": f"{SITE}/pricing/#{p['key']}"}
                for p in PLANS]}
     page("/", "ThinkWork: websites that earn, for local businesses",
-         "One owned system for your business: website, bookings, memberships and pre-orders, picked with you to bring in more money. From £35 a month.",
+         "Bespoke websites and software for local businesses. Every build is designed for one business: yours, from the website to whatever has to sit behind it. Owned by you, from £35 a month.",
          body, [faq])
 
 
 def what_we_build() -> None:
     parts = [
-        ("The website", "Fast, works on phones, and easy to buy from. Designed around your business, not a template everyone else has.", "All plans"),
+        ("The website", "Designed for your business, not a template everyone else has. Fast, built mobile-first, easy to buy from, and built to be found by search engines and AI assistants alike.", "All plans"),
         ("Bookings", "Customers book and pay online, straight into your diary.", "Growth and Premium"),
         ("Memberships and subscriptions", "Monthly clubs, plans and boxes, taken and renewed automatically.", "Growth and Premium"),
         ("Pre-orders", "Big days and busy seasons sold weeks ahead, so you buy the right stock.", "Growth and Premium"),
         ("Rewards for bringing a friend", "Customers earn something for every new customer they send you. Tracked for you.", "Growth and Premium"),
         ("Your customer list", "Everyone who books, buys or joins, in one place you own.", "Growth and Premium"),
-        ("Found by AI", "Work to make sure AI assistants can read your business and recommend it.", "Premium, and every site is built AI-readable"),
+        ("Found by search and AI", "Ongoing work on how you rank and how you read: the search basics done properly, and your business written so AI assistants can understand and recommend it.", "Premium, and every site is built to be found"),
         ("Articles every month", "Written with AI, checked by a person, published for you.", "Premium"),
         ("AI chat assistant", "Answers questions and takes bookings on your site, day and night.", "Premium"),
-        ("Software for how you run", "Check-in, tracking, staff tablets. Whatever your business needs that no app does properly.", "Premium"),
+        ("Software built for you", "Front end, back end, or both. Check-in, tracking, staff tablets, an operator console, a tool that makes you money nobody else sells. If no app does it properly, we build it.", "Premium"),
     ]
     rows = "".join(
         f'<div class="docket-row"><span class="when">{esc(w)}</span><h3>{esc(t)}</h3><p>{esc(d)}</p></div>'
@@ -445,8 +445,14 @@ def what_we_build() -> None:
     body = f"""
 <section class="hero"><div class="wrap">
 <span class="kicker">What we build</span>
-<h1 style="max-width:14ch">Everything your business runs on. <span class="mark">In one place.</span></h1>
-<p class="lead">A website and the systems behind it. Built once for you, run by us, owned by you.</p>
+<h1 style="max-width:14ch">Built for you. <span class="mark">Not picked off a shelf.</span></h1>
+<p class="lead">We do not sell a fixed package. Below is the range we build from, so you can see what is possible. What you actually get is decided with you, and if the thing your business needs is not on this list, we can still build it.</p>
+<div class="hero-facts">
+<div><b>Bespoke</b><span>Every single build</span></div>
+<div><b>Mobile-first</b><span>As standard, not an extra</span></div>
+<div><b>Found</b><span>By search and by AI</span></div>
+<div><b>Yours</b><span>Site, domain, customer list</span></div>
+</div>
 </div></section>
 
 <section class="band" style="padding-top:48px"><div class="wrap">
@@ -468,7 +474,7 @@ def what_we_build() -> None:
 {CTA_BAND}
 """
     page("/what-we-build/", "What we build | ThinkWork",
-         "Websites, bookings, memberships, subscriptions, pre-orders, AI chat and bespoke software for local businesses. Built for you and owned by you.",
+         "Bespoke websites and software for local businesses: the site, the booking, the memberships, the AI, and custom tools nobody sells off the shelf. Decided with you, built for you, owned by you.",
          body)
 
 
@@ -776,9 +782,11 @@ def llms_txt() -> None:
     lines = [
         "# ThinkWork",
         "",
-        "> ThinkWork builds local, independent businesses one owned system: a website plus bookings, "
-        "memberships, subscriptions and pre-orders, picked with the owner to bring in more money, "
-        "for less than the separate apps it replaces. Founded by Greg McCallum. UK.",
+        "> ThinkWork builds local, independent businesses bespoke websites and software. Every "
+        "build is different: the site itself, and whatever has to sit behind it, which may be "
+        "bookings, memberships, subscriptions, pre-orders, an AI assistant or custom software "
+        "nobody sells off the shelf. Decided with the owner, built for them, owned by them. "
+        "Founded by Greg McCallum. UK.",
         "",
         "## Plans (monthly, 12-month minimum, prices exclude VAT where it applies)",
         "",

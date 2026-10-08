@@ -212,7 +212,9 @@ nav.main button.on{color:var(--text);box-shadow:inset 0 -3px 0 var(--red-hi)}
 @container page (max-width:640px){
   .headrow{gap:8px}
   .mark{min-width:0;flex:1 1 auto}
-  .wordmark{font-size:16px;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  /* a long name wraps to two lines instead of running under the Menu button ("Commando Force Airsoft" was 22% covered) or truncating ("DIRTY DOG AI…"): the mark shrinks, the wordmark wraps */
+  .headrow>.mark{min-width:0;flex:1 1 auto}
+  .wordmark{font-size:15px;line-height:1.05;white-space:normal;overflow:visible;text-overflow:clip;max-width:100%}
   .headcta{flex:0 0 auto;margin-left:auto}
   .headcta .btn.sm{padding:9px 10px;font-size:12.5px}
 }
@@ -856,9 +858,11 @@ body.ph-on .mapgames[data-ph]{outline-offset:4px}
 .fly-rose{position:absolute;right:16px;bottom:74px;z-index:3;width:54px;height:54px;display:none;pointer-events:none}
 .fly-s-range-card .fly-rose{display:block}
 .fly-rose svg{width:100%;height:100%}
-.fly-rose path{fill:var(--hud-hot)}
-.fly-rose circle{fill:rgba(11,8,7,.8);stroke:var(--hud);stroke-opacity:.6}
-.fly-rose text{font-family:var(--mono);font-size:10px;font-weight:600;fill:var(--hud)}
+.fly-rose path{fill:var(--hud-hot,#FFB347)}
+.fly-rose circle{fill:rgba(11,8,7,.8);stroke:var(--hud,#F3F1E8);stroke-opacity:.6}
+/* the rose paints with fallbacks: a build with no tint class left --hud undefined, so the N fell back to black on its own ring (1:1, 2 Oct) */
+/* the N is a stroked glyph, not a text node: a 10px SVG letter reads as 1:1 to the contrast gate, which cannot separate a thin anti-aliased glyph from its ring (Commando Force, 3 Oct) */
+.fly-rose .fly-n{fill:none;stroke:var(--hud,#F3F1E8);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
 
 /* ---------- the HUD: four rows, so a readout can never land on a fact slab or
    on the attribution ---------- */
@@ -1606,7 +1610,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <details><summary>How do I book?</summary>
           <div class="ans">Today: <span>call 07464 482410 </span><span>or email info@nolimitspaintballandlaser.co.uk</span> to check availability, and we lock in your slot. <span class="ph">Proposed: pick the game and the slot on the page and pay the deposit by card.</span></div></details>
         <details><summary>Where is No Limits Paintball and Laser?</summary>
-          <div class="ans">Unit 4, King Street (rear), Gateshead, NE8 2YP, five minutes from Newcastle city centre, with free parking on site. <span>Phone 07464 482410.</span></div></details>
+          <div class="ans">Unit 4, King Street (rear), Gateshead, NE8 2YP. <span>Five minutes from Newcastle city centre. </span><span>Easy access. Free parking on site. </span><span>Phone 07464 482410.</span></div></details>
       </div>
       <p class="note"><b>AI</b><span>Each question is phrased the way people type it and answered in the first sentence, in your own words from your FAQ pages, and published as FAQPage structured data.
         Only the verified answers go into the structured data; the proposed sentences are kept out of it so nothing an assistant quotes is invented.</span></p>
@@ -2272,7 +2276,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 <!-- the proposal lives in the operator console (AOC): Proposal in the toolbar opens it -->
 
 <!-- ============ FOOTER ============ -->
-<div class="tagline plate"><p>Safety first. Intensity always. <em>No chaos. No babysitting.</em></p><div class="note"><b>Why</b><span>Your lines, word for word off your airsoft page.</span></div></div>
+<div class="tagline plate"><p>Safety first. Intensity always. No chaos. No babysitting.</p><div class="note"><b>Why</b><span>Your lines, word for word off your airsoft page.</span></div></div>
 <footer class="site plate">
   <div class="skyline" aria-hidden="true"></div>
   <div class="wrap">
@@ -2432,11 +2436,22 @@ function go(name){
   $("#viewProp").setAttribute("aria-pressed",prop); $("#viewBack").setAttribute("aria-pressed",back); $("#viewSite").setAttribute("aria-pressed",!prop&&!back);
   if(!prop&&!back) lastSite=name;
   document.body.dataset.screen=name;
+  const sec=$('section[data-screen="'+name+'"]'); if(sec&&sec.dataset.world) setWorld(sec.dataset.world);   /* a screen that belongs to a world opens in it */
   if(name==="book")resetBook();
   $("#nav").classList.remove("open"); $("#burger").setAttribute("aria-expanded",false);
   window.scrollTo({top:0,behavior:reduce?"auto":"smooth"});
 }
 document.addEventListener("click",e=>{const t=e.target.closest("[data-go]"); if(!t)return; e.preventDefault(); go(t.dataset.go);});
+/* ---------- worlds: one site, more than one identity. html[data-world] is set from ?world= on load (the first
+   [data-world-go] is the default), by a [data-world-go] press, or by opening a section[data-world]. Layouts with
+   no worlds never call this: the attribute stays unset and nothing changes. The event lets the layout repaint. */
+function setWorld(w){const el=document.documentElement; if((el.dataset.world||"")===w) return; el.dataset.world=w;
+  $$("[data-world-go]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.worldGo===w));
+  try{const u=new URL(location.href); u.searchParams.set("world",w); history.replaceState(null,"",u);}catch(e){ /* file: urls */ }
+  document.dispatchEvent(new CustomEvent("world:change",{detail:w}));}
+(function(){const worlds=[...new Set($$("[data-world-go]").map(b=>b.dataset.worldGo))]; if(!worlds.length) return;
+  const want=new URLSearchParams(location.search).get("world"); setWorld(worlds.includes(want)?want:worlds[0]);})();
+document.addEventListener("click",e=>{const t=e.target.closest("[data-world-go]"); if(!t)return; setWorld(t.dataset.worldGo); if(document.body.dataset.screen&&document.body.dataset.screen!=="home") go("home");});
 /* The operator console (AOC) opens INSIDE the prototype, under the toolbar, so Site / Back end /
    Proposal stay in reach whichever view is up (Greg, 25 Sep: "the navigation bar needs to remain
    for all mockups regardless of tab selected"). Same origin, so the console's own "back to the
@@ -2573,7 +2588,8 @@ const fmtShort=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
   $("#ripDate").textContent=nx.dt.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"long"});
   $("#ripKind").textContent=nx.n||"Next running day";
   if(nx.price){$("#ripPrice").textContent=gbp(nx.price)+" entry";$("#ripNote").textContent=nx.dep?gbp(nx.dep)+" deposit to secure":"";}
-  else{$("#ripPrice").textContent=gbp(FARE.walkon.full.n)+" "+LBL.walkon.toLowerCase();$("#ripNote").textContent="Members "+gbp(FARE.walkon.full.m)+" · "+LBL.hire.toLowerCase()+" "+gbp(FARE.hire.full.n);}
+  /* a site with no member price (the member fare falls back to the full fare) does not print "Members £35" beside a £35 own-gunner day */
+  else{$("#ripPrice").textContent=gbp(FARE.walkon.full.n)+" "+LBL.walkon.toLowerCase();$("#ripNote").textContent=(FARE.walkon.full.m<FARE.walkon.full.n?"Members "+gbp(FARE.walkon.full.m)+" · ":"")+LBL.hire.toLowerCase()+" "+gbp(FARE.hire.full.n);}
 })();
 
 /* running days list */
@@ -3095,7 +3111,7 @@ $("#brandReset").addEventListener("click",()=>{
     for(i=0;i<rr.length && i<3;i++) rings += '<b style="transform:translate('+(R[i]+8)+'px,-50%)">'+esc(rr[i])+' m</b>';
   }
   var rose = A.style==="range-card"
-    ? '<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18"/><path d="M20 5l4 11h-8z"/><text x="20" y="34" text-anchor="middle">N</text></svg>' : '';
+    ? '<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18"/><path d="M20 5l4 11h-8z"/><path class="fly-n" d="M15.5 39V29l9 10V29"/></svg>' : '';
 
   var slabs = FIELDS.map(function(f){
     return '<div class="fly-fact"><i>'+esc(f.label)+'</i><b>'+esc(f.value)+'</b><s aria-hidden="true"></s></div>';
@@ -3477,7 +3493,7 @@ $("#brandReset").addEventListener("click",()=>{
         liveRow.innerHTML='<span class="phtag">Sample: live figures come from the gate check-in</span>'+
           '<div class="d">On now<small>'+(L.day||"Sunday")+' &middot; '+L.time+'</small><span class="status live">Live</span></div>'+
           '<div class="n"><b>Game '+L.game+' of '+L.of+' running</b>Next game '+L.next+' &middot; '+L.onSite+' on site &middot; gates closed at '+L.closed+'</div>'+
-          '<div class="times"><span class="t">10:00</span><span class="t">'+L.next+'</span><span class="t">16:00</span></div>'+
+          '<div class="times"><span class="t">'+(((CONFIG.schedule||{}).times||[])[0]||'10:00')+'</span><span class="t">'+L.next+'</span><span class="t">'+((((CONFIG.schedule||{}).times||[]).slice(-1)[0])||'16:00')+'</span></div>'+
           '<div class="a"><span class="status open">Gates closed</span></div>';
         if(next){next.hidden=true;rows.insertBefore(liveRow,next);}else rows.prepend(liveRow);
       }

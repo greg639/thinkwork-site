@@ -327,18 +327,18 @@ h3{font-family:var(--display);text-transform:uppercase;font-size:24px;line-heigh
 
 /* ---------- hero: your poster, opened up. Your own drone photograph full bleed behind a centred brass title, the paint-slash date banner and the four circle icons off your poster under it. ---------- */
 .hero{position:relative;overflow:clip;border-bottom:3px solid var(--red)}
-.hero::before{content:"";position:absolute;inset:0;background:url(assets/briefing.jpg) center 38%/cover no-repeat;filter:saturate(.72) contrast(1.06) brightness(.72);transform:scale(1.02);transform-origin:50% 30%}
+.hero::before{content:"";position:absolute;inset:0;background:url(assets/briefing.jpg) center 38%/cover no-repeat;filter:saturate(.88) contrast(1.1) brightness(.98);transform:scale(1.02);transform-origin:50% 30%}
 @supports (animation-timeline:scroll()){@media (prefers-reduced-motion:no-preference){
   .hero::before{animation:creep linear both;animation-timeline:scroll(root);animation-range:0 100vh}
   @keyframes creep{from{transform:scale(1.02)}to{transform:scale(1.07)}}
 }}
 /* the scrim: dark under the type in the middle, the yard and the players kept at the sides, solid black by the board */
 .hero::after{content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 58% 70% at 50% 34%,rgba(16,24,34,.94) 0%,rgba(16,24,34,.86) 45%,rgba(16,24,34,.3) 100%),
-             linear-gradient(180deg,rgba(16,24,34,.55) 0%,rgba(16,24,34,.5) 40%,rgba(16,24,34,.94) 72%,#101822 100%)}
-.hero .splat{position:absolute;right:-8%;top:-14%;width:min(60vw,760px);aspect-ratio:3/2;background:url(assets/smoke.jpg) center/cover no-repeat;mix-blend-mode:screen;opacity:.42;pointer-events:none;z-index:1;--rot:0deg;transform:rotate(var(--rot));transform-origin:60% 30%;
+  background:radial-gradient(ellipse 44% 58% at 50% 40%,rgba(16,24,34,.9) 0%,rgba(16,24,34,.78) 48%,rgba(16,24,34,.18) 100%),
+             linear-gradient(180deg,rgba(16,24,34,.42) 0%,rgba(16,24,34,.3) 38%,rgba(16,24,34,.82) 76%,#101822 100%)}
+.hero .splat{position:absolute;right:-8%;top:-14%;width:min(60vw,760px);aspect-ratio:3/2;background:url(assets/smoke.jpg) center/cover no-repeat;mix-blend-mode:screen;opacity:.24;pointer-events:none;z-index:1;--rot:0deg;transform:rotate(var(--rot));transform-origin:60% 30%;
   animation:splat-in 260ms cubic-bezier(.3,1.5,.5,1) both,drip-down 1.3s cubic-bezier(.25,.6,.3,1) 200ms both}
-.hero .splat.drip{right:auto;left:-10%;top:6%;width:min(42vw,520px);opacity:.3;--rot:180deg;transform-origin:40% 50%;animation-delay:60ms,320ms}
+.hero .splat.drip{right:auto;left:-10%;top:6%;width:min(42vw,520px);opacity:.18;--rot:180deg;transform-origin:40% 50%;animation-delay:60ms,320ms}
 /* ---- part: texture-lands.css ----
    The brand texture landing, once, on first paint: the blot hits at scale with an
    overshoot, then the drips run down out of it, then it holds. A route change
@@ -608,7 +608,7 @@ footer.site ul button:hover{color:var(--red-ink)}
   .day{grid-template-columns:90px 1fr;grid-template-areas:"d i" "c c" "a a";row-gap:12px}
   .day .date{grid-area:d}.day .info{grid-area:i}.day .cap{grid-area:c}.day .act{grid-area:a}
   .day .price{text-align:left}
-  .hero::after{background:linear-gradient(180deg,rgba(16,24,34,.78) 0%,rgba(16,24,34,.88) 30%,#101822 100%)}
+  .hero::after{background:radial-gradient(ellipse 72% 52% at 50% 36%,rgba(16,24,34,.88) 0%,rgba(16,24,34,.72) 54%,rgba(16,24,34,.25) 100%),linear-gradient(180deg,rgba(16,24,34,.42) 0%,rgba(16,24,34,.4) 34%,rgba(16,24,34,.86) 74%,#101822 100%)}
   /* four across is your poster; below the desk it folds to two by two, never one orphan */
   .hero .icons{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 18px}
   .hero .icons b{white-space:normal}
@@ -658,7 +658,7 @@ footer.site ul button:hover{color:var(--red-ink)}
   .hero .place{flex-direction:column;gap:5px}
   .hero .place .eyebrow+.eyebrow::before{content:none}
   .hero .herologo{height:70px}
-  .hero::after{background:linear-gradient(180deg,rgba(16,24,34,.8) 0%,rgba(16,24,34,.9) 22%,#101822 100%)}
+  .hero::after{background:radial-gradient(ellipse 96% 46% at 50% 34%,rgba(16,24,34,.9) 0%,rgba(16,24,34,.78) 52%,rgba(16,24,34,.34) 100%),linear-gradient(180deg,rgba(16,24,34,.45) 0%,rgba(16,24,34,.45) 30%,rgba(16,24,34,.88) 76%,#101822 100%)}
   .hero h1{font-size:40px}
   .groundlist{grid-template-columns:1fr}
   .limits{grid-template-columns:1fr}
@@ -875,6 +875,9 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
   .evrows b{font-size:20px}
   .evtop .splat{left:auto;right:-20%;width:55vw;top:-140px;opacity:.45}
 }
+/* a phone: the two price signs stack. Side by side, a one-word sign ("Deposit") set at display size is wider than
+   half a 390px screen and cannot wrap, so it ran 65px past the right edge on frontline-events' events page (26 Sep). */
+@media (max-width:480px){.evprice{grid-template-columns:1fr}}
 /* ---- part: backend.css ----
    The owner's back end: the same world as the site, laid out as an operator app.
    Rail of tabs, stat tiles, lists, grid tables that stack at phone width instead
@@ -2513,11 +2516,22 @@ function go(name){
   $("#viewProp").setAttribute("aria-pressed",prop); $("#viewBack").setAttribute("aria-pressed",back); $("#viewSite").setAttribute("aria-pressed",!prop&&!back);
   if(!prop&&!back) lastSite=name;
   document.body.dataset.screen=name;
+  const sec=$('section[data-screen="'+name+'"]'); if(sec&&sec.dataset.world) setWorld(sec.dataset.world);   /* a screen that belongs to a world opens in it */
   if(name==="book")resetBook();
   $("#nav").classList.remove("open"); $("#burger").setAttribute("aria-expanded",false);
   window.scrollTo({top:0,behavior:reduce?"auto":"smooth"});
 }
 document.addEventListener("click",e=>{const t=e.target.closest("[data-go]"); if(!t)return; e.preventDefault(); go(t.dataset.go);});
+/* ---------- worlds: one site, more than one identity. html[data-world] is set from ?world= on load (the first
+   [data-world-go] is the default), by a [data-world-go] press, or by opening a section[data-world]. Layouts with
+   no worlds never call this: the attribute stays unset and nothing changes. The event lets the layout repaint. */
+function setWorld(w){const el=document.documentElement; if((el.dataset.world||"")===w) return; el.dataset.world=w;
+  $$("[data-world-go]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.worldGo===w));
+  try{const u=new URL(location.href); u.searchParams.set("world",w); history.replaceState(null,"",u);}catch(e){ /* file: urls */ }
+  document.dispatchEvent(new CustomEvent("world:change",{detail:w}));}
+(function(){const worlds=[...new Set($$("[data-world-go]").map(b=>b.dataset.worldGo))]; if(!worlds.length) return;
+  const want=new URLSearchParams(location.search).get("world"); setWorld(worlds.includes(want)?want:worlds[0]);})();
+document.addEventListener("click",e=>{const t=e.target.closest("[data-world-go]"); if(!t)return; setWorld(t.dataset.worldGo); if(document.body.dataset.screen&&document.body.dataset.screen!=="home") go("home");});
 /* The operator console (AOC) opens INSIDE the prototype, under the toolbar, so Site / Back end /
    Proposal stay in reach whichever view is up (Greg, 25 Sep: "the navigation bar needs to remain
    for all mockups regardless of tab selected"). Same origin, so the console's own "back to the
@@ -3207,7 +3221,7 @@ $("#brandReset").addEventListener("click",()=>{
     for(i=0;i<rr.length && i<3;i++) rings += '<b style="transform:translate('+(R[i]+8)+'px,-50%)">'+esc(rr[i])+' m</b>';
   }
   var rose = A.style==="range-card"
-    ? '<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18"/><path d="M20 5l4 11h-8z"/><text x="20" y="34" text-anchor="middle">N</text></svg>' : '';
+    ? '<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18"/><path d="M20 5l4 11h-8z"/><path class="fly-n" d="M15.5 39V29l9 10V29"/></svg>' : '';
 
   var slabs = FIELDS.map(function(f){
     return '<div class="fly-fact"><i>'+esc(f.label)+'</i><b>'+esc(f.value)+'</b><s aria-hidden="true"></s></div>';
@@ -3589,7 +3603,7 @@ $("#brandReset").addEventListener("click",()=>{
         liveRow.innerHTML='<span class="phtag">Sample: live figures come from the gate check-in</span>'+
           '<div class="d">On now<small>'+(L.day||"Sunday")+' &middot; '+L.time+'</small><span class="status live">Live</span></div>'+
           '<div class="n"><b>Game '+L.game+' of '+L.of+' running</b>Next game '+L.next+' &middot; '+L.onSite+' on site &middot; gates closed at '+L.closed+'</div>'+
-          '<div class="times"><span class="t">10:00</span><span class="t">'+L.next+'</span><span class="t">16:00</span></div>'+
+          '<div class="times"><span class="t">'+(((CONFIG.schedule||{}).times||[])[0]||'10:00')+'</span><span class="t">'+L.next+'</span><span class="t">'+((((CONFIG.schedule||{}).times||[]).slice(-1)[0])||'16:00')+'</span></div>'+
           '<div class="a"><span class="status open">Gates closed</span></div>';
         if(next){next.hidden=true;rows.insertBefore(liveRow,next);}else rows.prepend(liveRow);
       }

@@ -300,16 +300,67 @@ body.ph-on .tiles,body.ph-on .cols2[data-ph]{padding-top:12px}
 .tile.sq{aspect-ratio:1}
 .aerial{margin:0}
 
-/* ---------- hero: your poster, opened up. Canopy behind, the type left, your chalk board and fare tiles right. ---------- */
-.hero{position:relative;overflow:clip;border-bottom:5px solid var(--red)}
-.hero::before{content:"";position:absolute;inset:0;background:url(assets/hero.jpg) right -6% top 4%/auto 126% no-repeat;filter:saturate(1.12) contrast(1.08) brightness(1);transform:scale(1.02);transform-origin:80% 20%}
+/* ---------- hero: your poster, opened up. Your own photographs moving behind it, the type left, your next date stamped over them. ---------- */
+/* ---- part: hero-motion.css ----
+   The opening screen moves. A stage of the business's own pictures behind the type: each slide holds
+   (--hold, 5s) with a slow push-in and crossfades to the next; slide k waits k times --hold before its
+   first cycle (a POSITIVE delay: a negative one would start it mid-cycle and reverse the order). Over the pictures: procedural rain on a
+   canvas and a lightning strike (an SVG bolt, a white flash, a brightness pop), both drawn by
+   hero-motion.js and both under the scrim, so the type column is always the flat ground the contrast
+   gate measures. The type arrives once, in about a second (hero-motion.js, Web Animations), so every
+   gate that waits two seconds measures the settled page. Under prefers-reduced-motion nothing moves:
+   the first slide is simply there, the rain and the bolt are not drawn, the type is in place.
+   Expects: .hero > .stage.n3|n4|n5[data-stage] > img.slide[style="--at:Ns;--pos:x y"] (first slide
+   eager), canvas.rain, svg.bolt > path.glow + path.core, .flash; .hero [data-stage-credit]. The headline stays ONE element with <br>s and an <em> for the accent lines: any element per line
+   is flagged by the collision gate under tight leading (its box covers the line above); the reveal slides the whole h1.
+   Reads no CONFIG. Tokens: --bg (the scrim), --hold (seconds per slide). */
+.hero{--hold:5s}
+.hero .stage{position:absolute;inset:0;overflow:hidden;background:var(--sunk,#000)}
+.hero .stage img.slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 40%);opacity:0;
+  filter:saturate(.86) contrast(1.1) brightness(1.02);will-change:opacity,transform;
+  animation:slide-cycle-4 calc(var(--hold)*4) linear infinite,slide-kb-4 calc(var(--hold)*4) linear infinite;animation-delay:var(--at,0s)}
+.hero .stage.n3 img.slide{animation-name:slide-cycle-3,slide-kb-3;animation-duration:calc(var(--hold)*3)}
+.hero .stage.n5 img.slide{animation-name:slide-cycle-5,slide-kb-5;animation-duration:calc(var(--hold)*5)}
+/* four slides: each holds a quarter of the cycle, with a 6% crossfade either side */
+@keyframes slide-cycle-4{0%{opacity:0}6%{opacity:1}25%{opacity:1}31%{opacity:0}100%{opacity:0}}
+@keyframes slide-kb-4{0%{transform:scale(1.03)}31%{transform:scale(1.17) translate(-1.6%,-1.2%)}31.001%{transform:scale(1.03)}100%{transform:scale(1.03)}}
+@keyframes slide-cycle-3{0%{opacity:0}7%{opacity:1}33.3%{opacity:1}40.5%{opacity:0}100%{opacity:0}}
+@keyframes slide-kb-3{0%{transform:scale(1.03)}40.5%{transform:scale(1.17) translate(-1.6%,-1.2%)}40.501%{transform:scale(1.03)}100%{transform:scale(1.03)}}
+@keyframes slide-cycle-5{0%{opacity:0}5%{opacity:1}20%{opacity:1}25%{opacity:0}100%{opacity:0}}
+@keyframes slide-kb-5{0%{transform:scale(1.03)}25%{transform:scale(1.17) translate(-1.6%,-1.2%)}25.001%{transform:scale(1.03)}100%{transform:scale(1.03)}}
+/* the weather, drawn by hero-motion.js */
+.hero .stage canvas.rain{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.7}
+.hero .stage svg.bolt{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0;overflow:visible}
+.hero .stage svg.bolt path{fill:none;stroke:#fff;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.hero .stage svg.bolt path.core{stroke-width:3.4;filter:drop-shadow(0 0 4px #fff) drop-shadow(0 0 16px #BFD8FF)}
+.hero .stage svg.bolt path.glow{stroke:#CFE0FF;stroke-width:12;opacity:.45;filter:blur(3px)}
+.hero .stage .flash{position:absolute;inset:0;background:#EAF2FF;opacity:0;pointer-events:none}
+.hero.strike .stage img.slide{filter:saturate(.7) contrast(1.18) brightness(1.5)}
+/* the scrim: the type column is flat ground, the picture lives top right, the lower half fades to the page */
+.hero .stage::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 94%,transparent) 20%,color-mix(in srgb,var(--bg) 80%,transparent) 36%,color-mix(in srgb,var(--bg) 46%,transparent) 52%,color-mix(in srgb,var(--bg) 18%,transparent) 68%,color-mix(in srgb,var(--bg) 4%,transparent) 100%),
+             linear-gradient(180deg,color-mix(in srgb,var(--bg) 22%,transparent) 0%,transparent 30%,color-mix(in srgb,var(--bg) 44%,transparent) 64%,var(--bg) 92%)}
+/* a slow drift of the whole stage as the page scrolls away from it */
 @supports (animation-timeline:scroll()){@media (prefers-reduced-motion:no-preference){
-  .hero::before{animation:creep linear both;animation-timeline:scroll(root);animation-range:0 100vh}
-  @keyframes creep{from{transform:scale(1.02)}to{transform:scale(1.07)}}
+  .hero .stage{animation:stage-drift linear both;animation-timeline:scroll(root);animation-range:0 100vh}
+  @keyframes stage-drift{from{transform:translateY(0)}to{transform:translateY(14%)}}
 }}
-.hero::after{content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(180deg,rgba(10,9,8,.16) 0%,rgba(10,9,8,.30) 44%,rgba(10,9,8,.95) 100%),
-             linear-gradient(90deg,rgba(10,9,8,.96) 0%,rgba(10,9,8,.90) 40%,rgba(10,9,8,.36) 64%,rgba(10,9,8,.04) 100%)}
+@media (prefers-reduced-motion:reduce){
+  .hero .stage img.slide{animation:none;opacity:0}
+  .hero .stage img.slide:first-of-type{opacity:1}
+  .hero .stage canvas.rain,.hero .stage svg.bolt,.hero .stage .flash{display:none}
+}
+.hero{position:relative;overflow:clip;border-bottom:5px solid var(--red)}
+/* The gold tape scrim. Your warm black is a flat ground under the type column and then it leaves the
+   picture alone, because the twenty seven photographs you took of this wood are what sells a game day.
+   Solid across the first sixteen per cent, under a fifth of the ground by two thirds across, nothing at
+   the edge; the vertical fade is clear until thirty per cent and only closes at ninety. */
+.hero .stage::after{
+  background:linear-gradient(90deg,var(--bg) 0%,var(--bg) 16%,color-mix(in srgb,var(--bg) 90%,transparent) 26%,color-mix(in srgb,var(--bg) 68%,transparent) 40%,color-mix(in srgb,var(--bg) 38%,transparent) 54%,color-mix(in srgb,var(--bg) 16%,transparent) 68%,color-mix(in srgb,var(--bg) 2%,transparent) 100%),
+             linear-gradient(180deg,color-mix(in srgb,var(--bg) 20%,transparent) 0%,transparent 30%,color-mix(in srgb,var(--bg) 38%,transparent) 66%,var(--bg) 92%)}
+/* the credit follows the slide, set in your mono on your warm black, off the gold rule at the foot */
+.hero .photocredit{position:absolute;right:14px;bottom:14px;z-index:3;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-2);background:var(--sunk);border:1px solid var(--line);padding:4px 8px;border-radius:2px;max-width:min(74ch,58vw)}
+.hero .stage img.slide{filter:saturate(.86) contrast(1.1) brightness(var(--br,1.02))}
 .hero .splat{display:none}
 /* ---- part: texture-lands.css ----
    The brand texture landing, once, on first paint: the blot hits at scale with an
@@ -325,20 +376,21 @@ body.ph-on .tiles,body.ph-on .cols2[data-ph]{padding-top:12px}
 html.splat-done .hero .splat{animation:none}
 @media (prefers-reduced-motion:reduce){.hero .splat{animation:none}}
 .hero .wrap{position:relative;z-index:2;padding-block:clamp(16px,2cqi,30px) clamp(24px,3cqi,48px)}
-.herogrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);gap:clamp(24px,3.5cqi,56px);align-items:start}
+.herogrid{display:grid;grid-template-columns:minmax(0,1.34fr) minmax(240px,.66fr);gap:clamp(24px,3.5cqi,56px);align-items:start}
+.herostamp{padding-top:4px}
 .hero .place{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
 .hero .place .eyebrow{color:var(--text)}
 .hero .place .eyebrow+.eyebrow::before{content:"\00b7";color:var(--acc2);margin-right:12px}
-.hero h1{font-size:min(clamp(52px,7cqi,118px),9.6vh);line-height:.9;letter-spacing:.01em}
+.hero h1{font-size:min(clamp(46px,5.7cqi,96px),8.2vh);line-height:.9;letter-spacing:.01em}
 .hero h1 em{font-style:normal;color:var(--red-hi)}
 .hero .lede{color:var(--text-2);margin-top:16px}
 .hero .brandmark{width:64px;height:64px;margin-bottom:8px;filter:drop-shadow(0 6px 18px rgba(0,0,0,.6))}
 @media (max-height:820px){
-  .hero .wrap{padding-block:14px clamp(24px,3cqi,48px)}
-  .hero .brandmark{width:58px;height:58px;margin-bottom:6px}
-  .hero .place{margin-bottom:8px}
+  .hero .wrap{padding-block:10px clamp(24px,3cqi,48px)}
+  .hero .brandmark{width:50px;height:50px;margin-bottom:5px}
+  .hero .place{margin-bottom:6px}
   .hero .lede{margin-top:10px}
-  .hero h1{font-size:min(clamp(48px,6.2cqi,100px),9vh)}
+  .hero h1{font-size:min(clamp(44px,5.2cqi,84px),7.6vh)}
 }
 h1,h2{font-family:var(--display);font-weight:400;text-transform:uppercase}
 h2{letter-spacing:.01em}
@@ -349,6 +401,8 @@ h2{letter-spacing:.01em}
 .chalk .row svg{width:26px;height:26px;fill:none;stroke:var(--red-ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .chalk .row b{font-family:var(--display);font-weight:400;font-size:24px;letter-spacing:.04em;text-transform:uppercase;line-height:1}
 .chalk .row .t{font-family:var(--display);font-size:28px;line-height:1;color:var(--text);letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.gdgrid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(20px,2.6cqi,40px);align-items:start}
+.gameday .board{margin-top:clamp(26px,3cqi,42px)}
 /* the fare tiles: your poster's four boxes, price huge, half day underneath */
 .tiles4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
 .tiles4 a,.tiles4 div.ft{display:block;text-decoration:none;color:var(--text);border-radius:2px;padding:10px 8px 9px;text-align:center;border:1px solid var(--line-strong);min-height:44px}
@@ -365,7 +419,9 @@ h2{letter-spacing:.01em}
 .booknow{font-family:var(--display);font-size:clamp(28px,3cqi,44px);color:var(--red-hi);line-height:1;letter-spacing:.03em;text-transform:uppercase;text-shadow:0 2px 0 rgba(0,0,0,.5)}
 .nextline{display:flex;flex-wrap:wrap;gap:10px 16px;margin-top:14px}
 .stamp.sm{font-size:20px;color:var(--text);border-color:var(--red-hi);transform:rotate(-1.5deg)}
-.stamp.sm small{color:var(--text-2)}
+.stamp.sm small{color:var(--text-2);opacity:1}
+.herostamp .stamp.sm{background:var(--sunk);box-shadow:0 6px 22px rgba(0,0,0,.55)}
+.herostamp .tape{box-shadow:0 6px 22px rgba(0,0,0,.45)}
 .booknow small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--text-2);margin-top:6px;text-shadow:none}
 .board{margin-top:clamp(22px,3cqi,36px);border:1px solid var(--line-strong);border-radius:2px;background:rgba(10,9,8,.92);backdrop-filter:blur(6px)}
 .board .hd{display:grid;grid-template-columns:150px 1fr 96px 96px 96px 150px;gap:0;padding:8px 16px;border-bottom:1px solid var(--line-strong);background:rgba(36,32,25,.92)}
@@ -602,8 +658,6 @@ footer.site ul button:hover{color:var(--red-ink)}
   .day .date{grid-area:d}.day .info{grid-area:i}.day .cap{grid-area:c}.day .act{grid-area:a}
   .day .price{text-align:left}
   .hero .wrap{padding-top:28px}
-  .hero::after{background:linear-gradient(180deg,rgba(10,9,8,.62) 0%,rgba(10,9,8,.86) 34%,#0A0908 100%)}
-  .hero::before{background-position:right -18% top 6%;background-size:auto 96%}
 }
 @container page (max-width:1140px){
   nav.main{display:none}
@@ -638,9 +692,8 @@ footer.site ul button:hover{color:var(--red-ink)}
   .tiles{grid-template-columns:1fr}
   .tiles .tile{aspect-ratio:4/5}
   .tiles>figure:first-of-type{grid-column:auto;grid-row:auto;aspect-ratio:4/5}
-  .hero .wrap{padding-top:24px}
-  .hero::after{background:linear-gradient(180deg,rgba(10,9,8,.6) 0%,rgba(10,9,8,.9) 26%,#0A0908 100%)}
-  .hero .brandmark{width:72px;height:72px}
+  .hero .wrap{padding-top:18px}
+  .hero .brandmark{width:64px;height:64px}
   h1{font-size:40px}
 }
 @media (max-width:640px){
@@ -664,10 +717,11 @@ footer.site ul button:hover{color:var(--red-ink)}
   .icons li{width:100%}
   .icons b{white-space:normal;font-size:20px}
   .icons .l{white-space:normal}
-  .hero .place .eyebrow{display:block;margin-bottom:4px;max-width:100%}
+  .hero .place{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+  .hero .place .eyebrow{margin-bottom:0;max-width:100%}
   .hero .place .eyebrow+.eyebrow::before{content:none;margin:0}
-  .hero h1{font-size:44px}
-  .hero .brandmark{width:64px;height:64px}
+  .hero h1{font-size:40px}
+  .hero .brandmark{width:52px;height:52px}
   .chalk .row b{font-size:20px}.chalk .row .t{font-size:24px}
   .strip figure{height:110px}
   .ft .p{font-size:32px}
@@ -922,6 +976,9 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
   .evrows b{font-size:20px}
   .evtop .splat{left:auto;right:-20%;width:55vw;top:-140px;opacity:.45}
 }
+/* a phone: the two price signs stack. Side by side, a one-word sign ("Deposit") set at display size is wider than
+   half a 390px screen and cannot wrap, so it ran 65px past the right edge on frontline-events' events page (26 Sep). */
+@media (max-width:480px){.evprice{grid-template-columns:1fr}}
 /* ---- part: backend.css ----
    The owner's back end: the same world as the site, laid out as an operator app.
    Rail of tabs, stat tiles, lists, grid tables that stack at phone width instead
@@ -1168,15 +1225,21 @@ h1,h2,.wordmark,.stamp,.booknow,.ft .p,.ft .k,.chalk .row b,.chalk .row .t,.icon
 }
 @container page (max-width:640px){.hero h1{font-size:40px}}
 
-/* ---------- the photograph on a phone ----------
-   Sized to the hero, the poster crop became a black smear: the hero is six
-   screens of column and the image was scaled to its height. On a phone it
-   sits behind the badge and the place line at its own size and hands over to
-   black before the headline, so the players are on the first screen and the
-   type still has its ground. */
-@container page (max-width:640px){
-  .hero::before{background-size:175% auto;background-position:56% 0;filter:saturate(1.12) contrast(1.06) brightness(.92)}
-  .hero::after{background:linear-gradient(180deg,rgba(10,9,8,.22) 0%,rgba(10,9,8,.40) 8%,rgba(10,9,8,.90) 12%,rgba(10,9,8,.99) 16%,rgba(10,9,8,.99) 100%)}
+/* ---------- your pictures on a narrow screen ----------
+   The old phone rule laid a flat sheet at .99 over the picture and ran it at brightness .92,
+   which is how twenty seven photographs became a black smear. A narrow screen is one column,
+   so the scrim has to run top to bottom rather than left to right, and the honest version of
+   that is: nothing at all over the top of the picture, where your badge and your place line
+   sit, then your warm black arriving under the headline and staying. Your pictures keep their
+   own exposure, and the credit moves up into the open part. */
+@container page (max-width:960px){
+  .hero .stage::after{background:linear-gradient(180deg,transparent 0%,transparent 8%,color-mix(in srgb,var(--bg) 42%,transparent) 12%,color-mix(in srgb,var(--bg) 88%,transparent) 16%,color-mix(in srgb,var(--bg) 97%,transparent) 21%,var(--bg) 26%)}
+  .hero .photocredit{top:10px;right:10px;bottom:auto;max-width:calc(100% - 20px)}
+  /* the place line sits in the open part of the picture, so each line carries its own
+     warm black the way a stencilled label would, rather than taking whatever is behind it */
+  .hero .place .eyebrow{background:color-mix(in srgb,var(--sunk) 94%,transparent);padding:3px 7px;width:max-content;max-width:100%;border-radius:2px}
+  .herostamp{padding-top:0}
+  .gdgrid{grid-template-columns:1fr}
 }
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Roboto+Condensed:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
@@ -1282,6 +1345,17 @@ h1,h2,.wordmark,.stamp,.booknow,.ft .p,.ft .k,.chalk .row b,.chalk .row .t,.icon
 <section data-screen="home">
 
   <div class="hero plate">
+    <!-- the opening screen moves: four of your own pictures, your players first, a slow push in and a crossfade -->
+    <div class="stage n4" data-stage aria-hidden="true">
+      <img class="slide" src="assets/hero.jpg" alt="" width="1170" height="1185" fetchpriority="high" decoding="async" style="--br:1.02;--at:0s;--pos:52% 30%" data-credit="Our players, from our game day poster" data-rain=".16">
+      <img class="slide" src="assets/img-25.jpg" alt="" width="640" height="480" decoding="async" style="--br:.94;--at:5s;--pos:52% 48%" data-credit="The helicopter fuselage, our site pictures" data-rain=".34">
+      <img class="slide" src="assets/img-21.jpg" alt="" width="640" height="480" decoding="async" style="--br:.86;--at:10s;--pos:52% 54%" data-credit="A trench revetted with logs, our site pictures" data-rain=".46">
+      <img class="slide" src="assets/img-17.jpg" alt="" width="640" height="480" decoding="async" style="--br:.88;--at:15s;--pos:52% 44%" data-credit="A steel container bunker, our site pictures" data-rain=".24">
+      <canvas class="rain" aria-hidden="true"></canvas>
+      <svg class="bolt" aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none"><path class="glow" d=""/><path class="core" d=""/></svg>
+      <div class="flash" aria-hidden="true"></div>
+    </div>
+    <span class="photocredit" data-stage-credit>Our players, from our game day poster</span>
     <div class="splat" aria-hidden="true"></div>
     <div class="wrap">
       <div class="herogrid">
@@ -1305,22 +1379,38 @@ h1,h2,.wordmark,.stamp,.booknow,.ft .p,.ft .k,.chalk .row b,.chalk .row .t,.icon
             <li><span class="ic"><svg aria-hidden="true"><use href="#i-cal"/></svg></span><div><b>Teamwork</b><span class="l">Strategy and adrenaline</span></div></li>
           </ul>
         </div>
-        <div>
+        <div class="herostamp">
           <p class="tape">Next game day</p>
-          <div class="chalk" aria-label="Game day times">
-            <div class="row"><svg aria-hidden="true"><use href="#i-cal"/></svg><b>Gates open</b><span class="t">08:30</span></div>
-            <div class="row"><svg aria-hidden="true"><use href="#i-clock"/></svg><b>Signing in closes</b><span class="t">09:30</span></div>
-            <div class="row"><svg aria-hidden="true"><use href="#i-bullet"/></svg><b>Games start</b><span class="t">10:00</span></div>
-            <div class="row"><svg aria-hidden="true"><use href="#i-trophy"/></svg><b>Endex</b><span class="t">16:30</span></div>
-          </div>
+          <p class="nextline"><span class="stamp sm"><span id="ripDate">Next Sunday</span><small id="ripKind">Airsoft game day</small></span><span class="stamp sm"><span id="ripPrice">&pound;29</span><small id="ripNote"></small></span></p>
+        </div>
+      </div>
+      <p class="note"><b>Why</b><span>Your opening screen is four of your own pictures, moving. Your two players off your game day poster come up first, then the helicopter, the log trench and the bunker you photographed in the wood, each one held for five seconds with a slow push in and credited in the corner as it shows. Your badge, your place line and your own gold sit on top, and your next date is stamped beside them. Nothing here is generated. The reason it is pictures and not a timetable: you have twenty seven photographs of this site and the old opening screen showed almost none of them, which threw away the one thing a first time player wants to see. Your times, your four fares and your dates are on the next screen down, word for word as they were.</span></p>
+    </div>
+  </div>
+  <div class="tagline"><p>Real players. Real action. <em>Real fun.</em></p><div class="note"><b>Why</b><span>Your own line, word for word off your game day poster, on your own gold tape.</span></div></div>
+
+  <!-- your game day: the times, the four fares and the dates, off the opening screen and onto their own -->
+  <div class="band tight gameday">
+    <div class="wrap">
+      <div class="row" style="justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:22px">
+        <div><p class="eyebrow red">Next game day</p><h2 style="margin-top:10px">Gates 08:30.<br>Endex 16:30.</h2></div>
+        <p class="lede" style="max-width:46ch;margin:0">The times and the four fares off our game day poster. Game days are the first and third Sunday.</p>
+      </div>
+      <div class="gdgrid">
+        <div class="chalk" aria-label="Game day times">
+          <div class="row"><svg aria-hidden="true"><use href="#i-cal"/></svg><b>Gates open</b><span class="t">08:30</span></div>
+          <div class="row"><svg aria-hidden="true"><use href="#i-clock"/></svg><b>Signing in closes</b><span class="t">09:30</span></div>
+          <div class="row"><svg aria-hidden="true"><use href="#i-bullet"/></svg><b>Games start</b><span class="t">10:00</span></div>
+          <div class="row"><svg aria-hidden="true"><use href="#i-trophy"/></svg><b>Endex</b><span class="t">16:30</span></div>
+        </div>
+        <div>
           <div class="tiles4" aria-label="Fares">
             <div class="ft olive"><svg aria-hidden="true"><use href="#i-pistol"/></svg><span class="k">Own kit<br>pre-booked</span><span class="p">&pound;29</span><span class="h">Online, before the day</span></div>
             <div class="ft slate"><svg aria-hidden="true"><use href="#i-clock"/></svg><span class="k">Own kit<br>on the day</span><span class="p">&pound;32</span><span class="h">Walk on, no booking</span></div>
             <div class="ft dark"><svg aria-hidden="true"><use href="#i-bullet"/></svg><span class="k">Rental kit<br>with entry</span><span class="p">&pound;51</span><span class="h">Pre-book and prepay</span></div>
             <div class="ft tan"><svg aria-hidden="true"><use href="#i-trophy"/></svg><span class="k">Member<br>pre-booked</span><span class="p">&pound;24</span><span class="h">Own kit, with the code</span></div>
           </div>
-          <p class="booknow" style="margin-top:14px">Book now!<small>aceairsoft.co.uk &middot; spaces limited</small></p>
-          <p class="nextline"><span class="stamp sm"><span id="ripDate">Next Sunday</span><small id="ripKind">Airsoft game day</small></span><span class="stamp sm"><span id="ripPrice">&pound;29</span><small id="ripNote"></small></span></p>
+          <p class="booknow" style="margin-top:16px">Book now!<small>aceairsoft.co.uk &middot; spaces limited</small></p>
         </div>
       </div>
 
@@ -1328,10 +1418,9 @@ h1,h2,.wordmark,.stamp,.booknow,.ft .p,.ft .k,.chalk .row b,.chalk .row .t,.icon
         <div class="hd"><span>Day</span><span>Game day</span><span>Gates</span><span>Games</span><span>Endex</span><span></span></div>
         <div id="boardRows"></div>
       </div>
-      <p class="note"><b>Why</b><span>This opening screen is your own game day poster, opened up. Your badge, your place line, your date panel ruled in your gold, your four fares as the poster sets them out, BOOK NOW in your gold, and the icon row off the foot of the poster word for word. The photograph behind it is the one on your poster, cropped away from the lettering. Every time and every price on this screen is yours. The board of dates underneath is worked out from your own "first and third Sunday" rule, and it is marked as ours until you confirm each one: today the site sells one dated product at a time, and when that one closes there is no next date anywhere on it.</span></p>
+      <p class="note"><b>Why</b><span>This screen is your game day poster set out as a page: your date panel ruled in your gold, your four fares as the poster lists them, BOOK NOW in your gold, and the icon row off the foot of the poster word for word up in the opening screen. Every time and every price here is yours. It used to sit on top of your photographs and it was the only lit thing on the page, so it has come down one screen where it reads better and the pictures get the top. The board of dates is worked out from your own first and third Sunday rule, and it is marked as ours until you confirm each one: today the site sells one dated product at a time, and when that one closes there is no next date anywhere on it.</span></p>
     </div>
   </div>
-  <div class="tagline"><p>Real players. Real action. <em>Real fun.</em></p><div class="note"><b>Why</b><span>Your own line, word for word off your game day poster, on your own gold tape.</span></div></div>
 
   <!-- the two zones -->
   <div class="band">
@@ -1631,7 +1720,7 @@ h1,h2,.wordmark,.stamp,.booknow,.ft .p,.ft .k,.chalk .row b,.chalk .row .t,.icon
               <p class="who">Stewart Crawford, 04 Jun 2023</p>
             </blockquote>
           </div>
-          <p class="note"><b>Why</b><span>All three are copied whole off your own reviews page, with the names and the dates as they sit there. Nothing is trimmed and nothing is stitched: a review that needed cutting to fit was left out rather than edited. No Google rating appears anywhere on this site, because the listing that comes back for "Ace Airsoft" is Ace Combat Airsoft in Kent, and a rating that is not yours is worse than none.</span></p>
+          <p class="note"><b>Why</b><span>All three are copied whole off your own reviews page, with the names and the dates as they sit there. Nothing is trimmed and nothing is stitched: a review that needed cutting to fit was left out rather than edited. No Google rating appears anywhere on this site, because the listing that comes back for "Ace Airsoft" is a different business in another county, and a rating that is not yours is worse than none.</span></p>
         </div>
         <div class="stick">
           <div class="revband"><img src="assets/img-32.jpg" width="639" height="350" alt="Players Reviews: see feedback and reviews from airsofters who have attended games with us. We always welcome your comments" loading="lazy" decoding="async"></div>
@@ -2652,6 +2741,68 @@ window.addEventListener("load",fitChips);
 window.addEventListener("resize",()=>requestAnimationFrame(fitChips));
 document.addEventListener("click",()=>requestAnimationFrame(fitChips));   /* a click may change the screen or the toggle; chips on a screen just shown measure now */
 new MutationObserver(()=>requestAnimationFrame(fitChips)).observe(document.body,{attributes:true,attributeFilter:["class","data-screen"]});   /* the Placeholders toggle, and a screen change: chips on a hidden screen measure 0 until it shows */
+/* ---- part: hero-motion.js ----
+   Drives the opening screen (hero-motion.css): the type arrives once in about a second (Web Animations,
+   staggered, the gold lines glow as they land), the stage credit follows the slide on screen, procedural
+   rain falls on a canvas at the intensity each slide asks for (data-rain), and lightning strikes on the
+   slides that ask for it (data-lightning): a fresh SVG bolt each time, a two-beat flash, a brightness pop.
+   Everything stops under prefers-reduced-motion, while the tab is hidden, and once the hero is scrolled
+   out of view. Reads no CONFIG. */
+(function(){
+  const hero=document.querySelector(".hero"),stages=hero?[...hero.querySelectorAll(".stage")]:[];if(!stages.length)return;
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /* 1. the type arrives, once, whichever stage is showing */
+  if(!reduce&&"animate" in Element.prototype){
+    const seq=[".brandmark",".place","h1",".lede",".row",".ripstack",".icons li"].flatMap(s=>[...hero.querySelectorAll(s)]);
+    seq.forEach((el,i)=>el.animate([{opacity:0,transform:"translateY(26px)"},{opacity:1,transform:"none"}],{duration:620,delay:55*i,easing:"cubic-bezier(.2,.7,.2,1)",fill:"backwards"}));
+    hero.querySelectorAll("h1 em").forEach((el,i)=>el.animate([{textShadow:"0 0 0 rgba(255,222,150,0)"},{textShadow:"0 0 30px rgba(255,222,150,.8)",offset:.45},{textShadow:"0 0 0 rgba(255,222,150,0)"}],{duration:760,delay:55*(3+i)+560,easing:"ease-out"}));
+  }
+  /* a layout with one stage per world (data-world on each .stage, CSS shows the one html[data-world] names) runs each
+     stage on its own clock; a hidden stage has no size, so its rain is an empty loop until it is shown */
+  stages.forEach(stage=>{
+  const slides=[...stage.querySelectorAll("img.slide")],n=slides.length||1;
+  const hold=parseFloat(getComputedStyle(hero).getPropertyValue("--hold"))||5;
+  /* the clock is the first slide's own animation (delay 0), so the credit and the lightning follow what is on screen */
+  const t0=performance.now();
+  const at=()=>{const an=slides[0]&&slides[0].getAnimations&&slides[0].getAnimations().find(a=>a.animationName&&a.animationName.indexOf("slide-cycle")===0);return an&&an.currentTime!=null?an.currentTime/1000:(performance.now()-t0)/1000;};
+  const idx=()=>reduce?0:Math.floor(((at()/hold)%n+n)%n);
+  /* 2. the credit follows the slide: the credit that names this stage's world, else the hero's one credit */
+  const credit=(stage.dataset.world&&hero.querySelector('[data-stage-credit][data-world="'+stage.dataset.world+'"]'))||hero.querySelector("[data-stage-credit]");let shown=-1;
+  const syncCredit=()=>{const i=idx();if(i!==shown){shown=i;if(credit)credit.textContent=slides[i].dataset.credit||"";}};
+  syncCredit();if(reduce)return;setInterval(syncCredit,250);
+  /* 3. rain */
+  const canvas=stage.querySelector("canvas.rain"),ctx=canvas&&canvas.getContext("2d");
+  let W=0,H=0,drops=[],running=false,raf=0,level=0,last=0;const wind=-.22;
+  const spawn=(anywhere)=>({x:Math.random()*(W+160)-40,y:anywhere?Math.random()*H:-40-Math.random()*H*.3,len:14+Math.random()*26,v:9+Math.random()*9,w:Math.random()<.2?1.4:.9,a:.2+Math.random()*.34});
+  const size=()=>{const r=stage.getBoundingClientRect(),dpr=Math.min(1.5,devicePixelRatio||1);W=Math.round(r.width);H=Math.round(r.height);canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);drops=Array.from({length:Math.min(380,Math.round(W/4))},()=>spawn(true));};
+  const draw=(t)=>{if(!running)return;raf=requestAnimationFrame(draw);const dt=last?Math.min(40,t-last):16;last=t;const k=dt/16;
+    const want=parseFloat(slides[idx()].dataset.rain);level+=((isNaN(want)?.5:want)-level)*.02;
+    ctx.clearRect(0,0,W,H);ctx.lineCap="round";const m=Math.round(drops.length*level);
+    for(let i=0;i<m;i++){const d=drops[i];ctx.strokeStyle="rgba(225,232,240,"+d.a+")";ctx.lineWidth=d.w;ctx.beginPath();ctx.moveTo(d.x,d.y);ctx.lineTo(d.x+wind*d.len,d.y+d.len);ctx.stroke();d.y+=d.v*k;d.x+=wind*d.v*k*.9;if(d.y>H+20||d.x<-80)Object.assign(d,spawn(false));}};
+  let onScreen=false;
+  const start=()=>{if(running||!ctx||!onScreen||document.hidden)return;running=true;last=0;raf=requestAnimationFrame(draw);};
+  const stop=()=>{running=false;cancelAnimationFrame(raf);};
+  if(ctx){size();addEventListener("resize",size,{passive:true});
+    /* the stage grows when fonts and pictures land after the script ran: size the canvas to the stage it has now */
+    if("ResizeObserver" in window)new ResizeObserver(()=>size()).observe(stage);
+    new IntersectionObserver(es=>es.forEach(e=>{onScreen=e.isIntersecting;onScreen?start():stop();}),{threshold:.05}).observe(hero);
+    document.addEventListener("visibilitychange",()=>document.hidden?stop():start());}
+  /* 4. lightning */
+  const bolt=stage.querySelector("svg.bolt"),paths=bolt?[...bolt.querySelectorAll("path")]:[],path=paths[0],flash=stage.querySelector(".flash");
+  const boltPath=()=>{let x=52+Math.random()*38,y=0,d="M"+x.toFixed(1)+" 0";const steps=8+Math.floor(Math.random()*5),endY=42+Math.random()*26,branches=[];
+    for(let i=1;i<=steps;i++){y=endY*i/steps;x+=(Math.random()-.5)*11;d+=" L"+x.toFixed(1)+" "+y.toFixed(1);
+      if(i>2&&i<steps-1&&Math.random()<.4){let bx=x,by=y,b="M"+bx.toFixed(1)+" "+by.toFixed(1);for(let j=0;j<3;j++){bx+=(Math.random()-.5)*14;by+=4+Math.random()*6;b+=" L"+bx.toFixed(1)+" "+by.toFixed(1);}branches.push(b);}}
+    return d+" "+branches.join(" ");};
+  const strike=()=>{if(!running||!path||!flash)return;const d=boltPath();paths.forEach(p=>p.setAttribute("d",d));hero.classList.add("strike");
+    bolt.animate([{opacity:0},{opacity:1,offset:.08},{opacity:.3,offset:.3},{opacity:1,offset:.42},{opacity:0}],{duration:540,easing:"linear"});
+    flash.animate([{opacity:0},{opacity:.85,offset:.06},{opacity:.12,offset:.3},{opacity:.55,offset:.4},{opacity:0}],{duration:580,easing:"linear"});
+    setTimeout(()=>hero.classList.remove("strike"),260);};
+  const schedule=()=>{const s=slides[idx()],tIn=((at()/hold)%1)*hold;let wait;
+    if(s&&s.dataset.lightning){wait=tIn<1.2?1.2-tIn:(tIn<3.4?3.4-tIn:hold-tIn+1.2);if(tIn<3.4&&Math.random()<.35)wait+=.5;}else wait=hold-tIn+1.2;
+    setTimeout(()=>{if(slides[idx()].dataset.lightning)strike();schedule();},Math.max(300,wait*1000));};
+  schedule();
+  });
+})();
 /* ---- part: texture-lands.js ----
    The brand texture lands once per page load, then holds. Pairs with
    texture-lands.css: that animates .hero .splat, this switches the animation off
@@ -2688,11 +2839,22 @@ function go(name){
   $("#viewProp").setAttribute("aria-pressed",prop); $("#viewBack").setAttribute("aria-pressed",back); $("#viewSite").setAttribute("aria-pressed",!prop&&!back);
   if(!prop&&!back) lastSite=name;
   document.body.dataset.screen=name;
+  const sec=$('section[data-screen="'+name+'"]'); if(sec&&sec.dataset.world) setWorld(sec.dataset.world);   /* a screen that belongs to a world opens in it */
   if(name==="book")resetBook();
   $("#nav").classList.remove("open"); $("#burger").setAttribute("aria-expanded",false);
   window.scrollTo({top:0,behavior:reduce?"auto":"smooth"});
 }
 document.addEventListener("click",e=>{const t=e.target.closest("[data-go]"); if(!t)return; e.preventDefault(); go(t.dataset.go);});
+/* ---------- worlds: one site, more than one identity. html[data-world] is set from ?world= on load (the first
+   [data-world-go] is the default), by a [data-world-go] press, or by opening a section[data-world]. Layouts with
+   no worlds never call this: the attribute stays unset and nothing changes. The event lets the layout repaint. */
+function setWorld(w){const el=document.documentElement; if((el.dataset.world||"")===w) return; el.dataset.world=w;
+  $$("[data-world-go]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.worldGo===w));
+  try{const u=new URL(location.href); u.searchParams.set("world",w); history.replaceState(null,"",u);}catch(e){ /* file: urls */ }
+  document.dispatchEvent(new CustomEvent("world:change",{detail:w}));}
+(function(){const worlds=[...new Set($$("[data-world-go]").map(b=>b.dataset.worldGo))]; if(!worlds.length) return;
+  const want=new URLSearchParams(location.search).get("world"); setWorld(worlds.includes(want)?want:worlds[0]);})();
+document.addEventListener("click",e=>{const t=e.target.closest("[data-world-go]"); if(!t)return; setWorld(t.dataset.worldGo); if(document.body.dataset.screen&&document.body.dataset.screen!=="home") go("home");});
 /* The operator console (AOC) opens INSIDE the prototype, under the toolbar, so Site / Back end /
    Proposal stay in reach whichever view is up (Greg, 25 Sep: "the navigation bar needs to remain
    for all mockups regardless of tab selected"). Same origin, so the console's own "back to the
@@ -3197,7 +3359,7 @@ $("#brandReset").addEventListener("click",()=>{
         liveRow.innerHTML='<span class="phtag">Sample: live figures come from the gate check-in</span>'+
           '<div class="d">On now<small>'+(L.day||"Sunday")+' &middot; '+L.time+'</small><span class="status live">Live</span></div>'+
           '<div class="n"><b>Game '+L.game+' of '+L.of+' running</b>Next game '+L.next+' &middot; '+L.onSite+' on site &middot; gates closed at '+L.closed+'</div>'+
-          '<div class="times"><span class="t">10:00</span><span class="t">'+L.next+'</span><span class="t">16:00</span></div>'+
+          '<div class="times"><span class="t">'+(((CONFIG.schedule||{}).times||[])[0]||'10:00')+'</span><span class="t">'+L.next+'</span><span class="t">'+((((CONFIG.schedule||{}).times||[]).slice(-1)[0])||'16:00')+'</span></div>'+
           '<div class="a"><span class="status open">Gates closed</span></div>';
         if(next){next.hidden=true;rows.insertBefore(liveRow,next);}else rows.prepend(liveRow);
       }

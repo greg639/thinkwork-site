@@ -32,7 +32,7 @@
   --accent-head:var(--brand-head);
   --on-accent:#FFFFFF;
   --shadow:0 1px 2px rgba(0,0,0,.45), 0 14px 34px -14px rgba(0,0,0,.65);
-  --display:"Bevan",Georgia,"Times New Roman",serif;
+  --display:"Black Ops One","Bevan",Georgia,serif;
   --sans:"Barlow Semi Condensed",ui-sans-serif,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --wrap:1140px; --narrow:760px;
 }
@@ -462,7 +462,15 @@ footer.site{border-top:1px solid var(--rule);margin-top:80px;padding-block:52px 
 /* ---- 1066 display type -------------------------------------------------- */
 /* Bevan ships one weight only, so a font-weight above 400 would synthesise a
    fake bold. Headings get size and tracking instead. */
-h1,h2,h3,.brand b{font-family:var(--display);font-weight:400;letter-spacing:.005em}
+/* Dom asked for a stencil on the headers. Black Ops One is unmistakably that
+   and carries a hero, but it is a single-weight display face that turns to
+   mush under about 24px. So it takes h1 and h2, where "header" actually means
+   something, and the card titles and the brand name stay on the condensed sans
+   where they have to be read at 16 to 19px. */
+h1,h2{font-family:var(--display);font-weight:400;letter-spacing:.005em}
+h3,.brand b{font-family:var(--sans);font-weight:700;letter-spacing:.01em}
+.brand b{font-size:1.2rem}
+.mode b,.stat b,.card .price b{font-family:var(--display);font-weight:400}
 h1{line-height:1.04;text-transform:uppercase}
 h2{line-height:1.1;text-transform:uppercase}
 .eyebrow{font-family:var(--sans);font-weight:600;letter-spacing:.14em;text-transform:uppercase}
@@ -738,3 +746,7 @@ h1{letter-spacing:-.005em}
   .sportswitch{margin-right:0;order:-1}
   .sportswitch span,.sportswitch a{min-height:30px;padding:3px 14px}
 }
+
+/* The calendar spans two years now, so each date carries its year. */
+.datelist li{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.datelist li span{color:var(--muted);font-size:.8rem}

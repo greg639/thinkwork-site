@@ -11,7 +11,7 @@
 - Minimum group size to hold an event: 10 players
 - Runs fortnightly on Saturdays, all year, by prior booking
 - Booking is through Eventbrite: https://www.eventbrite.com/e/paintball-skirmish-event-tickets-1095197006729?aff=oddtdtcreator
-- Telephone 07722 22 1066 (24 hour answering service), email dom@1066paintball.com
+- Email dom@1066paintball.com is the quickest contact; telephone 07722 22 1066
 - Battlezones: The Village, Hellfire Hill, The Jungle
 - Arrive 09:00
 - Lunch around 12:30, for about 45 minutes; we close around 15:30
@@ -23,6 +23,13 @@
 - Saturday 14 November 2026
 - Saturday 28 November 2026
 - Saturday 12 December 2026
+- Saturday 09 January 2027
+- Saturday 23 January 2027
+- Saturday 06 February 2027
+- Saturday 20 February 2027
+- Saturday 06 March 2027
+- Saturday 20 March 2027
+- Saturday 03 April 2027
 
 ## Pages
 
@@ -35,4 +42,4 @@
 - https://thinkwork.info/1066/paintball/prices/
 - https://thinkwork.info/1066/paintball/sessions/
 
-Last updated 2026-10-09.
+Last updated 2026-10-11.

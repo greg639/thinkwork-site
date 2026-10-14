@@ -897,6 +897,10 @@ body.ph-on .mapgames[data-ph]{outline-offset:4px}
 /* the getting-here card: values may wrap on the desk card, and read from the left once the rows stack on a phone */
 .here .kv b{white-space:normal}
 @container page (max-width:640px){.here .kv b{text-align:left}}
+/* --film-ground: the two large areas of the film, as a token.
+   They were the literal #0B0807, which meant the five sites carrying a fly-in film all recorded the same
+   near-black as one of their own grounds. The default is the old value, so nothing moves until a site
+   sets --film-ground for itself in design.tokens, which it now can. 2026-10-09. */
 /* ---- part: flyin.css ----
    THE GOD'S EYE FLY-IN: drone footage of the client's own ground with a
    computer-game HUD over it. The ground is a Cesium canvas (Google
@@ -936,12 +940,12 @@ body.ph-on .mapgames[data-ph]{outline-offset:4px}
 /* the stage: a letterboxed feed. The ratio changes with the style, because a
    dossier photograph is not a cinema frame. */
 .fly-stage{position:relative;aspect-ratio:var(--fly-ratio);max-height:66vh;overflow:hidden;
-  background:#0B0807;border:1px solid var(--line-strong);border-radius:3px;box-shadow:var(--shadow);isolation:isolate;
+  background:var(--film-ground,#0B0807);border:1px solid var(--line-strong);border-radius:3px;box-shadow:var(--shadow);isolation:isolate;
   contain:layout paint}
 .fly-s-sat-intel{--fly-ratio:16/9}
 .fly-s-range-card{--fly-ratio:16/9}
 .fly-s-recon-dossier{--fly-ratio:1.6}
-.fly-ground{position:absolute;inset:0;z-index:0;background:#0B0807}
+.fly-ground{position:absolute;inset:0;z-index:0;background:var(--film-ground,#0B0807)}
 .fly-ground canvas{display:block;width:100% !important;height:100% !important;outline:0;
   filter:saturate(.68) contrast(1.16) brightness(.88)}
 .fly-ground .cesium-widget-credits,.fly-ground .cesium-viewer-bottom{display:none !important}
@@ -1359,10 +1363,9 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 </div>
 
 <div id="phLegend">
-  <p class="phlead"><b>Placeholder mode is on.</b> Everything in amber is sample<span class="phlead-more"> content, not taken from your sites. Turn it off in the toolbar for a clean walkthrough</span>.</p>
+  <p class="phlead"><b>Placeholder mode is on.</b> Everything in amber is sample<span class="phlead-more"> content, not taken from your sites or our call. Turn it off in the toolbar for a clean walkthrough</span>.</p>
   <details class="phmore" open><summary>Show what is sample</summary>
-  <p>Sample: which Sundays and evenings run and every places-left count, the next big game day's date, every activity and team-building price, the member price column, the session block, the pre-order items except boot hire, the account data, every figure in the revenue model and every figure and name in the back end.
-  Real, and not marked: walk-on &pound;25 and &pound;20 evening, rental &pound;35 and &pound;45, boot hire &pound;15, Nerf Wars &pound;15 and the &pound;7 taster, membership &pound;40 and &pound;25 from September with what it includes, the ages, the running order, All Out War on Sunday 20 September, your address, phones and emails, thirty minutes from Belfast, seventeen years, Activate's activities, team building and the Phoenix Program in your own words. Every photograph on both worlds is your own and labelled: your gallery and your homepage slider for Predator, your homepage, activities, team building and Phoenix pages for Activate. Your badge and Activate's roundel are the marks. The ground of the map band is your own photograph of the base until the 3D imagery pass.</p></details>
+  <p>Sample: every places-left count and capacity, every activity and team-building price, the account data, and the figures in the revenue model that did not come from our call. Real, and not marked: walk-on &pound;25 for a half or full day and &pound;20 evening, rental &pound;35 and &pound;45, boot hire &pound;15, Nerf Wars &pound;15 and the &pound;7 taster, membership &pound;40 and &pound;25 from September with what it includes, the ages, the running order, All Out War on Sunday 20 September, your address, phones and emails, thirty minutes from Belfast, seventeen years, Activate's activities, team building and the Phoenix Program in your own words. From our call on 13 October, not yet on your sites: game days every Saturday and Sunday, and the Halloween game day on Saturday 24 October. Every photograph on both worlds is your own and labelled. Not on this version, by your choice: member prices, blocks, pre-orders and food, which are phase two.</p></details>
 </div>
 
 <!-- part: brandpanel.html
@@ -1411,7 +1414,6 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
       <button data-go="days" data-w="airsoft">Game days</button>
       <!-- @@NAV-EVENTS -->
       <button data-go="members" data-w="airsoft">Fares &amp; membership</button>
-      <button data-go="onsite" data-w="airsoft">On site</button>
       <button data-go="activities" data-w="adventure">Activities</button>
       <button data-go="team" data-w="adventure">Team building</button>
       <button data-go="kids" data-w="adventure">Kids</button>
@@ -1534,23 +1536,23 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
     </div>
   </div>
 
-  <!-- big game days: your poster as the band -->
+  <!-- big game days: your poster as the band, the next date from our call -->
   <div class="band plate evband" data-w="airsoft">
     <div class="wrap">
       <div class="evgrid">
         <div>
           <p class="eyebrow red">Big game days</p>
-          <h2 style="margin:10px 0 14px">All Out War.<br>The next one is coming.</h2>
-          <p class="lede" style="max-width:52ch">Our last big game day was All Out War on Sunday 20 September, a 09:00 start on the woodland site. The next is announced on our Facebook page first and here the same day.</p>
+          <h2 style="margin:10px 0 14px">Halloween.<br>Saturday 24 October.</h2>
+          <p class="lede" style="max-width:52ch">Our next big game day is the Halloween game on Saturday 24 October: gates 09:00, brief 10:15, off the field at 16:30. All Out War on Sunday 20 September was the last one.</p>
           <ul class="evfacts">
-            <li><b>09:00</b><span>Start</span></li>
-            <li><b>Sunday</b><span>Big game days</span></li>
+            <li><b>24 Oct</b><span>Halloween game day</span></li>
+            <li><b>09:00</b><span>Gates</span></li>
             <li><b>Woodland</b><span>The site</span></li>
           </ul>
-          <div class="ctas" style="margin:20px 0 0;display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" data-go="parties" data-pick="45">Book a game day</button><a class="btn ghost" href="https://www.facebook.com/predatorairsoft" target="_blank" rel="noopener">Our Facebook page</a></div>
-          <p class="note"><b>Why</b><span>Your All Out War poster is cinematic, so it is the ground of this band and the picture in the frame. The date, the start and the site are read off the poster; no next date is claimed until you set one. Proposed: a date here becomes a bookable day with its own address, which is what a search engine or an assistant can quote.</span></p>
+          <div class="ctas" style="margin:20px 0 0;display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" data-go="events">The Halloween day</button><a class="btn ghost" href="https://www.facebook.com/predatorairsoft" target="_blank" rel="noopener">Our Facebook page</a></div>
+          <p class="note"><b>Why</b><span>The Halloween date is from our call on 13 October; the poster and any special price are yours to send, and All Out War stays in the frame until then. This band is the mechanism you asked for: you add the next event in the back end with a name, a description and a picture, and it takes this band over by itself, with its own address and its own Event record for search.</span></p>
         </div>
-        <figure class="evposter"><img src="assets/poster-all-out-war.jpg" width="386" height="748" alt="Our All Out War poster: Predator Airsoft, Sunday 20th September, 09:00 start, woodland site" loading="lazy" decoding="async"><span class="credit">Our poster</span></figure>
+        <figure class="evposter"><img src="assets/poster-all-out-war.jpg" width="386" height="748" alt="Our All Out War poster: Predator Airsoft, Sunday 20th September, 09:00 start, woodland site" loading="lazy" decoding="async"><span class="credit">Our poster, All Out War</span></figure>
       </div>
     </div>
   </div>
@@ -1597,33 +1599,33 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
     </div>
   </div>
 
-  <!-- the wedge: a form today, a slot and a card proposed -->
+  <!-- the wedge: a long form today, four taps proposed -->
   <div class="band sunk taped">
     <div class="wrap">
       <p class="eyebrow red">How you book</p>
-      <h2 style="margin:10px 0 20px">Today it is a form, then the money at the gate.<br>Proposed: a slot and a card.</h2>
+      <h2 style="margin:10px 0 20px">Today it is a long form.<br>Proposed: four taps and a card.</h2>
       <div class="wedge">
         <div class="today pad">
           <p class="eyebrow" style="margin-bottom:10px">Booking today</p>
-          <p class="bigq">Fill in the form. Turn up. <em>Pay on the day.</em></p>
-          <p class="small muted" style="margin:14px 0 10px">The booking page lists every option, walk-on full day down to the evening rental, then asks for a message. Nothing is paid until the player is at the gate. Activities and team days are booked by phone or email.</p>
-          <div><span class="callbtn">Booking request</span><span class="callbtn">Call us</span><span class="callbtn">Email us</span></div>
-          <p class="note"><b>Why</b><span>Your booking page is a request form and your Activate site asks for a call or an email. Nothing tells you on Saturday night how many are coming on Sunday, or how many rifles and boots to set out.</span></p>
+          <p class="bigq">Pick from everything. <em>Type the date carefully.</em></p>
+          <p class="small muted" style="margin:14px 0 10px">The current form takes payment in advance, which is right, and then lists every option at once: walk-on or rental, half or full day, private shoots, special events, and a typed date. A first-timer has to get all of it right on a phone.</p>
+          <div><span class="callbtn">Walk-on</span><span class="callbtn">Rental</span><span class="callbtn">Private shoot</span><span class="callbtn">Special event</span><span class="callbtn">Date</span></div>
+          <p class="note"><b>Why</b><span>Your form, as you described it on 13 October: rental players pick the walk-on price, people pick the private shoot, some type their date of birth where the visit date goes, and you cannot change it without your developer. It works, and it costs you a phone call for every mistake.</span></p>
         </div>
         <div class="prop pad" data-ph="1"><span class="phtag">Proposed</span>
           <p class="eyebrow" style="margin-bottom:10px;color:var(--yel)">Proposed</p>
-          <p class="bigq">Pick the day. Pick the package. <em>Pay by card.</em></p>
+          <p class="bigq">Pick the day. Walk-on or rental. <em>Half or full. Pay.</em></p>
           <ul class="checklist" style="margin-top:14px">
-            <li>Game days, Nerf Wars and activities on one calendar</li>
-            <li>The published price on the button, the rental and the boots pre-ordered with it</li>
-            <li>A card taken at 11pm on a Tuesday, when the organiser is in the group chat</li>
-            <li>Membership sold in the basket and taken off every game day</li>
-            <li>The form still works. It stops being the only door.</li>
+            <li>Saturday or Sunday from a list, never a typed date</li>
+            <li>Walk-on or rental first, so the price follows the choice</li>
+            <li>Half day or full day, the half day first because it is the popular one</li>
+            <li>Paid by card when you book, as now, then a calendar invite and a reminder</li>
+            <li>The next event on the front page the moment it is added</li>
           </ul>
-          <button class="btn primary" style="margin-top:16px" data-go="parties">Try the session picker</button>
+          <button class="btn primary" style="margin-top:16px" data-go="book">Try it</button>
         </div>
       </div>
-      <p class="note"><b>&pound;</b><span>This is the whole pitch on one band. You sell two brands with published prices and a running order, and the money path is a form and a till. One checkout with the card taken at booking is the cheapest revenue you can add, because every price on it is already yours.</span></p>
+      <p class="note"><b>&pound;</b><span>This is the whole of phase one: the same prices, the same money up front, and a picker a first-timer gets right on a phone. Memberships sold online, blocks, add-ons and food are phase two, by your choice, and nothing on this version depends on them.</span></p>
     </div>
   </div>
 
@@ -1633,49 +1635,46 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
       <div class="farewrap">
         <div>
           <p class="eyebrow">Airsoft game days</p>
-          <h2 style="margin:10px 0 8px">Your own kit, or the rental package:<br>two prices for the same day</h2>
-          <p class="lede" style="margin-bottom:22px">Walk on with your own kit, or take the rental package: electric Gun 1:1 replica rifle, 3000rds Ammunition each, and full face protection. Throw the lever and the board does the member sum.</p>
+          <h2 style="margin:10px 0 8px">Half day or full day,<br>your own kit or the rental package</h2>
+          <p class="lede" style="margin-bottom:22px">Walk on with your own kit, or take the rental package: electric Gun 1:1 replica rifle, 3000rds Ammunition each, and full face protection. Every Saturday and Sunday.</p>
           <div class="enamel">
             <div class="pad" style="padding-bottom:10px">
               <table class="fare" aria-describedby="fareNote">
-                <thead><tr><th scope="col">Ticket</th><th scope="col" style="text-align:right">Full day</th><th scope="col" style="text-align:right">Morning or afternoon</th></tr></thead>
+                <thead><tr><th scope="col">Ticket</th><th scope="col" style="text-align:right">Half day</th><th scope="col" style="text-align:right">Full day</th></tr></thead>
                 <tbody>
                   <tr><th scope="row">Walk-on<small>Your own kit</small></th>
-                    <td class="p" data-fare="walkon.full"><span class="flap">&pound;25</span><s></s></td>
-                    <td class="p" data-fare="walkon.half"><span class="flap">&pound;25</span><s></s></td></tr>
+                    <td class="p" data-fare="walkon.half"><span class="flap">&pound;25</span><s></s></td>
+                    <td class="p" data-fare="walkon.full"><span class="flap">&pound;25</span><s></s></td></tr>
                   <tr><th scope="row">Rental package<small>Rifle, 3,000 rounds, full face</small></th>
-                    <td class="p" data-fare="hire.full"><span class="flap">&pound;45</span><s></s></td>
-                    <td class="p" data-fare="hire.half"><span class="flap">&pound;35</span><s></s></td></tr>
+                    <td class="p" data-fare="hire.half"><span class="flap">&pound;35</span><s></s></td>
+                    <td class="p" data-fare="hire.full"><span class="flap">&pound;45</span><s></s></td></tr>
                 </tbody>
               </table>
             </div>
           </div>
-          <div data-ph="1" style="margin-top:14px"><span class="phtag">The member price is proposed</span>
-          <div class="lever" role="group" aria-label="Member or not">
+          <div hidden data-phase="2"><div class="lever" role="group" aria-label="Member or not">
             <button id="levNon" aria-pressed="true">Not a member<small>Published price</small></button>
             <button id="levMem" aria-pressed="false">Member<small>&pound;40 a year</small></button>
           </div></div>
-          <p id="fareNote" class="tiny" style="margin-top:10px">Prices as published on our booking page. An evening is &pound;20 walk-on or &pound;35 rental; boot hire is &pound;15.</p>
-          <p class="note"><b>Why</b><span>Every price on the board is off your booking page: walk-on &pound;25 full day, morning or afternoon, &pound;20 evening; rental &pound;45 full day, &pound;35 half day or evening. The member column is proposed and marked: your membership says &pound;5 off the first three bookings, not a standing discount, so the column is a proposal, not your rule.</span></p>
+          <p id="fareNote" class="tiny" style="margin-top:10px">Prices as published on our booking page. A half day is a morning or an afternoon. An evening is &pound;20 walk-on or &pound;35 rental; boot hire is &pound;15.</p>
+          <p class="note"><b>Why</b><span>Every price on the board is off your booking page: walk-on &pound;25 for a half or full day, &pound;20 evening; rental &pound;35 half day, &pound;45 full day, &pound;35 evening. The half day comes first because you told us it is the popular one. No member column: phase one keeps your prices exactly as they are.</span></p>
         </div>
         <div>
           <div class="enamel sumpanel">
             <div class="pad">
-              <p class="eyebrow" style="color:var(--text-3)">The sum</p>
-              <p class="bigfig" style="margin-top:8px" id="sumFig">Two prices,<br>one booking page.</p>
-              <p style="margin-top:14px;font-size:15px;opacity:.92" id="sumLine">Both figures are as published on our booking page. The member column and the half day are proposed.</p>
+              <p class="eyebrow" style="color:var(--text-3)">How it works</p>
+              <p class="bigfig" style="margin-top:8px" id="sumFig">Half day or full day,<br>walk-on or rental.</p>
+              <p style="margin-top:14px;font-size:15px;opacity:.92" id="sumLine">Both figures are as published on our booking page. The half day is the popular one. Pay when you book and your place is held.</p>
             </div>
           </div>
           <div class="card pad" style="margin-top:14px">
             <div class="kv"><span>Predator Membership</span><b>&pound;40 January to December</b></div>
             <div class="kv"><span>From September</span><b>&pound;25</b></div>
-            <div class="kv"><span>Includes</span><b>UKARA registration, &pound;5 off your first three bookings, play five and the sixth game is free</b></div>
-            <div class="kv"><span>Also</span><b>Free members days, discounts on some big game days, store discounts</b></div>
-            <div class="kv"><span>Payment today</span><b style="color:var(--ph)">At the store counter</b></div>
-            <div class="kv"><span>Payment proposed</span><b style="color:var(--go)">Online, in the basket</b></div>
-            <button class="btn primary wide" style="margin-top:14px" data-go="members">Join for &pound;40</button>
+            <div class="kv"><span>Includes</span><b>UKARA registration, shop discounts, free members days, a loyalty card, discounts on some big game days</b></div>
+            <div class="kv"><span>Where</span><b>At the store counter</b></div>
+            <button class="btn ghost wide" style="margin-top:14px" data-go="members">Membership</button>
           </div>
-          <p class="note"><b>&pound;</b><span>Every line on the card is off your store page and your homepage. Your site sells the membership at the counter and cannot tell a member from a walk-on at the point of paying. Putting it in the basket with the sum done is the second cheapest revenue you can add.</span></p>
+          <p class="note"><b>Why</b><span>Membership stays exactly as it is for phase one: &pound;40 at the store, UKARA included, the benefits you named on the call. Selling it online and a member price are phase two, by your choice.</span></p>
         </div>
       </div>
     </div>
@@ -1685,15 +1684,15 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
   <div class="band sunk" data-w="airsoft">
     <div class="wrap">
       <div class="row" style="justify-content:space-between;align-items:flex-end;margin-bottom:22px;gap:20px">
-        <div><p class="eyebrow red">The game day board</p><h2 style="margin-top:10px">The next Sundays<br>and evening shoots</h2></div>
-        <p class="lede" style="max-width:46ch;margin:0">Seven hours on a Sunday: gates 09:00, brief 10:15, off the field at 16:30. Book a place ahead and it is held with your name on it.</p>
+        <div><p class="eyebrow red">The game day board</p><h2 style="margin-top:10px">The next Saturdays<br>and Sundays</h2></div>
+        <p class="lede" style="max-width:46ch;margin:0">Every Saturday and Sunday: gates 09:00, brief 10:15, off the field at 16:30. Book a place and it is held with your name on it.</p>
       </div>
       <p class="nextday"><b>Next: <span id="ripDate">next game day</span></b> <span><span id="ripKind">Game day</span> &middot; <span id="ripPrice"></span> &middot; <span id="ripNote"></span></span></p>
-      <div class="board" id="board" data-ph="1"><span class="phtag">The running order is yours. Which days run and the places left are sample</span>
+      <div class="board" id="board" data-ph="1"><span class="phtag">The days and the running order are yours. The places left are sample</span>
         <div class="hd"><span>Day</span><span>Running</span><span>Gates</span><span>Games</span><span>Endex</span><span></span></div>
         <div id="boardRows"></div>
       </div>
-      <p class="note"><b>Why</b><span>Your homepage publishes the running order and your booking page sells a full day, a morning, an afternoon and an evening, but neither says which Sundays run. So the clock times on the board are yours and the dates are sample: tell us the Sundays and the evenings and they go in everywhere, including the calendar file every booking hands out. The board is the shape a search engine or an assistant can lift as a list of dates.</span></p>
+      <p class="note"><b>Why</b><span>Every Saturday and Sunday, as you told us on 13 October; the running order is off your homepage. Neither is on your site as a calendar today, so this board is the first place a search engine or an assistant can lift your dates as a list.</span></p>
     </div>
   </div>
 
@@ -1838,24 +1837,23 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <div>
           <p class="eyebrow red">Predator Membership</p>
           <h2 style="margin:10px 0 14px">&pound;40 a year.<br>&pound;25 from September.</h2>
-          <p class="lede">UKARA registration included, &pound;5 off your first three bookings, play five and the sixth game is free, free members days, discounts on some big game days and in the store. <span class="ph">Bought online, with the sum shown before you pay.</span></p>
+          <p class="lede">UKARA registration included, shop discounts, free members days, a loyalty card and discounts on some big game days. Sold at the store, January to December.</p>
           <button class="btn primary" style="margin-top:22px" data-go="members">Fares and membership</button>
         </div>
         <div class="card pad">
           <p class="eyebrow">What a member gets</p>
-          <h3 style="margin:8px 0 10px">Six things, off the store page</h3>
+          <h3 style="margin:8px 0 10px">Five things, off the store page and our call</h3>
           <div style="margin-top:12px">
             <div class="kv"><span>UKARA</span><b>Registration included</b></div>
-            <div class="kv"><span>First three bookings</span><b>&pound;5 off each</b></div>
-            <div class="kv"><span>Loyalty card</span><b>Play five, the sixth free</b></div>
+            <div class="kv"><span>Loyalty card</span><b>A stamp a game, a free shoot at the end</b></div>
             <div class="kv"><span>Members days</span><b>Free</b></div>
             <div class="kv"><span>Big game days</span><b>Discounts on some</b></div>
             <div class="kv"><span>Store</span><b>Discounts</b></div>
           </div>
-          <p class="note"><b>Why</b><span>Every line on this card is off your homepage and your store page. What is proposed is that the count keeps itself: three bookings on the site and the sixth game free come off the account, instead of a card and a memory.</span></p>
+          <p class="note"><b>Why</b><span>The card lists the benefits you named on 13 October, which match your store page. The &pound;5-off and sixth-game-free lines from your homepage are left off until you confirm them.</span></p>
         </div>
       </div>
-      <p class="note"><b>&pound;</b><span>The background is your own photograph. The &pound;40 and the &pound;25 are yours and the wording is yours. What is proposed is that membership is sold online, applied in the basket, and that a block of prepaid game days sits beside it for the regulars.</span></p>
+      <p class="note"><b>&pound;</b><span>The background is your own photograph. The &pound;40 and the &pound;25 are yours and the benefits are the ones you named on the call. Nothing is proposed here for phase one. Your homepage also says &pound;5 off the first three bookings and play five get the sixth free; you told us there is no game-fee discount at the moment, so those two lines are for you to settle on Thursday.</span></p>
     </div>
   </div>
 
@@ -1887,6 +1885,8 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           <div class="ans">A walk-on with your own kit is &pound;25 for the full day, morning or afternoon, and &pound;20 for an evening. A rental package is &pound;45 for the full day or &pound;35 for a morning, afternoon or evening: Electric Gun 1:1 replica rifle, 3000rds Ammunition each, with full face protection for each rental player. Boot hire is &pound;15.</div></details>
         <details><summary>How much is Nerf Wars?</summary>
           <div class="ans">&pound;15 per participating player, six to sixteen players, from age 7. Add a taster activity, canoeing, archery or survival skills, for &pound;7 per person.</div></details>
+        <details><summary>What days do you run?</summary>
+          <div class="ans">Every Saturday and Sunday. Gates open at 9:00 am, safety brief 10:15 am, afternoon games end at 4:30 pm.</div></details>
         <details><summary>What time does a game day run?</summary>
           <div class="ans">Gates open at 9:00 am and the shop at 9:30 am. Sign in and chrono 9:30 to 10:15 am, safety brief 10:15 am, morning games 10:30 am to 1:00 pm, lunch until 2:00 pm, afternoon games 2:00 to 4:30 pm.</div></details>
         <details><summary>Is there a minimum age?</summary>
@@ -1900,9 +1900,9 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <details><summary>How many players per session?</summary>
           <div class="ans">Group sizes vary by session and game type. <span class="ph">Proposed: the slot picker shows the places left on each slot, so you do not have to ring to ask.</span></div></details>
         <details><summary>How much is membership?</summary>
-          <div class="ans">&pound;40 for January to December, &pound;25 from September to December, sold at the store. It includes UKARA registration, &pound;5 off your first three bookings, a loyalty card (play five, the sixth game free), free members days and store discounts.</div></details>
+          <div class="ans">&pound;40 for January to December, &pound;25 from September to December, sold at the store. It includes UKARA registration, shop discounts, free members days, a loyalty card and discounts on some big game days.</div></details>
         <details><summary>How do I book?</summary>
-          <div class="ans">Today: the booking request form on the Booking page, and you pay on the day; for activities and team days <span>call 028 9756 5651 </span><span>or email info@predator-combat.com</span>. <span class="ph">Proposed: pick the day and the package on the page and pay by card.</span></div></details>
+          <div class="ans">Pick the day, walk-on or rental, half or full day, and pay by card: your place is held and a calendar invite lands in your inbox. For activities and team days <span>call 028 9756 5651 </span><span>or email info@predator-combat.com</span>.</div></details>
         <details><summary>Where is Predator Combat?</summary>
           <div class="ans">Predator Combat, Ballynahinch, BT24 8NF, thirty minutes from Belfast. <span>Phone 028 9756 5651.</span></div></details>
       </div>
@@ -1916,12 +1916,12 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
   <div class="band tight">
     <div class="wrap">
       <p class="eyebrow">Calendar</p>
-      <h2 style="margin:10px 0 10px">Airsoft walk-on days</h2>
-      <p class="lede" style="margin-bottom:22px">Sundays, gates 09:00 to endex 16:30, and evening shoots. Your own kit, or the rental package. Ages 12 and over.</p>
+      <h2 style="margin:10px 0 10px">Airsoft game days</h2>
+      <p class="lede" style="margin-bottom:22px">Every Saturday and Sunday, gates 09:00 to endex 16:30. Your own kit, or the rental package. Ages 12 and over.</p>
       <div class="filters" id="dayFilters">
         <button data-f="all" aria-pressed="true">All</button>
         <button data-f="Sunday" aria-pressed="false">Sundays</button>
-        <button data-f="Saturday" aria-pressed="false">Evening shoots</button>
+        <button data-f="Saturday" aria-pressed="false">Saturdays</button>
       </div>
       <div class="days" id="dayList" data-ph="1"><span class="phtag">Days are yours, places left are sample</span></div>
       <p class="note"><b>&pound;</b><span>Every date is its own page and its own Event record in the structured data, with a price. That is what puts one of your Sundays into Google's event results and into an assistant's answer to "airsoft near Belfast this weekend". The start times are sample until you give us the clock.</span></p>
@@ -1948,10 +1948,10 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <div>
           <!-- step 1 -->
           <div class="card pad" data-step="1">
-            <div class="field"><label for="bkDate">Walk-on day</label><select id="bkDate"></select></div>
+            <div class="field"><label for="bkDate">Game day</label><select id="bkDate"></select></div>
             <div class="field" id="sessionRow"><label>Session</label>
               <div class="choice" id="sessionPick">
-                <button data-sess="full" aria-pressed="true">Sunday<small>Seven hours</small></button>
+                <button data-sess="full" aria-pressed="true">Full day<small>09:30 to 16:30</small></button>
                 <button data-sess="half" aria-pressed="false">Half day<small>Morning or afternoon</small></button>
               </div></div>
             <div class="ticket">
@@ -1964,7 +1964,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
               <div class="row" style="gap:14px"><span class="pr" data-pr="hire">&pound;45</span>
                 <div class="stepper" data-t="hire"><button data-d="-1" aria-label="fewer">&minus;</button><output>0</output><button data-d="1" aria-label="more">+</button></div></div>
             </div>
-            <label class="check" id="memberRow" style="margin-top:12px;border-top:1px solid var(--line);padding-top:14px">
+            <div hidden data-phase="2"><label class="check" id="memberRow" style="margin-top:12px;border-top:1px solid var(--line);padding-top:14px">
               <input type="checkbox" id="bkMember">
               <span><b>I am a member.</b> Member prices apply to every player on this booking. <span class="tiny">Membership number is checked against your account, so no card at sign-in.</span></span>
             </label>
@@ -1973,14 +1973,14 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
               <p class="small" style="margin-top:6px" id="upLine">&pound;25 for the year. Applied to this booking straight away.</p>
               <button class="btn primary sm" style="margin-top:10px" id="upBtn">Add membership, &pound;25</button>
             </div>
-            <p class="note"><b>&pound;</b><span>Offering the membership at the moment it saves money, to someone with their card out, is the highest-converting place on the site. The sum is shown, not explained. The session follows the day you pick: a Sunday is seven hours, a Wednesday four.</span></p>
+            <p class="note"><b>&pound;</b><span>Offering the membership at the moment it saves money, to someone with their card out, is the highest-converting place on the site. The sum is shown, not explained. The session follows the day you pick: a Sunday is seven hours, a Wednesday four.</span></p></div>
           </div>
 
           <!-- step 2 -->
           <div class="card pad" data-step="2" hidden>
             <h3 style="margin-bottom:6px">Anything else before the day?</h3>
-            <p class="small muted" style="margin-bottom:16px">Pre-ordered, paid, and waiting with your name on it at sign-in.</p>
-            <div class="grid" id="addonList" style="gap:8px" data-ph="1"><span class="phtag">Proposed pre-orders &middot; sample prices</span></div>
+            <p class="small muted" style="margin-bottom:16px">Boot hire, pre-booked so the pair is set out at sign-in.</p>
+            <div class="grid" id="addonList" style="gap:8px" data-ph="1"><span class="phtag">Proposed: your published boot hire, pre-booked</span></div>
             
           </div>
 
@@ -2065,67 +2065,67 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
   <div class="band tight">
     <div class="wrap">
       <p class="eyebrow">Fares and membership</p>
-      <h2 style="margin:10px 0 10px">Three ways to pay for a Sunday</h2>
-      <p class="lede" style="margin-bottom:26px">Walk on and pay on the day. Join for &pound;40 and the first three bookings are &pound;5 off, with the sixth game free. Or buy a block of Sundays up front, which is proposed and marked as such.</p>
-      <div class="tiers">
-        <div class="enamel tier"><div class="pad">
-          <div class="row" style="justify-content:space-between"><p class="eyebrow">Your membership today</p><span class="pill ok">Verified</span></div>
-          <h3 style="margin-top:8px">Club member</h3>
-          <p class="price">&pound;25<small> a year</small></p>
-          
+      <h2 style="margin:10px 0 10px">Walk on, rent, or join for the year</h2>
+      <p class="lede" style="margin-bottom:26px">Walk-on &pound;25 for a half or full day with your own kit; the rental package &pound;35 for a half day or &pound;45 for the full day. Membership is &pound;40 a year, sold at the store, with UKARA registration included.</p>
+      <div class="tiers" style="grid-template-columns:1fr 1fr 1fr">
+        <div class="card tier pad">
+          <p class="eyebrow">Your own kit</p>
+          <h3 style="margin-top:8px">Walk on</h3>
+          <p class="price">&pound;25<small> half or full day</small></p>
           <ul>
-            <li>Sunday walk-on &pound;25 instead of &pound;25</li>
-            <li>Half day &pound;25 instead of &pound;25</li>
-            <li>Pays for itself on the fifth Sunday</li>
-            <li class="ph">Bought online, card, in under a minute</li>
-            <li class="ph">Member number on your account, no card at sign-in</li>
+            <li>Every Saturday and Sunday</li>
+            <li>Morning, afternoon or the whole day for the one price</li>
+            <li class="ph">Book online to hold a place</li>
+            <li class="ph">Safety declaration signed once, kept for a year</li>
           </ul>
-          <button class="btn primary wide" style="margin-top:16px" data-join="Membership">Join for &pound;40</button>
-        </div></div>
-        <div class="card tier pad" data-ph="1"><span class="phtag">Proposed &middot; you set the price</span>
-          <p class="eyebrow">Pay once</p>
-          <h3 style="margin-top:8px">Five-Sunday block</h3>
-          <p class="price">&pound;100<small> once</small></p>
-          <p class="small muted" style="margin-top:8px">Five Sundays for members at &pound;20 instead of &pound;25. Cash in your account now, used at their own pace.</p>
-          <ul>
-            <li>Valid for the membership year</li>
-            <li>Give a day to a mate</li>
-            <li>No monthly payment, nothing to cancel</li>
-          </ul>
-          <button class="btn ghost wide" style="margin-top:16px" data-join="Five-Sunday block">Buy a block</button>
+          <button class="btn primary wide" style="margin-top:16px" data-go="book">Book a day</button>
         </div>
         <div class="card tier pad">
-          <p class="eyebrow">No commitment</p>
-          <h3 style="margin-top:8px">Walk on</h3>
-          <p class="price">&pound;25<small> a Sunday</small></p>
-          <p class="small muted" style="margin-top:8px">Turn up, pay on the day. &pound;25 for a morning or afternoon. Rental package &pound;35.</p>
+          <p class="eyebrow">First time, or no kit</p>
+          <h3 style="margin-top:8px">Rental package</h3>
+          <p class="price">&pound;35<small> half day</small></p>
+          <p class="small muted" style="margin-top:8px">&pound;45 for the full day.</p>
           <ul>
-            <li>Welcome every walk-on day</li>
-            <li class="ph">Book online to hold a place</li>
-            <li class="ph">Disclaimer signed once, kept for a year</li>
+            <li>Electric 1:1 replica rifle</li>
+            <li>3,000 rounds</li>
+            <li>Full face protection</li>
+            <li>Boot hire &pound;15 if you need it</li>
           </ul>
-          <button class="btn ghost wide" style="margin-top:16px" data-go="book">Book a day</button>
+          <button class="btn primary wide" style="margin-top:16px" data-go="book">Book a day</button>
         </div>
+        <div class="enamel tier"><div class="pad">
+          <div class="row" style="justify-content:space-between"><p class="eyebrow">Membership today</p><span class="pill ok">As it is</span></div>
+          <h3 style="margin-top:8px">Predator Membership</h3>
+          <p class="price">&pound;40<small> a year</small></p>
+          <p class="small muted" style="margin-top:8px">January to December; &pound;25 from September. Sold at the store.</p>
+          <ul>
+            <li>UKARA registration included</li>
+            <li>Shop discounts</li>
+            <li>Free members days</li>
+            <li>A loyalty card: a stamp a game, a free shoot at the end</li>
+            <li>Discounts on some big game days</li>
+          </ul>
+        </div></div>
       </div>
-
+      <div hidden data-phase="2">
       <div class="card pad" style="margin-top:22px">
         <div class="split">
           <div>
             <p class="eyebrow">Do the sum</p>
-            <h3 style="margin:8px 0 14px">How many Sundays a year?</h3>
-            <input class="slider" type="range" id="mSlider" min="1" max="30" value="8" aria-label="Sundays a year">
+            <h3 style="margin:8px 0 14px">How many game days a year?</h3>
+            <input class="slider" type="range" id="mSlider" min="1" max="30" value="8" aria-label="Game days a year">
             <div class="row" style="justify-content:space-between"><span class="eyebrow" id="mGames">8 full days</span><span class="eyebrow">Walk-on, own kit</span></div>
-            <p class="small muted" style="margin-top:14px">Membership runs a year from joining, &pound;25 per year.</p>
           </div>
           <div>
-            <div class="kv"><span>Pay on the day, &pound;25 each</span><b id="mPayg">&pound;0</b></div>
-            <div class="kv"><span>Member, &pound;25 plus &pound;25 each</span><b id="mMem">&pound;0</b></div>
-            <div class="kv" data-ph="1"><span class="phtag">Proposed</span><span>Member plus the session block</span><b id="mBlk">&pound;0</b></div>
+            <div class="kv"><span>Pay as you go</span><b id="mPayg">&pound;0</b></div>
+            <div class="kv"><span>Member</span><b id="mMem">&pound;0</b></div>
+            <div class="kv"><span>Member plus the session block</span><b id="mBlk">&pound;0</b></div>
             <p class="eyebrow" style="margin-top:12px;color:var(--go)" id="mBest"></p>
           </div>
         </div>
       </div>
-      <p class="note"><b>&pound;</b><span>Deliberately not a monthly scheme. A year of Sundays and evenings is a long list of game days, and a monthly fee cannot beat &pound;5 off a day for the player who comes once a month; people do that sum and cancel. The &pound;25 is already yours and already right. The work is selling it.</span></p>
+      </div>
+      <p class="note"><b>Why</b><span>Phase one keeps your prices and your membership exactly as they are: this screen is your booking page and your store page, laid out so a first-timer sees walk-on, rental and membership side by side. A member price, a block of game days and membership sold online are phase two, by your choice. Your homepage also says &pound;5 off the first three bookings and play five get the sixth free; you told us on 13 October there is no game-fee discount at the moment, so those lines are off until you settle them.</span></p>
     </div>
   </div>
 </section>
@@ -2401,16 +2401,16 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
               <tr><td class="mono">2 Sep</td><td>Saturday</td><td>1 evening</td><td class="num">&pound;25</td></tr>
               <tr><td class="mono">16 Aug</td><td>Sunday</td><td>1 walk-on</td><td class="num">&pound;25</td></tr>
               <tr><td class="mono">2 Aug</td><td>Sunday</td><td>1 walk-on</td><td class="num">&pound;25</td></tr>
-              <tr><td class="mono">1 Mar</td><td>Membership</td><td>Twelve months</td><td class="num">&pound;25</td></tr>
+              <tr><td class="mono">1 Mar</td><td>Membership</td><td>Twelve months</td><td class="num">&pound;40</td></tr>
             </table></div>
           </div>
         </div>
         <div class="stack" style="gap:14px">
           <div class="enamel"><div class="pad">
             <p class="eyebrow">Membership</p>
-            <h3 style="margin:8px 0 10px">Saved &pound;18 so far this year</h3>
+            <h3 style="margin:8px 0 10px">Member, January to December</h3>
             <div class="meter"><i style="width:72%"></i></div>
-            <p class="small muted" style="margin-top:10px">Three Sundays as a member, &pound;5 off each. Five more and the &pound;40 has paid for itself.</p>
+            <p class="small muted" style="margin-top:10px">&pound;40 a year, renewed at the store. UKARA registration included.</p>
           </div></div>
           <div class="card pad">
             <p class="eyebrow">On file</p>
@@ -2703,7 +2703,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
                   <div class="bk-form">
                     <div class="field"><label for="bkChAeg">Game day</label><input type="text" id="bkChAeg" placeholder="Slot times, you tell us"></div>
                     <div class="field"><label for="bkChDmr">Party session</label><input type="text" id="bkChDmr" placeholder="Slot times, you tell us"></div>
-                    <div class="field"><label for="bkChSnp">Evening shoot</label><input type="text" id="bkChSnp" placeholder="Slot times, you tell us"></div>
+                    <div class="field"><label for="bkChSnp">Game day</label><input type="text" id="bkChSnp" placeholder="Slot times, you tell us"></div>
                     <div class="field"><label for="bkChMed">Chropredator</label><input type="text" id="bkChMed" placeholder="Not published, you tell us"></div>
                   </div>
                   <p class="tiny" style="margin-top:8px">Once filled in, these are the slots the session picker sells. Until then the site says nothing about them, because you do not.</p>
@@ -2760,7 +2760,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
       </div>
     </div>
     <div class="legal">
-      <span>Design proposal by ThinkWork for discussion with you at Predator Combat. Prices, membership and what it includes, ages, the running order, your activities, team building and Phoenix Program wording, your address, phone numbers, emails and colours are your own, taken from predator-combat.com and activate-outdoor-adventure.com on 2 October 2026. Everything flagged in the toolbar's placeholder mode is sample content awaiting your real figures. Every photograph is your own and says which of your pages it came from; the pin on the map is placed off your postcode. Not the live site. No live payments.</span>
+      <span>Design proposal by ThinkWork for discussion with you at Predator Combat. Prices, membership and what it includes, ages, the running order, your activities, team building and Phoenix Program wording, your address, phone numbers, emails and colours are your own, taken from predator-combat.com and activate-outdoor-adventure.com on 2 October 2026. The weekend game days and the Halloween date are from our call on 13 October 2026. Everything flagged in the toolbar's placeholder mode is sample content awaiting your real figures. Every photograph is your own and says which of your pages it came from; the pin on the map is placed off your postcode. Not the live site. No live payments.</span>
       <span class="mono">thinkwork.info</span>
     </div>
   </div>
@@ -2788,6 +2788,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
  {"@type":"Question","name":"How much is a game day at Predator Combat?","acceptedAnswer":{"@type":"Answer","text":"A walk-on with your own kit is £25 for the full day, morning or afternoon, and £20 for an evening. A rental package is £45 for the full day or £35 for a morning, afternoon or evening: an electric 1:1 replica rifle, 3,000 rounds and full face protection. Boot hire is £15."}},
  {"@type":"Question","name":"What time does a game day run?","acceptedAnswer":{"@type":"Answer","text":"Gates open at 9:00 am, the shop at 9:30 am, sign-in and chrono 9:30 to 10:15 am, safety brief 10:15 am, morning games 10:30 am to 1:00 pm, lunch 1:00 to 2:00 pm, afternoon games 2:00 to 4:30 pm."}},
+ {"@type":"Question","name":"What days does Predator Combat run?","acceptedAnswer":{"@type":"Answer","text":"Game days run every Saturday and Sunday. Gates open at 9:00 am, safety brief 10:15 am, afternoon games end at 4:30 pm."}},
  {"@type":"Question","name":"How old do you have to be to play airsoft at Predator Combat?","acceptedAnswer":{"@type":"Answer","text":"Airsoft is for players aged 12 and above. Nerf Wars are for ages 7 and above, six to sixteen players."}},
  {"@type":"Question","name":"How much are Nerf Wars?","acceptedAnswer":{"@type":"Answer","text":"£15 per participating player. A taster activity can be added for £7 per person: canoeing, archery or survival skills."}},
  {"@type":"Question","name":"What outdoor activities does Activate offer?","acceptedAnswer":{"@type":"Answer","text":"Rock climbing, hill and mountain walking, abseiling, archery, canoeing, kayaking, orienteering, adventure boot camps, bushcraft and survival skills, corporate training and kids outdoor activities, for individuals and groups."}},
@@ -2801,7 +2802,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 /* One object, written by engine/build.mjs out of businesses/<slug>.json. Every
    engine part reads its business-specific values from here, so no part carries
    a client's name, price, date, copy or file name. */
-const CONFIG = {"slug":"predator-combat","layout":"two-worlds","business":{"name":"Predator Combat","short":"Predator","legalName":"Predator Combat Games","kind":"outdoor airsoft field, Nerf Wars and adventure activity centre in County Down, two brands on one site","site":"https://www.predator-combat.com/","domain":"predator-combat.com","phone":"028 9756 5651","phoneE164":"+442897565651","street":"Predator Combat","town":"Ballynahinch","county":"County Down","postcode":"BT24 8NF","facebook":"https://www.facebook.com/predatorairsoft","email":"info@predator-combat.com","rating":"","reviews":"","geo":{"lat":"54.4036","lng":"-5.8891"},"addressLine":"Predator Combat, Ballynahinch, County Down, BT24 8NF","postcodeUrl":"BT24+8NF"},"design":{"display":"Teko","body":"Barlow","mono":"IBM Plex Mono","accent":"#FF5A1F","hero":"the three doors over a moving stage of your own photographs: the storm over the field in the airsoft world, daylight on the ridge in the adventure world","images":"Yours, all of it, both brands.","tokens":{"--display":"\"Teko\", \"Barlow Condensed\", Impact, sans-serif","--ui":"\"Barlow\", \"Arial Narrow\", ui-sans-serif, system-ui, sans-serif","--mono":"\"IBM Plex Mono\", ui-monospace, SFMono-Regular, Menlo, monospace","--bg":"#12170A","--surface":"#1A2110","--surface-2":"#232C16","--sunk":"#0B0E05","--line":"#2E381A","--line-soft":"#232C16","--line-strong":"#4F5E2A","--text":"#F3F1E8","--text-2":"#CFCDBF","--text-3":"#A3A594","--red":"#FF5A1F","--red-2":"#FF7A45","--red-hi":"#FF7A45","--red-ink":"#FF7A45","--red-ghost":"#2E1408","--on-red":"#141206","--yel":"#FF5A1F","--yel-hi":"#FF7A45","--on-yel":"#141206","--yel-2":"#D9481A","--crim":"#F2C14D","--crim-hi":"#FFD56A","--on-crim":"#141206","--ph":"#F0B15A","--ph-ghost":"#3A2A12","--on-ph":"#141312","--go":"#7FD39A","--go-ghost":"#173022","--hazard":"repeating-linear-gradient(135deg,#FF5A1F 0 14px,#0B0E05 14px 28px)","--tex-1":"repeating-linear-gradient(135deg,rgba(255,90,31,.9) 0 14px,transparent 14px 28px)","--tex-2":"repeating-linear-gradient(45deg,rgba(255,90,31,.7) 0 10px,transparent 10px 20px)","--tex-3":"repeating-linear-gradient(135deg,rgba(255,90,31,.5) 0 22px,transparent 22px 44px)","--plate-bg":"#0B0E05","--plate-surface":"#1A2110","--plate-surface-2":"#232C16","--plate-sunk":"#070904","--plate-line":"#2E381A","--plate-line-soft":"#232C16","--plate-line-strong":"#4F5E2A","--plate-text":"#F3F1E8","--plate-text-2":"#CFCDBF","--plate-text-3":"#A3A594","--door-k":"#FFB36B"},"fonts":["Teko:wght@500;600;700","Barlow:wght@400;500;600;700","IBM Plex Mono:wght@400;500;600","Fredoka:wght@500;600;700","Nunito:wght@400;600;700;800"],"map":{"spots":{"unit":{"x":50,"y":52}}},"worlds":{"adventure":{"name":"Activate Outdoor Adventure","note":"Daylight and family: a pale ground, Activate's red and gold off the roundel, dark ink, Fredoka rounded display with Nunito, sentence-case labels, a scalloped gold edge instead of tape, rounded cards, no rain.","tokens":{"--bg":"#F7F3EA","--surface":"#FFFFFF","--surface-2":"#EFE9DC","--sunk":"#ECE5D5","--line":"#DDD5C3","--line-soft":"#E8E1D2","--line-strong":"#B8AD93","--text":"#1C1710","--text-2":"#3E3930","--text-3":"#605A4E","--red":"#94121E","--red-2":"#B0182A","--red-hi":"#B0182A","--red-ink":"#94121E","--red-ghost":"#F6E4E5","--on-red":"#FFFFFF","--yel":"#94121E","--yel-hi":"#B0182A","--on-yel":"#FFFFFF","--yel-2":"#6E0D16","--crim":"#F2C14D","--crim-hi":"#FFD56A","--on-crim":"#1C1710","--ph":"#7A4A00","--ph-ghost":"#F7E8CF","--on-ph":"#FFFFFF","--go":"#1F6B3A","--go-ghost":"#DDEFE3","--shadow":"0 1px 0 rgba(0,0,0,.06), 0 24px 48px -28px rgba(40,30,10,.35)","--hazard":"repeating-linear-gradient(135deg,#F2C14D 0 14px,#94121E 14px 28px)","--tex-1":"repeating-linear-gradient(135deg,rgba(148,18,30,.6) 0 14px,transparent 14px 28px)","--tex-2":"repeating-linear-gradient(45deg,rgba(242,193,77,.7) 0 10px,transparent 10px 20px)","--tex-3":"radial-gradient(circle,rgba(242,193,77,.55) 0 3px,transparent 3.6px) 0 0/18px 18px","--plate-bg":"#FFFFFF","--plate-surface":"#F7F3EA","--plate-surface-2":"#EFE9DC","--plate-sunk":"#ECE5D5","--plate-line":"#DDD5C3","--plate-line-soft":"#E8E1D2","--plate-line-strong":"#B8AD93","--plate-text":"#1C1710","--plate-text-2":"#3E3930","--plate-text-3":"#5C564A","--door-k":"#F2C14D","--display":"\"Fredoka\", \"Nunito\", \"Trebuchet MS\", sans-serif","--ui":"\"Nunito\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif","--mono":"\"Nunito\", ui-sans-serif, system-ui, sans-serif"}}}},"assets":{"logo":"assets/logo.png","logo.png":"assets/logo.png","logo-activate":"assets/logo-activate.png","logo-activate.png":"assets/logo-activate.png","field-run":"assets/field-run.jpg","field-run.jpg":"assets/field-run.jpg","fort-window":"assets/fort-window.jpg","fort-window.jpg":"assets/fort-window.jpg","smoke-base":"assets/smoke-base.jpg","smoke-base.jpg":"assets/smoke-base.jpg","group-base":"assets/group-base.jpg","group-base.jpg":"assets/group-base.jpg","door-airsoft":"assets/door-airsoft.jpg","door-airsoft.jpg":"assets/door-airsoft.jpg","door-nerf":"assets/door-nerf.jpg","door-nerf.jpg":"assets/door-nerf.jpg","door-adventure":"assets/door-adventure.jpg","door-adventure.jpg":"assets/door-adventure.jpg","rental-players":"assets/rental-players.jpg","rental-players.jpg":"assets/rental-players.jpg","big-game-day":"assets/big-game-day.jpg","big-game-day.jpg":"assets/big-game-day.jpg","site-group":"assets/site-group.jpg","site-group.jpg":"assets/site-group.jpg","kids-kayak":"assets/kids-kayak.jpg","kids-kayak.jpg":"assets/kids-kayak.jpg","team-build":"assets/team-build.jpg","team-build.jpg":"assets/team-build.jpg","rocks-group":"assets/rocks-group.jpg","rocks-group.jpg":"assets/rocks-group.jpg","bushcraft":"assets/bushcraft.jpg","bushcraft.jpg":"assets/bushcraft.jpg","poster-all-out-war":"assets/poster-all-out-war.jpg","poster-all-out-war.jpg":"assets/poster-all-out-war.jpg","aerial":"assets/aerial.jpg","aerial.jpg":"assets/aerial.jpg","wall-group-base":"assets/wall-group-base.jpg","wall-group-base.jpg":"assets/wall-group-base.jpg","wall-saloon":"assets/wall-saloon.jpg","wall-saloon.jpg":"assets/wall-saloon.jpg","wall-laugh":"assets/wall-laugh.jpg","wall-laugh.jpg":"assets/wall-laugh.jpg","wall-marshal":"assets/wall-marshal.jpg","wall-marshal.jpg":"assets/wall-marshal.jpg","wall-window":"assets/wall-window.jpg","wall-window.jpg":"assets/wall-window.jpg","wall-squad-trees":"assets/wall-squad-trees.jpg","wall-squad-trees.jpg":"assets/wall-squad-trees.jpg","wall-barricade":"assets/wall-barricade.jpg","wall-barricade.jpg":"assets/wall-barricade.jpg","wall-group-vests":"assets/wall-group-vests.jpg","wall-group-vests.jpg":"assets/wall-group-vests.jpg","wall-trail":"assets/wall-trail.jpg","wall-trail.jpg":"assets/wall-trail.jpg","wall-smoke":"assets/wall-smoke.jpg","wall-smoke.jpg":"assets/wall-smoke.jpg","hero-ridge-1":"assets/hero-ridge-1.jpg","hero-ridge-1.jpg":"assets/hero-ridge-1.jpg","hero-ridge-2":"assets/hero-ridge-2.jpg","hero-ridge-2.jpg":"assets/hero-ridge-2.jpg","home-activate":"assets/home-activate.jpg","home-activate.jpg":"assets/home-activate.jpg","phoenix-2":"assets/phoenix-2.jpg","phoenix-2.jpg":"assets/phoenix-2.jpg","phoenix-3":"assets/phoenix-3.jpg","phoenix-3.jpg":"assets/phoenix-3.jpg"},"siteUrl":"https://thinkwork.info/airsoft/predator-combat/","aocUrl":"aoc/index.html","fares":{"walkon":{"full":{"n":25,"m":25},"half":{"n":25,"m":25}},"hire":{"full":{"n":45,"m":45},"half":{"n":35,"m":45}}},"membership":{"price":40,"year":"January to December","yearEnd":"the end of December","renewMonth":"January"},"schedule":{"times":["09:00","10:15","16:30"],"timesSample":false,"lunch":"13:00","regular":{"day":0,"dayName":"Sunday","label":"Game day","detail":"Gates 09:00, sign-in and chrono from 09:30, safety brief 10:15, morning games 10:30 to 13:00, afternoon games 14:00 to 16:30. Which Sundays run is sample until you set them.","count":8,"sess":"full"},"extra":{"day":6,"dayName":"Saturday","label":"Evening shoot","detail":"Sample: your booking page sells an evening walk-on at £20 and an evening rental at £35; the evenings it runs are yours to set.","weekly":false,"sess":"evening"}},"events":[],"ref":"PC","copy":{"todayTake":"a booking form and cash or card on the day","fareboard":{"sumOwn":"Two prices,<br>one booking page.","sumMember":"A member price<br>is proposed.","lineOwn":"Both figures are as published on our booking page. The member column and the half day are proposed.","lineMember":"Membership is sold at the store counter today; here it is sold online and taken off every game day."},"breakEven":"At a £5 gap a £40 membership pays back on the eighth game day. The figures are yours to set.","renewToast":"Renewal opens in December: one pay link, January to December, proposed.","adventure":{"headline":"Climb. Paddle. Breathe.","strap":"Rock climbing, abseiling, archery, canoeing, kayaking, orienteering and bushcraft in County Down, for families, schools, groups and companies."}},"sample":{"spaces":[31,14,38,22,9,35,19,40,12,27,33,16],"addons":[{"id":"bb","n":"Extra 1,000 BBs","s":"Bagged at sign-in with your name on. Sample price.","p":5,"per":true,"on":false},{"id":"boot","n":"Boot hire","s":"Your published £15, pre-booked so the pair is set out.","p":15,"per":true,"on":false},{"id":"lunch","n":"Lunch at the base","s":"Sample item, sample price.","p":8,"per":true,"on":false}],"block":{"n":6,"p":130,"s":"Six walk-on days for the price of five, proposed."},"products":[{"n":"Predator patch","p":6},{"n":"BBs, 3,000 bag","p":12},{"n":"Green gas","p":9},{"n":"Warhammer, 10% off","p":0}],"model":{"days":52,"addAvg":7,"groupAvg":420,"foodPer":0,"depositPct":0.3,"platformFeePct":0},"live":{"time":"11:02","game":2,"of":5,"next":"11:30","onSite":38,"closed":"09:30"},"backend":{"annPost":"Big game day, Sunday 26 October. Gates 09:00, brief 10:15. Book on the site."},"names":["Ciaran Magee","Aoife Donnelly","Ryan McKee","Niamh Gallagher","Conor Mulholland","Shannon Reilly","Darragh Boyle","Megan Hanna","Jack Mullan","Eimear Quinn","Odhran Walsh","Caitlin Doherty"]},"content":{"jsonld":{"description":"Predator Combat and Activate Outdoor Adventure, Ballynahinch, County Down: airsoft game days (walk-on £25, rental £45), Nerf Wars parties (£15 per player) and outdoor adventure activities, thirty minutes from Belfast.","faq":[{"q":"How much is a game day at Predator Combat?","a":"A walk-on with your own kit is £25 for the full day, morning or afternoon, and £20 for an evening. A rental package is £45 for the full day or £35 for a morning, afternoon or evening: an electric 1:1 replica rifle, 3,000 rounds and full face protection. Boot hire is £15."},{"q":"What time does a game day run?","a":"Gates open at 9:00 am, the shop at 9:30 am, sign-in and chrono 9:30 to 10:15 am, safety brief 10:15 am, morning games 10:30 am to 1:00 pm, lunch 1:00 to 2:00 pm, afternoon games 2:00 to 4:30 pm."},{"q":"How old do you have to be to play airsoft at Predator Combat?","a":"Airsoft is for players aged 12 and above. Nerf Wars are for ages 7 and above, six to sixteen players."},{"q":"How much are Nerf Wars?","a":"£15 per participating player. A taster activity can be added for £7 per person: canoeing, archery or survival skills."},{"q":"What outdoor activities does Activate offer?","a":"Rock climbing, hill and mountain walking, abseiling, archery, canoeing, kayaking, orienteering, adventure boot camps, bushcraft and survival skills, corporate training and kids outdoor activities, for individuals and groups."},{"q":"Is there a membership?","a":"Predator Membership is £40 for January to December, £25 from September to December, sold at the store. It includes UKARA registration, £5 off your first three bookings, a loyalty card (play five, the sixth game free), free members days and store discounts."},{"q":"Where is Predator Combat?","a":"Ballynahinch, County Down, BT24 8NF, thirty minutes from Belfast. Phone 028 9756 5651 or 07825 169 631."},{"q":"What should I wear?","a":"Outdoor footwear is essential; boot hire is £15 if you do not have suitable footwear for the conditions. Rental players get full face protection."}],"fareLabels":{"walkon":"Airsoft game day, walk-on with your own kit","hire":"Airsoft game day with the rental package"}}},"cesiumToken":""};
+const CONFIG = {"slug":"predator-combat","layout":"two-worlds","business":{"name":"Predator Combat","short":"Predator","legalName":"Predator Combat Games","kind":"outdoor airsoft field, Nerf Wars and adventure activity centre in County Down, two brands on one site","site":"https://www.predator-combat.com/","domain":"predator-combat.com","phone":"028 9756 5651","phoneE164":"+442897565651","street":"Predator Combat","town":"Ballynahinch","county":"County Down","postcode":"BT24 8NF","facebook":"https://www.facebook.com/predatorairsoft","email":"info@predator-combat.com","rating":"","reviews":"","geo":{"lat":"54.4036","lng":"-5.8891"},"addressLine":"Predator Combat, Ballynahinch, County Down, BT24 8NF","postcodeUrl":"BT24+8NF"},"design":{"display":"Teko","body":"Barlow","mono":"IBM Plex Mono","accent":"#FF5A1F","hero":"the three doors over a moving stage of your own photographs: the storm over the field in the airsoft world, daylight on the ridge in the adventure world","images":"Yours, all of it, both brands.","tokens":{"--display":"\"Teko\", \"Barlow Condensed\", Impact, sans-serif","--ui":"\"Barlow\", \"Arial Narrow\", ui-sans-serif, system-ui, sans-serif","--mono":"\"IBM Plex Mono\", ui-monospace, SFMono-Regular, Menlo, monospace","--bg":"#12170A","--surface":"#1A2110","--surface-2":"#232C16","--sunk":"#0B0E05","--line":"#2E381A","--line-soft":"#232C16","--line-strong":"#4F5E2A","--text":"#F3F1E8","--text-2":"#CFCDBF","--text-3":"#A3A594","--red":"#FF5A1F","--red-2":"#FF7A45","--red-hi":"#FF7A45","--red-ink":"#FF7A45","--red-ghost":"#2E1408","--on-red":"#141206","--yel":"#FF5A1F","--yel-hi":"#FF7A45","--on-yel":"#141206","--yel-2":"#D9481A","--crim":"#F2C14D","--crim-hi":"#FFD56A","--on-crim":"#141206","--ph":"#F0B15A","--ph-ghost":"#3A2A12","--on-ph":"#141312","--go":"#7FD39A","--go-ghost":"#173022","--hazard":"repeating-linear-gradient(135deg,#FF5A1F 0 14px,#0B0E05 14px 28px)","--tex-1":"repeating-linear-gradient(135deg,rgba(255,90,31,.9) 0 14px,transparent 14px 28px)","--tex-2":"repeating-linear-gradient(45deg,rgba(255,90,31,.7) 0 10px,transparent 10px 20px)","--tex-3":"repeating-linear-gradient(135deg,rgba(255,90,31,.5) 0 22px,transparent 22px 44px)","--plate-bg":"#0B0E05","--plate-surface":"#1A2110","--plate-surface-2":"#232C16","--plate-sunk":"#070904","--plate-line":"#2E381A","--plate-line-soft":"#232C16","--plate-line-strong":"#4F5E2A","--plate-text":"#F3F1E8","--plate-text-2":"#CFCDBF","--plate-text-3":"#A3A594","--door-k":"#FFB36B"},"fonts":["Teko:wght@500;600;700","Barlow:wght@400;500;600;700","IBM Plex Mono:wght@400;500;600","Fredoka:wght@500;600;700","Nunito:wght@400;600;700;800"],"map":{"spots":{"unit":{"x":50,"y":52}}},"worlds":{"adventure":{"name":"Activate Outdoor Adventure","note":"Daylight and family: a pale ground, Activate's red and gold off the roundel, dark ink, Fredoka rounded display with Nunito, sentence-case labels, a scalloped gold edge instead of tape, rounded cards, no rain.","tokens":{"--bg":"#F7F3EA","--surface":"#FFFFFF","--surface-2":"#EFE9DC","--sunk":"#ECE5D5","--line":"#DDD5C3","--line-soft":"#E8E1D2","--line-strong":"#B8AD93","--text":"#1C1710","--text-2":"#3E3930","--text-3":"#605A4E","--red":"#94121E","--red-2":"#B0182A","--red-hi":"#B0182A","--red-ink":"#94121E","--red-ghost":"#F6E4E5","--on-red":"#FFFFFF","--yel":"#94121E","--yel-hi":"#B0182A","--on-yel":"#FFFFFF","--yel-2":"#6E0D16","--crim":"#F2C14D","--crim-hi":"#FFD56A","--on-crim":"#1C1710","--ph":"#7A4A00","--ph-ghost":"#F7E8CF","--on-ph":"#FFFFFF","--go":"#1F6B3A","--go-ghost":"#DDEFE3","--shadow":"0 1px 0 rgba(0,0,0,.06), 0 24px 48px -28px rgba(40,30,10,.35)","--hazard":"repeating-linear-gradient(135deg,#F2C14D 0 14px,#94121E 14px 28px)","--tex-1":"repeating-linear-gradient(135deg,rgba(148,18,30,.6) 0 14px,transparent 14px 28px)","--tex-2":"repeating-linear-gradient(45deg,rgba(242,193,77,.7) 0 10px,transparent 10px 20px)","--tex-3":"radial-gradient(circle,rgba(242,193,77,.55) 0 3px,transparent 3.6px) 0 0/18px 18px","--plate-bg":"#FFFFFF","--plate-surface":"#F7F3EA","--plate-surface-2":"#EFE9DC","--plate-sunk":"#ECE5D5","--plate-line":"#DDD5C3","--plate-line-soft":"#E8E1D2","--plate-line-strong":"#B8AD93","--plate-text":"#1C1710","--plate-text-2":"#3E3930","--plate-text-3":"#5C564A","--door-k":"#F2C14D","--display":"\"Fredoka\", \"Nunito\", \"Trebuchet MS\", sans-serif","--ui":"\"Nunito\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif","--mono":"\"Nunito\", ui-sans-serif, system-ui, sans-serif"}}}},"assets":{"logo":"assets/logo.png","logo.png":"assets/logo.png","logo-activate":"assets/logo-activate.png","logo-activate.png":"assets/logo-activate.png","field-run":"assets/field-run.jpg","field-run.jpg":"assets/field-run.jpg","fort-window":"assets/fort-window.jpg","fort-window.jpg":"assets/fort-window.jpg","smoke-base":"assets/smoke-base.jpg","smoke-base.jpg":"assets/smoke-base.jpg","group-base":"assets/group-base.jpg","group-base.jpg":"assets/group-base.jpg","door-airsoft":"assets/door-airsoft.jpg","door-airsoft.jpg":"assets/door-airsoft.jpg","door-nerf":"assets/door-nerf.jpg","door-nerf.jpg":"assets/door-nerf.jpg","door-adventure":"assets/door-adventure.jpg","door-adventure.jpg":"assets/door-adventure.jpg","rental-players":"assets/rental-players.jpg","rental-players.jpg":"assets/rental-players.jpg","big-game-day":"assets/big-game-day.jpg","big-game-day.jpg":"assets/big-game-day.jpg","site-group":"assets/site-group.jpg","site-group.jpg":"assets/site-group.jpg","kids-kayak":"assets/kids-kayak.jpg","kids-kayak.jpg":"assets/kids-kayak.jpg","team-build":"assets/team-build.jpg","team-build.jpg":"assets/team-build.jpg","rocks-group":"assets/rocks-group.jpg","rocks-group.jpg":"assets/rocks-group.jpg","bushcraft":"assets/bushcraft.jpg","bushcraft.jpg":"assets/bushcraft.jpg","poster-all-out-war":"assets/poster-all-out-war.jpg","poster-all-out-war.jpg":"assets/poster-all-out-war.jpg","aerial":"assets/aerial.jpg","aerial.jpg":"assets/aerial.jpg","wall-group-base":"assets/wall-group-base.jpg","wall-group-base.jpg":"assets/wall-group-base.jpg","wall-saloon":"assets/wall-saloon.jpg","wall-saloon.jpg":"assets/wall-saloon.jpg","wall-laugh":"assets/wall-laugh.jpg","wall-laugh.jpg":"assets/wall-laugh.jpg","wall-marshal":"assets/wall-marshal.jpg","wall-marshal.jpg":"assets/wall-marshal.jpg","wall-window":"assets/wall-window.jpg","wall-window.jpg":"assets/wall-window.jpg","wall-squad-trees":"assets/wall-squad-trees.jpg","wall-squad-trees.jpg":"assets/wall-squad-trees.jpg","wall-barricade":"assets/wall-barricade.jpg","wall-barricade.jpg":"assets/wall-barricade.jpg","wall-group-vests":"assets/wall-group-vests.jpg","wall-group-vests.jpg":"assets/wall-group-vests.jpg","wall-trail":"assets/wall-trail.jpg","wall-trail.jpg":"assets/wall-trail.jpg","wall-smoke":"assets/wall-smoke.jpg","wall-smoke.jpg":"assets/wall-smoke.jpg","hero-ridge-1":"assets/hero-ridge-1.jpg","hero-ridge-1.jpg":"assets/hero-ridge-1.jpg","hero-ridge-2":"assets/hero-ridge-2.jpg","hero-ridge-2.jpg":"assets/hero-ridge-2.jpg","home-activate":"assets/home-activate.jpg","home-activate.jpg":"assets/home-activate.jpg","phoenix-2":"assets/phoenix-2.jpg","phoenix-2.jpg":"assets/phoenix-2.jpg","phoenix-3":"assets/phoenix-3.jpg","phoenix-3.jpg":"assets/phoenix-3.jpg"},"siteUrl":"https://thinkwork.info/airsoft/predator-combat/","aocUrl":"aoc/index.html","fares":{"walkon":{"full":{"n":25,"m":25},"half":{"n":25,"m":25}},"hire":{"full":{"n":45,"m":45},"half":{"n":35,"m":45}}},"membership":{"price":40,"year":"January to December","yearEnd":"the end of December","renewMonth":"January"},"schedule":{"times":["09:00","10:15","16:30"],"timesSample":false,"lunch":"13:00","regular":{"day":0,"dayName":"Sunday","label":"Game day","detail":"Every Sunday: gates 09:00, sign-in and chrono from 09:30, safety brief 10:15, morning games 10:30 to 13:00, afternoon games 14:00 to 16:30. As you told us on 13 October.","count":8,"sess":"full"},"extra":{"day":6,"dayName":"Saturday","label":"Game day","detail":"Every Saturday, the same running order. As you told us on 13 October.","weekly":true,"sess":"full"}},"events":[{"key":"halloween-2026","name":"Halloween game day","short":"Halloween","iso":"2026-10-24","dayName":"Saturday","detail":"Our Halloween game day on the woodland site. Gates 09:00, safety brief 10:15, off the field at 16:30. Walk-on £25, rental package £45.","times":["09:00","10:15","16:30"],"price":25,"sample":false,"srcLabel":"The date is from our call on 13 October; the poster and any special price are yours to send"}],"ref":"PC","copy":{"todayTake":"a booking form, paid in advance","fareboard":{"sumOwn":"Half day or full day,<br>walk-on or rental.","sumMember":"A member price<br>is proposed.","lineOwn":"Both figures are as published on our booking page. The half day is the popular one. Pay when you book and your place is held.","lineMember":"Membership is sold at the store counter today; a member price is a phase two idea."},"breakEven":"At a £5 gap a £40 membership pays back on the eighth game day. The figures are yours to set.","renewToast":"Renewal opens in December: one pay link, January to December, proposed.","adventure":{"headline":"Climb. Paddle. Breathe.","strap":"Rock climbing, abseiling, archery, canoeing, kayaking, orienteering and bushcraft in County Down, for families, schools, groups and companies."}},"sample":{"spaces":[31,14,38,22,9,35,19,40,12,27,33,16],"addons":[{"id":"boot","n":"Boot hire","s":"Your published £15, pre-booked so the pair is set out.","p":15,"per":true,"on":false}],"block":{"n":6,"p":130,"s":"Six walk-on days for the price of five, proposed."},"products":[{"n":"Predator patch","p":6},{"n":"BBs, 3,000 bag","p":12},{"n":"Green gas","p":9},{"n":"Warhammer, 10% off","p":0}],"model":{"days":52,"addAvg":7,"groupAvg":420,"foodPer":0,"depositPct":0.3,"platformFeePct":0},"live":{"time":"11:02","game":2,"of":5,"next":"11:30","onSite":38,"closed":"09:30"},"backend":{"annPost":"Halloween game day, Saturday 24 October. Gates 09:00, brief 10:15. Book on the site."},"names":["Ciaran Magee","Aoife Donnelly","Ryan McKee","Niamh Gallagher","Conor Mulholland","Shannon Reilly","Darragh Boyle","Megan Hanna","Jack Mullan","Eimear Quinn","Odhran Walsh","Caitlin Doherty"]},"content":{"jsonld":{"description":"Predator Combat and Activate Outdoor Adventure, Ballynahinch, County Down: airsoft game days (walk-on £25, rental £45), Nerf Wars parties (£15 per player) and outdoor adventure activities, thirty minutes from Belfast.","faq":[{"q":"How much is a game day at Predator Combat?","a":"A walk-on with your own kit is £25 for the full day, morning or afternoon, and £20 for an evening. A rental package is £45 for the full day or £35 for a morning, afternoon or evening: an electric 1:1 replica rifle, 3,000 rounds and full face protection. Boot hire is £15."},{"q":"What time does a game day run?","a":"Gates open at 9:00 am, the shop at 9:30 am, sign-in and chrono 9:30 to 10:15 am, safety brief 10:15 am, morning games 10:30 am to 1:00 pm, lunch 1:00 to 2:00 pm, afternoon games 2:00 to 4:30 pm."},{"q":"What days does Predator Combat run?","a":"Game days run every Saturday and Sunday. Gates open at 9:00 am, safety brief 10:15 am, afternoon games end at 4:30 pm."},{"q":"How old do you have to be to play airsoft at Predator Combat?","a":"Airsoft is for players aged 12 and above. Nerf Wars are for ages 7 and above, six to sixteen players."},{"q":"How much are Nerf Wars?","a":"£15 per participating player. A taster activity can be added for £7 per person: canoeing, archery or survival skills."},{"q":"What outdoor activities does Activate offer?","a":"Rock climbing, hill and mountain walking, abseiling, archery, canoeing, kayaking, orienteering, adventure boot camps, bushcraft and survival skills, corporate training and kids outdoor activities, for individuals and groups."},{"q":"Is there a membership?","a":"Predator Membership is £40 for January to December, £25 from September to December, sold at the store. It includes UKARA registration, £5 off your first three bookings, a loyalty card (play five, the sixth game free), free members days and store discounts."},{"q":"Where is Predator Combat?","a":"Ballynahinch, County Down, BT24 8NF, thirty minutes from Belfast. Phone 028 9756 5651 or 07825 169 631."},{"q":"What should I wear?","a":"Outdoor footwear is essential; boot hire is £15 if you do not have suitable footwear for the conditions. Rental players get full face protection."}],"fareLabels":{"walkon":"Airsoft game day, walk-on with your own kit","hire":"Airsoft game day with the rental package"}}},"cesiumToken":""};
 /* ---- part: helpers.js ----
    The four things every other part uses: $ and $$, the money formatters, the
    toast, and the two page-level constants (`root`, and `reduce` for

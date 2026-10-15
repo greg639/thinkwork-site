@@ -745,7 +745,7 @@ const ROLES={
 };
 
 /* A console cut back to what this phase needs (data.later from the config): the rest of the rail stays visible, tagged
-   Later, and says what it is and when it arrives, instead of being deleted. Predator Combat, phase one, 15 Oct 2026. */
+   Later, and says what it is and when it arrives, instead of being deleted. The first tenant to ask for it, phase one, 15 Oct 2026. */
 const later=(d,key)=>Array.isArray(d.later)&&d.later.indexOf(key)>=0;
 function drawLater(inst,key){const d=inst.data,s=SCREENS.find(x=>x.key===key)||{label:key};
   body(inst,key).innerHTML=head(s.label,"Phase two","")+
@@ -754,8 +754,8 @@ function drawLater(inst,key){const d=inst.data,s=SCREENS.find(x=>x.key===key)||{
     '<p class="aoc-small aoc-muted" style="margin-top:10px">Phase one is the site, online booking and payment, check-in on the day, the money, and the events and prices you change yourself. Everything else waits until that has settled.</p>'+
     '</div></div>';}
 /* The owner's own screen: add an event and it is on the site; change a price and the site changes with it.
-   Miceal, 13 Oct: he has to ask his developer for every booking-form change. Greg, 15 Oct: this is standing
-   functionality for every site, not just this one. */
+   An owner told us every booking-form change has to go through their developer. Greg, 15 Oct 2026: this is
+   standing functionality for every site, not just the one that asked. */
 /* the prices an owner changes here are whatever that site sells: an arena's and an organiser's sessions, a
    skirmish site's ticket ladder. One shape out, so the screen and the save are the same on every tenant. */
 function priceRows(d){
@@ -1394,7 +1394,7 @@ function drawMarketing(inst){
     card('<h3>Last 30 days</h3>','<div class="aoc-bd">'+kv("Messages sent","1,204")+kv("Opened","41%")+kv("Bookings from them",'<span class="aoc-go-c">37</span>')+kv("Revenue attributed",'<span class="aoc-go-c">'+gbp(1290)+'</span>')+kv("Unsubscribed","6")+'</div>')+'</div></div>';
 }
 
-/* ---------- The Proposal: what this rebuild is actually for. 1066's structure, every site's own facts ---------- */
+/* ---------- The Proposal: what this rebuild is actually for. The reference structure, every site's own facts ---------- */
 function list(items,cls){return '<ul class="aoc-check'+(cls?" "+cls:"")+'">'+(items||[]).map(i=>'<li>'+i+'</li>').join("")+'</ul>';}
 function more(items,n,cls,what){items=items||[];const head=items.slice(0,n),rest=items.slice(n);return list(head,cls)+(rest.length?'<details class="aoc-more"><summary>Show the full list, '+rest.length+' more'+(what?" "+what:"")+'</summary>'+list(rest,cls)+'</details>':"");}
 const fmtDate=iso=>{const d=new Date(iso+"T12:00:00Z");return isNaN(d)?iso:d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric",timeZone:"UTC"});};
@@ -1449,7 +1449,7 @@ function drawProposal(inst){
     '<p class="aoc-eyebrow">Proposal. Not a public page.</p><h2>What this rebuild is actually for</h2><p class="aoc-lede">'+lede+'</p>'+
     /* the wedge */
     (wedge.title?card('','<div class="aoc-bd"><p class="aoc-eyebrow">'+(wedge.eyebrow||"Your site, read closely")+'</p><h3>'+wedge.title+'</h3><div class="aoc-split"><div>'+(wedge.body||"")+(wedge.quote?'<p class="aoc-quote">'+wedge.quote+'</p>':"")+'</div><div><p class="aoc-eyebrow" style="color:var(--aoc-warn);margin-bottom:8px">'+(wedge.cannotTitle||"What today's set-up cannot do")+'</p>'+more(wedge.cannot,4,"x")+'</div></div></div>',"aoc-hi"):"")+
-    /* extra cards a site's proposal carries (1066's two websites) */
+    /* extra cards a site's proposal carries, where it has something the standard cards do not cover */
     (P.extra||[]).map(x=>card('','<div class="aoc-bd"><p class="aoc-eyebrow">'+(x.eyebrow||"")+'</p><h3>'+(x.title||"")+'</h3>'+(x.body||"")+((x.left||x.right)?'<div class="aoc-split" style="margin-top:18px">'+[x.left,x.right].map(side=>side?'<div><p class="aoc-eyebrow" style="color:'+(side.tone==="ok"?"var(--aoc-go)":"var(--aoc-warn)")+';margin-bottom:8px">'+(side.title||"")+'</p>'+more(side.items,3,side.tone==="ok"?"":"x")+'</div>':"").join("")+'</div>':"")+'</div>')).join("")+
     /* provenance */
     card('','<div class="aoc-bd"><p class="aoc-eyebrow">Read this first</p><h3>What in here is yours, and what is invented</h3><p class="aoc-muted" style="max-width:74ch">Everything in the right-hand column is placeholder until you replace it with your real figures.</p><div class="aoc-split" style="margin-top:18px"><div>'+

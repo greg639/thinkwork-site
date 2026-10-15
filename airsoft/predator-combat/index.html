@@ -148,7 +148,7 @@ body.ph-on [data-ph]{outline:1.5px dashed var(--ph);outline-offset:7px;border-ra
 body.ph-on [data-ph]>.phtag{display:inline-flex}
 /* the chip parks 13px above its box; a box that clips its overflow (a card, a tile, a torn slab) cut the chip in half ("SAMPLE CARD" on the past-events cards). While placeholders show, a box with a chip does not clip. */
 /* Where the chip lives. Inside a BLOCK box it is a flow item at the top and wraps freely. Inside a GRID
-   or FLEX box a flow item takes a row or a column (a 300px grid row on No Limits' hero tiles, District 23's
+   or FLEX box a flow item takes a row or a column (a 300px grid row on one site's hero tiles, one arena site
    date signs split onto two lines), so there toolbar.js marks the box .ph-strip, the chip is absolute at
    the top, and the box gets a padding strip measured from the chip's own height (--chip-strip), so a
    two-line chip never runs into the content. Buttons cannot carry either; there the chip hangs above. */
@@ -165,7 +165,7 @@ body.ph-on .ph{border-bottom:1.5px dashed var(--ph);padding-bottom:1px}
 .note{display:none;gap:10px;align-items:flex-start;margin-top:14px;padding:10px 12px;border:1px dashed var(--red-ink);background:var(--red-ghost);border-radius:3px;font-size:13.5px;line-height:1.45;color:var(--text)}
 .notes-on .note{display:flex}
 .note,.note span{font-family:var(--ui);font-size:13.5px;font-weight:400;font-style:normal;text-transform:none;letter-spacing:0;text-align:left;line-height:1.45;filter:none;text-shadow:none;color:var(--text-2)}
-.note span{display:block;flex:1 1 auto;min-width:0}   /* a note inside a display-type band inherits none of it: the label and the text piled on top of each other on Dirty Dog */
+.note span{display:block;flex:1 1 auto;min-width:0}   /* a note inside a display-type band inherits none of it: the label and the text piled on top of each other on one woodland site */
 .notesonly{display:none}
 .notes-on .notesonly{display:block}
 .note b{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--red-ink);flex:none;padding-top:3px}
@@ -215,7 +215,7 @@ nav.main button.on{color:var(--text);box-shadow:inset 0 -3px 0 var(--red-hi)}
 @container page (max-width:640px){
   .headrow{gap:8px}
   .mark{min-width:0;flex:1 1 auto}
-  /* a long name wraps to two lines instead of running under the Menu button ("Commando Force Airsoft" was 22% covered) or truncating ("DIRTY DOG AI…"): the mark shrinks, the wordmark wraps */
+  /* a long name wraps to two lines instead of running under the Menu button (a four-word trading name) or truncating (a long wordmark cut short): the mark shrinks, the wordmark wraps */
   .headrow>.mark{min-width:0;flex:1 1 auto}
   .wordmark{font-size:15px;line-height:1.05;white-space:normal;overflow:visible;text-overflow:clip;max-width:100%}
   .headcta{flex:0 0 auto;margin-left:auto}
@@ -1031,7 +1031,7 @@ body.ph-on .mapgames[data-ph]{outline-offset:4px}
 .fly-rose path{fill:var(--hud-hot,#FFB347)}
 .fly-rose circle{fill:rgba(11,8,7,.8);stroke:var(--hud,#F3F1E8);stroke-opacity:.6}
 /* the rose paints with fallbacks: a build with no tint class left --hud undefined, so the N fell back to black on its own ring (1:1, 2 Oct) */
-/* the N is a stroked glyph, not a text node: a 10px SVG letter reads as 1:1 to the contrast gate, which cannot separate a thin anti-aliased glyph from its ring (Commando Force, 3 Oct) */
+/* the N is a stroked glyph, not a text node: a 10px SVG letter reads as 1:1 to the contrast gate, which cannot separate a thin anti-aliased glyph from its ring (one site, 3 Oct) */
 .fly-rose .fly-n{fill:none;stroke:var(--hud,#F3F1E8);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
 
 /* ---------- the HUD: four rows, so a readout can never land on a fact slab or
@@ -1481,8 +1481,8 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           <h1 id="h1">Airsoft. Adventure. One site.</h1>
           <p class="lede" id="heroLede">Ireland's oldest airsoft field and an outdoor adventure centre on one woodland site, thirty minutes from Belfast.</p>
           <div class="ctas">
-            <button class="btn primary" data-go="parties" id="heroCta">Book a game day</button>
-            <button class="btn ghost" data-go="book" data-w="airsoft">Airsoft walk-ons</button>
+            <button class="btn primary" data-go="book" id="heroCta">Book a game day</button>
+            <button class="btn ghost" data-go="parties" data-w="airsoft">Groups and parties</button>
             <button class="btn ghost" data-go="team" data-w="adventure">Team building</button>
           </div>
           <ul class="essentials" aria-label="The essentials" data-w="airsoft">
@@ -1526,7 +1526,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           <ul>
             <li>Gates 09:00, brief 10:15, games 10:30 to 16:30</li><li>Electric 1:1 replica rifle</li><li>3,000 rounds</li><li>Full face protection for every rental player</li><li>Boot hire &pound;15 if you need it</li><li>Lunch break at the base</li>
           </ul>
-          <div class="foot"><span class="age">Ages 12+</span><button class="btn primary sm" data-go="parties" data-pick="45">Book airsoft</button></div>
+          <div class="foot"><span class="age">Ages 12+</span><button class="btn primary sm" data-go="book">Book airsoft</button></div>
         </div>
         <div class="slab">
           <div class="top"><p class="eyebrow">Nerf Wars</p><h3 style="margin-top:6px">Party battle</h3><p class="price">&pound;15<small>per player</small><span class="alt">Add a taster activity for &pound;7</span></p></div>
@@ -1947,8 +1947,8 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 <section data-screen="book" hidden>
   <div class="band tight">
     <div class="wrap">
-      <p class="eyebrow">Walk-on booking. No phone call, no booking fee.</p>
-      <h2 style="margin:10px 0 20px">Book a walk-on day</h2>
+      <p class="eyebrow">Book a day. One person or a few. No phone call, no booking fee.</p>
+      <h2 style="margin:10px 0 20px">Book a game day</h2>
       <div class="steps" id="stepBar">
         <div data-s="1" class="on">1 &middot; Day and tickets</div>
         <div data-s="2">2 &middot; Before the day</div>
@@ -1967,7 +1967,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
                 <button data-sess="half" aria-pressed="false">Half day<small>Morning or afternoon</small></button>
               </div></div>
             <div class="ticket">
-              <div><h4 id="tkWalkH">Walk-on</h4><p id="tkWalkP">Your own kit.</p></div>
+              <div><h4 id="tkWalkH">Walk-on</h4><p id="tkWalkP">Your own kit, nothing hired.</p></div>
               <div class="row" style="gap:14px"><span class="pr" data-pr="walkon">&pound;25</span>
                 <div class="stepper" data-t="walkon"><button data-d="-1" aria-label="fewer">&minus;</button><output>1</output><button data-d="1" aria-label="more">+</button></div></div>
             </div>
@@ -3028,7 +3028,7 @@ document.addEventListener("click",e=>{const t=e.target.closest("[data-go]"); if(
 /* ---------- the browser's own back button ----------
    Every screen and every world is a history entry, so Back goes back a screen and the address bar always says what is
    on screen (share it and it opens there). go() and setWorld() push; the popstate handler replays without pushing.
-   Greg, 15 Oct 2026: "the back button on the browser doesn't do anything... makes it a bit difficult to demo a mock". */
+   15 Oct 2026, the brief: "the back button on the browser doesn't do anything... makes it a bit difficult to demo a mock". */
 let navving=false,booted=false;
 function addr(screen,world){try{const u=new URL(location.href);screen&&screen!=="home"?u.searchParams.set("screen",screen):u.searchParams.delete("screen");world?u.searchParams.set("world",world):u.searchParams.delete("world");return u.toString();}catch(e){return location.href;}}
 function pushNav(){if(navving||!booted)return;   /* nothing touches the address until the page has read ?screen= and routed: rewriting it during load dropped the parameter and the deep link opened the home screen */const st={screen:document.body.dataset.screen||"home",world:document.documentElement.dataset.world||null};
@@ -3048,7 +3048,7 @@ function setWorld(w){const el=document.documentElement; if((el.dataset.world||""
   const want=new URLSearchParams(location.search).get("world"); setWorld(worlds.includes(want)?want:worlds[0]);})();
 document.addEventListener("click",e=>{const t=e.target.closest("[data-world-go]"); if(!t)return; setWorld(t.dataset.worldGo); if(document.body.dataset.screen&&document.body.dataset.screen!=="home") go("home");});
 /* The operator console (AOC) opens INSIDE the prototype, under the toolbar, so Site / Back end /
-   Proposal stay in reach whichever view is up (Greg, 25 Sep: "the navigation bar needs to remain
+   Proposal stay in reach whichever view is up (25 Sep, the brief: "the navigation bar needs to remain
    for all mockups regardless of tab selected"). Same origin, so the console's own "back to the
    site" link is retargeted to the top window rather than loading the mock inside itself. */
 function consoleFrame(){
@@ -3139,7 +3139,7 @@ const SCHED=CONFIG.schedule;
    between SCHED.breakFrom and SCHED.breakTo written as MM-DD. The extra day runs
    once a month between SCHED.extra.fromMonth and .toMonth; where the date is not
    published it is shown as to-be-announced rather than guessed. */
-/* a schedule with no break (predator-combat runs every weekend of the year) has no BREAK: a missing date must never throw here, because every part after this one, routing included, would never run */
+/* a schedule with no break (a site that runs every weekend of the year) has no BREAK: a missing date must never throw here, because every part after this one, routing included, would never run */
 const BREAK=(typeof SCHED.breakFrom==="string"&&typeof SCHED.breakTo==="string")?[SCHED.breakFrom,SCHED.breakTo].map(x=>x.split("-").map(Number)):null;
 function isBreak(d){if(!BREAK)return false;const m=d.getMonth()+1,day=d.getDate();
   return (m===BREAK[0][0]&&day>=BREAK[0][1])||(m===BREAK[1][0]&&day<=BREAK[1][1]);}
@@ -3161,6 +3161,17 @@ for(const e of EVENTS){
   if(same)Object.assign(same,{key:e.key,n:e.n,short:e.short,d:e.d,t:e.t,off:e.off,offLabel:e.offLabel,real:true});
   else DATES.push({dt,key:e.key,kind:e.kind,n:e.n,short:e.short,d:e.d,t:e.t,price:e.price,dep:e.dep,prize:e.prize,left:e.left,cap:e.cap,tba:false,real:true});
 }
+/* Events the owner published in the console (store.js: this browser only) join the board like any published date. The
+   console's record is {n name, d date, t gates, x what it is, p price a player, i poster}. A date that already runs takes
+   the event's name and detail; a new date is added. 15 Oct 2026, the standing rule: an owner adds an event and sees it on the site. */
+if(typeof storeRead==="function"){(storeRead().events||[]).forEach((e,i)=>{
+  if(!e||!e.n||!/^\d{4}-\d{2}-\d{2}$/.test(e.d||""))return;
+  const dt=new Date(e.d+"T08:00:00");if(isNaN(dt.getTime())||dt.getTime()<Date.now()-8*3600e3)return;
+  const rec={key:"console-"+i,n:String(e.n),short:String(e.n),d:e.x?String(e.x):"",t:e.t?[String(e.t)]:undefined,price:+e.p>0?+e.p:undefined,dep:undefined,prize:false,real:true,console:true};
+  const same=DATES.find(x=>x.dt.toDateString()===dt.toDateString());
+  if(same)Object.assign(same,rec);
+  else DATES.push(Object.assign({dt,kind:dt.toLocaleDateString("en-GB",{weekday:"long"}),left:SCHED.cap,cap:SCHED.cap,tba:false},rec));
+});}
 /* The extra day each month, inside its season: one a month, date not published where SCHED.extra.tba */
 (function(){
   const now=new Date(), X=SCHED.extra; if(!X)return;
@@ -3856,7 +3867,7 @@ $("#brandReset").addEventListener("click",()=>{
   }
   function height(e){ return START.height*Math.pow(LOW/START.height, e); }
   /* static-push: a fixed oblique angle, pushing in from 25 km down to the settle height. It used to start at
-     1.7x the settle height beside the site and slide across to it: a sideways pan, not a fly-in (Greg, 25 Sep) */
+     1.7x the settle height beside the site and slide across to it: a sideways pan, not a fly-in (25 Sep) */
   function modelHeight(e){ return A.motion==="static-push" ? 25000*Math.pow(LOW/25000, e) : height(e); }
   function heading(p){
     if(A.motion==="orbit") return (HEAD + 360*p) % 360;
@@ -4231,7 +4242,9 @@ const NAMES=S.names;
   const PLAYERS=[]; let ni=0;
   for(const [k,s,m,n] of MIX) for(let i=0;i<n;i++){PLAYERS.push({name:NAMES[ni++],k,s,m,price:FARE[k][s][m?"m":"n"],wv:true,u18:false,in:false});}
   /* mix the list up so the types interleave, deterministically */
-  PLAYERS.sort((a,b)=>a.name.split(" ")[1].localeCompare(b.name.split(" ")[1]));
+  /* a one-word name sorts on the whole name: the parties screen threw on a sample player without a surname (15 Oct) */
+  const surname=p=>{const n=String(p&&p.name||"");return n.split(" ")[1]||n;};
+  PLAYERS.sort((a,b)=>surname(a).localeCompare(surname(b)));
   S.noWaiver.forEach(i=>PLAYERS[i].wv=false);
   (function(){const i=PLAYERS.findIndex(p=>p.name===S.pinName);if(i>=0&&PLAYERS[i].wv){PLAYERS[i].wv=false;PLAYERS[S.noWaiver[0]].wv=true;}})();
   S.under18.forEach(i=>PLAYERS[i].u18=true);

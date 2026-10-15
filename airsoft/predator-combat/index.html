@@ -325,7 +325,7 @@ h2{font-size:clamp(30px,3.6cqi,56px);line-height:1}
 .hero{position:relative;overflow:clip;background:var(--bg)}
 .hero .wrap{z-index:2}
 /* the watermark: the badge, large and faint, behind the opener (the roundel in the adventure world) */
-.hero .splat{position:absolute;left:40%;top:52%;width:min(56vw,760px);aspect-ratio:1;height:auto;background:var(--mark) center/contain no-repeat;opacity:.13;pointer-events:none;z-index:1;--rot:-8deg;transform:translate(-50%,-50%) rotate(var(--rot));transform-origin:50% 50%;filter:grayscale(1) brightness(1.7)}
+.hero .splat{position:absolute;left:40%;top:52%;width:min(56vw,760px);max-width:94%;aspect-ratio:1;height:auto;background:var(--mark) center/contain no-repeat;opacity:.13;pointer-events:none;z-index:1;--rot:-8deg;transform:translate(-50%,-50%) rotate(var(--rot));transform-origin:50% 50%;filter:grayscale(1) brightness(1.7)}
 html[data-world="adventure"] .hero .splat{background-image:var(--mark-adv);opacity:.07;filter:none}
 /* two stages, one per world; the credit follows its own stage */
 .hero .stage[data-world],.hero .photocredit[data-world]{display:none}
@@ -682,7 +682,8 @@ body[data-screen="back"] .deskbar{display:flex}
   .day{grid-template-columns:90px 1fr;grid-template-areas:"d i" "c c" "a a";row-gap:12px}
   .day .date{grid-area:d}.day .info{grid-area:i}.day .cap{grid-area:c}.day .act{grid-area:a}
   .day .price{text-align:left}
-  .hero .splat{width:110vw;left:50%;top:38%;opacity:.09}
+  /* the mark is rotated, so its bounding box is wider than the mark: 80% keeps the box inside a 390px screen */
+  .hero .splat{width:80%;max-width:80%;left:50%;top:38%;opacity:.09}
 }
 @container page (max-width:1140px){
   nav.main{display:none}
@@ -788,7 +789,7 @@ nav.main.open .worldsw{margin:4px 8px 8px}
 .acts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 .actv{position:relative;margin:0;aspect-ratio:4/3;overflow:hidden;border-radius:3px;background:var(--sunk);border:1px solid var(--line);isolation:isolate}
 .actv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
-.actv .gl{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:30px 12px 12px;background:linear-gradient(180deg,transparent 0%,rgba(7,9,4,.9) 55%)}
+.actv .gl{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:12px;background:rgba(7,9,4,.86)}
 .actv .gl b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(20px,2cqi,26px);line-height:1;color:#F3F1E8}
 .actv .gl span{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--door-k);margin-top:5px}
 .actv .credit{position:absolute;top:10px;right:10px;z-index:3;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#F2F2F3;background:#121212;padding:3px 7px;border-radius:2px}
@@ -834,6 +835,21 @@ html[data-world="adventure"] .hero .splat{opacity:.06}
 html[data-world="adventure"] .mapband{--plate-bg:#0B0E05;--plate-surface:#1A2110;--plate-surface-2:#232C16;--plate-sunk:#070904;--plate-line:#2E381A;--plate-line-soft:#232C16;--plate-line-strong:#4F5E2A;--plate-text:#F3F1E8;--plate-text-2:#CFCDBF;--plate-text-3:#A3A594;--yel:#F2C14D;--yel-hi:#FFD56A;--on-yel:#1C1710;--red:#F2C14D;--red-2:#FFD56A;--red-hi:#FFD56A;--red-ink:#F2C14D;--on-red:#1C1710;--ph:#F0B15A;--ph-ghost:#3A2A12;--on-ph:#141312;--go:#7FD39A;--go-ghost:#173022;--shadow:0 1px 0 rgba(0,0,0,.5), 0 24px 48px -28px #000}
 /* the open phone menu covers the top of the hero: the stage credit under it must not be measured as if it showed */
 #head:has(nav.main.open) ~ section .hero .photocredit{visibility:hidden}
+/* the what's on list: its own row, stacked on a phone and in a line on a desk, so it never inherits the day grid */
+.evrow{display:grid;grid-template-columns:64px 1fr;gap:12px 16px;align-items:start;border:1px solid var(--line);background:var(--surface);border-radius:3px;padding:14px 16px}
+/* a display numeral at .95 leading paints past its own line box and into the label under it, which the collision gate reads as covered text */
+.evwhen b{display:block;font-family:var(--display);font-weight:400;font-size:34px;line-height:1.12;padding-top:.06em;color:var(--yel)}
+.evwhen span{display:block;margin-top:2px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3)}
+.evwhat h3{font-size:22px;line-height:1.1}
+.evwhat p{font-size:14px;color:var(--text-2);margin-top:4px}
+.evwhat p.evdetail{color:var(--text-3)}
+.evdo{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid var(--line);padding-top:12px}
+.evprice{font-family:var(--display);font-size:28px;line-height:1;color:var(--yel)}
+.evprice small{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-top:4px}
+@media (min-width:820px){
+  .evrow{grid-template-columns:72px 1fr 220px}
+  .evdo{grid-column:auto;border-top:0;padding-top:0;flex-direction:column;align-items:flex-end;justify-content:center}
+}
 /* ---- part: motion.css ----
    Reduced motion, globally. This has to be pasted LATE in the sheet: the rules
    that turn off hover transforms are the same specificity as the ones that set
@@ -1336,6 +1352,9 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 .tile .cap p{color:#CFCFD3}
 .tile .credit{color:#F2F2F3;background:#121212}
 .mapband{border-top:0}
+/* the map is a real map, dragged and zoomed in place, with their own photograph of the base behind it while it loads */
+.mapembed{display:block;width:100%;height:clamp(300px,46vh,460px);border:0;background:var(--sunk) url(assets/aerial.jpg) center/cover no-repeat}
+.mapframe .mapstage{position:relative;border:1px solid var(--line-strong);border-radius:3px;overflow:hidden}
 .livestrip{background:var(--sunk)}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Teko:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" media="print" onload="this.media='all'">
@@ -1558,16 +1577,12 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
       <div class="evgrid">
         <div>
           <p class="eyebrow red">Big game days</p>
-          <h2 style="margin:10px 0 14px">Halloween.<br>Saturday 24 October.</h2>
-          <p class="lede" style="max-width:52ch">Our next big game day is the Halloween game on Saturday 24 October: gates 09:00, brief 10:15, off the field at 16:30. All Out War on Sunday 20 September was the last one.</p>
-          <ul class="evfacts">
-            <li><b>24 Oct</b><span>Halloween game day</span></li>
-            <li><b>09:00</b><span>Gates</span></li>
-            <li><b>Woodland</b><span>The site</span></li>
-          </ul>
+          <h2 style="margin:10px 0 14px" id="evbTitle">Big game days</h2>
+          <p class="lede" style="max-width:52ch" id="evbLede"></p>
+          <ul class="evfacts" id="evbFacts"></ul>
           <div id="ownEvents" class="ownevs" hidden></div>
-          <div class="ctas" style="margin:20px 0 0;display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" data-go="events">The Halloween day</button><a class="btn ghost" href="https://www.facebook.com/PredCG/?locale=en_GB" target="_blank" rel="noopener">Our Facebook page</a></div>
-          <p class="note"><b>Why</b><span>The Halloween date is from our call on 13 October; the poster and any special price are yours to send, and All Out War stays in the frame until then. This band is the mechanism you asked for: you add the next event in the back end with a name, a description and a picture, and it takes this band over by itself, with its own address and its own Event record for search.</span></p>
+          <div class="ctas" style="margin:20px 0 0;display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" data-go="events" id="evbBtn">What&rsquo;s on</button><a class="btn ghost" href="https://www.facebook.com/PredCG/?locale=en_GB" target="_blank" rel="noopener">Our Facebook page</a></div>
+          <p class="note"><b>Why</b><span>This band reads the next event off your calendar rather than a sentence typed once, so its date, its times and its price are the ones a player will actually turn up to. Add an event in the console and it takes the band over by itself. The poster beside it is All Out War until you send the Halloween artwork.</span></p>
         </div>
         <figure class="evposter"><img src="assets/poster-all-out-war.jpg" width="386" height="748" alt="Our All Out War poster: Predator Airsoft, Sunday 20th September, 09:00 start, woodland site" loading="lazy" decoding="async"><span class="credit">Our poster, All Out War</span></figure>
       </div>
@@ -1820,21 +1835,14 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
      with the static map and nothing half drawn. Reads no CONFIG. -->
 <div class="flyin" id="flyin" hidden aria-hidden="true"></div>
 
-    <p class="lede" style="max-width:62ch;margin:0 0 16px">Drag the picture to move it, pinch or use the buttons to zoom. The pin is our estimate off the postcode.</p>
+    <p class="lede" style="max-width:62ch;margin:0 0 16px">Drag the map to move it, pinch or scroll to zoom, and press Directions to open it on your phone.</p>
 
     <div class="maplayout">
-      <div class="mapframe" data-ph="1"><span class="phtag">The ground is our own photograph of the base; the pin is placed off the postcode</span>
-        <div class="mapstage" id="mapStage" tabindex="0" role="region" aria-label="A photograph of our base at BT24 8NF. Drag to move, plus and minus to zoom.">
-          <div class="maplayer" id="mapLayer">
-            <img src="assets/aerial.jpg" width="1280" height="800" alt="A game day group at the base, from our gallery" draggable="false" loading="lazy">
-            <button class="pin guess" data-spot="unit" data-ph="1" style="left:50%;top:52%" aria-pressed="true"><i aria-hidden="true"></i><span>The site, placed off the postcode</span></button>
-          </div>
-          <div class="mapctl" role="group" aria-label="Zoom">
-            <button id="mapZoomIn" aria-label="Zoom in">+</button>
-            <button id="mapZoomOut" aria-label="Zoom out">&minus;</button>
-            <button id="mapReset" aria-label="Reset the map">&#8634;</button>
-          </div>
-          <span class="bandcredit">Our base, from our gallery</span>
+      <div class="mapframe">
+        <div class="mapstage" id="mapStage">
+          <iframe class="mapembed" title="A map of Predator Combat at BT24 8NF" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=BT24+8NF&amp;z=14&amp;output=embed"></iframe>
+          <span class="bandcredit">Google Maps, BT24 8NF</span>
         </div>
       </div>
 
@@ -1844,7 +1852,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <p class="eyebrow red">On the map</p>
             <h3 style="margin-top:8px">Predator Combat</h3>
             
-            <div class="mapgames" data-ph="1"><span class="phtag">Sample: the pin moves to the gate</span>
+            <div class="mapgames">
               <p class="eyebrow">What is here</p>
               <ul><li>The gate and sign-in</li><li>The shop and the chrono</li><li>The safety brief at 10:15</li></ul>
             </div>
@@ -1866,7 +1874,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
       </aside>
     </div>
 
-    <p class="note"><b>Why</b><span>Your site prints the postcode and "Airsoft Belfast", not a lane, so the pin is placed off the postcode. The ground is your own photograph of the base until the 3D imagery pass runs with a token; a drone shot of the site drops straight in over it.</span></p>
+    <p class="note"><b>Why</b><span>A real map, centred on your postcode, that a visitor can drag and zoom without leaving the page, and a Directions button that opens it on their phone. Your site prints the postcode and "Airsoft Belfast" rather than a lane, so the map is centred on the postcode: send us the exact gate and we will drop the pin on it.</span></p>
   </div>
 </div>
   <!-- reviews -->
@@ -2007,10 +2015,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           <!-- step 3 -->
           <div class="card pad" data-step="3" hidden>
             <h3 style="margin-bottom:12px">Who is playing</h3>
-            <div id="playerList" data-ph="1"><span class="phtag">Sample players</span>
-              <div class="kv"><span><b>You</b> &middot; paying now</span><span class="pill ok">Disclaimer signed</span></div>
-              <div class="kv"><span><b>Player 2</b> &middot; invited by link</span><span class="pill">Awaiting disclaimer</span></div>
-            </div>
+            <div id="playerList" data-ph="1"><span class="phtag">Sample players</span></div>
             <div class="row" style="gap:8px;margin:14px 0 18px">
               <button class="btn ghost sm" id="addMate">Invite another player</button>
               <button class="btn ghost sm" id="copyLink">Copy pay-your-own-share link</button>
@@ -2184,42 +2189,6 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 </section>
 
 <!-- ============ ON SITE ============ -->
-<section data-screen="onsite" hidden>
-  <div class="band tight">
-    <div class="wrap">
-      <div class="row" style="justify-content:space-between;align-items:flex-end;margin-bottom:8px">
-        <div><p class="eyebrow">On site</p><h2 style="margin-top:10px">Order now, collect at sign-in</h2></div>
-        <span class="pill red" id="basketPill">Basket: 0 items</span>
-      </div>
-      <p class="lede" style="margin-bottom:22px">Consumables are sold on site, with a member discount. <span class="ph">Pre-order here and they are bagged up with your name on.</span></p>
-      
-      <div class="cols2" style="gap:14px" id="prodGrid" data-ph="1"><span class="phtag">Proposed pre-order &middot; sample items and prices</span></div>
-      <div class="card pad" style="margin-top:22px" data-ph="1"><span class="phtag">Proposed, switched off</span>
-        <div class="split">
-          <div>
-            <div class="row" style="justify-content:space-between"><p class="eyebrow">Gift vouchers</p><span class="pill ph">Switched off in this proposal</span></div>
-            <h3 style="margin:8px 0 10px">The easiest present in Ballynahinch</h3>
-            <p class="small muted">Emailed instantly, valid twelve months, redeemable against any session, walk-on, hire or membership.</p>
-            <div class="row" style="gap:8px;margin-top:14px">
-              <button class="btn ghost sm" data-v="20">&pound;20 (an hour of Nerf Wars)</button>
-              <button class="btn primary sm" data-v="40">&pound;40 (a outdoor activities session)</button>
-              <button class="btn ghost sm" data-v="0">Other</button>
-            </div>
-          </div>
-          <div>
-            <p class="eyebrow">Real and on site today</p>
-            <div class="kv"><span>Parking by the gate</span><b style="color:var(--go)">On site today</b></div>
-            <div class="kv"><span>Boot hire, &pound;15</span><b style="color:var(--go)">On site today</b></div>
-            <div class="kv"><span>Consumables, member discount</span><b style="color:var(--go)">On site today</b></div>
-            <div class="kv"><span>Pre-order and pay online</span><b style="color:var(--ph)">Proposed</b></div>
-            <div class="kv"><span>Food, a party room</span><b style="color:var(--text-3)">Not claimed</b></div>
-          </div>
-        </div>
-        <p class="note"><b>&pound;</b><span>Vouchers are cash up front, some are never redeemed, and every one that is brings a new group through the door. A &pound;40 voucher that is exactly one outdoor activities session is the neatest version.</span></p>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ============ ACCOUNT ============ -->
 <!-- ============ WHAT IS ON: every date, both worlds ============ -->
@@ -2326,7 +2295,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
     <div class="wrap">
       <p class="eyebrow red">Kids</p>
       <h2 style="margin:10px 0 10px">Kids' outdoor activities<br>and Nerf Wars</h2>
-      <p class="lede" style="margin-bottom:22px">Kids' outdoor activities with Activate. Nerf Wars at Predator for ages 7 and over: six to sixteen players, &pound;15 a player, blasters, darts and eye protection, a marshal and a battle zone. Add a taster of canoeing, archery or survival skills for &pound;7 a person.</p>
+      <p class="lede" style="margin-bottom:22px">Kids' outdoor activities with Activate. Nerf Wars at Predator for ages 7 and over: ten players or more, ninety minutes, &pound;15 a player, blasters, darts and eye protection, a marshal and a battle zone. Add a taster of canoeing, archery or survival skills for &pound;7 a person.</p>
       <div class="tiles">
         <figure class="tile"><img src="assets/kids-kayak.jpg" alt="Kids kayaking, from our outdoor activities page" width="800" height="600" loading="lazy" decoding="async"><span class="credit">From our activities page</span>
           <figcaption class="cap"><span class="k">01</span><b>Kids' outdoor activities</b><p>Kayaking, climbing, archery and bushcraft for young people. <span class="ph">Sample: from &pound;25 a child.</span></p></figcaption></figure>
@@ -3353,6 +3322,14 @@ function totals(){
 }
 /* boot hire asks for the size, because a pair has to be set out before the morning */
 function paintShoe(){const w=$("#shoeRow");if(!w)return;const on=ADDONS.some(a=>a.id==="boot"&&state.add.boot);w.hidden=!on;}
+/* the people on this booking, drawn from the booking itself: a single walk-on used to be told player two had not
+   signed yet, because the list was two rows of markup. Greg, 15 Oct. */
+function renderPlayers(){const host=$("#playerList");if(!host)return;
+  const n=Math.max(1,players()), extra=state.invited||0;
+  const row=(name,note,pill,ok)=>'<div class="kv"><span><b>'+name+'</b> &middot; '+note+'</span><span class="pill'+(ok?" ok":"")+'">'+pill+'</span></div>';
+  let out='<span class="phtag">Sample players</span>'+row("You","paying now","Declaration signed",true);
+  for(let i=2;i<=n;i++)out+=row("Player "+i,i<=1+extra?"invited by link":"on this booking","Covered by your declaration",true);
+  host.innerHTML=out;}
 function renderAddons(){
   $("#addonList").innerHTML='<span class="phtag">Proposed pre-orders · sample prices</span>'+ADDONS.map(a=>{const on=state.add[a.id];
     return '<label class="addon'+(on?" sel":"")+'" data-a="'+a.id+'"><input type="checkbox"'+(on?" checked":"")+'><span><b>'+a.n+'</b><br><span class="small muted">'+a.s+'</span></span><span class="p">+'+gbp(a.p)+(a.per?' each':'')+'</span></label>';}).join("");
@@ -3370,6 +3347,7 @@ function draw(){
   $("#sumTotal").textContent=gbp2(t.total);
   $("#sumSaved").textContent=t.saved?"Member prices saved "+gbp2(t.saved):"";
   $("#payAmt").textContent=gbp2(t.total);
+  renderPlayers();
   const need=minFor(state.date,state.sess), short=need&&players()<need;
   $("#nextBtn").disabled=(state.step===1&&(players()===0||short));
   const warn=$("#bkWarn");
@@ -3401,9 +3379,10 @@ function setStep(n){
   window.scrollTo({top:0,behavior:reduce?"auto":"smooth"});
 }
 $("#nextBtn").addEventListener("click",()=>setStep(Math.min(4,state.step+1)));
+{const im=$("#addMate");if(im)im.addEventListener("click",()=>{state.invited=(state.invited||0)+1;if(players()<2)state.q.walkon++;draw();});}
 document.addEventListener("change",e=>{if(e.target.closest("#addonList"))paintShoe();});
 $("#backBtn").addEventListener("click",()=>setStep(Math.max(1,state.step-1)));
-$("#addMate").addEventListener("click",()=>{const n=$("#playerList").querySelectorAll(".kv").length+1;$("#playerList").insertAdjacentHTML("beforeend",'<div class="kv"><span><b>Player '+n+'</b> · invited by link</span><span class="pill">Awaiting waiver</span></div>');});
+/* the invite is handled where the player list is drawn, so one place owns the list */
 $("#copyLink").addEventListener("click",()=>{$("#copyMsg").textContent="Link copied. Each player pays their own share.";setTimeout(()=>$("#copyMsg").textContent="",3500);});
 let lastBooking=null;
 $("#payBtn").addEventListener("click",()=>{
@@ -3557,8 +3536,10 @@ eCalc();
 /* ---------- on site pre-order ---------- */
 const PRODS=CONFIG.sample.products;
 let basket=0;
-$("#prodGrid").innerHTML='<span class="phtag">Proposed pre-order · sample prices</span>'+PRODS.map((p,i)=>'<article class="card pad"><p class="eyebrow">'+p[2]+'</p><h4 style="margin-top:6px;font-family:var(--display);font-size:22px;text-transform:uppercase">'+p[0]+'</h4><p class="mono" style="font-size:20px;margin-top:8px;font-weight:600">'+gbp2(p[1])+'</p><button class="btn ghost sm wide" style="margin-top:12px" data-add="'+i+'">Add to '+SCHED.regular.dayName+'</button></article>').join("");
-document.addEventListener("click",e=>{const b=e.target.closest("[data-add]");if(!b)return;basket++;$("#basketPill").textContent="Basket: "+basket+" item"+(basket===1?"":"s");b.textContent="Added, collect "+fmtShort(DATES[FIRST_SUN].dt);b.classList.add("primary");});
+/* a build with no pre-order screen (predator-combat, phase one) has no grid to fill: a missing node must not throw,
+   because everything after this line stops if it does */
+if($("#prodGrid"))$("#prodGrid").innerHTML='<span class="phtag">Proposed pre-order · sample prices</span>'+PRODS.map((p,i)=>'<article class="card pad"><p class="eyebrow">'+p[2]+'</p><h4 style="margin-top:6px;font-family:var(--display);font-size:22px;text-transform:uppercase">'+p[0]+'</h4><p class="mono" style="font-size:20px;margin-top:8px;font-weight:600">'+gbp2(p[1])+'</p><button class="btn ghost sm wide" style="margin-top:12px" data-add="'+i+'">Add to '+SCHED.regular.dayName+'</button></article>').join("");
+document.addEventListener("click",e=>{const b=e.target.closest("[data-add]");if(!b)return;basket++;if($("#basketPill"))$("#basketPill").textContent="Basket: "+basket+" item"+(basket===1?"":"s");b.textContent="Added, collect "+fmtShort(DATES[FIRST_SUN].dt);b.classList.add("primary");});
 document.addEventListener("click",e=>{const v=e.target.closest("[data-v]");if(!v)return;$$("[data-v]").forEach(x=>{x.classList.remove("primary");x.classList.add("ghost");});v.classList.add("primary");v.classList.remove("ghost");});
 document.addEventListener("click",e=>{const j=e.target.closest("[data-join]");if(!j)return;if(j.dataset.join==="Membership"){state.joined=true;state.member=false;}else{state.block=true;state.joined=true;state.member=false;}draw();go("book");toast(j.dataset.join+" added to your booking. Pick a day, then pay once at step 4.");});
 
@@ -3605,6 +3586,26 @@ $("#brandReset").addEventListener("click",()=>{
   $("#brandmark").classList.remove("has");$("#logoFile").value="";$("#accentPick").value=CONFIG.design.accent;
 });
 
+/* ---------- the big game days band: the next real event, read off the calendar ---------- */
+(function(){
+  const title=$("#evbTitle"); if(!title)return;
+  const fmt=dt=>dt.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
+  function paint(){
+    const world=document.documentElement.dataset.world==="adventure"?"adventure":"airsoft";
+    const next=DATES.filter(d=>d.real&&!d.tba&&(d.world||"airsoft")===world).sort((a,b)=>a.dt-b.dt)[0];
+    const lede=$("#evbLede"), facts=$("#evbFacts"), btn=$("#evbBtn");
+    if(!next){title.textContent="Big game days";if(lede)lede.textContent="The next one goes up here as soon as it is set.";if(facts)facts.innerHTML="";return;}
+    const t=next.t||SCHED.times, L=next.lock;
+    title.innerHTML=next.short||next.n;
+    if(lede)lede.textContent=fmt(next.dt)+". "+(next.d||"");
+    if(facts)facts.innerHTML=
+      '<li><b>'+next.dt.toLocaleDateString("en-GB",{day:"numeric",month:"short"})+'</b><span>'+(next.short||next.n)+'</span></li>'+
+      '<li><b>'+((t&&t[0])||"09:00")+'</b><span>'+(L?"Arrive":"Gates")+'</span></li>'+
+      (next.prices?'<li><b>&pound;'+next.prices.walkon+'</b><span>Walk-on, &pound;'+next.prices.hire+' with rental</span></li>':'<li><b>&pound;'+FARE.walkon.full.n+'</b><span>Walk-on</span></li>');
+    if(btn)btn.textContent="The "+(next.short||next.n).toLowerCase()+" day";
+  }
+  document.addEventListener("world:change",paint); paint();
+})();
 /* ---------- What's on: one list of real dates, per world ----------
    DATES is built by days.js from the published events, the days that run and anything the owner added in the console;
    a date carries its world where it has one, and a date with no world belongs to the airsoft side. The same list feeds
@@ -3619,11 +3620,10 @@ $("#brandReset").addEventListener("click",()=>{
       .sort((a,b)=>a.d.dt-b.d.dt).slice(0,max||99);
   }
   function card(x){const d=x.d,t=d.t||SCHED.times;
-    return '<article class="day">'+
-      '<div class="date"><b>'+d.dt.getDate()+'</b><span>'+d.dt.toLocaleDateString("en-GB",{weekday:"short",month:"short"})+'</span></div>'+
-      '<div class="info"><h3>'+d.n+'</h3><p class="small muted" style="margin-top:4px">'+fmt(d.dt)+(t&&t[0]?" &middot; arrive "+t[0]:"")+(d.d?" &middot; "+d.d:"")+'</p></div>'+
-      '<div class="cap"></div>'+
-      '<div class="act"><div class="price">'+(d.price?'<b>&pound;'+d.price+'</b><span>a player</span>':'<b>&pound;'+FARE.walkon.full.n+'</b><span>walk-on</span>')+'</div>'+
+    return '<article class="evrow">'+
+      '<div class="evwhen"><b>'+d.dt.getDate()+'</b><span>'+d.dt.toLocaleDateString("en-GB",{month:"short"})+'</span></div>'+
+      '<div class="evwhat"><h3>'+d.n+'</h3><p>'+fmt(d.dt)+(t&&t[0]?" &middot; arrive "+t[0]:"")+'</p>'+(d.d?'<p class="evdetail">'+d.d+'</p>':'')+'</div>'+
+      '<div class="evdo"><span class="evprice">'+(d.prices?'&pound;'+d.prices.walkon+'<small>walk-on, &pound;'+d.prices.hire+' rental</small>':'&pound;'+FARE.walkon.full.n+'<small>walk-on</small>')+'</span>'+
       '<button class="btn primary sm" data-book="'+x.i+'">Book</button></div></article>';}
   function paint(){
     const world=document.documentElement.dataset.world==="adventure"?"adventure":"airsoft";

@@ -3129,7 +3129,10 @@ for(const e of EVENTS){
 if(typeof storeRead==="function"){(storeRead().events||[]).forEach((e,i)=>{
   if(!e||!e.n||!/^\d{4}-\d{2}-\d{2}$/.test(e.d||""))return;
   const dt=new Date(e.d+"T08:00:00");if(isNaN(dt.getTime())||dt.getTime()<Date.now()-8*3600e3)return;
-  const rec={key:"console-"+i,n:String(e.n),short:String(e.n),d:e.x?String(e.x):"",t:e.t?[String(e.t)]:undefined,price:+e.p>0?+e.p:undefined,dep:undefined,prize:false,real:true,console:true,world:e.w||undefined};
+  const SS=(CONFIG.schedule||{}).sessions||{};
+  const lock=e.s&&SS[e.s]?{sess:e.s,arrive:e.t||SS[e.s].arrive,start:SS[e.s].start,end:SS[e.s].end,label:(SS[e.s].label||e.s)+(SS[e.s].start?", "+SS[e.s].start+(SS[e.s].end?" to "+SS[e.s].end:""):"")}:undefined;
+  const rec={key:"console-"+i,n:String(e.n),short:String(e.n),d:e.x?String(e.x):"",t:e.t?[String(e.t)]:undefined,price:+e.p>0?+e.p:undefined,dep:undefined,prize:false,real:true,console:true,world:e.w||undefined,
+    lock,prices:(+e.p>0?{walkon:+e.p,hire:+e.ph>0?+e.ph:+e.p}:undefined),groups:e.groups===false?false:undefined};
   const same=DATES.find(x=>x.dt.toDateString()===dt.toDateString());
   if(same)Object.assign(same,rec);
   else DATES.push(Object.assign({dt,kind:dt.toLocaleDateString("en-GB",{weekday:"long"}),left:SCHED.cap,cap:SCHED.cap,tba:false},rec));
@@ -3442,6 +3445,9 @@ draw(); setStep(1);
 })();
 
 function drawQR(sel,seed){
+  /* a build whose confirmation carries no QR (predator-combat shelved check-in on 15 Oct) must not throw here: the
+     lines after the call set the booking, save it and scroll, and a throw silently dropped all three */
+  if(!$(sel))return;
   const c=$(sel),x=c.getContext("2d"),N=33;
   let h=0;for(const ch of seed)h=(h*31+ch.charCodeAt(0))>>>0;
   const rnd=()=>{h^=h<<13;h>>>=0;h^=h>>17;h^=h<<5;h>>>=0;return h/4294967296;};

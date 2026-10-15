@@ -703,7 +703,10 @@ body[data-screen="back"] .deskbar{display:flex}
   .feat li{grid-template-columns:36px 1fr}
   .steps div{font-size:9px;padding:9px 6px;letter-spacing:.06em}
   .lever button{font-size:12.5px;padding:12px 8px}
-  .choice button{font-size:14px}
+  .choice4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@container page (max-width:640px){.choice4{grid-template-columns:1fr 1fr}}
+.tiny.warn,.warn{color:var(--ph)}
+.choice button{font-size:14px}
   .kv{flex-direction:column;align-items:flex-start;gap:2px}
   .kv b{white-space:normal}
   .kv[data-ph]{margin-top:12px}
@@ -1376,7 +1379,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 <div id="phLegend">
   <p class="phlead"><b>Placeholder mode is on.</b> Everything in amber is sample<span class="phlead-more"> content, not taken from your sites or our call. Turn it off in the toolbar for a clean walkthrough</span>.</p>
   <details class="phmore" open><summary>Show what is sample</summary>
-  <p>Sample: every places-left count and capacity, every activity and team-building price, the account data, and the figures in the revenue model that did not come from our call. Real, and not marked: walk-on &pound;25 for a half or full day and &pound;20 evening, rental &pound;35 and &pound;45, boot hire &pound;15, Nerf Wars &pound;15 and the &pound;7 taster, membership &pound;40 and &pound;25 from September with what it includes, the ages, the running order, All Out War on Sunday 20 September, your address, phones and emails, thirty minutes from Belfast, seventeen years, Activate's activities, team building and the Phoenix Program in your own words. From our call on 13 October, not yet on your sites: game days every Saturday and Sunday, and the Halloween game day on Saturday 24 October. Every photograph on both worlds is your own and labelled. Not on this version, by your choice: member prices, blocks, pre-orders and food, which are phase two.</p></details>
+  <p>Sample: every places-left count and capacity, every activity and team-building price, the account data, and the figures in the revenue model. Real, and not marked: walk-on &pound;25 for a full day, morning or afternoon and &pound;20 for an evening, rental &pound;35 and &pound;45, boot hire &pound;15, Nerf Wars &pound;15, the ages, the running order and the session times, 328 fps and the site rules, the Halloween game and its &pound;35 and &pound;50, your address, phones and emails, Activate's activities and the Phoenix Program in your own words. Every photograph on both worlds is your own and labelled. Taken off until January at your request: membership, everywhere it appeared. Still to come from you: the Facebook link, the Halloween poster, and the Boxing Day price.</p></details>
 </div>
 
 <!-- part: brandpanel.html
@@ -1425,7 +1428,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
       <button data-go="days" data-w="airsoft">Game days</button>
       <button data-go="events" data-w="airsoft">What&rsquo;s on</button>
       <!-- @@NAV-EVENTS -->
-      <button data-go="members" data-w="airsoft">Fares &amp; membership</button>
+      <button data-go="members" data-w="airsoft">Fares</button>
       <button data-go="events" data-w="adventure">What&rsquo;s on</button>
       <button data-go="activities" data-w="adventure">Activities</button>
       <button data-go="team" data-w="adventure">Team building</button>
@@ -1502,7 +1505,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <div class="games" role="group" aria-label="Choose your game" data-ph="1" data-w="airsoft"><span class="phtag">Your own photographs</span>
           <button class="gpanel" data-game="airsoft" aria-pressed="false"><img src="assets/door-airsoft.jpg" width="1600" height="1067" alt="Three players at the timber structure, from our gallery" loading="lazy" decoding="async"><span class="gl"><b>Airsoft</b><span>Walk-on &pound;25 &middot; rental &pound;45</span></span></button>
           <button class="gpanel" data-game="laser" aria-pressed="false"><img src="assets/door-nerf.jpg" width="1600" height="1067" alt="A youth group on a game day, from our gallery" loading="lazy" decoding="async"><span class="gl"><b>Nerf Wars</b><span>Ages 7 and up &middot; &pound;15 a player</span></span></button>
-          <button class="gpanel" data-game="paintball" aria-pressed="false"><img src="assets/door-adventure.jpg" width="800" height="600" alt="Abseiling, from our team building page" loading="lazy" decoding="async"><span class="gl"><b>Outdoor adventure</b><span>Climb, paddle, shoot a bow &middot; with Activate</span></span></button>
+          <button class="gpanel" data-game="paintball" aria-pressed="false"><img src="assets/door-adventure.jpg" width="800" height="600" alt="Abseiling, from our team building page" loading="lazy" decoding="async"><span class="gl"><b>Outdoor adventure</b><span>Climb, paddle, shoot a bow &middot; Activate Outdoor Adventure</span></span></button>
         </div>
         <div class="games" role="group" aria-label="Choose your adventure" data-ph="1" data-w="adventure"><span class="phtag">Your own photographs</span>
           <button class="gpanel" data-game="climb" aria-pressed="false"><img src="assets/home-activate.jpg" width="800" height="534" alt="A climber on the rock, from our homepage" loading="lazy" decoding="async"><span class="gl"><b>Climb</b><span>Rock climbing &middot; abseiling</span></span></button>
@@ -1512,7 +1515,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
       </div>
     </div>
   </div>
-  <div class="tagline plate" data-w="airsoft"><p>Ireland's best and oldest airsoft field. <em>Seventeen years.</em> Thirty minutes from Belfast.</p><div class="note"><b>Why</b><span>Your own words, off your homepage and your airsoft page, with the capitals taken down.</span></div></div>
+  <div class="tagline plate" data-w="airsoft"><p>Ireland's best and oldest airsoft field. <em>More than twenty years.</em> Thirty minutes from Belfast.</p><div class="note"><b>Why</b><span>Your own words, off your homepage and your airsoft page, with the capitals taken down.</span></div></div>
   <div class="tagline plate" data-w="adventure"><p>Climb, paddle, shoot a bow, find your way. <em>County Down, outdoors.</em></p><div class="note"><b>Why</b><span>Our line, built from your activities list and nothing else.</span></div></div>
 
   <!-- price slabs -->
@@ -1533,16 +1536,16 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <div class="slab">
           <div class="top"><p class="eyebrow">Nerf Wars</p><h3 style="margin-top:6px">Party battle</h3><p class="price">&pound;15<small>per player</small><span class="alt">Add a taster activity for &pound;7</span></p></div>
           <ul>
-            <li>Six to sixteen players</li><li>Blasters, darts and eye protection</li><li>A marshal and a battle zone</li><li>Time-outs, fences and no face shots: the rules are simple</li><li>Canoeing, archery or survival skills as a taster</li>
+            <li>Ten players or more, ninety minutes</li><li>Blasters, darts and eye protection</li><li>A marshal and a battle zone</li><li>Time-outs, fences and no face shots: the rules are simple</li><li>Canoeing, archery or survival skills as a taster</li>
           </ul>
           <div class="foot"><span class="age">Ages 7+</span><button class="btn primary sm" data-go="parties" data-pick="15">Book Nerf Wars</button></div>
         </div>
         <div class="slab">
-          <div class="top"><p class="eyebrow">Outdoor adventure</p><h3 style="margin-top:6px">Activity session</h3><p class="price" data-ph="1"><span class="phtag">Sample price; the activities are yours</span>&pound;25<small>per person, sample</small><span class="alt">Team-building days quoted</span></p></div>
+          <div class="top"><p class="eyebrow">Outdoor adventure</p><h3 style="margin-top:6px">Activity session</h3><p class="price">&pound;30<small>per person</small><span class="alt">Team building days quoted</span></p></div>
           <ul>
-            <li>Rock climbing and abseiling</li><li>Archery</li><li>Canoeing and kayaking</li><li>Orienteering and bushcraft</li><li>Adventure boot camps and kids' days</li><li>Corporate training and the Phoenix Program</li>
+            <li>Rock climbing and abseiling</li><li>Archery</li><li>Canoeing and kayaking</li><li>Orienteering and bushcraft</li><li>Adventure boot camps and kids' days</li><li>Get in touch for corporate training packages</li>
           </ul>
-          <div class="foot"><span class="age">All ages</span><button class="btn primary sm" data-go="parties" data-pick="25a">Book an activity</button></div>
+          <div class="foot"><span class="age">All ages</span><button class="btn primary sm" data-go="activities" data-world-go="adventure">Book an activity</button></div>
         </div>
       </div>
       <p class="note"><b>Why</b><span>These three slabs are your booking page and your Nerf Wars page, laid out so the three doors sit side by side; the activity slab is the shape with a sample price, because Activate publishes none. Your site puts the prices two clicks away from the game pages and the game pages two clicks away from the phone number. Here the price and the button are on the same card.</span></p>
@@ -1563,7 +1566,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <li><b>Woodland</b><span>The site</span></li>
           </ul>
           <div id="ownEvents" class="ownevs" hidden></div>
-          <div class="ctas" style="margin:20px 0 0;display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" data-go="events">The Halloween day</button><a class="btn ghost" href="https://www.facebook.com/predatorairsoft" target="_blank" rel="noopener">Our Facebook page</a></div>
+          <div class="ctas" style="margin:20px 0 0;display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" data-go="events">The Halloween day</button><a class="btn ghost" href="https://www.facebook.com/PredCG/?locale=en_GB" target="_blank" rel="noopener">Our Facebook page</a></div>
           <p class="note"><b>Why</b><span>The Halloween date is from our call on 13 October; the poster and any special price are yours to send, and All Out War stays in the frame until then. This band is the mechanism you asked for: you add the next event in the back end with a name, a description and a picture, and it takes this band over by itself, with its own address and its own Event record for search.</span></p>
         </div>
         <figure class="evposter"><img src="assets/poster-all-out-war.jpg" width="386" height="748" alt="Our All Out War poster: Predator Airsoft, Sunday 20th September, 09:00 start, woodland site" loading="lazy" decoding="async"><span class="credit">Our poster, All Out War</span></figure>
@@ -1571,11 +1574,28 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
     </div>
   </div>
 
+  <!-- the rules people check before they travel -->
+  <div class="band tight sunk" data-w="airsoft">
+    <div class="wrap">
+      <div class="row" style="justify-content:space-between;align-items:flex-end;margin-bottom:18px;gap:20px">
+        <div><p class="eyebrow red">Site rules</p><h2 style="margin-top:10px">328 fps, everything</h2></div>
+        <p class="lede" style="max-width:48ch;margin:0">The limit is the same whatever you are shooting: rifle, DMR or sniper. Chrono runs from 09:30 and every gun goes over it.</p>
+      </div>
+      <ul class="essentials" style="grid-template-columns:repeat(4,auto)">
+        <li><b>328 <em>fps</em></b><span>Rifle, DMR and sniper alike</span></li>
+        <li><b>No <em>weight limit</em></b><span>We play outdoors, and the scale balances itself</span></li>
+        <li><b>Bio <em>BBs</em></b><span>Asked for, and sold on site</span></li>
+        <li><b>9mm <em>blanks</em></b><span>Maximum on site, we are surrounded by farmland</span></li>
+      </ul>
+      <p class="note"><b>Why</b><span>You said it on the walkthrough: 328 no matter what you are shooting, which is simpler than most sites and worth saying out loud. A player checking whether their gun is legal here should not have to open the FAQ to find out.</span></p>
+    </div>
+  </div>
+
   <!-- the photo wall -->
   <div class="band" data-w="airsoft">
     <div class="wrap">
       <div class="row" style="justify-content:space-between;align-items:flex-end;margin-bottom:22px;gap:20px">
-        <div><p class="eyebrow red">The field</p><h2 style="margin-top:10px">Seventeen years<br>in the woods</h2></div>
+        <div><p class="eyebrow red">The field</p><h2 style="margin-top:10px">More than twenty years<br>in the woods</h2></div>
         <p class="lede" style="max-width:46ch;margin:0">Timber forts, a saloon, barricades, trails and smoke. Every picture here is from our own gallery.</p>
       </div>
       <div class="wall">
@@ -1613,33 +1633,37 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
     </div>
   </div>
 
-  <!-- the wedge: a long form today, four taps proposed -->
-  <div class="band sunk taped">
+  <!-- how booking works, in public words -->
+  <div class="band sunk taped" data-w="airsoft">
     <div class="wrap">
-      <p class="eyebrow red">How you book</p>
-      <h2 style="margin:10px 0 20px">Today it is a long form.<br>Proposed: four taps and a card.</h2>
+      <p class="eyebrow red">How booking works</p>
+      <h2 style="margin:10px 0 20px">Four taps and you are on the list.</h2>
       <div class="wedge">
         <div class="today pad">
-          <p class="eyebrow" style="margin-bottom:10px">Booking today</p>
-          <p class="bigq">Pick from everything. <em>Type the date carefully.</em></p>
-          <p class="small muted" style="margin:14px 0 10px">The current form takes payment in advance, which is right, and then lists every option at once: walk-on or rental, half or full day, private shoots, special events, and a typed date. A first-timer has to get all of it right on a phone.</p>
-          <div><span class="callbtn">Walk-on</span><span class="callbtn">Rental</span><span class="callbtn">Private shoot</span><span class="callbtn">Special event</span><span class="callbtn">Date</span></div>
-          <p class="note"><b>Why</b><span>Your form, as you described it on 13 October: rental players pick the walk-on price, people pick the private shoot, some type their date of birth where the visit date goes, and you cannot change it without your developer. It works, and it costs you a phone call for every mistake.</span></p>
-        </div>
-        <div class="prop pad" data-ph="1"><span class="phtag">Proposed</span>
-          <p class="eyebrow" style="margin-bottom:10px;color:var(--yel)">Proposed</p>
-          <p class="bigq">Pick the day. Walk-on or rental. <em>Half or full. Pay.</em></p>
+          <p class="eyebrow" style="margin-bottom:10px">Booking a place</p>
+          <p class="bigq">Pick the day. Walk-on or rental. <em>Full day or half. Pay.</em></p>
           <ul class="checklist" style="margin-top:14px">
-            <li>Saturday or Sunday from a list, never a typed date</li>
-            <li>Walk-on or rental first, so the price follows the choice</li>
-            <li>Half day or full day, the half day first because it is the popular one</li>
-            <li>Paid by card when you book, as now, then a calendar invite and a reminder</li>
-            <li>The next event on the front page the moment it is added</li>
+            <li>Saturday and Sunday are our game days, and they are on the calendar below</li>
+            <li>A full day runs 09:30 to 16:30; a half day is a morning, an afternoon or an evening</li>
+            <li>Walk-on is the same price whichever you pick, and an evening is cheaper</li>
+            <li>Pay by card and the place is yours, with a calendar invite on your confirmation</li>
+            <li>One person can sign the declaration for everybody, or share the link so they sign their own</li>
           </ul>
-          <button class="btn primary" style="margin-top:16px" data-go="book">Try it</button>
+          <button class="btn primary" style="margin-top:16px" data-go="book">Book a game day</button>
+        </div>
+        <div class="prop pad">
+          <p class="eyebrow" style="margin-bottom:10px">Booking for a group</p>
+          <p class="bigq">Twelve on rental? <em>Ten per cent comes off.</em></p>
+          <ul class="checklist" style="margin-top:14px">
+            <li>Any group size is welcome on a Saturday or Sunday</li>
+            <li>Ten per cent off rental bookings of twelve or more. Walk-ons are the same price in any number</li>
+            <li>We can open other dates for ten players or more, on a full day</li>
+            <li>An evening on a game day takes any number; on any other date it needs ten</li>
+            <li>Nerf Wars is ninety minutes for ten or more, and runs in its own part of the site</li>
+          </ul>
+          <button class="btn ghost" style="margin-top:16px" data-go="parties">Book for a group</button>
         </div>
       </div>
-      <p class="note"><b>&pound;</b><span>This is the whole of phase one: the same prices, the same money up front, and a picker a first-timer gets right on a phone. Memberships sold online, blocks, add-ons and food are phase two, by your choice, and nothing on this version depends on them.</span></p>
     </div>
   </div>
 
@@ -1678,18 +1702,9 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <div class="pad">
               <p class="eyebrow" style="color:var(--text-3)">How it works</p>
               <p class="bigfig" style="margin-top:8px" id="sumFig">Half day or full day,<br>walk-on or rental.</p>
-              <p style="margin-top:14px;font-size:15px;opacity:.92" id="sumLine">Both figures are as published on our booking page. The half day is the popular one. Pay when you book and your place is held.</p>
+              <p style="margin-top:14px;font-size:15px;opacity:.92" id="sumLine">Walk-on is £25 whether you play a full day or a half day, and £20 for an evening. The rental package is £45 for a full day and £35 for a morning, afternoon or evening.</p>
             </div>
-          </div>
-          <div class="card pad" style="margin-top:14px">
-            <div class="kv"><span>Predator Membership</span><b>&pound;40 January to December</b></div>
-            <div class="kv"><span>From September</span><b>&pound;25</b></div>
-            <div class="kv"><span>Includes</span><b>UKARA registration, shop discounts, free members days, a loyalty card, discounts on some big game days</b></div>
-            <div class="kv"><span>Where</span><b>At the store counter</b></div>
-            <button class="btn ghost wide" style="margin-top:14px" data-go="members">Membership</button>
-          </div>
-          <p class="note"><b>Why</b><span>Membership stays exactly as it is for phase one: &pound;40 at the store, UKARA included, the benefits you named on the call. Selling it online and a member price are phase two, by your choice.</span></p>
-        </div>
+          </div>        </div>
       </div>
     </div>
   </div>
@@ -1854,35 +1869,6 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
     <p class="note"><b>Why</b><span>Your site prints the postcode and "Airsoft Belfast", not a lane, so the pin is placed off the postcode. The ground is your own photograph of the base until the 3D imagery pass runs with a token; a drone shot of the site drops straight in over it.</span></p>
   </div>
 </div>
-
-  <!-- membership -->
-  <div class="band tight plate photoband party" data-w="airsoft">
-    <span class="bandcredit">A rental group, from our gallery</span>
-    <div class="wrap">
-      <div class="split" style="align-items:center">
-        <div>
-          <p class="eyebrow red">Predator Membership</p>
-          <h2 style="margin:10px 0 14px">&pound;40 a year.<br>&pound;25 from September.</h2>
-          <p class="lede">UKARA registration included, shop discounts, free members days, a loyalty card and discounts on some big game days. Sold at the store, January to December.</p>
-          <button class="btn primary" style="margin-top:22px" data-go="members">Fares and membership</button>
-        </div>
-        <div class="card pad">
-          <p class="eyebrow">What a member gets</p>
-          <h3 style="margin:8px 0 10px">Five things, off the store page and our call</h3>
-          <div style="margin-top:12px">
-            <div class="kv"><span>UKARA</span><b>Registration included</b></div>
-            <div class="kv"><span>Loyalty card</span><b>A stamp a game, a free shoot at the end</b></div>
-            <div class="kv"><span>Members days</span><b>Free</b></div>
-            <div class="kv"><span>Big game days</span><b>Discounts on some</b></div>
-            <div class="kv"><span>Store</span><b>Discounts</b></div>
-          </div>
-          <p class="note"><b>Why</b><span>The card lists the benefits you named on 13 October, which match your store page. The &pound;5-off and sixth-game-free lines from your homepage are left off until you confirm them.</span></p>
-        </div>
-      </div>
-      <p class="note"><b>&pound;</b><span>The background is your own photograph. The &pound;40 and the &pound;25 are yours and the benefits are the ones you named on the call. Nothing is proposed here for phase one. Your homepage also says &pound;5 off the first three bookings and play five get the sixth free; you told us there is no game-fee discount at the moment, so those two lines are for you to settle on Thursday.</span></p>
-    </div>
-  </div>
-
   <!-- reviews -->
   <div class="band tight">
     <div class="wrap">
@@ -1908,11 +1894,11 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
       <h2 style="margin:10px 0 20px">Questions people type<br>into a search box</h2>
       <div class="faq" id="faq">
         <details open><summary>How much is a game day at Predator Combat?</summary>
-          <div class="ans">A walk-on with your own kit is &pound;25 for the full day, morning or afternoon, and &pound;20 for an evening. A rental package is &pound;45 for the full day or &pound;35 for a morning, afternoon or evening: Electric Gun 1:1 replica rifle, 3000rds Ammunition each, with full face protection for each rental player. Boot hire is &pound;15.</div></details>
+          <div class="ans">A walk-on with your own kit is &pound;25, the same for a full day, a morning or an afternoon, and &pound;20 for an evening. A rental package is &pound;45 for the full day or &pound;35 for a morning, afternoon or evening: Electric Gun 1:1 replica rifle, 3000rds Ammunition each, with full face protection for each rental player. Boot hire is &pound;15 and we will ask for your size.</div></details>
         <details><summary>How much is Nerf Wars?</summary>
-          <div class="ans">&pound;15 per participating player, six to sixteen players, from age 7. Add a taster activity, canoeing, archery or survival skills, for &pound;7 per person.</div></details>
+          <div class="ans">&pound;15 per participating player, from age 7, in sessions of ninety minutes. Ten players minimum and no real maximum. Nerf runs in its own part of the site, so it can run while an airsoft game day is on.</div></details>
         <details><summary>What days do you run?</summary>
-          <div class="ans">Every Saturday and Sunday. Gates open at 9:00 am, safety brief 10:15 am, afternoon games end at 4:30 pm.</div></details>
+          <div class="ans">Every Saturday and Sunday are our regular game days. Walk-on gates open at 9:00 am, rental sign-in from 9:30 am, safety brief 10:15 am, afternoon games end at 4:30 pm. For group bookings of ten or more we can open other days, on a full day. An evening on a Saturday or Sunday takes any number.</div></details>
         <details><summary>What time does a game day run?</summary>
           <div class="ans">Gates open at 9:00 am and the shop at 9:30 am. Sign in and chrono 9:30 to 10:15 am, safety brief 10:15 am, morning games 10:30 am to 1:00 pm, lunch until 2:00 pm, afternoon games 2:00 to 4:30 pm.</div></details>
         <details><summary>Is there a minimum age?</summary>
@@ -1920,15 +1906,17 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <details><summary>Can a complete beginner play?</summary>
           <div class="ans">Yes. Rental players get a rifle, full face protection and 3,000 rounds, a safety brief at 10:15 and marshals through the day. For younger warriors there are Nerf Wars.</div></details>
         <details><summary>What should I wear?</summary>
-          <div class="ans">Outdoor footwear is essential. Boot hire is &pound;15 if you have nothing suitable for the conditions. Rental players get full face protection.</div></details>
+          <div class="ans">Outdoor footwear is essential, and boot hire is &pound;15 if you have nothing suitable: tell us your size when you book. Wear full length clothing, trousers, a jacket or a hoodie, both against BB hits and against the brambles, and bring waterproofs if rain is forecast. Rental players get full face protection.</div></details>
         <details><summary>What outdoor activities does Activate offer?</summary>
-          <div class="ans">Rock climbing, hill and mountain walking, abseiling, archery, canoeing, kayaking, orienteering, adventure boot camps, bushcraft and survival skills, corporate training and kids' outdoor activities, for individuals and groups. Team building days and the Phoenix Program for young people run on the same site.</div></details>
+          <div class="ans">Rock climbing, hill and mountain walking, abseiling, archery, canoeing, kayaking, orienteering, adventure boot camps, bushcraft and survival skills, and kids' outdoor activities, for individuals and groups. Team building days and the Phoenix Program for young people run on the same site. <span>Get in touch on 028 9756 5651</span><span> or info@activate-outdoor-adventure.com</span> and we will build the day around your group.</div></details>
         <details><summary>How many players per session?</summary>
-          <div class="ans">Group sizes vary by session and game type. <span class="ph">Proposed: the slot picker shows the places left on each slot, so you do not have to ring to ask.</span></div></details>
-        <details><summary>How much is membership?</summary>
-          <div class="ans">&pound;40 for January to December, &pound;25 from September to December, sold at the store. It includes UKARA registration, shop discounts, free members days, a loyalty card and discounts on some big game days.</div></details>
+          <div class="ans">There is no need to worry about places on a walk-on: the site is twenty two acres of woodland and has held two hundred players comfortably. Rental kit is the limit, so the booking page shows the rental places left on each session. Ten players is the minimum on any date that is not a regular Saturday or Sunday game day.</div></details>
+        <details><summary>What is the FPS limit?</summary>
+          <div class="ans">328 fps for everything, rifle, DMR and sniper alike, whatever you are shooting. There is no maximum BB weight because we play outdoors and the scale balances itself. We ask for biodegradable BBs and sell them on site.</div></details>
+        <details><summary>Can I bring pyro, smokes or grenades?</summary>
+          <div class="ans">Reusable grenades are fine. Pyro bought on site is used on site: the law here is strict about carrying explosives, so anything unused comes back to us in its original condition for a refund. Blank firing caps are 9mm maximum, because 12 gauge is too powerful for the farmland around us. Anything else, ask us before the day and show it to the marshals when you arrive.</div></details>
         <details><summary>How do I book?</summary>
-          <div class="ans">Pick the day, walk-on or rental, half or full day, and pay by card: your place is held and a calendar invite lands in your inbox. For activities and team days <span>call 028 9756 5651 </span><span>or email info@predator-combat.com</span>.</div></details>
+          <div class="ans">Pick the day, walk-on or rental, then the session: a full day, a morning, an afternoon or an evening. Pay by card and the place is yours, with a calendar invite attached to your confirmation. For activities and team days <span>call 028 9756 5651</span><span>, email info@predator-combat.com</span> or <button class="linkish" data-go="activities">book with Activate</button>.</div></details>
         <details><summary>Where is Predator Combat?</summary>
           <div class="ans">Predator Combat, Ballynahinch, BT24 8NF, thirty minutes from Belfast. <span>Phone 028 9756 5651.</span></div></details>
       </div>
@@ -1976,10 +1964,14 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           <div class="card pad" data-step="1">
             <div class="field"><label for="bkDate">Game day</label><select id="bkDate"></select></div>
             <div class="field" id="sessionRow"><label>Session</label>
-              <div class="choice" id="sessionPick">
-                <button data-sess="full" aria-pressed="true">Full day<small>09:30 to 16:30</small></button>
-                <button data-sess="half" aria-pressed="false">Half day<small>Morning or afternoon</small></button>
+              <div class="choice choice4" id="sessionPick">
+                <button data-sess="full" aria-pressed="true">Full day<small>09:30, play 10:10 to 16:30</small></button>
+                <button data-sess="morning" aria-pressed="false">Morning<small>Arrive 09:30</small></button>
+                <button data-sess="afternoon" aria-pressed="false">Afternoon<small>Arrive 13:30</small></button>
+                <button data-sess="evening" aria-pressed="false">Evening<small>Arrive 18:30</small></button>
               </div></div>
+            <p class="tiny" id="sessTimes" style="margin:-6px 0 14px"></p>
+            <p class="tiny warn" id="bkWarn" hidden style="margin:-6px 0 14px"></p>
             <div class="ticket">
               <div><h4 id="tkWalkH">Walk-on</h4><p id="tkWalkP">Your own kit, nothing hired.</p></div>
               <div class="row" style="gap:14px"><span class="pr" data-pr="walkon">&pound;25</span>
@@ -2007,6 +1999,8 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <h3 style="margin-bottom:6px">Anything else before the day?</h3>
             <p class="small muted" style="margin-bottom:16px">Boot hire, pre-booked so the pair is set out at sign-in.</p>
             <div class="grid" id="addonList" style="gap:8px" data-ph="1"><span class="phtag">Proposed: your published boot hire, pre-booked</span></div>
+            <div class="field" id="shoeRow" hidden style="margin-top:12px;max-width:260px"><label for="shoeSize">Boot size</label>
+              <select id="shoeSize"><option value="">Pick a size</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option></select></div>
             
           </div>
 
@@ -2025,8 +2019,8 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <hr class="rule">
             <h3 style="margin:18px 0 8px">Safety declaration</h3>
             <label class="check"><input type="checkbox" checked><span>I have read the site rules, I will keep my face protection on in the game area, and I will call my hits.</span></label>
-            <label class="check"><input type="checkbox" checked><span>I am 18 or over, or a parent or guardian is present for any player under 18 on this booking and signs the parental disclaimer.</span></label>
-            <label class="check"><input type="checkbox"><span>Photos of me on site may be used on Predator Combat social channels. Optional.</span></label>
+            <label class="check"><input type="checkbox" checked><span>I am 18 or over, or a parent or guardian is present for any player under 16 on this booking and signs the parental disclaimer.</span></label>
+            <label class="check"><input type="checkbox" checked><span>Photos of me on site may be used on Predator Combat social channels. Untick this if you would rather we did not.</span></label>
             <div class="field" style="margin-top:12px;max-width:340px"><label for="sig">Type your full name to sign</label><input id="sig" placeholder="Full name"></div>
             <p class="tiny">Signed disclaimers are stored against your account and reused for twelve months. No clipboard at sign-in.</p>
           </div>
@@ -2049,7 +2043,6 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
               <h2 style="margin:14px 0 6px">You're in.</h2>
               <p class="lede" id="doneLine"></p>
               <div class="row" style="gap:20px;align-items:flex-start;margin-top:20px">
-                <canvas id="qr" width="33" height="33" aria-label="Entry QR code"></canvas>
                 <div>
                   <p class="eyebrow">Booking reference</p>
                   <p class="mono" style="font-size:24px;font-weight:600" id="doneRef"></p>
@@ -2090,10 +2083,10 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 <section data-screen="members" hidden>
   <div class="band tight">
     <div class="wrap">
-      <p class="eyebrow">Fares and membership</p>
-      <h2 style="margin:10px 0 10px">Walk on, rent, or join for the year</h2>
-      <p class="lede" style="margin-bottom:26px">Walk-on &pound;25 for a half or full day with your own kit; the rental package &pound;35 for a half day or &pound;45 for the full day. Membership is &pound;40 a year, sold at the store, with UKARA registration included.</p>
-      <div class="tiers">
+      <p class="eyebrow">Fares</p>
+      <h2 style="margin:10px 0 10px">Walk on, or take the rental package</h2>
+      <p class="lede" style="margin-bottom:26px">Walk-on &pound;25 with your own kit, the same for a half day or a full day, and &pound;20 for an evening. The rental package is &pound;35 for a morning, afternoon or evening and &pound;45 for the full day.</p>
+      <div class="tiers" style="grid-template-columns:1fr 1fr">
         <div class="card tier pad">
           <p class="eyebrow">Your own kit</p>
           <h3 style="margin-top:8px">Walk on</h3>
@@ -2118,21 +2111,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <li>Boot hire &pound;15 if you need it</li>
           </ul>
           <button class="btn primary wide" style="margin-top:16px" data-go="book">Book a day</button>
-        </div>
-        <div class="enamel tier"><div class="pad">
-          <div class="row" style="justify-content:space-between"><p class="eyebrow">Membership today</p><span class="pill ok">As it is</span></div>
-          <h3 style="margin-top:8px">Predator Membership</h3>
-          <p class="price">&pound;40<small> a year</small></p>
-          <p class="small muted" style="margin-top:8px">January to December; &pound;25 from September. Sold at the store.</p>
-          <ul>
-            <li>UKARA registration included</li>
-            <li>Shop discounts</li>
-            <li>Free members days</li>
-            <li>A loyalty card: a stamp a game, a free shoot at the end</li>
-            <li>Discounts on some big game days</li>
-          </ul>
-        </div></div>
-      </div>
+        </div>      </div>
       <div hidden data-phase="2">
       <div class="card pad" style="margin-top:22px">
         <div class="split">
@@ -2171,39 +2150,31 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           <h3 style="margin:8px 0 16px">What would your group cost?</h3>
           <div class="field"><label for="evPack">Session, our published price per person</label>
             <select id="evPack">
-              <option value="45" selected>Game day, rental package: &pound;45</option>
-            <option value="25">Game day, walk-on: &pound;25</option>
-            <option value="15">Party session, per player: &pound;15</option>
-            <option value="25a">Outdoor activity session, sample: &pound;25</option>
-            <optgroup label="With Activate (sample prices)" data-w="adventure">
-              <option value="25b">Rock climbing, sample: &pound;25</option>
-              <option value="25c">Abseiling, sample: &pound;25</option>
-              <option value="25d">Archery, sample: &pound;25</option>
-              <option value="25e">Canoeing, sample: &pound;25</option>
-              <option value="25f">Kayaking, sample: &pound;25</option>
-              <option value="25g">Hill and mountain walking, sample: &pound;25</option>
-              <option value="25h">Orienteering, sample: &pound;25</option>
-              <option value="30a">Bushcraft, wilderness and survival skills, sample: &pound;30</option>
-              <option value="30b">Adventure boot camp, sample: &pound;30</option>
-              <option value="20a">Kids&rsquo; outdoor activities, sample: &pound;20</option>
-              <option value="60">Team building day, per head, sample: &pound;60</option>
-            </optgroup>
+              <option value="hire" selected>Airsoft, rental package</option>
+              <option value="walkon">Airsoft, walk-on with your own kit</option>
+              <option value="nerf">Nerf Wars, 90 minutes, per player: &pound;15</option>
+              <option value="activity">Outdoor activity session, with Activate: &pound;30 a person</option>
             </select></div>
           <div class="field"><label for="evSize">Group size: <span id="evSizeOut" class="mono">12</span> players</label>
             <input class="slider" type="range" id="evSize" min="4" max="40" value="12"></div>
           <div class="field" data-ph="1"><span class="phtag">Proposed: slots are sample</span><label for="evDate">Preferred date</label><input id="evDate" type="date">
-            <div class="choice" style="margin-top:8px"><button aria-pressed="true">10:00</button><button aria-pressed="false">13:30</button><button aria-pressed="false">17:00</button></div></div>
-          <label class="check" data-ph="1"><span class="phtag">Sample add-on, sample price</span><input type="checkbox" id="evFood"><span>Extra hour in the site, &pound;10 a head</span></label>
+            <div class="choice choice4" style="margin-top:8px" id="evSess" role="group" aria-label="Session">
+              <button data-sess="full" aria-pressed="true">Full day<small>Arrive 09:30</small></button>
+              <button data-sess="morning" aria-pressed="false">Morning<small>Arrive 09:30</small></button>
+              <button data-sess="afternoon" aria-pressed="false">Afternoon<small>Arrive 13:30</small></button>
+              <button data-sess="evening" aria-pressed="false">Evening<small>Arrive 18:30</small></button>
+            </div></div>
+          <p class="tiny" id="evRule" style="margin-top:10px"></p>
         </div>
         <div>
-          <div class="enamel"><div class="pad" data-ph="1"><span class="phtag">Deposit share and slots are sample</span>
+          <div class="enamel"><div class="pad" data-ph="1"><span class="phtag">Places left are sample</span>
             <div class="kv"><span>Players</span><b id="qSize">12</b></div>
             <div class="kv"><span>Session</span><b id="qPack">&pound;480</b></div>
-            <div class="kv"><span>Add-on</span><b id="qFood">&pound;0</b></div>
+            <div class="kv" id="qDiscRow" hidden><span>Group discount</span><b id="qFood">&pound;0</b></div>
             <div class="row" style="justify-content:space-between;margin-top:12px"><span class="eyebrow">Total</span><b class="mono" style="font-size:30px;font-weight:600" id="qTotal">&pound;480</b></div>
             <p class="eyebrow" style="margin-top:4px">Deposit today: <b id="qDep">&pound;120</b> &middot; balance a week before</p>
             <button class="btn primary wide" style="margin-top:14px" id="qBook">Hold this slot</button>
-            <p class="eyebrow" id="qMsg" style="margin-top:8px;color:var(--go)"></p>
+            <p class="tiny" id="qMsg" style="margin-top:10px"></p>
           </div></div>
           <p class="note"><b>&pound;</b><span>Group work is the biggest thing you sell, and it is lost to whoever answers the phone first. The per-head prices in the dropdown are yours; the deposit share, the slot times and the add-on are sample. A quote on screen at 11pm on a Tuesday, with a deposit button next to it, converts the organiser while they are still in the group chat.</span></p>
         </div>
@@ -2377,8 +2348,8 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         </div>
         <div class="card pad">
           <p class="eyebrow">Book a party</p>
-          <h3 style="margin:8px 0 10px">Six to sixteen players</h3>
-          <p class="small muted">A Nerf Wars party is booked by the group. <span class="ph">Proposed: pick the Saturday, the headcount and a taster, and pay the deposit by card.</span></p>
+          <h3 style="margin:8px 0 10px">Ten players or more</h3>
+          <p class="small muted">A Nerf Wars party runs ninety minutes for ten players or more, in its own part of the site. Pick the date, the session and the headcount, and pay by card.</p>
           <button class="btn primary" style="margin-top:14px" data-go="parties" data-pick="15">Book Nerf Wars</button>
         </div>
       </div>
@@ -2453,30 +2424,19 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
               <tr><td class="mono">2 Sep</td><td>Saturday</td><td>1 evening</td><td class="num">&pound;25</td></tr>
               <tr><td class="mono">16 Aug</td><td>Sunday</td><td>1 walk-on</td><td class="num">&pound;25</td></tr>
               <tr><td class="mono">2 Aug</td><td>Sunday</td><td>1 walk-on</td><td class="num">&pound;25</td></tr>
-              <tr><td class="mono">1 Mar</td><td>Membership</td><td>Twelve months</td><td class="num">&pound;40</td></tr>
             </table></div>
           </div>
         </div>
         <div class="stack" style="gap:14px">
           <div class="enamel"><div class="pad">
-            <p class="eyebrow">Membership</p>
-            <h3 style="margin:8px 0 10px">Member, January to December</h3>
-            <div class="meter"><i style="width:72%"></i></div>
-            <p class="small muted" style="margin-top:10px">&pound;40 a year, renewed at the store. UKARA registration included.</p>
           </div></div>
           <div class="card pad">
             <p class="eyebrow">On file</p>
             <div class="kv"><span>Safety declaration</span><b style="color:var(--go)">Valid to Mar 2027</b></div>
-            <div class="kv"><span>Membership</span><b>To Feb 2027</b></div>
             <div class="kv"><span>Walk-on days this year</span><b>4</b></div>
             <button class="btn ghost wide sm" style="margin-top:12px" id="renewBtn">Renew for next year</button>
           </div>
           <div class="card pad">
-            <p class="eyebrow">UKARA</p>
-            <h3 style="margin:8px 0 8px">UKARA registration, included</h3>
-            <div class="meter"><i style="width:100%"></i></div>
-            <p class="small muted" style="margin-top:8px">Membership includes UKARA registration. The number lives here once it is issued.</p>
-            <p class="note"><b>Why</b><span>Your store page says membership includes UKARA registration, so the panel is a real service shown with a sample number. The account holds it instead of a card and a memory.</span></p>
           </div>
         </div>
       </div>
@@ -2806,7 +2766,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <li><button data-go="kids">Kids</button></li>
         <li><button data-go="phoenix">The Phoenix Program</button></li></ul></div>
       <div><h4>Two brands, one site</h4><ul>
-        <li>Predator Airsoft: Ireland's oldest airsoft field</li><li>Seventeen years of airsoft events</li><li>Activate Outdoor Adventure: climbing, paddling, bushcraft, team building</li><li>Woodland site, Ballynahinch</li><li>Thirty minutes from Belfast</li></ul></div>
+        <li>Predator Airsoft: Ireland's oldest airsoft field</li><li>More than twenty years of airsoft events</li><li>Activate Outdoor Adventure: climbing, paddling, bushcraft, team building</li><li>Woodland site, Ballynahinch</li><li>Thirty minutes from Belfast</li></ul></div>
       <div><h4>The prices</h4><ul>
         <li>Walk-on &pound;25, rental &pound;45, full day</li><li>Evening &pound;20 walk-on, &pound;35 rental</li><li>Boot hire &pound;15</li><li>Nerf Wars &pound;15 a player, ages 7 and over</li><li>Membership &pound;40 a year</li><li>Airsoft from age 12</li></ul>
       </div>
@@ -2826,14 +2786,16 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 "url":"https://www.predator-combat.com/",
 "address":{"@type":"PostalAddress","streetAddress":"Predator Combat","addressLocality":"Ballynahinch","addressRegion":"County Down","postalCode":"BT24 8NF","addressCountry":"GB"},
 "telephone":"+442897565651",
-"sameAs":["https://www.facebook.com/predatorairsoft"],
+"sameAs":["https://www.facebook.com/PredCG/?locale=en_GB"],
 "event":[],
 "openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":"Sunday","opens":"09:00","closes":"16:30"}],
 "makesOffer":[
  {"@type":"Offer","name":"Airsoft game day, walk-on with your own kit, full day","price":"25.00","priceCurrency":"GBP"},
  {"@type":"Offer","name":"Airsoft game day, walk-on with your own kit, half day","price":"25.00","priceCurrency":"GBP"},
+ {"@type":"Offer","name":"Airsoft game day, walk-on with your own kit, evening day","price":"20.00","priceCurrency":"GBP"},
  {"@type":"Offer","name":"Airsoft game day with the rental package, full day","price":"45.00","priceCurrency":"GBP"},
  {"@type":"Offer","name":"Airsoft game day with the rental package, half day","price":"35.00","priceCurrency":"GBP"},
+ {"@type":"Offer","name":"Airsoft game day with the rental package, evening day","price":"35.00","priceCurrency":"GBP"},
  {"@type":"Offer","name":"Annual membership, January to December","price":"40.00","priceCurrency":"GBP"}]}
 </script>
 <script type="application/ld+json">
@@ -2854,7 +2816,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 /* One object, written by engine/build.mjs out of businesses/<slug>.json. Every
    engine part reads its business-specific values from here, so no part carries
    a client's name, price, date, copy or file name. */
-const CONFIG = {"slug":"predator-combat","layout":"two-worlds","business":{"name":"Predator Combat","short":"Predator","legalName":"Predator Combat Games","kind":"outdoor airsoft field, Nerf Wars and adventure activity centre in County Down, two brands on one site","site":"https://www.predator-combat.com/","domain":"predator-combat.com","phone":"028 9756 5651","phoneE164":"+442897565651","street":"Predator Combat","town":"Ballynahinch","county":"County Down","postcode":"BT24 8NF","facebook":"https://www.facebook.com/predatorairsoft","email":"info@predator-combat.com","rating":"","reviews":"","geo":{"lat":"54.4036","lng":"-5.8891"},"addressLine":"Predator Combat, Ballynahinch, County Down, BT24 8NF","postcodeUrl":"BT24+8NF"},"design":{"display":"Teko","body":"Barlow","mono":"IBM Plex Mono","accent":"#FF5A1F","hero":"the three doors over a moving stage of your own photographs: the storm over the field in the airsoft world, daylight on the ridge in the adventure world","images":"Yours, all of it, both brands.","tokens":{"--display":"\"Teko\", \"Barlow Condensed\", Impact, sans-serif","--ui":"\"Barlow\", \"Arial Narrow\", ui-sans-serif, system-ui, sans-serif","--mono":"\"IBM Plex Mono\", ui-monospace, SFMono-Regular, Menlo, monospace","--bg":"#12170A","--surface":"#1A2110","--surface-2":"#232C16","--sunk":"#0B0E05","--line":"#2E381A","--line-soft":"#232C16","--line-strong":"#4F5E2A","--text":"#F3F1E8","--text-2":"#CFCDBF","--text-3":"#A3A594","--red":"#FF5A1F","--red-2":"#FF7A45","--red-hi":"#FF7A45","--red-ink":"#FF7A45","--red-ghost":"#2E1408","--on-red":"#141206","--yel":"#FF5A1F","--yel-hi":"#FF7A45","--on-yel":"#141206","--yel-2":"#D9481A","--crim":"#F2C14D","--crim-hi":"#FFD56A","--on-crim":"#141206","--ph":"#F0B15A","--ph-ghost":"#3A2A12","--on-ph":"#141312","--go":"#7FD39A","--go-ghost":"#173022","--hazard":"repeating-linear-gradient(135deg,#FF5A1F 0 14px,#0B0E05 14px 28px)","--tex-1":"repeating-linear-gradient(135deg,rgba(255,90,31,.9) 0 14px,transparent 14px 28px)","--tex-2":"repeating-linear-gradient(45deg,rgba(255,90,31,.7) 0 10px,transparent 10px 20px)","--tex-3":"repeating-linear-gradient(135deg,rgba(255,90,31,.5) 0 22px,transparent 22px 44px)","--plate-bg":"#0B0E05","--plate-surface":"#1A2110","--plate-surface-2":"#232C16","--plate-sunk":"#070904","--plate-line":"#2E381A","--plate-line-soft":"#232C16","--plate-line-strong":"#4F5E2A","--plate-text":"#F3F1E8","--plate-text-2":"#CFCDBF","--plate-text-3":"#A3A594","--door-k":"#FFB36B"},"fonts":["Teko:wght@500;600;700","Barlow:wght@400;500;600;700","IBM Plex Mono:wght@400;500;600","Fredoka:wght@500;600;700","Nunito:wght@400;600;700;800"],"map":{"spots":{"unit":{"x":50,"y":52}}},"worlds":{"adventure":{"name":"Activate Outdoor Adventure","note":"Daylight and family: a pale ground, Activate's red and gold off the roundel, dark ink, Fredoka rounded display with Nunito, sentence-case labels, a scalloped gold edge instead of tape, rounded cards, no rain.","tokens":{"--bg":"#F7F3EA","--surface":"#FFFFFF","--surface-2":"#EFE9DC","--sunk":"#ECE5D5","--line":"#DDD5C3","--line-soft":"#E8E1D2","--line-strong":"#B8AD93","--text":"#1C1710","--text-2":"#3E3930","--text-3":"#605A4E","--red":"#94121E","--red-2":"#B0182A","--red-hi":"#B0182A","--red-ink":"#94121E","--red-ghost":"#F6E4E5","--on-red":"#FFFFFF","--yel":"#94121E","--yel-hi":"#B0182A","--on-yel":"#FFFFFF","--yel-2":"#6E0D16","--crim":"#F2C14D","--crim-hi":"#FFD56A","--on-crim":"#1C1710","--ph":"#7A4A00","--ph-ghost":"#F7E8CF","--on-ph":"#FFFFFF","--go":"#1F6B3A","--go-ghost":"#DDEFE3","--shadow":"0 1px 0 rgba(0,0,0,.06), 0 24px 48px -28px rgba(40,30,10,.35)","--hazard":"repeating-linear-gradient(135deg,#F2C14D 0 14px,#94121E 14px 28px)","--tex-1":"repeating-linear-gradient(135deg,rgba(148,18,30,.6) 0 14px,transparent 14px 28px)","--tex-2":"repeating-linear-gradient(45deg,rgba(242,193,77,.7) 0 10px,transparent 10px 20px)","--tex-3":"radial-gradient(circle,rgba(242,193,77,.55) 0 3px,transparent 3.6px) 0 0/18px 18px","--plate-bg":"#FFFFFF","--plate-surface":"#F7F3EA","--plate-surface-2":"#EFE9DC","--plate-sunk":"#ECE5D5","--plate-line":"#DDD5C3","--plate-line-soft":"#E8E1D2","--plate-line-strong":"#B8AD93","--plate-text":"#1C1710","--plate-text-2":"#3E3930","--plate-text-3":"#5C564A","--door-k":"#F2C14D","--display":"\"Fredoka\", \"Nunito\", \"Trebuchet MS\", sans-serif","--ui":"\"Nunito\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif","--mono":"\"Nunito\", ui-sans-serif, system-ui, sans-serif"}}},"worldLabels":{"airsoft":"Predator Airsoft","adventure":"Activate Outdoor Adventure"}},"assets":{"logo":"assets/logo.png","logo.png":"assets/logo.png","logo-activate":"assets/logo-activate.png","logo-activate.png":"assets/logo-activate.png","field-run":"assets/field-run.jpg","field-run.jpg":"assets/field-run.jpg","fort-window":"assets/fort-window.jpg","fort-window.jpg":"assets/fort-window.jpg","smoke-base":"assets/smoke-base.jpg","smoke-base.jpg":"assets/smoke-base.jpg","group-base":"assets/group-base.jpg","group-base.jpg":"assets/group-base.jpg","door-airsoft":"assets/door-airsoft.jpg","door-airsoft.jpg":"assets/door-airsoft.jpg","door-nerf":"assets/door-nerf.jpg","door-nerf.jpg":"assets/door-nerf.jpg","door-adventure":"assets/door-adventure.jpg","door-adventure.jpg":"assets/door-adventure.jpg","rental-players":"assets/rental-players.jpg","rental-players.jpg":"assets/rental-players.jpg","big-game-day":"assets/big-game-day.jpg","big-game-day.jpg":"assets/big-game-day.jpg","site-group":"assets/site-group.jpg","site-group.jpg":"assets/site-group.jpg","kids-kayak":"assets/kids-kayak.jpg","kids-kayak.jpg":"assets/kids-kayak.jpg","team-build":"assets/team-build.jpg","team-build.jpg":"assets/team-build.jpg","rocks-group":"assets/rocks-group.jpg","rocks-group.jpg":"assets/rocks-group.jpg","bushcraft":"assets/bushcraft.jpg","bushcraft.jpg":"assets/bushcraft.jpg","poster-all-out-war":"assets/poster-all-out-war.jpg","poster-all-out-war.jpg":"assets/poster-all-out-war.jpg","aerial":"assets/aerial.jpg","aerial.jpg":"assets/aerial.jpg","wall-group-base":"assets/wall-group-base.jpg","wall-group-base.jpg":"assets/wall-group-base.jpg","wall-saloon":"assets/wall-saloon.jpg","wall-saloon.jpg":"assets/wall-saloon.jpg","wall-laugh":"assets/wall-laugh.jpg","wall-laugh.jpg":"assets/wall-laugh.jpg","wall-marshal":"assets/wall-marshal.jpg","wall-marshal.jpg":"assets/wall-marshal.jpg","wall-window":"assets/wall-window.jpg","wall-window.jpg":"assets/wall-window.jpg","wall-squad-trees":"assets/wall-squad-trees.jpg","wall-squad-trees.jpg":"assets/wall-squad-trees.jpg","wall-barricade":"assets/wall-barricade.jpg","wall-barricade.jpg":"assets/wall-barricade.jpg","wall-group-vests":"assets/wall-group-vests.jpg","wall-group-vests.jpg":"assets/wall-group-vests.jpg","wall-trail":"assets/wall-trail.jpg","wall-trail.jpg":"assets/wall-trail.jpg","wall-smoke":"assets/wall-smoke.jpg","wall-smoke.jpg":"assets/wall-smoke.jpg","hero-ridge-1":"assets/hero-ridge-1.jpg","hero-ridge-1.jpg":"assets/hero-ridge-1.jpg","hero-ridge-2":"assets/hero-ridge-2.jpg","hero-ridge-2.jpg":"assets/hero-ridge-2.jpg","home-activate":"assets/home-activate.jpg","home-activate.jpg":"assets/home-activate.jpg","phoenix-2":"assets/phoenix-2.jpg","phoenix-2.jpg":"assets/phoenix-2.jpg","phoenix-3":"assets/phoenix-3.jpg","phoenix-3.jpg":"assets/phoenix-3.jpg"},"siteUrl":"https://thinkwork.info/airsoft/predator-combat/","aocUrl":"aoc/index.html","fares":{"walkon":{"full":{"n":25,"m":25},"half":{"n":25,"m":25}},"hire":{"full":{"n":45,"m":45},"half":{"n":35,"m":45}}},"membership":{"price":40,"year":"January to December","yearEnd":"the end of December","renewMonth":"January"},"schedule":{"times":["09:00","10:15","16:30"],"timesSample":false,"lunch":"13:00","regular":{"day":0,"dayName":"Sunday","label":"Game day","detail":"Every Sunday: gates 09:00, sign-in and chrono from 09:30, safety brief 10:15, morning games 10:30 to 13:00, afternoon games 14:00 to 16:30. As you told us on 13 October.","count":8,"sess":"full"},"extra":{"day":6,"dayName":"Saturday","label":"Game day","detail":"Every Saturday, the same running order. As you told us on 13 October.","weekly":true,"sess":"full"}},"events":[{"key":"halloween-2026","name":"Halloween game day","short":"Halloween","iso":"2026-10-24","dayName":"Saturday","detail":"Our Halloween game day on the woodland site. Gates 09:00, safety brief 10:15, off the field at 16:30. Walk-on £25, rental package £45.","times":["09:00","10:15","16:30"],"price":25,"sample":false,"srcLabel":"The date is from our call on 13 October; the poster and any special price are yours to send","world":"airsoft"}],"ref":"PC","copy":{"todayTake":"a booking form, paid in advance","fareboard":{"sumOwn":"Half day or full day,<br>walk-on or rental.","sumMember":"A member price<br>is proposed.","lineOwn":"Both figures are as published on our booking page. The half day is the popular one. Pay when you book and your place is held.","lineMember":"Membership is sold at the store counter today; a member price is a phase two idea."},"breakEven":"At a £5 gap a £40 membership pays back on the eighth game day. The figures are yours to set.","renewToast":"Renewal opens in December: one pay link, January to December, proposed.","adventure":{"headline":"Climb. Paddle. Breathe.","strap":"Rock climbing, abseiling, archery, canoeing, kayaking, orienteering and bushcraft in County Down, for families, schools, groups and companies."}},"sample":{"spaces":[31,14,38,22,9,35,19,40,12,27,33,16],"addons":[{"id":"boot","n":"Boot hire","s":"Your published £15, pre-booked so the pair is set out.","p":15,"per":true,"on":false}],"block":{"n":6,"p":130,"s":"Six walk-on days for the price of five, proposed."},"products":[["Predator patch",6,"Store"],["BBs, 3,000 bag",12,"Consumables"],["Green gas",9,"Consumables"],["Warhammer, 10% off",0,"Store"]],"model":{"days":52,"addAvg":7,"groupAvg":420,"foodPer":0,"depositPct":0.3,"platformFeePct":0},"live":{"time":"11:02","game":2,"of":5,"next":"11:30","onSite":38,"closed":"09:30"},"backend":{"annPost":"Halloween game day, Saturday 24 October. Gates 09:00, brief 10:15. Book on the site.","bookings":[["PC-7K2D","Ciaran Magee"]]},"names":["Ciaran Magee","Aoife Donnelly","Ryan McKee","Niamh Gallagher","Conor Mulholland","Shannon Reilly","Darragh Boyle","Megan Hanna","Jack Mullan","Eimear Quinn","Odhran Walsh","Caitlin Doherty"],"activities":[["Rock climbing",25],["Hill and mountain walking",25],["Abseiling",25],["Archery",25],["Canoeing",25],["Kayaking",25],["Orienteering",25],["Adventure boot camps",30],["Bushcraft, wilderness and survival skills",30],["Team building day",60],["Corporate training",60],["Kids' outdoor activities",20]]},"content":{"jsonld":{"description":"Predator Combat and Activate Outdoor Adventure, Ballynahinch, County Down: airsoft game days (walk-on £25, rental £45), Nerf Wars parties (£15 per player) and outdoor adventure activities, thirty minutes from Belfast.","faq":[{"q":"How much is a game day at Predator Combat?","a":"A walk-on with your own kit is £25 for the full day, morning or afternoon, and £20 for an evening. A rental package is £45 for the full day or £35 for a morning, afternoon or evening: an electric 1:1 replica rifle, 3,000 rounds and full face protection. Boot hire is £15."},{"q":"What time does a game day run?","a":"Gates open at 9:00 am, the shop at 9:30 am, sign-in and chrono 9:30 to 10:15 am, safety brief 10:15 am, morning games 10:30 am to 1:00 pm, lunch 1:00 to 2:00 pm, afternoon games 2:00 to 4:30 pm."},{"q":"What days does Predator Combat run?","a":"Game days run every Saturday and Sunday. Gates open at 9:00 am, safety brief 10:15 am, afternoon games end at 4:30 pm."},{"q":"How old do you have to be to play airsoft at Predator Combat?","a":"Airsoft is for players aged 12 and above. Nerf Wars are for ages 7 and above, six to sixteen players."},{"q":"How much are Nerf Wars?","a":"£15 per participating player. A taster activity can be added for £7 per person: canoeing, archery or survival skills."},{"q":"What outdoor activities does Activate offer?","a":"Rock climbing, hill and mountain walking, abseiling, archery, canoeing, kayaking, orienteering, adventure boot camps, bushcraft and survival skills, corporate training and kids outdoor activities, for individuals and groups."},{"q":"Is there a membership?","a":"Predator Membership is £40 for January to December, £25 from September to December, sold at the store. It includes UKARA registration, £5 off your first three bookings, a loyalty card (play five, the sixth game free), free members days and store discounts."},{"q":"Where is Predator Combat?","a":"Ballynahinch, County Down, BT24 8NF, thirty minutes from Belfast. Phone 028 9756 5651 or 07825 169 631."},{"q":"What should I wear?","a":"Outdoor footwear is essential; boot hire is £15 if you do not have suitable footwear for the conditions. Rental players get full face protection."}],"fareLabels":{"walkon":"Airsoft game day, walk-on with your own kit","hire":"Airsoft game day with the rental package"}}},"cesiumToken":""};
+const CONFIG = {"slug":"predator-combat","layout":"two-worlds","business":{"name":"Predator Combat","short":"Predator","legalName":"Predator Combat Games","kind":"outdoor airsoft field, Nerf Wars and adventure activity centre in County Down, two brands on one site","site":"https://www.predator-combat.com/","domain":"predator-combat.com","phone":"028 9756 5651","phoneE164":"+442897565651","street":"Predator Combat","town":"Ballynahinch","county":"County Down","postcode":"BT24 8NF","facebook":"https://www.facebook.com/PredCG/?locale=en_GB","email":"info@predator-combat.com","rating":"","reviews":"","geo":{"lat":"54.4036","lng":"-5.8891"},"addressLine":"Predator Combat, Ballynahinch, County Down, BT24 8NF","postcodeUrl":"BT24+8NF"},"design":{"display":"Teko","body":"Barlow","mono":"IBM Plex Mono","accent":"#FF5A1F","hero":"the three doors over a moving stage of your own photographs: the storm over the field in the airsoft world, daylight on the ridge in the adventure world","images":"Yours, all of it, both brands.","tokens":{"--display":"\"Teko\", \"Barlow Condensed\", Impact, sans-serif","--ui":"\"Barlow\", \"Arial Narrow\", ui-sans-serif, system-ui, sans-serif","--mono":"\"IBM Plex Mono\", ui-monospace, SFMono-Regular, Menlo, monospace","--bg":"#12170A","--surface":"#1A2110","--surface-2":"#232C16","--sunk":"#0B0E05","--line":"#2E381A","--line-soft":"#232C16","--line-strong":"#4F5E2A","--text":"#F3F1E8","--text-2":"#CFCDBF","--text-3":"#A3A594","--red":"#FF5A1F","--red-2":"#FF7A45","--red-hi":"#FF7A45","--red-ink":"#FF7A45","--red-ghost":"#2E1408","--on-red":"#141206","--yel":"#FF5A1F","--yel-hi":"#FF7A45","--on-yel":"#141206","--yel-2":"#D9481A","--crim":"#F2C14D","--crim-hi":"#FFD56A","--on-crim":"#141206","--ph":"#F0B15A","--ph-ghost":"#3A2A12","--on-ph":"#141312","--go":"#7FD39A","--go-ghost":"#173022","--hazard":"repeating-linear-gradient(135deg,#FF5A1F 0 14px,#0B0E05 14px 28px)","--tex-1":"repeating-linear-gradient(135deg,rgba(255,90,31,.9) 0 14px,transparent 14px 28px)","--tex-2":"repeating-linear-gradient(45deg,rgba(255,90,31,.7) 0 10px,transparent 10px 20px)","--tex-3":"repeating-linear-gradient(135deg,rgba(255,90,31,.5) 0 22px,transparent 22px 44px)","--plate-bg":"#0B0E05","--plate-surface":"#1A2110","--plate-surface-2":"#232C16","--plate-sunk":"#070904","--plate-line":"#2E381A","--plate-line-soft":"#232C16","--plate-line-strong":"#4F5E2A","--plate-text":"#F3F1E8","--plate-text-2":"#CFCDBF","--plate-text-3":"#A3A594","--door-k":"#FFB36B"},"fonts":["Teko:wght@500;600;700","Barlow:wght@400;500;600;700","IBM Plex Mono:wght@400;500;600","Fredoka:wght@500;600;700","Nunito:wght@400;600;700;800"],"map":{"spots":{"unit":{"x":50,"y":52}}},"worlds":{"adventure":{"name":"Activate Outdoor Adventure","note":"Daylight and family: a pale ground, Activate's red and gold off the roundel, dark ink, Fredoka rounded display with Nunito, sentence-case labels, a scalloped gold edge instead of tape, rounded cards, no rain.","tokens":{"--bg":"#F7F3EA","--surface":"#FFFFFF","--surface-2":"#EFE9DC","--sunk":"#ECE5D5","--line":"#DDD5C3","--line-soft":"#E8E1D2","--line-strong":"#B8AD93","--text":"#1C1710","--text-2":"#3E3930","--text-3":"#605A4E","--red":"#94121E","--red-2":"#B0182A","--red-hi":"#B0182A","--red-ink":"#94121E","--red-ghost":"#F6E4E5","--on-red":"#FFFFFF","--yel":"#94121E","--yel-hi":"#B0182A","--on-yel":"#FFFFFF","--yel-2":"#6E0D16","--crim":"#F2C14D","--crim-hi":"#FFD56A","--on-crim":"#1C1710","--ph":"#7A4A00","--ph-ghost":"#F7E8CF","--on-ph":"#FFFFFF","--go":"#1F6B3A","--go-ghost":"#DDEFE3","--shadow":"0 1px 0 rgba(0,0,0,.06), 0 24px 48px -28px rgba(40,30,10,.35)","--hazard":"repeating-linear-gradient(135deg,#F2C14D 0 14px,#94121E 14px 28px)","--tex-1":"repeating-linear-gradient(135deg,rgba(148,18,30,.6) 0 14px,transparent 14px 28px)","--tex-2":"repeating-linear-gradient(45deg,rgba(242,193,77,.7) 0 10px,transparent 10px 20px)","--tex-3":"radial-gradient(circle,rgba(242,193,77,.55) 0 3px,transparent 3.6px) 0 0/18px 18px","--plate-bg":"#FFFFFF","--plate-surface":"#F7F3EA","--plate-surface-2":"#EFE9DC","--plate-sunk":"#ECE5D5","--plate-line":"#DDD5C3","--plate-line-soft":"#E8E1D2","--plate-line-strong":"#B8AD93","--plate-text":"#1C1710","--plate-text-2":"#3E3930","--plate-text-3":"#5C564A","--door-k":"#F2C14D","--display":"\"Fredoka\", \"Nunito\", \"Trebuchet MS\", sans-serif","--ui":"\"Nunito\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif","--mono":"\"Nunito\", ui-sans-serif, system-ui, sans-serif"}}},"worldLabels":{"airsoft":"Predator Airsoft","adventure":"Activate Outdoor Adventure"}},"assets":{"logo":"assets/logo.png","logo.png":"assets/logo.png","logo-activate":"assets/logo-activate.png","logo-activate.png":"assets/logo-activate.png","field-run":"assets/field-run.jpg","field-run.jpg":"assets/field-run.jpg","fort-window":"assets/fort-window.jpg","fort-window.jpg":"assets/fort-window.jpg","smoke-base":"assets/smoke-base.jpg","smoke-base.jpg":"assets/smoke-base.jpg","group-base":"assets/group-base.jpg","group-base.jpg":"assets/group-base.jpg","door-airsoft":"assets/door-airsoft.jpg","door-airsoft.jpg":"assets/door-airsoft.jpg","door-nerf":"assets/door-nerf.jpg","door-nerf.jpg":"assets/door-nerf.jpg","door-adventure":"assets/door-adventure.jpg","door-adventure.jpg":"assets/door-adventure.jpg","rental-players":"assets/rental-players.jpg","rental-players.jpg":"assets/rental-players.jpg","big-game-day":"assets/big-game-day.jpg","big-game-day.jpg":"assets/big-game-day.jpg","site-group":"assets/site-group.jpg","site-group.jpg":"assets/site-group.jpg","kids-kayak":"assets/kids-kayak.jpg","kids-kayak.jpg":"assets/kids-kayak.jpg","team-build":"assets/team-build.jpg","team-build.jpg":"assets/team-build.jpg","rocks-group":"assets/rocks-group.jpg","rocks-group.jpg":"assets/rocks-group.jpg","bushcraft":"assets/bushcraft.jpg","bushcraft.jpg":"assets/bushcraft.jpg","poster-all-out-war":"assets/poster-all-out-war.jpg","poster-all-out-war.jpg":"assets/poster-all-out-war.jpg","aerial":"assets/aerial.jpg","aerial.jpg":"assets/aerial.jpg","wall-group-base":"assets/wall-group-base.jpg","wall-group-base.jpg":"assets/wall-group-base.jpg","wall-saloon":"assets/wall-saloon.jpg","wall-saloon.jpg":"assets/wall-saloon.jpg","wall-laugh":"assets/wall-laugh.jpg","wall-laugh.jpg":"assets/wall-laugh.jpg","wall-marshal":"assets/wall-marshal.jpg","wall-marshal.jpg":"assets/wall-marshal.jpg","wall-window":"assets/wall-window.jpg","wall-window.jpg":"assets/wall-window.jpg","wall-squad-trees":"assets/wall-squad-trees.jpg","wall-squad-trees.jpg":"assets/wall-squad-trees.jpg","wall-barricade":"assets/wall-barricade.jpg","wall-barricade.jpg":"assets/wall-barricade.jpg","wall-group-vests":"assets/wall-group-vests.jpg","wall-group-vests.jpg":"assets/wall-group-vests.jpg","wall-trail":"assets/wall-trail.jpg","wall-trail.jpg":"assets/wall-trail.jpg","wall-smoke":"assets/wall-smoke.jpg","wall-smoke.jpg":"assets/wall-smoke.jpg","hero-ridge-1":"assets/hero-ridge-1.jpg","hero-ridge-1.jpg":"assets/hero-ridge-1.jpg","hero-ridge-2":"assets/hero-ridge-2.jpg","hero-ridge-2.jpg":"assets/hero-ridge-2.jpg","home-activate":"assets/home-activate.jpg","home-activate.jpg":"assets/home-activate.jpg","phoenix-2":"assets/phoenix-2.jpg","phoenix-2.jpg":"assets/phoenix-2.jpg","phoenix-3":"assets/phoenix-3.jpg","phoenix-3.jpg":"assets/phoenix-3.jpg"},"siteUrl":"https://thinkwork.info/airsoft/predator-combat/","aocUrl":"aoc/index.html","fares":{"walkon":{"full":{"n":25,"m":25},"half":{"n":25,"m":25},"evening":{"n":20,"m":20}},"hire":{"full":{"n":45,"m":45},"half":{"n":35,"m":45},"evening":{"n":35,"m":35}}},"membership":{"price":40,"year":"January to December","yearEnd":"the end of December","renewMonth":"January","hidden":true,"note":"Taken off the site on 15 October 2026 at your request until January; the prices and the benefits are kept here so they can be switched back on."},"schedule":{"times":["09:00","10:15","16:30"],"timesSample":false,"lunch":"13:00","regular":{"day":0,"dayName":"Sunday","label":"Game day","detail":"Every Sunday: walk-on gates 09:00, rental sign-in from 09:30, chrono to 10:15, safety brief 10:15, morning games 10:30 to 13:00, afternoon games 14:00 to 16:30.","count":8,"sess":"full"},"extra":{"day":6,"dayName":"Saturday","label":"Game day","detail":"Every Saturday, the same running order.","weekly":true,"sess":"full"},"sessions":{"full":{"label":"Full day","arrive":"09:30","start":"10:10","end":"16:30","tier":"full"},"morning":{"label":"Morning","arrive":"09:30","start":"10:10","end":"13:00","tier":"half"},"afternoon":{"label":"Afternoon","arrive":"13:30","start":"14:00","end":"16:30","tier":"half"},"evening":{"label":"Evening","arrive":"18:30","start":"19:00","end":"21:30","tier":"evening","note":"On a Saturday or Sunday an evening takes any number. On any other date it runs for ten or more."}},"closed":["12-24","12-25","12-31","01-01"],"minOffDay":10},"events":[{"key":"halloween-2026","name":"Halloween: relic hunters","short":"Halloween","iso":"2026-10-24","dayName":"Saturday","world":"airsoft","detail":"An Indiana Jones night game. One team hunts the mythical relics and keeps them safe, the other means to take over the world. Arrive from 17:00, briefing, and we are on the field from 18:00 until 23:00.","times":["17:00","18:00","23:00"],"price":35,"lock":{"sess":"evening","arrive":"17:00","start":"18:00","end":"23:00","label":"Evening, 18:00 to 23:00"},"prices":{"walkon":35,"hire":50},"groups":false,"sample":false,"srcLabel":"Times, theme and prices as you gave them on 15 October; the poster is yours to send"},{"key":"boxing-day-2026","name":"Boxing Day game day","short":"Boxing Day","iso":"2026-12-26","dayName":"Saturday","world":"airsoft","detail":"A Boxing Day game for the kit that arrived on Christmas morning. Normal game day prices, full day, and we open it once ten players are booked.","times":["09:00","10:15","16:30"],"minPlayers":10,"fullDayOnly":true,"sample":false,"srcLabel":"Proposed by us on 15 October at your normal prices: ten players opens the day","prices":{"walkon":25,"hire":45}}],"ref":"PC","copy":{"todayTake":"a booking form, paid in advance","fareboard":{"sumOwn":"Full day or half day,<br>walk-on or rental.","sumMember":"","lineOwn":"Walk-on is £25 whether you play a full day or a half day, and £20 for an evening. The rental package is £45 for a full day and £35 for a morning, afternoon or evening.","lineMember":""},"breakEven":"At a £5 gap a £40 membership pays back on the eighth game day. The figures are yours to set.","renewToast":"Renewal opens in December: one pay link, January to December, proposed.","adventure":{"headline":"Climb. Paddle. Breathe.","strap":"Rock climbing, abseiling, archery, canoeing, kayaking, orienteering and bushcraft in County Down, for families, schools, groups and companies."},"years":"more than twenty years"},"sample":{"spaces":[31,14,38,22,9,35,19,40,12,27,33,16],"addons":[{"id":"boot","n":"Boot hire","s":"Your published £15. Tell us the size and the pair is set out.","p":15,"per":true,"on":false}],"block":{"n":6,"p":130,"s":"Six walk-on days for the price of five, proposed."},"products":[["Predator patch",6,"Store"],["BBs, 3,000 bag",12,"Consumables"],["Green gas",9,"Consumables"],["Warhammer, 10% off",0,"Store"]],"model":{"days":52,"addAvg":7,"groupAvg":420,"foodPer":0,"depositPct":0.3,"platformFeePct":0},"live":{"time":"11:02","game":2,"of":5,"next":"11:30","onSite":38,"closed":"09:30"},"backend":{"annPost":"Halloween game day, Saturday 24 October. Gates 09:00, brief 10:15. Book on the site.","bookings":[["PC-7K2D","Ciaran Magee"]]},"names":["Ciaran Magee","Aoife Donnelly","Ryan McKee","Niamh Gallagher","Conor Mulholland","Shannon Reilly","Darragh Boyle","Megan Hanna","Jack Mullan","Eimear Quinn","Odhran Walsh","Caitlin Doherty"],"activities":[["Rock climbing",25],["Hill and mountain walking",25],["Abseiling",25],["Archery",25],["Canoeing",25],["Kayaking",25],["Orienteering",25],["Adventure boot camps",30],["Bushcraft, wilderness and survival skills",30],["Team building day",60],["Corporate training",60],["Kids' outdoor activities",20]],"group":{"discountPct":10,"discountFrom":12,"appliesTo":"hire","note":"Ten per cent off rental bookings of twelve or more. No group discount on walk-ons."}},"content":{"jsonld":{"description":"Predator Combat and Activate Outdoor Adventure, Ballynahinch, County Down: airsoft game days (walk-on £25, rental £45), Nerf Wars parties (£15 per player) and outdoor adventure activities, thirty minutes from Belfast.","faq":[{"q":"How much is a game day at Predator Combat?","a":"A walk-on with your own kit is £25 for the full day, morning or afternoon, and £20 for an evening. A rental package is £45 for the full day or £35 for a morning, afternoon or evening: an electric 1:1 replica rifle, 3,000 rounds and full face protection. Boot hire is £15."},{"q":"What time does a game day run?","a":"Gates open at 9:00 am, the shop at 9:30 am, sign-in and chrono 9:30 to 10:15 am, safety brief 10:15 am, morning games 10:30 am to 1:00 pm, lunch 1:00 to 2:00 pm, afternoon games 2:00 to 4:30 pm."},{"q":"What days does Predator Combat run?","a":"Game days run every Saturday and Sunday. Gates open at 9:00 am, safety brief 10:15 am, afternoon games end at 4:30 pm."},{"q":"How old do you have to be to play airsoft at Predator Combat?","a":"Airsoft is for players aged 12 and above. Nerf Wars are for ages 7 and above, six to sixteen players."},{"q":"How much are Nerf Wars?","a":"£15 per participating player. A taster activity can be added for £7 per person: canoeing, archery or survival skills."},{"q":"What outdoor activities does Activate offer?","a":"Rock climbing, hill and mountain walking, abseiling, archery, canoeing, kayaking, orienteering, adventure boot camps, bushcraft and survival skills, corporate training and kids outdoor activities, for individuals and groups."},{"q":"Is there a membership?","a":"Predator Membership is £40 for January to December, £25 from September to December, sold at the store. It includes UKARA registration, £5 off your first three bookings, a loyalty card (play five, the sixth game free), free members days and store discounts."},{"q":"Where is Predator Combat?","a":"Ballynahinch, County Down, BT24 8NF, thirty minutes from Belfast. Phone 028 9756 5651 or 07825 169 631."},{"q":"What should I wear?","a":"Outdoor footwear is essential; boot hire is £15 if you do not have suitable footwear for the conditions. Rental players get full face protection."}],"fareLabels":{"walkon":"Airsoft game day, walk-on with your own kit","hire":"Airsoft game day with the rental package"}}},"cesiumToken":""};
 /* ---- part: helpers.js ----
    The four things every other part uses: $ and $$, the money formatters, the
    toast, and the two page-level constants (`root`, and `reduce` for
@@ -3113,7 +3075,7 @@ $("#burger").addEventListener("click",()=>{const n=$("#nav");const o=n.classList
   const H={airsoft:{head:"Airsoft. Adventure. One site.",lede:"Ireland's oldest airsoft field and an outdoor adventure centre on one woodland site, thirty minutes from Belfast.",cta:"Book a game day"},
            adventure:{head:"Climb. Paddle. Breathe.",lede:"Rock climbing, abseiling, archery, canoeing, kayaking, orienteering and bushcraft in County Down, for families, schools, groups and companies.",cta:"Book an activity"}};
   const G={
-    airsoft:{line:"Game day.",lede:"Seventeen years of airsoft in the woods: walk on with your own kit for £25, or take the rental package for £45, full day.",cta:"Book airsoft"},
+    airsoft:{line:"Game day.",lede:"More than twenty years of airsoft in the woods: walk on with your own kit for £25, or take the rental package for £45, full day.",cta:"Book airsoft"},
     laser:{line:"Mixed ages.",lede:"Nerf Wars for six to sixteen players from age 7: blasters, darts, eye protection, a marshal and a battle zone. Add a taster activity for £7.",cta:"Book Nerf Wars"},
     paintball:{line:"Out there.",lede:"Climbing, abseiling, archery, canoeing, kayaking, orienteering and bushcraft with Activate, for individuals, groups and teams.",cta:"Book an activity"}
   };
@@ -3179,14 +3141,18 @@ function nextRegular(n){
 }
 const SPACES=CONFIG.sample.spaces;
 const DATES=[];
-nextRegular(SCHED.regular.count).forEach((dt,i)=>DATES.push({dt,kind:SCHED.regular.dayName,n:SCHED.regular.label,d:SCHED.regular.detail,left:SPACES[i%SPACES.length],cap:SCHED.cap,tba:false,sess:SCHED.regular.sess}));
+/* the days they are shut: Christmas Eve and Day, New Year's Eve and Day. A closed date never reaches the picker,
+   the board or the structured data. schedule.closed holds them as MM-DD. */
+const CLOSED=(SCHED.closed||[]).map(String);
+const isClosed=d=>CLOSED.indexOf(String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"))>=0;
+nextRegular(SCHED.regular.count).filter(dt=>!isClosed(dt)).forEach((dt,i)=>DATES.push({dt,kind:SCHED.regular.dayName,n:SCHED.regular.label,d:SCHED.regular.detail,left:SPACES[i%SPACES.length],cap:SCHED.cap,tba:false,sess:SCHED.regular.sess}));
 /* Their published events, read off their own posters and ledgered in the config */
-const EVENTS=CONFIG.events.map(e=>({key:e.key,iso:e.iso,kind:e.dayName,n:e.name,short:e.short,d:e.detail,t:e.times,price:e.price,dep:e.deposit,prize:e.prize,left:e.left,cap:e.cap,off:e.off,offLabel:e.offLabel,prizes:e.prizes,world:e.world}));
+const EVENTS=CONFIG.events.map(e=>({key:e.key,iso:e.iso,kind:e.dayName,n:e.name,short:e.short,d:e.detail,t:e.times,price:e.price,dep:e.deposit,prize:e.prize,left:e.left,cap:e.cap,off:e.off,offLabel:e.offLabel,prizes:e.prizes,world:e.world,lock:e.lock,prices:e.prices,groups:e.groups,minPlayers:e.minPlayers,fullDayOnly:e.fullDayOnly,srcLabel:e.srcLabel}));
 for(const e of EVENTS){
   const dt=new Date(e.iso+"T08:00:00"); if(dt.getTime()<Date.now()-8*3600e3)continue;
   const same=DATES.find(x=>x.dt.toDateString()===dt.toDateString());
-  if(same)Object.assign(same,{key:e.key,n:e.n,short:e.short,d:e.d,t:e.t,off:e.off,offLabel:e.offLabel,real:true,world:e.world});
-  else DATES.push({dt,key:e.key,kind:e.kind,n:e.n,short:e.short,d:e.d,t:e.t,price:e.price,dep:e.dep,prize:e.prize,left:e.left,cap:e.cap,tba:false,real:true,world:e.world});
+  if(same)Object.assign(same,{key:e.key,n:e.n,short:e.short,d:e.d,t:e.t,off:e.off,offLabel:e.offLabel,real:true,world:e.world,lock:e.lock,prices:e.prices,groups:e.groups,minPlayers:e.minPlayers,fullDayOnly:e.fullDayOnly});
+  else DATES.push({dt,key:e.key,kind:e.kind,n:e.n,short:e.short,d:e.d,t:e.t,price:e.price,dep:e.dep,prize:e.prize,left:e.left,cap:e.cap,tba:false,real:true,world:e.world,lock:e.lock,prices:e.prices,groups:e.groups,minPlayers:e.minPlayers,fullDayOnly:e.fullDayOnly});
 }
 /* Events the owner published in the console (store.js: this browser only) join the board like any published date. The
    console's record is {n name, d date, t gates, x what it is, p price a player, i poster}. A date that already runs takes
@@ -3208,7 +3174,7 @@ if(typeof storeRead==="function"){(storeRead().events||[]).forEach((e,i)=>{
     const d=new Date();d.setHours(8,0,0,0);let add=(7+X.day-d.getDay())%7;if(add===0&&Date.now()>d.getTime()+8*3600e3)add=7;d.setDate(d.getDate()+add);
     /* an event already on that date IS that day: a second weekly row printed the same Saturday twice in the picker */
     let i=0;while(d<=lastReg.dt){const taken=DATES.some(x=>x.dt.toDateString()===d.toDateString());
-      if(!isBreak(d)&&!taken)DATES.push({dt:new Date(d),kind:X.dayName,n:X.label,d:X.detail,left:SPACES[(i+5)%SPACES.length],cap:X.cap||SCHED.cap,tba:false,sess:X.sess});d.setDate(d.getDate()+7);i++;}
+      if(!isBreak(d)&&!taken&&!isClosed(d))DATES.push({dt:new Date(d),kind:X.dayName,n:X.label,d:X.detail,left:SPACES[(i+5)%SPACES.length],cap:X.cap||SCHED.cap,tba:false,sess:X.sess});d.setDate(d.getDate()+7);i++;}
     return;
   }
   const horizon=lastReg.dt.getFullYear()*12+lastReg.dt.getMonth();
@@ -3229,7 +3195,9 @@ const fmtShort=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
 
 /* departure board */
 (function(){
-  const rows=DATES.slice(0,4);
+  /* every date they run, not the first four (Greg, 15 Oct): the page scrolls, a box inside the page does not,
+     because a scroller hides rows from the collision gate and they read as covered by the next band */
+  const rows=DATES.filter(d=>!d.tba);
   $("#boardRows").innerHTML=rows.map((r,i)=>'<div class="r'+(i===0?" next":"")+'">'+
     '<div class="d">'+r.dt.toLocaleDateString("en-GB",{weekday:"short"})+(r.tba?'':' '+r.dt.getDate())+'<small>'+r.dt.toLocaleDateString("en-GB",{month:"long"})+'</small>'+(i===0?'<span class="status next">Next</span>':'')+'</div>'+
     '<div class="n"><b>'+(r.prize?'<svg class="ico" aria-hidden="true"><use href="#i-trophy"/></svg>':'')+r.n+'</b>'+(r.tba?'Date to be announced':(r.left<20?r.left+' places left':'Places available'))+(r.price?' · '+gbp(r.price)+' entry':'')+'</div>'+
@@ -3324,28 +3292,67 @@ const ADDONS=CONFIG.sample.addons;
 const BLOCK=CONFIG.sample.block.price;
 const state={date:FIRST_SUN,step:1,sess:"full",member:false,joined:false,block:false,q:{walkon:1,hire:0},add:Object.fromEntries(ADDONS.map(a=>[a.id,a.on]))};
 /* a poster date is a deposit booking: the hot lunch starts unticked so the button's £10 is exactly what is charged */
+/* ---------- sessions ----------
+   A named session (full, morning, afternoon, evening) carries its own arrival and start time and maps to a fare tier,
+   because a walk-on costs the same morning or full day but less in the evening. schedule.sessions holds them; a config
+   without it behaves as before, where the session name IS the tier. A date may LOCK the session (a special event runs
+   when it runs), and may carry its own prices, which then beat the ladder. Predator Combat, 15 Oct 2026. */
+const SESSIONS=(CONFIG.schedule||{}).sessions||null;
+const tierOf=s=>(SESSIONS&&SESSIONS[s]&&SESSIONS[s].tier)||s;
+const sessOf=s=>(SESSIONS&&SESSIONS[s])||null;
+const lockOf=i=>DATES[i]&&DATES[i].lock||null;
+function sessTimes(s,i){const L=lockOf(i);if(L&&L.arrive)return L;return sessOf(s)||null;}
+/* the minimum this date and session needs before it can run: an evening and an off-day both need a group behind them */
+function minFor(i,s){const d=DATES[i]||{};if(d.lock)return +d.minPlayers||0;const ss=sessOf(s)||{};return Math.max(+d.minPlayers||0,+ss.minPlayers||0);}
+function paintSession(){
+  const L=lockOf(state.date), row=$("#sessionRow"), note=$("#sessTimes");
+  if(row)row.hidden=!!L;
+  $$("#sessionPick button").forEach(b=>{const only=DATES[state.date]&&DATES[state.date].fullDayOnly;
+    b.disabled=!!(only&&b.dataset.sess!=="full");b.setAttribute("aria-pressed",b.dataset.sess===state.sess);});
+  if(note){const t=sessTimes(state.sess,state.date);
+    const m=minFor(state.date,state.sess);
+    note.innerHTML=(t?"Arrive <b>"+t.arrive+"</b>, safety brief, on the field <b>"+t.start+"</b>"+(t.end?" until <b>"+t.end+"</b>":"")+".":"")
+      +(L?" This event runs "+(L.label||"at its own times")+" only.":"")
+      +(m?" <span class=\"warn\">Minimum "+m+" players on this one.</span>":"");}
+}
 function setDate(i){state.date=i;if(DATES[i].dep)state.add.food=false;$("#bkDate").value=i;
+  const L=lockOf(i); if(L&&L.sess)state.sess=L.sess;
+  if(DATES[i].fullDayOnly)state.sess="full";
+  paintSession();
   /* a date that carries its own session (a 7-hour Sunday against a 4-hour Wednesday) sets the session picker with it */
   if(DATES[i].sess&&FARE.walkon[DATES[i].sess]){state.sess=DATES[i].sess;$$("#sessionPick button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.sess===state.sess));}}
 $("#bkDate").innerHTML=DATES.filter(d=>!d.tba).map(d=>'<option value="'+DATES.indexOf(d)+'">'+fmtLong(d.dt)+(d.real?' · '+d.n:'')+'</option>').join("");
 $("#bkDate").value=state.date;
 function players(){return state.q.walkon+state.q.hire;}
 /* the published price for the day: the 10% off on 1 November applies to the list price too */
-function listPrice(k){const ev=DATES[state.date],p=FARE[k][state.sess];return ev.off?Math.round(p.n*ev.off*100)/100:p.n;}
+function fareFor(k){const ev=DATES[state.date];
+  if(ev.prices&&typeof ev.prices[k]==="number")return {n:ev.prices[k],m:ev.prices[k]};
+  const t=tierOf(state.sess);return FARE[k][t]||FARE[k].full;}
+function listPrice(k){const ev=DATES[state.date],p=fareFor(k);return ev.off?Math.round(p.n*ev.off*100)/100:p.n;}
 /* a poster event with a deposit charges the deposit now and the balance on the day, as your poster says */
-function unit(k){const ev=DATES[state.date];if(ev.dep)return k==="walkon"?ev.dep:0;const p=FARE[k][state.sess];const base=(state.member||state.joined)?p.m:p.n;return ev.off?Math.round(base*ev.off*100)/100:base;}
+function unit(k){const ev=DATES[state.date];if(ev.dep)return k==="walkon"?ev.dep:0;const p=fareFor(k);
+  const memberOn=!((CONFIG.membership||{}).hidden);
+  const base=(memberOn&&(state.member||state.joined))?p.m:p.n;return ev.off?Math.round(base*ev.off*100)/100:base;}
 function totals(){
   let sub=0,lines=[],saved=0; const ev=DATES[state.date];
   for(const k of ["walkon","hire"]){const n=state.q[k];if(!n)continue;const u=unit(k);sub+=u*n;
     if(ev.dep){lines.push({n:n+" × "+ev.n+" entry, "+gbp(ev.dep)+" deposit to secure",v:u*n});lines.push({n:n+" × "+gbp(ev.price-ev.dep)+" balance on the day",v:null});}
-    else{lines.push({n:n+" × "+LBL[k]+", "+(state.sess==="half"?LBL.half:state.sess+" day"),v:u*n});saved+=n*(listPrice(k)-u);}}
+    else{const sl=(sessOf(state.sess)||{}).label||(state.sess==="half"?LBL.half:state.sess+" day");
+      lines.push({n:n+" × "+LBL[k]+", "+sl.toLowerCase(),v:u*n});saved+=n*(listPrice(k)-u);}}
   if(ev.off&&players())lines.push({n:ev.offLabel,v:null});
   if(state.joined){sub+=MEMBERSHIP;lines.push({n:"Membership, "+CONFIG.membership.year,v:MEMBERSHIP});}
   if(state.block){sub+=BLOCK;lines.push({n:CONFIG.sample.block.label,v:BLOCK});}
+  /* their own group rule: ten per cent off a rental booking of twelve or more, nothing off walk-ons */
+  const GD=(CONFIG.sample||{}).group;
+  if(GD&&GD.discountPct&&state.q.hire>=(GD.discountFrom||12)){
+    const off=Math.round(unit("hire")*state.q.hire*(GD.discountPct/100)*100)/100;
+    if(off){sub-=off;lines.push({n:GD.discountPct+"% off "+state.q.hire+" rental packages, twelve or more",v:-off});}}
   let addv=0;ADDONS.forEach(a=>{if(state.add[a.id])addv+=a.p*(a.per?players():1);});
   if(addv)lines.push({n:"Pre-orders",v:addv});
   return {total:sub+addv,lines,saved};
 }
+/* boot hire asks for the size, because a pair has to be set out before the morning */
+function paintShoe(){const w=$("#shoeRow");if(!w)return;const on=ADDONS.some(a=>a.id==="boot"&&state.add.boot);w.hidden=!on;}
 function renderAddons(){
   $("#addonList").innerHTML='<span class="phtag">Proposed pre-orders · sample prices</span>'+ADDONS.map(a=>{const on=state.add[a.id];
     return '<label class="addon'+(on?" sel":"")+'" data-a="'+a.id+'"><input type="checkbox"'+(on?" checked":"")+'><span><b>'+a.n+'</b><br><span class="small muted">'+a.s+'</span></span><span class="p">+'+gbp(a.p)+(a.per?' each':'')+'</span></label>';}).join("");
@@ -3363,7 +3370,11 @@ function draw(){
   $("#sumTotal").textContent=gbp2(t.total);
   $("#sumSaved").textContent=t.saved?"Member prices saved "+gbp2(t.saved):"";
   $("#payAmt").textContent=gbp2(t.total);
-  $("#nextBtn").disabled=(state.step===1&&players()===0);
+  const need=minFor(state.date,state.sess), short=need&&players()<need;
+  $("#nextBtn").disabled=(state.step===1&&(players()===0||short));
+  const warn=$("#bkWarn");
+  if(warn){warn.hidden=!short;if(short)warn.textContent="This date runs for groups of "+need+" or more, so add "+(need-players())+" more player"+(need-players()===1?"":"s")+", or pick a Saturday or Sunday game day.";}
+  paintSession();
   $$(".stepper").forEach(s=>{$("output",s).textContent=state.q[s.dataset.t];});
   /* the upsell: what would this booking save with a membership on it */
   const wouldSave=["walkon","hire"].reduce((a,k)=>a+state.q[k]*(FARE[k][state.sess].n-FARE[k][state.sess].m),0);
@@ -3390,6 +3401,7 @@ function setStep(n){
   window.scrollTo({top:0,behavior:reduce?"auto":"smooth"});
 }
 $("#nextBtn").addEventListener("click",()=>setStep(Math.min(4,state.step+1)));
+document.addEventListener("change",e=>{if(e.target.closest("#addonList"))paintShoe();});
 $("#backBtn").addEventListener("click",()=>setStep(Math.max(1,state.step-1)));
 $("#addMate").addEventListener("click",()=>{const n=$("#playerList").querySelectorAll(".kv").length+1;$("#playerList").insertAdjacentHTML("beforeend",'<div class="kv"><span><b>Player '+n+'</b> · invited by link</span><span class="pill">Awaiting waiver</span></div>');});
 $("#copyLink").addEventListener("click",()=>{$("#copyMsg").textContent="Link copied. Each player pays their own share.";setTimeout(()=>$("#copyMsg").textContent="",3500);});
@@ -3397,7 +3409,10 @@ let lastBooking=null;
 $("#payBtn").addEventListener("click",()=>{
   const ref=CONFIG.ref+"-"+Math.random().toString(36).slice(2,6).toUpperCase(), d=DATES[state.date], t=d.t||SCHED.times;
   $("#doneRef").textContent=ref;
-  $("#doneLine").textContent=fmtLong(d.dt)+(d.real?", "+d.n:"")+" · "+players()+" player"+(players()===1?"":"s")+" · gates "+t[0]+", games "+t[1]+". Your waiver is signed and on file.";
+  const ST=sessTimes(state.sess,state.date);
+  $("#doneLine").textContent=fmtLong(d.dt)+(d.real?", "+d.n:"")+" · "+players()+" player"+(players()===1?"":"s")
+    +" · "+((sessOf(state.sess)||{}).label||"Full day")+", arrive "+((ST&&ST.arrive)||t[0])+", on the field "+((ST&&ST.start)||t[1])
+    +". Your declaration is signed and on file, and the calendar invite is attached to your confirmation email.";
   $("#payPane").hidden=true;$("#donePane").hidden=false;drawQR("#qr",ref);
   $("#backBtn").hidden=true;$$("#stepBar div").forEach(x=>x.classList.add("done"));
   lastBooking={ref,d,t};
@@ -3489,15 +3504,53 @@ function mCalc(){
 }
 $("#mSlider").addEventListener("input",mCalc);mCalc();
 
-/* ---------- party quote ---------- */
-function eCalc(){
-  const per=+$("#evPack").value,n=+$("#evSize").value;
-  $("#evSizeOut").textContent=n;$("#qSize").textContent=n;
-  const pack=per*n,food=$("#evFood").checked?CONFIG.sample.model.foodPer*n:0,tot=pack+food;
-  $("#qPack").textContent=gbp(pack);$("#qFood").textContent=gbp(food);$("#qTotal").textContent=gbp(tot);$("#qDep").textContent=gbp(tot*CONFIG.sample.model.depositPct);
+/* ---------- the group quote ----------
+   What a group pays, by their own rules: the rental ladder follows the session (a morning costs a morning, an evening
+   costs an evening), ten per cent comes off a rental booking of twelve or more, Nerf runs ninety minutes for ten or
+   more in its own part of the site, and an activity day is quoted by Activate. Nothing is held: a group pays in full.
+   Predator Combat, 15 Oct 2026. */
+const GSESS=(CONFIG.schedule||{}).sessions||{};
+const GRULE=(CONFIG.sample||{}).group||{};
+const gTier=k=>(GSESS[k]&&GSESS[k].tier)||k;
+let gSess="full";
+function gPer(kind){
+  if(kind==="nerf")return +((CONFIG.aoc&&CONFIG.aoc.sessions||[]).find(x=>x.key==="nerf")||{}).price||15;
+  if(kind==="activity")return +((CONFIG.aoc&&CONFIG.aoc.sessions||[]).find(x=>x.key==="activity")||{}).price||30;
+  const t=gTier(gSess),F=CONFIG.fares[kind==="walkon"?"walkon":"hire"];return (F[t]||F.full).n;
 }
-["evPack","evSize","evFood"].forEach(id=>$("#"+id).addEventListener("input",eCalc));
-$("#qBook").addEventListener("click",()=>{$("#qMsg").textContent="Date held for 48 hours. Confirmation and split-payment link sent by email.";});
+/* a date the owner has locked to an event is not open to groups: "it is not really suitable for groups" */
+function gEventOn(iso){return (CONFIG.events||[]).find(e=>e.iso===iso&&e.groups===false)||null;}
+function eCalc(){
+  const kind=$("#evPack").value,n=+$("#evSize").value,per=gPer(kind);
+  $("#evSizeOut").textContent=n;$("#qSize").textContent=n;
+  const airsoft=(kind==="hire"||kind==="walkon");
+  const row=$("#evSess"); if(row)row.closest(".field").hidden=!airsoft;
+  let gross=per*n, disc=0;
+  if(kind==="hire"&&GRULE.discountPct&&n>=(GRULE.discountFrom||12))disc=Math.round(gross*(GRULE.discountPct/100)*100)/100;
+  const tot=gross-disc;
+  $("#qPack").textContent=gbp(gross);
+  const dr=$("#qDiscRow"); if(dr){dr.hidden=!disc;$("#qFood").textContent="-"+gbp(disc);}
+  $("#qTotal").textContent=gbp(tot);$("#qDep").textContent=gbp(tot);
+  const min=kind==="nerf"?10:(kind==="activity"?0:(GSESS[gSess]&&GSESS[gSess].minPlayers||0));
+  const rule=$("#evRule");
+  if(rule){const bits=[];
+    if(kind==="hire"&&GRULE.discountPct)bits.push(n>=(GRULE.discountFrom||12)?GRULE.discountPct+"% group discount applied.":GRULE.discountPct+"% comes off at "+(GRULE.discountFrom||12)+" rental players.");
+    if(kind==="walkon")bits.push("Walk-ons are "+gbp(gPer("walkon"))+" a player, with no group discount.");
+    if(kind==="nerf")bits.push("Nerf Wars runs 90 minutes for ten players or more, ages seven and up, in its own part of the site, so it can run while airsoft is on.");
+    if(kind==="activity")bits.push("Activity days are run by Activate Outdoor Adventure. Press Book and we will take you there.");
+    if(airsoft)bits.push("On a Saturday or Sunday any group size is welcome. On any other date we need ten players and a full day, unless the date is already running.");
+    if(min&&n<min)bits.push("<span class=\"warn\">This one needs at least "+min+" players.</span>");
+    const ev=gEventOn(($("#evDate")||{}).value||"");
+    if(ev)bits.unshift('<span class="warn">'+ev.name+' runs that day and is not open to group bookings. Pick another date, or book places on it one by one.</span>');
+    rule.innerHTML=bits.join(" ");}
+  const bookBtn=$("#qBook"); if(bookBtn)bookBtn.disabled=!!gEventOn(($("#evDate")||{}).value||"");
+  const book=$("#qBook"); if(book)book.textContent=kind==="activity"?"Book with Activate":"Pay for the group";
+}
+$$("#evSess button").forEach(b=>b.addEventListener("click",()=>{gSess=b.dataset.sess;$$("#evSess button").forEach(x=>x.setAttribute("aria-pressed",x===b));eCalc();}));
+["evPack","evSize","evDate"].forEach(id=>{const el=$("#"+id);if(el){el.addEventListener("input",eCalc);el.addEventListener("change",eCalc);}});
+$("#qBook").addEventListener("click",()=>{
+  if($("#evPack").value==="activity"){if(typeof setWorld==="function")setWorld("adventure");go("activities");return;}
+  $("#qMsg").textContent="Paid in full now, by card. One person signs the declaration for the group and can share the link so the others sign their own.";});
 eCalc();
 (function(){const dt=new Date();dt.setDate(dt.getDate()+30);$("#evDate").value=dt.toISOString().slice(0,10);})();
 
@@ -3566,11 +3619,12 @@ $("#brandReset").addEventListener("click",()=>{
       .sort((a,b)=>a.d.dt-b.d.dt).slice(0,max||99);
   }
   function card(x){const d=x.d,t=d.t||SCHED.times;
-    return '<article class="day"><div class="date"><b>'+d.dt.getDate()+'</b><span>'+d.dt.toLocaleDateString("en-GB",{month:"short"})+'</span></div>'+
-      '<div class="info"><h3>'+d.n+'</h3><p class="small muted">'+fmt(d.dt)+(t&&t[0]?" &middot; gates "+t[0]:"")+(d.d?" &middot; "+d.d:"")+'</p></div>'+
+    return '<article class="day">'+
+      '<div class="date"><b>'+d.dt.getDate()+'</b><span>'+d.dt.toLocaleDateString("en-GB",{weekday:"short",month:"short"})+'</span></div>'+
+      '<div class="info"><h3>'+d.n+'</h3><p class="small muted" style="margin-top:4px">'+fmt(d.dt)+(t&&t[0]?" &middot; arrive "+t[0]:"")+(d.d?" &middot; "+d.d:"")+'</p></div>'+
       '<div class="cap"></div>'+
-      '<div class="price">'+(d.price?'<b>&pound;'+d.price+'</b><span>a player</span>':'<b>&pound;'+FARE.walkon.full.n+'</b><span>walk-on</span>')+'</div>'+
-      '<div class="act"><button class="btn primary sm" data-book="'+x.i+'">Book</button></div></article>';}
+      '<div class="act"><div class="price">'+(d.price?'<b>&pound;'+d.price+'</b><span>a player</span>':'<b>&pound;'+FARE.walkon.full.n+'</b><span>walk-on</span>')+'</div>'+
+      '<button class="btn primary sm" data-book="'+x.i+'">Book</button></div></article>';}
   function paint(){
     const world=document.documentElement.dataset.world==="adventure"?"adventure":"airsoft";
     if(list){const r=rows(world);
@@ -4300,14 +4354,15 @@ const NAMES=S.names;
   /* 43 players: 14 walk-on member full, 13 walk-on non-member full, 4 walk-on non-member half, 3 hire member full, 9 hire non-member full */
   const MIX=S.mix;
   const PLAYERS=[]; let ni=0;
-  for(const [k,s,m,n] of MIX) for(let i=0;i<n;i++){PLAYERS.push({name:NAMES[ni++],k,s,m,price:FARE[k][s][m?"m":"n"],wv:true,u18:false,in:false});}
+  for(const [k,s,m,n] of MIX) for(let i=0;i<n;i++){{const nm=NAMES[ni++],fare=FARE[k]&&FARE[k][s];if(!nm||!fare)continue;   /* a mix larger than the names list, or a session the fares lack, is skipped rather than thrown (15 Oct, parties screen) */
+    PLAYERS.push({name:nm,k,s,m,price:fare[m?"m":"n"],wv:true,u18:false,in:false});}}
   /* mix the list up so the types interleave, deterministically */
   /* a one-word name sorts on the whole name: the parties screen threw on a sample player without a surname (15 Oct) */
   const surname=p=>{const n=String(p&&p.name||"");return n.split(" ")[1]||n;};
   PLAYERS.sort((a,b)=>surname(a).localeCompare(surname(b)));
-  S.noWaiver.forEach(i=>PLAYERS[i].wv=false);
-  (function(){const i=PLAYERS.findIndex(p=>p.name===S.pinName);if(i>=0&&PLAYERS[i].wv){PLAYERS[i].wv=false;PLAYERS[S.noWaiver[0]].wv=true;}})();
-  S.under18.forEach(i=>PLAYERS[i].u18=true);
+  S.noWaiver.forEach(i=>{if(PLAYERS[i])PLAYERS[i].wv=false;});
+  (function(){const i=PLAYERS.findIndex(p=>p.name===S.pinName);if(i>=0&&PLAYERS[i].wv){PLAYERS[i].wv=false;const j=S.noWaiver[0];if(PLAYERS[j])PLAYERS[j].wv=true;}})();
+  S.under18.forEach(i=>{if(PLAYERS[i])PLAYERS[i].u18=true;});
   const counts={players:PLAYERS.length,walkon:PLAYERS.filter(p=>p.k==="walkon").length,hire:PLAYERS.filter(p=>p.k==="hire").length,members:PLAYERS.filter(p=>p.m).length};
   const tickets=PLAYERS.reduce((a,p)=>a+p.price,0);
   const PRE=S.pre;
@@ -4353,7 +4408,7 @@ const NAMES=S.names;
   wvCounts();inCounts();renderCheckin();
   /* hire guns */
   const HIRE=PLAYERS.filter(p=>p.k==="hire");
-  $("#bkHire").innerHTML=HIRE.map((p,i)=>'<label><input type="checkbox" data-gun="'+i+'"><span>Gun '+String(i+1).padStart(2,"0")+'<small>'+esc(p.name.split(" ")[0])+' '+esc(p.name.split(" ")[1][0])+'.</small></span></label>').join("");
+  $("#bkHire").innerHTML=HIRE.map((p,i)=>'<label><input type="checkbox" data-gun="'+i+'"><span>Gun '+String(i+1).padStart(2,"0")+'<small>'+esc(p.name.split(" ")[0])+' '+esc((p.name.split(" ")[1]||p.name)[0]||"")+'.</small></span></label>').join("");
   function gunCount(){const n=$$("#bkHire input:checked").length;$("#bkIssuedPill").textContent=n+" of "+HIRE.length+" out";$$("#bkHire label").forEach(l=>l.classList.toggle("on",$("input",l).checked));}
   $("#bkHire").addEventListener("change",gunCount);
   $("#bkIssueAll").addEventListener("click",()=>{$$("#bkHire input").forEach(i=>i.checked=true);gunCount();toast("All "+HIRE.length+" "+LBL.hire.toLowerCase()+" guns marked out. Back on the rack at endex is the next tick.");});
@@ -4364,9 +4419,12 @@ const NAMES=S.names;
   /* ---------- 2. BOOKINGS: the next four dates ---------- */
   const NEXT4=DATES.filter(d=>!d.tba).slice(0,4);
   const NEXT_I=Math.max(0,NEXT4.findIndex(d=>d===NEXT));
-  const BK=S.bookings.map(r=>({ref:r[0],name:r[1],di:r[2]==="next"?NEXT_I:r[2],q:{walkon:r[3],hire:r[4]},sess:r[5],member:r[6],st:r[7],add:r[8]||undefined,join:r[9]||undefined}))
+  /* a sample booking row is [ref, name, "next"|dateIndex, walkonQty, hireQty, "full"|"half", member, status, addOn?, joined?]; a row in any
+     other shape, or naming a session the fares lack, is dropped: a generator wrote 4-field rows for one site and 2-field rows for two more (15 Oct) */
+  const bkOk=r=>Array.isArray(r)&&r.length>=8&&typeof r[1]==="string"&&typeof r[3]==="number"&&typeof r[4]==="number"&&FARE.walkon&&FARE.walkon[r[5]]&&FARE.hire&&FARE.hire[r[5]];
+  const BK=(Array.isArray(S.bookings)?S.bookings:[]).filter(bkOk).map(r=>({ref:r[0],name:r[1],di:r[2]==="next"?NEXT_I:r[2],q:{walkon:r[3],hire:r[4]},sess:r[5],member:r[6],st:r[7],add:r[8]||undefined,join:r[9]||undefined}))
   .map(b=>{if(b.di<0)b.di=0;b.di=Math.min(b.di,NEXT4.length-1);return b;});
-  function bkPrice(b){const d=NEXT4[b.di];const n=b.q.walkon+b.q.hire;
+  function bkPrice(b){const d=NEXT4[b.di];const n=b.q.walkon+b.q.hire;if(!d)return {paid:0,due:0,what:""};
     if(d.price){const dep=d.dep||0;return {paid:dep*n,due:(d.price-dep)*n,what:n+" &times; "+(d.short||d.n)+" entry, "+gbp(dep)+" deposit each"};}
     let v=0,parts=[];for(const k of ["walkon","hire"]){if(!b.q[k])continue;v+=b.q[k]*FARE[k][b.sess][b.member?"m":"n"];parts.push(b.q[k]+" "+LBL[k].toLowerCase());}
     let what=parts.join(" + ")+", "+b.sess+" day, "+(b.member?"member":"non-member");
@@ -4459,7 +4517,7 @@ const NAMES=S.names;
   const ORIG=JSON.parse(JSON.stringify(FARE));
   function fillFares(src){$$(".bk-fares input[data-fare]").forEach(i=>{const [k,s,w]=i.dataset.fare.split(".");i.value=src[k][s][w];});}
   fillFares(FARE);
-  (function(){const sat=DATES.find(d=>d.kind===SCH.extra.dayName&&!d.tba&&!d.price)||DATES.find(d=>d.kind===SCH.extra.dayName);if(sat){const d=sat.dt;$("#bkSat").value=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}})();
+  (function(){const satKind=(SCH.extra||{}).dayName;const sat=satKind&&(DATES.find(d=>d.kind===satKind&&!d.tba&&!d.price)||DATES.find(d=>d.kind===satKind));if(sat){const d=sat.dt;$("#bkSat").value=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}})();
   $("#bkSave").addEventListener("click",()=>{
     let changed=0;$$(".bk-fares input[data-fare]").forEach(i=>{const [k,s,w]=i.dataset.fare.split(".");const v=Math.max(0,Math.round(+i.value||0));if(FARE[k][s][w]!==v){FARE[k][s][w]=v;changed++;}});
     if(typeof setMember==="function")setMember(typeof member==="boolean"?member:false);

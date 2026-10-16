@@ -2196,7 +2196,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
               <option value="activity">Outdoor activity session, with Activate: &pound;30 a person</option>
             </select></div>
           <div class="field"><label for="evSize">Group size: <span id="evSizeOut" class="mono">12</span> players</label>
-            <input class="slider" type="range" id="evSize" min="4" max="40" value="12"></div>
+            <input class="slider" type="range" id="evSize" min="4" max="40" value="12" data-base="4"></div>
           <div class="field" data-ph="1"><span class="phtag">Proposed: slots are sample</span><label for="evDate">Preferred date</label><input id="evDate" type="date">
             <div class="choice choice4" style="margin-top:8px" id="evSess" role="group" aria-label="Session">
               <button data-sess="full" aria-pressed="true">Full day<small>Arrive 09:30</small></button>
@@ -2212,7 +2212,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <div class="kv"><span>Session</span><b id="qPack">&pound;480</b></div>
             <div class="kv" id="qDiscRow" hidden><span>Group discount</span><b id="qFood">&pound;0</b></div>
             <div class="row" style="justify-content:space-between;margin-top:12px"><span class="eyebrow">Total</span><b class="mono" style="font-size:30px;font-weight:600" id="qTotal">&pound;480</b></div>
-            <p class="eyebrow" style="margin-top:4px">Deposit today: <b id="qDep">&pound;120</b> &middot; balance a week before</p>
+            <p class="eyebrow" style="margin-top:4px">Paid in full today, by card: <b id="qDep">&pound;480</b></p>
             <button class="btn primary wide" style="margin-top:14px" id="qBook">Hold this slot</button>
             <p class="tiny" id="qMsg" style="margin-top:10px"></p>
           </div></div>
@@ -2316,7 +2316,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
                 <button data-sess="afternoon" aria-pressed="false">Afternoon<small>13:30 to 16:30</small></button>
               </div></div>
             <div class="field"><label for="acSize">How many are coming: <span id="acSizeOut" class="mono">8</span></label>
-              <input class="slider" type="range" id="acSize" min="4" max="40" value="8"></div>
+              <input class="slider" type="range" id="acSize" min="8" max="40" value="8" data-base="8"></div>
             <p class="tiny" id="acRule" style="margin-top:-6px"></p>
             <p class="note"><b>Why</b><span>Eight is the minimum you set on 16 October, because an instructor costs you &pound;180 for a day and four people at &pound;40 does not cover it. The site says so before anyone fills in a form, rather than after you have read the booking.</span></p>
           </div>
@@ -3567,7 +3567,6 @@ function draw(){
   renderAddons();
   $("#sumDate").textContent=fmtLong(d.dt)+(d.real?", "+d.n:"")+(state.sess==="half"&&!isEv?", "+LBL.half:"");
   $("#sumLines").innerHTML=t.lines.length?t.lines.map(l=>l.v===null?'<div class="kv"><span style="color:var(--text-3)">'+l.n+'</span><b></b></div>':'<div class="kv"><span>'+l.n+'</span><b>'+gbp2(l.v)+'</b></div>').join(""):'<p class="small muted">Nothing selected yet.</p>';
-  $("#sumTotal").textContent=gbp2(t.total);
   $("#sumSaved").textContent=t.saved?"Member prices saved "+gbp2(t.saved):"";
   $("#payAmt").textContent=gbp2(t.total);
   renderPlayers();
@@ -3575,6 +3574,11 @@ function draw(){
   const need=minFor(state.date,state.sess), short=need&&players()<need;
   const kitLeft=kitFree(isoOf(D0)), overKit=kitLeft!=null&&state.q.hire>kitLeft;
   $("#nextBtn").disabled=(state.step===1&&(players()===0||short||full||overCap||overKit));
+  /* a booking the page will refuse is not given a price: a total reads as a quote, and a visitor who has been quoted
+     believes the booking exists. The warning underneath says which rule it is. Nothing selected still shows zero,
+     because zero is the truth for nothing. */
+  const refused=state.step===1&&players()>0&&(short||full||overCap||overKit);
+  $("#sumTotal").textContent=refused?"not yet":gbp2(t.total);
   const warn=$("#bkWarn");
   if(warn){const msg=full?"This one is full. Pick another date and we will see you there."
       :overCap?("There "+(D0.left===1?"is one place":"are "+D0.left+" places")+" left on this one, so take "+(D0.left===1?"it":"them")+" or pick another date.")
@@ -3752,23 +3756,32 @@ function gWhen(iso){const dt=iso?new Date(iso+"T08:00:00"):null;
 function gNextOpen(n){return DATES.filter(d=>!d.tba&&d.dt>=new Date(Date.now()-8*3600e3)).slice(0,n)
   .map(d=>d.dt.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"}));}
 function eCalc(){
-  const kind=$("#evPack").value,n=+$("#evSize").value,per=gPer(kind);
-  $("#evSizeOut").textContent=n;$("#qSize").textContent=n;
+  const kind=$("#evPack").value,per=gPer(kind);
   const airsoft=(kind==="hire"||kind==="walkon");
+  /* ---- the rule first, the money second ----
+     A control that can be dragged to a number the rules forbid, beside a price for that number, tells a visitor the
+     booking exists. Disabling the button afterwards is a correction, not an answer. So the minimum is worked out
+     before the headcount is read, the slider floor follows it, and a value below the floor comes up with it. */
+  const MINS=((CONFIG.schedule||{}).minPlayers)||{};
+  const nerfMin=+MINS.nerf||0, advMin=+((CONFIG.adventure||{}).minPlayers)||0;
+  const when=gWhen(gDate());
+  const needsFull=when.kind==="locked"&&airsoft;
+  let min=kind==="nerf"?nerfMin:(kind==="activity"?advMin:(GSESS[gSess]&&GSESS[gSess].minPlayers||0));
+  if(when.kind==="locked"&&kind!=="activity")min=Math.max(min,GMIN);
+  const sl=$("#evSize"), base=+(sl&&sl.dataset.base)||4, floor=Math.max(base,min||0);
+  if(sl){if(+sl.min!==floor)sl.min=String(floor); if(+sl.value<floor)sl.value=String(floor);}
+  const n=sl?+sl.value:0;
+  $("#evSizeOut").textContent=n;$("#qSize").textContent=n;
   const row=$("#evSess"); if(row)row.closest(".field").hidden=!airsoft;
   let gross=per*n, disc=0;
   if(kind==="hire"&&GRULE.discountPct&&n>=(GRULE.discountFrom||12))disc=Math.round(gross*(GRULE.discountPct/100)*100)/100;
   const tot=gross-disc;
   $("#qPack").textContent=gbp(gross);
   const dr=$("#qDiscRow"); if(dr){dr.hidden=!disc;$("#qFood").textContent="-"+gbp(disc);}
-  $("#qTotal").textContent=gbp(tot);$("#qDep").textContent=gbp(tot);
-  /* the site's own copy of the minimums: the console's session list is not shipped to the page */
-  const MINS=((CONFIG.schedule||{}).minPlayers)||{};
-  const nerfMin=+MINS.nerf||0;
-  const when=gWhen(gDate());
-  const needsFull=when.kind==="locked"&&airsoft;
-  let min=kind==="nerf"?nerfMin:(kind==="activity"?0:(GSESS[gSess]&&GSESS[gSess].minPlayers||0));
-  if(when.kind==="locked"&&kind!=="activity")min=Math.max(min,GMIN);
+  const noDate=when.kind==="none", shut=when.kind==="closed"||!!gEventOn(gDate());
+  $("#qTotal").textContent=noDate?"pick a date":shut?"not that day":gbp(tot);
+  $("#qDep").textContent=(noDate||shut)?"":gbp(tot);
+  if(noDate||shut)$("#qPack").textContent="";
   /* a locked date is a full day or it is nothing */
   if(needsFull&&gSess!=="full"){gSess="full";$$("#evSess button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.sess==="full"));}
   $$("#evSess button").forEach(b=>{b.disabled=needsFull&&b.dataset.sess!=="full";});
@@ -3777,7 +3790,7 @@ function eCalc(){
     if(kind==="hire"&&GRULE.discountPct)bits.push(n>=(GRULE.discountFrom||12)?GRULE.discountPct+"% group discount applied.":GRULE.discountPct+"% comes off at "+(GRULE.discountFrom||12)+" rental players.");
     if(kind==="walkon")bits.push("Walk-ons are "+gbp(gPer("walkon"))+" a player, with no group discount.");
     if(kind==="nerf")bits.push("Nerf Wars runs 90 minutes for ten players or more, ages seven and up, in its own part of the site, so it can run while airsoft is on.");
-    if(kind==="activity")bits.push("Activity days are run by "+PARTNER+". Press Book and we will take you there.");
+    if(kind==="activity")bits.push("Activity days are run by "+PARTNER+(advMin?", for "+advMin+" people or more":"")+". Press Book and we will take you there.");
     if(airsoft)bits.push("On a Saturday or Sunday any group size is welcome. On any other date we need ten players and a full day, unless the date is already running.");
     if(min&&n<min)bits.push("<span class=\"warn\">This one needs at least "+min+" players.</span>");
     const ev=gEventOn(gDate());
@@ -3876,7 +3889,12 @@ $("#brandReset").addEventListener("click",()=>{
   const fmtLongLocal=d=>d.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
   /* the first date they could realistically come: tomorrow */
   (function(){const d=new Date();d.setDate(d.getDate()+7);st.date=d.toISOString().slice(0,10);$("#acDate").value=st.date;
-    $("#acDate").min=new Date(Date.now()+86400e3).toISOString().slice(0,10);})();
+    $("#acDate").min=new Date(Date.now()+86400e3).toISOString().slice(0,10);
+    /* the slider cannot offer a party smaller than you take: the floor is your minimum, read from the config rather
+       than written into the markup, so it follows the number you set rather than going stale beside it. */
+    const sl=$("#acSize"), m=+A.minPlayers||0;
+    if(sl&&m>0){sl.min=String(m); if(+sl.value<m)sl.value=String(m); st.n=+sl.value;
+      const out=$("#acSizeOut"); if(out)out.textContent=st.n;}})();
 
   function paintSlots(){
     const host=$("#acSlots"); if(!host)return;
@@ -3907,8 +3925,9 @@ $("#brandReset").addEventListener("click",()=>{
       '<div class="kv"><span>'+sessLabel(st.sess)+'</span><b>'+money(perHead())+' a person</b></div>'+
       '<div class="kv"><span>Attendees</span><b>'+st.n+'</b></div>'+
       (picked.length?picked.map(p=>'<div class="kv"><span>'+p+'</span><b></b></div>').join(""):'<div class="kv"><span>Activities</span><b>To choose</b></div>');
-    $("#acTotal").textContent=money(total());
-    $("#acDepNote").textContent=money(deposit())+" deposit now, "+money(total()-deposit())+" on the day";
+    const tooFew=st.n<(+A.minPlayers||0);
+    $("#acTotal").textContent=tooFew?(A.minPlayers+" people or more"):money(total());
+    $("#acDepNote").textContent=tooFew?"":(money(deposit())+" deposit now, "+money(total()-deposit())+" on the day");
     const dep=$("#acDepLine");
     if(dep)dep.textContent="We take "+Math.round((A.depositPct||0.3)*100)+" per cent now and the rest when you arrive. Cancel "+(A.refundDays||14)+" days or more before the day and the deposit comes back in full; after that we have the staff booked, so it does not.";
     const amt=$("#acPayAmt"); if(amt)amt.innerHTML="&pound;"+(Math.round(deposit()*100)/100).toLocaleString("en-GB");

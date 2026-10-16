@@ -860,7 +860,7 @@ html[data-world="adventure"] .mapband{--plate-bg:#0B0E05;--plate-surface:#1A2110
 .cbcard{position:relative;width:min(420px,100%);background:var(--surface);border:1px solid var(--line-strong);border-radius:4px;padding:clamp(18px,2.4cqi,28px);box-shadow:var(--shadow)}
 .cbx{position:absolute;top:8px;right:10px;font-size:22px;line-height:1;color:var(--text-2);min-height:44px;min-width:44px}
 .check.off{opacity:.55}
-.steps div.done{opacity:.7}
+/* a finished step is marked by the green, not by fading it: 9px uppercase at .7 fell to 3.4:1 on the pale ground */
 /* ---- part: motion.css ----
    Reduced motion, globally. This has to be pasted LATE in the sheet: the rules
    that turn off hover transforms are the same specificity as the ones that set

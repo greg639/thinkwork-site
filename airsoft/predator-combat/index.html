@@ -861,6 +861,22 @@ html[data-world="adventure"] .mapband{--plate-bg:#0B0E05;--plate-surface:#1A2110
 .cbx{position:absolute;top:8px;right:10px;font-size:22px;line-height:1;color:var(--text-2);min-height:44px;min-width:44px}
 .check.off{opacity:.55}
 /* a finished step is marked by the green, not by fading it: 9px uppercase at .7 fell to 3.4:1 on the pale ground */
+/* ---------- the activity picker: Activate's register, not Predator's ----------
+   These rows were <label>s inside a .field, so every activity name inherited the 10.5px uppercase mono micro-label
+   meant for the field heading above it, and the qualifier beside it rendered LARGER than the activity. Sentence case,
+   a row you can hit, and the qualifier under the name rather than running on from it. */
+.actslot{margin-bottom:18px}
+.actslot .slotname{font-family:var(--ui);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);font-weight:700;margin:0 0 9px}
+.actpicks{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:8px}
+.actpick{display:flex;gap:11px;align-items:flex-start;padding:11px 13px;border:1px solid var(--line);border-radius:10px;
+  background:var(--surface);cursor:pointer;font-family:var(--ui);font-size:15px;text-transform:none;letter-spacing:0;color:var(--text)}
+.actpick:hover{border-color:var(--line-strong)}
+.actpick input{margin-top:2px;accent-color:var(--red);width:18px;height:18px;flex:none}
+.actpick b{display:block;font-weight:700;font-size:15px;text-transform:none;letter-spacing:0;line-height:1.25;color:var(--text)}
+.actpick em{display:block;font-style:normal;font-size:12.5px;text-transform:none;letter-spacing:0;color:var(--text-3);margin-top:3px;line-height:1.3}
+.actpick.sel{border-color:var(--red);background:var(--surface-2)}
+.actpick.off{opacity:.42;cursor:default}
+@container page (max-width:560px){.actpicks{grid-template-columns:1fr}}
 /* ---- part: motion.css ----
    Reduced motion, globally. This has to be pasted LATE in the sheet: the rules
    that turn off hover transforms are the same specificity as the ones that set
@@ -2852,7 +2868,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
     </div>
     <div class="legal">
       <span>Design proposal by ThinkWork for discussion with you at Predator Combat. Prices, membership and what it includes, ages, the running order, your activities, team building and Phoenix Program wording, your address, phone numbers, emails and colours are your own, taken from predator-combat.com and activate-outdoor-adventure.com on 2 October 2026. The weekend game days and the Halloween date are from our call on 13 October 2026. Everything flagged in the toolbar's placeholder mode is sample content awaiting your real figures. Every photograph is your own and says which of your pages it came from; the pin on the map is placed off your postcode. Not the live site. No live payments.</span>
-      <span class="mono">thinkwork.info &middot; built 17 Oct 2026 09:54 UK</span>
+      <span class="mono">thinkwork.info &middot; built 17 Oct 2026 10:55 UK</span>
     </div>
   </div>
 </footer>
@@ -3914,12 +3930,13 @@ $("#brandReset").addEventListener("click",()=>{
     host.innerHTML=slots.map(sl=>{
       const chosen=st.picks[sl]||[];
       const whole=chosen.some(k=>actOf(k).whole);
-      return '<div class="field"><label>'+sessLabel(sl)+'</label><div class="grid" style="gap:6px">'+
+      return '<div class="actslot"><p class="slotname">'+sessLabel(sl)+'</p><div class="actpicks">'+
         ACTS.map(a=>{
           const on=chosen.indexOf(a.key)>=0;
           const full=!on&&(whole||chosen.length>=perSlot||(a.whole&&chosen.length>0));
-          return '<label class="check'+(full?" off":"")+'"><input type="checkbox" data-ac-slot="'+sl+'" data-ac-key="'+a.key+'"'+(on?" checked":"")+(full?" disabled":"")+'>'+
-            '<span><b>'+a.n+'</b>'+(a.whole?' <span class="tiny">takes the whole session</span>':'')+(a.ageMin?' <span class="tiny">ages '+a.ageMin+' and over</span>':'')+'</span></label>';
+          const notes=[]; if(a.whole)notes.push("Takes the whole session"); if(a.ageMin)notes.push("Ages "+a.ageMin+" and over");
+          return '<label class="actpick'+(on?" sel":"")+(full?" off":"")+'"><input type="checkbox" data-ac-slot="'+sl+'" data-ac-key="'+a.key+'"'+(on?" checked":"")+(full?" disabled":"")+'>'+
+            '<span><b>'+a.n+'</b>'+(notes.length?'<em>'+notes.join(" &middot; ")+'</em>':'')+'</span></label>';
         }).join("")+'</div></div>';
     }).join("");
     const archery=slots.some(sl=>(st.picks[sl]||[]).indexOf("archery")>=0);

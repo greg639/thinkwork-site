@@ -1579,7 +1579,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           <ul>
             <li>Rock climbing and abseiling</li><li>Archery</li><li>Canoeing and kayaking</li><li>Orienteering and bushcraft</li><li>Hill and mountain walking</li><li>Eight people or more, any day of the week</li>
           </ul>
-          <div class="foot"><span class="age">Ages 4+</span><button class="btn primary sm" data-go="bookact" data-world-go="adventure">Book an activity</button></div>
+          <div class="foot"><span class="age">Ages 4+</span><button class="btn primary sm" data-go="bookact">Book an activity</button></div>
         </div>
       </div>
       <p class="note"><b>Why</b><span>These three slabs are your booking page and your Nerf Wars page, laid out so the three doors sit side by side; the activity slab carries the prices you set on the call of 16 October. Your site puts the prices two clicks away from the game pages and the game pages two clicks away from the phone number. Here the price and the button are on the same card.</span></p>
@@ -1969,7 +1969,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 </section>
 
 <!-- ============ WALK-ON DAYS ============ -->
-<section data-screen="days" hidden>
+<section data-screen="days" data-world="airsoft" hidden>
   <div class="band tight">
     <div class="wrap">
       <p class="eyebrow">Calendar</p>
@@ -1989,7 +1989,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 <!-- @@EVENTS-SCREEN -->
 
 <!-- ============ BOOKING: walk-ons ============ -->
-<section data-screen="book" hidden>
+<section data-screen="book" data-world="airsoft" hidden>
   <div class="band tight">
     <div class="wrap">
       <p class="eyebrow">Book a day. One person or a few. No phone call, no booking fee.</p>
@@ -2120,7 +2120,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 </section>
 
 <!-- ============ FARES & MEMBERSHIP ============ -->
-<section data-screen="members" hidden>
+<section data-screen="members" data-world="airsoft" hidden>
   <div class="band tight">
     <div class="wrap">
       <p class="eyebrow">Fares</p>
@@ -2176,7 +2176,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 </section>
 
 <!-- ============ SESSIONS: groups and parties ============ -->
-<section data-screen="parties" hidden>
+<section data-screen="parties" data-world="airsoft" hidden>
   <div class="band tight plate photoband brief">
     <span class="bandcredit">Illustrative background</span>
     <div class="wrap">
@@ -2852,7 +2852,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
     </div>
     <div class="legal">
       <span>Design proposal by ThinkWork for discussion with you at Predator Combat. Prices, membership and what it includes, ages, the running order, your activities, team building and Phoenix Program wording, your address, phone numbers, emails and colours are your own, taken from predator-combat.com and activate-outdoor-adventure.com on 2 October 2026. The weekend game days and the Halloween date are from our call on 13 October 2026. Everything flagged in the toolbar's placeholder mode is sample content awaiting your real figures. Every photograph is your own and says which of your pages it came from; the pin on the map is placed off your postcode. Not the live site. No live payments.</span>
-      <span class="mono">thinkwork.info &middot; built 16 Oct 2026 22:25 UK</span>
+      <span class="mono">thinkwork.info &middot; built 17 Oct 2026 09:54 UK</span>
     </div>
   </div>
 </footer>
@@ -3170,24 +3170,30 @@ $("#burger").addEventListener("click",()=>{const n=$("#nav");const o=n.classList
   const hero=$("#hero"); if(!hero)return;
   /* the opener's words come from the config: business.headline and business.strap for the airsoft world (the default),
      copy.adventure.headline and copy.adventure.strap for the other. The headline is one sentence per line, the last in the accent. */
-  const H={airsoft:{head:"Airsoft. Adventure. One site.",lede:"Ireland's oldest airsoft field and an outdoor adventure centre on one woodland site, thirty minutes from Belfast.",cta:"Book a game day"},
-           adventure:{head:"Climb. Paddle. Breathe.",lede:"Rock climbing, abseiling, archery, canoeing, kayaking, orienteering and bushcraft in County Down, for families, schools, groups and companies.",cta:"Book an activity"}};
+  /* each opener and each door carries where its button goes, not only what it says. A door labelled "Book an
+     activity" that opened the airsoft game day was the fault Greg found on 17 October: the words changed with the
+     world and the destination never did. */
+  const H={airsoft:{head:"Airsoft. Adventure. One site.",lede:"Ireland's oldest airsoft field and an outdoor adventure centre on one woodland site, thirty minutes from Belfast.",cta:"Book a game day",go:"book"},
+           adventure:{head:"Climb. Paddle. Breathe.",lede:"Rock climbing, abseiling, archery, canoeing, kayaking, orienteering and bushcraft in County Down, for families, schools, groups and companies.",cta:"Book an activity",go:"bookact"}};
   const G={
-    airsoft:{line:"Game day.",lede:"More than twenty years of airsoft in the woods: walk on with your own kit for £25, or take the rental package for £45, full day.",cta:"Book airsoft"},
-    laser:{line:"Mixed ages.",lede:"Nerf Wars for six to sixteen players from age 7: blasters, darts, eye protection, a marshal and a battle zone.",cta:"Book Nerf Wars"},
-    paintball:{line:"Out there.",lede:"Climbing, abseiling, archery, canoeing, kayaking, orienteering and bushcraft with Activate, for individuals, groups and teams.",cta:"Book an activity"}
+    airsoft:{line:"Game day.",lede:"More than twenty years of airsoft in the woods: walk on with your own kit for £25, or take the rental package for £45, full day.",cta:"Book airsoft",go:"book"},
+    laser:{line:"Mixed ages.",lede:"Nerf Wars for six to sixteen players from age 7: blasters, darts, eye protection, a marshal and a battle zone.",cta:"Book Nerf Wars",go:"parties",pick:"nerf"},
+    paintball:{line:"Out there.",lede:"Climbing, abseiling, archery, canoeing, kayaking, orienteering and bushcraft with Activate, for individuals, groups and teams.",cta:"Book an activity",go:"bookact"}
   };
   /* the adventure world's own doors: Climb and Paddle swap the opener's words; its third door is the gate back to Predator */
   const GA={
-    climb:{line:"Up the rock.",lede:"Rock climbing and abseiling with Activate, for individuals, families, schools and groups.",cta:"Book climbing"},
-    paddle:{line:"On the water.",lede:"Canoeing and kayaking with Activate for kids, families and groups, on the water as a crew for a morning, an afternoon or a full day.",cta:"Book paddling"}
+    climb:{line:"Up the rock.",lede:"Rock climbing and abseiling with Activate, for individuals, families, schools and groups.",cta:"Book climbing",go:"bookact"},
+    paddle:{line:"On the water.",lede:"Canoeing and kayaking with Activate for kids, families and groups, on the water as a crew for a morning, an afternoon or a full day.",cta:"Book paddling",go:"bookact"}
   };
   const h1=$("#h1"), world=()=>document.documentElement.dataset.world==="adventure"?"adventure":"airsoft";
   const setHead=(text,line)=>{const parts=(text.match(/[^.!?]+[.!?]+/g)||[text]).map(t=>t.trim()).filter(Boolean);const em=line||parts.pop()||"";
     h1.innerHTML=parts.join("<br>")+(parts.length?"<br>":"")+'<em id="h1Line"></em>';$("#h1Line").textContent=em;};
-  const paint=(g)=>{const base=H[world()]||H.airsoft;
-    if(g){setHead(base.head,g.line);$("#heroLede").textContent=g.lede;$("#heroCta").textContent=g.cta;}
-    else{setHead(base.head);$("#heroLede").textContent=base.lede;$("#heroCta").textContent=base.cta;}};
+  const paint=(g)=>{const base=H[world()]||H.airsoft, cta=$("#heroCta"), src=g||base;
+    if(g){setHead(base.head,g.line);$("#heroLede").textContent=g.lede;}
+    else{setHead(base.head);$("#heroLede").textContent=base.lede;}
+    if(cta){cta.textContent=src.cta;
+      cta.dataset.go=src.go||base.go||"book";
+      if(src.pick)cta.dataset.pick=src.pick; else delete cta.dataset.pick;}};
   $$(".gpanel",hero).forEach(b=>b.addEventListener("click",()=>{
     const grp=(b.closest(".games")||{dataset:{}}).dataset.w||"airsoft", k=b.dataset.game, on=b.getAttribute("aria-pressed")==="true";
     if((grp==="airsoft"&&k==="paintball")||(grp==="adventure"&&k==="airsoft")){ if(typeof setWorld==="function") setWorld(grp==="airsoft"?"adventure":"airsoft"); return; }   /* each world's third door is the gate to the other */

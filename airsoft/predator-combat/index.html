@@ -640,6 +640,9 @@ html[data-world="adventure"] .hero .stage img.slide{filter:saturate(1.08) contra
 /* ---------- footer ---------- */
 footer.site{position:relative;padding-block:48px 28px;overflow:clip}
 footer.site::before{content:"";display:block;position:absolute;left:0;right:0;top:0;height:8px;background:var(--hazard)}
+/* the skyline is an airsoft device, a treeline in hazard yellow. On Activate's cream ground it renders as pale
+   vertical bars with no meaning, which is what Greg saw across the bottom of the footer. */
+html[data-world="adventure"] .skyline{display:none}
 .skyline{position:absolute;left:0;right:0;bottom:0;height:120px;opacity:.12;pointer-events:none;background:
   linear-gradient(transparent 0,transparent 0),
   repeating-linear-gradient(90deg,var(--yel) 0 40px,transparent 40px 56px,var(--yel) 56px 120px,transparent 120px 150px,var(--yel) 150px 170px,transparent 170px 210px);
@@ -777,6 +780,10 @@ nav.main.open .worldsw{margin:4px 8px 8px}
 
 /* ---------- the running order: your times as a strip over your photograph ---------- */
 .photoband.runband{--band-img:url(assets/big-game-day.jpg);--band-pos:center 40%}
+html[data-world="adventure"] .photoband::before{filter:saturate(1)}
+@container page (min-width:860px){
+  html[data-world="adventure"] .photoband::after{background:linear-gradient(90deg,color-mix(in srgb,var(--bg) 95%,transparent) 0%,color-mix(in srgb,var(--bg) 88%,transparent) 42%,color-mix(in srgb,var(--bg) 30%,transparent) 74%,transparent 100%)}
+}
 .photoband.runband::after{background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 40%,transparent) 0%,color-mix(in srgb,var(--bg) 93%,transparent) 34%,color-mix(in srgb,var(--bg) 97%,transparent) 100%)}
 .runband .wrap{padding-top:clamp(140px,16cqi,210px)}
 .runorder{list-style:none;margin:22px 0 0;padding:0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:2px solid var(--yel)}
@@ -795,7 +802,18 @@ nav.main.open .worldsw{margin:4px 8px 8px}
 .actv .credit{position:absolute;top:10px;right:10px;z-index:3;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#F2F2F3;background:#121212;padding:3px 7px;border-radius:2px}
 .actv.plain{background:var(--surface)}
 .actv.plain .gl{background:none}
-.actv.plain .gl b{color:var(--text)}.actv.plain .gl span{color:var(--yel)}
+/* the price is one line: every span inside a tile caption is a block, so the repainting figure added for a console
+   price change was breaking "From £30 a person" into three lines. */
+.actv .gl span span{display:inline;margin-top:0;font-size:inherit;letter-spacing:inherit;color:inherit}
+/* an activity whose photograph has not arrived is a tile that looks made rather than a white gap in a wall of
+   photographs. Activate's own ground and ink, with the marker that asks for the picture. */
+.actv.plain{min-width:0;width:100%;max-width:100%;box-sizing:border-box;background-color:#EFE9DC;border:1px solid #C9BFA6;border-radius:inherit;display:flex;align-items:flex-end;min-height:190px;position:relative}
+.actv.plain::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(160deg,rgba(255,255,255,.5),rgba(201,191,166,.3));pointer-events:none}
+.actv.plain .gl{position:relative;left:auto;right:auto;bottom:auto;width:100%}
+
+
+
+.actv.plain .gl b{color:#241B10}.actv.plain .gl span{color:#8C1220}
 @container page (max-width:960px){
   .evgrid{grid-template-columns:1fr}.evposter{max-width:300px;transform:none}
   .wall{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:150px}
@@ -2267,9 +2285,9 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <figure class="actv"><img src="assets/door-adventure.jpg" width="800" height="600" alt="Abseiling, from our team building page" loading="lazy" decoding="async"><span class="credit">From our team building page</span><span class="gl"><b>Abseiling</b><span>From &pound;<span data-adv="half">30</span> a person</span></span></figure>
         <figure class="actv"><img src="assets/hero-ridge-1.jpg" width="1920" height="800" alt="Two walkers on a ridge, from our homepage" loading="lazy" decoding="async"><span class="credit">From our homepage</span><span class="gl"><b>Hill and mountain walking</b><span>From &pound;<span data-adv="half">30</span> a person</span></span></figure>
         <figure class="actv"><img src="assets/kids-kayak.jpg" width="800" height="600" alt="Kayaking, from our outdoor activities page" loading="lazy" decoding="async"><span class="credit">From our activities page</span><span class="gl"><b>Kayaking</b><span>From &pound;<span data-adv="half">30</span> a person</span></span></figure>
-        <figure class="actv plain"><span class="gl"><b>Canoeing</b><span>From &pound;<span data-adv="half">30</span> a person</span></span></figure>
-        <figure class="actv plain"><span class="gl"><b>Archery</b><span>From &pound;<span data-adv="half">30</span> a person &middot; ages 10 and over</span></span></figure>
-        <figure class="actv plain"><span class="gl"><b>Orienteering</b><span>From &pound;<span data-adv="half">30</span> a person</span></span></figure>
+        <figure class="actv plain" data-ph="1"><span class="phtag">Your photograph goes here</span><span class="gl"><b>Canoeing</b><span>From &pound;<span data-adv="half">30</span> a person</span></span></figure>
+        <figure class="actv plain" data-ph="1"><span class="phtag">Your photograph goes here</span><span class="gl"><b>Archery</b><span>From &pound;<span data-adv="half">30</span> a person &middot; ages 10 and over</span></span></figure>
+        <figure class="actv plain" data-ph="1"><span class="phtag">Your photograph goes here</span><span class="gl"><b>Orienteering</b><span>From &pound;<span data-adv="half">30</span> a person</span></span></figure>
         <figure class="actv"><img src="assets/bushcraft.jpg" width="800" height="600" alt="Bushcraft, from our team building page" loading="lazy" decoding="async"><span class="credit">From our team building page</span><span class="gl"><b>Bushcraft</b><span>From &pound;<span data-adv="half">30</span> a person</span></span></figure>
       </div>
       <p class="note"><b>Why</b><span>Your activities at the prices you set on 16 October: &pound;30 a person for a half day and &pound;40 for a full day, the same whichever activity. Canoeing, orienteering and archery have no picture of yours yet, so they sit as plain tiles rather than borrowing someone else's photograph. Send three and they drop in. Adventure boot camps and corporate training are off this list because they are the Phoenix Program and a quoted day, both of which cost more than &pound;30.</span></p>
@@ -2431,7 +2449,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         </div>
         <div>
           <div class="tiles" style="grid-template-columns:1fr;grid-template-rows:auto">
-            <figure class="tile" style="aspect-ratio:16/10"><img src="assets/rocks-group.jpg" alt="A group on the rocks, from our Phoenix Program page" width="800" height="600" loading="lazy" decoding="async"><span class="credit">From our Phoenix page</span>
+            <figure class="tile" style="aspect-ratio:16/10"><img src="assets/team-build.jpg" alt="A team day in the woods, from our team building page" width="800" height="600" loading="lazy" decoding="async"><span class="credit">From our team building page</span>
               <figcaption class="cap"><span class="k">A group</span><b>On the rocks</b></figcaption></figure>
           </div>
           <div class="card pad" style="margin-top:14px">
@@ -2844,19 +2862,26 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
       <div>
         <img data-w="airsoft" class="foot-mark" src="assets/logo.png" width="300" height="300" alt="Predator Combat" loading="lazy" decoding="async" style="width:120px">
         <img data-w="adventure" class="foot-mark" src="assets/logo-activate.png" width="250" height="248" alt="Activate Outdoor Adventure" loading="lazy" decoding="async" style="width:120px">
-        <p style="font-size:15px;color:var(--text-2);max-width:34ch;margin-top:14px">Predator Combat<br>Ballynahinch, County Down<br>BT24 8NF</p>
+        <p style="font-size:15px;color:var(--text-2);max-width:34ch;margin-top:14px"><b data-w="airsoft">Predator Airsoft</b><b data-w="adventure">Activate Outdoor Adventure</b><br>Ballynahinch, County Down<br>BT24 8NF</p>
         <p class="mono" style="font-size:15px;margin-top:12px"><a href="tel:+442897565651" style="text-decoration:none">028 9756 5651</a></p>
-        <p class="mono" style="font-size:13px;margin-top:6px"><a href="mailto:info@predator-combat.com" style="text-decoration:none">info@predator-combat.com</a></p>
-        <p class="mono" style="font-size:13px;margin-top:6px"><a href="mailto:info@activate-outdoor-adventure.com" style="text-decoration:none">info@activate-outdoor-adventure.com</a></p>
+        <p class="mono" style="font-size:13px;margin-top:6px" data-w="airsoft"><a href="mailto:info@predator-combat.com" style="text-decoration:none">info@predator-combat.com</a></p>
+        <p class="mono" style="font-size:13px;margin-top:6px" data-w="adventure"><a href="mailto:info@activate-outdoor-adventure.com" style="text-decoration:none">info@activate-outdoor-adventure.com</a></p>
       </div>
-      <div><h4>Menu</h4><ul>
-        <li><button data-go="parties">Book a session</button></li>
-        <li><button data-go="days">Game days</button></li>
-        <li><button data-go="book">Book a walk-on</button></li>
-        <li><button data-go="members">Fares</button></li>
-        <li><button data-go="activities">Outdoor activities</button></li>
-        <li><button data-go="team">Team building</button></li>
-        <li><button data-go="phoenix">The Phoenix Program</button></li></ul></div>
+      <div><h4>Menu</h4>
+        <ul data-w="airsoft">
+          <li><button data-go="book">Book a walk-on</button></li>
+          <li><button data-go="days">Game days</button></li>
+          <li><button data-go="parties">Groups and parties</button></li>
+          <li><button data-go="members">Fares</button></li>
+          <li><button data-go="activities">Outdoor activities with Activate</button></li>
+        </ul>
+        <ul data-w="adventure">
+          <li><button data-go="bookact">Book an activity day</button></li>
+          <li><button data-go="activities">Outdoor activities</button></li>
+          <li><button data-go="team">Team building</button></li>
+          <li><button data-go="phoenix">The Phoenix Program</button></li>
+          <li><button data-go="book">Airsoft with Predator</button></li>
+        </ul></div>
       <div><h4>Two brands, one site</h4><ul>
         <li>Predator Airsoft: Ireland's oldest airsoft field</li><li>More than twenty years of airsoft events</li><li>Activate Outdoor Adventure: climbing, paddling, bushcraft, team building</li><li>Woodland site, Ballynahinch</li><li>Thirty minutes from Belfast</li></ul></div>
       <div><h4>The prices</h4><ul data-w="airsoft">
@@ -2867,8 +2892,8 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
       </div>
     </div>
     <div class="legal">
-      <span>Design proposal by ThinkWork for discussion with you at Predator Combat. Prices, membership and what it includes, ages, the running order, your activities, team building and Phoenix Program wording, your address, phone numbers, emails and colours are your own, taken from predator-combat.com and activate-outdoor-adventure.com on 2 October 2026. The weekend game days and the Halloween date are from our call on 13 October 2026. Everything flagged in the toolbar's placeholder mode is sample content awaiting your real figures. Every photograph is your own and says which of your pages it came from; the pin on the map is placed off your postcode. Not the live site. No live payments.</span>
-      <span class="mono">thinkwork.info &middot; built 17 Oct 2026 10:55 UK</span>
+      <span>Design proposal by ThinkWork, for discussion with you. Your prices, ages, running order, activities, team building and Phoenix wording, address, numbers, emails and colours are your own, taken from predator-combat.com and activate-outdoor-adventure.com on 2 October 2026 and from our calls of 13 and 16 October. Every photograph is yours and says which page it came from. Anything in amber is sample content waiting for your figures. Not the live site, and no live payments.</span>
+      <span class="mono">thinkwork.info &middot; built 17 Oct 2026 16:05 UK</span>
     </div>
   </div>
 </footer>

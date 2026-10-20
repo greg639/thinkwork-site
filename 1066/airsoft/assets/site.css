@@ -795,3 +795,29 @@ h1{letter-spacing:-.005em}
   .hero .stage img.slide:first-of-type{opacity:1}
   .hero h1,.hero .lede,.hero-cta,.hero-meta,.hero .eyebrow{animation:none!important}
 }
+
+/* ---- vertical rhythm ---------------------------------------------------- */
+/* section{padding-block:80px} is the base, and two blocks were paying it twice.
+   .nextup is a section AND sets 54px on its wrap, so it sat in 134px of air
+   either side; .statstrip is meant to hug the hero as a strip, not float 80px
+   below it. Measured, not guessed: nextup was 487px tall for four short lines. */
+section.statstrip{padding-block:0}
+section.nextup{padding-block:0}
+
+/* 80px between sections is right at 1400 and far too much on a phone, where it
+   is most of a screen of nothing between every block. */
+@media (max-width:760px){
+  section{padding-block:52px}
+  section.tight{padding-block:0 52px}
+  .nextup .wrap{padding-block:40px}
+  .stat{padding:18px 14px}
+}
+@media (max-width:420px){
+  section{padding-block:44px}
+  section.tight{padding-block:0 44px}
+}
+
+/* the sport switcher was the last target under 32px on a phone */
+@media (max-width:760px){
+  .sportswitch span,.sportswitch a{min-height:34px;padding:4px 15px}
+}

@@ -557,7 +557,7 @@ function normalise(raw){
   d.events=Array.isArray(d.events)?d.events:[];
   d.roster=Object.assign({names:DEFAULT_NAMES.slice(),mix:DEFAULT_MIX.map(x=>x.slice()),noWaiver:[2,7,13,19,26,31,38],under18:[4,11,17,24,33]},d.roster||{});
   if(!Array.isArray(d.roster.names)||!d.roster.names.length)d.roster.names=DEFAULT_NAMES.slice();
-  d.preorders=Array.isArray(d.preorders)&&d.preorders.length?d.preorders:[{key:"lunch",label:"Hot lunches",n:19,price:6},{key:"hpa",label:"HPA fills",n:7,price:3},{key:"bb",label:"Bags of BBs",n:11,price:11}];
+  d.preorders=Array.isArray(d.preorders)&&(d.preorders.length||d.real)?d.preorders:[{key:"lunch",label:"Hot lunches",n:19,price:6},{key:"hpa",label:"HPA fills",n:7,price:3},{key:"bb",label:"Bags of BBs",n:11,price:11}];
   d.products=Array.isArray(d.products)?d.products:[];
   d.members=Array.isArray(d.members)?d.members:[];
   d.entrants=Array.isArray(d.entrants)?d.entrants:[];
@@ -583,6 +583,7 @@ function normalise(raw){
 
 /* ---------- the running days: the same rule the site's calendar is built from ---------- */
 function buildDates(cal,events){
+  if(Array.isArray(cal.dates))return cal.dates.map(x=>Object.assign({kind:"",name:"",detail:"",left:null,cap:cal.cap||40,tba:false,sess:"full",regular:!x.real},x,{dt:new Date(x.iso+"T08:00:00")})).sort((a,b)=>a.dt-b.dt);
   const REG=Object.assign({day:0,dayName:"Sunday",label:"Game day",count:12},cal.regular||{});
   const spaces=(cal.spaces&&cal.spaces.length)?cal.spaces:[14,22,7,31,19,3,26,11,38,16,9,24];
   const BREAK=[cal.breakFrom||"12-25",cal.breakTo||"12-25"].map(x=>String(x).split("-").map(Number));
@@ -631,18 +632,18 @@ function mixRows(d){
   const rows=[];
   for(const row of (d.roster.mix||[])){
     if(!Array.isArray(row)||row.length<2)continue;
-    if(row.length>=4){rows.push([row[0],row[1],row[2],Math.max(0,+row[3]||0)]);continue;}
+    if(row.length>=4){rows.push([row[0],row[1],row[2],Math.max(0,+row[3]||0),row[4]]);continue;}
     const label=String(row[0]||""), n=Math.max(0,+row[row.length-1]||0);
     const hire=/hire|rental/i.test(label)||label.toLowerCase()===String(d.labels.hire||"").toLowerCase();
     rows.push([hire?"hire":"walkon",/half|morning|afternoon|evening/i.test(label)?"half":"full",false,n]);
   }
-  return rows.reduce((a,x)=>a+x[3],0)?rows:DEFAULT_MIX.map(x=>x.slice());
+  return (rows.reduce((a,x)=>a+x[3],0)||d.roster.real)?rows:DEFAULT_MIX.map(x=>x.slice());
 }
 function buildRoster(d,r){
   const R=d.roster, players=[]; let ni=0;
-  const NAMES=(R.names&&R.names.length)?R.names:DEFAULT_NAMES;
-  for(const row of mixRows(d)){const [kind,sess,member,n]=row;for(let i=0;i<n;i++){const t=ticketFor(d,kind,sess);const name=NAMES[ni%NAMES.length]+(ni>=NAMES.length?" "+(Math.floor(ni/NAMES.length)+1):"");ni++;
-    players.push({id:players.length,name,init:initials(name),kind,sess,member:!!member,ticket:t,price:member?t.member:t.price,waiver:true,u18:false,arrived:false,in:false,reg:null,chrono:null,flagged:false,pts:0,kit:kind==="hire",kitOut:false,pre:[]});}}
+  const NAMES=(R.names&&R.names.length)?R.names:R.real?["A player"]:DEFAULT_NAMES;
+  for(const row of mixRows(d)){const [kind,sess,member,n,paidEach]=row;for(let i=0;i<n;i++){const t=ticketFor(d,kind,sess);const name=NAMES[ni%NAMES.length]+(ni>=NAMES.length?" "+(Math.floor(ni/NAMES.length)+1):"");ni++;
+    players.push({id:players.length,name,init:initials(name),kind,sess,member:!!member,ticket:t,price:typeof paidEach==="number"?paidEach:(member?t.member:t.price),waiver:true,u18:false,arrived:false,in:false,reg:null,chrono:null,flagged:false,pts:0,kit:kind==="hire",kitOut:false,pre:[]});}}
   (R.noWaiver||[]).forEach(i=>{if(players[i])players[i].waiver=false;});
   (R.under18||[]).forEach(i=>{if(players[i])players[i].u18=true;});
   /* pre-orders land on named players, spread through the list */
@@ -654,17 +655,18 @@ function buildRoster(d,r){
 /* ---------- bookings: the site's own sample rows, or one per player ---------- */
 function buildBookings(d,dates,players){
   const nonTba=dates.filter(x=>!x.tba);
-  const dateAt=w=>w==="next"||w==null?nonTba[0]:(typeof w==="number"?nonTba[Math.min(w,nonTba.length-1)]:nonTba[0]);
+  const dateAt=w=>typeof w==="string"&&/^\d{4}-\d\d-\d\d$/.test(w)?(dates.find(x=>x.iso===w)||{dt:new Date(w+"T08:00:00"),iso:w,name:"",kind:"",cap:0,left:0})
+    :w==="next"||w==null?nonTba[0]:(typeof w==="number"?nonTba[Math.min(w,nonTba.length-1)]:nonTba[0]);
   const out=[];
   if(d.bookings.length){
     for(const row of d.bookings){
-      const [ref,name,when,walkon,hire,sess,member,status,extras,flag]=row;
+      const [ref,name,when,walkon,hire,sess,member,status,extras,flag,paidAs,dueAs]=row;
       const dt=dateAt(when);if(!dt)continue;
       const items=[];if(walkon)items.push({kind:"walkon",n:walkon});if(hire)items.push({kind:"hire",n:hire});
       let paid=0;const ev=dt.deposit?dt:null;
       for(const it of items){const t=ticketFor(d,it.kind,sess||"full");const unit=ev?(it.kind==="walkon"?ev.deposit:0):(member?t.member:t.price);paid+=unit*it.n*(dt.off?dt.off:1);}
       paid+=(+extras||0);
-      out.push({ref,name,date:dt,items,sess:sess||"full",member:!!member,status:status||"paid",extras:+extras||0,paid:Math.round(paid),flag:!!flag,due:ev?(ev.price-ev.deposit)*(walkon||1):0});
+      out.push({ref,name,date:dt,items,sess:sess||"full",member:!!member,status:status||"paid",extras:+extras||0,paid:typeof paidAs==="number"?paidAs:Math.round(paid),flag:!!flag,due:typeof dueAs==="number"?dueAs:ev?(ev.price-ev.deposit)*(walkon||1):0});
     }
   }else{
     players.forEach((p,i)=>{const dt=nonTba[0];out.push({ref:d.ref+"-"+(1000+i*37).toString(36).toUpperCase().slice(0,4),name:p.name,date:dt,items:[{kind:p.kind,n:1}],sess:p.sess,member:p.member,status:p.waiver?"paid":"waiver",extras:0,paid:p.price,flag:false,due:0});});
@@ -909,6 +911,7 @@ function drawManage(inst){const d=inst.data;
       '<div class="aoc-bd"><p class="aoc-small aoc-muted" style="margin-bottom:10px">A booking off the page: a phone call, a late addition, someone paying cash on the day. It goes on the same list as everything the site takes.</p>'+
       '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Name</span><input class="aoc-f" data-aoc="mbN" placeholder="Who it is for"></div>'+
       '<div class="aoc-fld"><span class="aoc-lbl">Day</span><input class="aoc-f aoc-mono" data-aoc="mbD" type="date"></div></div>'+
+      (inst.opts.store?'<div class="aoc-fld"><span class="aoc-lbl">Email, for the confirmation</span><input class="aoc-f" data-aoc="mbE" type="email" placeholder="name@example.com"></div>':"")+
       (WL?'<div class="aoc-fld"><span class="aoc-lbl">Which side</span><select class="aoc-f" data-aoc="mbWorld">'+opt(Object.keys(WL).map(k=>[k,WL[k]]),inst.sel.world||"")+'</select></div>':"")+
       '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">What they are booking</span><select class="aoc-f" data-aoc="mbW">'+opt(rowsForWorld(d,inst.sel.world||(WL?Object.keys(WL)[0]:"")).map(x=>[x.key,x.label]))+'</select></div>'+
       '<div class="aoc-fld"><span class="aoc-lbl">How many</span><input class="aoc-f aoc-mono" data-aoc="mbP" type="number" min="1" value="1"></div></div>'+
@@ -919,10 +922,14 @@ function drawManage(inst){const d=inst.data;
       '<button class="aoc-btn g" data-aoc-act="mbLink">Send a payment link</button>'+
       '<span class="aoc-small aoc-muted">It shows below with the rest, marked as taken by hand.</span></div>'+
       '<p class="aoc-lbl" style="margin-top:10px" data-aoc="mbMsg">&nbsp;</p></div>')+
-    card('<h3>Booked on the site</h3><span class="aoc-sp"></span>'+chip("This demo","ph"),
+    (inst.opts.store?card('<h3>Booked on the site and by hand</h3><span class="aoc-sp"></span>'+chip("Live","go"),
+      '<div class="aoc-bd"><div data-aoc="siteBk"></div>'+
+      '<div class="aoc-row" style="margin-top:12px"><button class="aoc-btn g" data-aoc-act="demoClear">'+(d.sampleCleared?"Show the sample screens again":"Clear demo data")+'</button>'+
+      '<span class="aoc-small aoc-muted">'+(d.sampleCleared?"The screens that are not live yet say so instead of showing sample figures.":"Takes the sample figures off the screens that are not live yet. Your bookings, events and prices stay exactly as they are.")+'</span></div></div>')
+    :card('<h3>Booked on the site</h3><span class="aoc-sp"></span>'+chip("This demo","ph"),
       '<div class="aoc-bd"><div data-aoc="siteBk"></div>'+
       '<div class="aoc-row" style="margin-top:12px"><button class="aoc-btn g" data-aoc-act="demoClear">Clear demo data</button>'+
-      '<span class="aoc-small aoc-muted">Bookings taken on the site during this walkthrough, kept in this browser. No card is charged and nothing leaves this machine.</span></div></div>')+
+      '<span class="aoc-small aoc-muted">Bookings taken on the site during this walkthrough, kept in this browser. No card is charged and nothing leaves this machine.</span></div></div>'))+
     '<div class="aoc-card"><div class="aoc-bd"><h3>What else you control</h3>'+
     '<p class="aoc-muted" style="max-width:72ch">'+esc(d.manageNote||"Which days run and the places on them, the text and the pictures on every page, and who is coming next time out. Everything here is yours to change without ringing a developer.")+'</p>'+
     '</div></div>';
@@ -935,7 +942,7 @@ function drawSiteBookings(inst){const el=q('[data-aoc="siteBk"]',inst.el);if(!el
   el.innerHTML=B.length
     ?(B.length>12?'<p class="aoc-tiny" style="margin-bottom:6px">The latest 12 of '+B.length+':</p>':"")+'<div class="aoc-tbl-wrap"><table class="aoc-tbl"><thead><tr><th>Reference</th><th>Day</th><th>Booked</th><th>Players</th><th class="num">Paid</th></tr></thead><tbody>'+
       B.slice(0,12).map(b=>'<tr><td class="aoc-mono">'+esc(b.ref)+(b.byHand?'<br><span class="aoc-tiny">by hand</span>':"")+'</td><td>'+esc(b.when||b.iso||"")+'</td><td>'+esc((b.what||"")+", "+(b.sess||""))+'</td><td>'+esc(String(b.players||0))+'</td><td class="num">&pound;'+esc(String(b.paid||0))+'</td></tr>').join("")+'</tbody></table></div>'
-    :'<p class="aoc-muted">Nothing booked on the site yet in this demo. Take a booking on the site and it appears here.</p>';}
+    :'<p class="aoc-muted">'+(inst.opts.store?"Nothing booked yet. A booking on the site, or one you add by hand above, appears here.":"Nothing booked on the site yet in this demo. Take a booking on the site and it appears here.")+'</p>';}
 function paintEvList(inst){const el=q('[data-aoc="evList"]',inst.el);if(!el)return;
   const wf=inst.sel.world||"";inst.evs=((inst.evs||[]).length?inst.evs:[]);const shown=(inst.evs||[]).filter(e=>!wf||e.w===wf);
   el.innerHTML=shown.length?'<p class="aoc-lbl" style="margin-bottom:6px">On the site now</p>'+shown.map(e=>'<div class="aoc-frow"><span><b>'+esc(e.n)+'</b><br><span class="aoc-small aoc-muted">'+esc(e.d||"no date")+' &middot; gates '+esc(e.t||"09:00")+' &middot; &pound;'+esc(String(e.p||0))+(e.ph?' / &pound;'+esc(String(e.ph))+' with a rental':"")+(e.s?' &middot; '+esc(e.s)+' only':"")+(e.minPlayers?' &middot; '+esc(String(e.minPlayers))+' minimum':"")+(e.fullDayOnly?' &middot; all day only':"")+(e.groups===false?' &middot; no groups':"")+(e.cap?' &middot; '+esc(String(e.cap))+' places':"")+(e.start?' &middot; '+esc(e.start)+(e.end?" to "+esc(e.end):""):"")+(e.repeat?' &middot; every '+esc((e.repeat.interval>1?e.repeat.interval+" ":"")+e.repeat.every)+(repeatDates(e.d,e.repeat,3).length?", from "+repeatDates(e.d,e.repeat,3).map(x=>fmtShort(x)).join(", "):""):"")+'</span></span><span class="aoc-chip '+(e.status==="draft"?'ph">Draft, off the site':'go">Live')+'</span></div>').join(""):'';}
@@ -946,7 +953,7 @@ function shell(inst){
   for(const s of SCREENS){if(s.arena&&d.kind==="skirmish")continue;if(s.sec!==sec){sec=s.sec;rail+='<div class="aoc-navsec">'+esc(sec)+'</div>';}rail+='<a data-aoc-go="'+s.key+'" role="button" tabindex="0">'+esc(d.kind==="organiser"&&s.orgLabel?s.orgLabel:(d.kind==="arena"&&s.arenaLabel?s.arenaLabel:s.label))+(later(d,s.key)?'<span class="aoc-tag">Later</span>':(s.tag?'<span class="aoc-tag">'+s.tag+'</span>':''))+'</a>';}
   /* which build is this? The version alone cannot answer it: 0.10.2 looked identical before and after three
      config changes in one day. The stamp is written by the builder; it is wrapped so a hash can normalise it out. */
-  rail+='<div class="aoc-railfoot">AOC '+VERSION+'<br><span class="aoc-build" data-build="20 Oct 2026 17:45">built 20 Oct 2026 17:45 UK</span><br>by ThinkWork</div>';
+  rail+='<div class="aoc-railfoot">AOC '+VERSION+'<br><span class="aoc-build" data-build="20 Oct 2026 22:20">built 20 Oct 2026 22:20 UK</span><br>by ThinkWork</div>';
   const roles=Object.keys(ROLES).map(k=>'<button data-aoc-role="'+k+'" aria-pressed="'+(k===inst.role)+'">'+ROLES[k].label+'</button>').join("");
   const top='<div class="aoc-topstrip">'+
     '<div class="aoc-who"><span class="aoc-avatar" data-aoc="whoAv">O</span><span><span class="aoc-lbl" data-aoc="whoRole">Owner</span><br><b data-aoc="whoName">'+esc(d.team.owner)+'</b></span></div>'+
@@ -955,12 +962,12 @@ function shell(inst){
     '<div class="aoc-next"><span class="aoc-lbl">Next on site</span><br><b data-aoc="evName"></b></div>'+
     '<span class="aoc-sp"></span>'+
     (d.worldLabels?'<select class="aoc-f" data-aoc="topWorld" aria-label="Which side" style="width:auto;max-width:132px">'+opt([["","Both sides"]].concat(Object.keys(d.worldLabels).map(k=>[k,d.worldLabels[k]])))+'</select>':"")+
-    chip("Sample data throughout","ph")+
+    (d.real?chip(d.sampleCleared?"Your records only":"Your records; sample where tagged","go"):chip("Sample data throughout","ph"))+
     '<span class="aoc-chip go" data-aoc="liveChip" hidden>Live</span>'+
     '<div class="aoc-seg" role="group" aria-label="Colours"><button data-aoc-theme="client">Your colours</button><button data-aoc-theme="thinkwork">ThinkWork</button></div>'+
     '<div class="aoc-seg"><button data-aoc-mode-btn aria-pressed="false">Dark</button></div>'+
     '</div>';
-  const screens=SCREENS.filter(s=>!s.arena||d.kind!=="skirmish").map(s=>'<section class="aoc-screen'+(s.key==="proposal"?" aoc-prop":" aoc-pad")+'" data-aoc-screen="'+s.key+'" data-ph="1">'+ph(s.key==="proposal"?"Every figure below is sample until you replace it":"Sample data")+'<div data-aoc-body="'+s.key+'"></div></section>').join("");
+  const screens=SCREENS.filter(s=>!s.arena||d.kind!=="skirmish").map(s=>'<section class="aoc-screen'+(s.key==="proposal"?" aoc-prop":" aoc-pad")+'" data-aoc-screen="'+s.key+'"'+((d.real||[]).indexOf(s.key)>=0?'>':' data-ph="1">'+ph(s.key==="proposal"?"Every figure below is sample until you replace it":"Sample data"))+'<div data-aoc-body="'+s.key+'"></div></section>').join("");
   inst.el.innerHTML='<div class="aoc-desk"><nav class="aoc-rail" aria-label="Console sections">'+rail+'</nav><main class="aoc-main">'+top+screens+'</main></div>'+
     '<div class="aoc-toast" role="status" aria-live="polite"></div><div class="aoc-tip"></div>';
 }
@@ -969,8 +976,11 @@ function shell(inst){
    second later, and what is published here is on the site. This browser only; the go-live version is the database. */
 function stSlug(){try{const p=location.pathname.split("/").filter(Boolean);if(p.length&&/\.html?$/i.test(p[p.length-1]))p.pop();if(p.length&&p[p.length-1]==="aoc")p.pop();return p[p.length-1]||"demo";}catch(e){return "demo";}}
 const ST_KEY=()=>"tw:"+stSlug()+":v1";
-function stRead(inst){try{const r=localStorage.getItem(ST_KEY());const o=r?JSON.parse(r):null;return o&&typeof o==="object"?o:{bookings:[],events:[],prices:{}};}catch(e){return {bookings:[],events:[],prices:{}};}}
-function stWrite(inst,o){try{localStorage.setItem(ST_KEY(),JSON.stringify(o));}catch(e){ /* blocked storage */ }return o;}
+/* The go-live seam (CONTRACT.md, booking platform): a console served by the booking server passes opts.store, an object
+   with read(), write(o) and clear(), and every read and write below goes to the database through it. A prototype passes
+   nothing and keeps this browser's record. */
+function stRead(inst){if(inst.opts.store)return inst.opts.store.read(inst);try{const r=localStorage.getItem(ST_KEY());const o=r?JSON.parse(r):null;return o&&typeof o==="object"?o:{bookings:[],events:[],prices:{}};}catch(e){return {bookings:[],events:[],prices:{}};}}
+function stWrite(inst,o){if(inst.opts.store)return inst.opts.store.write(o,inst);try{localStorage.setItem(ST_KEY(),JSON.stringify(o));}catch(e){ /* blocked storage */ }return o;}
 function toast(inst,m){const t=q(".aoc-toast",inst.el);if(!t)return;t.textContent=m;t.classList.add("show");clearTimeout(inst._toastT);inst._toastT=setTimeout(()=>t.classList.remove("show"),3600);}
 function body(inst,key){return q('[data-aoc-body="'+key+'"]',inst.el);}
 function on(inst,sel,ev,fn){qa(sel,inst.el).forEach(el=>el.addEventListener(ev,fn));}
@@ -999,8 +1009,8 @@ function paintToday(inst){
   q('[data-aoc="evName"]',inst.el).textContent=fmtShort(m.next.dt)+" · "+m.next.name;
   const tiles=q('[data-aoc="todayTiles"]',inst.el); if(!tiles)return;
   tiles.innerHTML=tile("Booked on",n,"",P.filter(p=>p.kind==="walkon").length+" "+d.labels.walkon.toLowerCase()+", "+P.filter(p=>p.kind==="hire").length+" "+d.labels.hire.toLowerCase())+
-    tile("Arrived",arrived+'<div class="aoc-meter"><i style="width:'+(arrived/n*100)+'%"></i></div>')+
-    tile("Checked in",inn+'<div class="aoc-meter go"><i style="width:'+(inn/n*100)+'%"></i></div>',"good")+
+    tile("Arrived",arrived+'<div class="aoc-meter"><i style="width:'+(arrived/(n||1)*100)+'%"></i></div>')+
+    tile("Checked in",inn+'<div class="aoc-meter go"><i style="width:'+(inn/(n||1)*100)+'%"></i></div>',"good")+
     tile("Chrono'd",ch,ch<inn?"alert":"good",ch<inn?(inn-ch)+" in and not yet over the chrono":"everyone in has been over the chrono")+
     tile("Forms outstanding",noWv,noWv?"alert":"good",noWv?"sign on the tablet at the gate":"everyone signed")+
     tile("Taken online",gbp(online),"key","paid by card before the gates open");
@@ -1027,7 +1037,7 @@ function paintToday(inst){
       '<div><span class="aoc-lbl">Same '+esc(m.next.kind)+' last year</span><b style="display:block;font-size:30px;font-weight:700;line-height:1.1;margin-top:4px;color:var(--aoc-text-3)">'+(ly?gbp(ly):"not counted")+'</b><span class="aoc-tiny">'+(ly?(lyP?lyP+" players, ":"")+"counted in "+esc(d.settings.todayTake)+" at the gate":"no record to compare against")+'</span></div>'+
     '</div>'+
     (ly?'<div class="aoc-meter" style="margin-top:14px"><i style="width:'+Math.min(100,Math.round(online/ly*100))+'%"></i></div>':"")+
-    '<p class="aoc-tiny" style="margin-top:8px">Both figures are sample. Yours replace them the first '+esc(m.next.kind)+' it runs.</p>';
+    '<p class="aoc-tiny" style="margin-top:8px">'+((d.real||[]).indexOf("today")>=0?"Paid ahead is counted from the bookings. Last year was never counted, so there is nothing to set it against yet.":"Both figures are sample. Yours replace them the first "+esc(m.next.kind)+" it runs.")+'</p>';
 }
 
 /* ---------- Bookings ---------- */
@@ -1045,7 +1055,7 @@ function paintBookings(inst,query){
   const rows=m.bookings.filter(b=>!qs||(b.name+" "+b.ref).toLowerCase().includes(qs));
   const taken=m.bookings.filter(b=>b.status!=="refunded").reduce((a,b)=>a+b.paid,0), due=m.bookings.reduce((a,b)=>a+b.due,0), players=m.bookings.filter(b=>b.status!=="refunded").reduce((a,b)=>a+b.items.reduce((x,y)=>x+y.n,0),0);
   q('[data-aoc="bkTiles"]',inst.el).innerHTML=tile("Bookings",m.bookings.length,"","on the next dates")+tile("Players",players,"","in this list, "+d.labels.walkon.toLowerCase()+" and "+d.labels.hire.toLowerCase())+tile("Taken",gbp(taken),"key","by card, on your Stripe balance")+tile("Due on the day",gbp(due),"","event balances after deposits");
-  const st=b=>b.status==="refunded"?chip("Refunded","stop"):b.status==="moved"?chip("Moved","info"):b.status==="waiver"?chip("Form unsigned","warn"):chip("Paid","go");
+  const st=b=>b.status==="cancelled"?chip("Cancelled","stop"):b.status==="pending"?chip("Awaiting payment","warn"):b.status==="due"?chip("To pay on the day","info"):b.status==="refunded"?chip("Refunded","stop"):b.status==="moved"?chip("Moved","info"):b.status==="waiver"?chip("Form unsigned","warn"):chip("Paid","go");
   q('[data-aoc="bkTable"]',inst.el).innerHTML=tbl(["Reference","Name","Date","Tickets","Status","num:Paid"],rows.map(b=>'<tr class="aoc-click'+(inst.sel.booking===b.ref?" on":"")+'" data-aoc-book="'+esc(b.ref)+'"><td class="aoc-mono">'+esc(b.ref)+'</td><td>'+esc(b.name)+'</td><td class="aoc-mono">'+fmtShort(b.date.dt)+(b.date.real?' <span class="aoc-tiny">'+esc(b.date.short||b.date.name)+'</span>':"")+'</td><td>'+esc(bookingItems(inst,b))+'</td><td>'+st(b)+'</td><td class="num">'+(b.status==="refunded"?'<s>'+gbp(b.paid)+'</s>':gbp(b.paid))+'</td></tr>').join("")||'<tr><td colspan="6" class="aoc-tiny">Nothing matches.</td></tr>');
   const det=q('[data-aoc="bkDetail"]',inst.el), b=m.bookings.find(x=>x.ref===inst.sel.booking);
   if(!b){det.innerHTML="";return;}
@@ -1064,7 +1074,7 @@ function paintBookings(inst,query){
 /* ---------- Calendar ---------- */
 function drawCalendar(inst){
   const d=inst.data, multi=d.business.sports.length>1;
-  body(inst,"calendar").innerHTML=head("Calendar",(multi?d.business.sports.join(", ")+": one calendar":"Every running day, one calendar, one page per date"),'<button class="aoc-btn p" data-aoc-act="focusAdd">Add an event</button>')+
+  body(inst,"calendar").innerHTML=head("Calendar",d.calendar.summary||(multi?d.business.sports.join(", ")+": one calendar":"Every running day, one calendar, one page per date"),'<button class="aoc-btn p" data-aoc-act="focusAdd">Add an event</button>')+
     '<div class="aoc-grid two">'+
       '<div class="aoc-stack">'+card('',"<div data-aoc='calTable'></div>")+'<div data-aoc="calDetail"></div></div>'+
       card('<h3>Add an event</h3><span class="aoc-sp"></span>'+chip("One-off or repeating","brand"),
@@ -1090,7 +1100,7 @@ function drawCalendar(inst){
 function dateStatus(x,i){return x.tba?chip("Date TBA","warn"):i===0?chip("Next","go"):x.sample?chip("Sample event","ph"):chip("On sale","info");}
 function paintCalendar(inst){
   const d=inst.data,m=inst.m,W=ticketFor(d,"walkon","full");
-  const rows=m.dates.slice(0,12).map((x,i)=>{const sold=x.tba||x.left==null?null:Math.max(0,x.cap-x.left);const pct=sold==null?0:Math.round(sold/x.cap*100);const avg=x.price?x.price:(W.price+W.member)/2;
+  const rows=m.dates.slice(0,d.calendar.dates?120:12).map((x,i)=>{const sold=x.tba||x.left==null?null:Math.max(0,x.cap-x.left);const pct=sold==null?0:Math.round(sold/x.cap*100);const avg=x.price?x.price:(W.price+W.member)/2;
     return '<tr class="aoc-click'+(inst.sel.date===i?" on":"")+'" data-aoc-date="'+i+'"><td class="aoc-mono">'+fmtShort(x.dt)+'</td><td>'+esc(x.name)+(x.real&&!x.sample?" "+chip(esc(x.srcLabel||"Your poster"),"go"):"")+'</td><td style="min-width:120px">'+(sold==null?'<span class="aoc-tiny">not on sale</span>':sold+'<div class="aoc-meter"><i style="width:'+pct+'%"></i></div>')+'</td><td class="aoc-mono">'+x.cap+'</td><td class="num">'+(sold==null?"":gbp(sold*avg))+'</td><td>'+dateStatus(x,i)+'</td></tr>';}).join("");
   q('[data-aoc="calTable"]',inst.el).innerHTML=tbl(["Date","Event","Sold","Capacity","num:Taken","Status"],rows);
   paintCalDetail(inst);
@@ -1642,6 +1652,10 @@ function rCalc(inst){
 /* ---------- arena: fixed slots sold to groups (paintball, laser tag, indoor CQB). kind:"arena" switches the day-shaped screens to slot-shaped ones ---------- */
 const GSTAT={enquiry:["warn","Enquiry","Enquiry"],quoted:["info","Quote sent","Quoted"],deposit:["brand","Deposit paid","Deposit"],paid:["go","Paid in full","Paid"],played:["","Played","Played"]};
 function buildSlots(d){
+  if(d.slots&&Array.isArray(d.slots.list)){const today=new Date();today.setHours(0,0,0,0);const out=[];
+    d.slots.list.forEach(row=>{const ses=d.sessions.find(s=>s.key===row.session);if(!ses)return;const dt=new Date(row.iso+"T12:00:00");dt.setHours(0,0,0,0);
+      out.push({id:out.length,dt,iso:row.iso,time:row.time||"",mins:ses.mins||60,session:ses,sport:ses.sport,area:row.area||ses.area||"",cap:row.cap!=null?row.cap:(ses.cap||(d.calendar&&d.calendar.cap)||20),group:!!ses.group,groups:[],sold:+row.sold||0,taken:row.taken,dayIndex:Math.round((dt-today)/864e5),closed:!!row.closed,real:row.groups||[]});});
+    return out;}
   const pat=(d.slots&&d.slots.pattern)||{},spaces=(d.calendar.spaces&&d.calendar.spaces.length)?d.calendar.spaces:[14,22,7,31,19,3,26,11,38,16,9,24],out=[];
   const today=new Date();today.setHours(0,0,0,0);
   for(let i=0;i<14;i++){const dt=new Date(today);dt.setDate(today.getDate()+i);(pat[String(dt.getDay())]||[]).forEach(row=>{const ses=d.sessions.find(s=>s.key===row.session);if(!ses)return;out.push({id:out.length,dt,time:row.time||"",mins:ses.mins||60,session:ses,sport:ses.sport,area:row.area||ses.area||"",cap:row.cap||ses.cap||20,group:!!ses.group,groups:[],sold:0,dayIndex:i,closed:false});});}
@@ -1650,6 +1664,10 @@ function buildSlots(d){
 }
 function buildGroups(d,slots){
   const out=[],gs=slots.filter(s=>s.group);
+  if(d.slots&&Array.isArray(d.slots.list)){slots.forEach(slot=>{(slot.real||[]).forEach(([ref,org,n,total,paid,status,notes,signed])=>{
+      const g={ref,organiser:org,occasion:"",session:slot.session,slot,n:+n,total:+total||0,deposit:+paid||0,paid:+paid||0,status,notes:notes||"",signed:Math.min(+n,+signed||0),arrived:0,kitOut:false};
+      slot.groups.push(g);out.push(g);});});
+    return out;}
   (d.groups||[]).forEach((row,i)=>{const [org,occ,sesKey,dayOff,n,status,notes]=row;const ses=d.sessions.find(s=>s.key===sesKey);if(!ses)return;
     /* a group only goes into a slot that still has room for it: a slot that reads "30 of 16, full" is a bug on an
        owner's screen. With nowhere to put it, it stays an enquiry without a date, which is exactly what it is. */
@@ -1687,7 +1705,7 @@ function drawTodayArena(inst){
 }
 function paintTodayArena(inst){
   const d=inst.data,m=inst.m,S=m.todaySlots,G=S.flatMap(s=>s.groups);
-  const players=S.reduce((a,s)=>a+s.sold,0),unsigned=G.reduce((a,g)=>a+(g.n-g.signed),0),kitN=S.reduce((a,s)=>a+kitFor(d,s.sport).length*s.sold,0),taken=G.reduce((a,g)=>a+g.paid,0)+S.filter(s=>!s.group).reduce((a,s)=>a+s.sold*s.session.price,0),inn=G.reduce((a,g)=>a+g.arrived,0);
+  const players=S.reduce((a,s)=>a+s.sold,0),unsigned=G.reduce((a,g)=>a+(g.n-g.signed),0),kitN=S.reduce((a,s)=>a+kitFor(d,s.sport).length*s.sold,0),taken=G.reduce((a,g)=>a+g.paid,0)+S.filter(s=>!s.group).reduce((a,s)=>a+(s.taken!=null?s.taken:s.sold*s.session.price),0),inn=G.reduce((a,g)=>a+g.arrived,0);
   const ev=q('[data-aoc="evName"]',inst.el);if(ev)ev.textContent=fmtShort(m.day)+" · "+plural(S.length,"session");
   const tiles=q('[data-aoc="todayTiles"]',inst.el);if(!tiles)return;
   tiles.innerHTML=tile("Sessions today",S.length,"",[...new Set(S.map(s=>s.sport))].join(", "))+tile("Players booked",players,"",plural(G.length,"group")+(S.some(s=>!s.group)?" and a walk-on":""))+tile("Checked in",inn+'<div class="aoc-meter go"><i style="width:'+(players?inn/players*100:0)+'%"></i></div>',"good")+tile("Disclaimers outstanding",unsigned,unsigned?"alert":"good",unsigned?"signed on the phone before they arrive":"everyone signed")+tile("Kit to issue",kitN,"","markers, masks, vests, phasers, rifles")+tile("Taken online",gbp(taken),"key","deposits and balances, before anyone parked");
@@ -1708,7 +1726,7 @@ function paintTodayArena(inst){
 /* Slots: the week, and the pattern it is built from */
 function drawSlots(inst){
   const d=inst.data,m=inst.m,DOW=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-  body(inst,"calendar").innerHTML=head("Slots","Fixed slots, seven days at a glance"+((d.slots&&d.slots.timesSample)?"; times and capacities are sample until you set them":""),'<button class="aoc-btn p" data-aoc-act="focusSlot">Add a slot</button>')+
+  body(inst,"calendar").innerHTML=head("Slots",(d.slots&&d.slots.list?(d.calendar&&d.calendar.summary)||"Every slot from the database":"Fixed slots, seven days at a glance")+((d.slots&&d.slots.timesSample)?"; times and capacities are sample until you set them":""),'<button class="aoc-btn p" data-aoc-act="focusSlot">Add a slot</button>')+
     '<div class="aoc-grid two"><div class="aoc-stack"><div data-aoc="slotList"></div><div data-aoc="slotDetail"></div></div>'+
     '<div class="aoc-stack">'+card('<h3>Add a slot</h3><span class="aoc-sp"></span>'+chip("One-off or every week","brand"),'<div class="aoc-bd"><div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Day</span><select class="aoc-f" data-aoc="slDay">'+opt(DOW.map((n,i)=>[i,n]),6)+'</select></div><div class="aoc-fld"><span class="aoc-lbl">Session</span><select class="aoc-f" data-aoc="slSes">'+opt(d.sessions.filter(x=>inWorld(inst,x)).map(s=>[s.key,s.label]))+'</select></div></div>'+(hasAreas(d)?'<div class="aoc-fld"><span class="aoc-lbl">Area</span><select class="aoc-f" data-aoc="slArea">'+opt(d.areas.map(a=>[a.key,a.label]))+'</select></div>':"")+'<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Starts</span><input class="aoc-f" type="time" data-aoc="slTime" value="14:00"></div><div class="aoc-fld"><span class="aoc-lbl">Capacity</span><input class="aoc-f aoc-mono" data-aoc="slCap" value="20"></div></div><label class="aoc-row" style="gap:8px;font-size:14.5px;color:var(--aoc-text-2);cursor:pointer"><input type="checkbox" data-aoc="slWeekly" checked style="accent-color:var(--aoc-brand)"><span>Every week from now on</span></label><button class="aoc-btn p wide" data-aoc-act="slAdd" style="margin-top:12px">Add the slot</button><p class="aoc-lbl" style="margin-top:10px;text-align:center" data-aoc="slMsg">&nbsp;</p></div>')+
       card('<h3>This week\'s pattern</h3>','<div class="aoc-bd">'+DOW.map((n,i)=>{const rows=((d.slots&&d.slots.pattern)||{})[String(i)]||[];return kv(n,'<span class="wrap">'+(rows.length?rows.map(r=>{const s=d.sessions.find(x=>x.key===r.session);return (r.time||"")+" "+(s?s.label.replace(/,.*$/,""):r.session);}).join("; "):"Closed")+'</span>',"wrap");}).join("")+'<p class="aoc-tiny" style="margin-top:10px">'+esc((d.slots&&d.slots.note)||"Change the pattern once; every week follows.")+'</p></div>')+
@@ -1719,9 +1737,9 @@ function drawSlots(inst){
 const inWorld=(inst,x)=>{const w=inst.sel.world||"";return !w||!x||!x.world||x.world===w;};
 function paintSlots(inst){
   const m=inst.m,el=q('[data-aoc="slotList"]',inst.el);if(!el)return;
-  const days=[...new Set(m.slots.filter(s=>s.dayIndex<7&&inWorld(inst,s.session)).map(s=>s.dt.toDateString()))];
+  const SL=inst.data.slots||{},days=[...new Set(m.slots.filter(s=>s.dayIndex<(SL.days||7)&&s.dayIndex>=(SL.from||0)&&inWorld(inst,s.session)).map(s=>s.dt.toDateString()))];
   const d=inst.data,A=hasAreas(d);
-  const row=s=>'<tr class="aoc-click'+(inst.sel.slot===s.id?" on":"")+'" data-aoc-slot="'+s.id+'"><td class="aoc-mono">'+esc(s.time)+'</td><td>'+esc(s.session.label)+(A&&overlaps(m,s)?'<br>'+chip("Two in this area at once","warn"):"")+'</td><td>'+slotWho(s)+'</td><td class="num">'+s.sold+' of '+s.cap+'</td><td>'+slotStatus(s)+'</td></tr>';
+  const row=s=>'<tr class="aoc-click'+(inst.sel.slot===s.id?" on":"")+'" data-aoc-slot="'+s.id+'"><td class="aoc-mono">'+esc(s.time)+'</td><td>'+esc(s.session.label)+(A&&!(d.slots&&d.slots.list)&&overlaps(m,s)?'<br>'+chip("Two in this area at once","warn"):"")+'</td><td>'+slotWho(s)+'</td><td class="num">'+s.sold+' of '+s.cap+'</td><td>'+slotStatus(s)+'</td></tr>';
   el.innerHTML=days.map(k=>{const rows=m.slots.filter(s=>s.dt.toDateString()===k&&inWorld(inst,s.session));
     /* one card a day; with areas, one table an area inside it, so a Nerf slot beside an airsoft one reads as both running */
     const body=A?(d.areas.concat([{key:"",label:"Not set"}]).map(a=>{const rs=rows.filter(s=>(s.area||"")===a.key);return rs.length?'<p class="aoc-lbl" style="margin:14px 0 6px">'+esc(a.label)+'</p>'+tbl(["Time","Session","Who","num:Booked","Status"],rs.map(row).join("")):"";}).join(""))
@@ -1817,8 +1835,9 @@ function saveSessions(inst){
   paintAll(inst,["settings","groups","today","calendar"]);
 }
 function actArena(inst,name,btn){
-  const d=inst.data,m=inst.m,el=inst.el,say=t=>toast(inst,t),g=m.groups.find(x=>x.ref===inst.sel.group),s=m.slots.find(x=>x.id===inst.sel.slot);
-  const note=(k,t)=>{const e=q('[data-aoc="'+k+'"]',el);if(e)e.textContent=t;};
+  const live=!inst.opts.store||LIVE_ACTS.indexOf(name)>=0;
+  const d=inst.data,m=inst.m,el=inst.el,say=t=>toast(inst,live?t:notLive(t)),g=m.groups.find(x=>x.ref===inst.sel.group),s=m.slots.find(x=>x.id===inst.sel.slot);
+  const note=(k,t)=>{const e=q('[data-aoc="'+k+'"]',el);if(e)e.textContent=live?t:notLive(t);};
   switch(name){
     case "focusSlot":{const i=q('[data-aoc="slSes"]',el);if(i)i.focus();return true;}
     case "slAdd":{const DOW=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];const ses=d.sessions.find(x=>x.key===q('[data-aoc="slSes"]',el).value);const aEl=q('[data-aoc="slArea"]',el),areaPick=aEl?aEl.value:"";const day=+q('[data-aoc="slDay"]',el).value,time=q('[data-aoc="slTime"]',el).value||"14:00",cap=+q('[data-aoc="slCap"]',el).value||20,weekly=q('[data-aoc="slWeekly"]',el).checked;if(!ses)return true;const today=new Date();today.setHours(0,0,0,0);for(let i=0;i<14;i++){const dt=new Date(today);dt.setDate(today.getDate()+i);if(dt.getDay()!==day)continue;m.slots.push({id:m.slots.length,dt,time,mins:ses.mins||60,session:ses,sport:ses.sport,area:areaPick||ses.area||"",cap,group:!!ses.group,groups:[],sold:0,dayIndex:i,closed:false});if(!weekly)break;}m.slots.sort((a,b)=>a.dt-b.dt||String(a.time).localeCompare(String(b.time)));m.slots.forEach((x,i)=>x.id=i);m.todaySlots=m.slots.filter(x=>x.dt.toDateString()===m.day.toDateString());note("slMsg",ses.label+" at "+time+(weekly?" every "+DOW[day]:" on "+DOW[day])+", added");paintSlots(inst);paintTodayArena(inst);return true;}
@@ -2072,8 +2091,9 @@ function drawSettingsOrg(inst){
 }
 
 function actOrg(inst,name,btn){
-  const d=inst.data,m=inst.m,el=inst.el,say=t=>toast(inst,t),o=m.ops.find(x=>x.id===inst.sel.op)||m.op;
-  const note=(k,t)=>{const e=q('[data-aoc="'+k+'"]',el);if(e)e.textContent=t;};
+  const live=!inst.opts.store||LIVE_ACTS.indexOf(name)>=0;
+  const d=inst.data,m=inst.m,el=inst.el,say=t=>toast(inst,live?t:notLive(t)),o=m.ops.find(x=>x.id===inst.sel.op)||m.op;
+  const note=(k,t)=>{const e=q('[data-aoc="'+k+'"]',el);if(e)e.textContent=live?t:notLive(t);};
   switch(name){
     case "focusOp":{const i=q('[data-aoc="opName"]',el);if(i)i.focus();return true;}
     case "opAdd":{const nm=(q('[data-aoc="opName"]',el).value||"Operation").trim(),dv=q('[data-aoc="opDate"]',el).value,len=Math.max(1,+q('[data-aoc="opLen"]',el).value||1),thr=+q('[data-aoc="opThr"]',el).value||0,st=(q('[data-aoc="opSite"]',el).value||"").trim();
@@ -2101,7 +2121,7 @@ function paintAll(inst,only){for(const k of Object.keys(DRAW)){if(only&&!only.in
 function setRole(inst,r){
   inst.role=r;const R=ROLES[r]||ROLES.owner;
   q('[data-aoc="whoRole"]',inst.el).textContent=R.label;q('[data-aoc="whoAv"]',inst.el).textContent=R.label[0];
-  q('[data-aoc="whoName"]',inst.el).textContent=r==="owner"?inst.data.team.owner:firstName(inst.m.players[{manager:9,marshal:3,gate:21}[r]].name);
+  q('[data-aoc="whoName"]',inst.el).textContent=r==="owner"?inst.data.team.owner:firstName((inst.m.players[{manager:9,marshal:3,gate:21}[r]]||inst.m.players[0]||{name:R.label}).name);
   qa("[data-aoc-role]",inst.el).forEach(b=>b.setAttribute("aria-pressed",b.dataset.aocRole===r));
   qa(".aoc-rail a",inst.el).forEach(a=>a.classList.toggle("locked",!!R.can&&!R.can.includes(a.dataset.aocGo)));
   if(R.can&&!R.can.includes(inst.screen))go(inst,R.can[0]);
@@ -2121,7 +2141,7 @@ function wire(inst){
   const el=inst.el,d=inst.data,m=inst.m;
   el.addEventListener("click",e=>{
     const nav=e.target.closest("[data-aoc-go]");if(nav&&el.contains(nav)){e.preventDefault();go(inst,nav.dataset.aocGo);return;}
-    const role=e.target.closest("[data-aoc-role]");if(role){setRole(inst,role.dataset.aocRole);return;}
+    const role=e.target.closest("[data-aoc-role]");if(role){setRole(inst,role.dataset.aocRole);if(inst.opts.store&&role.dataset.aocRole!=="owner")toast(inst,"Not live yet. A preview of what a "+ROLES[role.dataset.aocRole].label.toLowerCase()+" would see; real access comes from the invitation they accept.");return;}
     const th=e.target.closest("[data-aoc-theme]");if(th){inst.theme.colours=th.dataset.aocTheme;applyTheme(inst);return;}
     if(e.target.closest("[data-aoc-mode-btn]")){inst.theme.mode=inst.theme.mode==="dark"?"light":"dark";applyTheme(inst);return;}
     const book=e.target.closest("[data-aoc-book]");if(book){inst.sel.booking=inst.sel.booking===book.dataset.aocBook?null:book.dataset.aocBook;paintBookings(inst,(q('[data-aoc="bkSearch"]',el)||{}).value);return;}
@@ -2172,8 +2192,12 @@ function wire(inst){
   /* the game clock */
   inst.g.timer=setInterval(()=>{if(!el.isConnected){clearInterval(inst.g.timer);return;}inst.g.simSec++;if(toNext(inst)<=0&&nextStep(inst)){inst.g.phase++;paintRod(inst);paintGC(inst);}renderBig(inst);},1000);
 }
+/* the controls the live console has wired to the server; AOC-CONTROLS.md in the booking platform is the ledger */
+const LIVE_ACTS=["evPub","prSave","prReset","mbAdd","demoClear","addBooking","focusAdd","focusSlot","focusOp","editPlans","closePlans","okNext","print","printPick","bigOpen","bigClose","spin"];
+const notLive=t=>"Not live yet. "+String(t).replace(/^On the live system[:,]?\s*/i,"When it is: ");
 function act(inst,name,btn){
-  const d=inst.data,m=inst.m,el=inst.el,say=t=>toast(inst,t),msg=(k,t)=>{const e=q('[data-aoc="'+k+'"]',el);if(e){e.textContent=t;setTimeout(()=>{if(e.textContent===t)e.textContent=" ";},3200);}};
+  const live=!inst.opts.store||LIVE_ACTS.indexOf(name)>=0;
+  const d=inst.data,m=inst.m,el=inst.el,say=t=>toast(inst,live?t:notLive(t)),note=t=>{const e=q('[data-aoc="evNote"]',el);if(e)e.textContent=live?t:notLive(t);},msg=(k,t)=>{t=live?t:notLive(t);const e=q('[data-aoc="'+k+'"]',el);if(e){e.textContent=t;setTimeout(()=>{if(e.textContent===t)e.textContent=" ";},3200);}};
   const b=m.bookings.find(x=>x.ref===inst.sel.booking);
   switch(name){
     case "remind":{const n=m.players.filter(p=>!p.waiver).length;say(n?"Reminder sent to "+plural(n,"player")+": a link to sign the safety form on the phone before "+d.calendar.regular.dayName+".":"Nobody to remind: every form is signed.");break;}
@@ -2183,12 +2207,12 @@ function act(inst,name,btn){
     case "resend":if(b)say("Pass re-sent to "+firstName(b.name)+" by email and text: the QR, the date, the gate time and what was paid.");break;
     case "focusAdd":{const i=q('[data-aoc="ceName"]',el);if(i){i.focus();i.select();}break;}
     case "ceGo":{const n=cePreview(inst);msg("ceMsg",plural(n,"date")+" created"+(q('[data-aoc="ceDraft"]',el).checked?" as drafts":" and on sale"));break;}
-    case "draw":{const x=m.dates[inst.sel.date];const ents=(d.entrants.length?d.entrants:m.players.map(p=>p.name)).slice(0,Math.max(0,x.cap-(x.left||0)));const r=rng(seedFrom(x.name));const order=[...ents].sort(()=>r()-.5);const B=d.money.bracketSize||32;let h="";for(let i=0;i<B/2;i++){const a=order[i]||null,c=order[B-1-i]||null;h+='<div><i>'+(i+1)+'</i><span>'+esc(a||"bye")+'</span><em>v</em><span>'+esc(c||"bye")+'</span></div>';}const br=q('[data-aoc="bracket"]',el);br.innerHTML='<p class="aoc-lbl" style="margin-bottom:8px">Round one, drawn at random. Byes fill the empty slots.</p><div class="aoc-bracket">'+h+'</div>';br.hidden=false;q('[data-aoc="evNote"]',el).textContent="Drawn. Every entrant gets the pairing by text the moment you press publish.";break;}
-    case "msgEntrants":case "msgBooked":q('[data-aoc="evNote"]',el).textContent="Message sent to everyone booked on this date, by email and text. You write it once; the console knows who is on the list.";break;
-    case "postEvent":q('[data-aoc="evNote"]',el).textContent="Posted to your Facebook page with the booking link. The same words go on the site's Events page.";break;
-    case "mailMembers":q('[data-aoc="evNote"]',el).textContent="Sent to every member: the date, the discount already applied to their fares, and the booking link.";break;
-    case "setDate":q('[data-aoc="evNote"]',el).textContent="On the live system: pick the date, it goes on the site, in the structured data and to every member in the same minute.";break;
-    case "closeSales":q('[data-aoc="evNote"]',el).textContent="Sales closed: the site shows this date as full and the waiting list opens.";break;
+    case "draw":{const x=m.dates[inst.sel.date];const ents=(d.entrants.length?d.entrants:m.players.map(p=>p.name)).slice(0,Math.max(0,x.cap-(x.left||0)));const r=rng(seedFrom(x.name));const order=[...ents].sort(()=>r()-.5);const B=d.money.bracketSize||32;let h="";for(let i=0;i<B/2;i++){const a=order[i]||null,c=order[B-1-i]||null;h+='<div><i>'+(i+1)+'</i><span>'+esc(a||"bye")+'</span><em>v</em><span>'+esc(c||"bye")+'</span></div>';}const br=q('[data-aoc="bracket"]',el);br.innerHTML='<p class="aoc-lbl" style="margin-bottom:8px">Round one, drawn at random. Byes fill the empty slots.</p><div class="aoc-bracket">'+h+'</div>';br.hidden=false;note("Drawn. Every entrant gets the pairing by text the moment you press publish.");break;}
+    case "msgEntrants":case "msgBooked":note("Message sent to everyone booked on this date, by email and text. You write it once; the console knows who is on the list.");break;
+    case "postEvent":note("Posted to your Facebook page with the booking link. The same words go on the site's Events page.");break;
+    case "mailMembers":note("Sent to every member: the date, the discount already applied to their fares, and the booking link.");break;
+    case "setDate":note("On the live system: pick the date, it goes on the site, in the structured data and to every member in the same minute.");break;
+    case "closeSales":note("Sales closed: the site shows this date as full and the waiting list opens.");break;
     case "evPub":{const g=k=>{const el=q('[data-aoc="'+k+'"]',inst.el);return el?el.value.trim():"";};
       const n=g("evN");if(!n){say("Give the event a name first.");return true;}
       const d8=g("evD");if(!/^\d{4}-\d{2}-\d{2}$/.test(d8)){say("Give the event a date first: the site lists it by date.");return true;}
@@ -2228,8 +2252,8 @@ function act(inst,name,btn){
       if(row&&/rental|hire/i.test(row.label||"")){const free=setsFree(inst,g("mbD"));
         if(free!=null&&players>free){msg("mbMsg",free?"Only "+plural(free,"set")+" of rental kit free that day. Book "+free+" or fewer, or put some on their own kit.":"No rental kit free that day. They would need their own kit.");return true;}}
       const wsel=q('[data-aoc="mbWorld"]',inst.el);
-      const S=stRead(inst);S.bookings=[{world:wsel?wsel.value:"",ref:(inst.data.ref||"B")+"-H"+String(Date.now()).slice(-4),when:g("mbD")||"no date set",what:nm,sess:(row?row.label:"")+(g("mbH")?" · "+g("mbH"):"")+(g("mbNote")?" · "+g("mbNote"):""),players,paid,byHand:true,at:new Date().toISOString()}].concat(S.bookings||[]);
-      stWrite(inst,S);["mbN","mbD","mbNote"].forEach(k=>{const el=q('[data-aoc="'+k+'"]',inst.el);if(el)el.value="";});
+      const S=stRead(inst);S.bookings=[{world:wsel?wsel.value:"",ref:(inst.data.ref||"B")+"-H"+String(Date.now()).slice(-4),when:g("mbD")||"no date set",what:nm,sess:(row?row.label:"")+(g("mbH")?" · "+g("mbH"):"")+(g("mbNote")?" · "+g("mbNote"):""),players,paid,byHand:true,at:new Date().toISOString(),iso:g("mbD"),key:row?row.key:"",email:g("mbE"),how:g("mbH"),note:g("mbNote")}].concat(S.bookings||[]);
+      stWrite(inst,S);["mbN","mbD","mbE","mbNote"].forEach(k=>{const el=q('[data-aoc="'+k+'"]',inst.el);if(el)el.value="";});
       msg("mbMsg",nm+" is on the list"+(paid?", "+gbp(paid)+" taken":", nothing taken yet")+".");drawSiteBookings(inst);return true;}
     case "mbLink":{const g=k=>{const el=q('[data-aoc="'+k+'"]',inst.el);return el?el.value.trim():"";};
       const wsel=q('[data-aoc="mbWorld"]',inst.el),w=wsel?wsel.value:"";
@@ -2243,7 +2267,7 @@ function act(inst,name,btn){
       const window=dep&&AD.refundDays?" Cancel more than "+AD.refundDays+" days before and the deposit comes back; inside that it does not.":"";
       msg("mbMsg",(dep?"A link for "+gbp(dep)+", the "+Math.round(AD.depositPct*100)+"% deposit on "+gbp(full)+", with "+gbp(full-dep)+" due on the day":"A link for "+gbp(full))+" goes to "+who+" by text and email."+window+" In this prototype it takes no money and charges no card: the live link arrives when you are a paying customer.");
       return true;}
-    case "demoClear":{try{localStorage.removeItem(ST_KEY());}catch(e){ /* nothing to clear */ }
+    case "demoClear":{if(inst.opts.store){inst.opts.store.clear(inst);return true;}try{localStorage.removeItem(ST_KEY());}catch(e){ /* nothing to clear */ }
       inst.evs=[];drawManage(inst);say("Demo data cleared. The site is back to its published content.");return true;}
     case "export":say("On the live system this downloads a spreadsheet of what is on screen. Nothing leaves this prototype.");break;
     case "emailList":say("On the live system this opens a message to everyone opted in. Nothing is sent from this prototype.");break;
@@ -2297,7 +2321,7 @@ function mount(el,opts){
   inst.r=rng(seedFrom(d.business.name));
   const dates=buildDates(d.calendar,d.events);
   const players=buildRoster(d,inst.r);
-  const m=inst.m={dates,next:dates.find(x=>!x.tba)||dates[0]||{dt:new Date(),name:"Next running day",kind:"day"},players,feed:[],customers:0,limit:parseInt(String((d.settings.chrono||{}).aeg||"").replace(/[^\d]/g,""),10)||0};
+  const m=inst.m={dates,next:dates.find(x=>!x.tba)||dates[0]||{dt:new Date(),name:Array.isArray(d.calendar.dates)?"No running days yet":"Next running day",kind:"day"},players,feed:[],customers:0,limit:parseInt(String((d.settings.chrono||{}).aeg||"").replace(/[^\d]/g,""),10)||0};
   m.preTotal=d.preorders.reduce((a,p)=>a+p.n*p.price,0);
   m.bookings=buildBookings(d,dates,players);
   m.refOf=p=>{const b=m.bookings.find(x=>x.name===p.name);return b?b.ref:d.ref+"-"+(1000+p.id*37).toString(36).toUpperCase().slice(0,4);};
@@ -2318,7 +2342,7 @@ function mount(el,opts){
   if(d.kind==="arena"){
     d.sessions.forEach(x=>{x._orig={price:x.price,member:x.member};});
     m.slots=buildSlots(d);m.groups=buildGroups(d,m.slots);
-    const first=m.slots.find(x=>x.sold>0)||m.slots[0];m.day=first?first.dt:new Date();m.todaySlots=m.slots.filter(x=>x.dt.toDateString()===m.day.toDateString());
+    const first=(d.slots&&d.slots.list?m.slots.find(x=>x.dayIndex>=0):m.slots.find(x=>x.sold>0))||m.slots[0];m.day=first?first.dt:new Date();m.todaySlots=m.slots.filter(x=>x.dt.toDateString()===m.day.toDateString());
     m.next={dt:m.day,name:plural(m.todaySlots.length,"session"),kind:m.day.toLocaleDateString("en-GB",{weekday:"long"})};
     const lead=m.todaySlots.find(x=>x.group&&x.groups.length)||m.todaySlots[0];
     if(lead&&lead.time){const t0=mins(lead.time),len=lead.mins,g=Math.max(20,Math.floor((len-15)/4));m.schedule=[{t:hhmm(t0),label:"Doors and brief"},{t:hhmm(t0+15),label:"Game 1",g:1},{t:hhmm(t0+15+g),label:"Game 2",g:2},{t:hhmm(t0+15+2*g),label:"Game 3",g:3},{t:hhmm(t0+15+3*g),label:"Game 4",g:4},{t:hhmm(t0+len),label:"Session ends"}];m.leadSport=lead.sport;}
@@ -2330,6 +2354,7 @@ function mount(el,opts){
   else [["21:14","Booked: "+who(7)+", 2 "+d.labels.walkon.toLowerCase()+", "+fmtDM(m.next.dt)],["20:52","Pre-order: "+who(12)+", "+(d.preorders[0]?d.preorders[0].label.toLowerCase():"lunch")],["19:40","Day sheet printed for "+day],["18:31","Safety form signed: "+who(3)],["17:05","Joined as a member at the checkout: "+who(15)],["16:12","Booked: "+who(22)+", 1 "+d.labels.hire.toLowerCase()+", "+fmtDM(m.next.dt)]].forEach(f=>m.feed.push({t:f[0],msg:f[1]}));
   if(d.kind==="organiser"&&m.op){const o=m.op,P=o.players,nm=i=>(P.length?P[i%P.length].name:who(i));
     m.feed=[["21:14","Deposit paid: "+nm(0)+", "+o.factions[0].name],["20:52","Ticket paid in full: "+nm(3)],["19:40","Kit list confirmed: "+nm(5)],["18:31",o.name+": "+o.sold+(o.threshold?" of "+o.threshold.need:"")+" booked"],["17:05","Enquiry from the site: "+nm(7)],["16:12","Faction chat opened: "+o.factions[o.factions.length-1].name]].map(([t,msg])=>({t,msg}));}
+  if(Array.isArray(d.feed))m.feed=d.feed.map(([t,msg])=>({t,msg}));
   inst.g={phase:2,simSec:(mins(m.schedule[2].t)||600)*60,bigState:"sched",spinMode:null,rot:0,podName:null,games:[],winSel:null};
   el.classList.add("aoc");
   if(opts.ph)el.setAttribute("data-ph-on","");
@@ -2341,7 +2366,7 @@ function mount(el,opts){
   let first=opts.screen||"today";
   if(opts.readQuery!==false){try{const u=new URLSearchParams(location.search);const s=u.get("screen")||u.get("tab");if(s&&DRAW[s])first=s;}catch(e){}}
   inst.opts.scroll=false;go(inst,first);inst.opts.scroll=opts.scroll;
-  inst.go=n=>go(inst,n);inst.setTheme=t=>{Object.assign(inst.theme,t||{});applyTheme(inst);};inst.setBrand=b=>{Object.assign(inst.brand,b||{});if(b&&b.colours)Object.assign(inst.brand.colours,b.colours);cleanColours(inst.brand);applyTheme(inst);};inst.live=(on,L)=>live(inst,on,L);
+  inst.go=n=>go(inst,n);inst.setTheme=t=>{Object.assign(inst.theme,t||{});applyTheme(inst);};inst.setBrand=b=>{Object.assign(inst.brand,b||{});if(b&&b.colours)Object.assign(inst.brand.colours,b.colours);cleanColours(inst.brand);applyTheme(inst);};inst.live=(on,L)=>live(inst,on,L);inst.say=t=>toast(inst,t);
   instances.push(inst);
   return inst;
 }

@@ -2907,7 +2907,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
     </div>
     <div class="legal">
       <span>Design proposal by ThinkWork, for discussion with you. Your prices, ages, running order, activities, team building and Phoenix wording, address, numbers, emails and colours are your own, taken from predator-combat.com and activate-outdoor-adventure.com on 2 October 2026 and from our calls of 13 and 16 October. Every photograph is yours and says which page it came from. Anything in amber is sample content waiting for your figures. Not the live site, and no live payments.</span>
-      <span class="mono">thinkwork.info &middot; built 20 Oct 2026 17:45 UK</span>
+      <span class="mono">thinkwork.info &middot; built 20 Oct 2026 22:20 UK</span>
     </div>
   </div>
 </footer>
@@ -2976,10 +2976,98 @@ const root=document.documentElement, reduce=matchMedia("(prefers-reduced-motion:
    having to carry a slug: /airsoft/<slug>/ and /airsoft/<slug>/aoc/ both resolve to <slug>. */
 function storeSlug(){try{const p=location.pathname.split("/").filter(Boolean);if(p.length&&/\.html?$/i.test(p[p.length-1]))p.pop();if(p.length&&p[p.length-1]==="aoc")p.pop();return p[p.length-1]||((typeof CONFIG!=="undefined"&&CONFIG.slug)||"demo");}catch(e){return "demo";}}
 const STORE_KEY="tw:"+storeSlug()+":v1";
-function storeRead(){try{const r=localStorage.getItem(STORE_KEY);const o=r?JSON.parse(r):null;return o&&typeof o==="object"?o:{bookings:[],events:[],prices:{}};}catch(e){return {bookings:[],events:[],prices:{}};}}
-function storeWrite(o){try{localStorage.setItem(STORE_KEY,JSON.stringify(o));}catch(e){ /* private window, blocked storage */ }return o;}
-function storeAdd(key,rec){const o=storeRead();o[key]=Array.isArray(o[key])?o[key]:[];o[key].unshift(rec);storeWrite(o);return o;}
-function storeClear(){try{localStorage.removeItem(STORE_KEY);}catch(e){ /* nothing to clear */ }}
+/* ---- the go-live swap (CONTRACT.md, booking platform, 20 Oct 2026) ----
+   A site on the real system reads and writes the booking server instead of this browser. Which sites: STORE_SITES,
+   keyed by the site's folder, or CONFIG.platform {api} when the config carries it. Everything else on the page is
+   unchanged: the same storeRead, storeWrite and storeClear, the same shapes, read synchronously at load as before.
+   The one thing localStorage never had to do is take money, so on these sites the Pay button books on the server and
+   takes the card through Stripe before the page's own confirmation shows. */
+const STORE_SITES={"predator-combat":"https://aoc.peerlab.ai"};
+const STORE_API=(function(){const P=(typeof CONFIG!=="undefined"&&CONFIG.platform)||{};const base=P.api||STORE_SITES[storeSlug()];
+  if(!base)return null;
+  try{const x=new XMLHttpRequest();x.open("GET",base.replace(/\/+$/,"")+"/store/site/"+encodeURIComponent(P.api?CONFIG.slug:storeSlug()),false);x.send();
+    if(x.status!==200)return null;const S=JSON.parse(x.responseText);return {base:base.replace(/\/+$/,""),S};}
+  catch(e){return null; /* the server is unreachable: the page still works as the published prototype */}})();
+function storeRead(){if(STORE_API)return JSON.parse(JSON.stringify(STORE_API.S));try{const r=localStorage.getItem(STORE_KEY);const o=r?JSON.parse(r):null;return o&&typeof o==="object"?o:{bookings:[],events:[],prices:{}};}catch(e){return {bookings:[],events:[],prices:{}};}}
+/* on the real system a booking is written by the Pay step below, before the page records it; this keeps the copy the
+   page reads in step with it */
+function storeWrite(o){if(STORE_API){STORE_API.S=o;return o;}try{localStorage.setItem(STORE_KEY,JSON.stringify(o));}catch(e){ /* private window, blocked storage */ }return o;}
+function storeAdd(key,rec){const o=storeRead();o[key]=Array.isArray(o[key])?o[key]:[];
+  if(STORE_API&&key==="bookings"&&STORE_API.last){rec.ref=STORE_API.last.ref;const r=document.getElementById("doneRef");if(r)r.textContent=rec.ref;}
+  o[key].unshift(rec);storeWrite(o);return o;}
+function storeClear(){if(STORE_API)return;try{localStorage.removeItem(STORE_KEY);}catch(e){ /* nothing to clear */ }}
+if(STORE_API)(function(){
+  const A=STORE_API,S=A.S,$1=id=>document.getElementById(id);
+  const post=(path,body)=>fetch(A.base+path,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(body)})
+    .then(r=>r.json().catch(()=>({})).then(j=>{if(!r.ok){const f=(j.refusals||[])[0]||{};throw new Error(f.message||("The booking server said "+r.status));}return j;}));
+  let stripe=null,card=null;
+  /* the pay pane: an email for the confirmation, and a real card field where the sample one was */
+  function fitPayPane(){
+    const no=$1("cardNo");if(!no||$1("twEmail"))return;
+    const f=no.closest(".field"),row=($1("cardEx")||no).closest(".row");
+    f.insertAdjacentHTML("beforebegin",'<div class="field"><label for="twEmail">Email, for your confirmation</label><input id="twEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>');
+    const note=[...document.querySelectorAll("#payPane .tiny")].find(p=>/No card is charged/i.test(p.textContent));
+    if(S.payment&&S.payment.publishableKey){
+      f.innerHTML='<label for="twCard">Card</label><div id="twCard" style="padding:13px 12px;border:1px solid var(--line-strong);border-radius:2px;background:var(--sunk)"></div>';
+      if(row&&row!==f)row.hidden=true;
+      if(note)note.textContent=S.payment.live?"Paid securely through Stripe.":"Test mode: card 4242 4242 4242 4242, any future date, any CVC. No real money moves.";
+      const js=document.createElement("script");js.src="https://js.stripe.com/v3/";js.onload=()=>{
+        stripe=Stripe(S.payment.publishableKey,S.payment.connectedAccountId?{stripeAccount:S.payment.connectedAccountId}:{});
+        const cs=getComputedStyle(document.body);card=stripe.elements().create("card",{hidePostalCode:true,style:{base:{fontSize:"16px",color:cs.color,fontFamily:cs.fontFamily}}});card.mount("#twCard");};
+      document.head.appendChild(js);
+    }else{
+      f.remove();if(row)row.hidden=true;
+      if(note)note.textContent="Card payment is not switched on for this site yet: you are booked now and pay on the day.";
+    }
+    $1("payBtn").insertAdjacentHTML("afterend",'<p id="twErr" class="tiny" role="alert" style="margin-top:10px;text-align:center;color:var(--warn,#b3261e)" hidden></p>');
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fitPayPane);else setTimeout(fitPayPane,0);
+  const say=t=>{const e=$1("twErr");if(e){e.textContent=t;e.hidden=!t;}};
+  /* what the page has chosen, as the server's lines: one offering per kind of ticket */
+  function lines(){
+    const d=DATES[state.date],iso=isoOf(d),L=d.lock&&d.lock.sess||null,sess=L||state.sess,tier=typeof tierOf==="function"?tierOf(sess):sess;
+    const out=[];
+    for(const k of ["walkon","hire"]){const n=state.q[k];if(!n)continue;
+      let offering,st=null;
+      if(sess==="evening"||sess==="nerf")offering=sess;
+      else if(k==="hire"&&(tier==="half"||sess==="morning"||sess==="afternoon")){offering="rental-half";st=(sess==="half"?"morning":sess);}
+      else offering=k==="hire"?"rental-day":"walkon-day";
+      out.push({brand:S.brand,date:iso,offering,party:n,tier:k,...(st?{session_type:st}:{})});}
+    return out;}
+  let busy=false,quoted=null;
+  async function pay(btn){
+    if(busy)return;say("");
+    const email=($1("twEmail")||{}).value||"",name=(($1("sig")||{}).value||"").trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())){say("Put your email in, so the confirmation has somewhere to go.");$1("twEmail")&&$1("twEmail").focus();return;}
+    if(S.payment&&S.payment.publishableKey&&!card){say("The card field is still loading. Give it a second.");return;}
+    busy=true;btn.disabled=true;
+    try{
+      const L=lines();if(!L.length)throw new Error("Pick at least one player first.");
+      let total=0;
+      for(const l of L){const q=await post("/quote",l);if(!q.price){throw new Error(((q.refusals||[])[0]||{}).message||"That booking cannot be taken.");}total+=q.price.total_pence;}
+      const shown=Math.round((typeof totals==="function"?totals().total:0)*100);
+      if(total!==shown&&quoted!==total){quoted=total;$1("payAmt").textContent="£"+(total/100).toFixed(total%100?2:0);
+        say("The total is £"+(total/100).toFixed(2)+": pre-orders and membership are not taken online yet and are paid on the day. Press Pay again to go ahead.");return;}
+      const key=(crypto.randomUUID&&crypto.randomUUID())||String(Date.now())+Math.random();
+      const made=[];
+      for(const [i,l] of L.entries()){
+        const r=await post("/bookings",{...l,customer:{name:name||email.split("@")[0],email:email.trim()},idempotency_key:key+"-"+i});
+        made.push(r);
+        if(r.payment&&r.payment.clientSecret){
+          const c=await stripe.confirmCardPayment(r.payment.clientSecret,{payment_method:{card,billing_details:{name:name||undefined,email:email.trim()}}});
+          if(c.error)throw new Error(c.error.message+(made.length>1?" (your first booking is held for a few minutes: try the card again)":""));
+          await post("/bookings/"+r.booking.id+"/confirm-payment",{});
+        }
+      }
+      A.last={ref:made.map(r=>r.booking.reference).join(" + ")};
+      btn.dataset.twPaid="1";btn.disabled=false;busy=false;btn.click();
+    }catch(e){say(e.message||String(e));}
+    finally{busy=false;btn.disabled=false;}
+  }
+  document.addEventListener("click",e=>{const btn=e.target.closest&&e.target.closest("#payBtn");if(!btn)return;
+    if(btn.dataset.twPaid==="1"){delete btn.dataset.twPaid;return;}
+    e.stopImmediatePropagation();e.preventDefault();pay(btn);},true);
+})();
 
 /* A price saved in the console is the price the site charges: the stored prices are folded into CONFIG before any other
    part reads it, so the fare board, the session picker, the day list and the checkout all follow in one go. */

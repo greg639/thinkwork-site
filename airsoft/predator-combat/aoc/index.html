@@ -946,7 +946,7 @@ function shell(inst){
   for(const s of SCREENS){if(s.arena&&d.kind==="skirmish")continue;if(s.sec!==sec){sec=s.sec;rail+='<div class="aoc-navsec">'+esc(sec)+'</div>';}rail+='<a data-aoc-go="'+s.key+'" role="button" tabindex="0">'+esc(d.kind==="organiser"&&s.orgLabel?s.orgLabel:(d.kind==="arena"&&s.arenaLabel?s.arenaLabel:s.label))+(later(d,s.key)?'<span class="aoc-tag">Later</span>':(s.tag?'<span class="aoc-tag">'+s.tag+'</span>':''))+'</a>';}
   /* which build is this? The version alone cannot answer it: 0.10.2 looked identical before and after three
      config changes in one day. The stamp is written by the builder; it is wrapped so a hash can normalise it out. */
-  rail+='<div class="aoc-railfoot">AOC '+VERSION+'<br><span class="aoc-build" data-build="20 Oct 2026 15:12">built 20 Oct 2026 15:12 UK</span><br>by ThinkWork</div>';
+  rail+='<div class="aoc-railfoot">AOC '+VERSION+'<br><span class="aoc-build" data-build="20 Oct 2026 17:45">built 20 Oct 2026 17:45 UK</span><br>by ThinkWork</div>';
   const roles=Object.keys(ROLES).map(k=>'<button data-aoc-role="'+k+'" aria-pressed="'+(k===inst.role)+'">'+ROLES[k].label+'</button>').join("");
   const top='<div class="aoc-topstrip">'+
     '<div class="aoc-who"><span class="aoc-avatar" data-aoc="whoAv">O</span><span><span class="aoc-lbl" data-aoc="whoRole">Owner</span><br><b data-aoc="whoName">'+esc(d.team.owner)+'</b></span></div>'+

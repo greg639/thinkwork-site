@@ -726,10 +726,21 @@ body[data-screen="back"] .deskbar{display:flex}
   h1{font-size:40px}
   .hero .essentials{grid-template-columns:1fr 1fr}
   .hero .essentials li b em{color:var(--yel-hi)}   /* the 20px price over the dimmed stage read 4.3:1 on a phone; the lighter orange clears it */
-  .games{gap:6px}
-  .gpanel{aspect-ratio:3/4}
-  .gpanel .gl b{font-size:15px}
-  .gpanel .gl span{font-size:9px;letter-spacing:.06em}
+   /* the line under each price sat at 3.98:1 over the same stage: the price was lifted here and its description
+      was not. --text-2 clears 4.5:1 in both brands. */
+   .hero .essentials li span{color:var(--text-2)}
+  /* the three doors are the way into each brand. Three columns on a 390px screen gave each about 110px: the label
+     filled the card and the photograph was a sliver behind it. One column, each a wide banner led by its picture. */
+  .games{gap:8px;grid-template-columns:1fr}
+  .gpanel{aspect-ratio:16/7;min-height:0}
+  /* the adventure door is a climber photographed portrait: a centre crop at 16:7 is his dark top and the rope,
+     which reads as a black panel. Raised so the helmet, the rope and the rock are in the band. */
+  /* the adventure door is a climber shot portrait, and no horizontal band of it reads as anything but dark
+     clothing and rope. On a phone the door is a wide banner, so it takes a landscape picture instead. */
+  .gpanel[data-game="paintball"]{background:var(--sunk) url(assets/hero-ridge-1.jpg) center 40%/cover no-repeat}
+  .gpanel[data-game="paintball"] img{display:none}
+  .gpanel .gl b{font-size:19px}
+  .gpanel .gl span{font-size:10.5px;letter-spacing:.06em}
   .gpanel .gn{font-size:9px;padding:2px 6px}
   .gpanel .credit{display:none}
   .tagline p{font-size:20px}
@@ -1594,7 +1605,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
     <div class="wrap">
       <div class="row" style="justify-content:space-between;align-items:flex-end;margin-bottom:22px;gap:20px">
         <div><p class="eyebrow red">Choose your game</p><h2 style="margin-top:10px">Three doors,<br>three prices, no extras</h2></div>
-        <p class="lede" style="max-width:46ch;margin:0">Airsoft and Nerf Wars are the prices on our booking page. Activities are quoted by the day until we publish a list.</p>
+        <p class="lede" style="max-width:46ch;margin:0">Airsoft and Nerf Wars are the prices on our booking page. Activities are &pound;<span data-adv="half">30</span> a person for a half day and &pound;<span data-adv="full">40</span> for a full day, whichever you pick.</p>
       </div>
       <div class="slabs">
         <div class="slab">
@@ -1634,7 +1645,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
           <ul class="evfacts" id="evbFacts"></ul>
           <div id="ownEvents" class="ownevs" hidden></div>
           <div class="ctas" style="margin:20px 0 0;display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" data-go="events" id="evbBtn">What&rsquo;s on</button><a class="btn ghost" href="https://www.facebook.com/PredCG/?locale=en_GB" target="_blank" rel="noopener">Our Facebook page</a></div>
-          <p class="note"><b>Why</b><span>This band reads the next event off your calendar rather than a sentence typed once, so its date, its times and its price are the ones a player will actually turn up to. Add an event in the console and it takes the band over by itself. The poster beside it is All Out War until you send the Halloween artwork.</span></p>
+          <p class="note"><b>Why</b><span>This band reads the next event off your calendar rather than a sentence typed once, so its date, its times and its price are the ones a player will actually turn up to. Add an event in the console and it takes the band over by itself. The poster beside it is All Out War until you send the Halloween artwork. The poster in the frame is your All Out War one, because your Halloween poster has not come across yet. Send it and it takes this slot.</span></p>
         </div>
         <figure class="evposter"><img src="assets/poster-all-out-war.jpg" width="386" height="748" alt="Our All Out War poster: Predator Airsoft, Sunday 20th September, 09:00 start, woodland site" loading="lazy" decoding="async"><span class="credit">Our poster, All Out War</span></figure>
       </div>
@@ -2219,7 +2230,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
     <div class="wrap">
       <p class="eyebrow">Sessions</p>
       <h2 style="margin:10px 0 10px" id="partiesH2">Book a session:<br>outdoor activities, Nerf Wars or airsoft</h2>
-      <p class="lede" style="margin-bottom:24px">Groups, parties and corporate bookings. Sessions run to fixed time slots and are booked ahead. <span class="ph">Price your group on screen and hold the slot with a deposit.</span></p>
+      <p class="lede" style="margin-bottom:24px">Groups, parties and corporate bookings. Sessions run to fixed time slots and are booked ahead. <span class="ph">Price your group on screen and pay for it there, rather than waiting on a phone call.</span></p>
       <p class="note" style="margin:-10px 0 20px"><b>Why</b><span>Your site says suitable for groups, parties and corporate bookings, and to call or email to check availability. This is what "call and book" becomes: a price on screen, at your published per-head rates, and a slot held with a deposit. The background image is illustrative, generated.</span></p>
       <div class="split">
         <div class="card pad">
@@ -2896,7 +2907,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
     </div>
     <div class="legal">
       <span>Design proposal by ThinkWork, for discussion with you. Your prices, ages, running order, activities, team building and Phoenix wording, address, numbers, emails and colours are your own, taken from predator-combat.com and activate-outdoor-adventure.com on 2 October 2026 and from our calls of 13 and 16 October. Every photograph is yours and says which page it came from. Anything in amber is sample content waiting for your figures. Not the live site, and no live payments.</span>
-      <span class="mono">thinkwork.info &middot; built 20 Oct 2026 15:12 UK</span>
+      <span class="mono">thinkwork.info &middot; built 20 Oct 2026 17:45 UK</span>
     </div>
   </div>
 </footer>
@@ -3653,12 +3664,21 @@ $$(".stepper").forEach(s=>s.addEventListener("click",e=>{const b=e.target.closes
 $("#bkDate").addEventListener("change",e=>{setDate(+e.target.value);draw();});
 $("#bkMember").addEventListener("change",e=>{state.member=e.target.checked;if(state.member)state.joined=false;draw();});
 $("#upBtn").addEventListener("click",()=>{state.joined=true;draw();});
+/* the step-two label names what step two actually is. Where pre-orders are a later phase and the add-on list is
+   hidden, a button promising pre-orders names a screen the visitor will never see. A site with add-ons on keeps
+   the original wording. */
 const LABELS=["Continue to pre-orders","Continue to players and waiver","Continue to payment",""];
+function stepLabel(n){
+  if(n!==1)return LABELS[n-1];
+  const list=$("#addonList");
+  const shown=list&&list.offsetParent!==null;
+  return shown?LABELS[0]:"Continue";
+}
 function setStep(n){
   state.step=n;
   $$("[data-step]").forEach(p=>p.hidden=(+p.dataset.step!==n));
   $$("#stepBar div").forEach(d=>{const s=+d.dataset.s;d.classList.toggle("on",s===n);d.classList.toggle("done",s<n);});
-  $("#backBtn").hidden=n===1; $("#nextBtn").hidden=n===4; $("#nextBtn").textContent=LABELS[n-1];
+  $("#backBtn").hidden=n===1; $("#nextBtn").hidden=n===4; $("#nextBtn").textContent=stepLabel(n);
   $("#nextBtn").disabled=(n===1&&players()===0);
   window.scrollTo({top:0,behavior:reduce?"auto":"smooth"});
 }
@@ -3865,7 +3885,12 @@ eCalc();
 /* the screen opens on a date that actually works: the next day we run, not an arbitrary month ahead that the rules
    then refuse: a group screen whose button is disabled on arrival reads as broken. 16 Oct 2026. */
 (function(){const el=$("#evDate");if(!el)return;
-  const next=(typeof DATES!=="undefined"?DATES:[]).filter(d=>!d.tba&&d.dt>=new Date(Date.now()-8*3600e3))[0];
+  /* the first date a GROUP can actually have: landing the quote on an event that is closed to groups greeted a
+     visitor with a refusal and a discount on a booking that cannot happen. A site with no such event is unchanged. */
+  const soon=(typeof DATES!=="undefined"?DATES:[]).filter(d=>!d.tba&&d.dt>=new Date(Date.now()-8*3600e3));
+  const bookable=soon.filter(d=>{const iso=d.dt&&d.dt.toISOString?d.dt.toISOString().slice(0,10):"";
+    const ev=typeof gEventOn==="function"?gEventOn(iso):null; return !ev;});
+  const next=bookable[0]||soon[0];
   const dt=next?next.dt:(()=>{const x=new Date();x.setDate(x.getDate()+30);return x;})();
   el.value=dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0")+"-"+String(dt.getDate()).padStart(2,"0");
   if(typeof eCalc==="function")eCalc();})();

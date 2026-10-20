@@ -18,7 +18,6 @@
 
 ## Upcoming dates
 
-- Saturday 17 October 2026
 - Saturday 31 October 2026
 - Saturday 14 November 2026
 - Saturday 28 November 2026
@@ -30,6 +29,7 @@
 - Saturday 06 March 2027
 - Saturday 20 March 2027
 - Saturday 03 April 2027
+- Saturday 17 April 2027
 
 ## Pages
 
@@ -42,4 +42,4 @@
 - https://thinkwork.info/1066/paintball/prices/
 - https://thinkwork.info/1066/paintball/sessions/
 
-Last updated 2026-10-11.
+Last updated 2026-10-20.

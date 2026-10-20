@@ -750,3 +750,9 @@ h1{letter-spacing:-.005em}
 /* The calendar spans two years now, so each date carries its year. */
 .datelist li{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .datelist li span{color:var(--muted);font-size:.8rem}
+
+/* The gallery had a fixed six columns, so paintball's four frames left a hole
+   on the right. Fit to whatever is there instead. */
+.gallery{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+@media (max-width:1040px){.gallery{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}}
+@media (max-width:560px){.gallery{grid-template-columns:repeat(2,1fr)}}

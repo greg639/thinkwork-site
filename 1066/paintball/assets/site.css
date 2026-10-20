@@ -792,6 +792,16 @@ h1{letter-spacing:-.005em}
    below it. Measured, not guessed: nextup was 487px tall for four short lines. */
 section.statstrip{padding-block:0}
 section.nextup{padding-block:0}
+/* .phero was the third, and the most visible: section 80 plus its own wrap
+   58/50 gave 138px of nothing above the eyebrow and 131 below the lede, then
+   the next section added its own 80 on top. 211px between a one line lede and
+   the content it introduces. */
+section.phero{padding-block:0}
+
+/* Two stacked sections each paying 80 put 160px between them, which at this
+   type size reads as the page having come apart. 72 is still generous. */
+section{padding-block:72px}
+section.tight{padding-block:0 72px}
 
 /* 80px between sections is right at 1400 and far too much on a phone, where it
    is most of a screen of nothing between every block. */

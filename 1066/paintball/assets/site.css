@@ -496,17 +496,6 @@ h2{line-height:1.1;text-transform:uppercase}
 }
 .art-note{margin-top:28px;font-size:13px;color:var(--muted);opacity:.85}
 
-/* ---- outstanding facts -------------------------------------------------- */
-/* Every figure we have not been given is marked rather than invented, because
-   invented prices and zone names had to be stripped from this project once
-   already. These are visible on purpose: they are the list of what the owner
-   still owes us, and none of them survives go-live. */
-.todo{display:inline-block;font-family:var(--sans);font-size:.78em;font-weight:600;
-      letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;
-      color:var(--accent-deep);background:var(--accent-soft);
-      border:1px dashed var(--accent);border-radius:999px;padding:1px 10px;
-      vertical-align:baseline}
-
 /* ---- 1066 overrides ----------------------------------------------------- */
 /* Their own site runs a red phone and email bar across the top. The inherited
    rule painted it with --fg, which on a dark ground is near-white: a bright

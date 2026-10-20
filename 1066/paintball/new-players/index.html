@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Barlow+Semi+Condensed:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="/1066/paintball/assets/site.css?v=58c3680c">
+<link rel="stylesheet" href="/1066/paintball/assets/site.css?v=bf3c2e52">
 <script type="application/ld+json">
 {
  "@context":"https://schema.org",
@@ -211,6 +211,23 @@
   /* Out of dates. Say so plainly rather than showing a stale one. */
   document.getElementById('nextMeta').textContent =
     'Call us for the next available date.';
+})();
+</script>
+
+<script>
+/* The opening screen's type arrives once, in about a second, staggered, using
+   Web Animations. The slides themselves crossfade and push in from CSS, so
+   nothing here has to run per frame. Does nothing under prefers-reduced-motion. */
+(function(){
+  var hero=document.querySelector(".hero"); if(!hero) return;
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if(!("animate" in Element.prototype)) return;
+  [".eyebrow","h1",".lede",".hero-cta",".hero-meta"]
+    .map(function(s){return hero.querySelector(s);}).filter(Boolean)
+    .forEach(function(el,i){
+      el.animate([{opacity:0,transform:"translateY(22px)"},{opacity:1,transform:"none"}],
+        {duration:620,delay:70*i,easing:"cubic-bezier(.2,.7,.2,1)",fill:"backwards"});
+    });
 })();
 </script>
 </body>

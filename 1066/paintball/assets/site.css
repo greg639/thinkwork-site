@@ -756,3 +756,42 @@ h1{letter-spacing:-.005em}
 .gallery{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
 @media (max-width:1040px){.gallery{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}}
 @media (max-width:560px){.gallery{grid-template-columns:repeat(2,1fr)}}
+
+/* ---- the opening screen moves ------------------------------------------- */
+/* Ported from the airsoft engine's hero-motion, which is the standard the
+   later builds set: a stage of the business's own photographs behind the type,
+   each holding for --hold with a slow push in and crossfading to the next.
+   Nothing generated, nothing borrowed from another business. Under
+   prefers-reduced-motion the first slide is simply there. */
+.hero{--hold:6s}
+.hero .stage{position:absolute;inset:0;overflow:hidden;background:#0a0d12;z-index:0}
+.hero .stage img.slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  object-position:var(--pos,55% 42%);opacity:0;
+  filter:contrast(1.07) saturate(.92) brightness(.9);will-change:opacity,transform;
+  animation:slide-cycle-3 calc(var(--hold)*3) linear infinite,
+            slide-kb-3    calc(var(--hold)*3) linear infinite;
+  animation-delay:var(--at,0s)}
+@keyframes slide-cycle-3{0%{opacity:0}7%{opacity:1}33.3%{opacity:1}40.5%{opacity:0}100%{opacity:0}}
+@keyframes slide-kb-3{0%{transform:scale(1.03)}40.5%{transform:scale(1.16) translate(-1.5%,-1.1%)}
+  40.501%{transform:scale(1.03)}100%{transform:scale(1.03)}}
+
+/* the scrim lives on the stage now, so the type column is flat ground */
+.hero .stage::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(90deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 93%,transparent) 22%,
+      color-mix(in srgb,var(--bg) 74%,transparent) 40%,color-mix(in srgb,var(--bg) 40%,transparent) 58%,
+      color-mix(in srgb,var(--bg) 12%,transparent) 78%,color-mix(in srgb,var(--bg) 2%,transparent) 100%),
+    linear-gradient(180deg,color-mix(in srgb,var(--bg) 26%,transparent) 0%,transparent 28%,
+      color-mix(in srgb,var(--bg) 40%,transparent) 66%,var(--bg) 94%)}
+.hero::after{display:none}          /* the old flat wash, replaced by the stage scrim */
+.hero-art{display:none}             /* the old single still */
+
+@supports (animation-timeline:scroll()){@media (prefers-reduced-motion:no-preference){
+  .hero .stage{animation:stage-drift linear both;animation-timeline:scroll(root);animation-range:0 100vh}
+  @keyframes stage-drift{from{transform:translateY(0)}to{transform:translateY(12%)}}
+}}
+@media (prefers-reduced-motion:reduce){
+  .hero .stage img.slide{animation:none;opacity:0}
+  .hero .stage img.slide:first-of-type{opacity:1}
+  .hero h1,.hero .lede,.hero-cta,.hero-meta,.hero .eyebrow{animation:none!important}
+}

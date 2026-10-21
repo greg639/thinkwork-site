@@ -661,13 +661,13 @@ function buildBookings(d,dates,players){
   const out=[];
   if(d.bookings.length){
     for(const row of d.bookings){
-      const [ref,name,when,walkon,hire,sess,member,status,extras,flag,paidAs,dueAs]=row;
+      const [ref,name,when,walkon,hire,sess,member,status,extras,flag,paidAs,dueAs,meta]=row;
       const dt=dateAt(when);if(!dt)continue;
       const items=[];if(walkon)items.push({kind:"walkon",n:walkon});if(hire)items.push({kind:"hire",n:hire});
       let paid=0;const ev=dt.deposit?dt:null;
       for(const it of items){const t=ticketFor(d,it.kind,sess||"full");const unit=ev?(it.kind==="walkon"?ev.deposit:0):(member?t.member:t.price);paid+=unit*it.n*(dt.off?dt.off:1);}
       paid+=(+extras||0);
-      out.push({ref,name,date:dt,items,sess:sess||"full",member:!!member,status:status||"paid",extras:+extras||0,paid:typeof paidAs==="number"?paidAs:Math.round(paid),flag:!!flag,due:typeof dueAs==="number"?dueAs:ev?(ev.price-ev.deposit)*(walkon||1):0});
+      out.push({ref,name,date:dt,items,sess:sess||"full",member:!!member,status:status||"paid",extras:+extras||0,paid:typeof paidAs==="number"?paidAs:Math.round(paid),flag:!!flag,meta:meta||null,due:typeof dueAs==="number"?dueAs:ev?(ev.price-ev.deposit)*(walkon||1):0});
     }
   }else{
     players.forEach((p,i)=>{const dt=nonTba[0];out.push({ref:d.ref+"-"+(1000+i*37).toString(36).toUpperCase().slice(0,4),name:p.name,date:dt,items:[{kind:p.kind,n:1}],sess:p.sess,member:p.member,status:p.waiver?"paid":"waiver",extras:0,paid:p.price,flag:false,due:0});});
@@ -956,7 +956,7 @@ function shell(inst){
   /* which build is this? The version alone cannot answer it: 0.10.2 looked identical before and after three
      config changes in one day. The stamp is written by the builder; it is wrapped so a hash can normalise it out. */
   const P=inst.opts.account;
-  rail+=P?'<div class="aoc-railfoot">ThinkWork booking</div>':'<div class="aoc-railfoot">AOC '+VERSION+'<br><span class="aoc-build" data-build="21 Oct 2026 16:57">built 21 Oct 2026 16:57 UK</span><br>by ThinkWork</div>';
+  rail+=P?'<div class="aoc-railfoot">ThinkWork booking</div>':'<div class="aoc-railfoot">AOC '+VERSION+'<br><span class="aoc-build" data-build="21 Oct 2026 20:48">built 21 Oct 2026 20:48 UK</span><br>by ThinkWork</div>';
   const roles=Object.keys(ROLES).map(k=>'<button data-aoc-role="'+k+'" aria-pressed="'+(k===inst.role)+'">'+ROLES[k].label+'</button>').join("");
   /* the console as a product (opts.account, from the booking server): who is signed in, the next day, the brand
      switcher where a tenant has more than one brand, the brand's own site, and an account menu with the dark-mode
@@ -986,7 +986,8 @@ function shell(inst){
     '</div>';
   const shown=s=>(!s.arena||d.kind!=="skirmish")&&!(P&&s.key==="proposal")&&!(P&&d.home&&s.key==="today");
   const screens=SCREENS.filter(shown).map(s=>'<section class="aoc-screen'+(s.key==="proposal"?" aoc-prop":" aoc-pad")+'" data-aoc-screen="'+s.key+'"'+((d.real||[]).indexOf(s.key)>=0?'>':P?'>'+(later(d,s.key)?'':'<p class="aoc-notlive">Not live yet: sample figures.</p>'):' data-ph="1">'+ph(s.key==="proposal"?"Every figure below is sample until you replace it":"Sample data"))+'<div data-aoc-body="'+s.key+'"></div></section>').join("");
-  inst.el.innerHTML='<div class="aoc-desk"><nav class="aoc-rail" aria-label="Console sections">'+rail+'</nav><main class="aoc-main">'+top+screens+'</main></div>'+
+  const bottom=P&&d.home?'<nav class="aoc-bottombar" aria-label="Main"><button data-aoc-go="calendar">Calendar</button><button data-aoc-go="reception">Reception</button><button data-aoc-go="bookings">Bookings</button>'+(d.kind==="arena"?'<button data-aoc-go="groups">Groups</button>':'<button data-aoc-go="members">Members</button>')+'<button data-aoc-more>More</button></nav>':'';
+  inst.el.innerHTML='<div class="aoc-desk"><nav class="aoc-rail" aria-label="Console sections">'+rail+'</nav><main class="aoc-main">'+top+screens+'</main></div>'+bottom+
     '<div class="aoc-toast" role="status" aria-live="polite"></div><div class="aoc-tip"></div>';
 }
 
@@ -1080,11 +1081,11 @@ function paintBookings(inst,query){
   const nextOther=m.dates.find(x=>!x.tba&&x!==b.date);
   det.innerHTML=card('<h3>'+esc(b.ref)+' · '+esc(b.name)+'</h3><span class="aoc-sp"></span>'+st(b),
     '<div class="aoc-bd"><div class="aoc-grid half">'+
-    '<div>'+kv("Date",fmtLong(b.date.dt))+kv("Tickets",'<span class="wrap">'+esc(bookingItems(inst,b))+'</span>',"wrap")+kv("Paid",gbp(b.paid))+(b.due?kv("Balance due on the day",gbp(b.due)):"")+kv("Safety form",b.status==="waiver"?'<span class="aoc-warn-c">Not signed yet</span>':"Signed, on file")+'</div>'+
+    '<div>'+kv("Date",fmtLong(b.date.dt))+kv("Tickets",'<span class="wrap">'+esc(bookingItems(inst,b))+'</span>',"wrap")+kv("Paid",gbp(b.paid))+(b.due?kv("Balance due on the day",gbp(b.due)):"")+kv("Safety form",b.meta?(b.meta.signed>=b.meta.of&&b.meta.of?"Signed by everyone":b.meta.signed?'<span class="aoc-warn-c">'+b.meta.signed+' of '+b.meta.of+' signed</span>':'<span class="aoc-warn-c">Not signed</span>'):(b.status==="waiver"?'<span class="aoc-warn-c">Not signed yet</span>':"Signed, on file"))+'</div>'+
     '<div><p class="aoc-lbl" style="margin-bottom:8px">Actions</p><div class="aoc-row">'+
-      '<button class="aoc-btn g" data-aoc-act="refund" '+(b.status==="refunded"?"disabled":"")+'>Refund '+gbp(b.paid)+'</button>'+
-      (nextOther?'<button class="aoc-btn g" data-aoc-act="move" '+(b.status==="refunded"?"disabled":"")+'>Move to '+fmtDM(nextOther.dt)+'</button>':"")+
-      '<button class="aoc-btn g" data-aoc-act="resend">Resend the pass</button></div>'+(inst.opts.store&&b.status!=="cancelled"?'<div class="aoc-fld" style="margin-top:10px"><span class="aoc-lbl">Reason, for the record and the email</span><input class="aoc-f" data-aoc="bkReason" placeholder="Asked to cancel"></div>':"")+
+      (inst.opts.store?'<button class="aoc-btn g" data-aoc-sheet="refund" '+(b.status==="cancelled"?"disabled":"")+'>'+(b.paid?'Refund or cancel':'Cancel the booking')+'</button>':'<button class="aoc-btn g" data-aoc-act="refund" '+(b.status==="refunded"?"disabled":"")+'>Refund '+gbp(b.paid)+'</button>')+
+      (inst.opts.store&&b.meta&&d.kind==="arena"?'<button class="aoc-btn g" data-aoc-sheet="move" '+(b.status==="cancelled"?"disabled":"")+'>Move to another date</button>':(nextOther?'<button class="aoc-btn g" data-aoc-act="move" '+(b.status==="refunded"?"disabled":"")+'>Move to '+fmtDM(nextOther.dt)+'</button>':""))+
+      '<button class="aoc-btn g" data-aoc-act="resend">Resend the pass</button></div>'+(inst.opts.store?'<div data-aoc="bkSheet"></div>':"")+
       '<p class="aoc-tiny" style="margin-top:10px" data-aoc="bkMsg">A refund goes back to the card it came from. A move keeps the money and changes the date; if the new date costs a different amount the difference is charged or refunded and the line here says so.</p></div>'+
     '</div></div>');
 }
@@ -1173,7 +1174,7 @@ function drawCustomers(inst){
 function drawMembers(inst){
   const d=inst.data,m=inst.m,M=d.membership,W=ticketFor(d,"walkon","full"),H=ticketFor(d,"hire","full");
   const per=M.per==="month"?"a month":"a year";
-  const title=M.published?"Your "+gbp(M.price)+" "+(M.per==="month"?"month":"year")+", "+esc(M.year):"A proposed membership: "+gbp(M.price)+" "+per;
+  const title=M.published?"Your "+gbp(M.price)+" "+(M.per==="month"?"month":"year")+(M.year?", "+esc(M.year):""):inst.opts.store?"Membership, "+gbp(M.price)+" "+per+": not on sale yet":"A proposed membership: "+gbp(M.price)+" "+per;
   body(inst,"members").innerHTML=head("Members",title,'<button class="aoc-btn g" data-aoc-act="export">Export</button><button class="aoc-btn p" data-aoc-act="renewAll">Renew all by email</button>')+
     '<div class="aoc-tiles" data-aoc="memTiles"></div>'+
     '<div class="aoc-grid two">'+
@@ -1204,7 +1205,7 @@ function paintMembers(inst){
   const rev=count*M.price*(M.per==="month"?12:1);
   q('[data-aoc="memTiles"]',inst.el).innerHTML=tile("Members",count.toLocaleString("en-GB"),"","on the books today")+tile(M.per==="month"?"Monthly recurring":"Membership this year",gbp(M.per==="month"?count*M.price:rev),"key",count+" × "+gbp(M.price))+tile("Renewals due",count.toLocaleString("en-GB"),"","from "+esc(M.renewMonth)+", no email sent yet")+tile("Payments failed",fails.length,fails.length?"alert":"good",fails.length?"card declined at renewal":"nothing failing")+tile("Lapsed this year",rows.filter(r=>r.status==="lapsed").length,"","dropped to non-member fares");
   const ST={active:["go","Active"],past_due:["stop","Payment failed"],lapsed:["","Lapsed"]};
-  q('[data-aoc="memTable"]',inst.el).innerHTML=tbl(["Name","Since","Visits this year","num:Saved","Status"],rows.filter(r=>f==="all"||(f==="member"&&r.status!=="lapsed")||(f==="lapsed"&&r.status==="lapsed")).map(r=>'<tr><td>'+esc(r.name)+'</td><td class="aoc-mono">'+esc(r.since)+'</td><td class="aoc-mono">'+r.visits+'</td><td class="num">'+gbp(r.saved)+'</td><td>'+chip(ST[r.status][1],ST[r.status][0])+'</td></tr>').join("")||'<tr><td colspan="5" class="aoc-tiny">'+(M.sample?"Nobody yet: membership is a proposal here, not on sale. The plans on the right show what it would look like.":"Nobody matches.")+'</td></tr>');
+  q('[data-aoc="memTable"]',inst.el).innerHTML=tbl(["Name","Since","Visits this year","num:Saved","Status"],rows.filter(r=>f==="all"||(f==="member"&&r.status!=="lapsed")||(f==="lapsed"&&r.status==="lapsed")).map(r=>'<tr><td>'+esc(r.name)+'</td><td class="aoc-mono">'+esc(r.since)+'</td><td class="aoc-mono">'+r.visits+'</td><td class="num">'+gbp(r.saved)+'</td><td>'+chip(ST[r.status][1],ST[r.status][0])+'</td></tr>').join("")||'<tr><td colspan="5" class="aoc-tiny">'+(inst.opts.store?(rows.length?"Nobody matches.":"No members yet. Add one on the right."):M.sample?"Nobody yet: membership is a proposal here, not on sale. The plans on the right show what it would look like.":"Nobody matches.")+'</td></tr>');
   q('[data-aoc="plans"]',inst.el).innerHTML=m.plans.map(p=>kv('<b>'+esc(p.name)+'</b>'+(p.kind==="free"?"":p.kind==="block"?": "+gbp(p.price)+" once":": "+gbp(p.price)+" a "+(p.per==="month"?"month":"year"))+'<br><span class="aoc-lbl">'+esc(p.note||"")+(p.status!=="Live"?" · "+p.status.toLowerCase()+", not on sale":"")+'</span>',(p.members||0).toLocaleString("en-GB"))).join("");
   q('[data-aoc="dun"]',inst.el).innerHTML=fails.length?fails.map(r=>'<div class="aoc-kv"><span><b>'+esc(r.name)+'</b><br><span class="aoc-lbl">retry 2 of 3 · next tomorrow</span></span><button class="aoc-btn g sm" data-aoc-act="cardLink">Send a card link</button></div>').join(""):'<p class="aoc-go-c"><b>Nothing failing.</b></p>';
 }
@@ -1344,6 +1345,7 @@ function paintGate(inst){
   fillSel(inst,"regWho",inst.m.players.filter(p=>!p.arrived));
 }
 function drawReception(inst){
+  if(inst.opts.store&&inst.data.dayPeople&&inst.data.kind==="arena")return drawReceptionLive(inst);
   const d=inst.data,kits=inst.m.players.filter(p=>p.kit);
   body(inst,"reception").innerHTML=(inst.opts.account?"":banner("Phase 2","The reception tablet. People scan their own pass and sign on their phone; a marshal can also check somebody in by hand. No clipboard, no queue."))+
     head("Reception","Check in · safety form · kit issue")+
@@ -1477,15 +1479,20 @@ function closeBig(inst){const b=q(".aoc-bigscreen",inst.el);if(b){b.classList.re
 function drawDaysheet(inst){
   const d=inst.data,m=inst.m,t=d.calendar.times||[];
   body(inst,"daysheet").innerHTML=head("Day sheet","The paper failsafe: works when nothing else does",'<button class="aoc-btn p" data-aoc-act="print">Print</button>')+
-    banner("Why","Printed the night before, this runs the whole day on its own. If the internet, the tablets or the power go down, a marshal with this sheet and a pen can still check everyone in and run the games.","why")+
+    banner("Why",(inst.opts.store?"Print it before the gates open and it runs":"Printed the night before, this runs")+" the whole day on its own. If the internet, the tablets or the power go down, a marshal with this sheet and a pen can still check everyone in and run the games.","why")+
     '<p class="aoc-sheetnote aoc-small aoc-muted">The day sheet is an A4 page: open the console on a desktop or tablet to print it.</p>'+
-    '<div class="aoc-sheet"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;gap:12px;flex-wrap:wrap"><div><div style="font-size:20px;font-weight:700;text-transform:uppercase">'+esc(inst.brand.name)+'</div><div style="font-size:13px">'+esc(m.next.name)+' · '+fmtLong(m.next.dt)+'</div></div><div style="font-size:12px;text-align:right">'+(t[0]?"Gates "+t[0]:"")+(t[1]?" · Games "+t[1]:"")+(t[2]?" · Endex "+t[t.length-1]:"")+'<br>'+(m.limit?"Chrono limit "+m.limit+" fps":"Chrono limit: not published, write it here")+'<br>Printed the night before, 19:40</div></div>'+
+    '<div class="aoc-sheet"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;gap:12px;flex-wrap:wrap"><div><div style="font-size:20px;font-weight:700;text-transform:uppercase">'+esc(inst.brand.name)+'</div><div style="font-size:13px">'+esc(m.next.name)+' · '+fmtLong(m.next.dt)+'</div></div><div style="font-size:12px;text-align:right">'+(t[0]?"Gates "+t[0]:"")+(t[1]?" · Games "+t[1]:"")+(t[2]?" · Endex "+t[t.length-1]:"")+'<br>'+(m.limit?"Chrono limit "+m.limit+" fps":"Chrono limit: not published, write it here")+'<br>'+(inst.opts.store?"Printed "+nowHM():"Printed the night before, 19:40")+'</div></div>'+
     tbl(["#","Name","Ticket","Ref","Form","Reg","In","Chrono","Notes"],m.players.map((p,i)=>'<tr><td>'+(i+1)+'</td><td>'+esc(p.name)+'</td><td>'+esc(p.ticket.label)+(p.member?" (M)":"")+'</td><td>'+esc(m.refOf(p))+'</td><td>'+(p.waiver?"Y":"<b>N</b>")+'</td><td>'+esc(p.reg||"")+'</td><td>'+(p.in?"✓":"")+'</td><td>'+(p.chrono?p.chrono.low+"/"+p.chrono.high:"")+'</td><td>'+(p.u18?"U18":"")+'</td></tr>').join(""))+'<p style="font-size:11px;margin-top:10px">Any player without a signed form does not go on the field. Spot checks: write the reading next to the name and the time.</p></div>';
 }
 
 /* ---------- Team and access ---------- */
 const CAPS=[["See bookings",[1,1,1,0,0]],["Manage memberships",[1,1,1,0,0]],["Manage stock and products",[1,1,1,0,0]],["Take and refund payments",[1,1,1,0,0]],["Create and edit dates",[1,1,1,0,0]],["Check players in",[1,1,1,1,1]],["Take car park registrations",[1,1,1,1,1]],["Log chrono readings",[1,1,1,1,0]],["Log game results",[1,1,1,1,0]],["Drive the big screen",[1,1,1,1,0]],["See money and payouts",[1,1,0,0,0]],["Export the customer list",[1,1,0,0,0]],["Send marketing",[1,1,1,0,0]],["Change fares and settings",[1,1,0,0,0]],["Manage users and permissions",[1,1,0,0,0]]];
 function drawTeam(inst){
+  if(inst.opts.store&&inst.data.team){const T=inst.data.team,RL={owner:["Owner","brand","Everything, including who has access"],manager:["Manager","","Bookings, calendar, groups, members, money"],marshal:["Marshal","info","Reception, the day sheet and the field screens"],gate:["Gate","info","The car park and the day sheet"]};
+    body(inst,"team").innerHTML=head("Team and access","Who can see what, and who can change it")+
+      card('',tbl(["Name","Role","Can reach","Last signed in"],T.staff.map(s=>'<tr><td><b>'+esc(s.name)+'</b><br><span class="aoc-tiny">'+esc(s.email)+'</span></td><td>'+chip((RL[s.role]||[s.role])[0],(RL[s.role]||[])[1]||"")+'</td><td>'+esc((RL[s.role]||[])[2]||"")+'</td><td class="aoc-mono">'+esc(s.last)+'</td></tr>').join("")+T.invites.map(x=>'<tr><td>'+esc(x.email)+'</td><td>'+chip((RL[x.role]||[x.role])[0])+'</td><td class="aoc-tiny">Invited, not accepted yet</td><td></td></tr>').join("")))+
+      '<div style="height:16px"></div>'+card('<h3>Invite someone</h3>','<div class="aoc-bd"><div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Email</span><input class="aoc-f" type="email" data-aoc="invEmail"></div><div class="aoc-fld"><span class="aoc-lbl">Role</span><select class="aoc-f" data-aoc="invRole">'+opt([["manager","Manager"],["marshal","Marshal"],["gate","Gate"],["owner","Owner"]])+'</select></div></div><button class="aoc-btn p" data-aoc-act="invite" style="margin-top:8px">Send the invitation</button><p class="aoc-small aoc-muted" style="margin-top:8px">They choose a password from the email and land on the screens their role allows.</p></div>');
+    return;}
   const d=inst.data,N=inst.m.players;
   const nm=i=>firstName(someone(N,i,"Unassigned"));
   const staff=[["ThinkWork","Platform admin","brand","Everything, including permissions","Today","Active","go"],[esc(d.team.owner),"Owner","brand","Everything, including permissions","Today","Active","go"],[nm(9),"Manager","","Bookings, calendar, customers, stock","Yesterday","Active","go"],[nm(3),"Marshal","info","The field screens and the day sheet","Today","Active","go"],[nm(14),"Marshal","info","The field screens and the day sheet","Last "+d.calendar.regular.dayName,"Active","go"],[nm(21),"Gate","info","Car park and the day sheet","Never","Invite pending","warn"]];
@@ -1503,7 +1510,7 @@ function drawSettings(inst){
   const fareRows=[];for(const k of kinds)for(const s of sesses){const tk=d.tickets.find(x=>x.kind===k&&x.sess===s);if(!tk)continue;fareRows.push('<div class="aoc-frow"><span><b>'+esc(d.labels[k]||k)+'</b><span class="aoc-tiny">'+esc(d.labels[s]||s)+(tk.published===false?", sample":"")+'</span></span><label class="aoc-in">£<input class="aoc-f aoc-mono" type="number" inputmode="numeric" min="0" data-aoc-fare="'+esc(tk.key)+'.m" value="'+tk.member+'"></label><label class="aoc-in">£<input class="aoc-f aoc-mono" type="number" inputmode="numeric" min="0" data-aoc-fare="'+esc(tk.key)+'.n" value="'+tk.price+'"></label></div>');}
   const anyPub=d.tickets.some(x=>x.published!==false);
   const chronoField=(k,l)=>'<div class="aoc-fld"><span class="aoc-lbl">'+l+'</span><input class="aoc-f" data-aoc-chrono="'+k+'" value="'+esc(C[k]||"")+'" placeholder="Not published, you tell us"></div>';
-  body(inst,"settings").innerHTML=head("Settings","Your fares and your rules, in one place. Change a price here and the fare board and the checkout on the site change with it.",'<button class="aoc-btn g" data-aoc-act="resetFares">Reset to published</button><button class="aoc-btn p" data-aoc-act="saveFares">Save</button>')+
+  body(inst,"settings").innerHTML=head("Settings",inst.opts.store?"Not live yet. Prices are changed under Events and prices; nothing on this screen saves.":"Your fares and your rules, in one place. Change a price here and the fare board and the checkout on the site change with it.",'<button class="aoc-btn g" data-aoc-act="resetFares">Reset to published</button><button class="aoc-btn p" data-aoc-act="saveFares">Save</button>')+
     '<div class="aoc-grid two">'+
       card('<h3>Fare table</h3><span class="aoc-sp"></span>'+(anyPub?chip("Prefilled with your published fares","go"):chip("Sample fares: yours are not on your site","ph")),'<div class="aoc-bd"><div class="aoc-fares"><div class="aoc-fhead"><span></span><span class="aoc-lbl">Member</span><span class="aoc-lbl">Non-member</span></div>'+fareRows.join("")+'</div>'+
         '<p class="aoc-lbl" style="margin:18px 0 8px">Membership</p><div class="aoc-form"><div class="aoc-fld"><span class="aoc-lbl">Price, per '+(M.per==="month"?"month":"year")+'</span><label class="aoc-in">£<input class="aoc-f aoc-mono" type="number" inputmode="numeric" data-aoc="memPrice" value="'+(M.price||0)+'"></label></div><div class="aoc-fld"><span class="aoc-lbl">Membership year</span><input class="aoc-f" data-aoc="memYear" value="'+esc(M.year)+'"></div></div>'+
@@ -1679,7 +1686,7 @@ const GSTAT={held:["brand","Held, nothing paid yet","Held"],enquiry:["warn","Enq
 function buildSlots(d){
   if(d.slots&&Array.isArray(d.slots.list)){const today=new Date();today.setHours(0,0,0,0);const out=[];
     d.slots.list.forEach(row=>{const ses=d.sessions.find(s=>s.key===row.session);if(!ses)return;const dt=new Date(row.iso+"T12:00:00");dt.setHours(0,0,0,0);
-      out.push({id:out.length,dt,iso:row.iso,time:row.time||"",mins:ses.mins||60,session:ses,sport:ses.sport,area:row.area||ses.area||"",cap:row.cap!=null?row.cap:null,group:!!ses.group,groups:[],sold:+row.sold||0,taken:row.taken,dayIndex:Math.round((dt-today)/864e5),closed:!!row.closed,real:row.groups||[],realMeta:row.meta||{},dbId:row.id,kitOut:!!row.kitOut});});
+      out.push({id:out.length,dt,iso:row.iso,time:row.time||"",mins:ses.mins||60,session:ses,sport:ses.sport,area:row.area||ses.area||"",cap:row.cap!=null?row.cap:null,group:!!ses.group,groups:[],sold:+row.sold||0,taken:row.taken,dayIndex:Math.round((dt-today)/864e5),closed:!!row.closed,real:row.groups||[],realMeta:row.meta||{},dbId:row.id,kitOut:!!row.kitOut,end:row.end||"",unsigned:+row.unsigned||0});});
     return out;}
   const pat=(d.slots&&d.slots.pattern)||{},spaces=(d.calendar.spaces&&d.calendar.spaces.length)?d.calendar.spaces:[14,22,7,31,19,3,26,11,38,16,9,24],out=[];
   const today=new Date();today.setHours(0,0,0,0);
@@ -1707,7 +1714,7 @@ function buildGroups(d,slots){
   return out;
 }
 const slotWhen=s=>fmtShort(s.dt)+(s.time?" "+s.time:"");
-const slotEnd=s=>{const m=mins(s.time);return m==null?"":hhmm(m+s.mins);};
+const slotEnd=s=>{if(s.end)return s.end;const m=mins(s.time);return m==null?"":hhmm(m+s.mins);};
 /* the day panel's title: "Today" on today, the day's own name on any other */
 function dayTitle(inst){const H=inst.data.home;if(!H||!inst.sel.day||inst.sel.day===H.today)return "Today";return dOf(inst.sel.day).toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"short"});}
 function slotStatus(s){if(s.closed)return chip("Closed","stop");if(!s.group)return s.cap?chip(s.sold+" of "+s.cap+" booked",s.sold>=s.cap?"stop":"info"):chip(s.sold+" booked","info");if(!s.groups.length)return chip("Open","go");const full=s.sold>=s.cap;const st=s.groups.every(g=>g.status==="paid"||g.status==="played")?"Paid":s.groups.some(g=>g.status==="deposit")?"Held: deposit":"Held: quote out";return chip(full?"Full":st,full?"stop":st==="Paid"?"go":"brand");}
@@ -1725,7 +1732,7 @@ function kitFor(d,sport){return (d.kit&&d.kit[sport])||["Kit"];}
 /* Today: the day's slots */
 function drawTodayArena(inst){
   const d=inst.data,m=inst.m;
-  body(inst,"today").innerHTML=head(dayTitle(inst),fmtLong(m.day)+" · "+plural(m.todaySlots.length,"session")+((d.slots&&d.slots.timesSample)?" (sample times)":""),'<button class="aoc-btn g" data-aoc-go="daysheet">Print day sheet</button><button class="aoc-btn p" data-aoc-go="reception">Open reception</button>')+
+  body(inst,"today").innerHTML=head(dayTitle(inst),fmtLong(m.day)+" · "+plural(m.todaySlots.length,"session")+((d.slots&&d.slots.timesSample)?" (sample times)":""),(inst.opts.store?'<button class="aoc-btn g" data-aoc-act="addBookingDay">Add a booking</button>':'')+'<button class="aoc-btn g" data-aoc-go="daysheet">Print day sheet</button><button class="aoc-btn p" data-aoc-go="reception">Open reception</button>')+
     '<div class="aoc-tiles" data-aoc="todayTiles"></div>'+
     '<div class="aoc-grid two" style="margin-bottom:14px">'+card('<h3>The day, slot by slot</h3><span class="aoc-sp"></span>'+chip("Fixed slots, booked ahead","info"),'<div data-aoc="timeline"></div>')+card('<h3>Needs attention</h3><span class="aoc-sp"></span>'+chip("0","stop"),'<div class="aoc-bd" data-aoc="attn"></div>')+'</div>'+
     '<div class="aoc-grid two">'+card('<h3>Before the doors open</h3><span class="aoc-sp"></span>'+chip("Counted last night, not at the desk","info"),'<div class="aoc-bd" data-aoc="before"></div>')+card('<h3>Activity</h3>','<div class="aoc-bd"><div class="aoc-feed" data-aoc="feed"></div></div>')+'</div>';
@@ -1733,10 +1740,10 @@ function drawTodayArena(inst){
 }
 function paintTodayArena(inst){
   const d=inst.data,m=inst.m,S=m.todaySlots,G=S.flatMap(s=>s.groups);
-  const players=S.reduce((a,s)=>a+s.sold,0),unsigned=G.reduce((a,g)=>a+(g.n-g.signed),0),kitN=S.reduce((a,s)=>a+kitFor(d,s.sport).length*s.sold,0),taken=G.reduce((a,g)=>a+g.paid,0)+S.filter(s=>!s.group).reduce((a,s)=>a+(s.taken!=null?s.taken:s.sold*s.session.price),0),inn=G.reduce((a,g)=>a+g.arrived,0);
+  const players=S.reduce((a,s)=>a+s.sold,0),unsigned=G.reduce((a,g)=>a+(g.n-g.signed),0)+S.filter(s=>!s.group).reduce((a,s)=>a+(+s.unsigned||0),0),kitN=S.reduce((a,s)=>a+kitFor(d,s.sport).length*s.sold,0),taken=G.reduce((a,g)=>a+g.paid,0)+S.filter(s=>!s.group).reduce((a,s)=>a+(s.taken!=null?s.taken:s.sold*s.session.price),0),inn=G.reduce((a,g)=>a+g.arrived,0);
   const ev=q('[data-aoc="evName"]',inst.el);if(ev)ev.textContent=fmtShort(m.day)+" · "+plural(S.length,"session");
   const tiles=q('[data-aoc="todayTiles"]',inst.el);if(!tiles)return;
-  tiles.innerHTML=tile("Sessions today",S.length,"",[...new Set(S.map(s=>s.sport))].join(", "))+tile("Players booked",players,"",plural(G.length,"group")+(S.some(s=>!s.group)?" and a walk-on":""))+tile("Checked in",inn+'<div class="aoc-meter go"><i style="width:'+(players?inn/players*100:0)+'%"></i></div>',"good")+tile("Disclaimers outstanding",unsigned,unsigned?"alert":"good",unsigned?"signed on the phone before they arrive":"everyone signed")+tile("Kit to issue",kitN,"","markers, masks, vests, phasers, rifles")+tile("Taken online",gbp(taken),"key","deposits and balances, before anyone parked");
+  tiles.innerHTML=tile(dayTitle(inst)==="Today"?"Sessions today":"Sessions",S.length,"",S.length?[...new Set(S.map(s=>s.sport))].join(", "):"nothing runs this day")+tile("Players booked",players,"",S.length?(G.length?plural(G.length,"group")+(S.some(s=>!s.group)?" and walk-ons":""):"walk-ons and hire"):"")+tile("Checked in",inn+'<div class="aoc-meter go"><i style="width:'+(players?inn/players*100:0)+'%"></i></div>',"good")+tile("Disclaimers outstanding",unsigned,unsigned?"alert":"good",unsigned?"to sign before they play":players?"everyone signed":"nobody booked")+tile("Kit to issue",kitN,"","markers, masks, vests, phasers, rifles")+tile("Taken online",gbp(taken),"key","deposits and balances, before anyone parked");
   q('[data-aoc="timeline"]',inst.el).innerHTML=tbl(["Time","Session","Who","num:Players","Signed","Status"],S.map(s=>'<tr class="aoc-click" data-aoc-slot="'+s.id+'"><td class="aoc-mono">'+esc(s.time)+(s.time?'<br><span class="aoc-tiny">to '+slotEnd(s)+'</span>':"")+'</td><td>'+esc(s.session.label)+'<br>'+chip(s.sport)+'</td><td>'+slotWho(s)+'</td><td class="num">'+s.sold+'</td><td>'+(s.group?(s.groups.length?s.groups.reduce((a,g)=>a+g.signed,0)+" of "+s.sold:'<span class="aoc-tiny">n/a</span>'):'<span class="aoc-tiny">at the desk</span>')+'</td><td>'+slotStatus(s)+'</td></tr>').join("")||'<tr><td colspan="6" class="aoc-tiny">No sessions today.</td></tr>');
   const attn=[];
   G.filter(g=>g.status==="deposit").forEach(g=>attn.push([g.organiser,"Balance "+gbp(g.total-g.paid)+" due today","warn"]));
@@ -1847,8 +1854,9 @@ function homeCell(inst,iso,big){
   let inner='<b>'+dOf(iso).getDate()+'</b>';
   if(shut)inner+='<span class="aoc-home-shut">'+esc(shut)+'</span>';
   else if(runs){
-    inner+='<span class="aoc-home-n">'+n+(cap?' <small>of '+cap+'</small>':' <small>booked</small>')+'</span>'+(cap?'<span class="aoc-meter"><i style="width:'+Math.min(100,Math.round(n/cap*100))+'%"></i></span>':"");
-    if(!w&&H.worlds&&H.worlds.length>1)inner+='<span class="aoc-home-dots">'+H.worlds.filter(x=>info.w&&x.key in info.w).map(x=>'<i title="'+esc(x.label)+': '+(info.w[x.key]||0)+'" style="background:'+esc(x.colour)+'">'+(info.w[x.key]||0)+'</i>').join("")+'</span>';
+    const line=(lab,col,x)=>'<span class="aoc-home-w"'+(col?' style="border-left-color:'+esc(col)+'"':'')+'>'+(lab?'<em>'+esc(lab)+'</em> ':'')+'<b>'+(+x.b||0)+'</b>'+(x.c?'/'+x.c:' booked')+'</span>'+(x.c?'<span class="aoc-meter"><i style="width:'+Math.min(100,Math.round((+x.b||0)/x.c*100))+'%"></i></span>':'');
+    if(!w&&H.worlds&&H.worlds.length>1)inner+=H.worlds.filter(x=>info.w&&x.key in info.w).map(x=>line(x.label.split(" ")[0],x.colour,info.w[x.key])).join("");
+    else inner+=line("",null,w?info.w[w]:{b:info.b,c:cap});
     if(info.e)inner+='<span class="aoc-home-ev">'+esc(info.e)+'</span>';
   }
   if(big&&runs&&inst.data.kind==="arena")inner+='<span class="aoc-home-slots">'+inst.m.slots.filter(s=>s.iso===iso&&inWorld(inst,s.session)).map(s=>'<span>'+esc(s.time)+' '+esc(s.session.label)+' <em>'+s.sold+(s.cap?'/'+s.cap:'')+'</em></span>').join("")+'</span>';
@@ -1869,12 +1877,14 @@ function paintHome(inst){
     q('[data-aoc="homeTitle"]',inst.el).textContent=first.toLocaleDateString("en-GB",{month:"long",year:"numeric"});
     for(let x=new Date(start);x<=last||x.getDay()!==1;x.setDate(x.getDate()+1)){const iso=isoD(x);html+=x.getMonth()===first.getMonth()?homeCell(inst,iso,false):'<span class="aoc-home-cell out"></span>';}
   }
-  el.innerHTML=html+'</div>';
+  const H=inst.data.home,anyCap=Object.keys(H.days).some(k=>H.days[k].c);
+  el.innerHTML=html+'</div>'+(anyCap?'':'<p class="aoc-small aoc-muted" style="margin-top:8px">No capacity is set on any slot yet, so each day shows how many are booked.</p>');
 }
 function homeNav(inst,step){const a=dOf(inst.sel.homeAnchor);if(inst.sel.homeView==="week")a.setDate(a.getDate()+7*step);else{a.setDate(1);a.setMonth(a.getMonth()+step);}inst.sel.homeAnchor=isoD(a);paintHome(inst);}
 
 /* Reception, by slot */
 function drawReceptionArena(inst){
+  if(inst.opts.store&&inst.data.dayPeople)return drawReceptionLive(inst);
   const d=inst.data,m=inst.m;
   body(inst,"reception").innerHTML=(inst.opts.account?"":banner("Phase 2","The reception tablet. Pick the slot, the group is there with who has signed and what kit goes out. Organisers scan their pass; a marshal can check a whole group in by hand."))+
     head("Reception","Check in by slot · disclaimer · kit issue")+
@@ -1907,9 +1917,9 @@ function paintReceptionArena(inst){
 function drawDaysheetArena(inst){
   const d=inst.data,m=inst.m;
   body(inst,"daysheet").innerHTML=head("Day sheet","The paper failsafe: works when nothing else does",'<button class="aoc-btn p" data-aoc-act="print">Print</button>')+
-    banner("Why","Printed the night before, this runs the whole day on its own: every slot, every group, who has signed and what kit goes out.","why")+
+    banner("Why",(inst.opts.store?"Print it before the gates open and it runs":"Printed the night before, this runs")+" the whole day on its own: every slot, every group, who has signed and what kit goes out.","why")+
     '<p class="aoc-sheetnote aoc-small aoc-muted">The day sheet is an A4 page: open the console on a desktop or tablet to print it.</p>'+
-    '<div class="aoc-sheet"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;gap:12px;flex-wrap:wrap"><div><div style="font-size:20px;font-weight:700;text-transform:uppercase">'+esc(inst.brand.name)+'</div><div style="font-size:13px">'+fmtLong(m.day)+' · '+plural(m.todaySlots.length,"session")+'</div></div><div style="font-size:12px;text-align:right">Printed the night before, 19:40</div></div>'+
+    '<div class="aoc-sheet"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;gap:12px;flex-wrap:wrap"><div><div style="font-size:20px;font-weight:700;text-transform:uppercase">'+esc(inst.brand.name)+'</div><div style="font-size:13px">'+fmtLong(m.day)+' · '+plural(m.todaySlots.length,"session")+'</div></div><div style="font-size:12px;text-align:right">'+(inst.opts.store?"Printed "+nowHM():"Printed the night before, 19:40")+'</div></div>'+
     tbl(["Time","Session","Group or walk-on","Players","Signed","Kit","Balance","Notes"],m.todaySlots.flatMap(s=>s.group&&s.groups.length?s.groups.map(g=>'<tr><td>'+esc(s.time)+'</td><td>'+esc(s.session.label)+'</td><td>'+esc(g.organiser)+', '+esc(g.occasion)+'</td><td>'+g.n+'</td><td>'+g.signed+'/'+g.n+'</td><td>'+kitFor(d,s.sport).join(", ")+' × '+g.n+'</td><td>'+(g.total-g.paid>0?gbp(g.total-g.paid)+" due":"paid")+'</td><td>'+esc(g.notes)+'</td></tr>'):['<tr><td>'+esc(s.time)+'</td><td>'+esc(s.session.label)+'</td><td>'+(s.group?"open":"walk-on")+'</td><td>'+s.sold+'</td><td>'+(s.group?"":"at the desk")+'</td><td>'+kitFor(d,s.sport).join(", ")+' × '+s.sold+'</td><td></td><td></td></tr>']).join(""))+
     '<p style="font-size:11px;margin-top:10px">Nobody without a signed disclaimer goes on. A balance still due is taken at the desk before the brief.</p></div>';
 }
@@ -1917,7 +1927,7 @@ function drawDaysheetArena(inst){
 /* Settings: the sessions and the pattern */
 function drawSettingsArena(inst){
   const d=inst.data,M=d.membership,S=d.settings;
-  body(inst,"settings").innerHTML=head("Settings","Your sessions, your prices and your slots, in one place. Change a price here and the site changes with it.",'<button class="aoc-btn g" data-aoc-act="resetSessions">Reset to published</button><button class="aoc-btn p" data-aoc-act="saveSessions">Save</button>')+
+  body(inst,"settings").innerHTML=head("Settings",inst.opts.store?"Not live yet. Prices are changed under Events and prices; nothing on this screen saves.":"Your sessions, your prices and your slots, in one place. Change a price here and the site changes with it.",'<button class="aoc-btn g" data-aoc-act="resetSessions">Reset to published</button><button class="aoc-btn p" data-aoc-act="saveSessions">Save</button>')+
     '<div class="aoc-grid two">'+card('<h3>Sessions</h3><span class="aoc-sp"></span>'+(d.sessions.every(x=>x.published!==false)?chip("Prefilled with your published prices","go"):d.sessions.every(x=>x.published!==false||x.confirmed)?chip("Your published prices, and the ones you confirmed on the call","go"):d.sessions.some(x=>x.published!==false)?chip("Published prices where you have them; the rest sample","ph"):chip("Sample prices: you publish none","ph")),'<div class="aoc-bd"><div class="aoc-fares">'+d.sessions.map(s=>'<div class="aoc-frow" style="grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr)"><span><b>'+esc(s.label)+'</b><span class="aoc-tiny">'+esc(s.sport)+(s.length?" · "+esc(s.length):"")+(s.minAge?" · "+(/^\d/.test(s.minAge)?"ages ":"")+esc(s.minAge):"")+'</span></span><label class="aoc-in">£<input class="aoc-f aoc-mono" type="number" min="0" data-aoc-ses="'+esc(s.key)+'.price" value="'+s.price+'"></label>'+(s.member!=null?'<label class="aoc-in">£<input class="aoc-f aoc-mono" type="number" min="0" data-aoc-ses="'+esc(s.key)+'.member" value="'+s.member+'"></label>':'<span class="aoc-tiny">per person</span>')+'</div>').join("")+'</div>'+(d.hire?'<p class="aoc-lbl" style="margin:18px 0 8px">'+esc(d.hire.label)+'</p><div class="aoc-form"><div class="aoc-fld"><span class="aoc-lbl">Per player</span><label class="aoc-in">£<input class="aoc-f aoc-mono" type="number" data-aoc="hirePrice" value="'+d.hire.price+'"></label></div></div>':"")+'<p class="aoc-lbl" style="margin:18px 0 8px">Membership</p><div class="aoc-form"><div class="aoc-fld"><span class="aoc-lbl">Price, per year</span><label class="aoc-in">£<input class="aoc-f aoc-mono" type="number" data-aoc="memPrice" value="'+(M.price||0)+'"></label></div><div class="aoc-fld"><span class="aoc-lbl">Membership year</span><input class="aoc-f" data-aoc="memYear" value="'+esc(M.year)+'"></div></div></div>')+
       '<div class="aoc-stack">'+card('<h3>Slots</h3>','<div class="aoc-bd"><p class="aoc-small aoc-muted">The weekly pattern is on the Slots screen. Deposit to hold a slot: <b class="aoc-mono">'+Math.round((d.model.depositPct||0.25)*100)+'%</b>, balance due seven days before.</p><p class="aoc-tiny" style="margin-top:8px">'+esc((d.slots&&d.slots.note)||"")+'</p></div>')+card('<h3>Ages and safety</h3>','<div class="aoc-bd">'+d.sessions.filter(s=>s.minAge).reduce((acc,s)=>acc.find(x=>x[0]===s.sport)?acc:acc.concat([[s.sport,s.minAge]]),[]).map(x=>kv(esc(x[0]),'<span class="wrap">'+(/^\d/.test(x[1])?"ages ":"")+esc(x[1])+'</span>',"wrap")).join("")+(S.under18?kv("Under-18s",'<span class="wrap">'+esc(S.under18)+'</span>',"wrap"):"")+'<p class="aoc-tiny" style="margin-top:8px">Your published rules; the checkout enforces them, and a parental disclaimer is signed before an under-18 is on the list.</p></div>')+'</div></div><p class="aoc-tiny" style="margin-top:12px" data-aoc="saveMsg"></p>';
 }
@@ -1932,6 +1942,7 @@ function saveSessions(inst){
   paintAll(inst,["settings","groups","today","calendar"]);
 }
 function actArena(inst,name,btn){
+  NL_LABEL=((btn&&btn.textContent)||"").replace(/\s+/g," ").trim();
   if(liveAct(inst,name,btn))return true;
   if(inst.opts.store&&name==="newGroup"){const f=q('[data-aoc="grOrg"]',inst.el);if(f){f.scrollIntoView({block:"center"});f.focus();}return true;}
   const live=!inst.opts.store||LIVE_ACTS.indexOf(name)>=0;
@@ -2177,7 +2188,7 @@ function drawDaysheetOrg(inst){
 function drawSettingsOrg(inst){
   const d=inst.data,M=d.opsMeta||{},S=d.settings||{},o=inst.m.op;
   const tiers=(d.sessions||[]).filter(s=>s.price);
-  body(inst,"settings").innerHTML=head("Settings","Your tickets, your sides and your rules, in one place. Change a price here and the page changes with it.",'<button class="aoc-btn g" data-aoc-act="resetSessions">Reset to published</button><button class="aoc-btn p" data-aoc-act="saveSettings">Save</button>')+
+  body(inst,"settings").innerHTML=head("Settings",inst.opts.store?"Not live yet. Prices are changed under Events and prices; nothing on this screen saves.":"Your tickets, your sides and your rules, in one place. Change a price here and the page changes with it.",'<button class="aoc-btn g" data-aoc-act="resetSessions">Reset to published</button><button class="aoc-btn p" data-aoc-act="saveSettings">Save</button>')+
     '<div class="aoc-grid two">'+card('<h3>Ticket tiers</h3><span class="aoc-sp"></span>'+(tiers.every(t=>t.published!==false)?chip("Prefilled with your published prices","go"):tiers.some(t=>t.published!==false)?chip("Published prices where you have them; the rest sample","ph"):chip("Sample prices","ph")),
       '<div class="aoc-bd"><div class="aoc-fares">'+tiers.map(s=>'<div class="aoc-frow" style="grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)"><span><b>'+esc(s.label)+'</b><span class="aoc-tiny">'+esc(s.note||(s.days>1?"the whole operation":"one day"))+'</span></span><label class="aoc-in">£<input class="aoc-f aoc-mono" type="number" min="0" data-aoc-ses="'+esc(s.key)+'.price" value="'+s.price+'"></label></div>').join("")+'</div>'+
       (M.deposit?'<p class="aoc-lbl" style="margin:18px 0 8px">Deposit, per player</p><div class="aoc-form"><div class="aoc-fld"><span class="aoc-lbl">Holds the place</span><label class="aoc-in">£<input class="aoc-f aoc-mono" type="number" data-aoc="depPrice" value="'+M.deposit+'"></label></div></div>':"")+
@@ -2190,6 +2201,7 @@ function drawSettingsOrg(inst){
 }
 
 function actOrg(inst,name,btn){
+  NL_LABEL=((btn&&btn.textContent)||"").replace(/\s+/g," ").trim();
   const live=!inst.opts.store||LIVE_ACTS.indexOf(name)>=0;
   const d=inst.data,m=inst.m,el=inst.el,say=t=>toast(inst,live?t:notLive(t)),o=m.ops.find(x=>x.id===inst.sel.op)||m.op;
   const note=(k,t)=>{const e=q('[data-aoc="'+k+'"]',el);if(e)e.textContent=live?t:notLive(t);};
@@ -2216,7 +2228,7 @@ function actOrg(inst,name,btn){
 function repaint(inst){if(inst.data.kind==="organiser"){paintTodayOrg(inst);paintGate(inst);paintReceptionOrg(inst);paintChrono(inst);paintGC(inst);return;}if(inst.data.kind==="arena"){paintTodayArena(inst);paintGate(inst);paintReceptionArena(inst);paintChrono(inst);paintGC(inst);return;}paintToday(inst);paintGate(inst);paintReception(inst);paintChrono(inst);paintGC(inst);}
 const A=(sk,ar,og)=>inst=>(inst.data.kind==="organiser"&&og?og:inst.data.kind==="arena"?ar:sk)(inst);
 const DRAW={manage:drawManage,today:A(drawToday,drawTodayArena,drawTodayOrg),bookings:drawBookings,calendar:A(drawCalendar,drawSlots,drawOps),groups:inst=>{if(inst.data.kind==="arena")drawGroups(inst);else if(inst.data.kind==="organiser")drawFactions(inst);},customers:drawCustomers,members:drawMembers,money:drawMoney,shop:drawStock,history:drawHistory,gate:drawGate,reception:A(drawReception,drawReceptionArena,drawReceptionOrg),chrono:drawChrono,gameday:drawGameday,daysheet:A(drawDaysheet,drawDaysheetArena,drawDaysheetOrg),team:drawTeam,settings:A(drawSettings,drawSettingsArena,drawSettingsOrg),dash:drawDash,marketing:drawMarketing,proposal:drawProposal};
-function paintAll(inst,only){for(const k of Object.keys(DRAW)){if(only&&!only.includes(k))continue;if(!body(inst,k))continue;if(later(inst.data,k)){drawLater(inst,k);continue;}DRAW[k](inst);}}
+function paintAll(inst,only){for(const k of Object.keys(DRAW)){if(only&&!only.includes(k))continue;if(!body(inst,k))continue;if(later(inst.data,k)){drawLater(inst,k);continue;}DRAW[k](inst);if(k==="settings"&&inst.opts.store)qa('[data-aoc-act="saveFares"],[data-aoc-act="resetFares"],[data-aoc-act="saveSessions"],[data-aoc-act="resetSessions"],[data-aoc-act="saveSettings"],[data-aoc-act="saveRule"]',inst.el).forEach(b=>{b.disabled=true;b.title="Not live yet";});}}
 function setRole(inst,r){
   inst.role=r;const R=ROLES[r]||ROLES.owner;
   if(!q('[data-aoc="whoName"]',inst.el)){const can=R.can&&inst.data.home?R.can.map(k=>k==="today"?"calendar":k):R.can;qa(".aoc-rail a",inst.el).forEach(a=>a.classList.toggle("locked",!!can&&!can.includes(a.dataset.aocGo)));if(can&&!can.includes(inst.screen))go(inst,can[0]);return;}
@@ -2228,6 +2240,7 @@ function setRole(inst,r){
 }
 function go(inst,name){
   if(!DRAW[name])name="today";
+  {const r=q(".aoc-rail",inst.el);if(r)r.classList.remove("open");}
   inst.screen=name;
   qa(".aoc-screen",inst.el).forEach(s=>s.classList.toggle("on",s.dataset.aocScreen===name));
   qa(".aoc-rail a",inst.el).forEach(a=>a.classList.toggle("on",a.dataset.aocGo===name));
@@ -2249,6 +2262,9 @@ function wire(inst){
     const slot=e.target.closest("[data-aoc-slot]");if(slot){inst.sel.slot=+slot.dataset.aocSlot;if(inst.screen!=="calendar")go(inst,"calendar");paintSlots(inst);return;}
     const op=e.target.closest("[data-aoc-op]");if(op){inst.sel.op=+op.dataset.aocOp;if(inst.screen!=="calendar")go(inst,"calendar");paintOps(inst);return;}
     const rin=e.target.closest("[data-aoc-recin]");if(rin){const pl=m.op&&m.op.players[+rin.dataset.aocRecin];if(pl){pl.in=!pl.in;pl.chrono=pl.in;}paintReceptionOrg(inst);paintTodayOrg(inst);return;}
+    const sh=e.target.closest("[data-aoc-sheet]");if(sh){paintBkSheet(inst,sh.dataset.aocSheet);return;}
+    const pc=e.target.closest("[data-aoc-pcheck]");if(pc&&inst.opts.store){inst.opts.store.act(inst,pc.dataset.signed==="1"?"checkIn":"signHere",{ref:pc.dataset.ref,attendee:pc.dataset.att||null});return;}
+    if(e.target.closest("[data-aoc-more]")){const r=q(".aoc-rail",inst.el);if(r)r.classList.toggle("open");return;}
     const hday=e.target.closest("[data-aoc-day]");if(hday){selectDay(inst,hday.dataset.aocDay);return;}
     const hview=e.target.closest("[data-aoc-homeview]");if(hview){inst.sel.homeView=hview.dataset.aocHomeview;inst.sel.homeAnchor=inst.sel.day;paintHome(inst);return;}
     const hnav=e.target.closest("[data-aoc-homenav]");if(hnav){homeNav(inst,+hnav.dataset.aocHomenav);return;}
@@ -2275,6 +2291,9 @@ function wire(inst){
     if(t.matches('[data-aoc="bkSearch"]'))paintBookings(inst,t.value);
     else if(t.matches('[data-aoc="recSearch"]'))paintReception(inst);
     else if(t.matches('[data-aoc="memFilter"]'))paintMembers(inst);
+    else if(t.matches('[data-aoc="recFindL"]'))paintReceptionLive(inst);
+    else if(t.matches('[data-aoc="recDay"]')){inst.sel.recDay=t.value;drawReceptionLive(inst);}
+    else if(t.matches('[data-aoc="bdWorld"]')){const sel=q('[data-aoc="bdW"]',inst.el);if(sel)sel.innerHTML=opt(rowsForWorld(inst.data,t.value).map(x=>[x.key,x.label]));}
     else if(t.matches('[data-aoc="darkPref"]')){inst.theme.mode=t.checked?"dark":"light";applyTheme(inst);if(inst.opts.account&&typeof inst.opts.account.onDark==="function")inst.opts.account.onDark(t.checked);}
     else if(t.matches('[data-aoc="grFilter"]'))paintGroups(inst);
     else if(t.matches('[data-aoc="evRep"],[data-aoc="evEvery"],[data-aoc="evWd"],[data-aoc="evNth"],[data-aoc="evMday"],[data-aoc="evEnds"],[data-aoc="evUntil"],[data-aoc="evCount"],[data-aoc="evD"]'))paintRepeat(inst);
@@ -2309,24 +2328,103 @@ function livePayload(inst,name,btn){
     case "sendQuote":case "markPlayed":case "sendDisclaimers":return {ref:g&&g.ref};
     case "takeDeposit":case "takeBalance":return {ref:g&&g.ref,how:v("grHow")};
     case "groupIn":case "groupAllIn":case "signHere":return {ref:btn&&btn.dataset.ref,all:name==="groupAllIn"};
-    case "kitSlotAll":{const RS=m.recSlots||m.todaySlots||[],s=RS.find(x=>x.id===+inst.sel.recSlot)||RS[0];return {slot:s&&s.dbId};}
-    case "refund":return {ref:inst.sel.booking,reason:v("bkReason")};
+    case "kitSlotAll":{if(btn&&btn.dataset.slot)return {slot:btn.dataset.slot};const RS=m.recSlots||m.todaySlots||[],s=RS.find(x=>x.id===+inst.sel.recSlot)||RS[0];return {slot:s&&s.dbId};}
+    case "refund":case "cancelOnly":return {ref:inst.sel.booking,reason:v("bkReason")};
+    case "move":return {ref:inst.sel.booking,slot:v("mvSlot")};
+    case "bkAdd":return {what:v("bdN"),email:v("bdE"),iso:v("bdD"),players:+v("bdP")||1,key:v("bdW"),world:v("bdWorld"),paid:+v("bdPaid")||0,how:v("bdH"),note:v("bdNote"),at:new Date().toISOString()};
+    case "invite":return {email:v("invEmail"),role:v("invRole")};
     case "pSave":{const dp=draftPlan(inst),cur=m.plans.find(x=>x.id===inst.sel.plan)||{};return Object.assign(dp,{dbId:cur.dbId||null});}
     case "memAdd":return {name:v("memName"),email:v("memEmail"),plan:v("memPlan"),paid:+v("memPaid")||0,how:v("memHow")};
     case "renewAll":return {};
   }
   return {};
 }
+/* the refund and move sheets on a booking: what happens, and the choice, before anything is sent */
+function paintBkSheet(inst,kind){
+  const d=inst.data,m=inst.m,b=m.bookings.find(x=>x.ref===inst.sel.booking),el=q('[data-aoc="bkSheet"]',inst.el);if(!el||!b||!b.meta)return;
+  const M=b.meta,email=esc(M.email||"the customer");
+  if(kind==="refund"){
+    const by=(M.methods||[]).map(p=>gbp(p.amount)+(p.card?" back to the card through Stripe":" to hand back by "+({cash:"cash",card_phone:"card over the phone",bank_transfer:"bank transfer"}[p.method]||p.method))).join("; ");
+    el.innerHTML='<div class="aoc-sheet-box"><p class="aoc-lbl">Cancel '+esc(b.ref)+'</p>'+
+      (b.paid?kv("Paid",gbp(b.paid))+kv("Refund",by||gbp(b.paid)):kv("Paid","nothing"))+
+      '<p class="aoc-small" style="margin:8px 0">'+email+' gets a cancellation email'+(b.paid?" saying what comes back and how":"")+'. With a reason below, the email gives it; without one, it does not.</p>'+
+      '<div class="aoc-fld"><span class="aoc-lbl">Reason (optional)</span><input class="aoc-f" data-aoc="bkReason" placeholder="Asked to cancel"></div>'+
+      '<div class="aoc-row" style="margin-top:10px">'+(b.paid?'<button class="aoc-btn p" data-aoc-act="refund">Refund '+gbp(b.paid)+' and cancel</button><button class="aoc-btn g" data-aoc-act="cancelOnly">Cancel without refund</button>':'<button class="aoc-btn p" data-aoc-act="cancelOnly">Cancel the booking</button>')+
+      '<button class="aoc-btn g" data-aoc-sheet="">Keep it</button></div></div>';
+  }else if(kind==="move"){
+    const today=(d.home&&d.home.today)||isoD(new Date());
+    const to=(m.slots||[]).filter(s=>s.session.key===M.session&&s.iso>=today&&s.dbId!==M.slot&&!s.closed);
+    el.innerHTML='<div class="aoc-sheet-box"><p class="aoc-lbl">Move '+esc(b.ref)+' to</p>'+(to.length?
+      '<select class="aoc-f" data-aoc="mvSlot">'+opt(to.map(s=>[s.dbId,fmtLong(s.dt)+" "+s.time+" · "+s.sold+(s.cap?" of "+s.cap:"")+" booked"]))+'</select>'+
+      '<p class="aoc-small" style="margin:8px 0">The money moves with it. The same rules as the site decide whether that slot can take them.</p>'+
+      '<div class="aoc-row"><button class="aoc-btn p" data-aoc-act="move">Move it</button><button class="aoc-btn g" data-aoc-sheet="">Keep it</button></div>'
+      :'<p class="aoc-small">No other date runs this session.</p>')+'</div>';
+  }else el.innerHTML="";
+}
+/* adding a booking by hand, from Bookings or the day panel: a drawer with the day filled in */
+function openBkDrawer(inst,iso){
+  const d=inst.data;let box=q(".aoc-bkdrawer",inst.el);if(box)box.remove();
+  const WL=d.worldLabels||null,w=inst.sel.world||(WL?Object.keys(WL)[0]:"");
+  /* the day: the one asked for, else the first day the first thing on the list actually runs */
+  const first=(rowsForWorld(d,w)[0]||{}).key,T=(d.home&&d.home.today)||isoD(new Date());
+  const runs=(inst.m.slots||[]).find(s=>s.iso>=T&&s.session&&s.session.key===first);
+  const day=iso||(runs&&runs.iso)||(d.calendar&&d.calendar.dates&&d.calendar.dates[0]&&d.calendar.dates[0].iso)||T;
+  box=document.createElement("div");box.className="aoc-modal aoc-bkdrawer on";box.setAttribute("aria-hidden","false");
+  box.innerHTML='<div class="aoc-box" role="dialog" aria-label="Add a booking"><header><h2 style="flex:1">Add a booking</h2><button class="aoc-btn g sm" data-aoc-act="bkClose">Close</button></header><div class="aoc-bd" style="display:grid;gap:10px">'+
+    '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Name</span><input class="aoc-f" data-aoc="bdN"></div><div class="aoc-fld"><span class="aoc-lbl">Email, for the confirmation</span><input class="aoc-f" type="email" data-aoc="bdE"></div></div>'+
+    '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Day</span><input class="aoc-f aoc-mono" type="date" data-aoc="bdD" value="'+esc(day)+'"></div><div class="aoc-fld"><span class="aoc-lbl">How many</span><input class="aoc-f aoc-mono" type="number" min="1" value="1" data-aoc="bdP"></div></div>'+
+    (WL?'<div class="aoc-fld"><span class="aoc-lbl">Which brand</span><select class="aoc-f" data-aoc="bdWorld">'+opt(Object.keys(WL).map(k=>[k,WL[k]]),w)+'</select></div>':'')+
+    '<div class="aoc-fld"><span class="aoc-lbl">What they are booking</span><select class="aoc-f" data-aoc="bdW">'+opt(rowsForWorld(d,w).map(x=>[x.key,x.label]))+'</select></div>'+
+    '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Taken now £</span><input class="aoc-f aoc-mono" type="number" min="0" data-aoc="bdPaid" placeholder="0 if they pay on the day"></div><div class="aoc-fld"><span class="aoc-lbl">How</span><select class="aoc-f" data-aoc="bdH"><option>Cash on the day</option><option>Card over the phone</option><option>Bank transfer</option><option>Not paid yet</option></select></div></div>'+
+    '<div class="aoc-fld"><span class="aoc-lbl">Note</span><input class="aoc-f" data-aoc="bdNote" placeholder="Anything the day sheet should say"></div>'+
+    '<div class="aoc-row"><button class="aoc-btn p" data-aoc-act="bkAdd">Add the booking</button><span class="aoc-small aoc-muted">The same rules as the site; they get the confirmation.</span></div></div></div>';
+  inst.el.appendChild(box);box.addEventListener("click",e=>{if(e.target===box)box.remove();});
+  const f=q('[data-aoc="bdN"]',box);if(f)f.focus();
+}
+/* reception on the live console: the day it shows, a picker for the running days, one search across the day */
+function drawReceptionLive(inst){
+  const d=inst.data,days=Object.keys(d.dayPeople||{}).sort(),T=d.home&&d.home.today;
+  if(!inst.sel.recDay||days.indexOf(inst.sel.recDay)<0)inst.sel.recDay=days.indexOf(T)>=0?T:days[0];
+  const day=inst.sel.recDay;
+  body(inst,"reception").innerHTML=head("Reception",day?fmtLong(dOf(day))+(day===T?" · today":""):"No running days ahead",
+    (days.length>1?'<select class="aoc-f" data-aoc="recDay" aria-label="Day" style="width:auto">'+opt(days.map(x=>[x,fmtLong(dOf(x))+(x===T?" (today)":"")]),day)+'</select>':"")+
+    '<button class="aoc-btn g" disabled title="Not live yet">Scan a pass: not live yet</button>')+
+    '<div class="aoc-row" style="margin-bottom:12px"><input class="aoc-f" data-aoc="recFindL" placeholder="Find anyone booked this day" style="max-width:340px"><span class="aoc-sp"></span><span class="aoc-chip" data-aoc="recCount"></span></div>'+
+    '<div data-aoc="recPane"></div>';
+  paintReceptionLive(inst);
+}
+function paintReceptionLive(inst){
+  const d=inst.data,m=inst.m,day=inst.sel.recDay,pane=q('[data-aoc="recPane"]',inst.el);if(!pane)return;
+  const qs=((q('[data-aoc="recFindL"]',inst.el)||{}).value||"").trim().toLowerCase();
+  const slots=(m.slots||[]).filter(s=>s.iso===day&&inWorld(inst,s.session)),people=(d.dayPeople||{})[day]||[];
+  let total=0,inn=0,unsigned=0;
+  const cards=slots.map(s=>{let rows="";
+    if(s.group){s.groups.filter(g=>g.status!=="enquiry"&&g.status!=="quoted").forEach(g=>{total+=g.n;inn+=g.arrived;unsigned+=g.n-g.signed;if(qs&&g.organiser.toLowerCase().indexOf(qs)<0)return;
+      rows+='<div class="aoc-kv"><span><b>'+esc(g.organiser)+'</b>'+(g.occasion?", "+esc(g.occasion):"")+'<br><span class="aoc-tiny">'+g.n+' players · '+g.signed+' signed · '+g.arrived+' in'+(g.total-g.paid>0?' · '+gbp(g.total-g.paid)+' still to pay':'')+'</span></span><span class="aoc-row" style="gap:6px"><button class="aoc-btn g sm" data-aoc-act="groupIn" data-ref="'+esc(g.ref)+'">+1 in</button><button class="aoc-btn p sm" data-aoc-act="groupAllIn" data-ref="'+esc(g.ref)+'">Whole group in</button>'+(g.signed<g.n?'<button class="aoc-btn g sm" data-aoc-act="signHere" data-ref="'+esc(g.ref)+'">Sign on the tablet</button>':'')+'</span></div>';});}
+    else people.filter(p=>p.slot===s.dbId).forEach(p=>{total++;if(p.in)inn++;if(!p.waiver)unsigned++;if(qs&&p.name.toLowerCase().indexOf(qs)<0)return;
+      rows+='<button class="aoc-person'+(p.in?" done":"")+'" data-aoc-pcheck="1" data-ref="'+esc(p.ref)+'" data-att="'+esc(p.attendee||"")+'" data-signed="'+(p.waiver?1:0)+'"'+(p.in?" disabled":"")+'><span class="aoc-avatar" style="background:'+(p.in?"var(--aoc-go)":"var(--aoc-surface-2)")+';color:'+(p.in?"#fff":"var(--aoc-text-2)")+'">'+esc(initials(p.name))+'</span><span><span class="aoc-nm">'+esc(p.name)+'</span><span class="aoc-sub">'+esc(p.label)+(p.in?' · <b class="aoc-go-c">in</b>':p.waiver?' · tap to check in':' · <b class="aoc-stop-c">disclaimer not signed</b>: tap to sign')+'</span></span></button>';});
+    if(!rows&&qs)return "";
+    return card('<h3>'+esc(s.time)+(s.end?" to "+esc(s.end):"")+' · '+esc(s.session.label)+'</h3><span class="aoc-sp"></span>'+(s.kitOut?chip("Kit issued","go"):'<button class="aoc-btn g sm" data-aoc-act="kitSlotAll" data-slot="'+esc(s.dbId)+'">Mark kit issued</button>'),
+      '<div class="aoc-bd">'+(rows?(s.group?rows:'<div class="aoc-people">'+rows+'</div>'):'<p class="aoc-small aoc-muted">Nobody booked into this slot.</p>')+'</div>');}).join("");
+  const c=q('[data-aoc="recCount"]',inst.el);if(c)c.textContent=inn+" of "+total+" checked in"+(unsigned?" · "+unsigned+" to sign":"");
+  pane.innerHTML=slots.length?(cards||'<p class="aoc-small aoc-muted">Nobody called “'+esc(qs)+'” is booked this day.</p>'):'<p class="aoc-small aoc-muted">Nothing runs this day.</p>';
+}
+/* a control that is not live names itself and says it did nothing; never what it would have done */
+let NL_LABEL="";
 /* the controls the live console has wired to the server; AOC-CONTROLS.md in the booking platform is the ledger */
 const LIVE_ACTS=["evPub","prSave","prReset","mbAdd","demoClear","addBooking","focusAdd","focusSlot","focusOp","editPlans","closePlans","okNext","print","printPick","bigOpen","bigClose","spin"];
-const notLive=t=>"Not live yet. "+String(t).replace(/^On the live system[:,]?\s*/i,"When it is: ");
+const notLive=t=>"Not live yet: "+(NL_LABEL?"“"+NL_LABEL+"” ":"this control ")+"does nothing on this console yet.";
 function act(inst,name,btn){
+  NL_LABEL=((btn&&btn.textContent)||"").replace(/\s+/g," ").trim();
+  if(inst.opts.store&&(name==="addBooking"||name==="addBookingDay")){openBkDrawer(inst,name==="addBookingDay"?inst.sel.day:null);return true;}
+  if(name==="bkClose"){const x=q(".aoc-bkdrawer",inst.el);if(x)x.remove();return true;}
   if(liveAct(inst,name,btn))return true;
   const live=!inst.opts.store||LIVE_ACTS.indexOf(name)>=0;
   const d=inst.data,m=inst.m,el=inst.el,say=t=>toast(inst,live?t:notLive(t)),note=t=>{const e=q('[data-aoc="evNote"]',el);if(e)e.textContent=live?t:notLive(t);},msg=(k,t)=>{t=live?t:notLive(t);const e=q('[data-aoc="'+k+'"]',el);if(e){e.textContent=t;setTimeout(()=>{if(e.textContent===t)e.textContent=" ";},3200);}};
   const b=m.bookings.find(x=>x.ref===inst.sel.booking);
   switch(name){
     case "remind":{const n=m.players.filter(p=>!p.waiver).length;say(n?"Reminder sent to "+plural(n,"player")+": a link to sign the safety form on the phone before "+d.calendar.regular.dayName+".":"Nobody to remind: every form is signed.");break;}
+    case "addBookingDay":case "bkClose":break;   /* answered above, before the switch: the drawer */
     case "addBooking":go(inst,"manage");say("Add it under Events and prices: a booking by hand goes on the same list as everything the site takes.");break;
     case "refund":if(b){b.status="refunded";say(gbp(b.paid)+" goes back to the card it came from within five working days. "+firstName(b.name)+" gets the email; the platform fee comes back too.");paintBookings(inst,(q('[data-aoc="bkSearch"]',el)||{}).value);}break;
     case "move":if(b){const to=m.dates.find(x=>!x.tba&&x!==b.date);if(to){const was=b.paid;b.date=to;b.status="moved";const nb=buildBookings({...d,bookings:[]},m.dates,[]);say("Moved to "+fmtLong(to.dt)+". The money moves with the booking"+(to.price&&to.price!==was?"; the difference is "+(to.price>was?"charged":"refunded")+" and the confirmation says so":"; nothing else to charge")+".");paintBookings(inst,(q('[data-aoc="bkSearch"]',el)||{}).value);}}break;

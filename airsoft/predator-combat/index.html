@@ -2907,7 +2907,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
     </div>
     <div class="legal">
       <span>Design proposal by ThinkWork, for discussion with you. Your prices, ages, running order, activities, team building and Phoenix wording, address, numbers, emails and colours are your own, taken from predator-combat.com and activate-outdoor-adventure.com on 2 October 2026 and from our calls of 13 and 16 October. Every photograph is yours and says which page it came from. Anything in amber is sample content waiting for your figures. Not the live site, and no live payments.</span>
-      <span class="mono">thinkwork.info &middot; built 21 Oct 2026 16:57 UK</span>
+      <span class="mono">thinkwork.info &middot; built 21 Oct 2026 20:48 UK</span>
     </div>
   </div>
 </footer>
@@ -2988,6 +2988,16 @@ const STORE_API=(function(){const P=(typeof CONFIG!=="undefined"&&CONFIG.platfor
   try{const x=new XMLHttpRequest();x.open("GET",base.replace(/\/+$/,"")+"/store/site/"+encodeURIComponent(P.api?CONFIG.slug:storeSlug()),false);x.send();
     if(x.status!==200)return null;const S=JSON.parse(x.responseText);return {base:base.replace(/\/+$/,""),S};}
   catch(e){return null; /* the server is unreachable: the page still works as the published prototype */}})();
+/* On the real system the page's days and times are the database's: the session times, the regular day's times, and
+   how many weeks the calendar runs, folded into CONFIG here, before days.js builds the dates from it. */
+if(STORE_API&&typeof CONFIG!=="undefined"&&CONFIG.schedule){try{const D=STORE_API.S,SC=CONFIG.schedule;
+  if(D.sessions&&SC.sessions)for(const k in D.sessions)if(SC.sessions[k])Object.assign(SC.sessions[k],D.sessions[k]);
+  const F=D.sessions&&D.sessions.full;if(F&&Array.isArray(SC.times))SC.times=[F.arrive||SC.times[0],F.start||SC.times[1],F.end||SC.times[2]];
+  if(Array.isArray(D.days)&&D.days.length&&SC.regular&&typeof SC.regular.day==="number"){
+    const reg=D.days.filter(x=>new Date(x+"T12:00:00").getDay()===SC.regular.day);
+    if(reg.length){const first=new Date();first.setHours(12,0,0,0);first.setDate(first.getDate()+((7+SC.regular.day-first.getDay())%7));
+      const last=new Date(reg[reg.length-1]+"T12:00:00");SC.regular.count=Math.max(1,Math.round((last-first)/(7*864e5))+1);}}
+}catch(e){ /* the published schedule stands */ }}
 function storeRead(){if(STORE_API)return JSON.parse(JSON.stringify(STORE_API.S));try{const r=localStorage.getItem(STORE_KEY);const o=r?JSON.parse(r):null;return o&&typeof o==="object"?o:{bookings:[],events:[],prices:{}};}catch(e){return {bookings:[],events:[],prices:{}};}}
 /* on the real system a booking is written by the Pay step below, before the page records it; this keeps the copy the
    page reads in step with it */
@@ -3020,18 +3030,50 @@ if(STORE_API)(function(){
       document.head.appendChild(js);
     }else{
       f.remove();if(row)row.hidden=true;
-      if(note)note.textContent="Card payment is not switched on for this site yet: you are booked now and pay on the day.";
+      if(note)note.textContent="Nothing is charged now: you pay at the gate on the day.";
+      const pb=$1("payBtn");if(pb&&pb.firstChild&&pb.firstChild.nodeType===3)pb.firstChild.textContent="Book now, pay on the day: ";
+      ["copyLink","addMate","copyMsg"].forEach(id=>{const x=$1(id);if(x)x.hidden=true;});
     }
     $1("payBtn").insertAdjacentHTML("afterend",'<p id="twErr" class="tiny" role="alert" style="margin-top:10px;text-align:center;color:var(--warn,#b3261e)" hidden></p>');
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fitPayPane);else setTimeout(fitPayPane,0);
-  const say=t=>{const e=$1("twErr");if(e){e.textContent=t;e.hidden=!t;}};
+  const say=(t,back)=>{const e=$1("twErr");if(!e)return;e.textContent=t;e.hidden=!t;
+    if(back&&typeof setStep==="function"){const b=document.createElement("button");b.className="btn ghost sm";b.style.marginTop="8px";b.textContent="Back to the declaration";
+      b.addEventListener("click",ev=>{ev.preventDefault();say("");setStep(3);});e.appendChild(document.createElement("br"));e.appendChild(b);}};
+  const PN={};   /* the other players' names, kept while booking.js redraws the list */
+  function fitDeclaration(){
+    const pane=document.querySelector('[data-step="3"]');if(!pane||pane.dataset.tw)return;pane.dataset.tw="1";
+    pane.querySelectorAll("label.check input").forEach(i=>{i.checked=false;});
+    const sig=$1("sig");if(sig){sig.closest(".field").insertAdjacentHTML("afterend",'<p id="twDeclErr" class="tiny" role="alert" style="color:var(--warn,#b3261e)" hidden></p>');}
+    pane.addEventListener("input",()=>{paintPlayers();const e=$1("twDeclErr");if(e&&!e.hidden&&!declProblem())e.hidden=true;});
+    pane.addEventListener("change",paintPlayers);
+  }
+  function paintPlayers(){const pl=$1("playerList");if(!pl)return;const ok=!declProblem(true);
+    pl.removeAttribute("data-ph");pl.querySelectorAll(".phtag").forEach(x=>x.remove());   /* these are the booking's players, not a sample */
+    pl.querySelectorAll(".kv").forEach((row,i)=>{const pill=row.querySelector(".pill");
+      if(i===0){if(pill){pill.textContent=ok?"Declaration signed":"Not signed yet";pill.classList.toggle("ok",ok);}return;}
+      if(pill){pill.textContent="Signs at the desk";pill.classList.remove("ok");}
+      const b=row.querySelector("b");if(b&&!row.querySelector(".tw-pname")){b.insertAdjacentHTML("afterend",' <input class="tw-pname" data-i="'+i+'" placeholder="Player '+(i+1)+'\'s name" autocomplete="off" style="max-width:200px;margin-left:6px">');
+        const inp=row.querySelector(".tw-pname");inp.value=PN[i]||"";inp.addEventListener("input",()=>{PN[i]=inp.value;});}
+      row.querySelectorAll("span").forEach(sp=>{if(/invited by link/.test(sp.textContent))sp.innerHTML=sp.innerHTML.replace("invited by link","on this booking");});});}
+  /* what is missing from the declaration, in words, or "" */
+  function declProblem(sigOnly){const W=declaration();if(!W)return "";
+    if(!W.signedBy)return "Type your full name to sign the safety declaration.";
+    if(W.boxes.slice(0,2).some(b=>!b.on))return "Tick the first two lines of the safety declaration.";
+    if(sigOnly)return "";
+    const n=typeof players==="function"?players():1;for(let i=1;i<n;i++)if(!(PN[i]||"").trim())return "Put every player's name in: player "+(i+1)+" has none.";
+    return "";}
+  function watchPlayers(){fitDeclaration();const pl0=$1("playerList");
+    if(pl0&&typeof MutationObserver==="function")new MutationObserver(paintPlayers).observe(pl0,{childList:true});paintPlayers();}
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",watchPlayers);else setTimeout(watchPlayers,0);
+  /* step 3 does not let an unsigned declaration through */
+  document.addEventListener("click",e=>{const nb=e.target.closest&&e.target.closest("#nextBtn");if(!nb||typeof state==="undefined"||state.step!==3)return;
+    const p=declProblem();if(!p)return;e.stopImmediatePropagation();e.preventDefault();const er=$1("twDeclErr");if(er){er.textContent=p;er.hidden=false;er.scrollIntoView({block:"center"});}},true);
   /* the safety declaration on step 3, as the waiver the server stores: the typed name, and the words that were ticked */
   function declaration(){const pane=document.querySelector('[data-step="3"]');if(!pane)return null;
     const boxes=[...pane.querySelectorAll("label.check")].map(l=>({text:l.textContent.trim(),on:!!(l.querySelector("input")||{}).checked}));
     return {signedBy:(($1("sig")||{}).value||"").trim(),boxes,text:boxes.map(b=>(b.on?"[x] ":"[ ] ")+b.text).join("\n"),version:"site:"+(CONFIG.slug||storeSlug())};}
-  /* only the signer's declaration is stored at booking: the rest of the party is not covered by it */
-  const pl=$1("playerList");if(pl&&typeof MutationObserver==="function")new MutationObserver(()=>{pl.querySelectorAll(".pill").forEach(x=>{if(/Covered by your declaration/.test(x.textContent))x.textContent="Signs at the desk";});}).observe(pl,{childList:true,subtree:true});
+
   /* what the page has chosen, as the server's lines: one offering per kind of ticket */
   function lines(){
     const d=DATES[state.date],iso=isoOf(d),L=d.lock&&d.lock.sess||null,sess=L||state.sess,tier=typeof tierOf==="function"?tierOf(sess):sess;
@@ -3049,9 +3091,8 @@ if(STORE_API)(function(){
     const email=($1("twEmail")||{}).value||"",name=(($1("sig")||{}).value||"").trim();
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())){say("Put your email in, so the confirmation has somewhere to go.");$1("twEmail")&&$1("twEmail").focus();return;}
     if(S.payment&&S.payment.publishableKey&&!card){say("The card field is still loading. Give it a second.");return;}
-    const W=declaration();
-    if(W&&!W.signedBy){say("Type your full name on the safety declaration (step 3) to sign it.");return;}
-    if(W&&W.boxes.slice(0,2).some(b=>!b.on)){say("The first two lines of the safety declaration have to be ticked (step 3).");return;}
+    const W=declaration(),dp=declProblem();
+    if(dp){say(dp,true);return;}
     busy=true;btn.disabled=true;
     try{
       const L=lines();if(!L.length)throw new Error("Pick at least one player first.");
@@ -3061,11 +3102,12 @@ if(STORE_API)(function(){
       if(total!==shown&&quoted!==total){quoted=total;$1("payAmt").textContent="£"+(total/100).toFixed(total%100?2:0);
         say("The total is £"+(total/100).toFixed(2)+": pre-orders and membership are not taken online yet and are paid on the day. Press Pay again to go ahead.");return;}
       const key=(crypto.randomUUID&&crypto.randomUUID())||String(Date.now())+Math.random();
-      const made=[];
+      const made=[],names=[W?W.signedBy:name].concat(Object.keys(PN).sort((a,b)=>a-b).map(k=>PN[k].trim()));let off=0;
       for(const [i,l] of L.entries()){
         const lead=i===0&&W;
         const r=await post("/bookings",{...l,customer:{name:name||email.split("@")[0],email:email.trim()},idempotency_key:key+"-"+i,
-          ...(lead?{attendees:Array.from({length:l.party},(_,k)=>({name:k===0?W.signedBy:null})),waiver:{signedBy:W.signedBy,text:W.text,version:W.version}}:{})});
+          attendees:Array.from({length:l.party},(_,k)=>({name:names[off+k]||null})),...(lead?{waiver:{signedBy:W.signedBy,text:W.text,version:W.version}}:{})});
+        off+=l.party;
         made.push(r);
         if(r.payment&&r.payment.clientSecret){
           const c=await stripe.confirmCardPayment(r.payment.clientSecret,{payment_method:{card,billing_details:{name:name||undefined,email:email.trim()}}});
@@ -3075,7 +3117,8 @@ if(STORE_API)(function(){
       }
       A.last={ref:made.map(r=>r.booking.reference).join(" + "),email:email.trim()};
       btn.dataset.twPaid="1";btn.disabled=false;busy=false;btn.click();
-    }catch(e){say(e.message||String(e));}
+    }catch(e){const net=e instanceof TypeError||/Failed to fetch|NetworkError|Load failed/i.test(String(e&&e.message));
+      say(net?"We could not reach the booking system, so nothing was booked or charged. Check your connection and press the button again.":(e.message||String(e)));}
     finally{busy=false;btn.disabled=false;}
   }
   document.addEventListener("click",e=>{const btn=e.target.closest&&e.target.closest("#payBtn");if(!btn)return;

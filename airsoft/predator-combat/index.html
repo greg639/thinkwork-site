@@ -2907,7 +2907,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
     </div>
     <div class="legal">
       <span>Design proposal by ThinkWork, for discussion with you. Your prices, ages, running order, activities, team building and Phoenix wording, address, numbers, emails and colours are your own, taken from predator-combat.com and activate-outdoor-adventure.com on 2 October 2026 and from our calls of 13 and 16 October. Every photograph is yours and says which page it came from. Anything in amber is sample content waiting for your figures. Not the live site, and no live payments.</span>
-      <span class="mono">thinkwork.info &middot; built 21 Oct 2026 20:48 UK</span>
+      <span class="mono">thinkwork.info &middot; built 21 Oct 2026 22:32 UK</span>
     </div>
   </div>
 </footer>
@@ -2980,8 +2980,8 @@ const STORE_KEY="tw:"+storeSlug()+":v1";
    A site on the real system reads and writes the booking server instead of this browser. Which sites: STORE_SITES,
    keyed by the site's folder, or CONFIG.platform {api} when the config carries it. Everything else on the page is
    unchanged: the same storeRead, storeWrite and storeClear, the same shapes, read synchronously at load as before.
-   The one thing localStorage never had to do is take money, so on these sites the Pay button books on the server and
-   takes the card through Stripe before the page's own confirmation shows. */
+   The one thing localStorage never had to do is take money, so on these sites the Book screen is the booking server's
+   own flow, mounted below. */
 const STORE_SITES={"predator-combat":"https://aoc.peerlab.ai"};
 const STORE_API=(function(){const P=(typeof CONFIG!=="undefined"&&CONFIG.platform)||{};const base=P.api||STORE_SITES[storeSlug()];
   if(!base)return null;
@@ -2999,131 +2999,54 @@ if(STORE_API&&typeof CONFIG!=="undefined"&&CONFIG.schedule){try{const D=STORE_AP
       const last=new Date(reg[reg.length-1]+"T12:00:00");SC.regular.count=Math.max(1,Math.round((last-first)/(7*864e5))+1);}}
 }catch(e){ /* the published schedule stands */ }}
 function storeRead(){if(STORE_API)return JSON.parse(JSON.stringify(STORE_API.S));try{const r=localStorage.getItem(STORE_KEY);const o=r?JSON.parse(r):null;return o&&typeof o==="object"?o:{bookings:[],events:[],prices:{}};}catch(e){return {bookings:[],events:[],prices:{}};}}
-/* on the real system a booking is written by the Pay step below, before the page records it; this keeps the copy the
-   page reads in step with it */
 function storeWrite(o){if(STORE_API){STORE_API.S=o;return o;}try{localStorage.setItem(STORE_KEY,JSON.stringify(o));}catch(e){ /* private window, blocked storage */ }return o;}
 function storeAdd(key,rec){const o=storeRead();o[key]=Array.isArray(o[key])?o[key]:[];
-  if(STORE_API&&key==="bookings"&&STORE_API.last){rec.ref=STORE_API.last.ref;const r=document.getElementById("doneRef");if(r)r.textContent=rec.ref;
-    /* the confirmation says what the server holds: the signed declaration is stored; nothing else is promised */
-    const l=document.getElementById("doneLine");if(l)l.textContent=l.textContent.replace(/Your declaration is signed and on file[^.]*\./,
-      "Your safety declaration is signed and stored with this booking, and the confirmation is on its way to "+STORE_API.last.email+"."+(rec.players>1?" The other players sign theirs at the desk when they arrive.":""));}
   o[key].unshift(rec);storeWrite(o);return o;}
 function storeClear(){if(STORE_API)return;try{localStorage.removeItem(STORE_KEY);}catch(e){ /* nothing to clear */ }}
+/* ---- the booking flow on a live site (booking-platform CONTRACT.md §3e, milestone 5) ----
+   On the real system the Book screen is the booking server's own flow: one codebase for every real booking, served by
+   the server (/flow/flow.js) and mounted here as a full-screen sheet on a phone, a centred panel on a desktop, in this
+   page's own tokens. Every way in opens it: a Book button, a day's Book, ?screen=book. The page underneath stays where
+   it was, and the browser's Back closes the sheet. booking.js stays on the page, untouched, for the prototypes that
+   are not on the server. */
 if(STORE_API)(function(){
-  const A=STORE_API,S=A.S,$1=id=>document.getElementById(id);
-  const post=(path,body)=>fetch(A.base+path,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(body)})
-    .then(r=>r.json().catch(()=>({})).then(j=>{if(!r.ok){const f=(j.refusals||[])[0]||{};throw new Error(f.message||("The booking server said "+r.status));}return j;}));
-  let stripe=null,card=null;
-  /* the pay pane: an email for the confirmation, and a real card field where the sample one was */
-  function fitPayPane(){
-    const no=$1("cardNo");if(!no||$1("twEmail"))return;
-    const f=no.closest(".field"),row=($1("cardEx")||no).closest(".row");
-    f.insertAdjacentHTML("beforebegin",'<div class="field"><label for="twEmail">Email, for your confirmation</label><input id="twEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>');
-    const note=[...document.querySelectorAll("#payPane .tiny")].find(p=>/No card is charged/i.test(p.textContent));
-    if(S.payment&&S.payment.publishableKey){
-      f.innerHTML='<label for="twCard">Card</label><div id="twCard" style="padding:13px 12px;border:1px solid var(--line-strong);border-radius:2px;background:var(--sunk)"></div>';
-      if(row&&row!==f)row.hidden=true;
-      if(note)note.textContent=S.payment.live?"Paid securely through Stripe.":"Test mode: card 4242 4242 4242 4242, any future date, any CVC. No real money moves.";
-      const js=document.createElement("script");js.src="https://js.stripe.com/v3/";js.onload=()=>{
-        stripe=Stripe(S.payment.publishableKey,S.payment.connectedAccountId?{stripeAccount:S.payment.connectedAccountId}:{});
-        const cs=getComputedStyle(document.body);card=stripe.elements().create("card",{hidePostalCode:true,style:{base:{fontSize:"16px",color:cs.color,fontFamily:cs.fontFamily}}});card.mount("#twCard");};
-      document.head.appendChild(js);
-    }else{
-      f.remove();if(row)row.hidden=true;
-      if(note)note.textContent="Nothing is charged now: you pay at the gate on the day.";
-      const pb=$1("payBtn");if(pb&&pb.firstChild&&pb.firstChild.nodeType===3)pb.firstChild.textContent="Book now, pay on the day: ";
-      ["copyLink","addMate","copyMsg"].forEach(id=>{const x=$1(id);if(x)x.hidden=true;});
-    }
-    $1("payBtn").insertAdjacentHTML("afterend",'<p id="twErr" class="tiny" role="alert" style="margin-top:10px;text-align:center;color:var(--warn,#b3261e)" hidden></p>');
+  const A=STORE_API;let sheet=null,loading=null,pushed=false,skipGo=false,booting=false,prevFocus=null;
+  function load(){if(window.TWFlow)return Promise.resolve();if(loading)return loading;
+    loading=new Promise((ok,no)=>{const l=document.createElement("link");l.rel="stylesheet";l.href=A.base+"/flow/flow.css";document.head.appendChild(l);
+      const sc=document.createElement("script");sc.src=A.base+"/flow/flow.js";sc.onload=ok;sc.onerror=no;document.head.appendChild(sc);});
+    loading.catch(()=>{loading=null;});return loading;}
+  function brand(){const w=document.documentElement.dataset.world,S=A.S;return (w&&S.worlds&&S.worlds[w])||S.brand;}
+  function open(link){
+    prevFocus=document.activeElement;
+    load().then(()=>{
+      if(sheet)sheet.remove();
+      sheet=document.createElement("div");sheet.id="twFlowSheet";document.body.appendChild(sheet);
+      document.documentElement.style.overflow="hidden";
+      TWFlow.mount(sheet,{api:A.base,brand:brand(),deepLink:link||{},onClose:()=>{if(pushed)history.back();else close();}});
+      try{history.pushState(Object.assign({},history.state||{},{twflow:1}),"");pushed=true;}catch(e){pushed=false;}
+      const f=sheet.querySelector("button,input");if(f)f.focus({preventScroll:true});
+    }).catch(()=>{location.href=A.base+"/book/"+encodeURIComponent(brand())+(link&&link.date?"?date="+link.date:"");});
   }
-  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fitPayPane);else setTimeout(fitPayPane,0);
-  const say=(t,back)=>{const e=$1("twErr");if(!e)return;e.textContent=t;e.hidden=!t;
-    if(back&&typeof setStep==="function"){const b=document.createElement("button");b.className="btn ghost sm";b.style.marginTop="8px";b.textContent="Back to the declaration";
-      b.addEventListener("click",ev=>{ev.preventDefault();say("");setStep(3);});e.appendChild(document.createElement("br"));e.appendChild(b);}};
-  const PN={};   /* the other players' names, kept while booking.js redraws the list */
-  function fitDeclaration(){
-    const pane=document.querySelector('[data-step="3"]');if(!pane||pane.dataset.tw)return;pane.dataset.tw="1";
-    pane.querySelectorAll("label.check input").forEach(i=>{i.checked=false;});
-    const sig=$1("sig");if(sig){sig.closest(".field").insertAdjacentHTML("afterend",'<p id="twDeclErr" class="tiny" role="alert" style="color:var(--warn,#b3261e)" hidden></p>');}
-    pane.addEventListener("input",()=>{paintPlayers();const e=$1("twDeclErr");if(e&&!e.hidden&&!declProblem())e.hidden=true;});
-    pane.addEventListener("change",paintPlayers);
-  }
-  function paintPlayers(){const pl=$1("playerList");if(!pl)return;const ok=!declProblem(true);
-    pl.removeAttribute("data-ph");pl.querySelectorAll(".phtag").forEach(x=>x.remove());   /* these are the booking's players, not a sample */
-    pl.querySelectorAll(".kv").forEach((row,i)=>{const pill=row.querySelector(".pill");
-      if(i===0){if(pill){pill.textContent=ok?"Declaration signed":"Not signed yet";pill.classList.toggle("ok",ok);}return;}
-      if(pill){pill.textContent="Signs at the desk";pill.classList.remove("ok");}
-      const b=row.querySelector("b");if(b&&!row.querySelector(".tw-pname")){b.insertAdjacentHTML("afterend",' <input class="tw-pname" data-i="'+i+'" placeholder="Player '+(i+1)+'\'s name" autocomplete="off" style="max-width:200px;margin-left:6px">');
-        const inp=row.querySelector(".tw-pname");inp.value=PN[i]||"";inp.addEventListener("input",()=>{PN[i]=inp.value;});}
-      row.querySelectorAll("span").forEach(sp=>{if(/invited by link/.test(sp.textContent))sp.innerHTML=sp.innerHTML.replace("invited by link","on this booking");});});}
-  /* what is missing from the declaration, in words, or "" */
-  function declProblem(sigOnly){const W=declaration();if(!W)return "";
-    if(!W.signedBy)return "Type your full name to sign the safety declaration.";
-    if(W.boxes.slice(0,2).some(b=>!b.on))return "Tick the first two lines of the safety declaration.";
-    if(sigOnly)return "";
-    const n=typeof players==="function"?players():1;for(let i=1;i<n;i++)if(!(PN[i]||"").trim())return "Put every player's name in: player "+(i+1)+" has none.";
-    return "";}
-  function watchPlayers(){fitDeclaration();const pl0=$1("playerList");
-    if(pl0&&typeof MutationObserver==="function")new MutationObserver(paintPlayers).observe(pl0,{childList:true});paintPlayers();}
-  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",watchPlayers);else setTimeout(watchPlayers,0);
-  /* step 3 does not let an unsigned declaration through */
-  document.addEventListener("click",e=>{const nb=e.target.closest&&e.target.closest("#nextBtn");if(!nb||typeof state==="undefined"||state.step!==3)return;
-    const p=declProblem();if(!p)return;e.stopImmediatePropagation();e.preventDefault();const er=$1("twDeclErr");if(er){er.textContent=p;er.hidden=false;er.scrollIntoView({block:"center"});}},true);
-  /* the safety declaration on step 3, as the waiver the server stores: the typed name, and the words that were ticked */
-  function declaration(){const pane=document.querySelector('[data-step="3"]');if(!pane)return null;
-    const boxes=[...pane.querySelectorAll("label.check")].map(l=>({text:l.textContent.trim(),on:!!(l.querySelector("input")||{}).checked}));
-    return {signedBy:(($1("sig")||{}).value||"").trim(),boxes,text:boxes.map(b=>(b.on?"[x] ":"[ ] ")+b.text).join("\n"),version:"site:"+(CONFIG.slug||storeSlug())};}
-
-  /* what the page has chosen, as the server's lines: one offering per kind of ticket */
-  function lines(){
-    const d=DATES[state.date],iso=isoOf(d),L=d.lock&&d.lock.sess||null,sess=L||state.sess,tier=typeof tierOf==="function"?tierOf(sess):sess;
-    const out=[];
-    for(const k of ["walkon","hire"]){const n=state.q[k];if(!n)continue;
-      let offering,st=null;
-      if(sess==="evening"||sess==="nerf")offering=sess;
-      else if(k==="hire"&&(tier==="half"||sess==="morning"||sess==="afternoon")){offering="rental-half";st=(sess==="half"?"morning":sess);}
-      else offering=k==="hire"?"rental-day":"walkon-day";
-      out.push({brand:S.brand,date:iso,offering,party:n,tier:k,...(st?{session_type:st}:{})});}
-    return out;}
-  let busy=false,quoted=null;
-  async function pay(btn){
-    if(busy)return;say("");
-    const email=($1("twEmail")||{}).value||"",name=(($1("sig")||{}).value||"").trim();
-    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())){say("Put your email in, so the confirmation has somewhere to go.");$1("twEmail")&&$1("twEmail").focus();return;}
-    if(S.payment&&S.payment.publishableKey&&!card){say("The card field is still loading. Give it a second.");return;}
-    const W=declaration(),dp=declProblem();
-    if(dp){say(dp,true);return;}
-    busy=true;btn.disabled=true;
-    try{
-      const L=lines();if(!L.length)throw new Error("Pick at least one player first.");
-      let total=0;
-      for(const l of L){const q=await post("/quote",l);if(!q.price){throw new Error(((q.refusals||[])[0]||{}).message||"That booking cannot be taken.");}total+=q.price.total_pence;}
-      const shown=Math.round((typeof totals==="function"?totals().total:0)*100);
-      if(total!==shown&&quoted!==total){quoted=total;$1("payAmt").textContent="£"+(total/100).toFixed(total%100?2:0);
-        say("The total is £"+(total/100).toFixed(2)+": pre-orders and membership are not taken online yet and are paid on the day. Press Pay again to go ahead.");return;}
-      const key=(crypto.randomUUID&&crypto.randomUUID())||String(Date.now())+Math.random();
-      const made=[],names=[W?W.signedBy:name].concat(Object.keys(PN).sort((a,b)=>a-b).map(k=>PN[k].trim()));let off=0;
-      for(const [i,l] of L.entries()){
-        const lead=i===0&&W;
-        const r=await post("/bookings",{...l,customer:{name:name||email.split("@")[0],email:email.trim()},idempotency_key:key+"-"+i,
-          attendees:Array.from({length:l.party},(_,k)=>({name:names[off+k]||null})),...(lead?{waiver:{signedBy:W.signedBy,text:W.text,version:W.version}}:{})});
-        off+=l.party;
-        made.push(r);
-        if(r.payment&&r.payment.clientSecret){
-          const c=await stripe.confirmCardPayment(r.payment.clientSecret,{payment_method:{card,billing_details:{name:name||undefined,email:email.trim()}}});
-          if(c.error)throw new Error(c.error.message+(made.length>1?" (your first booking is held for a few minutes: try the card again)":""));
-          await post("/bookings/"+r.booking.id+"/confirm-payment",{});
-        }
-      }
-      A.last={ref:made.map(r=>r.booking.reference).join(" + "),email:email.trim()};
-      btn.dataset.twPaid="1";btn.disabled=false;busy=false;btn.click();
-    }catch(e){const net=e instanceof TypeError||/Failed to fetch|NetworkError|Load failed/i.test(String(e&&e.message));
-      say(net?"We could not reach the booking system, so nothing was booked or charged. Check your connection and press the button again.":(e.message||String(e)));}
-    finally{busy=false;btn.disabled=false;}
-  }
-  document.addEventListener("click",e=>{const btn=e.target.closest&&e.target.closest("#payBtn");if(!btn)return;
-    if(btn.dataset.twPaid==="1"){delete btn.dataset.twPaid;return;}
-    e.stopImmediatePropagation();e.preventDefault();pay(btn);},true);
+  function close(){if(!sheet)return;sheet.remove();sheet=null;pushed=false;document.documentElement.style.overflow="";
+    if(prevFocus&&prevFocus.focus)try{prevFocus.focus({preventScroll:true});}catch(e){}}
+  /* Back closes the sheet; routing.js's own popstate handler then asks for the screen that is already showing, and that
+     call is let go (it would scroll the page to the top under the customer) */
+  addEventListener("popstate",()=>{if(sheet){close();skipGo=true;setTimeout(()=>{skipGo=false;},0);}});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&sheet){e.preventDefault();if(pushed)history.back();else close();}});
+  /* a day's own Book button opens the flow on that day */
+  const isoD=dt=>dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0")+"-"+String(dt.getDate()).padStart(2,"0");
+  document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-book]");if(!b)return;
+    const d=typeof DATES!=="undefined"&&DATES[+b.dataset.book];e.stopImmediatePropagation();e.preventDefault();open(d&&d.dt?{date:isoD(d.dt)}:{});},true);
+  /* every other way to the Book screen opens the sheet instead */
+  function wrap(){if(typeof go!=="function"||go.twFlow)return;const go0=go;
+    go=function(name){if(skipGo){skipGo=false;return;}if(name==="book"){if(!booting)open({});return;}return go0.apply(this,arguments);};go.twFlow=1;}
+  wrap();if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",wrap);
+  /* ?screen=book (a link in an email, a QR code) opens it once the page is up */
+  try{const u=new URL(location.href);if(u.searchParams.get("screen")==="book"){booting=true;const link={date:u.searchParams.get("date")||undefined,session:u.searchParams.get("session")||undefined};
+    setTimeout(()=>{booting=false;if(document.body.dataset.screen==="book"&&typeof go==="function")go("home");open(link);},0);}}catch(e){}
+  /* once booked, the page's copy of the day's numbers is refreshed from the server */
+  addEventListener("twflow:booked",()=>{fetch(A.base+"/store/site/"+encodeURIComponent((typeof CONFIG!=="undefined"&&CONFIG.platform&&CONFIG.platform.api)?CONFIG.slug:storeSlug()))
+    .then(r=>r.ok?r.json():null).then(S=>{if(S)A.S=S;}).catch(()=>{});});
 })();
 
 /* A price saved in the console is the price the site charges: the stored prices are folded into CONFIG before any other

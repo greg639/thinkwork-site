@@ -956,7 +956,7 @@ function shell(inst){
   /* which build is this? The version alone cannot answer it: 0.10.2 looked identical before and after three
      config changes in one day. The stamp is written by the builder; it is wrapped so a hash can normalise it out. */
   const P=inst.opts.account;
-  rail+=P?'<div class="aoc-railfoot">ThinkWork booking</div>':'<div class="aoc-railfoot">AOC '+VERSION+'<br><span class="aoc-build" data-build="21 Oct 2026 20:48">built 21 Oct 2026 20:48 UK</span><br>by ThinkWork</div>';
+  rail+=P?'<div class="aoc-railfoot">ThinkWork booking</div>':'<div class="aoc-railfoot">AOC '+VERSION+'<br><span class="aoc-build" data-build="21 Oct 2026 22:32">built 21 Oct 2026 22:32 UK</span><br>by ThinkWork</div>';
   const roles=Object.keys(ROLES).map(k=>'<button data-aoc-role="'+k+'" aria-pressed="'+(k===inst.role)+'">'+ROLES[k].label+'</button>').join("");
   /* the console as a product (opts.account, from the booking server): who is signed in, the next day, the brand
      switcher where a tenant has more than one brand, the brand's own site, and an account menu with the dark-mode
@@ -1505,6 +1505,7 @@ function drawTeam(inst){
 
 /* ---------- Settings: your fares and your rules, in one place ---------- */
 function drawSettings(inst){
+  if(inst.opts.store&&inst.data.settingsLive)return drawSettingsLive(inst);
   const d=inst.data,M=d.membership,t=d.calendar.times||[],S=d.settings,C=S.chrono||{};
   const kinds=[...new Set(d.tickets.map(x=>x.kind))],sesses=[...new Set(d.tickets.map(x=>x.sess))];
   const fareRows=[];for(const k of kinds)for(const s of sesses){const tk=d.tickets.find(x=>x.kind===k&&x.sess===s);if(!tk)continue;fareRows.push('<div class="aoc-frow"><span><b>'+esc(d.labels[k]||k)+'</b><span class="aoc-tiny">'+esc(d.labels[s]||s)+(tk.published===false?", sample":"")+'</span></span><label class="aoc-in">£<input class="aoc-f aoc-mono" type="number" inputmode="numeric" min="0" data-aoc-fare="'+esc(tk.key)+'.m" value="'+tk.member+'"></label><label class="aoc-in">£<input class="aoc-f aoc-mono" type="number" inputmode="numeric" min="0" data-aoc-fare="'+esc(tk.key)+'.n" value="'+tk.price+'"></label></div>');}
@@ -1736,6 +1737,9 @@ function drawTodayArena(inst){
     '<div class="aoc-tiles" data-aoc="todayTiles"></div>'+
     '<div class="aoc-grid two" style="margin-bottom:14px">'+card('<h3>The day, slot by slot</h3><span class="aoc-sp"></span>'+chip("Fixed slots, booked ahead","info"),'<div data-aoc="timeline"></div>')+card('<h3>Needs attention</h3><span class="aoc-sp"></span>'+chip("0","stop"),'<div class="aoc-bd" data-aoc="attn"></div>')+'</div>'+
     '<div class="aoc-grid two">'+card('<h3>Before the doors open</h3><span class="aoc-sp"></span>'+chip("Counted last night, not at the desk","info"),'<div class="aoc-bd" data-aoc="before"></div>')+card('<h3>Activity</h3>','<div class="aoc-bd"><div class="aoc-feed" data-aoc="feed"></div></div>')+'</div>';
+  if(inst.opts.store&&m.todaySlots.length)body(inst,"today").insertAdjacentHTML("beforeend",'<div style="height:14px"></div>'+card('<h3>Places this day</h3><span class="aoc-sp"></span>'+chip("For this date only","info"),'<div class="aoc-bd">'+
+    tbl(["Slot","num:Booked","num:Places"],m.todaySlots.map(s=>'<tr><td>'+esc(s.time)+' '+esc(s.session.label)+'</td><td class="num">'+s.sold+'</td><td class="num"><input class="aoc-f aoc-mono" type="number" min="1" data-day-cap="'+esc(s.dbId)+'" value="'+(s.cap||"")+'" style="width:90px"></td></tr>').join(""))+
+    '<div class="aoc-row" style="margin-top:10px"><button class="aoc-btn g" data-aoc-act="setDayCap">Save places for this day</button><span class="aoc-small aoc-muted">A special event can hold more or fewer than usual. The weekly pattern leaves a day you set here alone.</span></div></div>'));
   paintTodayArena(inst);
 }
 function paintTodayArena(inst){
@@ -1854,8 +1858,11 @@ function homeCell(inst,iso,big){
   let inner='<b>'+dOf(iso).getDate()+'</b>';
   if(shut)inner+='<span class="aoc-home-shut">'+esc(shut)+'</span>';
   else if(runs){
-    const line=(lab,col,x)=>'<span class="aoc-home-w"'+(col?' style="border-left-color:'+esc(col)+'"':'')+'>'+(lab?'<em>'+esc(lab)+'</em> ':'')+'<b>'+(+x.b||0)+'</b>'+(x.c?'/'+x.c:' booked')+'</span>'+(x.c?'<span class="aoc-meter"><i style="width:'+Math.min(100,Math.round((+x.b||0)/x.c*100))+'%"></i></span>':'');
-    if(!w&&H.worlds&&H.worlds.length>1)inner+=H.worlds.filter(x=>info.w&&x.key in info.w).map(x=>line(x.label.split(" ")[0],x.colour,info.w[x.key])).join("");
+    const line=(lab,col,x)=>'<span class="aoc-home-w"'+(col?' style="border-left-color:'+esc(col)+'"':'')+'>'+(lab?'<em>'+esc(lab)+'</em> ':'')+'<b>'+(+x.b||0)+'</b>'+(x.c?'/'+x.c:'')+'</span>'+(x.c?'<span class="aoc-meter"><i style="width:'+Math.min(100,Math.round((+x.b||0)/x.c*100))+'%"></i></span>':'');
+    const here=(H.worlds||[]).filter(x=>info.w&&x.key in info.w);
+    /* the brand's name only where two brands run that day; otherwise its colour, which the key above names */
+    if(!w&&here.length>1)inner+=here.map(x=>line(x.label.split(" ")[0],x.colour,info.w[x.key])).join("");
+    else if(!w&&here.length===1)inner+=line("",here[0].colour,info.w[here[0].key]);
     else inner+=line("",null,w?info.w[w]:{b:info.b,c:cap});
     if(info.e)inner+='<span class="aoc-home-ev">'+esc(info.e)+'</span>';
   }
@@ -1926,6 +1933,7 @@ function drawDaysheetArena(inst){
 
 /* Settings: the sessions and the pattern */
 function drawSettingsArena(inst){
+  if(inst.opts.store&&inst.data.settingsLive)return drawSettingsLive(inst);
   const d=inst.data,M=d.membership,S=d.settings;
   body(inst,"settings").innerHTML=head("Settings",inst.opts.store?"Not live yet. Prices are changed under Events and prices; nothing on this screen saves.":"Your sessions, your prices and your slots, in one place. Change a price here and the site changes with it.",'<button class="aoc-btn g" data-aoc-act="resetSessions">Reset to published</button><button class="aoc-btn p" data-aoc-act="saveSessions">Save</button>')+
     '<div class="aoc-grid two">'+card('<h3>Sessions</h3><span class="aoc-sp"></span>'+(d.sessions.every(x=>x.published!==false)?chip("Prefilled with your published prices","go"):d.sessions.every(x=>x.published!==false||x.confirmed)?chip("Your published prices, and the ones you confirmed on the call","go"):d.sessions.some(x=>x.published!==false)?chip("Published prices where you have them; the rest sample","ph"):chip("Sample prices: you publish none","ph")),'<div class="aoc-bd"><div class="aoc-fares">'+d.sessions.map(s=>'<div class="aoc-frow" style="grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr)"><span><b>'+esc(s.label)+'</b><span class="aoc-tiny">'+esc(s.sport)+(s.length?" · "+esc(s.length):"")+(s.minAge?" · "+(/^\d/.test(s.minAge)?"ages ":"")+esc(s.minAge):"")+'</span></span><label class="aoc-in">£<input class="aoc-f aoc-mono" type="number" min="0" data-aoc-ses="'+esc(s.key)+'.price" value="'+s.price+'"></label>'+(s.member!=null?'<label class="aoc-in">£<input class="aoc-f aoc-mono" type="number" min="0" data-aoc-ses="'+esc(s.key)+'.member" value="'+s.member+'"></label>':'<span class="aoc-tiny">per person</span>')+'</div>').join("")+'</div>'+(d.hire?'<p class="aoc-lbl" style="margin:18px 0 8px">'+esc(d.hire.label)+'</p><div class="aoc-form"><div class="aoc-fld"><span class="aoc-lbl">Per player</span><label class="aoc-in">£<input class="aoc-f aoc-mono" type="number" data-aoc="hirePrice" value="'+d.hire.price+'"></label></div></div>':"")+'<p class="aoc-lbl" style="margin:18px 0 8px">Membership</p><div class="aoc-form"><div class="aoc-fld"><span class="aoc-lbl">Price, per year</span><label class="aoc-in">£<input class="aoc-f aoc-mono" type="number" data-aoc="memPrice" value="'+(M.price||0)+'"></label></div><div class="aoc-fld"><span class="aoc-lbl">Membership year</span><input class="aoc-f" data-aoc="memYear" value="'+esc(M.year)+'"></div></div></div>')+
@@ -2333,6 +2341,11 @@ function livePayload(inst,name,btn){
     case "move":return {ref:inst.sel.booking,slot:v("mvSlot")};
     case "bkAdd":return {what:v("bdN"),email:v("bdE"),iso:v("bdD"),players:+v("bdP")||1,key:v("bdW"),world:v("bdWorld"),paid:+v("bdPaid")||0,how:v("bdH"),note:v("bdNote"),at:new Date().toISOString()};
     case "invite":return {email:v("invEmail"),role:v("invRole")};
+    case "setSessions":return {rows:qa("[data-set-session]",inst.el).map(tr=>({key:tr.dataset.setSession,price:q('[data-k="price"]',tr).value,cap:q('[data-k="cap"]',tr).value}))};
+    case "setAreas":return {rows:qa("[data-set-area]",inst.el).map(tr=>({id:tr.dataset.setArea,label:tr.dataset.label,cap:q('[data-k="cap"]',tr).value}))};
+    case "setTimes":return {rows:qa("[data-set-time]",inst.el).map(tr=>({id:tr.dataset.setTime,label:tr.dataset.label,arrive:q('[data-k="arrive"]',tr).value,start:q('[data-k="start"]',tr).value,end:q('[data-k="end"]',tr).value}))};
+    case "setBrand":{const box=q('[data-set-brand="'+btn.dataset.brand+'"]',inst.el),f=k=>(q('[data-k="'+k+'"]',box)||{}).value;const pod=q('[data-k="payOnDay"]',box);return {slug:btn.dataset.brand,depositPct:f("depositPct"),refundDays:f("refundDays"),payOnDay:pod?pod.checked:undefined,publicUrl:f("publicUrl"),fromName:f("fromName"),fromEmail:f("fromEmail"),replyTo:f("replyTo")};}
+    case "setDayCap":return {rows:qa("[data-day-cap]",inst.el).filter(i=>i.value!==i.defaultValue).map(i=>({slot:i.dataset.dayCap,cap:i.value}))};
     case "pSave":{const dp=draftPlan(inst),cur=m.plans.find(x=>x.id===inst.sel.plan)||{};return Object.assign(dp,{dbId:cur.dbId||null});}
     case "memAdd":return {name:v("memName"),email:v("memEmail"),plan:v("memPlan"),paid:+v("memPaid")||0,how:v("memHow")};
     case "renewAll":return {};
@@ -2408,6 +2421,29 @@ function paintReceptionLive(inst){
       '<div class="aoc-bd">'+(rows?(s.group?rows:'<div class="aoc-people">'+rows+'</div>'):'<p class="aoc-small aoc-muted">Nobody booked into this slot.</p>')+'</div>');}).join("");
   const c=q('[data-aoc="recCount"]',inst.el);if(c)c.textContent=inn+" of "+total+" checked in"+(unsigned?" · "+unsigned+" to sign":"");
   pane.innerHTML=slots.length?(cards||'<p class="aoc-small aoc-muted">Nobody called “'+esc(qs)+'” is booked this day.</p>'):'<p class="aoc-small aoc-muted">Nothing runs this day.</p>';
+}
+/* Settings on the live console (booking-platform CONTRACT.md §3d): what the site sells, when it runs, how many it
+   holds and how it takes money, as the database holds it, each section saved on its own */
+function drawSettingsLive(inst){
+  const S=inst.data.settingsLive,t=v=>esc(v==null?"":String(v));
+  const num=(k,v,w,step)=>'<input class="aoc-f aoc-mono" type="number" min="0"'+(step?' step="'+step+'"':'')+' data-k="'+k+'" value="'+t(v)+'" style="width:'+(w||90)+'px">';
+  const tm=(k,v)=>'<input class="aoc-f aoc-mono" type="time" data-k="'+k+'" value="'+t(v)+'" style="width:120px">';
+  const fld=(lbl,k,v,type,ph)=>'<div class="aoc-fld"><span class="aoc-lbl">'+lbl+'</span><input class="aoc-f" data-k="'+k+'" type="'+(type||"text")+'" value="'+t(v)+'" placeholder="'+t(ph||"")+'"></div>';
+  body(inst,"settings").innerHTML=head("Settings","What the site sells, when it runs, how many it holds and how it takes money. Each part saves on its own.")+
+    card('<h3>Sessions: prices and places</h3>','<div class="aoc-bd">'+tbl(["Session","Brand","Area","num:Price £","num:Places"],S.sessions.map(r=>'<tr data-set-session="'+t(r.key)+'"><td><b>'+t(r.label)+'</b>'+(r.published?'':'<br><span class="aoc-tiny">not on the site</span>')+'</td><td>'+t(r.brand)+'</td><td>'+t(r.area||"none")+'</td><td class="num">'+num("price",r.price,90,"0.5")+'</td><td class="num">'+num("cap",r.cap)+'</td></tr>').join(""))+
+      '<div class="aoc-row" style="margin-top:10px"><button class="aoc-btn p" data-aoc-act="setSessions">Save sessions</button><span class="aoc-small aoc-muted">A price change is on the site and in the checkout at once. Places are how many one session holds; future slots follow, a day you changed by hand keeps its own.</span></div></div>')+
+    (S.areas.length?card('<h3>Areas</h3>','<div class="aoc-bd">'+tbl(["Area","num:Places at once"],S.areas.map(a=>'<tr data-set-area="'+t(a.id)+'" data-label="'+t(a.label)+'"><td><b>'+t(a.label)+'</b></td><td class="num">'+num("cap",a.cap)+'</td></tr>').join(""))+
+      '<div class="aoc-row" style="margin-top:10px"><button class="aoc-btn p" data-aoc-act="setAreas">Save areas</button><span class="aoc-small aoc-muted">Every session in an area shares this number at the same time of day: a walk-on and a rental on one field draw on one count.</span></div></div>'):"")+
+    card('<h3>Session times</h3>','<div class="aoc-bd">'+tbl(["Session","Brand","Arrive","Start","End"],S.times.map(r=>'<tr data-set-time="'+t(r.id)+'" data-label="'+t(r.label)+'"><td><b>'+t(r.label)+'</b></td><td>'+t(r.brand)+'</td><td>'+tm("arrive",r.arrive)+'</td><td>'+tm("start",r.start)+'</td><td>'+tm("end",r.end)+'</td></tr>').join(""))+
+      '<div class="aoc-row" style="margin-top:10px"><button class="aoc-btn p" data-aoc-act="setTimes">Save times</button><span class="aoc-small aoc-muted">Future slots, the day panel and the booking page all take the new times.</span></div></div>')+
+    S.brands.map(b=>card('<h3>'+t(b.name)+'</h3><span class="aoc-sp"></span>'+chip("Money and email","info"),'<div class="aoc-bd" data-set-brand="'+t(b.slug)+'">'+
+      '<div class="aoc-grid half" style="gap:10px">'+fld("Deposit %, blank to take it all when booked","depositPct",b.depositPct,"number")+fld("Refundable until how many days before","refundDays",b.refundDays,"number","no cut-off")+'</div>'+
+      '<label class="aoc-row" style="gap:10px;margin:4px 0 10px;min-height:44px;cursor:pointer"><input type="checkbox" data-k="payOnDay"'+(b.payOnDay?" checked":"")+' style="width:22px;height:22px"><span>Allow pay on the day <span class="aoc-small aoc-muted">(customers may book with nothing paid, and pay at the gate)</span></span></label>'+
+      fld("The brand's own site","publicUrl",b.publicUrl,"url","https://")+
+      '<div class="aoc-grid half" style="gap:10px">'+fld("Email from (name)","fromName",b.fromName,"text",b.name)+fld("Email from (address)","fromEmail",b.fromEmail,"email","bookings@yoursite.com")+'</div>'+
+      fld("Replies go to","replyTo",b.replyTo,"email")+
+      '<p class="aoc-small aoc-muted" style="margin:6px 0 10px">Customer email goes out as <b>'+t(b.fromLine||"the platform address")+'</b>.</p>'+
+      '<button class="aoc-btn p" data-aoc-act="setBrand" data-brand="'+t(b.slug)+'">Save '+t(b.name)+'</button></div>')).join("");
 }
 /* a control that is not live names itself and says it did nothing; never what it would have done */
 let NL_LABEL="";

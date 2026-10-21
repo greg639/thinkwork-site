@@ -2907,7 +2907,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
     </div>
     <div class="legal">
       <span>Design proposal by ThinkWork, for discussion with you. Your prices, ages, running order, activities, team building and Phoenix wording, address, numbers, emails and colours are your own, taken from predator-combat.com and activate-outdoor-adventure.com on 2 October 2026 and from our calls of 13 and 16 October. Every photograph is yours and says which page it came from. Anything in amber is sample content waiting for your figures. Not the live site, and no live payments.</span>
-      <span class="mono">thinkwork.info &middot; built 20 Oct 2026 22:20 UK</span>
+      <span class="mono">thinkwork.info &middot; built 21 Oct 2026 16:57 UK</span>
     </div>
   </div>
 </footer>
@@ -2993,7 +2993,10 @@ function storeRead(){if(STORE_API)return JSON.parse(JSON.stringify(STORE_API.S))
    page reads in step with it */
 function storeWrite(o){if(STORE_API){STORE_API.S=o;return o;}try{localStorage.setItem(STORE_KEY,JSON.stringify(o));}catch(e){ /* private window, blocked storage */ }return o;}
 function storeAdd(key,rec){const o=storeRead();o[key]=Array.isArray(o[key])?o[key]:[];
-  if(STORE_API&&key==="bookings"&&STORE_API.last){rec.ref=STORE_API.last.ref;const r=document.getElementById("doneRef");if(r)r.textContent=rec.ref;}
+  if(STORE_API&&key==="bookings"&&STORE_API.last){rec.ref=STORE_API.last.ref;const r=document.getElementById("doneRef");if(r)r.textContent=rec.ref;
+    /* the confirmation says what the server holds: the signed declaration is stored; nothing else is promised */
+    const l=document.getElementById("doneLine");if(l)l.textContent=l.textContent.replace(/Your declaration is signed and on file[^.]*\./,
+      "Your safety declaration is signed and stored with this booking, and the confirmation is on its way to "+STORE_API.last.email+"."+(rec.players>1?" The other players sign theirs at the desk when they arrive.":""));}
   o[key].unshift(rec);storeWrite(o);return o;}
 function storeClear(){if(STORE_API)return;try{localStorage.removeItem(STORE_KEY);}catch(e){ /* nothing to clear */ }}
 if(STORE_API)(function(){
@@ -3023,6 +3026,12 @@ if(STORE_API)(function(){
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fitPayPane);else setTimeout(fitPayPane,0);
   const say=t=>{const e=$1("twErr");if(e){e.textContent=t;e.hidden=!t;}};
+  /* the safety declaration on step 3, as the waiver the server stores: the typed name, and the words that were ticked */
+  function declaration(){const pane=document.querySelector('[data-step="3"]');if(!pane)return null;
+    const boxes=[...pane.querySelectorAll("label.check")].map(l=>({text:l.textContent.trim(),on:!!(l.querySelector("input")||{}).checked}));
+    return {signedBy:(($1("sig")||{}).value||"").trim(),boxes,text:boxes.map(b=>(b.on?"[x] ":"[ ] ")+b.text).join("\n"),version:"site:"+(CONFIG.slug||storeSlug())};}
+  /* only the signer's declaration is stored at booking: the rest of the party is not covered by it */
+  const pl=$1("playerList");if(pl&&typeof MutationObserver==="function")new MutationObserver(()=>{pl.querySelectorAll(".pill").forEach(x=>{if(/Covered by your declaration/.test(x.textContent))x.textContent="Signs at the desk";});}).observe(pl,{childList:true,subtree:true});
   /* what the page has chosen, as the server's lines: one offering per kind of ticket */
   function lines(){
     const d=DATES[state.date],iso=isoOf(d),L=d.lock&&d.lock.sess||null,sess=L||state.sess,tier=typeof tierOf==="function"?tierOf(sess):sess;
@@ -3040,6 +3049,9 @@ if(STORE_API)(function(){
     const email=($1("twEmail")||{}).value||"",name=(($1("sig")||{}).value||"").trim();
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())){say("Put your email in, so the confirmation has somewhere to go.");$1("twEmail")&&$1("twEmail").focus();return;}
     if(S.payment&&S.payment.publishableKey&&!card){say("The card field is still loading. Give it a second.");return;}
+    const W=declaration();
+    if(W&&!W.signedBy){say("Type your full name on the safety declaration (step 3) to sign it.");return;}
+    if(W&&W.boxes.slice(0,2).some(b=>!b.on)){say("The first two lines of the safety declaration have to be ticked (step 3).");return;}
     busy=true;btn.disabled=true;
     try{
       const L=lines();if(!L.length)throw new Error("Pick at least one player first.");
@@ -3051,7 +3063,9 @@ if(STORE_API)(function(){
       const key=(crypto.randomUUID&&crypto.randomUUID())||String(Date.now())+Math.random();
       const made=[];
       for(const [i,l] of L.entries()){
-        const r=await post("/bookings",{...l,customer:{name:name||email.split("@")[0],email:email.trim()},idempotency_key:key+"-"+i});
+        const lead=i===0&&W;
+        const r=await post("/bookings",{...l,customer:{name:name||email.split("@")[0],email:email.trim()},idempotency_key:key+"-"+i,
+          ...(lead?{attendees:Array.from({length:l.party},(_,k)=>({name:k===0?W.signedBy:null})),waiver:{signedBy:W.signedBy,text:W.text,version:W.version}}:{})});
         made.push(r);
         if(r.payment&&r.payment.clientSecret){
           const c=await stripe.confirmCardPayment(r.payment.clientSecret,{payment_method:{card,billing_details:{name:name||undefined,email:email.trim()}}});
@@ -3059,7 +3073,7 @@ if(STORE_API)(function(){
           await post("/bookings/"+r.booking.id+"/confirm-payment",{});
         }
       }
-      A.last={ref:made.map(r=>r.booking.reference).join(" + ")};
+      A.last={ref:made.map(r=>r.booking.reference).join(" + "),email:email.trim()};
       btn.dataset.twPaid="1";btn.disabled=false;busy=false;btn.click();
     }catch(e){say(e.message||String(e));}
     finally{busy=false;btn.disabled=false;}

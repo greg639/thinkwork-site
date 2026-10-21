@@ -645,6 +645,7 @@ function buildRoster(d,r){
   for(const row of mixRows(d)){const [kind,sess,member,n,paidEach]=row;for(let i=0;i<n;i++){const t=ticketFor(d,kind,sess);const name=NAMES[ni%NAMES.length]+(ni>=NAMES.length?" "+(Math.floor(ni/NAMES.length)+1):"");ni++;
     players.push({id:players.length,name,init:initials(name),kind,sess,member:!!member,ticket:t,price:typeof paidEach==="number"?paidEach:(member?t.member:t.price),waiver:true,u18:false,arrived:false,in:false,reg:null,chrono:null,flagged:false,pts:0,kit:kind==="hire",kitOut:false,pre:[]});}}
   (R.noWaiver||[]).forEach(i=>{if(players[i])players[i].waiver=false;});
+  (R.people||[]).forEach((x,i)=>{const p=players[i];if(!p||!x)return;p.ref=x.ref;p.attendee=x.attendee||null;p.in=!!x.in;p.arrived=!!x.in;p.waiver=!!x.waiver;p.kitOut=!!x.kitOut;});
   (R.under18||[]).forEach(i=>{if(players[i])players[i].u18=true;});
   /* pre-orders land on named players, spread through the list */
   d.preorders.forEach((p,k)=>{for(let i=0;i<p.n;i++){const pl=players[(i*3+k*5)%Math.max(1,players.length)];if(pl&&!pl.pre.includes(p.key))pl.pre.push(p.key);}});
@@ -950,12 +951,28 @@ function shell(inst){
   const B=inst.brand, d=inst.data;
   let rail='<div class="aoc-brandrow"><span class="aoc-logo" role="img" aria-label="'+esc(B.name)+'"></span><b>'+esc(B.short||B.name)+'<i>Operator console</i></b></div>';
   let sec="";
-  for(const s of SCREENS){if(s.arena&&d.kind==="skirmish")continue;if(s.sec!==sec){sec=s.sec;rail+='<div class="aoc-navsec">'+esc(sec)+'</div>';}rail+='<a data-aoc-go="'+s.key+'" role="button" tabindex="0">'+esc(d.kind==="organiser"&&s.orgLabel?s.orgLabel:(d.kind==="arena"&&s.arenaLabel?s.arenaLabel:s.label))+(later(d,s.key)?'<span class="aoc-tag">Later</span>':(s.tag?'<span class="aoc-tag">'+s.tag+'</span>':''))+'</a>';}
+  const ORDER=inst.opts.account&&d.home?[SCREENS.find(s=>s.key==="calendar")].concat(SCREENS.filter(s=>s.key!=="calendar")):SCREENS;
+  for(const s of ORDER){if(s.arena&&d.kind==="skirmish")continue;if(inst.opts.account&&(s.key==="proposal"||(d.home&&s.key==="today")))continue;if(s.sec!==sec){sec=s.sec;rail+='<div class="aoc-navsec">'+esc(sec)+'</div>';}rail+='<a data-aoc-go="'+s.key+'" role="button" tabindex="0">'+esc(d.kind==="organiser"&&s.orgLabel?s.orgLabel:(inst.opts.account&&d.home&&s.key==="calendar"?"Calendar":(d.kind==="arena"&&s.arenaLabel?s.arenaLabel:s.label)))+(later(d,s.key)?'<span class="aoc-tag">Later</span>':(s.tag&&!(inst.opts.account&&(d.real||[]).includes(s.key))?'<span class="aoc-tag">'+s.tag+'</span>':''))+'</a>';}
   /* which build is this? The version alone cannot answer it: 0.10.2 looked identical before and after three
      config changes in one day. The stamp is written by the builder; it is wrapped so a hash can normalise it out. */
-  rail+='<div class="aoc-railfoot">AOC '+VERSION+'<br><span class="aoc-build" data-build="20 Oct 2026 22:20">built 20 Oct 2026 22:20 UK</span><br>by ThinkWork</div>';
+  const P=inst.opts.account;
+  rail+=P?'<div class="aoc-railfoot">ThinkWork booking</div>':'<div class="aoc-railfoot">AOC '+VERSION+'<br><span class="aoc-build" data-build="21 Oct 2026 16:57">built 21 Oct 2026 16:57 UK</span><br>by ThinkWork</div>';
   const roles=Object.keys(ROLES).map(k=>'<button data-aoc-role="'+k+'" aria-pressed="'+(k===inst.role)+'">'+ROLES[k].label+'</button>').join("");
-  const top='<div class="aoc-topstrip">'+
+  /* the console as a product (opts.account, from the booking server): who is signed in, the next day, the brand
+     switcher where a tenant has more than one brand, the brand's own site, and an account menu with the dark-mode
+     preference and sign-out. The prototype's role, colour and sample switches belong to the prototype. */
+  const acct=P?'<details class="aoc-acct"><summary data-aoc="acctBtn">'+esc(P.name||P.email||"Account")+'</summary><div class="aoc-acct-menu">'+
+      '<p class="aoc-lbl">'+esc(P.email||"")+(P.roleLabel?" · "+esc(P.roleLabel):"")+'</p>'+
+      '<label class="aoc-check"><input type="checkbox" data-aoc="darkPref"'+(inst.theme.mode==="dark"?" checked":"")+'><span>Dark mode</span></label>'+
+      '<form method="post" action="'+esc(P.signOut||"/auth/logout")+'"><button type="submit" class="aoc-btn g sm">Sign out</button></form></div></details>':"";
+  const top=P?'<div class="aoc-topstrip">'+
+    '<b data-aoc="evName" hidden></b>'+
+    '<span class="aoc-sp"></span>'+
+    (d.worldLabels?'<select class="aoc-f" data-aoc="topWorld" aria-label="Brand" style="width:auto;max-width:220px">'+opt([["","All brands"]].concat(Object.keys(d.worldLabels).map(k=>[k,d.worldLabels[k]])))+'</select>':"")+
+    (P.site&&P.site.url?'<a class="aoc-btn g" href="'+esc(P.site.url)+'" target="_blank" rel="noopener">'+esc(P.site.label||P.site.url)+'</a>':"")+
+    '<span class="aoc-chip go" data-aoc="liveChip" hidden>Live</span>'+acct+
+    '</div>'
+   :'<div class="aoc-topstrip">'+
     '<div class="aoc-who"><span class="aoc-avatar" data-aoc="whoAv">O</span><span><span class="aoc-lbl" data-aoc="whoRole">Owner</span><br><b data-aoc="whoName">'+esc(d.team.owner)+'</b></span></div>'+
     '<div class="aoc-seg" role="group" aria-label="Signed in as">'+roles+'</div>'+
     '<span class="aoc-vline"></span>'+
@@ -967,7 +984,8 @@ function shell(inst){
     '<div class="aoc-seg" role="group" aria-label="Colours"><button data-aoc-theme="client">Your colours</button><button data-aoc-theme="thinkwork">ThinkWork</button></div>'+
     '<div class="aoc-seg"><button data-aoc-mode-btn aria-pressed="false">Dark</button></div>'+
     '</div>';
-  const screens=SCREENS.filter(s=>!s.arena||d.kind!=="skirmish").map(s=>'<section class="aoc-screen'+(s.key==="proposal"?" aoc-prop":" aoc-pad")+'" data-aoc-screen="'+s.key+'"'+((d.real||[]).indexOf(s.key)>=0?'>':' data-ph="1">'+ph(s.key==="proposal"?"Every figure below is sample until you replace it":"Sample data"))+'<div data-aoc-body="'+s.key+'"></div></section>').join("");
+  const shown=s=>(!s.arena||d.kind!=="skirmish")&&!(P&&s.key==="proposal")&&!(P&&d.home&&s.key==="today");
+  const screens=SCREENS.filter(shown).map(s=>'<section class="aoc-screen'+(s.key==="proposal"?" aoc-prop":" aoc-pad")+'" data-aoc-screen="'+s.key+'"'+((d.real||[]).indexOf(s.key)>=0?'>':P?'>'+(later(d,s.key)?'':'<p class="aoc-notlive">Not live yet: sample figures.</p>'):' data-ph="1">'+ph(s.key==="proposal"?"Every figure below is sample until you replace it":"Sample data"))+'<div data-aoc-body="'+s.key+'"></div></section>').join("");
   inst.el.innerHTML='<div class="aoc-desk"><nav class="aoc-rail" aria-label="Console sections">'+rail+'</nav><main class="aoc-main">'+top+screens+'</main></div>'+
     '<div class="aoc-toast" role="status" aria-live="polite"></div><div class="aoc-tip"></div>';
 }
@@ -990,7 +1008,7 @@ function drawToday(inst){
   const d=inst.data,m=inst.m,NEXT=m.next;
   const t=d.calendar.times||[], gates=t[0]||"", brief=d.money.chronoTime||t[1]||"";
   const sub=fmtLong(NEXT.dt)+" · "+esc(NEXT.name)+(gates?" · gates "+gates:"")+(brief?", chrono and brief "+brief:"")+(d.calendar.timesSample?" (sample times)":"");
-  body(inst,"today").innerHTML=head("Today",sub,'<button class="aoc-btn g" data-aoc-go="daysheet">Print day sheet</button><button class="aoc-btn p" data-aoc-go="reception">Open reception</button>')+
+  body(inst,"today").innerHTML=head(dayTitle(inst),sub,'<button class="aoc-btn g" data-aoc-go="daysheet">Print day sheet</button><button class="aoc-btn p" data-aoc-go="reception">Open reception</button>')+
     '<div class="aoc-tiles" data-aoc="todayTiles"></div>'+
     '<div class="aoc-grid two" style="margin-bottom:14px">'+
       card('<h3>Needs attention</h3><span class="aoc-sp"></span>'+chip("0","stop")+'','<div class="aoc-bd" data-aoc="attn"></div>')+
@@ -1066,13 +1084,14 @@ function paintBookings(inst,query){
     '<div><p class="aoc-lbl" style="margin-bottom:8px">Actions</p><div class="aoc-row">'+
       '<button class="aoc-btn g" data-aoc-act="refund" '+(b.status==="refunded"?"disabled":"")+'>Refund '+gbp(b.paid)+'</button>'+
       (nextOther?'<button class="aoc-btn g" data-aoc-act="move" '+(b.status==="refunded"?"disabled":"")+'>Move to '+fmtDM(nextOther.dt)+'</button>':"")+
-      '<button class="aoc-btn g" data-aoc-act="resend">Resend the pass</button></div>'+
+      '<button class="aoc-btn g" data-aoc-act="resend">Resend the pass</button></div>'+(inst.opts.store&&b.status!=="cancelled"?'<div class="aoc-fld" style="margin-top:10px"><span class="aoc-lbl">Reason, for the record and the email</span><input class="aoc-f" data-aoc="bkReason" placeholder="Asked to cancel"></div>':"")+
       '<p class="aoc-tiny" style="margin-top:10px" data-aoc="bkMsg">A refund goes back to the card it came from. A move keeps the money and changes the date; if the new date costs a different amount the difference is charged or refunded and the line here says so.</p></div>'+
     '</div></div>');
 }
 
 /* ---------- Calendar ---------- */
 function drawCalendar(inst){
+  if(inst.opts.account&&inst.data.home)return drawHome(inst);
   const d=inst.data, multi=d.business.sports.length>1;
   body(inst,"calendar").innerHTML=head("Calendar",d.calendar.summary||(multi?d.business.sports.join(", ")+": one calendar":"Every running day, one calendar, one page per date"),'<button class="aoc-btn p" data-aoc-act="focusAdd">Add an event</button>')+
     '<div class="aoc-grid two">'+
@@ -1161,6 +1180,11 @@ function drawMembers(inst){
       card('<h3>Everyone on a plan</h3><span class="aoc-sp"></span><select class="aoc-f" data-aoc="memFilter" style="width:170px"><option value="all">All plans</option><option value="member">Membership</option><option value="lapsed">Lapsed</option></select>','<div data-aoc="memTable"></div>')+
       '<div class="aoc-stack">'+
         card('<h3>Plans</h3><span class="aoc-sp"></span><button class="aoc-btn g sm" data-aoc-act="editPlans">Edit plans</button>','<div class="aoc-bd" data-aoc="plans"></div>')+
+        (inst.opts.store?card('<h3>Add a member</h3><span class="aoc-sp"></span>'+chip("Joined at the desk","info"),'<div class="aoc-bd">'+
+          '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Name</span><input class="aoc-f" data-aoc="memName"></div><div class="aoc-fld"><span class="aoc-lbl">Email</span><input class="aoc-f" type="email" data-aoc="memEmail"></div></div>'+
+          '<div class="aoc-fld"><span class="aoc-lbl">Plan</span><select class="aoc-f" data-aoc="memPlan">'+opt(m.plans.filter(p=>p.dbId&&p.kind!=="free").map(p=>[p.dbId,p.name+(p.price?", "+gbp(p.price)+(p.kind==="block"?" once":" a "+(p.per||"year")):"")]))+'</select></div>'+
+          '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Taken now £</span><input class="aoc-f aoc-mono" type="number" min="0" data-aoc="memPaid"></div><div class="aoc-fld"><span class="aoc-lbl">How</span><select class="aoc-f" data-aoc="memHow">'+opt([["cash","Cash"],["card_phone","Card at the desk"],["bank_transfer","Bank transfer"]])+'</select></div></div>'+
+          '<button class="aoc-btn p" data-aoc-act="memAdd" style="margin-top:6px">Add the member</button></div>'):"")+
         card('<h3>Renewal run</h3><span class="aoc-sp"></span>'+chip("One email, one pay link","brand"),'<div class="aoc-bd"><p class="aoc-small aoc-muted">Goes out on '+esc(M.renewMonth)+' with a card link for the next '+(M.per==="month"?"month":"year")+'. Anyone who pays is a member from the day it starts without you touching it. Anyone who does not gets one nudge and then drops to non-member fares.</p><div style="margin-top:12px">'+kv("Queued",'<span data-aoc="queued">0</span>')+kv("Paid so far",'<span data-aoc="renewed">0</span>')+kv("Expected at last year\'s rate",Math.round((M.count||0)*0.75)+" of "+(M.count||0))+'</div><p class="aoc-tiny" data-aoc="renewMsg" style="margin-top:8px"></p></div>')+
         card('<h3>Failed payments</h3><span class="aoc-sp"></span>'+chip("Needs a nudge","stop"),'<div class="aoc-bd" data-aoc="dun"></div><div class="aoc-bd"><p class="aoc-small aoc-muted">The system retries on its own three times over ten days and emails a link to update the card. Only what is still failing after that appears here.</p></div>')+
         card('<h3>Why they join</h3>','<div class="aoc-bd"><p class="aoc-small aoc-muted">'+(W.price>W.member?esc(d.labels.walkon)+" "+gbp(W.price)+" against "+gbp(W.member)+(H&&H.price>H.member?", "+esc(d.labels.hire.toLowerCase())+" "+gbp(H.price)+" against "+gbp(H.member):"")+": "+gbp(W.price-W.member)+" saved every "+esc(d.labels.full)+". The site now does that sum at the moment somebody is paying, which is where the members in this sample came from.":"No member rate is published, so the site cannot yet show anyone what joining saves. Set one in Settings and the board, the checkout and this panel change with it.")+'</p><div style="margin-top:12px">'+kv("Joined at the checkout this year",Math.round((M.count||0)*0.37))+kv("Renewed from last year",Math.round((M.count||0)*0.63))+kv("Pro-rated joins",'0 <span class="aoc-tiny">(proposed)</span>')+'</div></div>')+
@@ -1172,7 +1196,7 @@ function memberRows(inst){
   const d=inst.data,m=inst.m,W=ticketFor(d,"walkon","full");
   const disc=Math.max(0,W.price-W.member);
   const src=d.members.length?d.members:m.players.filter(p=>p.member).slice(0,10).map((p,i)=>[p.name,["1 Mar","14 Apr","2 Jun","19 Jul","3 Sep"][i%5],3+(i*5)%16,0]);
-  return src.map((r,i)=>({name:r[0],since:r[1],visits:+r[2]||0,saved:(+r[2]||0)*disc,status:i%9===7?"past_due":i%11===10?"lapsed":"active"}));
+  return src.map((r,i)=>({name:r[0],since:r[1],visits:+r[2]||0,saved:r[3]!=null&&d.members.length?+r[3]||0:(+r[2]||0)*disc,status:r[4]||(i%9===7?"past_due":i%11===10?"lapsed":"active"),plan:r[5]||""}));
 }
 function paintMembers(inst){
   const d=inst.data,m=inst.m,M=d.membership,rows=memberRows(inst),f=(q('[data-aoc="memFilter"]',inst.el)||{}).value||"all";
@@ -1218,6 +1242,7 @@ function openPlans(inst){
   const sessions=inst.m.sessionsPerMonth;
   q('[data-aoc="freqChip"]',modal).textContent=d.calendar.regular.dayName+"s run "+(sessions>=4?"weekly":"fortnightly")+": "+sessions+" sessions a month";
   modal.classList.add("on");modal.setAttribute("aria-hidden","false");
+  if(!inst.m.plans.length)inst.m.plans.push({id:1,name:"New plan",kind:"sub",price:0,per:"year",disc:0,bbs:0,guests:0,early:0,status:"Draft",members:0,note:""});
   loadPlan(inst,inst.sel.plan||inst.m.plans[0].id);
 }
 function closePlans(inst){const modal=q(".aoc-modal",inst.el);if(modal){modal.classList.remove("on");modal.setAttribute("aria-hidden","true");}}
@@ -1320,7 +1345,7 @@ function paintGate(inst){
 }
 function drawReception(inst){
   const d=inst.data,kits=inst.m.players.filter(p=>p.kit);
-  body(inst,"reception").innerHTML=banner("Phase 2","The reception tablet. People scan their own pass and sign on their phone; a marshal can also check somebody in by hand. No clipboard, no queue.")+
+  body(inst,"reception").innerHTML=(inst.opts.account?"":banner("Phase 2","The reception tablet. People scan their own pass and sign on their phone; a marshal can also check somebody in by hand. No clipboard, no queue."))+
     head("Reception","Check in · safety form · kit issue")+
     '<div data-aoc="scanPane"><div class="aoc-row" style="margin-bottom:14px"><button class="aoc-btn p big" data-aoc-act="scan">Scan a pass</button><input class="aoc-f" data-aoc="recSearch" placeholder="or search by name" style="width:240px"><span class="aoc-sp"></span><span class="aoc-chip" data-aoc="recCount"></span></div><div class="aoc-people" data-aoc="recList"></div></div>'+
     '<div data-aoc="okPane" hidden><div class="aoc-bigok"><div class="aoc-tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 10 18 20 6"/></svg></div><h2 data-aoc="okName"></h2><p class="aoc-muted" data-aoc="okSub"></p><div class="aoc-row" style="justify-content:center">'+chip("Form signed","go")+'<span class="aoc-chip info" data-aoc="okKit"></span></div><button class="aoc-btn g" data-aoc-act="okNext" style="margin-top:8px">Next person</button></div></div>'+
@@ -1650,11 +1675,11 @@ function rCalc(inst){
 
 
 /* ---------- arena: fixed slots sold to groups (paintball, laser tag, indoor CQB). kind:"arena" switches the day-shaped screens to slot-shaped ones ---------- */
-const GSTAT={enquiry:["warn","Enquiry","Enquiry"],quoted:["info","Quote sent","Quoted"],deposit:["brand","Deposit paid","Deposit"],paid:["go","Paid in full","Paid"],played:["","Played","Played"]};
+const GSTAT={held:["brand","Held, nothing paid yet","Held"],enquiry:["warn","Enquiry","Enquiry"],quoted:["info","Quote sent","Quoted"],deposit:["brand","Deposit paid","Deposit"],paid:["go","Paid in full","Paid"],played:["","Played","Played"]};
 function buildSlots(d){
   if(d.slots&&Array.isArray(d.slots.list)){const today=new Date();today.setHours(0,0,0,0);const out=[];
     d.slots.list.forEach(row=>{const ses=d.sessions.find(s=>s.key===row.session);if(!ses)return;const dt=new Date(row.iso+"T12:00:00");dt.setHours(0,0,0,0);
-      out.push({id:out.length,dt,iso:row.iso,time:row.time||"",mins:ses.mins||60,session:ses,sport:ses.sport,area:row.area||ses.area||"",cap:row.cap!=null?row.cap:(ses.cap||(d.calendar&&d.calendar.cap)||20),group:!!ses.group,groups:[],sold:+row.sold||0,taken:row.taken,dayIndex:Math.round((dt-today)/864e5),closed:!!row.closed,real:row.groups||[]});});
+      out.push({id:out.length,dt,iso:row.iso,time:row.time||"",mins:ses.mins||60,session:ses,sport:ses.sport,area:row.area||ses.area||"",cap:row.cap!=null?row.cap:null,group:!!ses.group,groups:[],sold:+row.sold||0,taken:row.taken,dayIndex:Math.round((dt-today)/864e5),closed:!!row.closed,real:row.groups||[],realMeta:row.meta||{},dbId:row.id,kitOut:!!row.kitOut});});
     return out;}
   const pat=(d.slots&&d.slots.pattern)||{},spaces=(d.calendar.spaces&&d.calendar.spaces.length)?d.calendar.spaces:[14,22,7,31,19,3,26,11,38,16,9,24],out=[];
   const today=new Date();today.setHours(0,0,0,0);
@@ -1665,7 +1690,8 @@ function buildSlots(d){
 function buildGroups(d,slots){
   const out=[],gs=slots.filter(s=>s.group);
   if(d.slots&&Array.isArray(d.slots.list)){slots.forEach(slot=>{(slot.real||[]).forEach(([ref,org,n,total,paid,status,notes,signed])=>{
-      const g={ref,organiser:org,occasion:"",session:slot.session,slot,n:+n,total:+total||0,deposit:+paid||0,paid:+paid||0,status,notes:notes||"",signed:Math.min(+n,+signed||0),arrived:0,kitOut:false};
+      const x=slot.realMeta&&slot.realMeta[ref]||{};
+      const g={ref,organiser:org,occasion:x.occasion||"",session:slot.session,slot,n:+n,total:+total||0,deposit:x.deposit!=null?x.deposit:Math.round((+total||0)*(d.model.depositPct||0.25)),depositPct:x.depositPct,paid:+paid||0,status,notes:notes||"",signed:Math.min(+n,+signed||0),arrived:+x.arrived||0,kitOut:!!x.kitOut};
       slot.groups.push(g);out.push(g);});});
     return out;}
   (d.groups||[]).forEach((row,i)=>{const [org,occ,sesKey,dayOff,n,status,notes]=row;const ses=d.sessions.find(s=>s.key===sesKey);if(!ses)return;
@@ -1682,7 +1708,9 @@ function buildGroups(d,slots){
 }
 const slotWhen=s=>fmtShort(s.dt)+(s.time?" "+s.time:"");
 const slotEnd=s=>{const m=mins(s.time);return m==null?"":hhmm(m+s.mins);};
-function slotStatus(s){if(s.closed)return chip("Closed","stop");if(!s.group)return chip(s.sold+" of "+s.cap+" booked",s.sold>=s.cap?"stop":"info");if(!s.groups.length)return chip("Open","go");const full=s.sold>=s.cap;const st=s.groups.every(g=>g.status==="paid"||g.status==="played")?"Paid":s.groups.some(g=>g.status==="deposit")?"Held: deposit":"Held: quote out";return chip(full?"Full":st,full?"stop":st==="Paid"?"go":"brand");}
+/* the day panel's title: "Today" on today, the day's own name on any other */
+function dayTitle(inst){const H=inst.data.home;if(!H||!inst.sel.day||inst.sel.day===H.today)return "Today";return dOf(inst.sel.day).toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"short"});}
+function slotStatus(s){if(s.closed)return chip("Closed","stop");if(!s.group)return s.cap?chip(s.sold+" of "+s.cap+" booked",s.sold>=s.cap?"stop":"info"):chip(s.sold+" booked","info");if(!s.groups.length)return chip("Open","go");const full=s.sold>=s.cap;const st=s.groups.every(g=>g.status==="paid"||g.status==="played")?"Paid":s.groups.some(g=>g.status==="deposit")?"Held: deposit":"Held: quote out";return chip(full?"Full":st,full?"stop":st==="Paid"?"go":"brand");}
 function slotWho(s){return s.group?(s.groups.length?s.groups.map(g=>esc(g.organiser)+(g.occasion?", "+esc(g.occasion):"")).join("; "):'<span class="aoc-tiny">nobody yet</span>'):"Walk-on, "+s.sold+" booked";}
 const hasAreas=d=>!!(d.areas&&d.areas.length);
 const areaLabel=(d,key)=>{const a=(d.areas||[]).find(x=>x.key===key);return a?a.label:(key?key:"Not set");};
@@ -1697,7 +1725,7 @@ function kitFor(d,sport){return (d.kit&&d.kit[sport])||["Kit"];}
 /* Today: the day's slots */
 function drawTodayArena(inst){
   const d=inst.data,m=inst.m;
-  body(inst,"today").innerHTML=head("Today",fmtLong(m.day)+" · "+plural(m.todaySlots.length,"session")+((d.slots&&d.slots.timesSample)?" (sample times)":""),'<button class="aoc-btn g" data-aoc-go="daysheet">Print day sheet</button><button class="aoc-btn p" data-aoc-go="reception">Open reception</button>')+
+  body(inst,"today").innerHTML=head(dayTitle(inst),fmtLong(m.day)+" · "+plural(m.todaySlots.length,"session")+((d.slots&&d.slots.timesSample)?" (sample times)":""),'<button class="aoc-btn g" data-aoc-go="daysheet">Print day sheet</button><button class="aoc-btn p" data-aoc-go="reception">Open reception</button>')+
     '<div class="aoc-tiles" data-aoc="todayTiles"></div>'+
     '<div class="aoc-grid two" style="margin-bottom:14px">'+card('<h3>The day, slot by slot</h3><span class="aoc-sp"></span>'+chip("Fixed slots, booked ahead","info"),'<div data-aoc="timeline"></div>')+card('<h3>Needs attention</h3><span class="aoc-sp"></span>'+chip("0","stop"),'<div class="aoc-bd" data-aoc="attn"></div>')+'</div>'+
     '<div class="aoc-grid two">'+card('<h3>Before the doors open</h3><span class="aoc-sp"></span>'+chip("Counted last night, not at the desk","info"),'<div class="aoc-bd" data-aoc="before"></div>')+card('<h3>Activity</h3>','<div class="aoc-bd"><div class="aoc-feed" data-aoc="feed"></div></div>')+'</div>';
@@ -1725,6 +1753,7 @@ function paintTodayArena(inst){
 
 /* Slots: the week, and the pattern it is built from */
 function drawSlots(inst){
+  if(inst.opts.account&&inst.data.home)return drawHome(inst);
   const d=inst.data,m=inst.m,DOW=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
   body(inst,"calendar").innerHTML=head("Slots",(d.slots&&d.slots.list?(d.calendar&&d.calendar.summary)||"Every slot from the database":"Fixed slots, seven days at a glance")+((d.slots&&d.slots.timesSample)?"; times and capacities are sample until you set them":""),'<button class="aoc-btn p" data-aoc-act="focusSlot">Add a slot</button>')+
     '<div class="aoc-grid two"><div class="aoc-stack"><div data-aoc="slotList"></div><div data-aoc="slotDetail"></div></div>'+
@@ -1739,7 +1768,7 @@ function paintSlots(inst){
   const m=inst.m,el=q('[data-aoc="slotList"]',inst.el);if(!el)return;
   const SL=inst.data.slots||{},days=[...new Set(m.slots.filter(s=>s.dayIndex<(SL.days||7)&&s.dayIndex>=(SL.from||0)&&inWorld(inst,s.session)).map(s=>s.dt.toDateString()))];
   const d=inst.data,A=hasAreas(d);
-  const row=s=>'<tr class="aoc-click'+(inst.sel.slot===s.id?" on":"")+'" data-aoc-slot="'+s.id+'"><td class="aoc-mono">'+esc(s.time)+'</td><td>'+esc(s.session.label)+(A&&!(d.slots&&d.slots.list)&&overlaps(m,s)?'<br>'+chip("Two in this area at once","warn"):"")+'</td><td>'+slotWho(s)+'</td><td class="num">'+s.sold+' of '+s.cap+'</td><td>'+slotStatus(s)+'</td></tr>';
+  const row=s=>'<tr class="aoc-click'+(inst.sel.slot===s.id?" on":"")+'" data-aoc-slot="'+s.id+'"><td class="aoc-mono">'+esc(s.time)+'</td><td>'+esc(s.session.label)+(A&&!(d.slots&&d.slots.list)&&overlaps(m,s)?'<br>'+chip("Two in this area at once","warn"):"")+'</td><td>'+slotWho(s)+'</td><td class="num">'+s.sold+(s.cap?' of '+s.cap:'')+'</td><td>'+slotStatus(s)+'</td></tr>';
   el.innerHTML=days.map(k=>{const rows=m.slots.filter(s=>s.dt.toDateString()===k&&inWorld(inst,s.session));
     /* one card a day; with areas, one table an area inside it, so a Nerf slot beside an airsoft one reads as both running */
     const body=A?(d.areas.concat([{key:"",label:"Not set"}]).map(a=>{const rs=rows.filter(s=>(s.area||"")===a.key);return rs.length?'<p class="aoc-lbl" style="margin:14px 0 6px">'+esc(a.label)+'</p>'+tbl(["Time","Session","Who","num:Booked","Status"],rs.map(row).join("")):"";}).join(""))
@@ -1749,7 +1778,7 @@ function paintSlots(inst){
 }
 function paintSlotDetail(inst){
   const d=inst.data,m=inst.m,s=m.slots.find(x=>x.id===inst.sel.slot),el=q('[data-aoc="slotDetail"]',inst.el);if(!el)return;if(!s){el.innerHTML="";return;}
-  el.innerHTML=card('<h3>'+fmtLong(s.dt)+' '+esc(s.time)+' · '+esc(s.session.label)+'</h3><span class="aoc-sp"></span>'+slotStatus(s),'<div class="aoc-bd"><div class="aoc-tiles" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">'+tile("Booked",s.sold+' <small>of '+s.cap+'</small>')+tile("Length",'<span class="aoc-mono" style="font-size:17px;font-weight:600;display:block">'+esc(s.session.length||s.mins+" min")+'</span>',"",s.time?"to "+slotEnd(s):"")+tile("Price",gbp(s.session.price)+(s.session.member?' <small>member '+gbp(s.session.member)+'</small>':''),"key","per person"+(s.session.published?"":", sample"))+'</div>'+(s.group?(s.groups.length?s.groups.map(g=>kv('<b>'+esc(g.organiser)+'</b>, '+esc(g.occasion)+'<br><span class="aoc-lbl">'+g.n+' players · '+g.signed+' of '+g.n+' signed</span>',chip(GSTAT[g.status][1],GSTAT[g.status][0]))).join(""):'<p class="aoc-small aoc-muted">Open. A deposit from any organiser holds it.</p>'):'<p class="aoc-small aoc-muted">'+s.sold+' individual bookings so far; members pay '+gbp(s.session.member||s.session.price)+'.</p>')+'<div class="aoc-row" style="margin-top:12px"><button class="aoc-btn g sm" data-aoc-act="slotHold">Hold for a group</button><button class="aoc-btn g sm" data-aoc-act="slotClose">'+(s.closed?"Reopen":"Close the slot")+'</button><button class="aoc-btn g sm" data-aoc-act="msgSlot">Message everyone booked</button></div><p class="aoc-tiny" data-aoc="slotNote" style="margin-top:8px"></p></div>');
+  el.innerHTML=card('<h3>'+fmtLong(s.dt)+' '+esc(s.time)+' · '+esc(s.session.label)+'</h3><span class="aoc-sp"></span>'+slotStatus(s),'<div class="aoc-bd"><div class="aoc-tiles" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">'+tile("Booked",s.sold+(s.cap?' <small>of '+s.cap:' <small>booked')+'</small>')+tile("Length",'<span class="aoc-mono" style="font-size:17px;font-weight:600;display:block">'+esc(s.session.length||s.mins+" min")+'</span>',"",s.time?"to "+slotEnd(s):"")+tile("Price",gbp(s.session.price)+(s.session.member?' <small>member '+gbp(s.session.member)+'</small>':''),"key","per person"+(s.session.published?"":", sample"))+'</div>'+(s.group?(s.groups.length?s.groups.map(g=>kv('<b>'+esc(g.organiser)+'</b>, '+esc(g.occasion)+'<br><span class="aoc-lbl">'+g.n+' players · '+g.signed+' of '+g.n+' signed</span>',chip(GSTAT[g.status][1],GSTAT[g.status][0]))).join(""):'<p class="aoc-small aoc-muted">Open. A deposit from any organiser holds it.</p>'):'<p class="aoc-small aoc-muted">'+s.sold+' individual bookings so far; members pay '+gbp(s.session.member||s.session.price)+'.</p>')+'<div class="aoc-row" style="margin-top:12px"><button class="aoc-btn g sm" data-aoc-act="slotHold">Hold for a group</button><button class="aoc-btn g sm" data-aoc-act="slotClose">'+(s.closed?"Reopen":"Close the slot")+'</button><button class="aoc-btn g sm" data-aoc-act="msgSlot">Message everyone booked</button></div><p class="aoc-tiny" data-aoc="slotNote" style="margin-top:8px"></p></div>');
 }
 
 /* Groups and parties: from enquiry to played */
@@ -1758,7 +1787,13 @@ function drawGroups(inst){
   body(inst,"groups").innerHTML=head("Groups and parties","From enquiry to played, in one list. Nothing on the phone, nothing on a pad.",'<button class="aoc-btn p" data-aoc-act="newGroup">New enquiry</button>')+
     '<div class="aoc-tiles" data-aoc="grTiles"></div>'+
     '<div class="aoc-grid two"><div class="aoc-stack">'+card('<h3>Every group</h3><span class="aoc-sp"></span><select class="aoc-f" data-aoc="grFilter" style="width:170px">'+opt([["all","All"],["open","Needs a reply"],["held","Held or paid"],["played","Played"]])+'</select>','<div data-aoc="grTable"></div>')+'<div data-aoc="grDetail"></div></div>'+
-    '<div class="aoc-stack">'+card('<h3>How a group books</h3>','<div class="aoc-bd"><p class="aoc-quote" style="margin:0 0 12px">&ldquo;'+esc(((d.proposal||{}).wedge||{}).quoteText||"Sessions run to fixed time slots. Advance booking required.")+'&rdquo;</p>'+list(["They pick a session and a slot on the site, at 11pm if they like","A 25% deposit by card holds it, and the slot closes to everyone else","One disclaimer link goes out; every player signs on their phone","The balance is due seven days before, on one pay link","Reception has the list: names, kit, who has signed"])+'</div>')+card('<h3>What a deposit changes</h3>','<div class="aoc-bd"><p class="aoc-small aoc-muted">Today a group is a phone call and a promise. With a deposit taken on the page the slot is held, the headcount is real, the kit is counted, and a no-show still paid the deposit.</p></div>')+'</div></div>';
+    '<div class="aoc-stack">'+(inst.opts.store?card('<h3>New enquiry</h3><span class="aoc-sp"></span>'+chip("Goes on the list","info"),'<div class="aoc-bd">'+
+      '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Organiser</span><input class="aoc-f" data-aoc="grOrg" placeholder="Who is booking"></div><div class="aoc-fld"><span class="aoc-lbl">Occasion</span><input class="aoc-f" data-aoc="grOcc" placeholder="birthday, stag, works do"></div></div>'+
+      '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Email</span><input class="aoc-f" type="email" data-aoc="grEmail"></div><div class="aoc-fld"><span class="aoc-lbl">Phone</span><input class="aoc-f" type="tel" data-aoc="grPhone"></div></div>'+
+      '<div class="aoc-fld"><span class="aoc-lbl">Session</span><select class="aoc-f" data-aoc="grSes">'+opt(d.sessions.filter(x=>x.group&&inWorld(inst,x)).map(s=>[s.key,s.label]))+'</select></div>'+
+      '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Date</span><input class="aoc-f aoc-mono" type="date" data-aoc="grDate"></div><div class="aoc-fld"><span class="aoc-lbl">Players</span><input class="aoc-f aoc-mono" type="number" min="1" data-aoc="grN" value="10"></div></div>'+
+      '<div class="aoc-fld"><span class="aoc-lbl">Notes</span><input class="aoc-f" data-aoc="grNotes" placeholder="Anything they asked for"></div>'+
+      '<button class="aoc-btn p" data-aoc-act="grSave" style="margin-top:6px">Save the enquiry</button><p class="aoc-small aoc-muted" style="margin-top:8px">It goes on the list as an enquiry. It does not hold the slot until the deposit is taken.</p></div>'):'')+card('<h3>How a group books</h3>','<div class="aoc-bd"><p class="aoc-quote" style="margin:0 0 12px">&ldquo;'+esc(((d.proposal||{}).wedge||{}).quoteText||"Sessions run to fixed time slots. Advance booking required.")+'&rdquo;</p>'+list(["They pick a session and a slot on the site, at 11pm if they like","A 25% deposit by card holds it, and the slot closes to everyone else","One disclaimer link goes out; every player signs on their phone","The balance is due seven days before, on one pay link","Reception has the list: names, kit, who has signed"])+'</div>')+card('<h3>What a deposit changes</h3>','<div class="aoc-bd"><p class="aoc-small aoc-muted">Today a group is a phone call and a promise. With a deposit taken on the page the slot is held, the headcount is real, the kit is counted, and a no-show still paid the deposit.</p></div>')+'</div></div>';
   paintGroups(inst);
 }
 function paintGroups(inst){
@@ -1772,22 +1807,84 @@ function paintGroups(inst){
 }
 function paintGroupDetail(inst){
   const d=inst.data,m=inst.m,g=m.groups.find(x=>x.ref===inst.sel.group),el=q('[data-aoc="grDetail"]',inst.el);if(!el)return;if(!g){el.innerHTML="";return;}
-  const next=g.status==="enquiry"?["sendQuote","Send the quote"]:g.status==="quoted"?["takeDeposit","Take the deposit"]:g.status==="deposit"?["takeBalance","Take the balance"]:g.status==="paid"?["markPlayed","Mark as played"]:null;
-  el.innerHTML=card('<h3>'+esc(g.ref)+' · '+esc(g.organiser)+'</h3><span class="aoc-sp"></span>'+chip(GSTAT[g.status][1],GSTAT[g.status][0]),'<div class="aoc-bd"><div class="aoc-grid half"><div>'+kv("Occasion",esc(g.occasion))+kv("Session",'<span class="wrap">'+esc(g.session.label)+'</span>',"wrap")+kv("Slot",g.slot?slotWhen(g.slot)+" to "+slotEnd(g.slot):"to pick")+kv("Players",g.n)+kv("Disclaimers",g.signed+" of "+g.n+" signed")+(g.notes?kv("Notes",'<span class="wrap">'+esc(g.notes)+'</span>',"wrap"):"")+'</div><div><p class="aoc-lbl" style="margin-bottom:8px">The quote</p>'+kv(g.n+" × "+gbp(g.session.price),gbp(g.total))+kv("Deposit to hold the slot (25%)",gbp(g.deposit))+kv("Balance, seven days before",gbp(g.total-g.deposit))+kv("Paid so far",gbp(g.paid))+'<div class="aoc-row" style="margin-top:12px">'+(next?'<button class="aoc-btn p sm" data-aoc-act="'+next[0]+'">'+next[1]+'</button>':"")+'<button class="aoc-btn g sm" data-aoc-act="sendDisclaimers">Send the disclaimer link</button><button class="aoc-btn g sm" data-aoc-act="msgGroup">Message the organiser</button></div><p class="aoc-tiny" data-aoc="grMsg" style="margin-top:8px"></p></div></div></div>');
+  const next=g.status==="enquiry"?["sendQuote","Send the quote"]:(g.status==="quoted"||g.status==="held")?["takeDeposit","Take the deposit"]:g.status==="deposit"?["takeBalance","Take the balance"]:g.status==="paid"?["markPlayed","Mark as played"]:null;
+  el.innerHTML=card('<h3>'+esc(g.ref)+' · '+esc(g.organiser)+'</h3><span class="aoc-sp"></span>'+chip(GSTAT[g.status][1],GSTAT[g.status][0]),'<div class="aoc-bd"><div class="aoc-grid half"><div>'+kv("Occasion",esc(g.occasion))+kv("Session",'<span class="wrap">'+esc(g.session.label)+'</span>',"wrap")+kv("Slot",g.slot?slotWhen(g.slot)+" to "+slotEnd(g.slot):"to pick")+kv("Players",g.n)+kv("Disclaimers",g.signed+" of "+g.n+" signed")+(g.notes?kv("Notes",'<span class="wrap">'+esc(g.notes)+'</span>',"wrap"):"")+'</div><div><p class="aoc-lbl" style="margin-bottom:8px">The quote</p>'+kv(g.n+" × "+gbp(g.session.price),gbp(g.total))+kv("Deposit to hold the slot ("+Math.round((g.depositPct!=null?g.depositPct:0.25)*100)+"%)",gbp(g.deposit))+kv("Balance, seven days before",gbp(g.total-g.deposit))+kv("Paid so far",gbp(g.paid))+(inst.opts.store&&next&&(next[0]==="takeDeposit"||next[0]==="takeBalance")?'<div class="aoc-fld" style="margin-top:10px"><span class="aoc-lbl">How it was paid</span><select class="aoc-f" data-aoc="grHow">'+opt([["card_phone","Card over the phone"],["cash","Cash"],["bank_transfer","Bank transfer"]])+'</select></div>':"")+'<div class="aoc-row" style="margin-top:12px">'+(next?'<button class="aoc-btn p sm" data-aoc-act="'+next[0]+'">'+next[1]+'</button>':"")+'<button class="aoc-btn g sm" data-aoc-act="sendDisclaimers">Send the disclaimer link</button><button class="aoc-btn g sm" data-aoc-act="msgGroup">Message the organiser</button></div><p class="aoc-tiny" data-aoc="grMsg" style="margin-top:8px"></p></div></div></div>');
 }
+
+/* ---------- the calendar home (production console, data.home from the booking server) ----------
+   Month view by default, week view for the season; every day shows what is booked against what it holds, the event,
+   the closure greyed, and where a tenant runs two brands each brand's bookings in its own colour. Clicking a day opens
+   it in the panel beside the calendar, which is the Today screen for that day. Everything here is from the database. */
+const HOME_DOW=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+const isoD=dt=>{const y=dt.getFullYear(),m=dt.getMonth()+1,d=dt.getDate();return y+"-"+(m<10?"0":"")+m+"-"+(d<10?"0":"")+d;};
+const dOf=iso=>{const x=new Date(iso+"T12:00:00");return x;};
+function drawHome(inst){
+  const d=inst.data,H=d.home;
+  inst.sel.homeView=inst.sel.homeView||"month";
+  inst.sel.day=inst.sel.day||H.today;
+  inst.sel.homeAnchor=inst.sel.homeAnchor||inst.sel.day;
+  body(inst,"calendar").innerHTML='<div class="aoc-home"><div class="aoc-home-cal">'+
+    '<div class="aoc-row aoc-home-bar"><button class="aoc-btn g sm" data-aoc-homenav="-1" aria-label="Earlier">&lsaquo;</button><h2 data-aoc="homeTitle"></h2><button class="aoc-btn g sm" data-aoc-homenav="1" aria-label="Later">&rsaquo;</button>'+
+    '<button class="aoc-btn g sm" data-aoc-hometoday>Today</button><span class="aoc-sp"></span>'+
+    '<div class="aoc-seg" role="group" aria-label="View"><button data-aoc-homeview="month">Month</button><button data-aoc-homeview="week">Week</button></div></div>'+
+    (H.worlds&&H.worlds.length>1?'<div class="aoc-home-key">'+H.worlds.map(w=>'<span><i style="background:'+esc(w.colour)+'"></i>'+esc(w.label)+'</span>').join("")+'</div>':"")+
+    '<div data-aoc="homeGrid"></div></div><div class="aoc-home-day" data-aoc-body="today"></div></div>';
+  selectDay(inst,inst.sel.day);
+}
+function selectDay(inst,iso){
+  const d=inst.data,m=inst.m;inst.sel.day=iso;
+  const dt=dOf(iso);dt.setHours(0,0,0,0);
+  if(d.kind==="arena"){m.day=dt;m.todaySlots=m.slots.filter(s=>s.iso===iso&&inWorld(inst,s.session));
+    m.next={dt,name:plural(m.todaySlots.length,"session"),kind:dt.toLocaleDateString("en-GB",{weekday:"long"})};}
+  else{const x=m.dates.find(z=>z.iso===iso);m.next=x||{dt,name:"not a running day",kind:"day",iso};m.players=(x&&m.dates[0]===x)?(m._players||m.players):[];}
+  if(body(inst,"today"))DRAW.today(inst);
+  paintHome(inst);
+}
+function homeCell(inst,iso,big){
+  const H=inst.data.home,info=H.days[iso],shut=H.closed[iso],w=inst.sel.world||"";
+  const runs=info&&(!w||info.w&&w in info.w), n=runs?(w?info.w[w]||0:info.b):0, cap=info&&info.c;
+  const classes="aoc-home-cell"+(iso===inst.sel.day?" on":"")+(iso===H.today?" today":"")+(shut?" shut":"")+(runs?" runs":"");
+  let inner='<b>'+dOf(iso).getDate()+'</b>';
+  if(shut)inner+='<span class="aoc-home-shut">'+esc(shut)+'</span>';
+  else if(runs){
+    inner+='<span class="aoc-home-n">'+n+(cap?' <small>of '+cap+'</small>':' <small>booked</small>')+'</span>'+(cap?'<span class="aoc-meter"><i style="width:'+Math.min(100,Math.round(n/cap*100))+'%"></i></span>':"");
+    if(!w&&H.worlds&&H.worlds.length>1)inner+='<span class="aoc-home-dots">'+H.worlds.filter(x=>info.w&&x.key in info.w).map(x=>'<i title="'+esc(x.label)+': '+(info.w[x.key]||0)+'" style="background:'+esc(x.colour)+'">'+(info.w[x.key]||0)+'</i>').join("")+'</span>';
+    if(info.e)inner+='<span class="aoc-home-ev">'+esc(info.e)+'</span>';
+  }
+  if(big&&runs&&inst.data.kind==="arena")inner+='<span class="aoc-home-slots">'+inst.m.slots.filter(s=>s.iso===iso&&inWorld(inst,s.session)).map(s=>'<span>'+esc(s.time)+' '+esc(s.session.label)+' <em>'+s.sold+(s.cap?'/'+s.cap:'')+'</em></span>').join("")+'</span>';
+  return '<button class="'+classes+'" data-aoc-day="'+iso+'" aria-pressed="'+(iso===inst.sel.day)+'">'+inner+'</button>';
+}
+function paintHome(inst){
+  const el=q('[data-aoc="homeGrid"]',inst.el);if(!el)return;
+  const view=inst.sel.homeView, a=dOf(inst.sel.homeAnchor);
+  qa("[data-aoc-homeview]",inst.el).forEach(b=>b.setAttribute("aria-pressed",b.dataset.aocHomeview===view));
+  const monday=x=>{const y=new Date(x);y.setDate(y.getDate()-((y.getDay()+6)%7));return y;};
+  let html='<div class="aoc-home-grid '+view+'">'+HOME_DOW.map(n=>'<span class="aoc-home-dow">'+n+'</span>').join("");
+  if(view==="week"){
+    const s=monday(a);
+    q('[data-aoc="homeTitle"]',inst.el).textContent="Week of "+s.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
+    for(let i=0;i<7;i++){const x=new Date(s);x.setDate(s.getDate()+i);html+=homeCell(inst,isoD(x),true);}
+  }else{
+    const first=new Date(a.getFullYear(),a.getMonth(),1,12),start=monday(first),last=new Date(a.getFullYear(),a.getMonth()+1,0,12);
+    q('[data-aoc="homeTitle"]',inst.el).textContent=first.toLocaleDateString("en-GB",{month:"long",year:"numeric"});
+    for(let x=new Date(start);x<=last||x.getDay()!==1;x.setDate(x.getDate()+1)){const iso=isoD(x);html+=x.getMonth()===first.getMonth()?homeCell(inst,iso,false):'<span class="aoc-home-cell out"></span>';}
+  }
+  el.innerHTML=html+'</div>';
+}
+function homeNav(inst,step){const a=dOf(inst.sel.homeAnchor);if(inst.sel.homeView==="week")a.setDate(a.getDate()+7*step);else{a.setDate(1);a.setMonth(a.getMonth()+step);}inst.sel.homeAnchor=isoD(a);paintHome(inst);}
 
 /* Reception, by slot */
 function drawReceptionArena(inst){
   const d=inst.data,m=inst.m;
-  body(inst,"reception").innerHTML=banner("Phase 2","The reception tablet. Pick the slot, the group is there with who has signed and what kit goes out. Organisers scan their pass; a marshal can check a whole group in by hand.")+
+  body(inst,"reception").innerHTML=(inst.opts.account?"":banner("Phase 2","The reception tablet. Pick the slot, the group is there with who has signed and what kit goes out. Organisers scan their pass; a marshal can check a whole group in by hand."))+
     head("Reception","Check in by slot · disclaimer · kit issue")+
-    '<div class="aoc-row" style="margin-bottom:14px"><select class="aoc-f" data-aoc="recSlot" style="width:auto;min-width:260px">'+opt(m.todaySlots.map(s=>[s.id,s.time+" "+s.session.label+(s.group&&s.groups.length?": "+s.groups.map(g=>g.organiser).join(", "):s.group?": open":"")]),inst.sel.recSlot)+'</select><button class="aoc-btn p" data-aoc-act="scanGroup">Scan a pass</button><span class="aoc-sp"></span><span class="aoc-chip" data-aoc="recCount"></span></div>'+
+    '<div class="aoc-row" style="margin-bottom:14px"><select class="aoc-f" data-aoc="recSlot" style="width:auto;min-width:260px">'+opt((m.recSlots||m.todaySlots).map(s=>[s.id,s.time+" "+s.session.label+(s.group&&s.groups.length?": "+s.groups.map(g=>g.organiser).join(", "):s.group?": open":"")]),inst.sel.recSlot)+'</select><button class="aoc-btn p" data-aoc-act="scanGroup">Scan a pass</button><span class="aoc-sp"></span><span class="aoc-chip" data-aoc="recCount"></span></div>'+
     '<div data-aoc="recPane"></div>';
   paintReceptionArena(inst);
 }
 function paintReceptionArena(inst){
   const d=inst.data,m=inst.m,pane=q('[data-aoc="recPane"]',inst.el);if(!pane)return;
-  const s=m.todaySlots.find(x=>x.id===+inst.sel.recSlot)||m.todaySlots[0];if(!s){pane.innerHTML='<p class="aoc-tiny">No sessions today.</p>';return;}
+  const RS=m.recSlots||m.todaySlots,s=RS.find(x=>x.id===+inst.sel.recSlot)||RS[0];if(!s){pane.innerHTML='<p class="aoc-tiny">No sessions today.</p>';return;}
   inst.sel.recSlot=s.id;
   const kit=kitFor(d,s.sport);
   if(s.group){
@@ -1835,6 +1932,8 @@ function saveSessions(inst){
   paintAll(inst,["settings","groups","today","calendar"]);
 }
 function actArena(inst,name,btn){
+  if(liveAct(inst,name,btn))return true;
+  if(inst.opts.store&&name==="newGroup"){const f=q('[data-aoc="grOrg"]',inst.el);if(f){f.scrollIntoView({block:"center"});f.focus();}return true;}
   const live=!inst.opts.store||LIVE_ACTS.indexOf(name)>=0;
   const d=inst.data,m=inst.m,el=inst.el,say=t=>toast(inst,live?t:notLive(t)),g=m.groups.find(x=>x.ref===inst.sel.group),s=m.slots.find(x=>x.id===inst.sel.slot);
   const note=(k,t)=>{const e=q('[data-aoc="'+k+'"]',el);if(e)e.textContent=live?t:notLive(t);};
@@ -2117,9 +2216,10 @@ function actOrg(inst,name,btn){
 function repaint(inst){if(inst.data.kind==="organiser"){paintTodayOrg(inst);paintGate(inst);paintReceptionOrg(inst);paintChrono(inst);paintGC(inst);return;}if(inst.data.kind==="arena"){paintTodayArena(inst);paintGate(inst);paintReceptionArena(inst);paintChrono(inst);paintGC(inst);return;}paintToday(inst);paintGate(inst);paintReception(inst);paintChrono(inst);paintGC(inst);}
 const A=(sk,ar,og)=>inst=>(inst.data.kind==="organiser"&&og?og:inst.data.kind==="arena"?ar:sk)(inst);
 const DRAW={manage:drawManage,today:A(drawToday,drawTodayArena,drawTodayOrg),bookings:drawBookings,calendar:A(drawCalendar,drawSlots,drawOps),groups:inst=>{if(inst.data.kind==="arena")drawGroups(inst);else if(inst.data.kind==="organiser")drawFactions(inst);},customers:drawCustomers,members:drawMembers,money:drawMoney,shop:drawStock,history:drawHistory,gate:drawGate,reception:A(drawReception,drawReceptionArena,drawReceptionOrg),chrono:drawChrono,gameday:drawGameday,daysheet:A(drawDaysheet,drawDaysheetArena,drawDaysheetOrg),team:drawTeam,settings:A(drawSettings,drawSettingsArena,drawSettingsOrg),dash:drawDash,marketing:drawMarketing,proposal:drawProposal};
-function paintAll(inst,only){for(const k of Object.keys(DRAW)){if(only&&!only.includes(k))continue;if(later(inst.data,k)){drawLater(inst,k);continue;}DRAW[k](inst);}}
+function paintAll(inst,only){for(const k of Object.keys(DRAW)){if(only&&!only.includes(k))continue;if(!body(inst,k))continue;if(later(inst.data,k)){drawLater(inst,k);continue;}DRAW[k](inst);}}
 function setRole(inst,r){
   inst.role=r;const R=ROLES[r]||ROLES.owner;
+  if(!q('[data-aoc="whoName"]',inst.el)){const can=R.can&&inst.data.home?R.can.map(k=>k==="today"?"calendar":k):R.can;qa(".aoc-rail a",inst.el).forEach(a=>a.classList.toggle("locked",!!can&&!can.includes(a.dataset.aocGo)));if(can&&!can.includes(inst.screen))go(inst,can[0]);return;}
   q('[data-aoc="whoRole"]',inst.el).textContent=R.label;q('[data-aoc="whoAv"]',inst.el).textContent=R.label[0];
   q('[data-aoc="whoName"]',inst.el).textContent=r==="owner"?inst.data.team.owner:firstName((inst.m.players[{manager:9,marshal:3,gate:21}[r]]||inst.m.players[0]||{name:R.label}).name);
   qa("[data-aoc-role]",inst.el).forEach(b=>b.setAttribute("aria-pressed",b.dataset.aocRole===r));
@@ -2149,9 +2249,14 @@ function wire(inst){
     const slot=e.target.closest("[data-aoc-slot]");if(slot){inst.sel.slot=+slot.dataset.aocSlot;if(inst.screen!=="calendar")go(inst,"calendar");paintSlots(inst);return;}
     const op=e.target.closest("[data-aoc-op]");if(op){inst.sel.op=+op.dataset.aocOp;if(inst.screen!=="calendar")go(inst,"calendar");paintOps(inst);return;}
     const rin=e.target.closest("[data-aoc-recin]");if(rin){const pl=m.op&&m.op.players[+rin.dataset.aocRecin];if(pl){pl.in=!pl.in;pl.chrono=pl.in;}paintReceptionOrg(inst);paintTodayOrg(inst);return;}
+    const hday=e.target.closest("[data-aoc-day]");if(hday){selectDay(inst,hday.dataset.aocDay);return;}
+    const hview=e.target.closest("[data-aoc-homeview]");if(hview){inst.sel.homeView=hview.dataset.aocHomeview;inst.sel.homeAnchor=inst.sel.day;paintHome(inst);return;}
+    const hnav=e.target.closest("[data-aoc-homenav]");if(hnav){homeNav(inst,+hnav.dataset.aocHomenav);return;}
+    if(e.target.closest("[data-aoc-hometoday]")){inst.sel.homeAnchor=inst.data.home.today;selectDay(inst,inst.data.home.today);return;}
     const grp=e.target.closest("[data-aoc-group]");if(grp){inst.sel.group=inst.sel.group===grp.dataset.aocGroup?null:grp.dataset.aocGroup;paintGroups(inst);return;}
     const hist=e.target.closest("[data-aoc-hist]");if(hist){inst.sel.hist=+hist.dataset.aocHist;qa("[data-aoc-hist]",el).forEach(r=>r.classList.toggle("on",r===hist));paintHistDetail(inst);return;}
-    const chk=e.target.closest("[data-aoc-check]");if(chk){const pl=m.players[+chk.dataset.aocCheck];
+    const chk=e.target.closest("[data-aoc-check]");if(chk&&inst.opts.store&&(inst.opts.store.acts||[]).includes("checkIn")){const pl=m.players[+chk.dataset.aocCheck];if(pl&&!pl.in)inst.opts.store.act(inst,pl.waiver?"checkIn":"signHere",{ref:pl.ref,attendee:pl.attendee});return;}
+    if(chk){const pl=m.players[+chk.dataset.aocCheck];
       /* his own definition: signed in once the gun is chrono'd. The reading comes off the bench on the live system;
          here it is the site's own published limit, so the tick carries a number rather than a tick alone. */
       if(pl&&!pl.chrono)pl.chrono=m.limit||null;
@@ -2170,11 +2275,12 @@ function wire(inst){
     if(t.matches('[data-aoc="bkSearch"]'))paintBookings(inst,t.value);
     else if(t.matches('[data-aoc="recSearch"]'))paintReception(inst);
     else if(t.matches('[data-aoc="memFilter"]'))paintMembers(inst);
+    else if(t.matches('[data-aoc="darkPref"]')){inst.theme.mode=t.checked?"dark":"light";applyTheme(inst);if(inst.opts.account&&typeof inst.opts.account.onDark==="function")inst.opts.account.onDark(t.checked);}
     else if(t.matches('[data-aoc="grFilter"]'))paintGroups(inst);
     else if(t.matches('[data-aoc="evRep"],[data-aoc="evEvery"],[data-aoc="evWd"],[data-aoc="evNth"],[data-aoc="evMday"],[data-aoc="evEnds"],[data-aoc="evUntil"],[data-aoc="evCount"],[data-aoc="evD"]'))paintRepeat(inst);
     else if(t.matches('[data-aoc="mgWorld"],[data-aoc="topWorld"]')){inst.sel.world=t.value;
       const other=q(t.dataset.aoc==="topWorld"?'[data-aoc="mgWorld"]':'[data-aoc="topWorld"]',el);if(other)other.value=t.value;
-      paintEvList(inst);drawSiteBookings(inst);if(d.kind==="arena"){drawSlots(inst);paintTodayArena(inst);}}
+      paintEvList(inst);drawSiteBookings(inst);if(inst.opts.account&&d.home)selectDay(inst,inst.sel.day);else if(d.kind==="arena"){drawSlots(inst);paintTodayArena(inst);}}
     else if(t.matches('[data-aoc="mbWorld"]')){const sel=q('[data-aoc="mbW"]',el);if(sel)sel.innerHTML=opt(rowsForWorld(d,t.value).map(x=>[x.key,x.label]));}
     else if(t.matches('[data-aoc="fFilter"]'))paintFactions(inst);
     else if(t.matches('[data-aoc="fOp"]')){inst.sel.op=+t.value;paintFactions(inst);}
@@ -2186,16 +2292,36 @@ function wire(inst){
   });
   el.addEventListener("change",e=>{const t=e.target;if(t.matches('[data-aoc="mgWorld"],[data-aoc="topWorld"]')){inst.sel.world=t.value;
       const other=q(t.dataset.aoc==="topWorld"?'[data-aoc="mgWorld"]':'[data-aoc="topWorld"]',el);if(other)other.value=t.value;
-      paintEvList(inst);drawSiteBookings(inst);if(d.kind==="arena"){drawSlots(inst);paintTodayArena(inst);}}if(t.matches('[data-aoc="evRep"],[data-aoc="evEnds"],[data-aoc="evWd"],[data-aoc="evNth"],[data-aoc="evD"]'))paintRepeat(inst);if(t.matches('[data-aoc="memFilter"]'))paintMembers(inst);else if(t.matches('[data-aoc="grFilter"]'))paintGroups(inst);else if(t.matches('[data-aoc="fFilter"]'))paintFactions(inst);else if(t.matches('[data-aoc="fOp"]')){inst.sel.op=+t.value;paintFactions(inst);}else if(t.matches('[data-aoc="recFac"]'))paintReceptionOrg(inst);else if(t.matches('[data-aoc="recSlot"]')){inst.sel.recSlot=+t.value;paintReceptionArena(inst);}else if(t.matches("[data-aoc-kitslot]")){t.closest("label").classList.toggle("on",t.checked);}else if(t.matches("input[name='aoc-who']"))rCalc(inst);else if(t.matches("[data-aoc-kit]")){const p=m.players[+t.dataset.aocKit];p.kitOut=t.checked;t.closest("label").classList.toggle("on",t.checked);q('[data-aoc="kitPill"]',el).textContent=m.players.filter(x=>x.kit&&x.kitOut).length+" of "+m.players.filter(x=>x.kit).length+" out";if(t.checked)log(inst,nowHM(),d.labels.hire+" kit issued: "+p.name);paintToday(inst);}else if(t.matches('[data-aoc="ceDate"],[data-aoc="ceRep"],[data-aoc="ceDraft"],[data-aoc="ceSport"]'))cePreview(inst);});
+      paintEvList(inst);drawSiteBookings(inst);if(inst.opts.account&&d.home)selectDay(inst,inst.sel.day);else if(d.kind==="arena"){drawSlots(inst);paintTodayArena(inst);}}if(t.matches('[data-aoc="evRep"],[data-aoc="evEnds"],[data-aoc="evWd"],[data-aoc="evNth"],[data-aoc="evD"]'))paintRepeat(inst);if(t.matches('[data-aoc="memFilter"]'))paintMembers(inst);else if(t.matches('[data-aoc="grFilter"]'))paintGroups(inst);else if(t.matches('[data-aoc="fFilter"]'))paintFactions(inst);else if(t.matches('[data-aoc="fOp"]')){inst.sel.op=+t.value;paintFactions(inst);}else if(t.matches('[data-aoc="recFac"]'))paintReceptionOrg(inst);else if(t.matches('[data-aoc="recSlot"]')){inst.sel.recSlot=+t.value;paintReceptionArena(inst);}else if(t.matches("[data-aoc-kitslot]")){t.closest("label").classList.toggle("on",t.checked);}else if(t.matches("input[name='aoc-who']"))rCalc(inst);else if(t.matches("[data-aoc-kit]")){const p=m.players[+t.dataset.aocKit];p.kitOut=t.checked;t.closest("label").classList.toggle("on",t.checked);q('[data-aoc="kitPill"]',el).textContent=m.players.filter(x=>x.kit&&x.kitOut).length+" of "+m.players.filter(x=>x.kit).length+" out";if(t.checked)log(inst,nowHM(),d.labels.hire+" kit issued: "+p.name);paintToday(inst);}else if(t.matches('[data-aoc="ceDate"],[data-aoc="ceRep"],[data-aoc="ceDraft"],[data-aoc="ceSport"]'))cePreview(inst);});
   el.addEventListener("keydown",e=>{if(e.key==="Escape"){closeBig(inst);closePlans(inst);}const a=e.target.closest&&e.target.closest("a[data-aoc-go]");if(a&&(e.key==="Enter"||e.key===" ")){e.preventDefault();go(inst,a.dataset.aocGo);}});
   addEventListener("keydown",e=>{if(e.key==="Escape"){closeBig(inst);closePlans(inst);}});
   /* the game clock */
   inst.g.timer=setInterval(()=>{if(!el.isConnected){clearInterval(inst.g.timer);return;}inst.g.simSec++;if(toNext(inst)<=0&&nextStep(inst)){inst.g.phase++;paintRod(inst);paintGC(inst);}renderBig(inst);},1000);
 }
+/* Milestone 2 (booking-platform CONTRACT.md §3b): a control in opts.store.acts runs on the server through
+   opts.store.act(inst, name, payload) and the console redraws from the database. livePayload says what each one sends. */
+function liveAct(inst,name,btn){const S=inst.opts.store;if(!S||!S.act||!(S.acts||[]).includes(name))return false;S.act(inst,name,livePayload(inst,name,btn));return true;}
+function livePayload(inst,name,btn){
+  const m=inst.m,v=k=>{const el=q('[data-aoc="'+k+'"]',inst.el);return el?(el.type==="checkbox"?el.checked:el.value.trim()):"";};
+  const g=m.groups&&m.groups.find(x=>x.ref===inst.sel.group);
+  switch(name){
+    case "grSave":return {organiser:v("grOrg"),email:v("grEmail"),phone:v("grPhone"),occasion:v("grOcc"),session:v("grSes"),date:v("grDate"),players:+v("grN")||0,notes:v("grNotes")};
+    case "sendQuote":case "markPlayed":case "sendDisclaimers":return {ref:g&&g.ref};
+    case "takeDeposit":case "takeBalance":return {ref:g&&g.ref,how:v("grHow")};
+    case "groupIn":case "groupAllIn":case "signHere":return {ref:btn&&btn.dataset.ref,all:name==="groupAllIn"};
+    case "kitSlotAll":{const RS=m.recSlots||m.todaySlots||[],s=RS.find(x=>x.id===+inst.sel.recSlot)||RS[0];return {slot:s&&s.dbId};}
+    case "refund":return {ref:inst.sel.booking,reason:v("bkReason")};
+    case "pSave":{const dp=draftPlan(inst),cur=m.plans.find(x=>x.id===inst.sel.plan)||{};return Object.assign(dp,{dbId:cur.dbId||null});}
+    case "memAdd":return {name:v("memName"),email:v("memEmail"),plan:v("memPlan"),paid:+v("memPaid")||0,how:v("memHow")};
+    case "renewAll":return {};
+  }
+  return {};
+}
 /* the controls the live console has wired to the server; AOC-CONTROLS.md in the booking platform is the ledger */
 const LIVE_ACTS=["evPub","prSave","prReset","mbAdd","demoClear","addBooking","focusAdd","focusSlot","focusOp","editPlans","closePlans","okNext","print","printPick","bigOpen","bigClose","spin"];
 const notLive=t=>"Not live yet. "+String(t).replace(/^On the live system[:,]?\s*/i,"When it is: ");
 function act(inst,name,btn){
+  if(liveAct(inst,name,btn))return true;
   const live=!inst.opts.store||LIVE_ACTS.indexOf(name)>=0;
   const d=inst.data,m=inst.m,el=inst.el,say=t=>toast(inst,live?t:notLive(t)),note=t=>{const e=q('[data-aoc="evNote"]',el);if(e)e.textContent=live?t:notLive(t);},msg=(k,t)=>{t=live?t:notLive(t);const e=q('[data-aoc="'+k+'"]',el);if(e){e.textContent=t;setTimeout(()=>{if(e.textContent===t)e.textContent=" ";},3200);}};
   const b=m.bookings.find(x=>x.ref===inst.sel.booking);
@@ -2275,7 +2401,7 @@ function act(inst,name,btn){
     case "editPlans":openPlans(inst);break;
     case "closePlans":closePlans(inst);break;
     case "pSave":{const dp=draftPlan(inst),i=m.plans.findIndex(x=>x.id===inst.sel.plan);if(i>=0)m.plans[i]=dp;paintPlanList(inst);q('[data-aoc="pMsg"]',el).textContent="Saved";setTimeout(()=>{q('[data-aoc="pMsg"]',el).textContent="";},2500);paintMembers(inst);break;}
-    case "pNew":{const id=Math.max(...m.plans.map(p=>p.id))+1;m.plans.push({id,name:"New plan",kind:"sub",price:15,per:"month",disc:5,bbs:6,guests:0,early:72,status:"Draft",members:0,note:"Draft"});loadPlan(inst,id);break;}
+    case "pNew":{const id=Math.max(0,...m.plans.map(p=>p.id))+1;m.plans.push({id,name:"New plan",kind:"sub",price:15,per:"month",disc:5,bbs:6,guests:0,early:72,status:"Draft",members:0,note:"Draft"});loadPlan(inst,id);break;}
     case "cardLink":say("A card-update link is sent by email and text. The membership carries on the moment it is paid.");break;
     case "stockTake":say("On the live system: count the shelf, type the numbers, every difference is logged with your name and the time.");break;
     case "delivery":say("On the live system: pick the items, type the quantities, the free stock goes up and the picking list follows.");break;
@@ -2322,12 +2448,12 @@ function mount(el,opts){
   const dates=buildDates(d.calendar,d.events);
   const players=buildRoster(d,inst.r);
   const m=inst.m={dates,next:dates.find(x=>!x.tba)||dates[0]||{dt:new Date(),name:Array.isArray(d.calendar.dates)?"No running days yet":"Next running day",kind:"day"},players,feed:[],customers:0,limit:parseInt(String((d.settings.chrono||{}).aeg||"").replace(/[^\d]/g,""),10)||0};
-  m.preTotal=d.preorders.reduce((a,p)=>a+p.n*p.price,0);
+  m.preTotal=d.preorders.reduce((a,p)=>a+p.n*p.price,0);m._players=players;
   m.bookings=buildBookings(d,dates,players);
   m.refOf=p=>{const b=m.bookings.find(x=>x.name===p.name);return b?b.ref:d.ref+"-"+(1000+p.id*37).toString(36).toUpperCase().slice(0,4);};
   m.sessionsPerMonth=Math.max(1,Math.round(30/(d.calendar.regular.every||7)));
   m.customers=Math.max(players.length*9,120);
-  m.plans=buildPlans(d,m.customers);
+  m.plans=Array.isArray(d.plans)?d.plans.map((p,i)=>Object.assign({id:i+1},p)):buildPlans(d,m.customers);
   m.stock=buildStock(d,rng(seedFrom(d.business.name+"stock")));
   m.history=buildHistory(d,players,rng(seedFrom(d.business.name+"hist")));
   m.schedule=buildSchedule(d);
@@ -2344,6 +2470,7 @@ function mount(el,opts){
     m.slots=buildSlots(d);m.groups=buildGroups(d,m.slots);
     const first=(d.slots&&d.slots.list?m.slots.find(x=>x.dayIndex>=0):m.slots.find(x=>x.sold>0))||m.slots[0];m.day=first?first.dt:new Date();m.todaySlots=m.slots.filter(x=>x.dt.toDateString()===m.day.toDateString());
     m.next={dt:m.day,name:plural(m.todaySlots.length,"session"),kind:m.day.toLocaleDateString("en-GB",{weekday:"long"})};
+    m.recSlots=m.todaySlots;
     const lead=m.todaySlots.find(x=>x.group&&x.groups.length)||m.todaySlots[0];
     if(lead&&lead.time){const t0=mins(lead.time),len=lead.mins,g=Math.max(20,Math.floor((len-15)/4));m.schedule=[{t:hhmm(t0),label:"Doors and brief"},{t:hhmm(t0+15),label:"Game 1",g:1},{t:hhmm(t0+15+g),label:"Game 2",g:2},{t:hhmm(t0+15+2*g),label:"Game 3",g:3},{t:hhmm(t0+15+3*g),label:"Game 4",g:4},{t:hhmm(t0+len),label:"Session ends"}];m.leadSport=lead.sport;}
   }
@@ -2362,8 +2489,8 @@ function mount(el,opts){
   applyTheme(inst);
   paintAll(inst);
   wire(inst);
-  setRole(inst,"owner");
-  let first=opts.screen||"today";
+  setRole(inst,(opts.account&&ROLES[opts.account.role])?opts.account.role:"owner");
+  let first=opts.screen||(opts.account&&d.home?"calendar":"today");
   if(opts.readQuery!==false){try{const u=new URLSearchParams(location.search);const s=u.get("screen")||u.get("tab");if(s&&DRAW[s])first=s;}catch(e){}}
   inst.opts.scroll=false;go(inst,first);inst.opts.scroll=opts.scroll;
   inst.go=n=>go(inst,n);inst.setTheme=t=>{Object.assign(inst.theme,t||{});applyTheme(inst);};inst.setBrand=b=>{Object.assign(inst.brand,b||{});if(b&&b.colours)Object.assign(inst.brand.colours,b.colours);cleanColours(inst.brand);applyTheme(inst);};inst.live=(on,L)=>live(inst,on,L);inst.say=t=>toast(inst,t);

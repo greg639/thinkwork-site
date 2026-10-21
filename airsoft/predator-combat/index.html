@@ -2907,7 +2907,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
     </div>
     <div class="legal">
       <span>Design proposal by ThinkWork, for discussion with you. Your prices, ages, running order, activities, team building and Phoenix wording, address, numbers, emails and colours are your own, taken from predator-combat.com and activate-outdoor-adventure.com on 2 October 2026 and from our calls of 13 and 16 October. Every photograph is yours and says which page it came from. Anything in amber is sample content waiting for your figures. Not the live site, and no live payments.</span>
-      <span class="mono">thinkwork.info &middot; built 21 Oct 2026 22:32 UK</span>
+      <span class="mono">thinkwork.info &middot; built 21 Oct 2026 23:38 UK</span>
     </div>
   </div>
 </footer>
@@ -3011,20 +3011,33 @@ function storeClear(){if(STORE_API)return;try{localStorage.removeItem(STORE_KEY)
    are not on the server. */
 if(STORE_API)(function(){
   const A=STORE_API;let sheet=null,loading=null,pushed=false,skipGo=false,booting=false,prevFocus=null;
+  /* the flow's files and the day picture load while the visitor reads the page, so Book answers at once even on a
+     slow connection (booking-platform milestone 5b item 8); both files are fetched with CORS, which the server allows */
+  let data=null,dataAt=0,dataReq=null;
   function load(){if(window.TWFlow)return Promise.resolve();if(loading)return loading;
-    loading=new Promise((ok,no)=>{const l=document.createElement("link");l.rel="stylesheet";l.href=A.base+"/flow/flow.css";document.head.appendChild(l);
-      const sc=document.createElement("script");sc.src=A.base+"/flow/flow.js";sc.onload=ok;sc.onerror=no;document.head.appendChild(sc);});
+    loading=new Promise((ok,no)=>{const l=document.createElement("link");l.rel="stylesheet";l.crossOrigin="anonymous";l.href=A.base+"/flow/flow.css";document.head.appendChild(l);
+      const sc=document.createElement("script");sc.crossOrigin="anonymous";sc.src=A.base+"/flow/flow.js";sc.onload=ok;sc.onerror=no;document.head.appendChild(sc);});
     loading.catch(()=>{loading=null;});return loading;}
+  function days(){if(data&&Date.now()-dataAt<60000)return Promise.resolve(data);if(dataReq)return dataReq;
+    dataReq=fetch(A.base+"/flow/"+encodeURIComponent(brand())).then(r=>r.ok?r.json():null).then(d=>{dataReq=null;if(d){data=d;dataAt=Date.now();}return d;}).catch(()=>{dataReq=null;return null;});
+    return dataReq;}
+  const idle=window.requestIdleCallback||(f=>setTimeout(f,1500));
+  idle(()=>{load().catch(()=>{});days();});
   function brand(){const w=document.documentElement.dataset.world,S=A.S;return (w&&S.worlds&&S.worlds[w])||S.brand;}
   function open(link){
     prevFocus=document.activeElement;
-    load().then(()=>{
-      if(sheet)sheet.remove();
-      sheet=document.createElement("div");sheet.id="twFlowSheet";document.body.appendChild(sheet);
-      document.documentElement.style.overflow="hidden";
-      TWFlow.mount(sheet,{api:A.base,brand:brand(),deepLink:link||{},onClose:()=>{if(pushed)history.back();else close();}});
-      try{history.pushState(Object.assign({},history.state||{},{twflow:1}),"");pushed=true;}catch(e){pushed=false;}
-      const f=sheet.querySelector("button,input");if(f)f.focus({preventScroll:true});
+    /* the sheet is on screen the moment Book is pressed, in the page's own colours, saying what it is doing */
+    if(sheet)sheet.remove();
+    sheet=document.createElement("div");sheet.id="twFlowSheet";
+    sheet.innerHTML='<div role="dialog" aria-modal="true" aria-label="Book" style="position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;background:var(--bg,#111);color:var(--text,#eee);font:600 18px/1.4 var(--ui,system-ui,sans-serif)"><p role="status">Loading the days\u2026</p></div>';
+    document.body.appendChild(sheet);document.documentElement.style.overflow="hidden";
+    try{history.pushState(Object.assign({},history.state||{},{twflow:1}),"");pushed=true;}catch(e){pushed=false;}
+    const mine=sheet;
+    Promise.all([load(),days()]).then(([,d])=>{
+      if(sheet!==mine)return;   /* closed while it loaded */
+      sheet.innerHTML="";
+      TWFlow.mount(sheet,Object.assign({api:A.base,brand:brand(),deepLink:link||{},onClose:()=>{if(pushed)history.back();else close();}},d?{data:d}:{}));
+      const f=sheet.querySelector(".twf-h,button,input");if(f)f.focus({preventScroll:true});
     }).catch(()=>{location.href=A.base+"/book/"+encodeURIComponent(brand())+(link&&link.date?"?date="+link.date:"");});
   }
   function close(){if(!sheet)return;sheet.remove();sheet=null;pushed=false;document.documentElement.style.overflow="";
@@ -3033,6 +3046,9 @@ if(STORE_API)(function(){
      call is let go (it would scroll the page to the top under the customer) */
   addEventListener("popstate",()=>{if(sheet){close();skipGo=true;setTimeout(()=>{skipGo=false;},0);}});
   document.addEventListener("keydown",e=>{if(e.key==="Escape"&&sheet){e.preventDefault();if(pushed)history.back();else close();}});
+  /* the header's Book button opens the flow on a phone as on a desktop (booking-platform milestone 5b item 9) */
+  document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest(".headcta .btn.primary");
+    if(!b||!/\bbook\b/i.test(b.textContent))return;e.stopImmediatePropagation();e.preventDefault();open({});},true);
   /* a day's own Book button opens the flow on that day */
   const isoD=dt=>dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0")+"-"+String(dt.getDate()).padStart(2,"0");
   document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-book]");if(!b)return;
@@ -3045,7 +3061,7 @@ if(STORE_API)(function(){
   try{const u=new URL(location.href);if(u.searchParams.get("screen")==="book"){booting=true;const link={date:u.searchParams.get("date")||undefined,session:u.searchParams.get("session")||undefined};
     setTimeout(()=>{booting=false;if(document.body.dataset.screen==="book"&&typeof go==="function")go("home");open(link);},0);}}catch(e){}
   /* once booked, the page's copy of the day's numbers is refreshed from the server */
-  addEventListener("twflow:booked",()=>{fetch(A.base+"/store/site/"+encodeURIComponent((typeof CONFIG!=="undefined"&&CONFIG.platform&&CONFIG.platform.api)?CONFIG.slug:storeSlug()))
+  addEventListener("twflow:booked",()=>{data=null;fetch(A.base+"/store/site/"+encodeURIComponent((typeof CONFIG!=="undefined"&&CONFIG.platform&&CONFIG.platform.api)?CONFIG.slug:storeSlug()))
     .then(r=>r.ok?r.json():null).then(S=>{if(S)A.S=S;}).catch(()=>{});});
 })();
 

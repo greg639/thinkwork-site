@@ -752,6 +752,12 @@ const ROLES={
    Later, and says what it is and when it arrives, instead of being deleted. The first tenant to ask for it, phase one, 15 Oct 2026. */
 const SESSLIST=d=>(d.daySessions||(d.schedule&&d.schedule.sessions)||{});
 const later=(d,key)=>Array.isArray(d.later)&&d.later.indexOf(key)>=0;
+/* A screen the tenant's plan does not carry (data.gated from the booking platform's plans, CONTRACT.md §3e milestone 6):
+   the rail names the plan it comes with, and the screen says so in one sentence, with nothing on it to press. */
+const gated=(d,key)=>(d.gated&&d.gated[key])||null;
+function drawGated(inst,key){const g=gated(inst.data,key),s=SCREENS.find(x=>x.key===key)||{label:key};
+  body(inst,key).innerHTML=head(s.label,g.plan?"On the "+g.plan+" plan":"Not on your plan","")+
+    '<div class="aoc-card"><div class="aoc-bd"><h3>Not on your plan</h3><p class="aoc-muted" style="max-width:68ch">'+esc(g.text)+'</p></div></div>';}
 function drawLater(inst,key){const d=inst.data,s=SCREENS.find(x=>x.key===key)||{label:key};
   body(inst,key).innerHTML=head(s.label,"Phase two","")+
     '<div class="aoc-card"><div class="aoc-bd"><h3>Not switched on yet</h3>'+
@@ -952,11 +958,11 @@ function shell(inst){
   let rail='<div class="aoc-brandrow"><span class="aoc-logo" role="img" aria-label="'+esc(B.name)+'"></span><b>'+esc(B.short||B.name)+'<i>Operator console</i></b></div>';
   let sec="";
   const ORDER=inst.opts.account&&d.home?[SCREENS.find(s=>s.key==="calendar")].concat(SCREENS.filter(s=>s.key!=="calendar")):SCREENS;
-  for(const s of ORDER){if(s.arena&&d.kind==="skirmish")continue;if(inst.opts.account&&(s.key==="proposal"||(d.home&&s.key==="today")))continue;if(s.sec!==sec){sec=s.sec;rail+='<div class="aoc-navsec">'+esc(sec)+'</div>';}rail+='<a data-aoc-go="'+s.key+'" role="button" tabindex="0">'+esc(d.kind==="organiser"&&s.orgLabel?s.orgLabel:(inst.opts.account&&d.home&&s.key==="calendar"?"Calendar":(d.kind==="arena"&&s.arenaLabel?s.arenaLabel:s.label)))+(later(d,s.key)?'<span class="aoc-tag">Later</span>':(s.tag&&!(inst.opts.account&&(d.real||[]).includes(s.key))?'<span class="aoc-tag">'+s.tag+'</span>':''))+'</a>';}
+  for(const s of ORDER){if(s.arena&&d.kind==="skirmish")continue;if(inst.opts.account&&(s.key==="proposal"||(d.home&&s.key==="today")))continue;if(s.sec!==sec){sec=s.sec;rail+='<div class="aoc-navsec">'+esc(sec)+'</div>';}rail+='<a data-aoc-go="'+s.key+'" role="button" tabindex="0">'+esc(d.kind==="organiser"&&s.orgLabel?s.orgLabel:(inst.opts.account&&d.home&&s.key==="calendar"?"Calendar":(d.kind==="arena"&&s.arenaLabel?s.arenaLabel:s.label)))+(gated(d,s.key)?'<span class="aoc-tag">'+esc(gated(d,s.key).plan||"Upgrade")+'</span>':later(d,s.key)?'<span class="aoc-tag">Later</span>':(s.tag&&!(inst.opts.account&&(d.real||[]).includes(s.key))?'<span class="aoc-tag">'+s.tag+'</span>':''))+'</a>';}
   /* which build is this? The version alone cannot answer it: 0.10.2 looked identical before and after three
      config changes in one day. The stamp is written by the builder; it is wrapped so a hash can normalise it out. */
   const P=inst.opts.account;
-  rail+=P?'<div class="aoc-railfoot">ThinkWork booking</div>':'<div class="aoc-railfoot">AOC '+VERSION+'<br><span class="aoc-build" data-build="21 Oct 2026 22:32">built 21 Oct 2026 22:32 UK</span><br>by ThinkWork</div>';
+  rail+=P?'<div class="aoc-railfoot">ThinkWork booking</div>':'<div class="aoc-railfoot">AOC '+VERSION+'<br><span class="aoc-build" data-build="21 Oct 2026 23:38">built 21 Oct 2026 23:38 UK</span><br>by ThinkWork</div>';
   const roles=Object.keys(ROLES).map(k=>'<button data-aoc-role="'+k+'" aria-pressed="'+(k===inst.role)+'">'+ROLES[k].label+'</button>').join("");
   /* the console as a product (opts.account, from the booking server): who is signed in, the next day, the brand
      switcher where a tenant has more than one brand, the brand's own site, and an account menu with the dark-mode
@@ -2236,7 +2242,7 @@ function actOrg(inst,name,btn){
 function repaint(inst){if(inst.data.kind==="organiser"){paintTodayOrg(inst);paintGate(inst);paintReceptionOrg(inst);paintChrono(inst);paintGC(inst);return;}if(inst.data.kind==="arena"){paintTodayArena(inst);paintGate(inst);paintReceptionArena(inst);paintChrono(inst);paintGC(inst);return;}paintToday(inst);paintGate(inst);paintReception(inst);paintChrono(inst);paintGC(inst);}
 const A=(sk,ar,og)=>inst=>(inst.data.kind==="organiser"&&og?og:inst.data.kind==="arena"?ar:sk)(inst);
 const DRAW={manage:drawManage,today:A(drawToday,drawTodayArena,drawTodayOrg),bookings:drawBookings,calendar:A(drawCalendar,drawSlots,drawOps),groups:inst=>{if(inst.data.kind==="arena")drawGroups(inst);else if(inst.data.kind==="organiser")drawFactions(inst);},customers:drawCustomers,members:drawMembers,money:drawMoney,shop:drawStock,history:drawHistory,gate:drawGate,reception:A(drawReception,drawReceptionArena,drawReceptionOrg),chrono:drawChrono,gameday:drawGameday,daysheet:A(drawDaysheet,drawDaysheetArena,drawDaysheetOrg),team:drawTeam,settings:A(drawSettings,drawSettingsArena,drawSettingsOrg),dash:drawDash,marketing:drawMarketing,proposal:drawProposal};
-function paintAll(inst,only){for(const k of Object.keys(DRAW)){if(only&&!only.includes(k))continue;if(!body(inst,k))continue;if(later(inst.data,k)){drawLater(inst,k);continue;}DRAW[k](inst);if(k==="settings"&&inst.opts.store)qa('[data-aoc-act="saveFares"],[data-aoc-act="resetFares"],[data-aoc-act="saveSessions"],[data-aoc-act="resetSessions"],[data-aoc-act="saveSettings"],[data-aoc-act="saveRule"]',inst.el).forEach(b=>{b.disabled=true;b.title="Not live yet";});}}
+function paintAll(inst,only){for(const k of Object.keys(DRAW)){if(only&&!only.includes(k))continue;if(!body(inst,k))continue;if(gated(inst.data,k)){drawGated(inst,k);continue;}if(later(inst.data,k)){drawLater(inst,k);continue;}DRAW[k](inst);if(k==="settings"&&inst.opts.store)qa('[data-aoc-act="saveFares"],[data-aoc-act="resetFares"],[data-aoc-act="saveSessions"],[data-aoc-act="resetSessions"],[data-aoc-act="saveSettings"],[data-aoc-act="saveRule"]',inst.el).forEach(b=>{b.disabled=true;b.title="Not live yet";});}}
 function setRole(inst,r){
   inst.role=r;const R=ROLES[r]||ROLES.owner;
   if(!q('[data-aoc="whoName"]',inst.el)){const can=R.can&&inst.data.home?R.can.map(k=>k==="today"?"calendar":k):R.can;qa(".aoc-rail a",inst.el).forEach(a=>a.classList.toggle("locked",!!can&&!can.includes(a.dataset.aocGo)));if(can&&!can.includes(inst.screen))go(inst,can[0]);return;}
@@ -2345,6 +2351,9 @@ function livePayload(inst,name,btn){
     case "setAreas":return {rows:qa("[data-set-area]",inst.el).map(tr=>({id:tr.dataset.setArea,label:tr.dataset.label,cap:q('[data-k="cap"]',tr).value}))};
     case "setTimes":return {rows:qa("[data-set-time]",inst.el).map(tr=>({id:tr.dataset.setTime,label:tr.dataset.label,arrive:q('[data-k="arrive"]',tr).value,start:q('[data-k="start"]',tr).value,end:q('[data-k="end"]',tr).value}))};
     case "setBrand":{const box=q('[data-set-brand="'+btn.dataset.brand+'"]',inst.el),f=k=>(q('[data-k="'+k+'"]',box)||{}).value;const pod=q('[data-k="payOnDay"]',box);return {slug:btn.dataset.brand,depositPct:f("depositPct"),refundDays:f("refundDays"),payOnDay:pod?pod.checked:undefined,publicUrl:f("publicUrl"),fromName:f("fromName"),fromEmail:f("fromEmail"),replyTo:f("replyTo")};}
+    case "addBrand":return {name:(q('[data-k="newBrand"]',inst.el)||{}).value||""};
+    case "saveVenue":case "addVenue":{const box=name==="saveVenue"?q('[data-set-venue="'+btn.dataset.venue+'"]',inst.el):q("[data-set-venue-new]",inst.el),f=k=>(q('[data-k="'+k+'"]',box)||{}).value||"";
+      return {id:btn.dataset.venue||null,name:f("name"),street:f("street"),town:f("town"),postcode:f("postcode")};}
     case "setDayCap":return {rows:qa("[data-day-cap]",inst.el).filter(i=>i.value!==i.defaultValue).map(i=>({slot:i.dataset.dayCap,cap:i.value}))};
     case "pSave":{const dp=draftPlan(inst),cur=m.plans.find(x=>x.id===inst.sel.plan)||{};return Object.assign(dp,{dbId:cur.dbId||null});}
     case "memAdd":return {name:v("memName"),email:v("memEmail"),plan:v("memPlan"),paid:+v("memPaid")||0,how:v("memHow")};
@@ -2443,7 +2452,19 @@ function drawSettingsLive(inst){
       '<div class="aoc-grid half" style="gap:10px">'+fld("Email from (name)","fromName",b.fromName,"text",b.name)+fld("Email from (address)","fromEmail",b.fromEmail,"email","bookings@yoursite.com")+'</div>'+
       fld("Replies go to","replyTo",b.replyTo,"email")+
       '<p class="aoc-small aoc-muted" style="margin:6px 0 10px">Customer email goes out as <b>'+t(b.fromLine||"the platform address")+'</b>.</p>'+
-      '<button class="aoc-btn p" data-aoc-act="setBrand" data-brand="'+t(b.slug)+'">Save '+t(b.name)+'</button></div>')).join("");
+      '<button class="aoc-btn p" data-aoc-act="setBrand" data-brand="'+t(b.slug)+'">Save '+t(b.name)+'</button></div>')).join("")+
+    (S.venues?card('<h3>Brands and venues</h3>','<div class="aoc-bd">'+
+      '<p class="aoc-small aoc-muted" style="margin:0 0 10px">Every brand has its own booking page; every venue its own address.</p>'+
+      tbl(["Brand","Booking page"],S.brands.map(b=>'<tr><td><b>'+t(b.name)+'</b></td><td class="aoc-mono">/book/'+t(b.slug)+'</td></tr>').join(""))+
+      (S.can&&S.can.addBrand?'<div class="aoc-row" style="margin:10px 0 16px;gap:10px;align-items:flex-end">'+fld("A new brand's name","newBrand","","text")+'<button class="aoc-btn" data-aoc-act="addBrand">Add brand</button></div>'
+        :'<p class="aoc-small aoc-muted" style="margin:10px 0 16px">'+t(S.can&&S.can.brandNote)+'</p>')+
+      S.venues.map(v=>'<div data-set-venue="'+t(v.id)+'" style="border-top:1px solid var(--aoc-line);padding-top:10px;margin-top:10px">'+
+        '<div class="aoc-grid half" style="gap:10px">'+fld("Venue","name",v.name)+fld("Street","street",v.street)+fld("Town","town",v.town)+fld("Postcode","postcode",v.postcode)+'</div>'+
+        '<button class="aoc-btn" data-aoc-act="saveVenue" data-venue="'+t(v.id)+'">Save '+t(v.name)+'</button></div>').join("")+
+      (S.can&&S.can.addVenue?'<div data-set-venue-new style="border-top:1px solid var(--aoc-line);padding-top:10px;margin-top:10px"><div class="aoc-grid half" style="gap:10px">'+fld("A new venue","name","")+fld("Street","street","")+fld("Town","town","")+fld("Postcode","postcode","")+'</div>'+
+        '<button class="aoc-btn" data-aoc-act="addVenue">Add venue</button></div>'
+        :'<p class="aoc-small aoc-muted" style="margin:10px 0 0">'+t(S.can&&S.can.venueNote)+'</p>')+
+      '</div>'):"");
 }
 /* a control that is not live names itself and says it did nothing; never what it would have done */
 let NL_LABEL="";

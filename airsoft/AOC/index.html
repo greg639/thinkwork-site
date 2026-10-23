@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AOC by ThinkWork: booking and site management for airsoft and adventure sites</title>
+<meta name="description" content="AOC runs the whole game day: online booking from a player's phone with Apple Pay and Google Pay, reception and check-in, waivers with medical notes, groups and parties, members and money paid straight to your Stripe account. Built with Predator Combat and 1066 Airsoft.">
+<link rel="canonical" href="https://thinkwork.info/airsoft/AOC/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AOC by ThinkWork: your game day, run from one screen">
+<meta property="og:description" content="Online booking, reception, waivers, groups, members and money for airsoft and adventure sites. 2% per online booking, nothing to install.">
+<meta property="og:url" content="https://thinkwork.info/airsoft/AOC/">
+<meta property="og:image" content="https://thinkwork.info/airsoft/AOC/img/og.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1b1f1a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231b1f1a'/><circle cx='16' cy='16' r='9' fill='none' stroke='%23ff6a13' stroke-width='3'/><path d='M16 3v8M16 21v8M3 16h8M21 16h8' stroke='%23ff6a13' stroke-width='3'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@700;900&family=Barlow:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@700;900&family=Barlow:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"></noscript>
+<link rel="preload" as="image" href="img/desk-calendar.webp" imagesrcset="img/desk-calendar-760.webp 760w, img/desk-calendar.webp 1440w" imagesizes="(max-width:860px) 100vw, 60vw">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AOC by ThinkWork","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://thinkwork.info/airsoft/AOC/","description":"Booking and site management for airsoft and adventure sites: online booking with Apple Pay and Google Pay, reception and check-in, waivers, groups and parties, members and money paid to the site's own Stripe account.","provider":{"@type":"Organization","name":"ThinkWork","url":"https://thinkwork.info/"},"offers":{"@type":"Offer","description":"2% per online booking. Monthly plans: Lite, Pro and Expert, price on request.","priceCurrency":"GBP"}}</script>
+<style>
+:root{
+  --bg:#1b1f1a; --bg2:#232821; --panel:#2b3128; --line:rgba(232,228,214,.16);
+  --text:#e8e4d6; --mute:#a7a893; --hot:#ff6a13; --hot-ink:#1b1f1a; --ok:#9ccf6a;
+  --display:"Big Shoulders Stencil Display",Impact,sans-serif; --body:"Barlow",system-ui,sans-serif; --mono:"Space Mono",ui-monospace,monospace;
+  --gut:clamp(16px,4vw,40px); --e:cubic-bezier(.2,.7,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--text);font:400 18px/1.55 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--hot);outline-offset:2px}
+.w{max-width:1140px;margin:0 auto;padding:0 var(--gut)}
+h1,h2,h3{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:.01em;line-height:.92;margin:0}
+h1{font-size:clamp(56px,11vw,138px)}
+h2{font-size:clamp(40px,6vw,76px)}
+h3{font-size:30px;font-weight:700;line-height:1}
+p{margin:0 0 1em}
+.tag{font:700 13px var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--hot);display:block;margin-bottom:16px}
+.lead{font-size:clamp(19px,2vw,23px);max-width:38ch;color:var(--text)}
+.mute{color:var(--mute)}
+.top{border-bottom:1px solid var(--line)}
+.top .w{display:flex;justify-content:space-between;align-items:center;height:62px;gap:12px}
+.logo{font:900 24px var(--display);text-transform:uppercase;letter-spacing:.04em;display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo svg{flex:0 0 auto}
+.logo small{font:700 11px var(--mono);letter-spacing:.1em;color:var(--mute);margin-left:4px;align-self:flex-end;padding-bottom:3px}
+.btn{display:inline-block;font:700 17px var(--body);text-transform:uppercase;letter-spacing:.04em;text-decoration:none;padding:15px 22px;background:var(--hot);color:var(--hot-ink);border:2px solid var(--hot);cursor:pointer;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+.btn:hover{background:#ff8a45}
+.btn.line{background:transparent;color:var(--text);border-color:var(--text)}
+.top .btn{padding:9px 14px;font-size:14px}
+section{padding:clamp(64px,9vw,112px) 0;border-top:1px solid var(--line)}
+section{scroll-margin-top:70px}
+/* nav */
+.nav{display:flex;align-items:center;gap:22px;font-size:15.5px;font-weight:600}
+.nav a{text-decoration:none}.nav a:not(.btn):hover{color:var(--hot)}
+.nav .back{color:var(--mute)}
+.menu-btn{display:none;background:none;border:1.5px solid var(--text);color:var(--text);font:700 13px var(--mono);text-transform:uppercase;padding:8px 12px;cursor:pointer}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg)}
+@media (max-width:900px){.menu-btn{display:block}.nav{display:none;position:absolute;left:0;right:0;top:62px;background:var(--bg);flex-direction:column;align-items:stretch;gap:0;padding:6px var(--gut) 18px;border-bottom:2px solid var(--hot)}.nav.open{display:flex}.nav a{padding:12px 0;border-bottom:1px solid var(--line)}.nav .btn{margin-top:12px;text-align:center;border:2px solid var(--hot)}}
+/* ===================== the opening screen: the product, moving ===================== */
+.hero{min-height:min(88vh,760px);display:flex;flex-direction:column;justify-content:flex-start;padding:0;border-top:0;position:relative;isolation:isolate;overflow:hidden;background:#0d100c}
+.hero::before{content:"";position:absolute;inset:0;z-index:-2;opacity:.45;background:
+  linear-gradient(var(--line) 1px,transparent 1px) 0 0/48px 48px,linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/48px 48px;
+  -webkit-mask:radial-gradient(ellipse at 75% 40%,#000,transparent 70%);mask:radial-gradient(ellipse at 75% 40%,#000,transparent 70%)}
+.hero .glow{position:absolute;z-index:-1;right:-10%;top:0;width:70%;height:100%;pointer-events:none;background:radial-gradient(ellipse at 60% 45%,rgba(255,106,19,.22),transparent 60%)}
+.grit{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.5;background:repeating-linear-gradient(0deg,rgba(0,0,0,.26) 0 1px,transparent 1px 3px)}
+.heroin{position:relative;width:100%;display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);gap:clamp(24px,4vw,56px);align-items:center;padding-top:clamp(28px,3.6vw,44px);padding-bottom:clamp(28px,4vw,48px);flex:1}
+.heroin .tag{margin-bottom:14px}
+.hero h1{font-size:clamp(48px,5.6vw,88px);margin-bottom:20px;max-width:11ch;text-shadow:0 2px 24px rgba(0,0,0,.55)}
+.hero h1 em{font-style:normal;color:var(--hot)}
+.hero .lead{margin-bottom:24px;max-width:42ch}
+.herocta{display:flex;flex-wrap:wrap;gap:12px}
+.hero .fmts{margin:0;border:0;border-top:1px solid var(--line);background:rgba(10,12,9,.72);position:relative}
+.fmts{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line)}
+.fmts span{font:700 13px var(--mono);text-transform:uppercase;letter-spacing:.08em;padding:12px 16px;border-right:1px solid var(--line);flex:1 1 auto;text-align:center}
+.fmts span:last-child{border-right:0}
+@media (max-width:640px){.fmts span{flex:1 1 45%;border-bottom:1px solid var(--line)}}
+/* the stage: the console's own screens crossfading with a push-in, a phone running the booking flow in front */
+.stage{position:relative;min-width:0;aspect-ratio:1440/900;transform:perspective(1800px) rotateY(-9deg) rotateX(2deg);transform-origin:40% 50%}
+.stage .desk{position:absolute;inset:0;border:1px solid rgba(232,228,214,.28);background:#0b0d0a;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(0,0,0,.6)}
+.stage .desk::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--hot);z-index:3}
+.sl{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:left top;opacity:0;transition:opacity 900ms linear;will-change:opacity,transform}
+.sl.on{opacity:1;animation:push 5.4s linear both}
+@keyframes push{from{transform:scale(1)}to{transform:scale(1.045)}}
+.phone{position:absolute;right:-5%;bottom:-9%;width:30%;aspect-ratio:640/1385;border-radius:5%/2.4%;overflow:hidden;background:#0b0d0a;border:2px solid rgba(232,228,214,.35);box-shadow:0 24px 60px rgba(0,0,0,.65);z-index:4}
+.phone img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;opacity:0;transition:opacity 700ms linear}
+.phone img.on{opacity:1}
+.stage .legend{position:absolute;left:0;bottom:-30px;font:700 10px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:rgba(232,228,214,.66)}
+@media (max-width:860px){
+  .heroin{grid-template-columns:1fr;gap:34px;align-items:start}
+  .stage{transform:none;margin:0 0 30px;aspect-ratio:auto}
+  .stage .desk{position:relative;aspect-ratio:1440/900}
+  .phone{width:32%;right:2%;bottom:-6%}
+  .hero{min-height:0}
+}
+/* a laptop with browser chrome: the headline and the first action stay on the first screen */
+@media (min-width:861px) and (max-height:820px){.heroin{padding-top:22px;padding-bottom:22px}.hero h1{font-size:clamp(44px,4.5vw,70px);margin-bottom:14px}.hero .lead{font-size:18px;margin-bottom:18px;max-width:46ch}.heroin .tag{margin-bottom:10px}}
+/* reduced motion: the complete still page, nothing drawn */
+@media (prefers-reduced-motion:reduce){
+  .sl{transition:none}.sl.on{animation:none;transform:none}.phone img{transition:none}
+  .reveal{opacity:1!important;transform:none!important}
+}
+.js .reveal{opacity:0}
+/* ===================== the promise ===================== */
+.promise{font:900 clamp(30px,4.2vw,56px)/.95 var(--display);text-transform:uppercase;margin:0;max-width:22ch}
+.promise em{font-style:normal;color:var(--hot)}
+.two{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,6vw,80px);align-items:start}
+@media (max-width:860px){.two{grid-template-columns:1fr}}
+.body p{font-size:19.5px;max-width:44ch}
+.pain{list-style:none;margin:0;padding:0}
+.pain li{padding:16px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:baseline}
+.pain li b{font:700 14px var(--mono);color:var(--hot)}
+/* ===================== the product, shown ===================== */
+.feat{display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:clamp(24px,4vw,56px);align-items:center;padding:clamp(40px,6vw,72px) 0;border-top:1px solid var(--line)}
+.feat:first-of-type{border-top:0;padding-top:clamp(28px,4vw,48px)}
+.feat.flip > div{order:2}.feat.flip > figure{order:1}
+.feat h3{font-size:clamp(32px,4vw,46px);font-weight:900;margin-bottom:14px}
+.feat h3 em{font-style:normal;color:var(--hot)}
+.feat .id{font:700 12px var(--mono);color:var(--hot);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:12px}
+.feat ul{margin:0;padding:0;list-style:none;border-top:1px solid var(--line)}
+.feat li{padding:11px 0 11px 20px;border-bottom:1px solid var(--line);color:var(--mute);font-size:17px;position:relative}
+.feat li::before{content:"";position:absolute;left:0;top:19px;width:9px;height:9px;background:var(--hot)}
+.feat li b{color:var(--text)}
+.feat figure{margin:0;position:relative}
+.frame{display:block;border:1px solid rgba(232,228,214,.28);background:#0b0d0a;overflow:hidden;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.frame::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--hot);z-index:2}
+.frame img{display:block;width:100%;height:auto;transition:transform 900ms var(--e)}
+.feat:hover .frame img{transform:scale(1.02)}
+.feat figcaption{font:700 12px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--mute);margin-top:10px}
+.phones{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,2vw,22px);align-items:start}
+.phones figure{margin:0}
+.phones .ph{display:block;border-radius:5%/2.4%;overflow:hidden;background:#0b0d0a;border:2px solid rgba(232,228,214,.35);box-shadow:0 18px 50px rgba(0,0,0,.55);aspect-ratio:640/1385}
+.phones img{display:block;width:100%;height:100%;object-fit:cover;object-position:top}
+.phones figcaption{font:700 12px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--mute);margin-top:10px}
+.phones figure:nth-child(2){transform:translateY(26px)}
+@media (max-width:860px){.feat{grid-template-columns:1fr}.feat.flip > div{order:1}.feat.flip > figure{order:2}.phones figure:nth-child(2){transform:none}}
+@media (max-width:520px){.phones{grid-template-columns:1fr 1fr}.phones figure:nth-child(3){grid-column:1/-1;max-width:50%;margin:0 auto}}
+/* ===================== how it works ===================== */
+.ops{border-top:2px solid var(--hot)}
+.ops div{display:grid;grid-template-columns:150px 1fr 1.3fr;gap:22px;padding:22px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.ops span{font:700 13px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--hot)}
+.ops h3{font-size:30px}
+.ops p{margin:0;color:var(--mute)}
+@media (max-width:760px){.ops div{grid-template-columns:1fr;gap:6px}}
+.code{margin-top:26px;background:#0b0d0a;border:1px solid var(--line);border-left:4px solid var(--hot);padding:16px 18px;font:400 14.5px/1.6 var(--mono);color:var(--text);overflow-x:auto;white-space:pre}
+.code b{color:var(--hot);font-weight:400}
+.own{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:26px}
+.own span{font:700 14px var(--mono);text-transform:uppercase;letter-spacing:.06em;padding-left:18px;position:relative}
+.own span::before{content:"";position:absolute;left:0;top:.45em;width:9px;height:9px;background:var(--hot)}
+/* ===================== prices ===================== */
+.plans{width:100%;border-collapse:collapse;border:1px solid var(--line)}
+.plans th,.plans td{text-align:left;vertical-align:top;padding:20px;border-bottom:1px solid var(--line)}
+.plans thead th{font:700 12px var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--mute);border-bottom:2px solid var(--hot)}
+.plans .nm{font:900 34px/1 var(--display);text-transform:uppercase;display:block}
+.plans .pr{font:900 40px/1 var(--display);white-space:nowrap}.plans .pr small{font:500 15px var(--body);color:var(--mute);display:block;margin-top:6px;white-space:normal}
+.plans .fr{font:700 12px var(--mono);text-transform:uppercase;color:var(--mute);display:block;margin-bottom:4px}
+.plans ul{margin:0;padding-left:18px}.plans li{margin:3px 0}
+.plans .rp{color:var(--mute);font-size:16px}
+.plans tr.pick{background:rgba(255,106,19,.07)}.plans tr.pick td:first-child{box-shadow:inset 5px 0 0 var(--hot)}
+.plans .flag{display:inline-block;margin-top:10px;font:700 11px var(--mono);text-transform:uppercase;letter-spacing:.08em;background:var(--hot);color:var(--hot-ink);padding:4px 8px}
+@media (max-width:820px){.plans,.plans tbody,.plans tr,.plans td{display:block;width:100%}.plans thead{display:none}.plans tr{border-bottom:2px solid var(--hot)}.plans td{border:0;padding:10px 18px}.plans td:first-child{padding-top:22px}.plans td:last-child{padding-bottom:22px}}
+.addon{margin-top:24px;border:1.5px dashed var(--hot);padding:clamp(18px,3vw,30px);display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center}
+.addon h3{margin-bottom:8px}.addon p{margin:0;color:var(--mute);max-width:60ch}
+.addon .pr{font:900 54px/1 var(--display);white-space:nowrap}.addon .pr small{font:700 12px var(--mono);color:var(--mute);display:block;letter-spacing:.08em;text-transform:uppercase;margin-top:6px}
+@media (max-width:700px){.addon{grid-template-columns:1fr}}
+.terms{margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));border-top:1px solid var(--line)}
+.terms div{padding:16px 18px 16px 0;border-bottom:1px solid var(--line);font-size:16px;color:var(--mute)}
+.terms b{display:block;color:var(--text)}
+/* ===================== proof ===================== */
+.proof{display:grid;grid-template-columns:repeat(2,1fr);border:1px solid var(--line);margin-top:clamp(26px,4vw,44px)}
+.proof div{padding:26px;border-right:1px solid var(--line)}
+.proof div:last-child{border-right:0}
+.proof h3{margin-bottom:10px}
+.proof p{margin:0;color:var(--mute)}
+.proof .id{font:700 12px var(--mono);color:var(--hot);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:10px}
+.proof a{color:var(--text)}
+@media (max-width:700px){.proof{grid-template-columns:1fr}.proof div{border-right:0;border-bottom:1px solid var(--line)}.proof div:last-child{border-bottom:0}}
+.worknote{margin-top:clamp(24px,4vw,40px);border-left:4px solid var(--hot);padding:16px 0 16px 20px;color:var(--mute);font-size:16.5px;max-width:72ch}
+.worknote b{color:var(--text)}
+/* ===================== faq ===================== */
+.faq{border-top:2px solid var(--hot);margin-top:clamp(26px,4vw,44px)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding:20px 44px 20px 0;font:700 clamp(19px,2.2vw,23px)/1.25 var(--body);position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:14px;font:900 34px/1 var(--display);color:var(--hot)}
+.faq details[open] summary::after{content:"\2013"}
+.faq .a{padding:0 0 22px;color:var(--mute);max-width:70ch;font-size:17.5px}
+.faq .a p{margin:0 0 .7em}
+/* ===================== the ask ===================== */
+.ask{text-align:left}
+.ask .w{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(28px,6vw,80px);align-items:center}
+.ask .herocta{margin-top:26px}
+.ask .side{border-left:4px solid var(--hot);padding-left:20px;color:var(--mute);font-size:17px}
+.ask .side b{color:var(--text);display:block}
+@media (max-width:860px){.ask .w{grid-template-columns:1fr}}
+footer{border-top:1px solid var(--line);padding:32px 0;color:var(--mute);font-size:14.5px}
+footer .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+</style>
+</head>
+<body>
+<script>document.documentElement.className+=" js"</script>
+<header class="top"><div class="w">
+<a class="logo" href="/airsoft/AOC/"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="9" fill="none" stroke="#ff6a13" stroke-width="3"/><path d="M16 3v8M16 21v8M3 16h8M21 16h8" stroke="#ff6a13" stroke-width="3"/></svg>AOC<small>by ThinkWork</small></a>
+<button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+<nav class="nav" id="nav" aria-label="Main"><a href="#product">The product</a><a href="#how">How it works</a><a href="#prices">Prices</a><a href="#faq">Questions</a><a class="back" href="/airsoft/">Websites</a><a class="btn" href="https://aoc.peerlab.ai/start">Request access</a></nav>
+</div></header>
+<main>
+
+<section class="hero">
+<div class="glow" aria-hidden="true"></div>
+<div class="grit" aria-hidden="true"></div>
+<div class="w heroin">
+<div>
+<span class="tag reveal">AOC by ThinkWork &middot; site management software</span>
+<h1><span class="reveal">Your game day,</span> <span class="reveal"><em>run from one screen.</em></span></h1>
+<p class="lead reveal">Booking from a player's phone, reception that knows who has signed, parties from enquiry to played, and the money in your own Stripe account. Built for airsoft and adventure sites, with two of them.</p>
+<div class="herocta reveal"><a class="btn" href="https://aoc.peerlab.ai/start" data-cta>Request access</a><a class="btn line" href="#product">See the screens</a></div>
+</div>
+<div class="stage reveal" aria-label="The AOC console, with the phone booking flow in front">
+<div class="desk">
+<img class="sl on" src="img/desk-calendar.webp" srcset="img/desk-calendar-760.webp 760w, img/desk-calendar.webp 1440w" sizes="(max-width:860px) 100vw, 60vw" width="1440" height="900" alt="The AOC calendar: October with each running day showing players booked against capacity, and Saturday's sessions, check-ins and disclaimers in the day panel" fetchpriority="high">
+<img class="sl" src="img/desk-reception-760.webp" srcset="img/desk-reception-760.webp 760w, img/desk-reception.webp 1440w" sizes="(max-width:860px) 100vw, 60vw" width="1440" height="900" alt="Reception on a game day: each player as a card, checked-in players in green, a medical note flagged, unsigned disclaimers in red" loading="lazy">
+<img class="sl" src="img/desk-groups-760.webp" srcset="img/desk-groups-760.webp 760w, img/desk-groups.webp 1440w" sizes="(max-width:860px) 100vw, 60vw" width="1440" height="900" alt="Groups and parties: Nerf Wars birthday parties listed with organiser, date, players, balance and stage from enquiry to paid" loading="lazy">
+</div>
+<div class="phone" aria-hidden="true">
+<img class="on" src="img/flow-1-day.webp" width="640" height="1385" alt="" fetchpriority="high">
+<img src="img/flow-3-players.webp" width="640" height="1385" alt="" loading="lazy">
+<img src="img/flow-5-disclaimer.webp" width="640" height="1385" alt="" loading="lazy">
+</div>
+<span class="legend">Real screens, sample bookings</span>
+</div>
+</div>
+<div class="fmts" aria-label="What AOC covers"><span>Online booking</span><span>Reception</span><span>Waivers</span><span>Groups and parties</span><span>Members</span><span>Money</span></div>
+</section>
+
+<section><div class="w two">
+<div><span class="tag">The promise</span><p class="promise">Everything between a player's phone and your gate, <em>in one console, in your colours.</em></p></div>
+<ul class="pain">
+<li><b>Booking</b><div>A player picks a day, a session and who is coming, signs the disclaimer and pays, on their phone, in under two minutes. No account, no app.</div></li>
+<li><b>Game day</b><div>Reception opens to the day's list. Tap to check in. Red means not signed, a note means read it before they play.</div></li>
+<li><b>Parties</b><div>An enquiry, a quote, a deposit, the balance, played. One list, nothing on the phone, nothing on a pad.</div></li>
+<li><b>Money</b><div>Card money goes to your Stripe account, not ours. What is paid and what is due on the day sits against every booking.</div></li>
+<li><b>Your site</b><div>The booking flow sits on the website you already have, or on one we build. The console carries your name and your colours.</div></li>
+</ul>
+</div></section>
+
+<section id="product"><div class="w">
+<span class="tag">The product, shown</span>
+<h2>Not described. <span style="color:var(--hot)">Shown.</span></h2>
+<p class="lead" style="margin-top:18px">Every screen below is the real console, running on a demonstration site with sample bookings. Nothing is a mock-up.</p>
+
+<article class="feat">
+<div><span class="id">01 &middot; Calendar</span><h3>Booked against capacity, <em>every running day.</em></h3>
+<ul>
+<li><b>Month and week views</b> built from your running days and your events, with places booked over places available on each one.</li>
+<li><b>A day panel</b> for any day: sessions, players booked, checked in, disclaimers outstanding, kit to issue, money taken online.</li>
+<li><b>Needs attention</b> names the things to do: a medical note to read, a quote to send, a deposit to chase.</li>
+<li><b>Capacity</b> per session and per area, with a one-day override for a big event.</li>
+</ul></div>
+<figure><a class="frame" href="img/desk-calendar.webp"><img src="img/desk-calendar-760.webp" srcset="img/desk-calendar-760.webp 760w, img/desk-calendar.webp 1440w" sizes="(max-width:860px) 100vw, 60vw" width="1440" height="900" loading="lazy" alt="The AOC calendar home: October 2026 in month view with 10 of 60 booked on the 24th, 36 of 60 on the 25th and 44 of 60 on the 31st, and the day panel for Saturday 24 October"></a><figcaption>Calendar home, desktop</figcaption></figure>
+</article>
+
+<article class="feat flip">
+<div><span class="id">02 &middot; Booking on a phone</span><h3>Day, session, players, <em>paid.</em></h3>
+<ul>
+<li><b>Only the days you run</b> are open, with places left on each. A full day says so and what to do instead.</li>
+<li><b>Hire kit per player</b>, or everyone at once. Under-18s sign with a parent or guardian. Players under your minimum age are turned away by the server, not the page.</li>
+<li><b>Apple Pay and Google Pay</b> through Stripe, a deposit or the full amount, or pay at the gate on sessions you set that way.</li>
+<li><b>The confirmation</b> by email, with a link for mates to sign their own disclaimer before the day.</li>
+</ul></div>
+<figure class="phones">
+<figure><span class="ph"><img src="img/flow-1-day.webp" width="640" height="1385" loading="lazy" alt="Step one of the booking flow on a phone: pick a day, with the next three running days as chips and October's calendar showing places left"></span><figcaption>Pick a day</figcaption></figure>
+<figure><span class="ph"><img src="img/flow-3-players.webp" width="640" height="1385" loading="lazy" alt="Players step: a stepper for how many, an everyone-hiring switch at £45 instead of £25, and a name, age and hires-kit box per player"></span><figcaption>Who is coming</figcaption></figure>
+<figure><span class="ph"><img src="img/flow-5-disclaimer.webp" width="640" height="1385" loading="lazy" alt="Disclaimer step: the site's disclaimer text, a tick to agree, an optional box for anything the marshals should know, and the Book now button with the price"></span><figcaption>Sign and pay</figcaption></figure>
+</figure>
+</article>
+
+<article class="feat">
+<div><span class="id">03 &middot; Reception</span><h3>Who is in, who has signed, <em>who to talk to.</em></h3>
+<ul>
+<li><b>One card per player</b> for the day. Tap to check in. Green is in. Red has not signed the disclaimer: sign it on the tablet, there and then.</li>
+<li><b>Medical notes</b> show on a tap, to the people who should see them, and are deleted after the game day on a timer you set.</li>
+<li><b>Kit issued</b> in one press for the session, and a printable day sheet for the marshals.</li>
+<li><b>Any day, any brand</b>, searchable by name or reference. Works on a phone at the gate.</li>
+</ul></div>
+<figure><a class="frame" href="img/desk-reception.webp"><img src="img/desk-reception-760.webp" srcset="img/desk-reception-760.webp 760w, img/desk-reception.webp 1440w" sizes="(max-width:860px) 100vw, 60vw" width="1440" height="900" loading="lazy" alt="Reception for Saturday 24 October's evening shoot: ten player cards, three checked in and shown green, two carrying a medical note to read, four marked disclaimer not signed"></a><figcaption>Reception, desktop. The same screen runs on a phone.</figcaption></figure>
+</article>
+
+<article class="feat flip">
+<div><span class="id">04 &middot; Groups and parties</span><h3>Enquiry, quote, deposit, <em>played.</em></h3>
+<ul>
+<li><b>Take the enquiry</b> on the screen: organiser, occasion, session, date, how many. It goes on the list; the slot is not held until the deposit is in.</li>
+<li><b>Send the quote</b> from the console, with the deposit worked out from your percentage.</li>
+<li><b>Deposit and balance</b> by card over the phone, bank transfer or cash, each recorded against the party. Every parent gets a disclaimer link.</li>
+<li><b>Check the whole party in</b> one at a time or all at once on the day, then mark it played.</li>
+</ul></div>
+<figure><a class="frame" href="img/desk-groups.webp"><img src="img/desk-groups-760.webp" srcset="img/desk-groups-760.webp 760w, img/desk-groups.webp 1440w" sizes="(max-width:860px) 100vw, 60vw" width="1440" height="900" loading="lazy" alt="Groups and parties: five Nerf Wars parties with organiser, occasion, date, players, balance and a stage badge reading enquiry, quoted, deposit or paid, and the new enquiry form"></a><figcaption>Groups and parties, desktop</figcaption></figure>
+</article>
+
+<article class="feat">
+<div><span class="id">05 &middot; Members</span><h3>Plans, renewals, <em>the lapsed.</em></h3>
+<ul>
+<li><b>Your plans</b>, a year or a month, with what each one saves a member at the checkout.</li>
+<li><b>Everyone on a plan</b> with visits this year, saved so far and status. Add a member at the desk in four fields.</li>
+<li><b>Renew all by email</b> in one run when the season turns. Who has paid, who has not, who has lapsed.</li>
+</ul></div>
+<figure><a class="frame" href="img/desk-members.webp"><img src="img/desk-members-760.webp" srcset="img/desk-members-760.webp 760w, img/desk-members.webp 1440w" sizes="(max-width:860px) 100vw, 60vw" width="1440" height="900" loading="lazy" alt="Members: seven members on the books, £280 of membership this year, the list of everyone on a plan, the plan editor and the add-a-member form"></a><figcaption>Members, desktop</figcaption></figure>
+</article>
+
+<article class="feat flip">
+<div><span class="id">06 &middot; Money</span><h3>Paid, due on the day, <em>in your Stripe account.</em></h3>
+<ul>
+<li><b>Every booking</b> with its tickets, what was paid and what is due at the gate, searchable by name or reference.</li>
+<li><b>Card money is yours</b>: it is paid to your own Stripe account and paid out on Stripe's schedule. AOC keeps 2% of each online booking and nothing else.</li>
+<li><b>Refunds</b> from the booking, with the amount and the method shown before you confirm, back the way it came.</li>
+<li><b>Add a booking by hand</b> for the phone call and the walk-up, with the same rules as the site.</li>
+</ul></div>
+<figure><a class="frame" href="img/desk-bookings.webp"><img src="img/desk-bookings-760.webp" srcset="img/desk-bookings-760.webp 760w, img/desk-bookings.webp 1440w" sizes="(max-width:860px) 100vw, 60vw" width="1440" height="900" loading="lazy" alt="Bookings: 134 bookings and 263 players on the next dates, £1,170 taken by card on your Stripe balance, £5,455 due on the day, and the list of bookings with reference, name, date, tickets, status and paid"></a><figcaption>Bookings, with the money against each one</figcaption></figure>
+</article>
+
+<article class="feat">
+<div><span class="id">07 &middot; Settings</span><h3>Your sessions, your prices, <em>your colours.</em></h3>
+<ul>
+<li><b>Sessions, prices and places</b> on one screen. A price change is on the site and in the checkout at once.</li>
+<li><b>How each session is paid</b>: online or on the day for walk-ons, in advance for hire, your call per session.</li>
+<li><b>Brands and venues</b>: more than one brand on one account, each with its own name, colours and booking page.</li>
+<li><b>Email and texts</b> from your name, and on Expert from your own domain.</li>
+</ul></div>
+<figure><a class="frame" href="img/desk-settings.webp"><img src="img/desk-settings-760.webp" srcset="img/desk-settings-760.webp 760w, img/desk-settings.webp 1440w" sizes="(max-width:860px) 100vw, 60vw" width="1440" height="900" loading="lazy" alt="Settings: sessions, prices and places for two brands on one account, with a price, a capacity and a paid-online-or-on-the-day choice per session"></a><figcaption>Settings, desktop</figcaption></figure>
+</article>
+</div></section>
+
+<section id="how"><div class="w">
+<span class="tag">How it works</span>
+<h2>Set up in an afternoon.</h2>
+<div class="ops" style="margin-top:34px">
+<div><span>01 &middot; Your site or ours</span><h3>The booking flow goes on any website.</h3><p>One line of script on the page you already have, in the brand's colours. No website yet, or one that needs replacing? ThinkWork builds airsoft sites too, with the flow built in.</p></div>
+<div><span>02 &middot; The console in your colours</span><h3>Open it on a laptop, a tablet or a phone.</h3><p>Owner, manager, marshal and gate each see what their job needs. A first-sign-in tour shows each of them round. Invite the team by email.</p></div>
+<div><span>03 &middot; Go live</span><h3>Business, venue, sessions, prices, places, kit, email.</h3><p>The set-up wizard walks through them in order and generates your calendar from your running pattern. Connect Stripe and cards switch on. Nothing to install, nothing to host.</p></div>
+</div>
+<div class="code" aria-label="The embed, one script tag"><b>&lt;script</b> src="https://aoc.peerlab.ai/embed.js" data-brand="your-site"<b>&gt;&lt;/script&gt;</b></div>
+<div class="own"><span>No app for players</span><span>No account to make</span><span>Deep links to a day or a session</span><span>Works inside your page on a phone</span></div>
+</div></section>
+
+<section id="prices"><div class="w">
+<span class="tag">Prices</span>
+<h2>Three plans. <span style="color:var(--hot)">One number that never changes.</span></h2>
+<p class="lead" style="margin-top:18px">Monthly plan prices are being set now. Ask, and we will quote you before you commit to anything. What is fixed: 2% of each online booking, and nothing to install.</p>
+<table class="plans" style="margin-top:34px">
+<thead><tr><th>Plan</th><th>What it carries</th><th>Monthly</th></tr></thead>
+<tbody>
+<tr><td><span class="nm">Lite</span><span class="rp">One brand, one venue</span></td><td><ul><li>Online booking and card payment</li><li>Reception, check-in and the day sheet</li><li>Waivers with medical notes and an emergency contact</li><li>Calendar with capacity</li></ul></td><td><span class="fr">Monthly</span><span class="pr">Ask<small>Price being set</small></span></td></tr>
+<tr class="pick"><td><span class="nm">Pro</span><span class="rp">The whole game day</span><span class="flag">Most sites</span></td><td><ul><li>Everything in Lite</li><li>Groups and parties, enquiry to played</li><li>Members and renewals</li><li>The booking widget on your own site</li><li>More than one brand on one account</li><li>Customers: one record per person across brands</li></ul></td><td><span class="fr">Monthly</span><span class="pr">Ask<small>Price being set</small></span></td></tr>
+<tr><td><span class="nm">Expert</span><span class="rp">More than one site</span></td><td><ul><li>Everything in Pro</li><li>More than one venue</li><li>Marketing: segments, campaigns, reminders by text</li><li>Dashboards</li><li>Email sent from your own domain</li></ul></td><td><span class="fr">Monthly</span><span class="pr">Ask<small>Price being set</small></span></td></tr>
+</tbody></table>
+<div class="addon"><div><h3>Per online booking</h3><p>Two per cent of each booking paid through the flow, taken at the time, plus Stripe's own card fee. No set-up fee. Nothing to install. Bookings you take by hand at the desk cost nothing.</p></div><div class="pr">2%<small>and that is all</small></div></div>
+<div class="terms">
+<div><b>Your Stripe account</b>Card money is paid to your Stripe account, not through ours.</div>
+<div><b>Your data</b>Bookings, customers and waivers are yours. Export them any time.</div>
+<div><b>Invite only, for now</b>Request access and we reply with a quote and a sign-in.</div>
+</div>
+</div></section>
+
+<section id="proof"><div class="w">
+<span class="tag">Built with real sites</span>
+<h2>Made with two sites, not for a brochure.</h2>
+<div class="proof">
+<div><span class="id">Predator Combat</span><h3>Two brands, one account</h3><p>Predator Airsoft and Activate Outdoor Adventure run on one AOC account: walk-on game days, rental packages, evening shoots, Nerf Wars parties, team-building days. The console and the booking flow on this page are theirs, with sample bookings.</p></div>
+<div><span class="id">1066 Airsoft</span><h3>A ThinkWork website client</h3><p>1066 Airsoft's site is a ThinkWork build. AOC is provisioned for it from the same configuration as the website, so the booking flow and the site agree on sessions, prices and dates.</p></div>
+</div>
+<p class="worknote"><b>No testimonials yet, on purpose.</b> AOC went live in October 2026. When a site has run a season on it, their words go here. Until then, the screens above are the evidence.</p>
+</div></section>
+
+<section id="faq"><div class="w">
+<span class="tag">Questions</span>
+<h2>The ones every site asks.</h2>
+<div class="faq">
+<details><summary>Do players pay a deposit or the whole thing?</summary><div class="a"><p>Your choice, per brand and per session. Walk-on sessions can be paid online or at the gate. Hire kit is paid in advance, so a hired rifle is never booked by someone who does not turn up. Parties pay a deposit to hold the date, at the percentage you set, and the balance before the day.</p></div></details>
+<details><summary>How do waivers work?</summary><div class="a"><p>The person booking signs the site's disclaimer in the flow. Everyone else on the booking signs their own, by the link in the confirmation email or on the tablet at reception. Reception shows who has not signed in red, and nobody is checked in until they have. Each player is asked whether there is anything the marshals should know; the answer and an emergency contact are stored apart from the booking, shown to the people who need them, and deleted after the game day on the timer you set.</p></div></details>
+<details><summary>What about under-18s?</summary><div class="a"><p>You set the minimum age. Below it, the booking is refused by the server, whatever the page says. Between the minimum and 18, a parent or guardian signs with the player, in the flow or at the desk. The emergency contact is required for them.</p></div></details>
+<details><summary>Can I refund a booking?</summary><div class="a"><p>From the booking, in the console. The amount and the method are shown before you confirm, and the money goes back the way it came. Card refunds go through Stripe; a cash or bank-transfer payment is recorded as refunded. Your refund window, in days before the game day, is a brand setting.</p></div></details>
+<details><summary>I run more than one brand, or more than one site.</summary><div class="a"><p>More than one brand on one account is in Pro: each brand has its own name, colours, booking page and email voice, and reception can show one brand or all of them. More than one venue, each with its own sessions and capacity, is in Expert.</p></div></details>
+<details><summary>Can emails come from our own domain?</summary><div class="a"><p>On Expert, yes. Name the domain in Settings, add the records we show you, press check, and every booking email and campaign is sent from your address. On Lite and Pro, emails are sent from AOC in your name, with replies going to you.</p></div></details>
+<details><summary>Do we need a new website?</summary><div class="a"><p>No. The booking flow is one script tag on the site you have, and it opens as a full-screen sheet on a phone inside your page. If you want a new site, ThinkWork builds airsoft and adventure sites with the flow built in.</p></div></details>
+<details><summary>What does it cost to take money?</summary><div class="a"><p>Two per cent of each online booking, and Stripe's card fee. Bookings taken by hand at the desk cost nothing. The monthly plan prices are being set now; ask and we will quote you.</p></div></details>
+</div>
+</div></section>
+
+<section class="ask"><div class="w">
+<div><span class="tag">Request access</span><h2>Run your next game day <span style="color:var(--hot)">on AOC.</span></h2>
+<p class="lead" style="margin-top:18px">AOC is invite-only while prices are set. Tell us about your site and we reply with a quote and a sign-in.</p>
+<div class="herocta"><a class="btn" href="https://aoc.peerlab.ai/start">Request access</a><a class="btn line" href="mailto:greg@thinkwork.info">Email Greg</a></div></div>
+<div class="side"><b>What happens next</b>You fill in the site's name and yours. We set the account up, send the sign-in, and walk you through the wizard if you want company. Most sites are live the same week.</div>
+</div></section>
+
+</main>
+<footer><div class="w"><span>&copy; 2026 ThinkWork &middot; AOC by ThinkWork &middot; screens show a demonstration site with sample bookings</span><a href="mailto:greg@thinkwork.info">greg@thinkwork.info</a></div></footer>
+<script>
+(function(){
+var mb=document.querySelector(".menu-btn"),nv=document.getElementById("nav");
+if(mb&&nv){mb.addEventListener("click",function(){var o=nv.classList.toggle("open");mb.setAttribute("aria-expanded",o?"true":"false")});nv.addEventListener("click",function(e){if(e.target.tagName==="A"){nv.classList.remove("open");mb.setAttribute("aria-expanded","false")}})}
+var RM=window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches;
+/* the stage: the console's screens crossfade with a push-in; the phone in front steps through the flow on its own clock */
+var st=document.querySelector(".stage .desk");
+if(st&&!RM){
+  var sl=[].slice.call(st.querySelectorAll(".sl")),i=0;
+  if(sl.length>1)setInterval(function(){if(document.hidden)return;var n=(i+1)%sl.length;sl[n].classList.add("on");sl[i].classList.remove("on");i=n},4600);
+  var ph=[].slice.call(document.querySelectorAll(".phone img")),j=0;
+  if(ph.length>1)setTimeout(function(){setInterval(function(){if(document.hidden)return;var n=(j+1)%ph.length;ph[n].classList.add("on");ph[j].classList.remove("on");j=n},3100)},1500);
+}
+/* type reveal, finished inside a second */
+var rv=[].slice.call(document.querySelectorAll(".hero .reveal"));
+if(rv.length){
+  if(RM||!document.documentElement.animate){rv.forEach(function(e){e.style.opacity=1})}
+  else rv.forEach(function(e,k){e.animate([{opacity:0,transform:"translateY(14px)"},{opacity:1,transform:"none"}],{duration:460,delay:90*k,easing:"cubic-bezier(.2,.7,.2,1)",fill:"both"})});
+}
+/* a screen opens full size in the same tab only if the person asks; the thumbnail is the content */
+[].slice.call(document.querySelectorAll("a.frame")).forEach(function(a){a.setAttribute("target","_blank");a.setAttribute("rel","noopener")});
+})();
+</script>
+</body>
+</html>

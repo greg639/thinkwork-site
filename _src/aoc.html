@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>AOC by ThinkWork: booking and site management for airsoft and adventure sites</title>
-<meta name="description" content="AOC runs the whole game day: online booking from a player's phone with Apple Pay and Google Pay, reception and check-in, waivers with medical notes, groups and parties, members and money paid straight to your Stripe account. Built with Predator Combat and 1066 Airsoft.">
+<title>AOC by ThinkWork: fewer empty places, paid before the day, for airsoft sites</title>
+<meta name="description" content="Booking and game-day software for airsoft sites. Players book and pay from their phone, parties hold the date with a deposit, waivers are signed before Saturday, and the card money lands in your own Stripe account. 2% per online booking, nothing on desk bookings.">
 <link rel="canonical" href="{{SITE}}/airsoft/AOC/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="AOC by ThinkWork: your game day, run from one screen">
-<meta property="og:description" content="Online booking, reception, waivers, groups, members and money for airsoft and adventure sites. 2% per online booking, nothing to install.">
+<meta property="og:title" content="AOC by ThinkWork: fewer empty places, paid before the day">
+<meta property="og:description" content="Booking, deposits, waivers, parties, members and money for airsoft sites. Card money in your own Stripe account. 2% per online booking, nothing to install.">
 <meta property="og:url" content="{{SITE}}/airsoft/AOC/">
 <meta property="og:image" content="{{SITE}}/airsoft/AOC/img/og.png">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
@@ -206,7 +206,7 @@ footer .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 <header class="top"><div class="w">
 <a class="logo" href="/airsoft/AOC/"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="9" fill="none" stroke="#ff6a13" stroke-width="3"/><path d="M16 3v8M16 21v8M3 16h8M21 16h8" stroke="#ff6a13" stroke-width="3"/></svg>AOC<small>by ThinkWork</small></a>
 <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
-<nav class="nav" id="nav" aria-label="Main"><a href="#product">The product</a><a href="#how">How it works</a><a href="#prices">Prices</a><a href="#faq">Questions</a><a class="back" href="/airsoft/">Websites</a><a class="btn" href="https://aoc.peerlab.ai/start">Request access</a></nav>
+<nav class="nav" id="nav" aria-label="Main"><a href="#product">The money</a><a href="#how">How it works</a><a href="#prices">Prices</a><a href="#faq">Questions</a><a class="back" href="/airsoft/">Websites</a><a class="btn" href="https://aoc.peerlab.ai/start">Request access</a></nav>
 </div></header>
 <main>
 
@@ -215,10 +215,10 @@ footer .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 <div class="grit" aria-hidden="true"></div>
 <div class="w heroin">
 <div>
-<span class="tag reveal">AOC by ThinkWork &middot; site management software</span>
-<h1><span class="reveal">Your game day,</span> <span class="reveal"><em>run from one screen.</em></span></h1>
-<p class="lead reveal">Booking from a player's phone, reception that knows who has signed, parties from enquiry to played, and the money in your own Stripe account. Built for airsoft and adventure sites, with two of them.</p>
-<div class="herocta reveal"><a class="btn" href="https://aoc.peerlab.ai/start" data-cta>Request access</a><a class="btn line" href="#product">See the screens</a></div>
+<span class="tag reveal">AOC by ThinkWork &middot; airsoft booking software</span>
+<h1><span class="reveal">Fewer empty places.</span> <span class="reveal"><em>Paid before the day.</em></span></h1>
+<p class="lead reveal">Players book, pay and sign from their phone before Saturday. Parties hold the date with a deposit. Card money lands in your own Stripe account. 2% per online booking.</p>
+<div class="herocta reveal"><a class="btn" href="https://aoc.peerlab.ai/start" data-cta>Request access</a><a class="btn line" href="#product">See the money</a></div>
 </div>
 <div class="stage reveal" aria-label="The AOC console, with the phone booking flow in front">
 <div class="desk">
@@ -234,75 +234,87 @@ footer .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 <span class="legend">Real screens, sample bookings</span>
 </div>
 </div>
-<div class="fmts" aria-label="What AOC covers"><span>Online booking</span><span>Reception</span><span>Waivers</span><span>Groups and parties</span><span>Members</span><span>Money</span></div>
+<div class="fmts" aria-label="What AOC covers"><span>Walk-ons</span><span>Rental kit</span><span>Parties</span><span>Waivers</span><span>Members</span><span>Your Stripe account</span></div>
 </section>
 
 <section><div class="w two">
-<div><span class="tag">The promise</span><p class="promise">Everything between a player's phone and your gate, <em>in one console, in your colours.</em></p></div>
+<div><span class="tag">What it changes</span><p class="promise">Every pound a player owes you, <em>paid up front or on the list at the gate.</em></p></div>
 <ul class="pain">
-<li><b>Booking</b><div>A player picks a day, a session and who is coming, signs the disclaimer and pays, on their phone, in under two minutes. No account, no app.</div></li>
-<li><b>Game day</b><div>Reception opens to the day's list. Tap to check in. Red means not signed, a note means read it before they play.</div></li>
-<li><b>Parties</b><div>An enquiry, a quote, a deposit, the balance, played. One list, nothing on the phone, nothing on a pad.</div></li>
-<li><b>Money</b><div>Card money goes to your Stripe account, not ours. What is paid and what is due on the day sits against every booking.</div></li>
-<li><b>Your site</b><div>The booking flow sits on the website you already have, or on one we build. The console carries your name and your colours.</div></li>
+<li><b>Saturday</b><div>Empty places show on Monday, not on Saturday. Every running day shows booked against capacity, and a player can book at eleven on a Friday night from the pub. No account, no app.</div></li>
+<li><b>No-shows</b><div>A deposit or the full game fee is taken when they book, and whatever they paid is yours. What is still due sits against the booking, so nobody at the gate is guessing.</div></li>
+<li><b>Parties</b><div>An enquiry does not hold a slot. A deposit does. Quote, deposit, balance, played: one list in the console, nothing on your phone at nine at night.</div></li>
+<li><b>The gate</b><div>Waivers are signed on the player's own phone before the day. Reception shows red for anyone who has not, and nobody is checked in until they have.</div></li>
+<li><b>Your money</b><div>Card money is paid into your Stripe account, not ours. AOC keeps 2% of each online booking and nothing else. Bookings you key in at the desk cost nothing.</div></li>
 </ul>
 </div></section>
 
 <section id="product"><div class="w">
-<span class="tag">The product, shown</span>
+<span class="tag">Where the money moves</span>
 <h2>Not described. <span style="color:var(--hot)">Shown.</span></h2>
-<p class="lead" style="margin-top:18px">Every screen below is the real console, running on a demonstration site with sample bookings. Nothing is a mock-up.</p>
-
-<article class="feat">
-<div><span class="id">01 &middot; Calendar</span><h3>Booked against capacity, <em>every running day.</em></h3>
-<ul>
-<li><b>Month and week views</b> built from your running days and your events, with places booked over places available on each one.</li>
-<li><b>A day panel</b> for any day: sessions, players booked, checked in, disclaimers outstanding, kit to issue, money taken online.</li>
-<li><b>Needs attention</b> names the things to do: a medical note to read, a quote to send, a deposit to chase.</li>
-<li><b>Capacity</b> per session and per area, with a one-day override for a big event.</li>
-</ul></div>
-<figure><a class="frame" href="img/desk-calendar.webp"><img src="img/desk-calendar-760.webp" srcset="img/desk-calendar-760.webp 760w, img/desk-calendar.webp 1440w" sizes="(max-width:860px) 100vw, 60vw" width="1440" height="900" loading="lazy" alt="The AOC calendar home: October 2026 in month view with 10 of 60 booked on the 24th, 36 of 60 on the 25th and 44 of 60 on the 31st, and the day panel for Saturday 24 October"></a><figcaption>Calendar home, desktop</figcaption></figure>
-</article>
+<p class="lead" style="margin-top:18px">Every screen below is the real console, running on a demonstration site with sample bookings. Nothing is a mock-up, and every number on a screen is a sample number.</p>
 
 <article class="feat flip">
-<div><span class="id">02 &middot; Booking on a phone</span><h3>Day, session, players, <em>paid.</em></h3>
+<div><span class="id">01 &middot; Booking on a phone</span><h3>Paid when they book, <em>not when they turn up.</em></h3>
 <ul>
-<li><b>Only the days you run</b> are open, with places left on each. A full day says so and what to do instead.</li>
-<li><b>Hire kit per player</b>, or everyone at once. Under-18s sign with a parent or guardian. Players under your minimum age are turned away by the server, not the page.</li>
-<li><b>Apple Pay and Google Pay</b> through Stripe, a deposit or the full amount, or pay at the gate on sessions you set that way.</li>
-<li><b>The confirmation</b> by email, with a link for mates to sign their own disclaimer before the day.</li>
+<li><b>Only the days you run</b> are open, with places left on each. A full day says sold out and what to do instead.</li>
+<li><b>Deposit or the full fee</b> by card, Apple Pay or Google Pay through Stripe. Walk-ons can pay at the gate where you allow it.</li>
+<li><b>Rental kit per player</b>, or everyone at once. The booking says who hires, so you know how many rifles to have ready.</li>
+<li><b>Under-18s</b> sign with a parent or guardian. Anyone under your minimum age is refused by the server, whatever the page says.</li>
+<li><b>The confirmation</b> by email, with a pass to scan at the gate and a link for mates to sign their own disclaimer before the day.</li>
 </ul></div>
 <figure class="phones">
 <figure><span class="ph"><img src="img/flow-1-day.webp" width="640" height="1385" loading="lazy" alt="Step one of the booking flow on a phone: pick a day, with the next three running days as chips and October's calendar showing places left"></span><figcaption>Pick a day</figcaption></figure>
-<figure><span class="ph"><img src="img/flow-3-players.webp" width="640" height="1385" loading="lazy" alt="Players step: a stepper for how many, an everyone-hiring switch at £45 instead of £25, and a name, age and hires-kit box per player"></span><figcaption>Who is coming</figcaption></figure>
+<figure><span class="ph"><img src="img/flow-3-players.webp" width="640" height="1385" loading="lazy" alt="Players step: a stepper for how many, an everyone-hiring switch at £45 instead of £25, and a name, age and hires-kit box per player"></span><figcaption>Who is coming, who hires</figcaption></figure>
 <figure><span class="ph"><img src="img/flow-5-disclaimer.webp" width="640" height="1385" loading="lazy" alt="Disclaimer step: the site's disclaimer text, a tick to agree, an optional box for anything the marshals should know, and the Book now button with the price"></span><figcaption>Sign and pay</figcaption></figure>
 </figure>
 </article>
 
 <article class="feat">
-<div><span class="id">03 &middot; Reception</span><h3>Who is in, who has signed, <em>who to talk to.</em></h3>
+<div><span class="id">02 &middot; Money</span><h3>Your Stripe account. <em>2% to us, the rest is yours.</em></h3>
 <ul>
-<li><b>One card per player</b> for the day. Tap to check in. Green is in. Red has not signed the disclaimer: sign it on the tablet, there and then.</li>
-<li><b>Medical notes</b> show on a tap, to the people who should see them, and are deleted after the game day on a timer you set.</li>
-<li><b>Kit issued</b> in one press for the session, and a printable day sheet for the marshals.</li>
-<li><b>Any day, any brand</b>, searchable by name or reference. Works on a phone at the gate.</li>
+<li><b>Card money is yours</b>: it is paid to your own Stripe account at the moment of booking and paid out to your bank on Stripe's schedule. It never sits with us.</li>
+<li><b>Every booking</b> with what was paid online and what is due at the gate, searchable by name or reference.</li>
+<li><b>Refunds</b> from the booking, with the amount and the method shown before you confirm, back the way it came, inside the refund window you set.</li>
+<li><b>Phone bookings and walk-ups</b> added by hand, cash or transfer recorded, under the same rules as the site. No 2% on those.</li>
 </ul></div>
-<figure><a class="frame" href="img/desk-reception.webp"><img src="img/desk-reception-760.webp" srcset="img/desk-reception-760.webp 760w, img/desk-reception.webp 1440w" sizes="(max-width:860px) 100vw, 60vw" width="1440" height="900" loading="lazy" alt="Reception for Saturday 24 October's evening shoot: ten player cards, three checked in and shown green, two carrying a medical note to read, four marked disclaimer not signed"></a><figcaption>Reception, desktop. The same screen runs on a phone.</figcaption></figure>
+<figure><a class="frame" href="img/desk-bookings.webp"><img src="img/desk-bookings-760.webp" srcset="img/desk-bookings-760.webp 760w, img/desk-bookings.webp 1440w" sizes="(max-width:860px) 100vw, 60vw" width="1440" height="900" loading="lazy" alt="Bookings: 134 bookings and 263 players on the next dates, £1,170 taken by card on your Stripe balance, £5,455 due on the day, and the list of bookings with reference, name, date, tickets, status and paid"></a><figcaption>Bookings, with the money against each one. Sample figures.</figcaption></figure>
 </article>
 
 <article class="feat flip">
-<div><span class="id">04 &middot; Groups and parties</span><h3>Enquiry, quote, deposit, <em>played.</em></h3>
+<div><span class="id">03 &middot; Groups and parties</span><h3>A deposit holds the date. <em>An enquiry does not.</em></h3>
 <ul>
-<li><b>Take the enquiry</b> on the screen: organiser, occasion, session, date, how many. It goes on the list; the slot is not held until the deposit is in.</li>
+<li><b>Take the enquiry</b> on the screen: organiser, occasion, session, date, how many. It goes on the list, and the slot is not held until the deposit is in.</li>
 <li><b>Send the quote</b> from the console, with the deposit worked out from your percentage.</li>
-<li><b>Deposit and balance</b> by card over the phone, bank transfer or cash, each recorded against the party. Every parent gets a disclaimer link.</li>
-<li><b>Check the whole party in</b> one at a time or all at once on the day, then mark it played.</li>
+<li><b>Deposit and balance</b> recorded against the party however they were paid: card, bank transfer or cash. The balance shows until it is in.</li>
+<li><b>Every parent gets a disclaimer link.</b> Check the whole party in at once on the day, then mark it played.</li>
 </ul></div>
 <figure><a class="frame" href="img/desk-groups.webp"><img src="img/desk-groups-760.webp" srcset="img/desk-groups-760.webp 760w, img/desk-groups.webp 1440w" sizes="(max-width:860px) 100vw, 60vw" width="1440" height="900" loading="lazy" alt="Groups and parties: five Nerf Wars parties with organiser, occasion, date, players, balance and a stage badge reading enquiry, quoted, deposit or paid, and the new enquiry form"></a><figcaption>Groups and parties, desktop</figcaption></figure>
 </article>
 
 <article class="feat">
-<div><span class="id">05 &middot; Members</span><h3>Plans, renewals, <em>the lapsed.</em></h3>
+<div><span class="id">04 &middot; Reception</span><h3>Signed at home, <em>so the gate moves.</em></h3>
+<ul>
+<li><b>One card per player</b> for the day. Tap to check in. Green is in. Red has not signed the disclaimer: sign it on the tablet, there and then.</li>
+<li><b>Scan the pass</b> from the confirmation email and the booking opens. No name to spell at the window.</li>
+<li><b>Medical notes and an emergency contact</b> show on a tap, to the people who should see them, and are deleted after the game day on a timer you set.</li>
+<li><b>Kit issued</b> in one press for the session, and a printable day sheet for the marshals.</li>
+</ul></div>
+<figure><a class="frame" href="img/desk-reception.webp"><img src="img/desk-reception-760.webp" srcset="img/desk-reception-760.webp 760w, img/desk-reception.webp 1440w" sizes="(max-width:860px) 100vw, 60vw" width="1440" height="900" loading="lazy" alt="Reception for Saturday 24 October's evening shoot: ten player cards, three checked in and shown green, two carrying a medical note to read, four marked disclaimer not signed"></a><figcaption>Reception, desktop. The same screen runs on a phone at the gate.</figcaption></figure>
+</article>
+
+<article class="feat flip">
+<div><span class="id">05 &middot; Calendar</span><h3>See the empty places <em>on Monday, not Saturday.</em></h3>
+<ul>
+<li><b>Month and week views</b> built from your running days and your events, with places booked over places available on each one.</li>
+<li><b>A day panel</b> for any day: sessions, players booked, checked in, disclaimers outstanding, kit to issue, money taken online.</li>
+<li><b>Needs attention</b> names the things to do: a medical note to read, a quote to send, a deposit to chase.</li>
+<li><b>Capacity</b> per session and per area, with a one-day override for a big game.</li>
+</ul></div>
+<figure><a class="frame" href="img/desk-calendar.webp"><img src="img/desk-calendar-760.webp" srcset="img/desk-calendar-760.webp 760w, img/desk-calendar.webp 1440w" sizes="(max-width:860px) 100vw, 60vw" width="1440" height="900" loading="lazy" alt="The AOC calendar home: October 2026 in month view with 10 of 60 booked on the 24th, 36 of 60 on the 25th and 44 of 60 on the 31st, and the day panel for Saturday 24 October"></a><figcaption>Calendar home, desktop</figcaption></figure>
+</article>
+
+<article class="feat">
+<div><span class="id">06 &middot; Members</span><h3>Renew the whole membership <em>in one email.</em></h3>
 <ul>
 <li><b>Your plans</b>, a year or a month, with what each one saves a member at the checkout.</li>
 <li><b>Everyone on a plan</b> with visits this year, saved so far and status. Add a member at the desk in four fields.</li>
@@ -312,23 +324,12 @@ footer .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 </article>
 
 <article class="feat flip">
-<div><span class="id">06 &middot; Money</span><h3>Paid, due on the day, <em>in your Stripe account.</em></h3>
-<ul>
-<li><b>Every booking</b> with its tickets, what was paid and what is due at the gate, searchable by name or reference.</li>
-<li><b>Card money is yours</b>: it is paid to your own Stripe account and paid out on Stripe's schedule. AOC keeps 2% of each online booking and nothing else.</li>
-<li><b>Refunds</b> from the booking, with the amount and the method shown before you confirm, back the way it came.</li>
-<li><b>Add a booking by hand</b> for the phone call and the walk-up, with the same rules as the site.</li>
-</ul></div>
-<figure><a class="frame" href="img/desk-bookings.webp"><img src="img/desk-bookings-760.webp" srcset="img/desk-bookings-760.webp 760w, img/desk-bookings.webp 1440w" sizes="(max-width:860px) 100vw, 60vw" width="1440" height="900" loading="lazy" alt="Bookings: 134 bookings and 263 players on the next dates, £1,170 taken by card on your Stripe balance, £5,455 due on the day, and the list of bookings with reference, name, date, tickets, status and paid"></a><figcaption>Bookings, with the money against each one</figcaption></figure>
-</article>
-
-<article class="feat">
-<div><span class="id">07 &middot; Settings</span><h3>Your sessions, your prices, <em>your colours.</em></h3>
+<div><span class="id">07 &middot; Settings</span><h3>Change a price once. <em>It changes everywhere.</em></h3>
 <ul>
 <li><b>Sessions, prices and places</b> on one screen. A price change is on the site and in the checkout at once.</li>
-<li><b>How each session is paid</b>: online or on the day for walk-ons, in advance for hire, your call per session.</li>
+<li><b>Pay online or on the day</b> for walk-ons, your call. Deposit percentage and refund window per brand.</li>
 <li><b>Brands and venues</b>: more than one brand on one account, each with its own name, colours and booking page.</li>
-<li><b>Email and texts</b> from your name, and on Expert from your own domain.</li>
+<li><b>Email from your name</b>, and on Expert from your own domain. The console carries your name and your colours.</li>
 </ul></div>
 <figure><a class="frame" href="img/desk-settings.webp"><img src="img/desk-settings-760.webp" srcset="img/desk-settings-760.webp 760w, img/desk-settings.webp 1440w" sizes="(max-width:860px) 100vw, 60vw" width="1440" height="900" loading="lazy" alt="Settings: sessions, prices and places for two brands on one account, with a price, a capacity and a paid-online-or-on-the-day choice per session"></a><figcaption>Settings, desktop</figcaption></figure>
 </article>
@@ -338,9 +339,9 @@ footer .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 <span class="tag">How it works</span>
 <h2>Set up in an afternoon.</h2>
 <div class="ops" style="margin-top:34px">
-<div><span>01 &middot; Your site or ours</span><h3>The booking flow goes on any website.</h3><p>One line of script on the page you already have, in the brand's colours. No website yet, or one that needs replacing? ThinkWork builds airsoft sites too, with the flow built in.</p></div>
-<div><span>02 &middot; The console in your colours</span><h3>Open it on a laptop, a tablet or a phone.</h3><p>Owner, manager, marshal and gate each see what their job needs. A first-sign-in tour shows each of them round. Invite the team by email.</p></div>
-<div><span>03 &middot; Go live</span><h3>Business, venue, sessions, prices, places, kit, email.</h3><p>The set-up wizard walks through them in order and generates your calendar from your running pattern. Connect Stripe and cards switch on. Nothing to install, nothing to host.</p></div>
+<div><span>01 &middot; Your site or ours</span><h3>The booking flow goes on any website.</h3><p>One line of script on the page you already have, in your colours. No website, or one that needs replacing? ThinkWork builds airsoft sites too, with the flow built in.</p></div>
+<div><span>02 &middot; The console in your colours</span><h3>Open it on a laptop, a tablet or a phone at the gate.</h3><p>Owner, manager, marshal and gate each see what their job needs. A first-sign-in tour shows each of them round. Invite the team by email.</p></div>
+<div><span>03 &middot; Go live</span><h3>Business, venue, sessions, prices, places, kit, email.</h3><p>The set-up wizard walks through them in order and builds your calendar from your running pattern. Connect your Stripe account and cards switch on. Nothing to install, nothing to host.</p></div>
 </div>
 <div class="code" aria-label="The embed, one script tag"><b>&lt;script</b> src="https://aoc.peerlab.ai/embed.js" data-brand="your-site"<b>&gt;&lt;/script&gt;</b></div>
 <div class="own"><span>No app for players</span><span>No account to make</span><span>Deep links to a day or a session</span><span>Works inside your page on a phone</span></div>
@@ -348,16 +349,16 @@ footer .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 
 <section id="prices"><div class="w">
 <span class="tag">Prices</span>
-<h2>Three plans. <span style="color:var(--hot)">One number that never changes.</span></h2>
-<p class="lead" style="margin-top:18px">Monthly plan prices are on request: ask and we quote you before you commit to anything. What is fixed: 2% of each online booking, and nothing to install.</p>
+<h2>2% per online booking. <span style="color:var(--hot)">That is the number.</span></h2>
+<p class="lead" style="margin-top:18px">Monthly plan prices are on request: ask us and we quote you before you commit to anything. What is fixed: 2% of each booking paid online, plus Stripe's own card fee, and nothing to install.</p>
 <table class="plans" style="margin-top:34px">
 <thead><tr><th>Plan</th><th>What it carries</th><th>Monthly</th></tr></thead>
 <tbody>
-<tr><td><span class="nm">Lite</span><span class="rp">One brand, one venue</span></td><td><ul><li>Online booking and card payment</li><li>Reception, check-in and the day sheet</li><li>Waivers with medical notes and an emergency contact</li><li>Calendar with capacity</li></ul></td><td><span class="fr">Monthly</span><span class="pr">Ask<small>On request</small></span></td></tr>
-<tr class="pick"><td><span class="nm">Pro</span><span class="rp">The whole game day</span><span class="flag">Most sites</span></td><td><ul><li>Everything in Lite</li><li>Groups and parties, enquiry to played</li><li>Members and renewals</li><li>The booking widget on your own site</li><li>More than one brand on one account</li><li>Customers: one record per person across brands</li></ul></td><td><span class="fr">Monthly</span><span class="pr">Ask<small>On request</small></span></td></tr>
-<tr><td><span class="nm">Expert</span><span class="rp">More than one site</span></td><td><ul><li>Everything in Pro</li><li>More than one venue</li><li>Marketing: segments, campaigns, reminders by text</li><li>Dashboards</li><li>Email sent from your own domain</li></ul></td><td><span class="fr">Monthly</span><span class="pr">Ask<small>On request</small></span></td></tr>
+<tr><td><span class="nm">Lite</span><span class="rp">Take bookings, run the gate</span></td><td><ul><li>Online booking and card payment</li><li>Reception, check-in and the day sheet</li><li>Waivers with medical notes and an emergency contact</li><li>Calendar with capacity</li></ul></td><td><span class="fr">Monthly</span><span class="pr">Ask<small>On request</small></span></td></tr>
+<tr class="pick"><td><span class="nm">Pro</span><span class="rp">Parties, members, your own site</span><span class="flag">Most sites</span></td><td><ul><li>Everything in Lite</li><li>Groups and parties, enquiry to played</li><li>Members and renewals</li><li>The booking widget on your own site</li><li>More than one brand on one account</li><li>Customers: one record per person across brands</li></ul></td><td><span class="fr">Monthly</span><span class="pr">Ask<small>On request</small></span></td></tr>
+<tr><td><span class="nm">Expert</span><span class="rp">More than one site, marketing</span></td><td><ul><li>Everything in Pro</li><li>More than one venue</li><li>Marketing: segments, campaigns, reminders</li><li>Email sent from your own domain</li></ul></td><td><span class="fr">Monthly</span><span class="pr">Ask<small>On request</small></span></td></tr>
 </tbody></table>
-<div class="addon"><div><h3>Per online booking</h3><p>Two per cent of each booking paid through the flow, taken at the time, plus Stripe's own card fee. No set-up fee. Nothing to install. Bookings you take by hand at the desk cost nothing.</p></div><div class="pr">2%<small>and that is all</small></div></div>
+<div class="addon"><div><h3>Per online booking</h3><p>Two per cent of each booking paid through the flow, taken at the moment the player pays, plus Stripe's own card fee. No set-up fee. No invoice for it. Bookings you key in at the desk cost nothing.</p></div><div class="pr">2%<small>and that is all</small></div></div>
 <div class="terms">
 <div><b>Your Stripe account</b>Card money is paid to your Stripe account, not through ours.</div>
 <div><b>Your data</b>Bookings, customers and waivers are yours. Export them any time.</div>
@@ -374,26 +375,40 @@ footer .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 </div>
 </div></section>
 
+<section id="coming"><div class="w">
+<span class="tag">Coming &middot; not shipped yet</span>
+<h2>On the bench, <span style="color:var(--hot)">not on the page above.</span></h2>
+<p class="lead" style="margin-top:18px">Everything above is live on two sites today. These are being built and are not part of any plan until they are.</p>
+<div class="terms">
+<div><b>Booking journeys with upsells</b>Add rental, lunch or pyro to a booking on the way through, with the follow-ups automated.</div>
+<div><b>Offline field mode for marshals</b>Check-in and chrono readings on a phone in the field with no signal, synced when it is back.</div>
+<div><b>Stays and packages</b>Overnight stays and bundled days sold as one booking.</div>
+<div><b>UKARA and attendance</b>Game-day attendance against each player, and the UKARA record it feeds.</div>
+<div><b>Dashboards</b>The season's money and attendance at a glance, on Expert.</div>
+</div>
+</div></section>
+
 <section id="faq"><div class="w">
 <span class="tag">Questions</span>
-<h2>The ones every site asks.</h2>
+<h2>The ones every site owner asks.</h2>
 <div class="faq">
-<details><summary>Do players pay a deposit or the whole thing?</summary><div class="a"><p>Your choice, per brand and per session. Walk-on sessions can be paid online or at the gate. Hire kit is paid in advance, so a hired rifle is never booked by someone who does not turn up. Parties pay a deposit to hold the date, at the percentage you set, and the balance before the day.</p></div></details>
+<details><summary>When does the card money reach my bank?</summary><div class="a"><p>It is paid into your own Stripe account at the moment the player pays, and Stripe pays it out to your bank on Stripe's payout schedule. It never passes through us. Our 2% is taken at the same moment, so there is no invoice for it and nothing to reconcile.</p></div></details>
+<details><summary>What does it cost to take money?</summary><div class="a"><p>Two per cent of each online booking, and Stripe's card fee. Bookings you key in at the desk cost nothing. Monthly plan prices are on request.</p></div></details>
+<details><summary>Do players pay a deposit or the whole thing?</summary><div class="a"><p>Your choice. A deposit or the full game fee online, and walk-ons can pay at the gate where you allow it. Parties pay a deposit to hold the date, at the percentage you set, and the balance before the day.</p></div></details>
+<details><summary>What happens when someone does not turn up?</summary><div class="a"><p>Whatever they paid when they booked is already in your Stripe account, and the booking shows what was still due. A refund is your call, inside the window you set in days before the game day: from the booking, with the amount and the method shown before you confirm, and the money goes back the way it came. A cash or bank-transfer payment is recorded as refunded.</p></div></details>
 <details><summary>How do waivers work?</summary><div class="a"><p>The person booking signs the site's disclaimer in the flow. Everyone else on the booking signs their own, by the link in the confirmation email or on the tablet at reception. Reception shows who has not signed in red, and nobody is checked in until they have. Each player is asked whether there is anything the marshals should know; the answer and an emergency contact are stored apart from the booking, shown to the people who need them, and deleted after the game day on the timer you set.</p></div></details>
 <details><summary>What about under-18s?</summary><div class="a"><p>You set the minimum age. Below it, the booking is refused by the server, whatever the page says. Between the minimum and 18, a parent or guardian signs with the player, in the flow or at the desk. The emergency contact is required for them.</p></div></details>
-<details><summary>Can I refund a booking?</summary><div class="a"><p>From the booking, in the console. The amount and the method are shown before you confirm, and the money goes back the way it came. Card refunds go through Stripe; a cash or bank-transfer payment is recorded as refunded. Your refund window, in days before the game day, is a brand setting.</p></div></details>
 <details><summary>I run more than one brand, or more than one site.</summary><div class="a"><p>More than one brand on one account is in Pro: each brand has its own name, colours, booking page and email voice, and reception can show one brand or all of them. More than one venue, each with its own sessions and capacity, is in Expert.</p></div></details>
-<details><summary>Can emails come from our own domain?</summary><div class="a"><p>On Expert, yes. Name the domain in Settings, add the records we show you, press check, and every booking email and campaign is sent from your address. On Lite and Pro, emails are sent from AOC in your name, with replies going to you.</p></div></details>
 <details><summary>Do we need a new website?</summary><div class="a"><p>No. The booking flow is one script tag on the site you have, and it opens as a full-screen sheet on a phone inside your page. If you want a new site, ThinkWork builds airsoft and adventure sites with the flow built in.</p></div></details>
-<details><summary>What does it cost to take money?</summary><div class="a"><p>Two per cent of each online booking, and Stripe's card fee. Bookings taken by hand at the desk cost nothing. Monthly plan prices are on request.</p></div></details>
+<details><summary>Can emails come from our own domain?</summary><div class="a"><p>On Expert, yes. Name the domain in Settings, add the records we show you, press check, and every booking email and campaign is sent from your address. On Lite and Pro, emails are sent from AOC in your name, with replies going to you.</p></div></details>
 </div>
 </div></section>
 
 <section class="ask"><div class="w">
-<div><span class="tag">Request access</span><h2>Run your next game day <span style="color:var(--hot)">on AOC.</span></h2>
-<p class="lead" style="margin-top:18px">AOC is invite-only for now. Ask for access, or for a demo first: tell us about your site and we reply with a quote, a sign-in or a time to talk.</p>
+<div><span class="tag">Request access</span><h2>Run your next Saturday <span style="color:var(--hot)">on AOC.</span></h2>
+<p class="lead" style="margin-top:18px">AOC is invite-only for now. Ask for access, or for a demo first: tell us about your site, your sessions and what you charge, and we reply with a quote, a sign-in or a time to talk.</p>
 <div class="herocta"><a class="btn" href="https://aoc.peerlab.ai/start">Request access</a><a class="btn line" href="https://aoc.peerlab.ai/start">Book a demo</a></div></div>
-<div class="side"><b>What happens next</b>You fill in the site's name and yours, and say whether you want a demo first. We set the account up, send the sign-in, and walk you through the wizard if you want company. Most sites are live the same week.</div>
+<div class="side"><b>What happens next</b>You fill in the site's name and yours, and say whether you want a demo first. We set the account up, send the sign-in, and walk you through the wizard if you want company. Connect your Stripe account and the first online booking is yours.</div>
 </div></section>
 
 </main>

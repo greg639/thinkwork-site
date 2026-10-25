@@ -821,7 +821,8 @@ def llms_txt() -> None:
 
 
 NEW_URLS = [("/", "1.0"), ("/what-we-build/", "0.9"), ("/pricing/", "0.9"), ("/advisory/", "0.8"),
-            ("/work/", "0.6"), ("/about/", "0.7"), ("/book/", "0.8"), ("/airsoft/", "0.8")]
+            ("/work/", "0.6"), ("/about/", "0.7"), ("/book/", "0.8"), ("/airsoft/", "0.8"),
+            ("/airsoft/AOC/", "0.8")]
 
 
 def sitemap() -> None:
@@ -852,6 +853,19 @@ def airsoft() -> None:
     out.write_text(t, encoding="utf-8")
 
 
+def aoc() -> None:
+    """The AOC landing page at /airsoft/AOC/ (the address Greg gave), with /airsoft/aoc/ sending visitors there."""
+    src = (ROOT / "_src" / "aoc.html").read_text(encoding="utf-8")
+    out = ROOT / "airsoft" / "AOC" / "index.html"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(src.replace("{{API}}", API).replace("{{SITE}}", SITE), encoding="utf-8")
+    low = ROOT / "airsoft" / "aoc" / "index.html"
+    low.parent.mkdir(parents=True, exist_ok=True)
+    low.write_text('<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><title>AOC by ThinkWork</title>'
+                   '<meta http-equiv="refresh" content="0; url=/airsoft/AOC/"><link rel="canonical" href="' + SITE + '/airsoft/AOC/">'
+                   '<meta name="robots" content="noindex"></head><body><p>AOC by ThinkWork has moved to <a href="/airsoft/AOC/">/airsoft/AOC/</a>.</p></body></html>\n', encoding="utf-8")
+
+
 def pillion() -> None:
     """Concept prototype at /pillion/ - a separate property, like /airsoft/."""
     src = (ROOT / "_src" / "pillion.html").read_text(encoding="utf-8")
@@ -862,5 +876,5 @@ def pillion() -> None:
 
 if __name__ == "__main__":
     home(); what_we_build(); pricing(); advisory(); work(); about(); book()
-    airsoft(); pillion(); llms_txt(); sitemap()
+    airsoft(); aoc(); pillion(); llms_txt(); sitemap()
     print("built")

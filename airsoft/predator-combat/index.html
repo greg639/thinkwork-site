@@ -1609,7 +1609,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
       </div>
       <div class="slabs">
         <div class="slab">
-          <div class="top"><p class="eyebrow">Airsoft</p><h3 style="margin-top:6px">Game day</h3><p class="price">&pound;45<small>rental package, full day</small><span class="alt">Walk-on &pound;25; morning, afternoon or evening too</span></p></div>
+          <div class="top"><p class="eyebrow">Airsoft</p><h3 style="margin-top:6px">Game day</h3><p class="price"><span data-fare="hire.full"><span class="flap">&pound;45</span></span><small>rental package, full day</small><span class="alt">Walk-on <span data-fare="walkon.full"><span class="flap">&pound;25</span></span>; morning, afternoon or evening too</span></p></div>
           <ul>
             <li>Gates 09:00, brief 10:15, games 10:30 to 16:30</li><li>Electric 1:1 replica rifle</li><li>3,000 rounds</li><li>Full face protection for every rental player</li><li>Boot hire &pound;15 if you need it</li><li>Lunch break at the base</li>
           </ul>
@@ -1771,8 +1771,8 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
             <button id="levNon" aria-pressed="true">Not a member<small>Published price</small></button>
             <button id="levMem" aria-pressed="false">Member<small>&pound;40 a year</small></button>
           </div></div>
-          <p id="fareNote" class="tiny" style="margin-top:10px">Prices as published on our booking page. A half day is a morning or an afternoon. An evening is &pound;20 walk-on or &pound;35 rental; boot hire is &pound;15.</p>
-          <p class="note"><b>Why</b><span>Every price on the board is off your booking page: walk-on &pound;25 for a half or full day, &pound;20 evening; rental &pound;35 half day, &pound;45 full day, &pound;35 evening. The half day comes first because you told us it is the popular one. No member column: phase one keeps your prices exactly as they are.</span></p>
+          <p id="fareNote" class="tiny" style="margin-top:10px">Prices as published on our booking page. A half day is a morning or an afternoon. An evening is <span data-fare="walkon.evening"><span class="flap">&pound;20</span></span> walk-on or <span data-fare="hire.evening"><span class="flap">&pound;35</span></span> rental; boot hire is &pound;15.</p>
+          <p class="note"><b>Why</b><span>Every price here is off your booking page, and every one of them is printed from the same place, so a price you change in the console changes on this page too and the two can never drift apart. The half day comes first because you told us it is the popular one. No member column: phase one keeps your prices exactly as they are.</span></p>
         </div>
         <div>
           <div class="enamel sumpanel">
@@ -1966,7 +1966,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
       <h2 style="margin:10px 0 20px">Questions people type<br>into a search box</h2>
       <div class="faq" id="faq" data-w="airsoft">
         <details open><summary>How much is a game day at Predator Combat?</summary>
-          <div class="ans">A walk-on with your own kit is &pound;25, the same for a full day, a morning or an afternoon, and &pound;20 for an evening. A rental package is &pound;45 for the full day or &pound;35 for a morning, afternoon or evening: Electric Gun 1:1 replica rifle, 3000rds Ammunition each, with full face protection for each rental player. Boot hire is &pound;15 and we will ask for your size.</div></details>
+          <div class="ans">A walk-on with your own kit is <span data-fare="walkon.full"><span class="flap">&pound;25</span></span>, the same for a full day, a morning or an afternoon, and <span data-fare="walkon.evening"><span class="flap">&pound;20</span></span> for an evening. A rental package is <span data-fare="hire.full"><span class="flap">&pound;45</span></span> for the full day, <span data-fare="hire.half"><span class="flap">&pound;35</span></span> for a morning or an afternoon and <span data-fare="hire.evening"><span class="flap">&pound;35</span></span> for an evening: Electric Gun 1:1 replica rifle, 3000rds Ammunition each, with full face protection for each rental player. Boot hire is &pound;15 and we will ask for your size.</div></details>
         <details><summary>How much is Nerf Wars?</summary>
           <div class="ans">&pound;15 per participating player, from age 7, in sessions of ninety minutes. Ten players minimum and no real maximum. Nerf runs in its own part of the site, so it can run while an airsoft game day is on.</div></details>
         <details><summary>What days do you run?</summary>
@@ -2907,7 +2907,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
     </div>
     <div class="legal">
       <span>Design proposal by ThinkWork, for discussion with you. Your prices, ages, running order, activities, team building and Phoenix wording, address, numbers, emails and colours are your own, taken from predator-combat.com and activate-outdoor-adventure.com on 2 October 2026 and from our calls of 13 and 16 October. Every photograph is yours and says which page it came from. Anything in amber is sample content waiting for your figures. Not the live site, and no live payments.</span>
-      <span class="mono">thinkwork.info &middot; built 21 Oct 2026 23:38 UK</span>
+      <span class="mono">thinkwork.info &middot; built 25 Oct 2026 22:23 UK</span>
     </div>
   </div>
 </footer>
@@ -3072,6 +3072,12 @@ function storeApplyPrices(){if(typeof CONFIG==="undefined"||!CONFIG.fares)return
   if(typeof P["walkon-day"]==="number"){set("walkon","full",P["walkon-day"]);set("walkon","half",P["walkon-day"]);}
   if(typeof P["rental-day"]==="number")set("hire","full",P["rental-day"]);
   if(typeof P["rental-half"]==="number")set("hire","half",P["rental-half"]);
+  /* the evening tiers, where the site prices an evening (booking-platform CONTRACT.md §3e, 25 Oct): a console change
+     reaches the fare board's evening row as it does the day's */
+  if(typeof P["evening"]==="number")set("walkon","evening",P["evening"]);
+  if(typeof P["rental-evening"]==="number")set("hire","evening",P["rental-evening"]);
+  /* boot hire, an extra rather than a ticket: the sample add-on that carries it on the page (sample.addons, id "boot") follows the console */
+  if(typeof P["boot-hire"]==="number"&&P["boot-hire"]>=0){((CONFIG.sample&&CONFIG.sample.addons)||(CONFIG.aoc&&CONFIG.aoc.addons)||[]).forEach(a=>{if(a.id==="boot")a.p=P["boot-hire"];});CONFIG.bootHire=P["boot-hire"];}
   (CONFIG.aoc&&CONFIG.aoc.sessions||[]).forEach(x=>{if(typeof P[x.key]==="number")x.price=P[x.key];});
   /* A site whose second brand keeps its own prices follows a console change the same way the first brand's ladder
      does, or the console says one figure and the checkout charges another. Two explicit keys, because a half day and
@@ -3559,7 +3565,12 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-book]");if
    over to the member figure with the old one struck through beneath it, one cell
    at a time. The panel beside it turns over with the prices.
    Expects: #levMem and #levNon, one td[data-fare="<ticket>.<session>"] per price
-   holding a .flap and an <s>, and #sumFig and #sumLine for the panel. The
+   holding a .flap and an <s>, and #sumFig and #sumLine for the panel. It matches
+   td[data-fare] and not [data-fare], because the same key is printed elsewhere on
+   the page (the hero card, the FAQ, the note under the board) so that one price
+   change moves every copy: those are spans, they carry no <s>, and a bare
+   [data-fare] selector picked whichever came first in the document and turned the
+   wrong element over. 25 Oct 2026. The
    [data-fare] keys are the config's fares keys, so a layout with a different
    ticket ladder needs no change here. setMember() is called by backend.js after
    a fare is saved, so the board on the site follows the desk.
@@ -3570,14 +3581,15 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-book]");if
 let member=false;
 function flapTo(cell,text,strike,delay){
   const f=$(".flap",cell), s=$("s",cell);
-  setTimeout(()=>{f.classList.add("turn");setTimeout(()=>{f.textContent=text;s.textContent=strike||"";f.classList.remove("turn");},reduce?0:140);},reduce?0:delay);
+  if(!f)return; /* nothing to turn over */
+  setTimeout(()=>{f.classList.add("turn");setTimeout(()=>{f.textContent=text;if(s)s.textContent=strike||"";f.classList.remove("turn");},reduce?0:140);},reduce?0:delay);
 }
 function setMember(m){
   member=m;
   $("#levMem").setAttribute("aria-pressed",m);$("#levNon").setAttribute("aria-pressed",!m);
   let i=0;
   for(const k of ["walkon","hire"])for(const s of ["full","half"]){
-    const c=$('[data-fare="'+k+'.'+s+'"]'); if(!c)continue; /* a layout that sells no half day has no half-day cell */
+    const c=$('td[data-fare="'+k+'.'+s+'"]'); if(!c)continue; /* a layout that sells no half day has no half-day cell */
     const p=FARE[k][s];
     flapTo(c,gbp(m?p.m:p.n),m?("was "+gbp(p.n)):"",i*110);i++;
   }

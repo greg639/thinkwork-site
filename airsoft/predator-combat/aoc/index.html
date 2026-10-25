@@ -63,7 +63,7 @@ body.embed #aoc .aoc-desk{min-height:100dvh}
   container-type:inline-size;container-name:aoc;text-align:left;-webkit-font-smoothing:antialiased;
   color-scheme:light}
 .aoc[data-aoc-mode="dark"]{color-scheme:dark}
-.aoc h1,.aoc h2,.aoc h3,.aoc h4{margin:0;font-family:var(--aoc-ui);font-weight:700;line-height:1.1;letter-spacing:.01em;text-transform:uppercase;text-wrap:balance;font-size:inherit}
+.aoc h1,.aoc h2,.aoc h3,.aoc h4{margin:0;font-family:var(--aoc-ui);font-weight:700;line-height:1.15;letter-spacing:-.01em;text-wrap:balance;font-size:inherit}
 .aoc h1{font-size:26px}
 .aoc h2{font-size:20px}
 .aoc h3{font-size:16px;letter-spacing:.03em}
@@ -76,7 +76,7 @@ body.embed #aoc .aoc-desk{min-height:100dvh}
 .aoc img,.aoc svg{max-width:100%}
 .aoc [hidden]{display:none!important}
 .aoc .aoc-mono{font-family:var(--aoc-mono);font-variant-numeric:tabular-nums}
-.aoc .aoc-lbl{font-family:var(--aoc-mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--aoc-text-3);font-weight:500}
+.aoc .aoc-lbl{font-family:var(--aoc-ui);font-size:12.5px;letter-spacing:0;color:var(--aoc-text-2);font-weight:500}
 .aoc .aoc-muted{color:var(--aoc-text-2)}
 .aoc .aoc-small{font-size:14px}
 .aoc .aoc-tiny{font-size:12.5px;color:var(--aoc-text-3)}
@@ -95,10 +95,23 @@ body.embed #aoc .aoc-desk{min-height:100dvh}
 .aoc-brandrow b i{font-style:normal;color:var(--aoc-rail-mute);display:block;font-family:var(--aoc-mono);font-size:9.5px;letter-spacing:.16em;margin-top:3px}
 .aoc-navsec{font-family:var(--aoc-mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--aoc-rail-mute);padding:14px 9px 6px}
 .aoc-rail a{display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:5px;color:var(--aoc-rail-text);font-size:15px;font-weight:500;text-decoration:none;cursor:pointer;min-height:38px}
+.aoc-ic{flex:none;width:19px;height:19px;display:block;opacity:.82}
+.aoc-ic svg{width:19px;height:19px;display:block}
+.aoc-rail a.on .aoc-ic{opacity:1}
+.aoc-navlabel{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.aoc-railtoggle{align-self:flex-start;margin:0 0 2px;padding:7px;border:0;border-radius:5px;background:none;color:var(--aoc-rail-mute);cursor:pointer;line-height:0}
+.aoc-railtoggle:hover{background:var(--aoc-rail-hover);color:#fff}
+.aoc-railtoggle svg{width:18px;height:18px;display:block}
+.aoc-rail.mini{width:62px;padding-left:7px;padding-right:7px}
+.aoc-rail.mini .aoc-navlabel,.aoc-rail.mini .aoc-tag,.aoc-rail.mini .aoc-railfoot,.aoc-rail.mini .aoc-brandrow b{display:none}
+.aoc-rail.mini .aoc-navsec{font-size:0;padding:9px 9px 3px;border-top:1px solid var(--aoc-rail-hover);margin-top:3px}
+.aoc-rail.mini a{justify-content:center;padding:9px 0}
+.aoc-rail.mini .aoc-brandrow{justify-content:center;padding:4px 0 12px}
+.aoc-rail.mini .aoc-railtoggle{align-self:center}
 .aoc-rail a:hover{background:var(--aoc-rail-hover);color:#fff}
-.aoc-rail a.on{background:var(--aoc-brand);color:var(--aoc-on-brand)}
+.aoc-rail a.on{background:var(--aoc-rail-hover);color:#fff;box-shadow:inset 3px 0 0 var(--aoc-brand)}
 .aoc-rail a .aoc-tag{margin-left:auto;font-family:var(--aoc-mono);font-size:9px;letter-spacing:.08em;padding:1px 5px;border-radius:3px;background:rgba(255,255,255,.12);color:var(--aoc-rail-text)}
-.aoc-rail a.on .aoc-tag{background:rgba(0,0,0,.25);color:var(--aoc-on-brand)}
+.aoc-rail a.on .aoc-tag{background:rgba(255,255,255,.14);color:var(--aoc-rail-text)}
 .aoc-rail a.locked{opacity:.38;pointer-events:none}
 .aoc-railfoot{margin-top:auto;padding:16px 9px 0;font-family:var(--aoc-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--aoc-rail-mute);line-height:1.6}
 .aoc-main{flex:1;min-width:0;display:flex;flex-direction:column}
@@ -140,6 +153,17 @@ body.embed #aoc .aoc-desk{min-height:100dvh}
 .aoc-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .aoc-stack{display:flex;flex-direction:column;gap:14px}
 .aoc-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px}
+a.aoc-btn{display:inline-block;text-decoration:none}
+.aoc-tabs{display:flex;gap:2px;border-bottom:1px solid var(--aoc-line);margin:0 0 16px;overflow-x:auto;scrollbar-width:none}
+.aoc-tabs::-webkit-scrollbar{display:none}
+.aoc-tabs button{appearance:none;background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;padding:10px 14px;cursor:pointer;white-space:nowrap;font:600 14px/1 var(--aoc-ui);letter-spacing:0;color:var(--aoc-text-3)}
+.aoc-tabs button:hover{color:var(--aoc-text)}
+.aoc-tabs button[aria-selected="true"]{color:var(--aoc-text);border-bottom-color:var(--aoc-brand)}
+.aoc-tabpanel[hidden]{display:none}
+/* the save for the part you are editing stays in reach at the foot of the screen */
+.aoc-tabpanel .aoc-bd>.aoc-row:last-child{position:sticky;bottom:0;background:var(--aoc-surface);padding:10px 0 2px;margin-bottom:-2px;border-top:1px solid var(--aoc-line);z-index:2;flex-wrap:wrap}
+.aoc-tiles.quiet{display:block}
+.aoc-nowt{margin:0 0 14px;padding:13px 15px;background:var(--aoc-surface);border:1px solid var(--aoc-line);border-radius:6px;color:var(--aoc-text-3);font-size:13.5px}
 .aoc-tile{background:var(--aoc-surface);border:1px solid var(--aoc-line);border-radius:6px;padding:13px 15px;min-width:0}
 .aoc-tile b{display:block;font-size:30px;font-weight:700;line-height:1.05;font-variant-numeric:tabular-nums;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .aoc-tile b small{font-family:var(--aoc-mono);font-size:13px;font-weight:500;color:var(--aoc-text-3);letter-spacing:.04em}
@@ -159,7 +183,7 @@ body.embed #aoc .aoc-desk{min-height:100dvh}
 .aoc-chip.info{color:var(--aoc-info);border-color:var(--aoc-info);background:var(--aoc-info-ghost)}
 .aoc-chip.brand{color:var(--aoc-brand-ink);border-color:var(--aoc-brand-ink);background:var(--aoc-brand-ghost)}
 .aoc-chip.ph{color:var(--aoc-on-ph);border-color:var(--aoc-ph);background:var(--aoc-ph)}
-.aoc-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:600;font-size:15px;text-transform:uppercase;letter-spacing:.03em;padding:9px 15px;min-height:40px;border-radius:5px;border:1px solid transparent;white-space:nowrap;line-height:1.2;cursor:pointer}
+.aoc-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:600;font-size:14.5px;letter-spacing:0;padding:9px 15px;min-height:40px;border-radius:5px;border:1px solid transparent;white-space:nowrap;line-height:1.2;cursor:pointer}
 .aoc-btn:active{transform:translateY(1px)}
 .aoc-btn.p{background:var(--aoc-brand);color:var(--aoc-on-brand);border-color:var(--aoc-brand)}
 .aoc-btn.p:hover{background:var(--aoc-brand-2);border-color:var(--aoc-brand-2)}
@@ -171,7 +195,7 @@ body.embed #aoc .aoc-desk{min-height:100dvh}
 .aoc-btn[disabled]{opacity:.4;pointer-events:none}
 .aoc table.aoc-t{width:100%;border-collapse:collapse;font-size:15px}
 .aoc table.aoc-t th,.aoc table.aoc-t td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--aoc-line-soft);vertical-align:middle;font-family:inherit;font-weight:inherit;color:inherit;text-transform:none;letter-spacing:0}
-.aoc table.aoc-t th{font-family:var(--aoc-mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--aoc-text-3);font-weight:500;background:var(--aoc-surface-2)}
+.aoc table.aoc-t th{font-family:var(--aoc-ui);font-size:12px;letter-spacing:0;color:var(--aoc-text-3);font-weight:600;background:var(--aoc-surface-2)}
 .aoc table.aoc-t tr:last-child td{border-bottom:0}
 .aoc table.aoc-t tr.aoc-click{cursor:pointer}
 .aoc table.aoc-t tr.aoc-click:hover td,.aoc table.aoc-t tr.on td{background:var(--aoc-surface-2)}
@@ -218,7 +242,7 @@ body.embed #aoc .aoc-desk{min-height:100dvh}
 .aoc .aoc-checks label{display:flex;gap:8px;align-items:center;padding:8px 10px;border:1px solid var(--aoc-line);border-radius:5px;background:var(--aoc-surface);min-height:44px;cursor:pointer;font-family:var(--aoc-mono);font-size:12.5px}
 .aoc .aoc-checks label input{accent-color:var(--aoc-brand);width:18px;height:18px;flex:none;margin:0}
 .aoc .aoc-checks label.on{border-color:var(--aoc-go);background:var(--aoc-go-ghost)}
-.aoc .aoc-checks label small{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--aoc-text-3)}
+.aoc .aoc-checks label small{display:block;font-size:11.5px;letter-spacing:0;color:var(--aoc-text-3)}
 .aoc .aoc-bar{display:flex;height:22px;border-radius:4px;overflow:hidden;margin:8px 0 6px;border:1px solid var(--aoc-line-strong)}
 .aoc .aoc-bar i{display:block;height:100%}
 .aoc .aoc-bar i.card{background:var(--aoc-brand)}
@@ -233,7 +257,7 @@ body.embed #aoc .aoc-desk{min-height:100dvh}
 .aoc .aoc-fhead,.aoc .aoc-frow{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);gap:10px;align-items:center}
 .aoc .aoc-fhead{padding-inline:4px}
 .aoc .aoc-frow{padding:8px 10px;border:1px solid var(--aoc-line);border-radius:5px;background:var(--aoc-surface-2)}
-.aoc .aoc-frow b{font-size:16px;font-weight:700;text-transform:uppercase;line-height:1.1;display:block}
+.aoc .aoc-frow b{font-size:16px;font-weight:700;line-height:1.1;display:block}
 .aoc .aoc-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .aoc .aoc-form.four{grid-template-columns:repeat(4,minmax(0,1fr))}
 .aoc .aoc-form input.aoc-f{font-family:var(--aoc-mono);font-variant-numeric:tabular-nums}
@@ -386,7 +410,7 @@ body.ph-on .aoc .aoc-screen[data-ph],.aoc[data-ph-on] .aoc-screen[data-ph]{outli
   .aoc table.aoc-t tr{display:block;padding:8px 0;border-bottom:1px solid var(--aoc-line)}
   .aoc table.aoc-t tr:last-child{border-bottom:0}
   .aoc table.aoc-t td{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:3px 0;border:0;text-align:right;min-width:0;background:none!important}
-  .aoc table.aoc-t td::before{content:attr(data-l);font-family:var(--aoc-mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--aoc-text-3);flex:none;text-align:left}
+  .aoc table.aoc-t td::before{content:attr(data-l);font-family:var(--aoc-ui);font-size:12px;letter-spacing:0;font-weight:600;color:var(--aoc-text-3);flex:none;text-align:left}
   .aoc table.aoc-t td[colspan]::before{display:none}
   .aoc table.aoc-t td:first-child{font-weight:600}
   .aoc table.aoc-t td>.aoc-meter{width:100%;max-width:140px}
@@ -645,7 +669,7 @@ function buildRoster(d,r){
   for(const row of mixRows(d)){const [kind,sess,member,n,paidEach]=row;for(let i=0;i<n;i++){const t=ticketFor(d,kind,sess);const name=NAMES[ni%NAMES.length]+(ni>=NAMES.length?" "+(Math.floor(ni/NAMES.length)+1):"");ni++;
     players.push({id:players.length,name,init:initials(name),kind,sess,member:!!member,ticket:t,price:typeof paidEach==="number"?paidEach:(member?t.member:t.price),waiver:true,u18:false,arrived:false,in:false,reg:null,chrono:null,flagged:false,pts:0,kit:kind==="hire",kitOut:false,pre:[]});}}
   (R.noWaiver||[]).forEach(i=>{if(players[i])players[i].waiver=false;});
-  (R.people||[]).forEach((x,i)=>{const p=players[i];if(!p||!x)return;p.ref=x.ref;p.attendee=x.attendee||null;p.in=!!x.in;p.arrived=!!x.in;p.waiver=!!x.waiver;p.kitOut=!!x.kitOut;});
+  (R.people||[]).forEach((x,i)=>{const p=players[i];if(!p||!x)return;p.ref=x.ref;p.attendee=x.attendee||null;p.in=!!x.in;p.arrived=!!x.in;p.waiver=!!x.waiver;p.kitOut=!!x.kitOut;p.med=!!x.med;});
   (R.under18||[]).forEach(i=>{if(players[i])players[i].u18=true;});
   /* pre-orders land on named players, spread through the list */
   d.preorders.forEach((p,k)=>{for(let i=0;i<p.n;i++){const pl=players[(i*3+k*5)%Math.max(1,players.length)];if(pl&&!pl.pre.includes(p.key))pl.pre.push(p.key);}});
@@ -720,25 +744,25 @@ const opt=(list,sel)=>list.map(o=>'<option value="'+esc(o[0])+'"'+(String(o[0])=
 
 /* ---------- the screens, in the order every site gets them ---------- */
 const SCREENS=[
-  {key:"today",label:"Today",sec:"Running the day",orgLabel:"Next operation"},
-  {key:"manage",label:"Events and prices",sec:"Running the day"},
-  {key:"bookings",label:"Bookings",sec:"Running the day"},
-  {key:"calendar",label:"Calendar",sec:"Running the day",arenaLabel:"Slots",orgLabel:"Operations"},
-  {key:"groups",label:"Groups and parties",sec:"Running the day",arena:true,orgLabel:"Factions and roles"},
-  {key:"customers",label:"Customers",sec:"Running the day"},
-  {key:"members",label:"Members",sec:"Running the day"},
-  {key:"money",label:"Money",sec:"Running the day"},
-  {key:"shop",label:"Stock and pre-orders",sec:"Running the day"},
-  {key:"history",label:"History",sec:"Running the day"},
-  {key:"gate",label:"Car park",sec:"On the field",tag:"P2"},
-  {key:"reception",label:"Reception",sec:"On the field",tag:"P2",orgLabel:"Booking in"},
-  {key:"chrono",label:"Chrono",sec:"On the field",tag:"P2"},
-  {key:"gameday",label:"Game control",sec:"On the field",tag:"P3"},
-  {key:"daysheet",label:"Day sheet",sec:"On the field"},
-  {key:"team",label:"Team and access",sec:"Admin"},
-  {key:"settings",label:"Settings",sec:"Admin"},
-  {key:"dash",label:"Dashboards",sec:"Later",tag:"P3"},
-  {key:"marketing",label:"Marketing",sec:"Later",tag:"P3"},
+  {key:"calendar",label:"Calendar",sec:"The day",arenaLabel:"Slots",orgLabel:"Operations"},
+  {key:"today",label:"Today",sec:"The day",orgLabel:"Next operation"},
+  {key:"reception",label:"Reception",sec:"The day",tag:"P2",orgLabel:"Booking in"},
+  {key:"chrono",label:"Chrono",sec:"The day",tag:"P2"},
+  {key:"gameday",label:"Game control",sec:"The day",tag:"P3"},
+  {key:"daysheet",label:"Day sheet",sec:"The day"},
+  {key:"gate",label:"Car park",sec:"The gate",tag:"P2"},
+  {key:"bookings",label:"Bookings",sec:"Bookings"},
+  {key:"groups",label:"Groups and parties",sec:"Bookings",arena:true,orgLabel:"Factions and roles"},
+  {key:"customers",label:"Customers",sec:"People"},
+  {key:"members",label:"Members",sec:"People"},
+  {key:"marketing",label:"Marketing",sec:"People",tag:"P3"},
+  {key:"money",label:"Money",sec:"Money"},
+  {key:"shop",label:"Stock and pre-orders",sec:"Money"},
+  {key:"history",label:"History",sec:"Money"},
+  {key:"dash",label:"Dashboards",sec:"Money",tag:"P3"},
+  {key:"manage",label:"Events and prices",sec:"Setup"},
+  {key:"team",label:"Team and access",sec:"Setup"},
+  {key:"settings",label:"Settings",sec:"Setup"},
   {key:"proposal",label:"Proposal",sec:"For you"}
 ];
 const ROLES={
@@ -748,8 +772,10 @@ const ROLES={
   gate:{label:"Gate",can:["gate","daysheet"]}
 };
 
-/* A console cut back to what this phase needs (data.later from the config): the rest of the rail stays visible, tagged
-   Later, and says what it is and when it arrives, instead of being deleted. The first tenant to ask for it, phase one, 15 Oct 2026. */
+/* A console cut back to what this phase needs (data.later from the config). Nothing is deleted: a screen that is not
+   switched on yet still has a rail entry and still says what it is and when it arrives. What changed on 22 Oct 2026 is
+   where those entries sit. Scattered through the live groups they made a third of the rail a dead end you could only
+   find by clicking, so they now gather under one heading at the foot and the groups above hold only what works. */
 const SESSLIST=d=>(d.daySessions||(d.schedule&&d.schedule.sessions)||{});
 const later=(d,key)=>Array.isArray(d.later)&&d.later.indexOf(key)>=0;
 /* A screen the tenant's plan does not carry (data.gated from the booking platform's plans, CONTRACT.md §3e milestone 6):
@@ -874,7 +900,7 @@ function drawManage(inst){const d=inst.data;
       /* a site that runs more than one brand asks which one the event belongs to, so it lands on that world's pages */
       (d.worldLabels?'<div class="aoc-fld"><span class="aoc-lbl">Shows on</span><select class="aoc-f" data-aoc="evW">'+Object.keys(d.worldLabels).map(k=>'<option value="'+k+'">'+esc(d.worldLabels[k])+'</option>').join("")+'<option value="both">Both</option></select></div>':'')+
       '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Date</span><input class="aoc-f aoc-mono" data-aoc="evD" type="date"></div>'+
-      '<div class="aoc-fld"><span class="aoc-lbl">Gates</span><input class="aoc-f aoc-mono" data-aoc="evT" type="time" value="09:00"></div></div>'+
+      '<div class="aoc-fld"><span class="aoc-lbl">Gates</span><input class="aoc-f aoc-mono" data-aoc="evT" type="time" title="Blank: half an hour before it starts"></div></div>'+
       '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Game starts</span><input class="aoc-f aoc-mono" data-aoc="evSt" type="time" placeholder="the usual"></div>'+
       '<div class="aoc-fld"><span class="aoc-lbl">Game ends</span><input class="aoc-f aoc-mono" data-aoc="evEn" type="time" placeholder="the usual"></div></div>'+
       '<div class="aoc-fld"><span class="aoc-lbl">What it is</span><textarea class="aoc-f" rows="2" data-aoc="evX" placeholder="'+esc(EG[1])+'"></textarea></div>'+
@@ -952,17 +978,26 @@ function drawSiteBookings(inst){const el=q('[data-aoc="siteBk"]',inst.el);if(!el
     :'<p class="aoc-muted">'+(inst.opts.store?"Nothing booked yet. A booking on the site, or one you add by hand above, appears here.":"Nothing booked on the site yet in this demo. Take a booking on the site and it appears here.")+'</p>';}
 function paintEvList(inst){const el=q('[data-aoc="evList"]',inst.el);if(!el)return;
   const wf=inst.sel.world||"";inst.evs=((inst.evs||[]).length?inst.evs:[]);const shown=(inst.evs||[]).filter(e=>!wf||e.w===wf);
-  el.innerHTML=shown.length?'<p class="aoc-lbl" style="margin-bottom:6px">On the site now</p>'+shown.map(e=>'<div class="aoc-frow"><span><b>'+esc(e.n)+'</b><br><span class="aoc-small aoc-muted">'+esc(e.d||"no date")+' &middot; gates '+esc(e.t||"09:00")+' &middot; &pound;'+esc(String(e.p||0))+(e.ph?' / &pound;'+esc(String(e.ph))+' with a rental':"")+(e.s?' &middot; '+esc(e.s)+' only':"")+(e.minPlayers?' &middot; '+esc(String(e.minPlayers))+' minimum':"")+(e.fullDayOnly?' &middot; all day only':"")+(e.groups===false?' &middot; no groups':"")+(e.cap?' &middot; '+esc(String(e.cap))+' places':"")+(e.start?' &middot; '+esc(e.start)+(e.end?" to "+esc(e.end):""):"")+(e.repeat?' &middot; every '+esc((e.repeat.interval>1?e.repeat.interval+" ":"")+e.repeat.every)+(repeatDates(e.d,e.repeat,3).length?", from "+repeatDates(e.d,e.repeat,3).map(x=>fmtShort(x)).join(", "):""):"")+'</span></span><span class="aoc-chip '+(e.status==="draft"?'ph">Draft, off the site':'go">Live')+'</span></div>').join(""):'';}
+  el.innerHTML=shown.length?'<p class="aoc-lbl" style="margin-bottom:6px">On the site now</p>'+shown.map(e=>'<div class="aoc-frow"><span><b>'+esc(e.n)+'</b><br><span class="aoc-small aoc-muted">'+esc(e.d||"no date")+(e.t?' &middot; gates '+esc(e.t):'')+' &middot; &pound;'+esc(String(e.p||0))+(e.ph?' / &pound;'+esc(String(e.ph))+' with a rental':"")+(e.s?' &middot; '+esc(e.s)+' only':"")+(e.minPlayers?' &middot; '+esc(String(e.minPlayers))+' minimum':"")+(e.fullDayOnly?' &middot; all day only':"")+(e.groups===false?' &middot; no groups':"")+(e.cap?' &middot; '+esc(String(e.cap))+' places':"")+(e.start?' &middot; '+esc(e.start)+(e.end?" to "+esc(e.end):""):"")+(e.repeat?' &middot; every '+esc((e.repeat.interval>1?e.repeat.interval+" ":"")+e.repeat.every)+(repeatDates(e.d,e.repeat,3).length?", from "+repeatDates(e.d,e.repeat,3).map(x=>fmtShort(x)).join(", "):""):"")+'</span></span>'+(inst.opts.store&&e.key&&e.bookable!=null&&e.status!=="draft"?'<span class="aoc-ev-bk">'+bkSwitch(e.bookable,'data-event="'+esc(e.key)+'"',e.n)+'<span class="aoc-tiny">'+esc(bkWords(e.bookable,e.ahead||0))+'</span></span>':'<span class="aoc-chip '+(e.status==="draft"?'ph">Draft, off the site':'go">Live')+'</span>')+'</div>').join(""):'';}
 function shell(inst){
   const B=inst.brand, d=inst.data;
-  let rail='<div class="aoc-brandrow"><span class="aoc-logo" role="img" aria-label="'+esc(B.name)+'"></span><b>'+esc(B.short||B.name)+'<i>Operator console</i></b></div>';
+  let rail='<div class="aoc-brandrow"><span class="aoc-logo" role="img" aria-label="'+esc(B.name)+'"></span><b>'+esc(B.short||B.name)+'<i>'+(inst.opts.account?"AOC by ThinkWork":"Operator console")+'</i></b></div>';
   let sec="";
   const ORDER=inst.opts.account&&d.home?[SCREENS.find(s=>s.key==="calendar")].concat(SCREENS.filter(s=>s.key!=="calendar")):SCREENS;
-  for(const s of ORDER){if(s.arena&&d.kind==="skirmish")continue;if(inst.opts.account&&(s.key==="proposal"||(d.home&&s.key==="today")))continue;if(s.sec!==sec){sec=s.sec;rail+='<div class="aoc-navsec">'+esc(sec)+'</div>';}rail+='<a data-aoc-go="'+s.key+'" role="button" tabindex="0">'+esc(d.kind==="organiser"&&s.orgLabel?s.orgLabel:(inst.opts.account&&d.home&&s.key==="calendar"?"Calendar":(d.kind==="arena"&&s.arenaLabel?s.arenaLabel:s.label)))+(gated(d,s.key)?'<span class="aoc-tag">'+esc(gated(d,s.key).plan||"Upgrade")+'</span>':later(d,s.key)?'<span class="aoc-tag">Later</span>':(s.tag&&!(inst.opts.account&&(d.real||[]).includes(s.key))?'<span class="aoc-tag">'+s.tag+'</span>':''))+'</a>';}
+  const navLink=(s)=>'<a data-aoc-go="'+s.key+'" role="button" tabindex="0" title="'+esc(s.label)+'">'+navIcon(s.key)+'<span class="aoc-navlabel">'+esc(d.kind==="organiser"&&s.orgLabel?s.orgLabel:(inst.opts.account&&d.home&&s.key==="calendar"?"Calendar":(d.kind==="arena"&&s.arenaLabel?s.arenaLabel:s.label)))+'</span>'+(gated(d,s.key)?'<span class="aoc-tag">'+esc(gated(d,s.key).plan||"Upgrade")+'</span>':(s.tag&&!(inst.opts.account&&(d.real||[]).includes(s.key))&&!later(d,s.key)?'<span class="aoc-tag">'+s.tag+'</span>':''))+'</a>';
+  let railLater="";
+  for(const s of ORDER){
+    if(s.arena&&d.kind==="skirmish")continue;
+    if(inst.opts.account&&(s.key==="proposal"||(d.home&&s.key==="today")))continue;
+    if(later(d,s.key)){railLater+=navLink(s);continue;}
+    if(s.sec!==sec){sec=s.sec;rail+='<div class="aoc-navsec">'+esc(sec)+'</div>';}
+    rail+=navLink(s);
+  }
+  if(railLater)rail+='<div class="aoc-navsec">Not switched on yet</div>'+railLater;
   /* which build is this? The version alone cannot answer it: 0.10.2 looked identical before and after three
      config changes in one day. The stamp is written by the builder; it is wrapped so a hash can normalise it out. */
   const P=inst.opts.account;
-  rail+=P?'<div class="aoc-railfoot">ThinkWork booking</div>':'<div class="aoc-railfoot">AOC '+VERSION+'<br><span class="aoc-build" data-build="21 Oct 2026 23:38">built 21 Oct 2026 23:38 UK</span><br>by ThinkWork</div>';
+  rail+=P?'<div class="aoc-railfoot">AOC by ThinkWork</div>':'<div class="aoc-railfoot">AOC '+VERSION+'<br><span class="aoc-build" data-build="25 Oct 2026 22:23">built 25 Oct 2026 22:23 UK</span><br>by ThinkWork</div>';
   const roles=Object.keys(ROLES).map(k=>'<button data-aoc-role="'+k+'" aria-pressed="'+(k===inst.role)+'">'+ROLES[k].label+'</button>').join("");
   /* the console as a product (opts.account, from the booking server): who is signed in, the next day, the brand
      switcher where a tenant has more than one brand, the brand's own site, and an account menu with the dark-mode
@@ -993,7 +1028,8 @@ function shell(inst){
   const shown=s=>(!s.arena||d.kind!=="skirmish")&&!(P&&s.key==="proposal")&&!(P&&d.home&&s.key==="today");
   const screens=SCREENS.filter(shown).map(s=>'<section class="aoc-screen'+(s.key==="proposal"?" aoc-prop":" aoc-pad")+'" data-aoc-screen="'+s.key+'"'+((d.real||[]).indexOf(s.key)>=0?'>':P?'>'+(later(d,s.key)?'':'<p class="aoc-notlive">Not live yet: sample figures.</p>'):' data-ph="1">'+ph(s.key==="proposal"?"Every figure below is sample until you replace it":"Sample data"))+'<div data-aoc-body="'+s.key+'"></div></section>').join("");
   const bottom=P&&d.home?'<nav class="aoc-bottombar" aria-label="Main"><button data-aoc-go="calendar">Calendar</button><button data-aoc-go="reception">Reception</button><button data-aoc-go="bookings">Bookings</button>'+(d.kind==="arena"?'<button data-aoc-go="groups">Groups</button>':'<button data-aoc-go="members">Members</button>')+'<button data-aoc-more>More</button></nav>':'';
-  inst.el.innerHTML='<div class="aoc-desk"><nav class="aoc-rail" aria-label="Console sections">'+rail+'</nav><main class="aoc-main">'+top+screens+'</main></div>'+bottom+
+  let mini=false;try{mini=localStorage.getItem("aoc:rail")==="mini";}catch(e){}
+  inst.el.innerHTML='<div class="aoc-desk"><nav class="aoc-rail'+(mini?" mini":"")+'" aria-label="Console sections"><button class="aoc-railtoggle" type="button" data-aoc-rail aria-label="Narrow or widen this menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>'+rail+'</nav><main class="aoc-main">'+top+screens+'</main></div>'+bottom+
     '<div class="aoc-toast" role="status" aria-live="polite"></div><div class="aoc-tip"></div>';
 }
 
@@ -1016,6 +1052,7 @@ function drawToday(inst){
   const t=d.calendar.times||[], gates=t[0]||"", brief=d.money.chronoTime||t[1]||"";
   const sub=fmtLong(NEXT.dt)+" · "+esc(NEXT.name)+(gates?" · gates "+gates:"")+(brief?", chrono and brief "+brief:"")+(d.calendar.timesSample?" (sample times)":"");
   body(inst,"today").innerHTML=head(dayTitle(inst),sub,'<button class="aoc-btn g" data-aoc-go="daysheet">Print day sheet</button><button class="aoc-btn p" data-aoc-go="reception">Open reception</button>')+
+    requestsCard(inst,NEXT&&NEXT.dt?isoOf(new Date(NEXT.dt)):null)+
     '<div class="aoc-tiles" data-aoc="todayTiles"></div>'+
     '<div class="aoc-grid two" style="margin-bottom:14px">'+
       card('<h3>Needs attention</h3><span class="aoc-sp"></span>'+chip("0","stop")+'','<div class="aoc-bd" data-aoc="attn"></div>')+
@@ -1044,6 +1081,7 @@ function paintToday(inst){
   P.filter(p=>p.in&&!p.chrono).forEach(p=>attn.push([p.name,"Checked in, not chrono'd","warn"]));
   P.filter(p=>p.flagged).forEach(p=>attn.push([p.name,"Spot check over the limit","stop"]));
   P.filter(p=>p.u18&&!p.in).slice(0,3).forEach(p=>attn.push([p.name,"Under 18: full face, guardian signs","info"]));
+  medAttn(inst,attn,inst.sel.day||(m.next&&m.next.dt?isoOf(m.next.dt):null));
   const ac=q('[data-aoc="attn"]',inst.el); ac.previousElementSibling.querySelector(".aoc-chip").textContent=attn.length;
   ac.innerHTML=attn.length?attn.slice(0,8).map(a=>'<div class="aoc-kv"><span><b>'+esc(a[0])+'</b></span>'+chip(a[1],a[2])+'</div>').join(""):'<p class="aoc-go-c"><b>Nothing outstanding.</b> Everyone signed, checked in and chrono\'d.</p>';
   q('[data-aoc="feed"]',inst.el).innerHTML=m.feed.map(f=>'<div><time>'+esc(f.t)+'</time><span>'+esc(f.msg)+'</span></div>').join("");
@@ -1067,7 +1105,8 @@ function paintToday(inst){
 
 /* ---------- Bookings ---------- */
 function drawBookings(inst){
-  body(inst,"bookings").innerHTML=head("Bookings","Everything sold through the site, with the money against it",'<input class="aoc-f" data-aoc="bkSearch" placeholder="Search name or reference" style="width:240px"><button class="aoc-btn p" data-aoc-act="addBooking">Add a booking</button>')+
+  body(inst,"bookings").innerHTML=head("Bookings","Everything sold through the site, with the money against it",'<input class="aoc-f" data-aoc="bkSearch" placeholder="Search name or reference" style="width:240px">'+(inst.data.exports&&inst.data.exports.history?exportBtn(inst,"history"):'')+'<button class="aoc-btn p" data-aoc-act="addBooking">Add a booking</button>')+
+    requestsCard(inst,null)+
     '<div class="aoc-tiles" data-aoc="bkTiles"></div>'+
     card('',"<div data-aoc='bkTable'></div>")+
     '<div data-aoc="bkDetail" style="margin-top:14px"></div>'+
@@ -1079,7 +1118,10 @@ function paintBookings(inst,query){
   const d=inst.data,m=inst.m,qs=String(query||"").toLowerCase();
   const rows=m.bookings.filter(b=>!qs||(b.name+" "+b.ref).toLowerCase().includes(qs));
   const taken=m.bookings.filter(b=>b.status!=="refunded").reduce((a,b)=>a+b.paid,0), due=m.bookings.reduce((a,b)=>a+b.due,0), players=m.bookings.filter(b=>b.status!=="refunded").reduce((a,b)=>a+b.items.reduce((x,y)=>x+y.n,0),0);
-  q('[data-aoc="bkTiles"]',inst.el).innerHTML=tile("Bookings",m.bookings.length,"","on the next dates")+tile("Players",players,"","in this list, "+d.labels.walkon.toLowerCase()+" and "+d.labels.hire.toLowerCase())+tile("Taken",gbp(taken),"key","by card, on your Stripe balance")+tile("Due on the day",gbp(due),"","event balances after deposits");
+  const ML=inst.opts.store&&d.moneyLive&&d.moneyLive.all;   /* what was actually taken, by how (13b item 7) */
+  q('[data-aoc="bkTiles"]',inst.el).innerHTML=tile("Bookings",m.bookings.length,"","on the next dates")+tile("Players",players,"","in this list, "+d.labels.walkon.toLowerCase()+" and "+d.labels.hire.toLowerCase())+
+    (ML?tile("Taken by card",gbp(ML.stripe),"key","online, on your Stripe balance")+tile("Taken at the desk",gbp(ML.cash+ML.card_phone+ML.bank_transfer),"","cash, card in person, transfers"+(ML.refunded?"; "+gbp(ML.refunded)+" refunded":""))
+       :tile("Taken",gbp(taken),"key","by card, on your Stripe balance"))+tile("Due on the day",gbp(due),"","event balances after deposits");
   const st=b=>b.status==="cancelled"?chip("Cancelled","stop"):b.status==="pending"?chip("Awaiting payment","warn"):b.status==="due"?chip("To pay on the day","info"):b.status==="refunded"?chip("Refunded","stop"):b.status==="moved"?chip("Moved","info"):b.status==="waiver"?chip("Form unsigned","warn"):chip("Paid","go");
   q('[data-aoc="bkTable"]',inst.el).innerHTML=tbl(["Reference","Name","Date","Tickets","Status","num:Paid"],rows.map(b=>'<tr class="aoc-click'+(inst.sel.booking===b.ref?" on":"")+'" data-aoc-book="'+esc(b.ref)+'"><td class="aoc-mono">'+esc(b.ref)+'</td><td>'+esc(b.name)+'</td><td class="aoc-mono">'+fmtShort(b.date.dt)+(b.date.real?' <span class="aoc-tiny">'+esc(b.date.short||b.date.name)+'</span>':"")+'</td><td>'+esc(bookingItems(inst,b))+'</td><td>'+st(b)+'</td><td class="num">'+(b.status==="refunded"?'<s>'+gbp(b.paid)+'</s>':gbp(b.paid))+'</td></tr>').join("")||'<tr><td colspan="6" class="aoc-tiny">Nothing matches.</td></tr>');
   const det=q('[data-aoc="bkDetail"]',inst.el), b=m.bookings.find(x=>x.ref===inst.sel.booking);
@@ -1166,7 +1208,41 @@ function cePreview(inst){
 }
 
 /* ---------- Customers ---------- */
+/* ---------- Customers and Marketing, live (booking-platform CONTRACT.md §3e, milestone 7) ----------
+   One record per person across the brands, from the database; campaigns to the people who said yes. */
+function custRows(inst){const L=inst.data.customersLive,Q=String(inst.sel.custQ||"").trim().toLowerCase(),t=v=>esc(v==null?"":String(v));
+  const list=Q?L.filter(c=>(c.name+" "+c.email+" "+c.phone).toLowerCase().includes(Q)):L;
+  return {list,html:list.slice(0,300).map(c=>'<tr class="aoc-click'+(inst.sel.cust===c.id?" on":"")+'" data-aoc-cust="'+t(c.id)+'"><td><b>'+t(c.name||c.email)+'</b>'+((c.aka||[]).length?'<br><span class="aoc-tiny" data-aoc-aka>also known as '+t(c.aka.join(", "))+'</span>':'')+'<br><span class="aoc-small aoc-muted">'+t(c.email)+(c.phone?" · "+t(c.phone):"")+'</span></td><td>'+t(c.brands||"none yet")+'</td><td class="num">'+c.bookings+'</td><td>'+t(c.lastVisit?fmtShort(dOf(String(c.lastVisit).slice(0,10))):"")+'</td><td>'+t(c.nextVisit?fmtShort(dOf(String(c.nextVisit).slice(0,10))):"")+'</td><td class="num">'+c.waivers+'</td><td>'+t(c.membership)+'</td><td class="num">'+gbp2(c.spend)+'</td><td>'+(c.unsubscribed?chip("Unsubscribed","warn"):(c.consentEmail?chip("Email","ok"):"")+(c.consentSms?chip("Texts","ok"):"")||'<span class="aoc-muted">No</span>')+'</td></tr>').join("")};}
+const CUST_COLS=["Person","Brands","num:Bookings","Last visit","Next visit","num:Waivers","Membership","num:Spend","News"];
+function paintCustList(inst){const tb=q('[data-aoc="custBody"]',inst.el);if(!tb)return;const r=custRows(inst);tb.innerHTML=labelCells(r.html,CUST_COLS);const n=q('[data-aoc="custCount"]',inst.el);if(n)n.textContent=r.list.length+" of "+inst.data.customersLive.length;}
+function drawCustomersLive(inst){
+  const L=inst.data.customersLive,t=v=>esc(v==null?"":String(v)),c=L.find(x=>x.id===inst.sel.cust),r=custRows(inst);
+  const exportUrl=location.pathname.replace(/\/+$/,"")+"/aoc/customers.csv";
+  body(inst,"customers").innerHTML=head("Customers",L.length+" "+(L.length===1?"person":"people")+" across your brands",'<a class="aoc-btn g" href="'+t(exportUrl)+'" download>Export</a>')+
+    (c?card('<h3>'+t(c.name||c.email)+'</h3><span class="aoc-sp"></span>'+chip(c.bookings+" booking"+(c.bookings===1?"":"s"),"info"),'<div class="aoc-bd" data-cust-box="'+t(c.id)+'">'+
+      '<p class="aoc-small aoc-muted" style="margin:0 0 8px">'+t(c.email)+(c.phone?" · "+t(c.phone):"")+(c.membership?" · "+t(c.membership):"")+' · spent '+gbp2(c.spend)+' · '+c.waivers+' waiver'+(c.waivers===1?"":"s")+' on file</p>'+
+      '<div class="aoc-fld"><span class="aoc-lbl">Notes</span><textarea class="aoc-f" data-k="notes" rows="3" style="width:100%">'+t(c.notes)+'</textarea></div>'+
+      '<label class="aoc-row" style="gap:10px;min-height:44px;cursor:pointer"><input type="checkbox" data-k="consentEmail"'+(c.consentEmail?" checked":"")+' style="width:22px;height:22px"><span>Said yes to news by email</span></label>'+
+      '<label class="aoc-row" style="gap:10px;min-height:44px;cursor:pointer"><input type="checkbox" data-k="consentSms"'+(c.consentSms?" checked":"")+' style="width:22px;height:22px"><span>Said yes to news by text</span></label>'+
+      '<p class="aoc-small aoc-muted" style="margin:4px 0 10px">Tick only what they told you themselves. Every change is recorded.</p>'+
+      '<button class="aoc-btn p" data-aoc-act="custSave" data-cust="'+t(c.id)+'">Save '+t(c.name||c.email)+'</button></div>'):"")+
+    card('<input class="aoc-f" type="search" data-aoc="custSearch" placeholder="Find a name, email or phone" value="'+t(inst.sel.custQ||"")+'" style="max-width:340px;min-height:44px"><span class="aoc-sp"></span><span class="aoc-small aoc-muted" data-aoc="custCount">'+r.list.length+' of '+L.length+'</span>',
+      '<div class="aoc-bd">'+(L.length?tbl(CUST_COLS,r.html).replace("<tbody>",'<tbody data-aoc="custBody">'):'<p class="aoc-muted">Nobody yet: a person appears here with their first booking.</p>')+'</div>');}
+function drawMarketingLive(inst){
+  const M=inst.data.marketingLive,t=v=>esc(v==null?"":String(v)),when=v=>v?new Date(v).toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}):"";
+  body(inst,"marketing").innerHTML=head("Marketing","Campaigns to the people who said yes","")+
+    ((!M.emailReady||!M.smsReady)?'<p class="aoc-notlive">'+(!M.emailReady?"Email campaigns are recorded but not sent until the platform's own email account is set up. ":"")+(!M.smsReady?"Texts are recorded but not sent until a text provider is connected.":"")+'</p>':"")+
+    card('<h3>Who you can reach</h3>','<div class="aoc-bd">'+tbl(["Segment","num:By email","num:By text"],M.segments.filter(x=>x.key!=="me").map(s=>'<tr><td><b>'+t(s.label)+'</b></td><td class="num">'+s.email+'</td><td class="num">'+s.sms+'</td></tr>').join(""))+'<p class="aoc-small aoc-muted" style="margin:8px 0 0">Only people who said yes, and have not unsubscribed. Every message carries the link to stop.</p></div>')+
+    card('<h3>A new campaign</h3>','<div class="aoc-bd" data-camp>'+
+      '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Send by</span><select class="aoc-f" data-k="ch">'+opt([["email","Email"],["sms","Text"]],"email")+'</select></div>'+
+      '<div class="aoc-fld"><span class="aoc-lbl">To</span><select class="aoc-f" data-k="seg">'+opt(M.segments.map(s=>[s.key,s.label]),"lapsed")+'</select></div></div>'+
+      '<div class="aoc-fld"><span class="aoc-lbl">Subject (email)</span><input class="aoc-f" data-k="subj" placeholder="Come back this Sunday"></div>'+
+      '<div class="aoc-fld"><span class="aoc-lbl">Message</span><textarea class="aoc-f" data-k="body" rows="5" style="width:100%" placeholder="A text is up to three texts long. A link to book and the link to stop are added for you."></textarea></div>'+
+      '<div class="aoc-fld"><span class="aoc-lbl">Send at (empty: now)</span><input class="aoc-f" type="datetime-local" data-k="when"></div>'+
+      '<button class="aoc-btn p" data-aoc-act="campSend">Send</button></div>')+
+    card('<h3>Campaigns</h3>','<div class="aoc-bd">'+(M.campaigns.length?tbl(["When","By","To","Subject","num:People","num:Sent","num:Not sent","num:Opened","num:Booked","Status"],M.campaigns.map(c=>'<tr><td>'+t(when(c.sentAt||c.scheduledAt))+'</td><td>'+(c.channel==="sms"?"Text":"Email")+'</td><td>'+t(c.segment)+'</td><td>'+t(c.subject)+'</td><td class="num">'+c.recipients+'</td><td class="num">'+c.sent+'</td><td class="num">'+c.logged+'</td><td class="num">'+(c.channel==="sms"?"":c.opened)+'</td><td class="num">'+c.booked+'</td><td>'+t(c.status==="scheduled"?"Scheduled":c.status==="sending"?"Sending":"Sent")+'</td></tr>').join("")):'<p class="aoc-muted">None yet.</p>')+'</div>');}
 function drawCustomers(inst){
+  if(inst.opts.store&&inst.data.customersLive)return drawCustomersLive(inst);
   const d=inst.data,m=inst.m,r=rng(seedFrom(d.business.name+"cust"));
   const onFile=Math.max(m.players.length*9,120+Math.floor(r()*400)), played=Math.round(onFile*0.35), opt=Math.round(onFile*0.62);
   m.customers=onFile;
@@ -1181,7 +1257,7 @@ function drawMembers(inst){
   const d=inst.data,m=inst.m,M=d.membership,W=ticketFor(d,"walkon","full"),H=ticketFor(d,"hire","full");
   const per=M.per==="month"?"a month":"a year";
   const title=M.published?"Your "+gbp(M.price)+" "+(M.per==="month"?"month":"year")+(M.year?", "+esc(M.year):""):inst.opts.store?"Membership, "+gbp(M.price)+" "+per+": not on sale yet":"A proposed membership: "+gbp(M.price)+" "+per;
-  body(inst,"members").innerHTML=head("Members",title,'<button class="aoc-btn g" data-aoc-act="export">Export</button><button class="aoc-btn p" data-aoc-act="renewAll">Renew all by email</button>')+
+  body(inst,"members").innerHTML=head("Members",title,exportBtn(inst,"members")+'<button class="aoc-btn p" data-aoc-act="renewAll">Renew all by email</button>')+
     '<div class="aoc-tiles" data-aoc="memTiles"></div>'+
     '<div class="aoc-grid two">'+
       card('<h3>Everyone on a plan</h3><span class="aoc-sp"></span><select class="aoc-f" data-aoc="memFilter" style="width:170px"><option value="all">All plans</option><option value="member">Membership</option><option value="lapsed">Lapsed</option></select>','<div data-aoc="memTable"></div>')+
@@ -1287,7 +1363,19 @@ function scorePlan(inst){
 }
 
 /* ---------- Money ---------- */
+/* Money from what was actually taken (booking-platform CONTRACT.md §3e, milestone 13b item 7): by how it was paid,
+   refunds apart, money kept on a cancelled booking apart, and every line */
+function drawMoneyLive(inst){
+  const L=inst.data.moneyLive,M=L.month,A=L.all;
+  const split=x=>'<div class="aoc-bd">'+kv("Card online, on your Stripe balance",gbp(x.stripe))+kv("Cash",gbp(x.cash))+kv("Card at the desk or by phone",gbp(x.card_phone))+kv("Bank transfer",gbp(x.bank_transfer))+kv("<b>Taken</b>","<b>"+gbp(x.taken)+"</b>")+kv("Refunded",gbp(x.refunded))+(x.kept?kv("Kept on cancelled bookings",gbp(x.kept)):"")+kv("The platform's 2%, on card payments",gbp(x.fee))+'</div>';
+  body(inst,"money").innerHTML=head("Money","What was taken, how, and what went back: from the payments themselves",exportBtn(inst,"money"))+
+    '<div class="aoc-tiles" data-aoc="moneyTiles">'+tile("Taken this month",gbp(M.taken),"key","every way, cancelled bookings left out")+tile("By card online",gbp(M.stripe),"","on your Stripe balance")+tile("At the desk",gbp(M.cash+M.card_phone+M.bank_transfer),"","cash, card in person, transfers")+tile("Refunded",gbp(M.refunded),"","this month")+'</div>'+
+    '<div class="aoc-grid two">'+card('<h3>This month</h3>',split(M))+card('<h3>Since the start</h3>',split(A))+'</div>'+
+    (L.months.length>1?'<div style="height:14px"></div>'+card('<h3>Month by month</h3>',tbl(["Month","num:Card online","num:At the desk","num:Taken","num:Refunded"],L.months.map(x=>'<tr><td>'+esc(new Date(x.month+"-15").toLocaleDateString(undefined,{month:"long",year:"numeric"}))+'</td><td class="num">'+gbp(x.stripe)+'</td><td class="num">'+gbp(x.cash+x.card_phone+x.bank_transfer)+'</td><td class="num"><b>'+gbp(x.taken)+'</b></td><td class="num">'+gbp(x.refunded)+'</td></tr>').join(""))):'')+
+    '<div style="height:14px"></div>'+card('<h3>Every payment</h3><span class="aoc-sp"></span>'+chip(plural(L.lines.length,"line"),"info"),L.lines.length?'<div class="aoc-tscroll" data-aoc="moneyLines">'+tbl(["When","Booking","Who","What","How","num:Amount"],L.lines.map(x=>'<tr><td class="aoc-mono">'+esc(new Date(x.at).toLocaleString(undefined,{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}))+'</td><td class="aoc-mono">'+esc(x.ref)+(x.cancelled?' <span class="aoc-tiny">cancelled</span>':'')+'</td><td>'+esc(x.name)+'</td><td>'+esc(x.what)+'</td><td>'+esc(x.how)+'</td><td class="num">'+gbp(x.amount)+'</td></tr>').join(""))+'</div>':'<div class="aoc-bd"><p class="aoc-small aoc-muted">Nothing taken yet.</p></div>');
+}
 function drawMoney(inst){
+  if(inst.opts.store&&inst.data.moneyLive)return drawMoneyLive(inst);
   const d=inst.data,m=inst.m,MO=d.money,W=ticketFor(inst.data,"walkon","full");
   const lines=MO.lines.length?MO.lines:[[d.labels.walkon+" tickets",m.players.filter(p=>p.kind==="walkon").length+" players, paid ahead",m.players.filter(p=>p.kind==="walkon").reduce((a,p)=>a+p.price,0)*3],[d.labels.hire,"booked and paid before the day",m.players.filter(p=>p.kind==="hire").reduce((a,p)=>a+p.price,0)*3],["Membership",MO.joinedToday+" joined at the checkout",MO.joinedToday*d.membership.price],["Pre-orders",d.preorders.map(p=>p.label.toLowerCase()).join(", "),m.preTotal*3],["Vouchers","switched off in this proposal",0]];
   const total=lines.reduce((a,l)=>a+(+l[2]||0),0), pf=Math.round(total*(MO.platformFeePct||0.02)), cardFee=MO.cardFees||Math.round(total*0.015+total/W.price*0.2);
@@ -1296,7 +1384,7 @@ function drawMoney(inst){
   const kindName=d.wedge.kind==="platform"&&d.wedge.name?d.wedge.name:"";
   const onTicket=Math.round((W.price*0.015+0.2+W.price*(MO.platformFeePct||0.02))*100)/100;
   const platTake=kindName?Math.round((W.price*(d.wedge.feePct||0)/100+(d.wedge.feePer||0))*100)/100:0;
-  body(inst,"money").innerHTML=head("Money","Paid straight into your own Stripe account, line by line",'<button class="aoc-btn g" data-aoc-act="export">Export</button>')+
+  body(inst,"money").innerHTML=head("Money","Paid straight into your own Stripe account, line by line",exportBtn(inst,"money"))+
     '<div class="aoc-tiles">'+tile("Taken this month",gbp(total),"key","so far, across every line")+tile(payLabel,gbp(nextPay[2]||Math.round(total*0.3)),"good",esc(nextPay[0])+", "+(pending?"due ":"paid ")+esc(nextPay[1]))+tile("Card fees",gbp(cardFee),"","roughly 1.5% plus 20p, unavoidable")+tile("Platform fee",gbp(pf),"",Math.round((MO.platformFeePct||0.02)*100)+"% of everything collected")+'</div>'+
     '<div class="aoc-grid two">'+
       '<div class="aoc-stack">'+card('<h3>Takings by line, this month so far</h3>',tbl(["Line","What it was","num:Amount"],lines.map(l=>'<tr><td>'+esc(l[0])+'</td><td class="aoc-tiny">'+esc(l[1])+'</td><td class="num">'+(l[2]?gbp(l[2]):'<span class="aoc-tiny">nil</span>')+'</td></tr>').join("")+'<tr><td><b>Total</b></td><td></td><td class="num"><b>'+gbp(total)+'</b></td></tr>')+'<div class="aoc-bd"><p class="aoc-tiny">Vouchers are in the proposal but switched off, so the line reads nil until you say yes.</p></div>')+
@@ -1325,7 +1413,7 @@ function drawStock(inst){
 /* ---------- History ---------- */
 function drawHistory(inst){
   const d=inst.data,m=inst.m,multi=d.business.sports.length>1;
-  body(inst,"history").innerHTML=head("History","Every day that has ever run, kept",(multi?'<select class="aoc-f" style="width:160px"><option>All sports</option>'+d.business.sports.map(s=>'<option>'+esc(s)+'</option>').join("")+'</select>':"")+'<button class="aoc-btn g" data-aoc-act="export">Export</button>')+
+  body(inst,"history").innerHTML=head("History","Every day that has ever run, kept",(multi?'<select class="aoc-f" style="width:160px"><option>All sports</option>'+d.business.sports.map(s=>'<option>'+esc(s)+'</option>').join("")+'</select>':"")+exportBtn(inst,"history")+'')+
     '<div class="aoc-grid two">'+card('',tbl(["Date","Event","num:Booked","num:Turned up","num:Chrono","num:Took"],m.history.map((h,i)=>'<tr class="aoc-click'+(inst.sel.hist===i?" on":"")+'" data-aoc-hist="'+i+'"><td class="aoc-mono">'+fmtDM(h.dt)+'</td><td>'+esc(h.name)+'</td><td class="num">'+h.booked+'</td><td class="num">'+h.up+(h.up<h.booked?" "+chip((h.booked-h.up)+" no-show","warn"):"")+'</td><td class="num">'+h.chrono+'</td><td class="num">'+gbp(h.took)+'</td></tr>').join("")))+'<div data-aoc="histDetail">'+card('','<div class="aoc-bd"><p class="aoc-tiny">Pick a day to see how it went.</p></div>')+'</div></div>'+
     '<p class="aoc-lbl" style="margin-top:10px">Attendance, chrono readings, spot checks, results and takings are all kept per day: useful for an insurance question, for the argument about who won in August, and for knowing which dates are worth running again.</p>';
 }
@@ -1365,7 +1453,7 @@ function paintReception(inst){
   const P=inst.m.players,el=q('[data-aoc="recCount"]',inst.el);if(!el)return;
   el.textContent=P.filter(p=>p.in).length+" of "+P.length+" checked in";
   const qs=(q('[data-aoc="recSearch"]',inst.el).value||"").toLowerCase();
-  q('[data-aoc="recList"]',inst.el).innerHTML=P.filter(p=>!qs||p.name.toLowerCase().includes(qs)).map(p=>'<button class="aoc-person'+(p.in?" done":"")+'" data-aoc-check="'+p.id+'"><span class="aoc-avatar" style="background:'+(p.in?"var(--aoc-go)":"var(--aoc-surface-2)")+';color:'+(p.in?"#fff":"var(--aoc-text-2)")+'">'+esc(p.init)+'</span><span><span class="aoc-nm">'+esc(p.name)+'</span><span class="aoc-sub">'+esc(p.ticket.label)+(p.member?", member":"")+(p.waiver?"":' · <b class="aoc-stop-c">form unsigned</b>')+(p.u18?' · under 18':'')+'</span></span></button>').join("");
+  q('[data-aoc="recList"]',inst.el).innerHTML=P.filter(p=>!qs||p.name.toLowerCase().includes(qs)).map(p=>medCell(p,'<button class="aoc-person'+(p.in?" done":"")+'" data-aoc-check="'+p.id+'"><span class="aoc-avatar" style="background:'+(p.in?"var(--aoc-go)":"var(--aoc-surface-2)")+';color:'+(p.in?"#fff":"var(--aoc-text-2)")+'">'+esc(p.init)+'</span><span><span class="aoc-nm">'+esc(p.name)+'</span><span class="aoc-sub">'+esc(p.ticket.label)+(p.member?", member":"")+(p.waiver?"":' · <b class="aoc-stop-c">form unsigned</b>')+(p.u18?' · under 18':'')+'</span></span></button>')).join("");
   const kits=P.filter(p=>p.kit);
   q('[data-aoc="kitPill"]',inst.el).textContent=kits.filter(p=>p.kitOut).length+" of "+kits.length+" out";
   q('[data-aoc="kits"]',inst.el).innerHTML=kits.map(p=>'<label class="'+(p.kitOut?"on":"")+'"><input type="checkbox" data-aoc-kit="'+p.id+'"'+(p.kitOut?" checked":"")+'><span>'+esc(firstName(p.name))+' '+esc(p.name.split(" ").slice(-1)[0][0])+'.<small>'+(p.member?"member":"non-member")+'</small></span></label>').join("");
@@ -1488,7 +1576,8 @@ function drawDaysheet(inst){
     banner("Why",(inst.opts.store?"Print it before the gates open and it runs":"Printed the night before, this runs")+" the whole day on its own. If the internet, the tablets or the power go down, a marshal with this sheet and a pen can still check everyone in and run the games.","why")+
     '<p class="aoc-sheetnote aoc-small aoc-muted">The day sheet is an A4 page: open the console on a desktop or tablet to print it.</p>'+
     '<div class="aoc-sheet"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;gap:12px;flex-wrap:wrap"><div><div style="font-size:20px;font-weight:700;text-transform:uppercase">'+esc(inst.brand.name)+'</div><div style="font-size:13px">'+esc(m.next.name)+' · '+fmtLong(m.next.dt)+'</div></div><div style="font-size:12px;text-align:right">'+(t[0]?"Gates "+t[0]:"")+(t[1]?" · Games "+t[1]:"")+(t[2]?" · Endex "+t[t.length-1]:"")+'<br>'+(m.limit?"Chrono limit "+m.limit+" fps":"Chrono limit: not published, write it here")+'<br>'+(inst.opts.store?"Printed "+nowHM():"Printed the night before, 19:40")+'</div></div>'+
-    tbl(["#","Name","Ticket","Ref","Form","Reg","In","Chrono","Notes"],m.players.map((p,i)=>'<tr><td>'+(i+1)+'</td><td>'+esc(p.name)+'</td><td>'+esc(p.ticket.label)+(p.member?" (M)":"")+'</td><td>'+esc(m.refOf(p))+'</td><td>'+(p.waiver?"Y":"<b>N</b>")+'</td><td>'+esc(p.reg||"")+'</td><td>'+(p.in?"✓":"")+'</td><td>'+(p.chrono?p.chrono.low+"/"+p.chrono.high:"")+'</td><td>'+(p.u18?"U18":"")+'</td></tr>').join(""))+'<p style="font-size:11px;margin-top:10px">Any player without a signed form does not go on the field. Spot checks: write the reading next to the name and the time.</p></div>';
+    tbl(["#","Name","Ticket","Ref","Form","Reg","In","Chrono","Notes"],m.players.map((p,i)=>'<tr><td>'+(i+1)+'</td><td>'+esc(p.name)+'</td><td>'+esc(p.ticket.label)+(p.member?" (M)":"")+'</td><td>'+esc(m.refOf(p))+'</td><td>'+(p.waiver?"Y":"<b>N</b>")+'</td><td>'+esc(p.reg||"")+'</td><td>'+(p.in?"✓":"")+'</td><td>'+(p.chrono?p.chrono.low+"/"+p.chrono.high:"")+'</td><td>'+(p.u18?"U18":"")+(p.med?(p.u18?", ":"")+"Medical":"")+'</td></tr>').join(""))+medSheetSlot(inst)+'<p style="font-size:11px;margin-top:10px">Any player without a signed form does not go on the field. Spot checks: write the reading next to the name and the time.</p></div>';
+  fillMedSheet(inst,m.next&&m.next.dt?isoOf(m.next.dt):null);
 }
 
 /* ---------- Team and access ---------- */
@@ -1573,6 +1662,7 @@ function drawDash(inst){
   qa(".bar",body(inst,"dash")).forEach(b=>hover(inst,b,b.dataset.tip));
 }
 function drawMarketing(inst){
+  if(inst.opts.store&&inst.data.marketingLive)return drawMarketingLive(inst);
   const d=inst.data,day=d.calendar.regular.dayName;
   const AUTOS=[["Fill the gaps","A "+day+" is under 60% booked, 5 days out","Played in the last 6 months, opted in",true,"4 Sep","312","11"],["Pre-order nudge","48 hours before a running day","Everyone booked on that date",true,"Yesterday","29","14"],["First-timer follow-up","7 days after a first visit","That player",true,"2 days ago","18","5"],["Lapsed player win-back","No booking for 4 months","Opted in, played before",false,"Never","0","0"],["Party enquiry chase","Quote not accepted after 48 hours","The organiser",true,"6 Sep","7","3"],["Membership card declined","A renewal payment fails","That member",true,"1 Sep","2","2"]];
   body(inst,"marketing").innerHTML=banner("Later","The console knows who has played, what they spent and which dates are short. Automations put those facts together without anybody remembering to.")+
@@ -1693,7 +1783,7 @@ const GSTAT={held:["brand","Held, nothing paid yet","Held"],enquiry:["warn","Enq
 function buildSlots(d){
   if(d.slots&&Array.isArray(d.slots.list)){const today=new Date();today.setHours(0,0,0,0);const out=[];
     d.slots.list.forEach(row=>{const ses=d.sessions.find(s=>s.key===row.session);if(!ses)return;const dt=new Date(row.iso+"T12:00:00");dt.setHours(0,0,0,0);
-      out.push({id:out.length,dt,iso:row.iso,time:row.time||"",mins:ses.mins||60,session:ses,sport:ses.sport,area:row.area||ses.area||"",cap:row.cap!=null?row.cap:null,group:!!ses.group,groups:[],sold:+row.sold||0,taken:row.taken,dayIndex:Math.round((dt-today)/864e5),closed:!!row.closed,real:row.groups||[],realMeta:row.meta||{},dbId:row.id,kitOut:!!row.kitOut,end:row.end||"",unsigned:+row.unsigned||0});});
+      out.push({id:out.length,dt,iso:row.iso,time:row.time||"",mins:ses.mins||60,session:ses,sport:ses.sport,area:row.area||ses.area||"",cap:row.cap!=null?row.cap:null,group:!!ses.group,groups:[],sold:+row.sold||0,taken:row.taken,dayIndex:Math.round((dt-today)/864e5),closed:!!row.closed,why:row.why||"",real:row.groups||[],realMeta:row.meta||{},dbId:row.id,kitOut:!!row.kitOut,end:row.end||"",unsigned:+row.unsigned||0});});
     return out;}
   const pat=(d.slots&&d.slots.pattern)||{},spaces=(d.calendar.spaces&&d.calendar.spaces.length)?d.calendar.spaces:[14,22,7,31,19,3,26,11,38,16,9,24],out=[];
   const today=new Date();today.setHours(0,0,0,0);
@@ -1701,11 +1791,35 @@ function buildSlots(d){
   out.filter(s=>!s.group).forEach((s,i)=>{s.sold=Math.min(s.cap,spaces[i%spaces.length]);});
   return out;
 }
+/* messaging a group's organiser from its page (booking-platform CONTRACT.md §3e, milestone 13): email or text, and
+   every message sent from here listed with what came back */
+/* the screens' Export (booking-platform CONTRACT.md §3e, milestone 13): a real spreadsheet where the platform offers one */
+function exportBtn(inst,key){const u=inst.data.exports&&inst.data.exports[key];return u?'<a class="aoc-btn g" href="'+esc(u)+'" download data-aoc-export="'+esc(key)+'">Export</a>':'<button class="aoc-btn g" data-aoc-act="export">Export</button>';}
+/* booking requests from the site (booking-platform CONTRACT.md §3e, milestone 13b item 1): a hire basket while online
+   card payment is not open comes in as a request; it waits here, never invisible, until it is confirmed or declined */
+function requestsCard(inst,iso){
+  const R=(inst.data.requests||[]).filter(r=>!iso||r.iso===iso);if(!inst.opts.store||!R.length)return "";
+  const can=(inst.opts.store.acts||[]).indexOf("reqConfirm")>=0&&inst.opts.account&&["owner","manager"].indexOf(inst.opts.account.role)>=0;
+  return card('<h3>Needs a reply</h3><span class="aoc-sp"></span>'+chip(plural(R.length,"request"),"warn"),'<div class="aoc-bd" data-aoc="requests">'+R.map(r=>
+    '<div class="aoc-kv" data-aoc-request="'+esc(r.ref)+'" style="align-items:flex-start;gap:10px;flex-wrap:wrap"><span style="flex:1 1 220px;min-width:0"><b>'+esc(r.name)+'</b> <span class="aoc-mono aoc-tiny">'+esc(r.ref)+'</span><br><span class="aoc-small">'+esc(fmtLong(dOf(r.iso)))+': '+r.lines.map(l=>esc(l.qty+" × "+l.label)).join(", ")+' · '+gbp(r.total)+'</span><br><span class="aoc-tiny"><a href="mailto:'+esc(r.email)+'">'+esc(r.email)+'</a>'+(r.phone?' · <a href="tel:'+esc(String(r.phone).replace(/[^0-9+]/g,""))+'">'+esc(r.phone)+'</a>':'')+' · nothing paid, no place held</span></span>'+
+    (can?'<span class="aoc-row" style="gap:6px;flex-wrap:wrap"><input class="aoc-f" data-aoc-reqwhy="'+esc(r.ref)+'" placeholder="Reason, if you decline (optional)" style="width:200px"><button class="aoc-btn g sm" data-aoc-act="reqDecline" data-ref="'+esc(r.ref)+'">Decline</button><button class="aoc-btn p sm" data-aoc-act="reqConfirm" data-ref="'+esc(r.ref)+'">Confirm</button></span>':'<span class="aoc-tiny">The owner or a manager replies.</span>')+'</div>').join("")+
+    '<p class="aoc-tiny" style="margin-top:8px">The customer was told it is a request. Confirm holds the places and any kit and sends the confirmation; Decline tells them.</p></div>')+'<div style="height:14px"></div>';
+}
+function liveMsg(inst){return !!(inst.opts.store&&(inst.opts.store.acts||[]).indexOf("msgGroup")>=0);}
+function groupCompose(g){
+  const ST={sent:["Sent","go"],logged:["Kept, not sent","warn"],failed:["Failed","stop"]};
+  return '<div data-aoc="grCompose" style="margin-top:12px;border-top:1px solid var(--aoc-line);padding-top:10px"><p class="aoc-lbl" style="margin-bottom:6px">Message '+esc(g.organiser)+'</p>'+
+    '<div class="aoc-row" style="gap:8px;flex-wrap:wrap"><select class="aoc-f" data-aoc="grCh" aria-label="How" style="width:auto">'+opt([["email","Email"],["sms","Text"]])+'</select><input class="aoc-f" data-aoc="grSubj" placeholder="Subject (an email)" style="flex:1;min-width:150px"></div>'+
+    '<textarea class="aoc-f" data-aoc="grBody" rows="3" aria-label="The message" placeholder="What do you want to tell them?" style="margin-top:8px;width:100%"></textarea>'+
+    '<button class="aoc-btn p sm" data-aoc-act="msgGroup" style="margin-top:8px">Send to '+esc(g.organiser)+'</button>'+
+    (g.messages&&g.messages.length?'<div data-aoc="grMsgs" style="margin-top:10px">'+g.messages.map(m=>'<div class="aoc-kv" style="align-items:flex-start"><span><b>'+(m.channel==="sms"?"Text":"Email")+'</b> to '+esc(m.to||"")+(m.subject?': '+esc(m.subject):'')+'<br><span class="aoc-tiny" style="white-space:pre-wrap">'+esc(String(m.body).slice(0,280))+'</span></span><span class="aoc-tiny" style="text-align:right">'+esc(new Date(m.at).toLocaleString(undefined,{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}))+'<br>'+chip((ST[m.status]||[m.status,""])[0],(ST[m.status]||["",""])[1])+'</span></div>').join("")+'</div>':'')+
+  '</div>';
+}
 function buildGroups(d,slots){
   const out=[],gs=slots.filter(s=>s.group);
   if(d.slots&&Array.isArray(d.slots.list)){slots.forEach(slot=>{(slot.real||[]).forEach(([ref,org,n,total,paid,status,notes,signed])=>{
       const x=slot.realMeta&&slot.realMeta[ref]||{};
-      const g={ref,organiser:org,occasion:x.occasion||"",session:slot.session,slot,n:+n,total:+total||0,deposit:x.deposit!=null?x.deposit:Math.round((+total||0)*(d.model.depositPct||0.25)),depositPct:x.depositPct,paid:+paid||0,status,notes:notes||"",signed:Math.min(+n,+signed||0),arrived:+x.arrived||0,kitOut:!!x.kitOut};
+      const g={ref,organiser:org,occasion:x.occasion||"",session:slot.session,slot,n:+n,total:+total||0,deposit:x.deposit!=null?x.deposit:Math.round((+total||0)*(d.model.depositPct||0.25)),depositPct:x.depositPct,paid:+paid||0,status,notes:notes||"",signed:Math.min(+n,+signed||0),arrived:+x.arrived||0,kitOut:!!x.kitOut,messages:x.messages||[]};
       slot.groups.push(g);out.push(g);});});
     return out;}
   (d.groups||[]).forEach((row,i)=>{const [org,occ,sesKey,dayOff,n,status,notes]=row;const ses=d.sessions.find(s=>s.key===sesKey);if(!ses)return;
@@ -1740,26 +1854,45 @@ function kitFor(d,sport){return (d.kit&&d.kit[sport])||["Kit"];}
 function drawTodayArena(inst){
   const d=inst.data,m=inst.m;
   body(inst,"today").innerHTML=head(dayTitle(inst),fmtLong(m.day)+" · "+plural(m.todaySlots.length,"session")+((d.slots&&d.slots.timesSample)?" (sample times)":""),(inst.opts.store?'<button class="aoc-btn g" data-aoc-act="addBookingDay">Add a booking</button>':'')+'<button class="aoc-btn g" data-aoc-go="daysheet">Print day sheet</button><button class="aoc-btn p" data-aoc-go="reception">Open reception</button>')+
+    requestsCard(inst,m.day?isoOf(new Date(m.day)):null)+
     '<div class="aoc-tiles" data-aoc="todayTiles"></div>'+
-    '<div class="aoc-grid two" style="margin-bottom:14px">'+card('<h3>The day, slot by slot</h3><span class="aoc-sp"></span>'+chip("Fixed slots, booked ahead","info"),'<div data-aoc="timeline"></div>')+card('<h3>Needs attention</h3><span class="aoc-sp"></span>'+chip("0","stop"),'<div class="aoc-bd" data-aoc="attn"></div>')+'</div>'+
+    '<div class="aoc-grid two" data-aoc="dayWork" style="margin-bottom:14px">'+card('<h3>The day, slot by slot</h3><span class="aoc-sp"></span>'+chip("Fixed slots, booked ahead","info"),'<div data-aoc="timeline"></div>')+card('<h3>Needs attention</h3><span class="aoc-sp"></span>'+chip("0","stop"),'<div class="aoc-bd" data-aoc="attn"></div>')+'</div>'+
     '<div class="aoc-grid two">'+card('<h3>Before the doors open</h3><span class="aoc-sp"></span>'+chip("Counted last night, not at the desk","info"),'<div class="aoc-bd" data-aoc="before"></div>')+card('<h3>Activity</h3>','<div class="aoc-bd"><div class="aoc-feed" data-aoc="feed"></div></div>')+'</div>';
   if(inst.opts.store&&m.todaySlots.length)body(inst,"today").insertAdjacentHTML("beforeend",'<div style="height:14px"></div>'+card('<h3>Places this day</h3><span class="aoc-sp"></span>'+chip("For this date only","info"),'<div class="aoc-bd">'+
     tbl(["Slot","num:Booked","num:Places"],m.todaySlots.map(s=>'<tr><td>'+esc(s.time)+' '+esc(s.session.label)+'</td><td class="num">'+s.sold+'</td><td class="num"><input class="aoc-f aoc-mono" type="number" min="1" data-day-cap="'+esc(s.dbId)+'" value="'+(s.cap||"")+'" style="width:90px"></td></tr>').join(""))+
     '<div class="aoc-row" style="margin-top:10px"><button class="aoc-btn g" data-aoc-act="setDayCap">Save places for this day</button><span class="aoc-small aoc-muted">A special event can hold more or fewer than usual. The weekly pattern leaves a day you set here alone.</span></div></div>'));
+  /* close or reopen the day (booking-platform CONTRACT.md §3e, milestone 13b item 9): the diary's block, a reason always */
+  if(inst.opts.store&&m.todaySlots.length&&(inst.opts.store.acts||[]).indexOf("dayClose")>=0){
+    const shut=m.todaySlots.every(x=>x.closed),iso=isoOf(new Date(m.day)),why=(m.todaySlots.find(x=>x.why)||{}).why||"";
+    body(inst,"today").insertAdjacentHTML("beforeend",'<div style="height:14px"></div>'+card('<h3>'+(shut?'This day is closed':'Close this day')+'</h3>',shut
+      ?'<div class="aoc-bd" data-aoc="dayShut"><p class="aoc-small">Closed'+(why?': '+esc(why):'')+'. The site does not sell it.</p><button class="aoc-btn g" data-aoc-act="dayOpen" data-date="'+iso+'">Reopen the day</button></div>'
+      :'<div class="aoc-bd" data-aoc="dayClose"><div class="aoc-row" style="gap:8px;flex-wrap:wrap"><input class="aoc-f" data-aoc="dcWhy" placeholder="Why, as the site will say it" style="flex:1 1 200px;min-width:0"><label class="aoc-small" style="display:flex;gap:6px;align-items:center;min-height:44px"><input type="checkbox" data-aoc="dcSure"> close it anyway</label><button class="aoc-btn g" data-aoc-act="dayClose" data-date="'+iso+'">Close the day</button></div><p class="aoc-tiny" style="margin-top:6px">The site stops selling it. Anyone booked stays booked and is not told: message them first.</p></div>'));
+  }
   paintTodayArena(inst);
 }
 function paintTodayArena(inst){
   const d=inst.data,m=inst.m,S=m.todaySlots,G=S.flatMap(s=>s.groups);
-  const players=S.reduce((a,s)=>a+s.sold,0),unsigned=G.reduce((a,g)=>a+(g.n-g.signed),0)+S.filter(s=>!s.group).reduce((a,s)=>a+(+s.unsigned||0),0),kitN=S.reduce((a,s)=>a+kitFor(d,s.sport).length*s.sold,0),taken=G.reduce((a,g)=>a+g.paid,0)+S.filter(s=>!s.group).reduce((a,s)=>a+(s.taken!=null?s.taken:s.sold*s.session.price),0),inn=G.reduce((a,g)=>a+g.arrived,0);
+  /* the walk-ons counted from the same people reception shows (13b item 15), so the tiles and the rows agree */
+  const PP=inst.opts.store&&m.day?((d.dayPeople||{})[isoOf(new Date(m.day))]||null):null;
+  const walk=s=>PP?PP.filter(p=>p.slot===s.dbId):null;
+  const wUnsigned=s=>{const w=walk(s);return w?w.filter(p=>!p.waiver).length:(+s.unsigned||0);},wIn=s=>{const w=walk(s);return w?w.filter(p=>p.in).length:0;};
+  const players=S.reduce((a,s)=>a+s.sold,0),unsigned=G.reduce((a,g)=>a+(g.n-g.signed),0)+S.filter(s=>!s.group).reduce((a,s)=>a+wUnsigned(s),0),kitN=S.reduce((a,s)=>a+kitFor(d,s.sport).length*s.sold,0),taken=G.reduce((a,g)=>a+g.paid,0)+S.filter(s=>!s.group).reduce((a,s)=>a+(s.taken!=null?s.taken:s.sold*s.session.price),0),inn=G.reduce((a,g)=>a+g.arrived,0)+S.filter(s=>!s.group).reduce((a,s)=>a+wIn(s),0);
   const ev=q('[data-aoc="evName"]',inst.el);if(ev)ev.textContent=fmtShort(m.day)+" · "+plural(S.length,"session");
   const tiles=q('[data-aoc="todayTiles"]',inst.el);if(!tiles)return;
-  tiles.innerHTML=tile(dayTitle(inst)==="Today"?"Sessions today":"Sessions",S.length,"",S.length?[...new Set(S.map(s=>s.sport))].join(", "):"nothing runs this day")+tile("Players booked",players,"",S.length?(G.length?plural(G.length,"group")+(S.some(s=>!s.group)?" and walk-ons":""):"walk-ons and hire"):"")+tile("Checked in",inn+'<div class="aoc-meter go"><i style="width:'+(players?inn/players*100:0)+'%"></i></div>',"good")+tile("Disclaimers outstanding",unsigned,unsigned?"alert":"good",unsigned?"to sign before they play":players?"everyone signed":"nobody booked")+tile("Kit to issue",kitN,"","markers, masks, vests, phasers, rifles")+tile("Taken online",gbp(taken),"key","deposits and balances, before anyone parked");
-  q('[data-aoc="timeline"]',inst.el).innerHTML=tbl(["Time","Session","Who","num:Players","Signed","Status"],S.map(s=>'<tr class="aoc-click" data-aoc-slot="'+s.id+'"><td class="aoc-mono">'+esc(s.time)+(s.time?'<br><span class="aoc-tiny">to '+slotEnd(s)+'</span>':"")+'</td><td>'+esc(s.session.label)+'<br>'+chip(s.sport)+'</td><td>'+slotWho(s)+'</td><td class="num">'+s.sold+'</td><td>'+(s.group?(s.groups.length?s.groups.reduce((a,g)=>a+g.signed,0)+" of "+s.sold:'<span class="aoc-tiny">n/a</span>'):'<span class="aoc-tiny">at the desk</span>')+'</td><td>'+slotStatus(s)+'</td></tr>').join("")||'<tr><td colspan="6" class="aoc-tiny">No sessions today.</td></tr>');
+  /* Nothing booked and nothing running: one sentence. Six tiles reading zero is not six facts. */
+  const quiet=!S.length&&!players;
+  tiles.classList.toggle("quiet",quiet);
+  /* and the two cards that can only repeat it: an empty timetable and an empty attention list */
+  {const w=q('[data-aoc="dayWork"]',inst.el);if(w)w.hidden=quiet;
+   const b=q('[data-aoc="before"]',inst.el),bc=b&&b.closest(".aoc-card");if(bc)bc.hidden=quiet;}
+  tiles.innerHTML=quiet?'<p class="aoc-nowt">Nothing runs on '+esc(fmtLong(m.day))+'. Nobody is booked, nothing to issue, nothing to sign.</p>':tile(dayTitle(inst)==="Today"?"Sessions today":"Sessions",S.length,"",S.length?[...new Set(S.map(s=>s.sport))].join(", "):"nothing runs this day")+tile("Players booked",players,"",S.length?(G.length?plural(G.length,"group")+(S.some(s=>!s.group)?" and walk-ons":""):"walk-ons and hire"):"")+tile("Checked in",inn+'<div class="aoc-meter go"><i style="width:'+(players?inn/players*100:0)+'%"></i></div>',"good")+tile("Disclaimers outstanding",unsigned,unsigned?"alert":"good",unsigned?"to sign before they play":players?"everyone signed":"nobody booked")+tile("Kit to issue",kitN,"","markers, masks, vests, phasers, rifles")+tile("Taken online",gbp(taken),"key","deposits and balances, before anyone parked");
+  q('[data-aoc="timeline"]',inst.el).innerHTML=tbl(["Time","Session","Who","num:Players","Signed","Status"],S.map(s=>'<tr class="aoc-click" data-aoc-slot="'+s.id+'"><td class="aoc-mono">'+esc(s.time)+(s.time?'<br><span class="aoc-tiny">to '+slotEnd(s)+'</span>':"")+'</td><td>'+esc(s.session.label)+'<br>'+chip(s.sport)+'</td><td>'+slotWho(s)+'</td><td class="num">'+s.sold+'</td><td>'+(s.group?(s.groups.length?s.groups.reduce((a,g)=>a+g.signed,0)+" of "+s.sold:'<span class="aoc-tiny">n/a</span>'):(walk(s)?(s.sold-wUnsigned(s))+" of "+s.sold:'<span class="aoc-tiny">at the desk</span>'))+'</td><td>'+slotStatus(s)+(walk(s)&&walk(s).some(p=>p.awaitingCard)?" "+chip("Card not paid","stop"):"")+'</td></tr>').join("")||'<tr><td colspan="6" class="aoc-tiny">No sessions today.</td></tr>');
   const attn=[];
   G.filter(g=>g.status==="deposit").forEach(g=>attn.push([g.organiser,"Balance "+gbp(g.total-g.paid)+" due today","warn"]));
   G.filter(g=>g.n-g.signed>0&&g.status!=="enquiry"&&g.status!=="quoted").forEach(g=>attn.push([g.organiser,(g.n-g.signed)+" disclaimers unsigned","stop"]));
   m.groups.filter(g=>g.status==="enquiry").forEach(g=>attn.push([g.organiser,"Enquiry, no quote sent","warn"]));
   m.groups.filter(g=>g.status==="quoted").forEach(g=>attn.push([g.organiser,"Quote out, slot not held","info"]));
+  medAttn(inst,attn,inst.sel.day||isoOf(m.day));
   const ac=q('[data-aoc="attn"]',inst.el);ac.previousElementSibling.querySelector(".aoc-chip").textContent=attn.length;
   ac.innerHTML=attn.length?attn.slice(0,8).map(a=>'<div class="aoc-kv"><span><b>'+esc(a[0])+'</b></span>'+chip(a[1],a[2])+'</div>').join(""):'<p class="aoc-go-c"><b>Nothing outstanding.</b></p>';
   q('[data-aoc="feed"]',inst.el).innerHTML=m.feed.map(f=>'<div><time>'+esc(f.t)+'</time><span>'+esc(f.msg)+'</span></div>').join("");
@@ -1807,10 +1940,11 @@ function drawGroups(inst){
     '<div class="aoc-stack">'+(inst.opts.store?card('<h3>New enquiry</h3><span class="aoc-sp"></span>'+chip("Goes on the list","info"),'<div class="aoc-bd">'+
       '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Organiser</span><input class="aoc-f" data-aoc="grOrg" placeholder="Who is booking"></div><div class="aoc-fld"><span class="aoc-lbl">Occasion</span><input class="aoc-f" data-aoc="grOcc" placeholder="birthday, stag, works do"></div></div>'+
       '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Email</span><input class="aoc-f" type="email" data-aoc="grEmail"></div><div class="aoc-fld"><span class="aoc-lbl">Phone</span><input class="aoc-f" type="tel" data-aoc="grPhone"></div></div>'+
-      '<div class="aoc-fld"><span class="aoc-lbl">Session</span><select class="aoc-f" data-aoc="grSes">'+opt(d.sessions.filter(x=>x.group&&inWorld(inst,x)).map(s=>[s.key,s.label]))+'</select></div>'+
+      '<div class="aoc-fld"><span class="aoc-lbl">Session</span><select class="aoc-f" data-aoc="grSes">'+opt(d.sessions.filter(x=>inWorld(inst,x)&&(x.group||(inst.opts.store&&x.published!==false))).sort((a,b)=>(b.group?1:0)-(a.group?1:0)).map(s=>[s.key,s.label+(s.group?"":" (as a group)")]))+'</select></div>'+
       '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Date</span><input class="aoc-f aoc-mono" type="date" data-aoc="grDate"></div><div class="aoc-fld"><span class="aoc-lbl">Players</span><input class="aoc-f aoc-mono" type="number" min="1" data-aoc="grN" value="10"></div></div>'+
       '<div class="aoc-fld"><span class="aoc-lbl">Notes</span><input class="aoc-f" data-aoc="grNotes" placeholder="Anything they asked for"></div>'+
-      '<button class="aoc-btn p" data-aoc-act="grSave" style="margin-top:6px">Save the enquiry</button><p class="aoc-small aoc-muted" style="margin-top:8px">It goes on the list as an enquiry. It does not hold the slot until the deposit is taken.</p></div>'):'')+card('<h3>How a group books</h3>','<div class="aoc-bd"><p class="aoc-quote" style="margin:0 0 12px">&ldquo;'+esc(((d.proposal||{}).wedge||{}).quoteText||"Sessions run to fixed time slots. Advance booking required.")+'&rdquo;</p>'+list(["They pick a session and a slot on the site, at 11pm if they like","A 25% deposit by card holds it, and the slot closes to everyone else","One disclaimer link goes out; every player signs on their phone","The balance is due seven days before, on one pay link","Reception has the list: names, kit, who has signed"])+'</div>')+card('<h3>What a deposit changes</h3>','<div class="aoc-bd"><p class="aoc-small aoc-muted">Today a group is a phone call and a promise. With a deposit taken on the page the slot is held, the headcount is real, the kit is counted, and a no-show still paid the deposit.</p></div>')+'</div></div>';
+      (inst.opts.store?'<label class="aoc-small" style="display:flex;gap:6px;align-items:center;min-height:44px"><input type="checkbox" data-aoc="grAgain"> a second one for the same organiser and day</label>':'')+'<button class="aoc-btn p" data-aoc-act="grSave" style="margin-top:6px">Save the enquiry</button><p class="aoc-small aoc-muted" style="margin-top:8px">It goes on the list as an enquiry. It does not hold the slot until the deposit is taken.</p></div>'):'')+card('<h3>How a group books</h3>','<div class="aoc-bd"><p class="aoc-quote" style="margin:0 0 12px">&ldquo;'+esc(((d.proposal||{}).wedge||{}).quoteText||"Sessions run to fixed time slots. Advance booking required.")+'&rdquo;</p>'+list(["They pick a session and a slot on the site, at 11pm if they like","A 25% deposit by card holds it, and the slot closes to everyone else","One disclaimer link goes out; every player signs on their phone","The balance is due seven days before, on one pay link","Reception has the list: names, kit, who has signed"])+'</div>')+(inst.opts.store?'':card('<h3>What a deposit changes</h3>','<div class="aoc-bd"><p class="aoc-small aoc-muted">Today a group is a phone call and a promise. With a deposit taken on the page the slot is held, the headcount is real, the kit is counted, and a no-show still paid the deposit.</p></div>'))+   /* prototype pitch copy, not for a live console (13b) */
+'</div></div>';
   paintGroups(inst);
 }
 function paintGroups(inst){
@@ -1825,7 +1959,7 @@ function paintGroups(inst){
 function paintGroupDetail(inst){
   const d=inst.data,m=inst.m,g=m.groups.find(x=>x.ref===inst.sel.group),el=q('[data-aoc="grDetail"]',inst.el);if(!el)return;if(!g){el.innerHTML="";return;}
   const next=g.status==="enquiry"?["sendQuote","Send the quote"]:(g.status==="quoted"||g.status==="held")?["takeDeposit","Take the deposit"]:g.status==="deposit"?["takeBalance","Take the balance"]:g.status==="paid"?["markPlayed","Mark as played"]:null;
-  el.innerHTML=card('<h3>'+esc(g.ref)+' · '+esc(g.organiser)+'</h3><span class="aoc-sp"></span>'+chip(GSTAT[g.status][1],GSTAT[g.status][0]),'<div class="aoc-bd"><div class="aoc-grid half"><div>'+kv("Occasion",esc(g.occasion))+kv("Session",'<span class="wrap">'+esc(g.session.label)+'</span>',"wrap")+kv("Slot",g.slot?slotWhen(g.slot)+" to "+slotEnd(g.slot):"to pick")+kv("Players",g.n)+kv("Disclaimers",g.signed+" of "+g.n+" signed")+(g.notes?kv("Notes",'<span class="wrap">'+esc(g.notes)+'</span>',"wrap"):"")+'</div><div><p class="aoc-lbl" style="margin-bottom:8px">The quote</p>'+kv(g.n+" × "+gbp(g.session.price),gbp(g.total))+kv("Deposit to hold the slot ("+Math.round((g.depositPct!=null?g.depositPct:0.25)*100)+"%)",gbp(g.deposit))+kv("Balance, seven days before",gbp(g.total-g.deposit))+kv("Paid so far",gbp(g.paid))+(inst.opts.store&&next&&(next[0]==="takeDeposit"||next[0]==="takeBalance")?'<div class="aoc-fld" style="margin-top:10px"><span class="aoc-lbl">How it was paid</span><select class="aoc-f" data-aoc="grHow">'+opt([["card_phone","Card over the phone"],["cash","Cash"],["bank_transfer","Bank transfer"]])+'</select></div>':"")+'<div class="aoc-row" style="margin-top:12px">'+(next?'<button class="aoc-btn p sm" data-aoc-act="'+next[0]+'">'+next[1]+'</button>':"")+'<button class="aoc-btn g sm" data-aoc-act="sendDisclaimers">Send the disclaimer link</button><button class="aoc-btn g sm" data-aoc-act="msgGroup">Message the organiser</button></div><p class="aoc-tiny" data-aoc="grMsg" style="margin-top:8px"></p></div></div></div>');
+  el.innerHTML=card('<h3>'+esc(g.ref)+' · '+esc(g.organiser)+'</h3><span class="aoc-sp"></span>'+chip(GSTAT[g.status][1],GSTAT[g.status][0]),'<div class="aoc-bd"><div class="aoc-grid half"><div>'+kv("Occasion",esc(g.occasion))+kv("Session",'<span class="wrap">'+esc(g.session.label)+'</span>',"wrap")+kv("Slot",g.slot?slotWhen(g.slot)+" to "+slotEnd(g.slot):"to pick")+kv("Players",g.n)+kv("Disclaimers",g.signed+" of "+g.n+" signed")+(g.notes?kv("Notes",'<span class="wrap">'+esc(g.notes)+'</span>',"wrap"):"")+'</div><div><p class="aoc-lbl" style="margin-bottom:8px">The quote</p>'+kv(g.n+" × "+gbp(g.session.price),gbp(g.total))+kv("Deposit to hold the slot ("+Math.round((g.depositPct!=null?g.depositPct:0.25)*100)+"%)",gbp(g.deposit))+kv("Balance, seven days before",gbp(g.total-g.deposit))+kv("Paid so far",gbp(g.paid))+(inst.opts.store&&next&&(next[0]==="takeDeposit"||next[0]==="takeBalance")?'<div class="aoc-fld" style="margin-top:10px"><span class="aoc-lbl">How it was paid</span><select class="aoc-f" data-aoc="grHow"><option value="">Say how</option>'+opt([["card_phone","Card over the phone"],["cash","Cash"],["bank_transfer","Bank transfer"]])+'</select><span class="aoc-tiny">Paid online from the quote\'s link, it is recorded by itself.</span></div>':"")+'<div class="aoc-row" style="margin-top:12px">'+(next?'<button class="aoc-btn p sm" data-aoc-act="'+next[0]+'">'+next[1]+'</button>':"")+'<button class="aoc-btn g sm" data-aoc-act="sendDisclaimers">Send the disclaimer link</button>'+(liveMsg(inst)?'':'<button class="aoc-btn g sm" data-aoc-act="msgGroup">Message the organiser</button>')+'</div><p class="aoc-tiny" data-aoc="grMsg" style="margin-top:8px"></p>'+(liveMsg(inst)?groupCompose(g):'')+'</div></div></div>');
 }
 
 /* ---------- the calendar home (production console, data.home from the booking server) ----------
@@ -1835,10 +1969,20 @@ function paintGroupDetail(inst){
 const HOME_DOW=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 const isoD=dt=>{const y=dt.getFullYear(),m=dt.getMonth()+1,d=dt.getDate();return y+"-"+(m<10?"0":"")+m+"-"+(d<10?"0":"")+d;};
 const dOf=iso=>{const x=new Date(iso+"T12:00:00");return x;};
+/* The day the console opens on. Today, when today has anything on it; otherwise the next day that does.
+   A site that runs Saturdays and Sundays is shut on the Thursday its owner signs in, and opening on a
+   day nobody booked means the first thing the console says is six different ways of saying zero. The
+   Today button still goes to today, and clicking any day still opens that one. */
+function openingDay(H){
+  const t=H&&H.today;if(!t)return t;
+  const on=iso=>{const x=H.days&&H.days[iso];return !!x&&((+x.b||0)>0||!!x.e);};
+  if(on(t))return t;
+  return Object.keys(H.days||{}).filter(iso=>iso>t&&on(iso)).sort()[0]||t;
+}
 function drawHome(inst){
   const d=inst.data,H=d.home;
   inst.sel.homeView=inst.sel.homeView||"month";
-  inst.sel.day=inst.sel.day||H.today;
+  inst.sel.day=inst.sel.day||openingDay(H);
   inst.sel.homeAnchor=inst.sel.homeAnchor||inst.sel.day;
   body(inst,"calendar").innerHTML='<div class="aoc-home"><div class="aoc-home-cal">'+
     '<div class="aoc-row aoc-home-bar"><button class="aoc-btn g sm" data-aoc-homenav="-1" aria-label="Earlier">&lsaquo;</button><h2 data-aoc="homeTitle"></h2><button class="aoc-btn g sm" data-aoc-homenav="1" aria-label="Later">&rsaquo;</button>'+
@@ -1927,14 +2071,27 @@ function paintReceptionArena(inst){
 }
 
 /* the day sheet, by slot */
+/* the day sheet's walk-ons by name, with what each still owes and the kit they take (13b item 14), where the console has
+   the day's people; a slot it has no names for keeps its one line */
+function dsPeople(inst,s,d){
+  const P=inst.opts.store&&(d.dayPeople||{})[s.iso];
+  const ppl=P?P.filter(p=>p.slot===s.dbId):null;
+  if(!s.group&&ppl&&ppl.length)return ppl.map(p=>'<tr><td>'+esc(s.time)+'</td><td>'+esc(s.session.label)+'</td><td>'+esc(p.name)+' <span class="aoc-tiny">'+esc(p.ref)+'</span></td><td>1</td><td>'+(p.waiver?"Y":"<b>N</b>")+'</td><td>'+(p.kit?esc(kitFor(d,s.sport).join(", ")):"own kit")+'</td><td>'+(p.due>0?gbp(p.due)+" due":"")+'</td><td>'+(p.age!=null&&p.age<18?"U18 ("+esc(p.age)+")":"")+(p.awaitingCard?" card not paid":"")+'</td></tr>');
+  return ['<tr><td>'+esc(s.time)+'</td><td>'+esc(s.session.label)+'</td><td>'+(s.group?"open":"walk-on")+'</td><td>'+s.sold+'</td><td>'+(s.group?"":"at the desk")+'</td><td>'+kitFor(d,s.sport).join(", ")+' × '+s.sold+'</td><td></td><td></td></tr>'];
+}
 function drawDaysheetArena(inst){
   const d=inst.data,m=inst.m;
-  body(inst,"daysheet").innerHTML=head("Day sheet","The paper failsafe: works when nothing else does",'<button class="aoc-btn p" data-aoc-act="print">Print</button>')+
+  /* any running day, not only today (13b item 14) */
+  const T=(d.home&&d.home.today)||isoOf(new Date()),cur=isoOf(new Date(m.day)),days=[...new Set((m.slots||[]).filter(x=>x.iso>=T).map(x=>x.iso))].slice(0,21);
+  if(days.indexOf(cur)<0)days.unshift(cur);
+  const pick=inst.opts.store?'<select class="aoc-f" data-aoc="dsDay" aria-label="The day" style="width:auto">'+opt(days.map(x=>[x,fmtLong(dOf(x))+(x===T?" (today)":"")]),cur)+'</select>':'';
+  body(inst,"daysheet").innerHTML=head("Day sheet","The paper failsafe: works when nothing else does",pick+'<button class="aoc-btn p" data-aoc-act="print">Print</button>')+
     banner("Why",(inst.opts.store?"Print it before the gates open and it runs":"Printed the night before, this runs")+" the whole day on its own: every slot, every group, who has signed and what kit goes out.","why")+
     '<p class="aoc-sheetnote aoc-small aoc-muted">The day sheet is an A4 page: open the console on a desktop or tablet to print it.</p>'+
     '<div class="aoc-sheet"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;gap:12px;flex-wrap:wrap"><div><div style="font-size:20px;font-weight:700;text-transform:uppercase">'+esc(inst.brand.name)+'</div><div style="font-size:13px">'+fmtLong(m.day)+' · '+plural(m.todaySlots.length,"session")+'</div></div><div style="font-size:12px;text-align:right">'+(inst.opts.store?"Printed "+nowHM():"Printed the night before, 19:40")+'</div></div>'+
-    tbl(["Time","Session","Group or walk-on","Players","Signed","Kit","Balance","Notes"],m.todaySlots.flatMap(s=>s.group&&s.groups.length?s.groups.map(g=>'<tr><td>'+esc(s.time)+'</td><td>'+esc(s.session.label)+'</td><td>'+esc(g.organiser)+', '+esc(g.occasion)+'</td><td>'+g.n+'</td><td>'+g.signed+'/'+g.n+'</td><td>'+kitFor(d,s.sport).join(", ")+' × '+g.n+'</td><td>'+(g.total-g.paid>0?gbp(g.total-g.paid)+" due":"paid")+'</td><td>'+esc(g.notes)+'</td></tr>'):['<tr><td>'+esc(s.time)+'</td><td>'+esc(s.session.label)+'</td><td>'+(s.group?"open":"walk-on")+'</td><td>'+s.sold+'</td><td>'+(s.group?"":"at the desk")+'</td><td>'+kitFor(d,s.sport).join(", ")+' × '+s.sold+'</td><td></td><td></td></tr>']).join(""))+
-    '<p style="font-size:11px;margin-top:10px">Nobody without a signed disclaimer goes on. A balance still due is taken at the desk before the brief.</p></div>';
+    tbl(["Time","Session","Group or walk-on","Players","Signed","Kit","Balance","Notes"],m.todaySlots.flatMap(s=>s.group&&s.groups.length?s.groups.map(g=>'<tr><td>'+esc(s.time)+'</td><td>'+esc(s.session.label)+'</td><td>'+esc(g.organiser)+', '+esc(g.occasion)+'</td><td>'+g.n+'</td><td>'+g.signed+'/'+g.n+'</td><td>'+kitFor(d,s.sport).join(", ")+' × '+g.n+'</td><td>'+(g.total-g.paid>0?gbp(g.total-g.paid)+" due":"paid")+'</td><td>'+esc(g.notes)+'</td></tr>'):dsPeople(inst,s,d)).join(""))+
+    medSheetSlot(inst)+'<p style="font-size:11px;margin-top:10px">Nobody without a signed disclaimer goes on. A balance still due is taken at the desk before the brief.</p></div>';
+  fillMedSheet(inst,inst.sel.day||isoOf(m.day));
 }
 
 /* Settings: the sessions and the pattern */
@@ -2243,6 +2400,24 @@ function repaint(inst){if(inst.data.kind==="organiser"){paintTodayOrg(inst);pain
 const A=(sk,ar,og)=>inst=>(inst.data.kind==="organiser"&&og?og:inst.data.kind==="arena"?ar:sk)(inst);
 const DRAW={manage:drawManage,today:A(drawToday,drawTodayArena,drawTodayOrg),bookings:drawBookings,calendar:A(drawCalendar,drawSlots,drawOps),groups:inst=>{if(inst.data.kind==="arena")drawGroups(inst);else if(inst.data.kind==="organiser")drawFactions(inst);},customers:drawCustomers,members:drawMembers,money:drawMoney,shop:drawStock,history:drawHistory,gate:drawGate,reception:A(drawReception,drawReceptionArena,drawReceptionOrg),chrono:drawChrono,gameday:drawGameday,daysheet:A(drawDaysheet,drawDaysheetArena,drawDaysheetOrg),team:drawTeam,settings:A(drawSettings,drawSettingsArena,drawSettingsOrg),dash:drawDash,marketing:drawMarketing,proposal:drawProposal};
 function paintAll(inst,only){for(const k of Object.keys(DRAW)){if(only&&!only.includes(k))continue;if(!body(inst,k))continue;if(gated(inst.data,k)){drawGated(inst,k);continue;}if(later(inst.data,k)){drawLater(inst,k);continue;}DRAW[k](inst);if(k==="settings"&&inst.opts.store)qa('[data-aoc-act="saveFares"],[data-aoc-act="resetFares"],[data-aoc-act="saveSessions"],[data-aoc-act="resetSessions"],[data-aoc-act="saveSettings"],[data-aoc-act="saveRule"]',inst.el).forEach(b=>{b.disabled=true;b.title="Not live yet";});}}
+/* The first-sign-in tour (booking-platform CONTRACT.md §3e, milestone 8): a card over the console, one step at a time,
+   each opening the screen it talks about. Finished or skipped once, it never comes back: the server records it for the
+   person's role, and this browser remembers it too. */
+function startTour(inst){const T=inst.opts.account.tour;if(!T||!T.steps||!T.steps.length)return;
+  const key="aoc-tour:"+T.role;try{if(localStorage.getItem(key))return;}catch(e){}
+  const R=ROLES[inst.role]||ROLES.owner,canSee=k=>!R.can||R.can.includes(k)||(k==="calendar"&&R.can.includes("today"));
+  let i=0;const box=document.createElement("div");box.className="aoc-tour";box.setAttribute("role","dialog");box.setAttribute("aria-label","A quick tour");box.setAttribute("aria-live","polite");
+  inst.el.appendChild(box);
+  const end=()=>{box.remove();try{localStorage.setItem(key,"1");}catch(e){}if(inst.opts.account.onTourDone)inst.opts.account.onTourDone();};
+  const draw=()=>{const st=T.steps[i],n=T.steps.length;if(st.go&&canSee(st.go)&&DRAW[st.go])go(inst,st.go);
+    box.innerHTML='<p class="aoc-tour-n">'+(i+1)+' of '+n+'</p><h3>'+esc(st.title)+'</h3><p>'+esc(st.text)+'</p><div class="aoc-row">'+
+      (i?'<button class="aoc-btn" data-tour="back">Back</button>':'')+'<button class="aoc-btn p" data-tour="next">'+(i===n-1?"Done":"Next")+'</button><span class="aoc-sp"></span>'+
+      (i===n-1?'':'<button class="aoc-btn g" data-tour="skip">Skip the tour</button>')+'</div>';
+    const nb=q('[data-tour="next"]',box);if(nb)nb.focus({preventScroll:true});};
+  box.addEventListener("click",e=>{const b=e.target.closest("[data-tour]");if(!b)return;e.stopPropagation();
+    const a=b.dataset.tour;if(a==="skip")return end();if(a==="back"){i=Math.max(0,i-1);return draw();}if(i===T.steps.length-1)return end();i++;draw();});
+  box.addEventListener("keydown",e=>{if(e.key==="Escape"){e.preventDefault();end();}});
+  draw();}
 function setRole(inst,r){
   inst.role=r;const R=ROLES[r]||ROLES.owner;
   if(!q('[data-aoc="whoName"]',inst.el)){const can=R.can&&inst.data.home?R.can.map(k=>k==="today"?"calendar":k):R.can;qa(".aoc-rail a",inst.el).forEach(a=>a.classList.toggle("locked",!!can&&!can.includes(a.dataset.aocGo)));if(can&&!can.includes(inst.screen))go(inst,can[0]);return;}
@@ -2271,18 +2446,24 @@ function wire(inst){
     const role=e.target.closest("[data-aoc-role]");if(role){setRole(inst,role.dataset.aocRole);if(inst.opts.store&&role.dataset.aocRole!=="owner")toast(inst,"Not live yet. A preview of what a "+ROLES[role.dataset.aocRole].label.toLowerCase()+" would see; real access comes from the invitation they accept.");return;}
     const th=e.target.closest("[data-aoc-theme]");if(th){inst.theme.colours=th.dataset.aocTheme;applyTheme(inst);return;}
     if(e.target.closest("[data-aoc-mode-btn]")){inst.theme.mode=inst.theme.mode==="dark"?"light":"dark";applyTheme(inst);return;}
+    const cu=e.target.closest("[data-aoc-cust]");if(cu){inst.sel.cust=inst.sel.cust===cu.dataset.aocCust?null:cu.dataset.aocCust;drawCustomersLive(inst);return;}
     const book=e.target.closest("[data-aoc-book]");if(book){inst.sel.booking=inst.sel.booking===book.dataset.aocBook?null:book.dataset.aocBook;paintBookings(inst,(q('[data-aoc="bkSearch"]',el)||{}).value);return;}
     const date=e.target.closest("[data-aoc-date]");if(date){inst.sel.date=+date.dataset.aocDate;paintCalendar(inst);return;}
     const slot=e.target.closest("[data-aoc-slot]");if(slot){inst.sel.slot=+slot.dataset.aocSlot;if(inst.screen!=="calendar")go(inst,"calendar");paintSlots(inst);return;}
     const op=e.target.closest("[data-aoc-op]");if(op){inst.sel.op=+op.dataset.aocOp;if(inst.screen!=="calendar")go(inst,"calendar");paintOps(inst);return;}
     const rin=e.target.closest("[data-aoc-recin]");if(rin){const pl=m.op&&m.op.players[+rin.dataset.aocRecin];if(pl){pl.in=!pl.in;pl.chrono=pl.in;}paintReceptionOrg(inst);paintTodayOrg(inst);return;}
     const sh=e.target.closest("[data-aoc-sheet]");if(sh){paintBkSheet(inst,sh.dataset.aocSheet);return;}
+    const md=e.target.closest("[data-aoc-med]");if(md){showMedical(inst,md.dataset.aocMed);return;}
+    if(e.target.closest("[data-aoc-medclose]")){const x=q(".aoc-medsheet",inst.el);if(x)x.remove();return;}
     const pc=e.target.closest("[data-aoc-pcheck]");if(pc&&inst.opts.store){inst.opts.store.act(inst,pc.dataset.signed==="1"?"checkIn":"signHere",{ref:pc.dataset.ref,attendee:pc.dataset.att||null});return;}
     if(e.target.closest("[data-aoc-more]")){const r=q(".aoc-rail",inst.el);if(r)r.classList.toggle("open");return;}
+    if(e.target.closest("[data-aoc-rail]")){const r=q(".aoc-rail",inst.el);if(r){const on=r.classList.toggle("mini");try{localStorage.setItem("aoc:rail",on?"mini":"wide");}catch(x){}}return;}
     const hday=e.target.closest("[data-aoc-day]");if(hday){selectDay(inst,hday.dataset.aocDay);return;}
     const hview=e.target.closest("[data-aoc-homeview]");if(hview){inst.sel.homeView=hview.dataset.aocHomeview;inst.sel.homeAnchor=inst.sel.day;paintHome(inst);return;}
     const hnav=e.target.closest("[data-aoc-homenav]");if(hnav){homeNav(inst,+hnav.dataset.aocHomenav);return;}
     if(e.target.closest("[data-aoc-hometoday]")){inst.sel.homeAnchor=inst.data.home.today;selectDay(inst,inst.data.home.today);return;}
+    const jr=e.target.closest("[data-aoc-jr]");if(jr){inst.sel.journey=inst.sel.journey===jr.dataset.aocJr?null:jr.dataset.aocJr;inst.sel.jrForm="";drawSettingsLive(inst);const c=q('[data-aoc="jrCanvas"]',inst.el);if(c&&c.scrollIntoView)c.scrollIntoView({block:"nearest"});return;}
+    const jf=e.target.closest("[data-aoc-jrform]");if(jf){inst.sel.jrForm=inst.sel.jrForm===jf.dataset.aocJrform?"":jf.dataset.aocJrform;drawSettingsLive(inst);return;}
     const grp=e.target.closest("[data-aoc-group]");if(grp){inst.sel.group=inst.sel.group===grp.dataset.aocGroup?null:grp.dataset.aocGroup;paintGroups(inst);return;}
     const hist=e.target.closest("[data-aoc-hist]");if(hist){inst.sel.hist=+hist.dataset.aocHist;qa("[data-aoc-hist]",el).forEach(r=>r.classList.toggle("on",r===hist));paintHistDetail(inst);return;}
     const chk=e.target.closest("[data-aoc-check]");if(chk&&inst.opts.store&&(inst.opts.store.acts||[]).includes("checkIn")){const pl=m.players[+chk.dataset.aocCheck];if(pl&&!pl.in)inst.opts.store.act(inst,pl.waiver?"checkIn":"signHere",{ref:pl.ref,attendee:pl.attendee});return;}
@@ -2303,10 +2484,12 @@ function wire(inst){
   el.addEventListener("input",e=>{
     const t=e.target;
     if(t.matches('[data-aoc="bkSearch"]'))paintBookings(inst,t.value);
+    else if(t.matches('[data-aoc="custSearch"]')){inst.sel.custQ=t.value;paintCustList(inst);}
     else if(t.matches('[data-aoc="recSearch"]'))paintReception(inst);
     else if(t.matches('[data-aoc="memFilter"]'))paintMembers(inst);
     else if(t.matches('[data-aoc="recFindL"]'))paintReceptionLive(inst);
     else if(t.matches('[data-aoc="recDay"]')){inst.sel.recDay=t.value;drawReceptionLive(inst);}
+    else if(t.matches('[data-aoc="dsDay"]')){selectDay(inst,t.value);drawDaysheetArena(inst);}
     else if(t.matches('[data-aoc="bdWorld"]')){const sel=q('[data-aoc="bdW"]',inst.el);if(sel)sel.innerHTML=opt(rowsForWorld(inst.data,t.value).map(x=>[x.key,x.label]));}
     else if(t.matches('[data-aoc="darkPref"]')){inst.theme.mode=t.checked?"dark":"light";applyTheme(inst);if(inst.opts.account&&typeof inst.opts.account.onDark==="function")inst.opts.account.onDark(t.checked);}
     else if(t.matches('[data-aoc="grFilter"]'))paintGroups(inst);
@@ -2333,12 +2516,14 @@ function wire(inst){
 }
 /* Milestone 2 (booking-platform CONTRACT.md §3b): a control in opts.store.acts runs on the server through
    opts.store.act(inst, name, payload) and the console redraws from the database. livePayload says what each one sends. */
-function liveAct(inst,name,btn){const S=inst.opts.store;if(!S||!S.act||!(S.acts||[]).includes(name))return false;S.act(inst,name,livePayload(inst,name,btn));return true;}
+function liveAct(inst,name,btn){const S=inst.opts.store;if(!S||!S.act||!(S.acts||[]).includes(name))return false;
+  if(name==="scanPass"){openScanner(inst);return true;}   /* the camera first; the scan itself is sent from there */
+  S.act(inst,name,livePayload(inst,name,btn));return true;}
 function livePayload(inst,name,btn){
   const m=inst.m,v=k=>{const el=q('[data-aoc="'+k+'"]',inst.el);return el?(el.type==="checkbox"?el.checked:el.value.trim()):"";};
   const g=m.groups&&m.groups.find(x=>x.ref===inst.sel.group);
   switch(name){
-    case "grSave":return {organiser:v("grOrg"),email:v("grEmail"),phone:v("grPhone"),occasion:v("grOcc"),session:v("grSes"),date:v("grDate"),players:+v("grN")||0,notes:v("grNotes")};
+    case "grSave":return {organiser:v("grOrg"),email:v("grEmail"),phone:v("grPhone"),occasion:v("grOcc"),session:v("grSes"),date:v("grDate"),players:+v("grN")||0,notes:v("grNotes"),again:v("grAgain")===true};
     case "sendQuote":case "markPlayed":case "sendDisclaimers":return {ref:g&&g.ref};
     case "takeDeposit":case "takeBalance":return {ref:g&&g.ref,how:v("grHow")};
     case "groupIn":case "groupAllIn":case "signHere":return {ref:btn&&btn.dataset.ref,all:name==="groupAllIn"};
@@ -2347,13 +2532,32 @@ function livePayload(inst,name,btn){
     case "move":return {ref:inst.sel.booking,slot:v("mvSlot")};
     case "bkAdd":return {what:v("bdN"),email:v("bdE"),iso:v("bdD"),players:+v("bdP")||1,key:v("bdW"),world:v("bdWorld"),paid:+v("bdPaid")||0,how:v("bdH"),note:v("bdNote"),at:new Date().toISOString()};
     case "invite":return {email:v("invEmail"),role:v("invRole")};
-    case "setSessions":return {rows:qa("[data-set-session]",inst.el).map(tr=>({key:tr.dataset.setSession,price:q('[data-k="price"]',tr).value,cap:q('[data-k="cap"]',tr).value}))};
-    case "setAreas":return {rows:qa("[data-set-area]",inst.el).map(tr=>({id:tr.dataset.setArea,label:tr.dataset.label,cap:q('[data-k="cap"]',tr).value}))};
+    /* only what this person changed: a field left alone never writes back a value someone else has changed since the page drew (soak, 23 Oct) */
+    case "svcBookable":return btn&&btn.dataset.event?{event:btn.dataset.event,on:btn.dataset.on!=="1"}:{key:btn&&btn.dataset.key,on:!(btn&&btn.dataset.on==="1")};
+    case "jrAdd":inst.sel.jrForm="";return {service:inst.sel.journey,kind:btn&&btn.dataset.kind,offer:v("jrOffer"),words:v("jrWords"),when:v("jrWhen"),days:v("jrDays")===""?"":+v("jrDays"),subject:v("jrSubj"),body:v("jrBody")};
+    case "jrRemove":return {id:btn&&btn.dataset.id};
+    case "setChrono":{const box=q('[data-set-chrono="'+(btn&&btn.dataset.brand)+'"]',inst.el),val=(r,k)=>(q('[data-k="'+k+'"]',r)||{}).value;return {brand:btn&&btn.dataset.brand,bb:(q('[data-k="bb"]',box)||{}).value,classes:qa("[data-chrono-row]",box).map(r=>({label:val(r,"label"),fps:val(r,"fps"),joules:val(r,"joules")}))};}
+    case "setSessions":{const ch=(tr,k)=>{const el=q('[data-k="'+k+'"]',tr);return el&&el.value!==el.dataset.was?el.value:undefined;};return {rows:qa("[data-set-session]",inst.el).map(tr=>({key:tr.dataset.setSession,price:ch(tr,"price"),cap:ch(tr,"cap"),policy:ch(tr,"policy")}))};}
+    case "setAreas":return {rows:qa("[data-set-area]",inst.el).map(tr=>{const el=q('[data-k="cap"]',tr);return {id:tr.dataset.setArea,label:tr.dataset.label,cap:el.value!==el.dataset.was?el.value:undefined};})};
     case "setTimes":return {rows:qa("[data-set-time]",inst.el).map(tr=>({id:tr.dataset.setTime,label:tr.dataset.label,arrive:q('[data-k="arrive"]',tr).value,start:q('[data-k="start"]',tr).value,end:q('[data-k="end"]',tr).value}))};
-    case "setBrand":{const box=q('[data-set-brand="'+btn.dataset.brand+'"]',inst.el),f=k=>(q('[data-k="'+k+'"]',box)||{}).value;const pod=q('[data-k="payOnDay"]',box);return {slug:btn.dataset.brand,depositPct:f("depositPct"),refundDays:f("refundDays"),payOnDay:pod?pod.checked:undefined,publicUrl:f("publicUrl"),fromName:f("fromName"),fromEmail:f("fromEmail"),replyTo:f("replyTo")};}
+    case "ownDomain":{const box=q('[data-own-domain="'+btn.dataset.brand+'"]',inst.el),f=k=>((q('[data-k="'+k+'"]',box)||{}).value||"").trim();return {slug:btn.dataset.brand,domain:f("ownDomain"),local:f("ownLocal")};}
+    case "ownDomainCheck":return {slug:btn.dataset.brand};
+    case "planChange":return {plan:btn.dataset.plan};
+    case "reqConfirm":return {ref:btn.dataset.ref};
+    case "dayClose":{const box=btn.closest("[data-aoc-closebox],[data-aoc=\"dayClose\"]")||inst.el,w=q('[data-aoc="dcWhy"]',box),k=q('[data-aoc="dcSure"]',box),dd=q('[data-aoc="dcDate"]',box);return {date:btn.dataset.date||(dd?dd.value:""),reason:w?w.value.trim():"",confirm:!!(k&&k.checked)};}
+    case "dayOpen":return {date:btn.dataset.date};
+    case "mbLink":return {what:v("mbN"),email:v("mbE"),iso:v("mbD"),players:+v("mbP")||1,key:v("mbW"),world:v("mbWorld"),note:v("mbNote"),at:new Date().toISOString()};
+    case "takeDue":{const box=btn.closest("[data-aoc-due]"),h=box&&q("[data-aoc-duehow]",box);return {ref:btn.dataset.ref,how:h?h.value:"cash"};}
+    case "reqDecline":{const row=btn.closest("[data-aoc-request]"),w=row&&q("[data-aoc-reqwhy]",row);return {ref:btn.dataset.ref,reason:w?w.value.trim():""};}
+    case "resend":return {ref:inst.sel.booking};
+    case "msgGroup":return {ref:g&&g.ref,channel:v("grCh"),subject:v("grSubj"),body:v("grBody")};
+    case "billingPortal":return {};
+    case "setBrand":{const box=q('[data-set-brand="'+btn.dataset.brand+'"]',inst.el),f=k=>(q('[data-k="'+k+'"]',box)||{}).value;const mq=q('[data-k="medicalQuestion"]',box);return {medicalQuestion:mq?mq.checked:undefined,medicalDays:f("medicalDays"),smsSender:f("smsSender"),slug:btn.dataset.brand,depositPct:f("depositPct"),refundDays:f("refundDays"),publicUrl:f("publicUrl"),fromName:f("fromName"),fromEmail:f("fromEmail"),replyTo:f("replyTo")};}
     case "addBrand":return {name:(q('[data-k="newBrand"]',inst.el)||{}).value||""};
     case "saveVenue":case "addVenue":{const box=name==="saveVenue"?q('[data-set-venue="'+btn.dataset.venue+'"]',inst.el):q("[data-set-venue-new]",inst.el),f=k=>(q('[data-k="'+k+'"]',box)||{}).value||"";
       return {id:btn.dataset.venue||null,name:f("name"),street:f("street"),town:f("town"),postcode:f("postcode")};}
+    case "custSave":{const box=q('[data-cust-box="'+btn.dataset.cust+'"]',inst.el);return {id:btn.dataset.cust,notes:(q('[data-k="notes"]',box)||{}).value||"",consentEmail:!!(q('[data-k="consentEmail"]',box)||{}).checked,consentSms:!!(q('[data-k="consentSms"]',box)||{}).checked};}
+    case "campSend":{const box=q("[data-camp]",inst.el),f=k=>(q('[data-k="'+k+'"]',box)||{}).value||"";const w=f("when");return {channel:f("ch"),segment:f("seg"),subject:f("subj"),body:f("body"),when:w?new Date(w).toISOString():null};}
     case "setDayCap":return {rows:qa("[data-day-cap]",inst.el).filter(i=>i.value!==i.defaultValue).map(i=>({slot:i.dataset.dayCap,cap:i.value}))};
     case "pSave":{const dp=draftPlan(inst),cur=m.plans.find(x=>x.id===inst.sel.plan)||{};return Object.assign(dp,{dbId:cur.dbId||null});}
     case "memAdd":return {name:v("memName"),email:v("memEmail"),plan:v("memPlan"),paid:+v("memPaid")||0,how:v("memHow")};
@@ -2375,9 +2579,11 @@ function paintBkSheet(inst,kind){
       '<button class="aoc-btn g" data-aoc-sheet="">Keep it</button></div></div>';
   }else if(kind==="move"){
     const today=(d.home&&d.home.today)||isoD(new Date());
-    const to=(m.slots||[]).filter(s=>s.session.key===M.session&&s.iso>=today&&s.dbId!==M.slot&&!s.closed);
+    /* every open day ahead of this session but its own, nothing chosen for the person (13b item 11) */
+    const own=b.date&&b.date.dt?isoOf(b.date.dt):null;
+    const to=(m.slots||[]).filter(s=>s.session&&s.session.key===M.session&&s.iso>=today&&s.dbId!==M.slot&&s.iso!==own&&!s.closed);
     el.innerHTML='<div class="aoc-sheet-box"><p class="aoc-lbl">Move '+esc(b.ref)+' to</p>'+(to.length?
-      '<select class="aoc-f" data-aoc="mvSlot">'+opt(to.map(s=>[s.dbId,fmtLong(s.dt)+" "+s.time+" · "+s.sold+(s.cap?" of "+s.cap:"")+" booked"]))+'</select>'+
+      '<select class="aoc-f" data-aoc="mvSlot"><option value="">Pick a day</option>'+to.map(s=>'<option value="'+esc(s.dbId)+'">'+esc(fmtLong(s.dt)+" "+s.time+" · "+(s.cap?Math.max(0,s.cap-s.sold)+" of "+s.cap+" places left":s.sold+" booked"))+'</option>').join("")+'</select>'+
       '<p class="aoc-small" style="margin:8px 0">The money moves with it. The same rules as the site decide whether that slot can take them.</p>'+
       '<div class="aoc-row"><button class="aoc-btn p" data-aoc-act="move">Move it</button><button class="aoc-btn g" data-aoc-sheet="">Keep it</button></div>'
       :'<p class="aoc-small">No other date runs this session.</p>')+'</div>';
@@ -2389,19 +2595,89 @@ function openBkDrawer(inst,iso){
   const WL=d.worldLabels||null,w=inst.sel.world||(WL?Object.keys(WL)[0]:"");
   /* the day: the one asked for, else the first day the first thing on the list actually runs */
   const first=(rowsForWorld(d,w)[0]||{}).key,T=(d.home&&d.home.today)||isoD(new Date());
-  const runs=(inst.m.slots||[]).find(s=>s.iso>=T&&s.session&&s.session.key===first);
-  const day=iso||(runs&&runs.iso)||(d.calendar&&d.calendar.dates&&d.calendar.dates[0]&&d.calendar.dates[0].iso)||T;
+  /* a game day is today (13b item 4): today whenever anything runs today, with what runs today chosen */
+  const todays=(inst.m.slots||[]).find(s=>s.iso===T&&s.session&&rowsForWorld(d,w).some(x=>x.key===s.session.key));
+  const runs=todays||(inst.m.slots||[]).find(s=>s.iso>=T&&s.session&&s.session.key===first);
+  const marshal=inst.opts.account&&inst.opts.account.role==="marshal";
+  const day=marshal?T:(iso||(runs&&runs.iso)||(d.calendar&&d.calendar.dates&&d.calendar.dates[0]&&d.calendar.dates[0].iso)||T);
+  const pick=todays&&todays.session?todays.session.key:null;
   box=document.createElement("div");box.className="aoc-modal aoc-bkdrawer on";box.setAttribute("aria-hidden","false");
   box.innerHTML='<div class="aoc-box" role="dialog" aria-label="Add a booking"><header><h2 style="flex:1">Add a booking</h2><button class="aoc-btn g sm" data-aoc-act="bkClose">Close</button></header><div class="aoc-bd" style="display:grid;gap:10px">'+
     '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Name</span><input class="aoc-f" data-aoc="bdN"></div><div class="aoc-fld"><span class="aoc-lbl">Email, for the confirmation</span><input class="aoc-f" type="email" data-aoc="bdE"></div></div>'+
-    '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Day</span><input class="aoc-f aoc-mono" type="date" data-aoc="bdD" value="'+esc(day)+'"></div><div class="aoc-fld"><span class="aoc-lbl">How many</span><input class="aoc-f aoc-mono" type="number" min="1" value="1" data-aoc="bdP"></div></div>'+
+    '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Day</span><input class="aoc-f aoc-mono" type="date" data-aoc="bdD" value="'+esc(day)+'"'+(marshal?' readonly title="A marshal adds walk-ups for today"':'')+'></div><div class="aoc-fld"><span class="aoc-lbl">How many</span><input class="aoc-f aoc-mono" type="number" min="1" value="1" data-aoc="bdP"></div></div>'+
     (WL?'<div class="aoc-fld"><span class="aoc-lbl">Which brand</span><select class="aoc-f" data-aoc="bdWorld">'+opt(Object.keys(WL).map(k=>[k,WL[k]]),w)+'</select></div>':'')+
-    '<div class="aoc-fld"><span class="aoc-lbl">What they are booking</span><select class="aoc-f" data-aoc="bdW">'+opt(rowsForWorld(d,w).map(x=>[x.key,x.label]))+'</select></div>'+
-    '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Taken now £</span><input class="aoc-f aoc-mono" type="number" min="0" data-aoc="bdPaid" placeholder="0 if they pay on the day"></div><div class="aoc-fld"><span class="aoc-lbl">How</span><select class="aoc-f" data-aoc="bdH"><option>Cash on the day</option><option>Card over the phone</option><option>Bank transfer</option><option>Not paid yet</option></select></div></div>'+
+    '<div class="aoc-fld"><span class="aoc-lbl">What they are booking</span><select class="aoc-f" data-aoc="bdW">'+opt(rowsForWorld(d,w).map(x=>[x.key,x.label]),pick)+'</select></div>'+
+    '<div class="aoc-grid half" style="gap:10px"><div class="aoc-fld"><span class="aoc-lbl">Taken now £</span><input class="aoc-f aoc-mono" type="number" min="0" data-aoc="bdPaid" placeholder="0 if they pay on the day"></div><div class="aoc-fld"><span class="aoc-lbl">How</span><select class="aoc-f" data-aoc="bdH">'+(marshal?'<option>Cash on the day</option><option>Not paid yet</option>':'<option>Cash on the day</option><option>Card over the phone</option><option>Bank transfer</option><option>Not paid yet</option>')+'</select></div></div>'+
     '<div class="aoc-fld"><span class="aoc-lbl">Note</span><input class="aoc-f" data-aoc="bdNote" placeholder="Anything the day sheet should say"></div>'+
     '<div class="aoc-row"><button class="aoc-btn p" data-aoc-act="bkAdd">Add the booking</button><span class="aoc-small aoc-muted">The same rules as the site; they get the confirmation.</span></div></div></div>';
   inst.el.appendChild(box);box.addEventListener("click",e=>{if(e.target===box)box.remove();});
   const f=q('[data-aoc="bdN"]',box);if(f)f.focus();
+}
+/* Medical notes (booking-platform CONTRACT.md §3e): the console holds only a marker per player (p.med) and a count per
+   day (data.medical.count), and only for the owner, managers and marshals. The words come from the server when someone
+   taps the marker or prints the day sheet, and each of those reads is recorded there. */
+function medCell(p,btn){return p.med?'<div class="aoc-pcell">'+btn+'<button class="aoc-medbtn" data-aoc-med="'+esc(p.attendee||"")+'">Medical note: tap to read</button></div>':btn;}
+function medAttn(inst,attn,iso){const n=iso&&inst.data.medical&&inst.data.medical.count[iso];if(n)attn.unshift([plural(n,"player")+(n===1?" has a":" have")+" medical note"+(n===1?"":"s"),"Read them in Reception or on the day sheet","info"]);}
+/* Scan a pass at reception (booking-platform CONTRACT.md §3e, milestone 13): the camera reads the QR on the pass,
+   the browser's own barcode reader where it has one, else jsQR from the platform; or the reference is typed. What it
+   reads goes to the server, which checks in the booking's signed players and names anyone still to sign. */
+function openScanner(inst){
+  const S=inst.opts.store;if(!S||!S.act)return;
+  const old=q(".aoc-medsheet",inst.el);if(old)old.remove();
+  const box=document.createElement("div");box.className="aoc-medsheet";box.setAttribute("role","dialog");box.setAttribute("aria-modal","true");box.setAttribute("aria-label","Scan a pass");box.setAttribute("data-aoc-scanner","");
+  box.innerHTML='<div class="aoc-medcard"><h3>Scan a pass</h3><p class="aoc-small aoc-muted" data-scan-say>Hold the QR on the pass up to the camera.</p>'+
+    '<video data-scan-video playsinline muted style="display:block;width:100%;max-height:46vh;background:#000;border-radius:8px;margin-top:8px"></video>'+
+    '<div class="aoc-row" style="margin-top:12px;gap:8px"><input class="aoc-f" data-scan-code placeholder="Or type the booking reference" autocomplete="off" style="flex:1;min-width:0"><button class="aoc-btn p" data-scan-go>Check in</button></div>'+
+    '<button class="aoc-btn" data-scan-close style="margin-top:10px">Close</button></div>';
+  inst.el.appendChild(box);
+  let stream=null,done=false,timer=null;
+  const stop=()=>{done=true;if(timer)clearTimeout(timer);if(stream)stream.getTracks().forEach(t=>t.stop());box.remove();};
+  const send=code=>{code=String(code||"").trim();if(!code)return;stop();S.act(inst,"scanPass",{code,day:inst.sel.recDay||""});};
+  const say=t=>{const e=q("[data-scan-say]",box);if(e)e.textContent=t;};
+  q("[data-scan-close]",box).addEventListener("click",stop);
+  box.addEventListener("click",e=>{if(e.target===box)stop();});
+  q("[data-scan-go]",box).addEventListener("click",()=>send(q("[data-scan-code]",box).value));
+  q("[data-scan-code]",box).addEventListener("keydown",e=>{if(e.key==="Enter")send(e.target.value);});
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){say("This device has no camera the page can use: type the booking reference.");return;}
+  const video=q("[data-scan-video]",box);
+  const jsqr=()=>window.jsQR?Promise.resolve(window.jsQR):new Promise((ok,no)=>{const sc=document.createElement("script");sc.src=S.scanLib||"/static/jsqr.js";sc.onload=()=>ok(window.jsQR);sc.onerror=no;document.head.appendChild(sc);});
+  navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"},audio:false}).then(st=>{
+    if(done){st.getTracks().forEach(t=>t.stop());return;}
+    stream=st;video.srcObject=st;return video.play();
+  }).then(async()=>{
+    if(done)return;
+    let detect=null;
+    if("BarcodeDetector" in window){try{const bd=new window.BarcodeDetector({formats:["qr_code"]});detect=async()=>{const r=await bd.detect(video);return r[0]&&r[0].rawValue;};}catch(e){detect=null;}}
+    if(!detect){const read=await jsqr();const c=document.createElement("canvas"),x=c.getContext("2d",{willReadFrequently:true});
+      detect=async()=>{const w=video.videoWidth,h=video.videoHeight;if(!w)return null;c.width=w;c.height=h;x.drawImage(video,0,0,w,h);const r=read(x.getImageData(0,0,w,h).data,w,h,{inversionAttempts:"dontInvert"});return r&&r.data;};}
+    const tick=async()=>{if(done)return;let v=null;try{v=await detect();}catch(e){v=null;}if(v){send(v);return;}timer=setTimeout(tick,180);};
+    tick();
+  }).catch(()=>say("The camera could not be opened: allow it in the browser, or type the booking reference."));
+}
+function showMedical(inst,id){
+  const S=inst.opts.store;if(!S||!S.medical||!id)return;
+  const old=q(".aoc-medsheet",inst.el);if(old)old.remove();
+  const box=document.createElement("div");box.className="aoc-medsheet";box.setAttribute("role","dialog");box.setAttribute("aria-modal","true");box.setAttribute("aria-label","Medical note");
+  box.innerHTML='<div class="aoc-medcard"><p class="aoc-small aoc-muted">Reading…</p></div>';inst.el.appendChild(box);
+  box.addEventListener("click",e=>{if(e.target===box)box.remove();});
+  const onEsc=e=>{if(e.key==="Escape"){box.remove();document.removeEventListener("keydown",onEsc);}};document.addEventListener("keydown",onEsc);   /* Escape closes it (13b) */
+  S.medical("player/"+encodeURIComponent(id)).then(r=>{
+    q(".aoc-medcard",box).innerHTML='<h3>'+esc(r.name||"Player")+(r.age?' <span class="aoc-small aoc-muted">'+esc(r.age)+'</span>':'')+'</h3><p class="aoc-tiny">Booking '+esc(r.ref)+'</p>'+
+      '<p class="aoc-lbl" style="margin-top:12px">What the marshals should know</p><p class="aoc-mednote">'+esc(r.note||"Nothing written.")+'</p>'+
+      '<p class="aoc-lbl" style="margin-top:12px">Emergency contact</p><p>'+(r.contact?'<b>'+esc(r.contact.name)+'</b> <a href="tel:'+esc(String(r.contact.phone).replace(/[^0-9+]/g,""))+'">'+esc(r.contact.phone)+'</a>':'None given')+'</p>'+
+      '<p class="aoc-tiny" style="margin-top:12px">Private: this reading is recorded. It is deleted '+esc(r.keepDays||30)+' days after the game.</p><button class="aoc-btn p" data-aoc-medclose style="margin-top:12px">Close</button>';
+    const c=q("[data-aoc-medclose]",box);if(c)c.focus();
+  }).catch(e=>{q(".aoc-medcard",box).innerHTML='<p>'+esc(e.message)+'</p><button class="aoc-btn" data-aoc-medclose style="margin-top:12px">Close</button>';});
+}
+function medSheetSlot(inst){return inst.data.medical&&inst.opts.store&&inst.opts.store.medical?'<div data-aoc="medSheet" style="margin-top:14px"></div>':'';}
+function fillMedSheet(inst,iso){
+  const el=q('[data-aoc="medSheet"]',inst.el);if(!el||!iso)return;
+  if(inst.screen!=="daysheet"){el.innerHTML='<p style="font-size:12px">Medical notes for the day are read when the day sheet is opened.</p>';return;}   /* every screen is drawn at mount: read only when someone opens it */
+  inst.opts.store.medical("day/"+iso).then(r=>{if(!el.isConnected)return;
+    el.innerHTML='<div style="font-size:13px;font-weight:700;margin:0 0 6px">Medical notes for the day: private, for the marshals</div>'+(r.notes.length
+      ?tbl(["Arrive","Name","Booking","What the marshals should know","Emergency contact"],r.notes.map(n=>'<tr><td>'+esc(n.at||"")+'</td><td>'+esc(n.name||"")+(n.age?' ('+esc(n.age)+')':'')+'</td><td>'+esc(n.ref)+'</td><td>'+esc(n.note)+'</td><td>'+(n.contact?esc(n.contact.name)+', '+esc(n.contact.phone):"none given")+'</td></tr>').join(""))
+      :'<p style="font-size:12px">No medical notes for this day.</p>');
+  }).catch(()=>{if(el.isConnected)el.innerHTML='<p style="font-size:12px">Medical notes could not be read just now: print again in a moment.</p>';});
 }
 /* reception on the live console: the day it shows, a picker for the running days, one search across the day */
 function drawReceptionLive(inst){
@@ -2410,7 +2686,7 @@ function drawReceptionLive(inst){
   const day=inst.sel.recDay;
   body(inst,"reception").innerHTML=head("Reception",day?fmtLong(dOf(day))+(day===T?" · today":""):"No running days ahead",
     (days.length>1?'<select class="aoc-f" data-aoc="recDay" aria-label="Day" style="width:auto">'+opt(days.map(x=>[x,fmtLong(dOf(x))+(x===T?" (today)":"")]),day)+'</select>':"")+
-    '<button class="aoc-btn g" disabled title="Not live yet">Scan a pass: not live yet</button>')+
+    (inst.opts.store&&(inst.opts.store.acts||[]).indexOf("scanPass")>=0?'<button class="aoc-btn p" data-aoc-act="scanPass">Scan a pass</button>':'<button class="aoc-btn g" disabled title="Not live yet">Scan a pass: not live yet</button>'))+
     '<div class="aoc-row" style="margin-bottom:12px"><input class="aoc-f" data-aoc="recFindL" placeholder="Find anyone booked this day" style="max-width:340px"><span class="aoc-sp"></span><span class="aoc-chip" data-aoc="recCount"></span></div>'+
     '<div data-aoc="recPane"></div>';
   paintReceptionLive(inst);
@@ -2424,7 +2700,9 @@ function paintReceptionLive(inst){
     if(s.group){s.groups.filter(g=>g.status!=="enquiry"&&g.status!=="quoted").forEach(g=>{total+=g.n;inn+=g.arrived;unsigned+=g.n-g.signed;if(qs&&g.organiser.toLowerCase().indexOf(qs)<0)return;
       rows+='<div class="aoc-kv"><span><b>'+esc(g.organiser)+'</b>'+(g.occasion?", "+esc(g.occasion):"")+'<br><span class="aoc-tiny">'+g.n+' players · '+g.signed+' signed · '+g.arrived+' in'+(g.total-g.paid>0?' · '+gbp(g.total-g.paid)+' still to pay':'')+'</span></span><span class="aoc-row" style="gap:6px"><button class="aoc-btn g sm" data-aoc-act="groupIn" data-ref="'+esc(g.ref)+'">+1 in</button><button class="aoc-btn p sm" data-aoc-act="groupAllIn" data-ref="'+esc(g.ref)+'">Whole group in</button>'+(g.signed<g.n?'<button class="aoc-btn g sm" data-aoc-act="signHere" data-ref="'+esc(g.ref)+'">Sign on the tablet</button>':'')+'</span></div>';});}
     else people.filter(p=>p.slot===s.dbId).forEach(p=>{total++;if(p.in)inn++;if(!p.waiver)unsigned++;if(qs&&p.name.toLowerCase().indexOf(qs)<0)return;
-      rows+='<button class="aoc-person'+(p.in?" done":"")+'" data-aoc-pcheck="1" data-ref="'+esc(p.ref)+'" data-att="'+esc(p.attendee||"")+'" data-signed="'+(p.waiver?1:0)+'"'+(p.in?" disabled":"")+'><span class="aoc-avatar" style="background:'+(p.in?"var(--aoc-go)":"var(--aoc-surface-2)")+';color:'+(p.in?"#fff":"var(--aoc-text-2)")+'">'+esc(initials(p.name))+'</span><span><span class="aoc-nm">'+esc(p.name)+'</span><span class="aoc-sub">'+esc(p.label)+(p.in?' · <b class="aoc-go-c">in</b>':p.waiver?' · tap to check in':' · <b class="aoc-stop-c">disclaimer not signed</b>: tap to sign')+'</span></span></button>';});
+      rows+=medCell(p,'<button class="aoc-person'+(p.in?" done":"")+'" data-aoc-pcheck="1" data-ref="'+esc(p.ref)+'" data-att="'+esc(p.attendee||"")+'" data-signed="'+(p.waiver?1:0)+'"'+(p.in?" disabled":"")+'><span class="aoc-avatar" style="background:'+(p.in?"var(--aoc-go)":"var(--aoc-surface-2)")+';color:'+(p.in?"#fff":"var(--aoc-text-2)")+'">'+esc(initials(p.name))+'</span><span><span class="aoc-nm">'+esc(p.name)+'</span><span class="aoc-sub">'+esc(p.label)+(p.kit?' · <b>kit hire</b>':'')+(p.age!=null&&p.age<18?' · '+esc(p.age)+', under 18':'')+(p.awaitingCard?' · <b class="aoc-stop-c">card payment not finished</b>':'')+(p.in?' · <b class="aoc-go-c">in</b>':p.waiver?' · tap to check in':' · <b class="aoc-stop-c">disclaimer not signed</b>: tap to sign')+'</span></span></button>')+
+        /* the money still to take, on the booking's first card, before check-in (13b item 5) */
+        (p.due>0?'<div class="aoc-row" data-aoc-due="'+esc(p.ref)+'" style="gap:6px;margin:4px 0 8px;flex-wrap:wrap">'+chip(gbp(p.due)+" to pay on "+esc(p.ref),"warn")+'<select class="aoc-f" data-aoc-duehow aria-label="How" style="width:auto"><option value="cash">Cash</option><option value="card_phone">Card</option></select><button class="aoc-btn p sm" data-aoc-act="takeDue" data-ref="'+esc(p.ref)+'">Take '+gbp(p.due)+'</button></div>':'');});
     if(!rows&&qs)return "";
     return card('<h3>'+esc(s.time)+(s.end?" to "+esc(s.end):"")+' · '+esc(s.session.label)+'</h3><span class="aoc-sp"></span>'+(s.kitOut?chip("Kit issued","go"):'<button class="aoc-btn g sm" data-aoc-act="kitSlotAll" data-slot="'+esc(s.dbId)+'">Mark kit issued</button>'),
       '<div class="aoc-bd">'+(rows?(s.group?rows:'<div class="aoc-people">'+rows+'</div>'):'<p class="aoc-small aoc-muted">Nobody booked into this slot.</p>')+'</div>');}).join("");
@@ -2433,26 +2711,153 @@ function paintReceptionLive(inst){
 }
 /* Settings on the live console (booking-platform CONTRACT.md §3d): what the site sells, when it runs, how many it
    holds and how it takes money, as the database holds it, each section saved on its own */
+/* One line icon per rail item, in the console's own idiom: 24px box, stroke, round caps. They
+   exist so the rail can narrow to a strip on a short or crowded screen without becoming initials. */
+const NAVICON={
+  calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  today:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  reception:'<path d="M4 17h16M6 17a6 6 0 0 1 12 0M12 7V5"/><circle cx="12" cy="4" r="1"/>',
+  chrono:'<circle cx="12" cy="13" r="7"/><path d="M12 13V9M9 3h6M18.5 7.5 20 6"/>',
+  gameday:'<path d="M6 21V4M6 4h11l-2 4 2 4H6"/>',
+  daysheet:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/>',
+  gate:'<path d="M3 10v8M3 12h15l3 3-3 3H3"/>',
+  bookings:'<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M15 6v12M7 10h4M7 14h4"/>',
+  groups:'<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M17 20a5 5 0 0 0-3-4.6"/><circle cx="17" cy="9" r="2.4"/>',
+  customers:'<circle cx="12" cy="8" r="3.4"/><path d="M5 20a7 7 0 0 1 14 0"/>',
+  members:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 15a3 3 0 0 1 5 0"/><circle cx="9.5" cy="10.5" r="1.8"/><path d="M15 10h3M15 13h3"/>',
+  marketing:'<path d="M4 10v4h3l7 4V6l-7 4H4Z"/><path d="M18 9a4 4 0 0 1 0 6"/>',
+  money:'<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 12h.01M18 12h.01"/>',
+  shop:'<path d="M4 8h16l-1 12H5L4 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+  history:'<path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1"/><path d="M3 4v4h4M12 8v4.5l3 1.8"/>',
+  dash:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  manage:'<path d="M3.5 12.5 11 5h8v8l-7.5 7.5a1.5 1.5 0 0 1-2.1 0L3.5 14.6a1.5 1.5 0 0 1 0-2.1Z"/><circle cx="15.5" cy="8.5" r="1.3"/>',
+  team:'<circle cx="8.5" cy="8" r="3"/><path d="M2.5 20a6 6 0 0 1 12 0"/><path d="M16 7h6M19 4v6"/>',
+  settings:'<path d="M5 7h14M5 12h14M5 17h14"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="9" cy="17" r="2"/>',
+  proposal:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h4"/>'
+};
+const navIcon=key=>'<i class="aoc-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+(NAVICON[key]||NAVICON.today)+'</svg></i>';
+/* Tabs for a screen that is a deep stack of cards. The cards are MOVED, not redrawn, so a half
+   typed price survives a switch, and the chosen tab survives a repaint. Any screen can opt in with
+   one line; a screen with fewer than two tabs' worth of cards is left alone. Greg, 22 Oct 2026:
+   Settings was six cards tall and reaching the sixth meant scrolling past five. */
+function tabify(inst,key,groups){
+  const host=body(inst,key);if(!host||q(".aoc-tabs",host))return;
+  const cards=[...host.children].filter(n=>n.classList&&n.classList.contains("aoc-card"));
+  if(cards.length<3)return;
+  const title=c=>{const h=c.querySelector("h3");return h?h.textContent.trim():"";};
+  const buckets=groups.map(g=>({label:g.label,cards:[]})),rest=[];
+  cards.forEach(c=>{const i=groups.findIndex(g=>g.match(title(c),c));(i>=0?buckets[i].cards:rest).push(c);});
+  if(rest.length)buckets.push({label:"More",cards:rest});
+  const live=buckets.filter(b=>b.cards.length);
+  if(live.length<2)return;
+  const want=inst.sel["tab:"+key];
+  const on=live.some(b=>b.label===want)?want:live[0].label;
+  inst.sel["tab:"+key]=on;
+  const bar=document.createElement("div");bar.className="aoc-tabs";bar.setAttribute("role","tablist");
+  const panels=live.map(b=>{
+    const pane=document.createElement("div");
+    pane.className="aoc-tabpanel";pane.setAttribute("role","tabpanel");pane.hidden=b.label!==on;
+    b.cards.forEach(c=>pane.appendChild(c));
+    const btn=document.createElement("button");
+    btn.type="button";btn.setAttribute("role","tab");btn.setAttribute("aria-selected",String(b.label===on));
+    btn.textContent=b.label;
+    btn.addEventListener("click",()=>{
+      inst.sel["tab:"+key]=b.label;
+      qa(".aoc-tabs button",host).forEach(x=>x.setAttribute("aria-selected",String(x===btn)));
+      qa(".aoc-tabpanel",host).forEach((x,i)=>{x.hidden=x!==pane;});
+    });
+    bar.appendChild(btn);
+    return pane;
+  });
+  host.appendChild(bar);
+  panels.forEach(x=>host.appendChild(x));
+}
+/* What customers can book, and each session's optional journey (booking platform CONTRACT.md §3e, milestone 15).
+   Every service books through the basic flow; a switch takes one off the booking page and the embed at once, and back.
+   "Advanced: offers and follow-ups" opens a session's journey: the basic flow first, then any card the owner adds. */
+function bkSwitch(on,attrs,label){return '<button type="button" class="aoc-bk'+(on?" on":"")+'" data-aoc-act="svcBookable" '+attrs+' data-on="'+(on?1:0)+'" aria-pressed="'+(on?"true":"false")+'" aria-label="'+esc(label)+': '+(on?"bookable, press to switch off":"switched off, press to make bookable")+'"><span class="aoc-sw" aria-hidden="true"></span><span>'+(on?"Bookable":"Switched off")+'</span></button>';}
+function bkWords(on,ahead){return on?"On your booking page and the embed. Switch it off and it leaves both at once"+(ahead?"; the "+ahead+" booking"+(ahead===1?"":"s")+" already made stand"+(ahead===1?"s":"")+", nobody is cancelled or told.":"."):"Not on your booking page or the embed."+(ahead?" The "+ahead+" booking"+(ahead===1?"":"s")+" already made stand"+(ahead===1?"s":"")+".":"")+" Switch it on to sell it again.";}
+function bookableCard(inst){
+  const S=inst.data.settingsLive,J=S.journeys||{},open=inst.sel.journey;
+  const rows=S.sessions.filter(r=>r.published).map(r=>{const n=(J[r.key]||[]).length;
+    return '<div class="aoc-svc'+(open===r.key?" open":"")+'" data-svc="'+esc(r.key)+'"><div class="aoc-svc-main"><b>'+esc(r.label)+'</b>'+(S.brands.length>1?' <span class="aoc-tiny">'+esc(r.brand)+'</span>':'')+'<p class="aoc-small aoc-muted">'+esc(bkWords(r.bookable!==false,r.ahead||0))+'</p></div>'+
+      '<div class="aoc-svc-side">'+bkSwitch(r.bookable!==false,'data-key="'+esc(r.key)+'"',r.label)+'<button type="button" class="aoc-btn g sm" data-aoc-jr="'+esc(r.key)+'" aria-expanded="'+(open===r.key?"true":"false")+'">'+(open===r.key?"Close advanced":"Advanced: offers and follow-ups")+(n?' '+chip(n+" card"+(n===1?"":"s"),"brand"):"")+'</button></div></div>';}).join("");
+  return card('<h3>What customers can book</h3>','<div class="aoc-bd">'+(rows||'<p class="aoc-small aoc-muted">Nothing is on sale yet.</p>')+'<p class="aoc-small aoc-muted" style="margin:10px 0 0">Every session books the basic way: day, session, players, details, disclaimer, pay, then the confirmation and the reminder the day before. Advanced is optional: offers and follow-up messages for one session, added only if you want them. Events have their own switch under Events and prices.</p></div>');
+}
+function journeyCanvas(inst){
+  const S=inst.data.settingsLive,key=inst.sel.journey,r=key&&S.sessions.find(x=>x.key===key);if(!r)return "";
+  const cards=(S.journeys||{})[key]||[],form=inst.sel.jrForm||"",offerable=(S.offerable||[]).filter(o=>o.key!==key&&(!r.brandSlug||o.brand===r.brandSlug));
+  const node=(cls,title,bodyHtml,foot)=>'<li class="aoc-jn '+cls+'"><div class="aoc-jn-card"><span class="aoc-lbl">'+title+'</span>'+bodyHtml+(foot||"")+'</div></li>';
+  const basic=node("basic","Always on","<b>The basic booking</b><p class=\"aoc-small aoc-muted\">Day, session, players, details, disclaimer, pay. The confirmation and the reminder the day before go to everyone.</p>");
+  const list=cards.map(c=>c.kind==="offer"
+    ?node("offer","Offer",'<b>When they choose '+esc(r.label)+', offer '+esc(c.offerLabel||"")+'</b><p class="aoc-small aoc-muted">'+(c.words?'"'+esc(c.words)+'" ':'')+'Shown once, on the players step, with "No thanks". Taken '+c.taken+' time'+(c.taken===1?"":"s")+'.</p>','<button type="button" class="aoc-btn g sm" data-aoc-act="jrRemove" data-id="'+esc(c.id)+'">Remove</button>')
+    :node("followup","Follow-up",'<b>'+esc(c.subject)+'</b><p class="aoc-small aoc-muted">Goes '+esc(c.whenWords)+', never between 9pm and 8am. Sent '+c.sent+' &middot; waiting '+c.waiting+'.</p>','<button type="button" class="aoc-btn g sm" data-aoc-act="jrRemove" data-id="'+esc(c.id)+'">Remove</button>')).join("");
+  const fOffer='<div class="aoc-jr-form"><p class="aoc-small">When someone chooses '+esc(r.label)+', the booking page offers this once, on the players step. They can say no; nothing else changes.</p>'+
+    '<div class="aoc-fld"><span class="aoc-lbl">Offer them</span><select class="aoc-f" data-aoc="jrOffer">'+opt([["","Pick one"]].concat(offerable.map(o=>[o.key,o.label+(o.price!=null?" (\u00a3"+o.price+")":"")])),"")+'</select></div>'+
+    '<div class="aoc-fld"><span class="aoc-lbl">In your words (optional)</span><input class="aoc-f" data-aoc="jrWords" maxlength="200" placeholder="Most players hire kit: add it?"></div>'+
+    '<button type="button" class="aoc-btn p" data-aoc-act="jrAdd" data-kind="offer">Add the offer</button></div>';
+  const fFollow='<div class="aoc-jr-form"><p class="aoc-small">An email to everyone booked on '+esc(r.label)+', at 10am on the day you pick. Bookings already made get it too while it is still ahead of them.</p>'+
+    '<div class="aoc-row" style="gap:8px;flex-wrap:wrap"><input class="aoc-f aoc-mono" type="number" min="0" max="60" value="2" data-aoc="jrDays" aria-label="How many days" style="width:90px"><select class="aoc-f" data-aoc="jrWhen" aria-label="Before or after" style="width:auto">'+opt([["before","days before the day"],["after","days after the day"]],"before")+'</select></div>'+
+    '<div class="aoc-fld"><span class="aoc-lbl">Subject</span><input class="aoc-f" data-aoc="jrSubj" maxlength="150" placeholder="What to bring on {date}"></div>'+
+    '<div class="aoc-fld"><span class="aoc-lbl">Message</span><textarea class="aoc-f" data-aoc="jrBody" rows="4" maxlength="5000" placeholder="Hello {name}, see you on {date} for {session}. Bring boots, layers and water."></textarea></div>'+
+    '<p class="aoc-tiny">{name}, {date}, {session} and {reference} are filled in for each booking.</p>'+
+    '<button type="button" class="aoc-btn p" data-aoc-act="jrAdd" data-kind="followup">Add the follow-up</button></div>';
+  return card('<h3>'+esc(r.label)+': offers and follow-ups</h3><span class="aoc-sp"></span>'+bkSwitch(r.bookable!==false,'data-key="'+esc(r.key)+'"',r.label),'<div class="aoc-bd" data-aoc="jrCanvas">'+
+    '<p class="aoc-small aoc-muted" style="margin:0 0 12px">'+(cards.length?"The basic booking, then what you added, in order.":"Only the basic booking so far. Add an offer or a follow-up if you want one; with none, "+esc(r.label)+" books exactly as it does now.")+'</p>'+
+    '<ol class="aoc-journey">'+basic+list+'</ol>'+
+    '<div class="aoc-row" style="gap:8px;flex-wrap:wrap;margin-top:14px"><button type="button" class="aoc-btn '+(form==="offer"?"p":"g")+' sm" data-aoc-jrform="offer" aria-expanded="'+(form==="offer")+'">Add an offer</button><button type="button" class="aoc-btn '+(form==="followup"?"p":"g")+' sm" data-aoc-jrform="followup" aria-expanded="'+(form==="followup")+'">Add a follow-up</button><span class="aoc-sp"></span>'+
+    (r.brandSlug?'<a class="aoc-btn g sm" href="/book/'+encodeURIComponent(r.brandSlug)+'?try=1" target="_blank" rel="noopener">Try it as a customer</a>':'')+'</div>'+
+    (form==="offer"?fOffer:form==="followup"?fFollow:"")+'</div>');
+}
+/* Field mode's chrono limits (booking platform CONTRACT.md §3e, milestone 16): per weapon class, in fps, joules or
+   both, on one BB weight. The phone or tablet at the chrono reads them from its next download. */
+function chronoCards(inst){
+  const S=inst.data.settingsLive,t=v=>esc(v==null?"":String(v));
+  return S.brands.filter(b=>b.chrono!==undefined).map(b=>{const L=b.chrono||{bb:0.2,classes:[]},rows=L.classes.concat([{}]).slice(0,8);
+    return card('<h3>Chrono limits: '+t(b.name)+'</h3>','<div class="aoc-bd" data-set-chrono="'+t(b.slug)+'"><p class="aoc-small aoc-muted" style="margin:0 0 10px">'+(L.classes.length?'The limit for each weapon class. A reading over it fails in field mode; a spot check well above a player\'s first reading is flagged.':'No limits yet. Name a class (for example All weapons, or AEG) and give its limit in fps, joules or both; field mode\'s chrono uses them.')+'</p>'+
+      tbl(["Weapon class","num:Up to fps","num:Up to joules"],rows.map((c,i)=>'<tr data-chrono-row="'+i+'"><td><input class="aoc-f" data-k="label" aria-label="Weapon class '+(i+1)+'" value="'+t(c.label)+'" placeholder="'+(i===0?"All weapons":"Another class")+'"></td><td class="num"><input class="aoc-f aoc-mono" type="number" min="50" max="800" data-k="fps" aria-label="Up to fps, class '+(i+1)+'" value="'+t(c.fps)+'" style="width:100px"></td><td class="num"><input class="aoc-f aoc-mono" type="number" step="0.01" min="0.1" max="10" data-k="joules" aria-label="Up to joules, class '+(i+1)+'" value="'+t(c.joules)+'" style="width:100px"></td></tr>').join(""))+
+      '<div class="aoc-row" style="gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center"><label class="aoc-small" style="display:flex;gap:6px;align-items:center">Measured on a <input class="aoc-f aoc-mono" type="number" step="0.01" min="0.1" max="0.6" data-k="bb" value="'+t(L.bb||0.2)+'" aria-label="BB weight in grams" style="width:90px"> g BB</label><button class="aoc-btn p" data-aoc-act="setChrono" data-brand="'+t(b.slug)+'">Save chrono limits</button></div>'+
+      '<p class="aoc-small aoc-muted" style="margin:10px 0 0">Field mode runs check-in, kit, chrono, the car park, the gate count, game control and incident notes on a phone or tablet, with or without signal: <a href="/field/'+encodeURIComponent(b.slug)+'" target="_blank" rel="noopener">open field mode for '+t(b.name)+'</a>.</p></div>');}).join("");
+}
 function drawSettingsLive(inst){
   const S=inst.data.settingsLive,t=v=>esc(v==null?"":String(v));
-  const num=(k,v,w,step)=>'<input class="aoc-f aoc-mono" type="number" min="0"'+(step?' step="'+step+'"':'')+' data-k="'+k+'" value="'+t(v)+'" style="width:'+(w||90)+'px">';
+  const num=(k,v,w,step)=>'<input class="aoc-f aoc-mono" type="number" min="0"'+(step?' step="'+step+'"':'')+' data-k="'+k+'" value="'+t(v)+'" data-was="'+t(v)+'" style="width:'+(w||90)+'px">';
   const tm=(k,v)=>'<input class="aoc-f aoc-mono" type="time" data-k="'+k+'" value="'+t(v)+'" style="width:120px">';
   const fld=(lbl,k,v,type,ph)=>'<div class="aoc-fld"><span class="aoc-lbl">'+lbl+'</span><input class="aoc-f" data-k="'+k+'" type="'+(type||"text")+'" value="'+t(v)+'" placeholder="'+t(ph||"")+'"></div>';
   body(inst,"settings").innerHTML=head("Settings","What the site sells, when it runs, how many it holds and how it takes money. Each part saves on its own.")+
-    card('<h3>Sessions: prices and places</h3>','<div class="aoc-bd">'+tbl(["Session","Brand","Area","num:Price £","num:Places"],S.sessions.map(r=>'<tr data-set-session="'+t(r.key)+'"><td><b>'+t(r.label)+'</b>'+(r.published?'':'<br><span class="aoc-tiny">not on the site</span>')+'</td><td>'+t(r.brand)+'</td><td>'+t(r.area||"none")+'</td><td class="num">'+num("price",r.price,90,"0.5")+'</td><td class="num">'+num("cap",r.cap)+'</td></tr>').join(""))+
-      '<div class="aoc-row" style="margin-top:10px"><button class="aoc-btn p" data-aoc-act="setSessions">Save sessions</button><span class="aoc-small aoc-muted">A price change is on the site and in the checkout at once. Places are how many one session holds; future slots follow, a day you changed by hand keeps its own.</span></div></div>')+
+    card('<h3>Sessions: prices and places</h3>','<div class="aoc-bd">'+tbl(["Session","Brand","Area","num:Price £","num:Places","Paid"],S.sessions.map(r=>'<tr data-set-session="'+t(r.key)+'"><td><b>'+t(r.label)+'</b>'+(r.published?'':'<br><span class="aoc-tiny">not on the site</span>')+'</td><td>'+t(r.brand)+'</td><td>'+t(r.area||"none")+'</td><td class="num">'+num("price",r.price,90,"0.5")+'</td><td class="num">'+num("cap",r.cap)+'</td><td><select class="aoc-f" data-k="policy" data-was="'+t(r.policy||"day")+'" aria-label="How '+t(r.label)+' is paid for">'+opt([["day","Online or on the day"],["advance","In advance, online"]],r.policy||"day")+'</select></td></tr>').join(""))+
+      '<p class="aoc-small aoc-muted" style="margin:8px 0 0">Paid: a walk-on can pay online or on the day (booking ahead is still advised, to be sure of a place); hire is booked and paid in advance, a deposit if you take one. Kit hire on a walk-on session is always paid in advance.</p>'+
+      '<div class="aoc-row" style="margin-top:10px"><button class="aoc-btn p" data-aoc-act="setSessions">Save sessions</button><span class="aoc-small aoc-muted">A price change is in the booking flow and the checkout at once; a page of your own shows the prices it was built with until it is rebuilt. Places are how many one session holds; future slots follow, a day you changed by hand keeps its own.</span></div></div>')+
+    bookableCard(inst)+journeyCanvas(inst)+
     (S.areas.length?card('<h3>Areas</h3>','<div class="aoc-bd">'+tbl(["Area","num:Places at once"],S.areas.map(a=>'<tr data-set-area="'+t(a.id)+'" data-label="'+t(a.label)+'"><td><b>'+t(a.label)+'</b></td><td class="num">'+num("cap",a.cap)+'</td></tr>').join(""))+
       '<div class="aoc-row" style="margin-top:10px"><button class="aoc-btn p" data-aoc-act="setAreas">Save areas</button><span class="aoc-small aoc-muted">Every session in an area shares this number at the same time of day: a walk-on and a rental on one field draw on one count.</span></div></div>'):"")+
     card('<h3>Session times</h3>','<div class="aoc-bd">'+tbl(["Session","Brand","Arrive","Start","End"],S.times.map(r=>'<tr data-set-time="'+t(r.id)+'" data-label="'+t(r.label)+'"><td><b>'+t(r.label)+'</b></td><td>'+t(r.brand)+'</td><td>'+tm("arrive",r.arrive)+'</td><td>'+tm("start",r.start)+'</td><td>'+tm("end",r.end)+'</td></tr>').join(""))+
       '<div class="aoc-row" style="margin-top:10px"><button class="aoc-btn p" data-aoc-act="setTimes">Save times</button><span class="aoc-small aoc-muted">Future slots, the day panel and the booking page all take the new times.</span></div></div>')+
+    chronoCards(inst)+
+    (S.closedDays?card('<h3>Closed days</h3>','<div class="aoc-bd" data-aoc-closebox>'+(S.closedDays.length?S.closedDays.map(x=>'<div class="aoc-kv"><span><b>'+esc(fmtLong(dOf(x.iso)))+'</b>'+(x.why?'<br><span class="aoc-tiny">'+esc(x.why)+'</span>':'')+'</span><button class="aoc-btn g sm" data-aoc-act="dayOpen" data-date="'+esc(x.iso)+'">Reopen</button></div>').join(""):'<p class="aoc-small aoc-muted">No day ahead is closed.</p>')+
+      '<div class="aoc-row" style="gap:8px;flex-wrap:wrap;margin-top:12px"><input class="aoc-f aoc-mono" type="date" data-aoc="dcDate" aria-label="The day" style="width:auto"><input class="aoc-f" data-aoc="dcWhy" placeholder="Why, as the site will say it" style="flex:1 1 200px;min-width:0"><label class="aoc-small" style="display:flex;gap:6px;align-items:center;min-height:44px"><input type="checkbox" data-aoc="dcSure"> close it anyway</label><button class="aoc-btn g" data-aoc-act="dayClose">Close the day</button></div></div>'):"")+
+    (S.stripe?card('<h3>Card payments</h3><span class="aoc-sp"></span>'+(S.stripe.connected?(S.stripe.ready===false?chip("Cannot take cards","stop"):chip("Connected","go")):chip("Not connected","stop")),
+      '<div class="aoc-bd" data-set-stripe>'+(S.stripe.connected
+        ?'<p class="aoc-small">Card payments go straight into your own Stripe account, <span class="aoc-mono">'+t(S.stripe.accountId)+'</span>. Your name on the statement, your payouts, your refunds.</p>'
+         +(S.stripe.ready===false?'<p class="aoc-small aoc-warn-c" style="margin-top:8px">Stripe has not finished checking this account, so it cannot take a card yet and the booking page will not show a card field. Finish it in your own Stripe dashboard'+((S.stripe.owes||[]).length?', which is asking for: '+t((S.stripe.owes||[]).join(", ")):'')+'. Or connect a different account below.</p>':'')
+         +(S.stripe.testMode&&(S.stripe.testLinks||[]).length?'<div data-test-links style="margin-top:12px;padding:10px 12px;border:1px dashed var(--aoc-line-strong);border-radius:6px"><p class="aoc-small" style="margin:0 0 6px"><b>Test mode.</b> Card payment is on Stripe test keys, so only a browser that has opened its brand\'s test link sees the card step (use card 4242 4242 4242 4242). Everyone else is told online card payment opens soon: a walk-on books to pay on the day, a booking with hire comes to you as a request.</p>'
+           +S.stripe.testLinks.map(l=>'<div class="aoc-small" style="margin-top:4px">'+t(l.brand)+': <span class="aoc-mono" style="user-select:all;word-break:break-all">'+t(l.url)+'</span></div>').join("")+'</div>':'')
+         +'<div class="aoc-row" style="margin-top:10px"><a class="aoc-btn g" href="'+t(S.stripe.connectUrl)+'">Connect a different account</a></div>'
+        :S.stripe.usable
+          ?'<p class="aoc-small">Nothing can be paid for by card until an account is connected. Connecting signs you in at Stripe and brings you straight back here.</p><div class="aoc-row" style="margin-top:10px"><a class="aoc-btn p" href="'+t(S.stripe.connectUrl)+'">Connect Stripe</a></div>'
+          :'<p class="aoc-small">Card payments are not switched on for this platform yet.</p>')+
+      '</div>'):"")+
+    (S.billing?billingCard(S.billing,t):"")+
     S.brands.map(b=>card('<h3>'+t(b.name)+'</h3><span class="aoc-sp"></span>'+chip("Money and email","info"),'<div class="aoc-bd" data-set-brand="'+t(b.slug)+'">'+
       '<div class="aoc-grid half" style="gap:10px">'+fld("Deposit %, blank to take it all when booked","depositPct",b.depositPct,"number")+fld("Refundable until how many days before","refundDays",b.refundDays,"number","no cut-off")+'</div>'+
-      '<label class="aoc-row" style="gap:10px;margin:4px 0 10px;min-height:44px;cursor:pointer"><input type="checkbox" data-k="payOnDay"'+(b.payOnDay?" checked":"")+' style="width:22px;height:22px"><span>Allow pay on the day <span class="aoc-small aoc-muted">(customers may book with nothing paid, and pay at the gate)</span></span></label>'+
       fld("The brand's own site","publicUrl",b.publicUrl,"url","https://")+
       '<div class="aoc-grid half" style="gap:10px">'+fld("Email from (name)","fromName",b.fromName,"text",b.name)+fld("Email from (address)","fromEmail",b.fromEmail,"email","bookings@yoursite.com")+'</div>'+
       fld("Replies go to","replyTo",b.replyTo,"email")+
+      fld("Texts come from (up to 11 letters or digits)","smsSender",b.smsSender,"text",String(b.name||"").replace(/[^A-Za-z0-9 ]/g,"").slice(0,11))+
       '<p class="aoc-small aoc-muted" style="margin:6px 0 10px">Customer email goes out as <b>'+t(b.fromLine||"the platform address")+'</b>.</p>'+
-      '<button class="aoc-btn p" data-aoc-act="setBrand" data-brand="'+t(b.slug)+'">Save '+t(b.name)+'</button></div>')).join("")+
+      (b.medicalDays!=null?'<label class="aoc-row" style="gap:10px;margin:4px 0 6px;min-height:44px;cursor:pointer"><input type="checkbox" data-k="medicalQuestion"'+(b.medicalQuestion?" checked":"")+' style="width:22px;height:22px"><span>Ask each player about medical conditions <span class="aoc-small aoc-muted">(on the disclaimer: anything the marshals should know on the day. The emergency contact is always asked.)</span></span></label>'+
+        fld("Keep medical notes and emergency contacts for how many days after the game","medicalDays",b.medicalDays,"number","30"):'')+
+      '<button class="aoc-btn p" data-aoc-act="setBrand" data-brand="'+t(b.slug)+'">Save '+t(b.name)+'</button>'+ownDomainBlock(S,b,t,fld)+'</div>')).join("")+
     (S.venues?card('<h3>Brands and venues</h3>','<div class="aoc-bd">'+
       '<p class="aoc-small aoc-muted" style="margin:0 0 10px">Every brand has its own booking page; every venue its own address.</p>'+
       tbl(["Brand","Booking page"],S.brands.map(b=>'<tr><td><b>'+t(b.name)+'</b></td><td class="aoc-mono">/book/'+t(b.slug)+'</td></tr>').join(""))+
@@ -2465,12 +2870,66 @@ function drawSettingsLive(inst){
         '<button class="aoc-btn" data-aoc-act="addVenue">Add venue</button></div>'
         :'<p class="aoc-small aoc-muted" style="margin:10px 0 0">'+t(S.can&&S.can.venueNote)+'</p>')+
       '</div>'):"");
+  tabify(inst,"settings",[
+    {label:"Sessions and places",match:(t)=>/^(Sessions:|Areas$|What customers can book$)|: offers and follow-ups$/i.test(t)},
+    {label:"Times",match:(t)=>/^Session times$/i.test(t)},
+    {label:"Money and email",match:(t,c)=>!!c.querySelector("[data-set-brand],[data-set-stripe]")},
+    {label:"Brands and venues",match:(t)=>/^Brands and venues$/i.test(t)},
+    {label:"Closed days",match:(t)=>/^Closed days$/i.test(t)},
+    {label:"Plan and billing",match:(t,c)=>!!c.querySelector("[data-set-billing]")},
+    {label:"Field mode",match:(t)=>/^Chrono limits/i.test(t)},
+  ]);
+}
+/* Send from your own domain (Expert plan; booking-platform src/email-settings.mjs): the domain goes to the platform's
+   email provider, the records it asks for are listed in plain words, and email moves to the brand's own address only
+   once the provider says they check out. Until then the line above still names the platform address. */
+function ownDomainBlock(S,b,t,fld){
+  const od=b.ownDomain||{},top='<div data-own-domain="'+t(b.slug)+'" style="border-top:1px solid var(--aoc-line);margin-top:16px;padding-top:12px"><h4 style="margin:0 0 6px">Send from your own domain</h4>';
+  if(!(S.can&&S.can.ownDomain))return top+'<p class="aoc-small aoc-muted" style="margin:0">'+t(S.can&&S.can.ownDomainNote)+'</p></div>';
+  const tone=od.live?"ok":od.status==="failed"||od.status==="temporary_failure"?"warn":"info";
+  const recs=(od.records||[]).map(r=>'<div class="aoc-dnsrec" style="border:1px solid var(--aoc-line);border-radius:8px;padding:10px;margin:8px 0">'+
+    '<div class="aoc-small" style="margin-bottom:6px">'+t(r.purpose)+(r.status?' '+chip(r.status==="verified"?"found":r.status.replace(/_/g," "),r.status==="verified"?"ok":r.status==="failed"?"warn":"info"):"")+'</div>'+
+    '<div class="aoc-small aoc-muted">Type <b class="aoc-mono">'+t(r.type)+'</b> · Name <b class="aoc-mono" style="user-select:all">'+t(r.name)+'</b>'+(r.priority!=null?' · Priority <b class="aoc-mono">'+t(r.priority)+'</b>':'')+'</div>'+
+    '<div class="aoc-mono aoc-small" style="user-select:all;word-break:break-all;background:var(--aoc-soft,rgba(127,127,127,.08));padding:6px 8px;border-radius:6px;margin-top:6px">'+t(r.value)+'</div></div>').join("");
+  return top+(od.domain
+    ?'<p class="aoc-small" style="margin:0 0 8px">'+chip(od.live?"in use":t(String(od.status||"").replace(/_/g," ")||"waiting"),tone)+' <b>'+t(od.domain)+'</b>: '+t(od.words)+'</p>'+
+      (od.live?'':'<p class="aoc-small aoc-muted" style="margin:0 0 4px">Add these at whoever looks after your domain (where you bought it, or your web host), each exactly as shown: the name, the type, and the value. Your email keeps going from the platform address until they check out, so nothing breaks while you do it.</p>')+recs+
+      '<div class="aoc-row" style="gap:10px;margin-top:8px"><button class="aoc-btn" data-aoc-act="ownDomainCheck" data-brand="'+t(b.slug)+'">Check now</button><span class="aoc-small aoc-muted">We also check by ourselves every quarter of an hour. To use another address on '+t(od.domain)+', change "Email from (address)" above.</span></div>'
+    :'<p class="aoc-small aoc-muted" style="margin:0 0 8px">Your customers get email from an address on your own domain, like bookings@yoursite.co.uk, instead of the platform\'s. You add a few records to your domain once; until they check out, nothing changes.</p>'+
+      '<div class="aoc-grid half" style="gap:10px">'+fld("Your domain","ownDomain","","text","yoursite.co.uk")+fld("The address before the @","ownLocal","bookings","text","bookings")+'</div>'+
+      '<button class="aoc-btn p" data-aoc-act="ownDomain" data-brand="'+t(b.slug)+'">Send from my domain</button>')+'</div>';
 }
 /* a control that is not live names itself and says it did nothing; never what it would have done */
 let NL_LABEL="";
 /* the controls the live console has wired to the server; AOC-CONTROLS.md in the booking platform is the ledger */
 const LIVE_ACTS=["evPub","prSave","prReset","mbAdd","demoClear","addBooking","focusAdd","focusSlot","focusOp","editPlans","closePlans","okNext","print","printPick","bigOpen","bigClose","spin"];
 const notLive=t=>"Not live yet: "+(NL_LABEL?"“"+NL_LABEL+"” ":"this control ")+"does nothing on this console yet.";
+/* the tenant's own plan and bill (booking-platform CONTRACT.md §3e, milestone 12): what it is on, what Stripe says, and
+   for the owner the plans to move to and Stripe's own page for the card and invoices */
+function billingCard(B,t){
+  const gbpM=p=>p==null?"no price":p?"£"+(p/100).toFixed(p%100?2:0)+" a month":"Free";
+  const good=B.status==="active"||B.status==="trialing",bad=["past_due","unpaid","incomplete","incomplete_expired","canceled","paused"].indexOf(B.status)>=0;
+  const head='<h3>Your plan</h3><span class="aoc-sp"></span>'+chip(t(B.planName),"info")+(B.subscribed||B.status!=="none"?" "+chip(t(B.statusWords),good?"go":bad?"stop":"info"):"");
+  let h='<div class="aoc-bd" data-set-billing>';
+  if(!B.subscribed)h+='<p class="aoc-small">You are on <b>'+t(B.planName)+'</b>. Billing has not started for your account yet: ThinkWork sets it up with you.</p>';
+  else{
+    h+='<p class="aoc-small">You pay for <b>'+t(B.subscribedPlanName)+'</b>'+(B.periodEnd?', next bill '+t(new Date(B.periodEnd).toLocaleDateString(undefined,{day:"numeric",month:"long"})):"")+'.'+(B.subscribedPlan!==B.plan?' Until it is paid you have '+t(B.planName)+'\'s features.':'')+'</p>';
+    if(B.pendingPlanName)h+='<p class="aoc-small aoc-warn-c" data-billing-pending>'+t(B.pendingPlanName)+' starts when its invoice is paid: the card was not charged.'+(B.payUrl?' <a href="'+t(B.payUrl)+'" target="_blank" rel="noopener">Pay the invoice</a>':'')+'</p>';
+    else if(B.payUrl)h+='<p class="aoc-small aoc-warn-c" data-billing-pay>An invoice is waiting. <a href="'+t(B.payUrl)+'" target="_blank" rel="noopener">Pay the invoice</a></p>';
+    if(B.status==="unpaid")h+='<p class="aoc-small aoc-warn-c" data-billing-unpaid>The last invoice is unpaid and Stripe has stopped trying the card.'+(B.payUrl?' <a href="'+t(B.payUrl)+'" target="_blank" rel="noopener">Pay the invoice</a>':' Update the card under Card and invoices.')+'</p>';
+    if(B.status==="past_due")h+='<p class="aoc-small aoc-warn-c">A payment failed. Stripe tries the card again over the next few days; update it under Card and invoices.</p>';
+  }
+  h+='<div class="aoc-grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:10px">'+B.plans.map(p=>{
+    const on=p.key===(B.pendingPlan||B.subscribedPlan||B.plan);
+    return '<div data-billing-plan="'+t(p.key)+'" style="border:1px solid '+(on?'var(--aoc-accent,#8a1c1c)':'var(--aoc-line)')+';border-radius:8px;padding:12px">'+
+      '<b>'+t(p.name)+'</b><div class="aoc-mono" style="margin:2px 0 6px">'+t(gbpM(p.pricePence))+(p.placeholder&&B.testMode?' <span class="aoc-tiny">(test price)</span>':'')+'</div>'+
+      '<div class="aoc-tiny aoc-muted" style="margin-bottom:8px">'+t(p.features.join(", "))+'</div>'+
+      (on?chip(B.pendingPlan===p.key?"Waiting on payment":"Your plan","go"):B.owner&&B.subscribed&&p.priced?'<button class="aoc-btn'+((p.pricePence||0)>((B.plans.find(x=>x.key===B.subscribedPlan)||{}).pricePence||0)?' p':'')+'" data-aoc-act="planChange" data-plan="'+t(p.key)+'">Move to '+t(p.name)+'</button>':'')+
+    '</div>';}).join("")+'</div>';
+  if(B.owner&&B.subscribed)h+='<div class="aoc-row" style="margin-top:10px"><button class="aoc-btn" data-aoc-act="billingPortal">Card and invoices</button><span class="aoc-small aoc-muted">Moving up is charged now for the rest of the month; moving down is at once, and the unused time comes off your next bill.'+(B.testMode?' Test mode: card 4242 4242 4242 4242.':'')+'</span></div>';
+  else if(B.subscribed&&!B.owner)h+='<p class="aoc-small aoc-muted" style="margin-top:8px">The owner changes the plan.</p>';
+  return card(head,h+'</div>');
+}
 function act(inst,name,btn){
   NL_LABEL=((btn&&btn.textContent)||"").replace(/\s+/g," ").trim();
   if(inst.opts.store&&(name==="addBooking"||name==="addBookingDay")){openBkDrawer(inst,name==="addBookingDay"?inst.sel.day:null);return true;}
@@ -2503,7 +2962,7 @@ function act(inst,name,btn){
       const phv=g("evPH")===""?0:(+g("evPH")||0);   /* blank means the usual ladder applies, never a copy of the walk-on price */
       /* only what the owner actually set: a key the form did not fill is absent, never a zero price or a false that
          quietly refuses groups on every event. Groups are open unless the owner says this day is not suitable. */
-      const rec={n,d:d8,t:g("evT")||"09:00",x:g("evX"),p:pp,s:g("evS")||"",i:g("evI"),w:g("evW")||"",at:new Date().toISOString()};
+      const rec={n,d:d8,t:g("evT")||"",x:g("evX"),p:pp,s:g("evS")||"",i:g("evI"),w:g("evW")||"",at:new Date().toISOString()};
       if(phv>0)rec.ph=phv;
       if(!gc("evG"))rec.groups=false;
       const mn=+g("evMin")||0;if(mn>0)rec.minPlayers=mn;
@@ -2522,7 +2981,7 @@ function act(inst,name,btn){
         const s=list.find(x=>String(x.key)===String(k));if(s){s.price=+el.value||0;S.prices[s.key]=s.price;}});
       /* the rental kit an owner owns is saved with the prices, because it is the other number that decides what can be sold */
       const kEl=q('[data-aoc="kitSets"]',inst.el);if(kEl){const n=Math.max(0,+kEl.value||0);if(n)S.kit={sets:n};else delete S.kit;}
-      stWrite(inst,S);say(inst.data.liveDemo?"Saved. The site's fare board, the hero prices, the session picker and the checkout now charge this.":"Saved. On your build this is what the site, the picker and the checkout charge from now on.");return true;}
+      stWrite(inst,S);say(inst.data.liveDemo?"Saved. The booking flow and the checkout charge this now; a page of your own shows its old prices until it is rebuilt.":"Saved. On your build this is what the site, the picker and the checkout charge from now on.");return true;}
     case "prReset":{const S=stRead(inst);S.prices={};stWrite(inst,S);drawManage(inst);say("Back to what your site publishes.");return true;}
     case "mbAdd":{const g=k=>{const el=q('[data-aoc="'+k+'"]',inst.el);return el?el.value.trim():"";};
       const nm=g("mbN");if(!nm){msg("mbMsg","Put a name on it first.");return true;}
@@ -2563,7 +3022,9 @@ function act(inst,name,btn){
     case "addProduct":say("On the live system: name, price, member price, reorder level, and whether it sells online, on the day, or both.");break;
     case "printPick":case "print":if(typeof window.print==="function")window.print();break;
     case "bag":{const row=btn.closest("[data-aoc-pre]");if(row){row.style.opacity=".55";btn.textContent="Bagged";btn.disabled=true;say("Bagged and named. The player collects at the safe zone.");}break;}
-    case "regGo":{const sel=q('[data-aoc="regWho"]',el);if(!sel.value)return;const p=m.players[+sel.value],reg=(q('[data-aoc="regIn"]',el).value||"").toUpperCase().trim();p.arrived=true;p.reg=reg||REGS[p.id%REGS.length];q('[data-aoc="regIn"]',el).value="";msg("regMsg",p.name+" marked arrived");log(inst,nowHM(),"Arrived: "+p.name+", "+p.reg);repaint(inst);break;}
+    /* a live console sends this through liveAct (the camera, then the scan); anywhere else it says what it is for */
+    case "scanPass":say("Scan a pass works on a live console: the camera reads the pass on the booking's email and checks its signed players in.");break;
+    case "regGo":{const sel=q('[data-aoc="regWho"]',el);if(!sel.value){msg("regMsg","Pick who it is first: everyone on the list has arrived, or nobody is booked yet.");return;}const p=m.players[+sel.value],reg=(q('[data-aoc="regIn"]',el).value||"").toUpperCase().trim();p.arrived=true;p.reg=reg||REGS[p.id%REGS.length];q('[data-aoc="regIn"]',el).value="";msg("regMsg",p.name+" marked arrived");log(inst,nowHM(),"Arrived: "+p.name+", "+p.reg);repaint(inst);break;}
     case "scan":{const p=m.players.find(x=>!x.in);if(!p){q('[data-aoc="recCount"]',el).textContent="Everyone is in";return;}checkIn(inst,p);break;}
     case "okNext":q('[data-aoc="okPane"]',el).hidden=true;q('[data-aoc="scanPane"]',el).hidden=false;break;
     case "kitAll":m.players.filter(p=>p.kit).forEach(p=>p.kitOut=true);log(inst,nowHM(),"Every "+d.labels.hire.toLowerCase()+" kit issued");repaint(inst);break;
@@ -2594,7 +3055,7 @@ function live(inst,on,L){
 /* ---------- mount ---------- */
 function mount(el,opts){
   opts=opts||{};
-  const inst={el,opts,brand:cleanColours(Object.assign({name:"Your site",short:"",logo:"",colours:{}},opts.brand||{})),theme:Object.assign({colours:"client",mode:"light"},opts.theme||{}),data:normalise(opts.data),role:"owner",screen:"today",sel:{booking:null,date:0,hist:null,plan:null},reduce:matchMedia("(prefers-reduced-motion:reduce)").matches};
+  const inst={el,opts,brand:cleanColours(Object.assign({name:"Your site",short:"",logo:"",colours:{}},opts.brand||{})),theme:Object.assign({colours:"client",mode:"light"},opts.theme||{}),data:normalise(opts.data),role:"owner",screen:"today",sel:Object.assign({booking:null,date:0,hist:null,plan:null},opts.sel||{}),reduce:matchMedia("(prefers-reduced-motion:reduce)").matches};
   if(!inst.brand.short)inst.brand.short=inst.brand.name;
   if(inst.theme.mode==="auto")inst.theme.mode=matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light";
   const d=inst.data;
@@ -2648,6 +3109,7 @@ function mount(el,opts){
   let first=opts.screen||(opts.account&&d.home?"calendar":"today");
   if(opts.readQuery!==false){try{const u=new URLSearchParams(location.search);const s=u.get("screen")||u.get("tab");if(s&&DRAW[s])first=s;}catch(e){}}
   inst.opts.scroll=false;go(inst,first);inst.opts.scroll=opts.scroll;
+  if(opts.account&&opts.account.tour)startTour(inst);
   inst.go=n=>go(inst,n);inst.setTheme=t=>{Object.assign(inst.theme,t||{});applyTheme(inst);};inst.setBrand=b=>{Object.assign(inst.brand,b||{});if(b&&b.colours)Object.assign(inst.brand.colours,b.colours);cleanColours(inst.brand);applyTheme(inst);};inst.live=(on,L)=>live(inst,on,L);inst.say=t=>toast(inst,t);
   instances.push(inst);
   return inst;

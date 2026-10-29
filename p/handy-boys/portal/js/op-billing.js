@@ -1,0 +1,34 @@
+/* Operator: Retainers and billing */
+(function () {
+  const S = () => HB.S;
+  HB.ui.bill = { f: 'all' };
+  const stK = { Paid: 'ok', Due: 'info', Overdue: 'bad', Draft: 'muted' };
+  
+  HB.view('op.billing', {
+    title: () => 'Retainers & billing',
+    render() {
+      const inv = S().invoices; const mon = HB.TODAY.slice(0, 7);
+      const paid = inv.filter((i) => i.status === 'Paid' && i.date.slice(0, 7) === mon).reduce((a, i) => a + i.amount, 0);
+      const wait = inv.filter((i) => i.status === 'Due' || i.status === 'Overdue').reduce((a, i) => a + i.amount, 0);
+      const draft = inv.filter((i) => i.status === 'Draft').reduce((a, i) => a + i.amount, 0);
+      const recurring = S().owners.reduce((a, o) => a + S().plans[o.id].monthly, 0);
+      const f = HB.ui.bill.f; const list = inv.filter((i) => f === 'all' || i.status === f).sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : b.id.localeCompare(a.id)));
+      return HB.pageHead('Retainers & billing', 'Priority Club, per property.', 'Owners join the Priority Club property by property on a 6-month minimum, with key holding included and lock-out attendance priced per plan. Invoices and payouts run through Stripe.',
+        '<button class="btn btn-primary" data-act="inv-new">' + HB.icon('plus', 18) + 'Create invoice</button>') +
+        '<div class="cols"><div class="stack-l"><section class="figures"><div><span class="eyebrow">Collected this month</span><b class="fig">' + HB.money(paid) + '</b></div><div><span class="eyebrow">Awaiting payment</span><b class="fig">' + HB.money(wait) + '</b></div><div><span class="eyebrow">Drafts to send</span><b class="fig">' + HB.money(draft) + '</b></div><div><span class="eyebrow">Monthly retainers</span><b class="fig">' + HB.money(recurring) + '</b></div></section>' +
+        '<section><div class="sec-head"><h2>Retainer plans</h2></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Owner</th><th>Plan</th><th>Monthly</th><th>Properties in Club</th><th>Term ends</th><th></th></tr></thead><tbody>' + S().owners.map((o) => { const p = S().plans[o.id]; return '<tr><td><b>' + HB.esc(o.name) + '</b><br><span class="muted">' + HB.plural(o.props.length, 'property', 'properties') + '</span></td><td>' + HB.esc(p.name) + '</td><td class="mono">' + HB.money(p.monthly) + '</td><td>' + (p.enrolled.length ? p.enrolled.map((id) => HB.esc(HB.prop(id).short)).join(', ') : '<span class="muted">None, pay as you go</span>') + '</td><td class="mono">' + (p.termEnd ? HB.fmt(p.termEnd, 'short') : 'n/a') + '</td><td class="r"><button class="btn btn-ghost btn-xs" data-act="plan-edit" data-id="' + o.id + '">Edit plan</button></td></tr>'; }).join('') + '</tbody></table></div></section>' +
+        '<section><div class="sec-head"><h2>Invoices</h2><div class="seg" role="group" aria-label="Filter invoices">' + ['all', 'Draft', 'Due', 'Overdue', 'Paid'].map((x) => '<button data-act="bill-f" data-f="' + x + '" aria-pressed="' + (f === x) + '">' + (x === 'all' ? 'All' : x) + '</button>').join('') + '</div></div>' +
+        '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Invoice</th><th>Owner</th><th>For</th><th>Date</th><th class="r">Amount</th><th>Status</th><th></th></tr></thead><tbody>' + list.slice(0, 14).map((i) => '<tr><td class="mono">' + HB.esc(i.id) + '</td><td>' + HB.esc(HB.owner(i.ownerId).name) + '</td><td>' + HB.esc(i.desc) + '</td><td class="mono">' + HB.fmt(i.date, 'short') + '</td><td class="r mono">' + HB.money(i.amount) + '</td><td>' + HB.chip(i.status, stK[i.status]) + '</td><td class="r"><div class="acts">' + (i.status === 'Draft' ? '<button class="btn btn-ghost btn-xs" data-act="inv-send" data-id="' + i.id + '">Send</button>' : i.status === 'Paid' ? '' : '<button class="btn btn-ghost btn-xs" data-act="inv-chase" data-id="' + i.id + '">Chase</button><button class="btn btn-quiet btn-xs" data-act="inv-paid" data-id="' + i.id + '">Mark paid</button>') + '<button class="btn btn-quiet btn-xs" data-act="inv-dl" data-id="' + i.id + '" aria-label="Download ' + HB.esc(i.id) + '">' + HB.icon('download', 15) + '</button></div></td></tr>').join('') + '</tbody></table></div></section></div>' +
+        '<aside class="stack-l"><section class="sheet pad stripe"><div class="row" style="gap:14px"><span class="s-ico">' + HB.icon('stripe', 24) + '</span><div><b style="font-size:16px">Connected via Stripe</b><p class="muted">Cards and Direct Debit for retainers and invoices.</p></div></div><hr class="divider"><dl class="kv"><div><dt>Account</dt><dd>Handy Boys, sample account</dd></div><div><dt>Payouts to</dt><dd class="mono">Bank ••••4421</dd></div><div><dt>Next payout</dt><dd>' + HB.fmt(HB.d(1), 'day') + '</dd></div><div><dt>On its way</dt><dd class="mono">' + HB.money(paid > 0 ? Math.round(paid * .35) : 0) + '</dd></div></dl><a class="btn btn-ghost btn-block" href="#/op/settings">Manage connection</a></section></aside></div>';
+    }
+  });
+  HB.act('bill-f', (el) => { HB.ui.bill.f = el.dataset.f; HB.emit(); });
+  HB.act('inv-send', (el) => { const i = S().invoices.find((x) => x.id === el.dataset.id); HB.update(() => { i.status = 'Due'; }); HB.toast(i.id + ' emailed to ' + HB.owner(i.ownerId).name.split(' ')[0], { icon: 'send' }); });
+  HB.act('inv-chase', (el) => { const i = S().invoices.find((x) => x.id === el.dataset.id); HB.toast('Gentle reminder sent for ' + i.id, { icon: 'bell' }); });
+  HB.act('inv-paid', (el) => { const i = S().invoices.find((x) => x.id === el.dataset.id); HB.update(() => { i.status = 'Paid'; }); HB.toast(i.id + ' marked paid'); });
+  HB.act('inv-dl', (el) => { const f = HB.invoiceFile(S().invoices.find((x) => x.id === el.dataset.id)); HB.download(f.name, f.mime, f.content); });
+  HB.act('inv-new', () => HB.modal({ title: 'Create invoice', sub: 'One-off job or extra. Retainers bill automatically.',
+    body: '<div class="form-grid"><label class="fld full">Owner<select name="o">' + S().owners.map((o) => '<option value="' + o.id + '">' + HB.esc(o.name) + '</option>').join('') + '</select></label><label class="fld full">For<input type="text" name="d" placeholder="e.g. Extra deep clean, The Cabin"></label><label class="fld">Amount (£)<input type="number" name="a" min="0" step="1" placeholder="0"></label><label class="fld">Send<select name="s"><option value="Due">Now</option><option value="Draft">Save as draft</option></select></label></div>',
+    confirm: 'Create invoice', onConfirm: (dlg) => { const f = HB.formData(dlg); if (!f.d.trim() || !(Number(f.a) > 0)) { HB.toast('Add a description and an amount', { icon: 'alert' }); return false; } HB.update((s) => { s.invoices.unshift({ id: 'INV-' + (1100 + s.invoices.length), ownerId: f.o, date: HB.TODAY, desc: f.d.trim(), amount: Number(f.a), status: f.s, kind: 'job', month: 5 }); }); HB.toast(f.s === 'Draft' ? 'Draft saved' : 'Invoice sent', { icon: 'send' }); } }));
+  HB.act('plan-edit', (el) => HB.clubModal(el.dataset.id));
+})();

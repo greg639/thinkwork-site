@@ -13,6 +13,7 @@
 - Booking is through Eventbrite: https://www.eventbrite.com/e/airsoft-skirmish-event-tickets-1095218440839?aff=oddtdtcreator
 - Email dom@1066airsoft.com is the quickest contact; telephone 07722 22 1066
 - Battlezones: The Village, Hellfire Hill, The Jungle
+- Chrono limits: We chrono on joules and convert to your preferred BB weight. The limits are 1.14J for an AEG, 1.88J for a DMR and 2.32J bolt action, which on 0.20g BBs is roughly 350fps, 450fps and 500fps.
 - UKARA registered site; registration £15 a year
 - Gates open 08:00 and close 09:00; chrono from 08:30; safety briefing 09:30 to 10:00
 - Lunch around 12:30, for about 45 minutes; we close around 15:30
@@ -43,4 +44,4 @@
 - https://thinkwork.info/1066/airsoft/parties/
 - https://thinkwork.info/1066/airsoft/prices/
 
-Last updated 2026-10-20.
+Last updated 2026-10-29.

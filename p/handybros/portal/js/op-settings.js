@@ -1,0 +1,56 @@
+/* Operator: Settings */
+(function () {
+  const S = () => HB.S;
+  S().team = [{ name: 'Alex', role: 'Operator, admin', on: true }, { name: 'Sam', role: 'Field, turnovers and repairs', on: true }];
+  HB.saveSettings = () => { try { localStorage.setItem('hb-portal-settings', JSON.stringify({ theme: S().settings.theme, mode: S().settings.mode, sidebar: S().settings.sidebar })); } catch (e) { /* storage unavailable */ } };
+  try { const saved = JSON.parse(localStorage.getItem('hb-portal-settings') || 'null'); if (saved) Object.assign(S().settings, saved); } catch (e) { /* ignore */ }
+
+  const THEMES = [
+    ['guest', 'Guest-Ready', 'Deep navy, brass and paper', ['#0B1E2D', '#C8964B', '#F3EEE4']],
+    ['sea', 'Seafront', 'Sea blue, coral and cream', ['#2B6E8F', '#F0A39B', '#FBF5EA']],
+    ['work', 'Workshop', 'Near-black and safety yellow', ['#151515', '#FFD500', '#F1F0EA']]
+  ];
+  const RULES = [['lockout', 'Lock-out request', 'Alert you and the on-call backup straight away'], ['issue', 'Issue flagged in the runner', 'Tell the owner and add a maintenance task'], ['report', 'Report ready', 'Prompt you to review and send to the owner'], ['quote', 'New photo request', 'Notify you when a request or quote arrives'], ['lowstock', 'Low stock', 'Add to the weekly restock list'], ['ical', 'Weekend digest', 'A Sunday summary of next week\'s turnovers']];
+  const conn = (icon, name, text, on, k, extra) => '<section class="sheet pad conn"><div class="row" style="gap:14px;align-items:flex-start"><span class="s-ico">' + HB.icon(icon, 24) + '</span><div style="flex:1"><div class="row" style="justify-content:space-between;gap:10px;flex-wrap:wrap"><b style="font-size:16px">' + name + '</b>' + (on ? HB.chip('Connected', 'ok') : HB.chip('Not connected', 'muted')) + '</div><p class="muted" style="margin:6px 0 14px">' + text + '</p>' + (extra || '') + '<button class="btn ' + (on ? 'btn-ghost' : 'btn-primary') + ' btn-sm" data-act="conn-toggle" data-k="' + k + '">' + (on ? 'Disconnect' : 'Connect') + '</button></div></div></section>';
+
+
+  const rin = (label, path, pct) => { const v = path.split('.').reduce((a, k) => a[k], S().rates); return '<label class="rate"><span>' + label + '</span><span class="money-in' + (pct ? ' pct' : '') + '"><input type="number" step="' + (pct ? 1 : 0.01) + '" min="0" value="' + v + '" data-input="rate-set" data-p="' + path + '" aria-label="' + HB.esc(label) + (pct ? ' percent' : ' in pounds') + '"></span></label>'; };
+  function rateCard() {
+    return '<section class="section"><div class="sec-head"><h2>Rate card</h2>' + HB.rateChip + '</div><div class="sheet pad rates"><p class="muted" style="max-width:70ch">Draft figures from the owner\'s own rate card. Edit anything here and the quote builder and the plan comparison use it straight away.</p>' +
+      '<div><div class="eyebrow" style="margin-bottom:10px">Holiday-let changeover, by bedrooms (full clean, beds remade, sanitise, inspection)</div><div class="rategrid">' + [['Studio', 'studio'], ['1 bed', '1'], ['2 bed', '2'], ['3 bed', '3'], ['4 bed', '4'], ['5+ bed, from', '5']].map((x) => rin(x[0], 'changeover.' + x[1])).join('') + '</div></div>' +
+      '<div><div class="eyebrow" style="margin-bottom:10px">Add-ons</div><div class="rategrid">' + rin('Linen, per bed, from', 'linen') + rin('Oven clean', 'oven') + rin('Same-day uplift', 'sameDay', true) + '</div></div>' +
+      '<div><div class="eyebrow" style="margin-bottom:10px">End of tenancy / void (clean, void repairs, reinstatement and check)</div><div class="rategrid">' + rin('1 bed, from', 'eot.1') + rin('2 bed, from', 'eot.2') + rin('3 bed, from', 'eot.3') + '</div><p class="footnote" style="margin-top:8px">Full refurb and major works are quoted separately.</p></div>' +
+      '<div><div class="eyebrow" style="margin-bottom:10px">Hourly, call-out and day rates</div><div class="rategrid">' + rin('Hourly, from', 'hourly') + rin('Call-out', 'callout') + rin('Half day', 'half') + rin('Full day', 'full') + rin('Evenings and weekends, from', 'upMin', true) + rin('Evenings and weekends, up to', 'upMax', true) + '</div></div>' +
+      '<div><div class="eyebrow" style="margin-bottom:10px">General and Priority Club</div><div class="tbl-wrap"><table class="tbl"><thead><tr><th></th><th>General</th><th>Priority Club</th></tr></thead><tbody>' +
+      '<tr><td>Monthly fee, per property</td><td class="muted">None</td><td>' + rin('Per property', 'club.monthly') + '</td></tr>' +
+      '<tr><td>Call-out / first hour</td><td>' + rin('General call-out', 'general.callout') + '</td><td>' + rin('Club call-out', 'club.callout') + '</td></tr>' +
+      '<tr><td>Hourly rate, from</td><td>' + rin('General hourly', 'general.hourly') + '</td><td>' + rin('Club hourly', 'club.hourly') + '</td></tr>' +
+      '<tr><td>Changeovers, from</td><td>' + rin('General changeover', 'general.changeover') + '</td><td>' + rin('Club changeover', 'club.changeover') + '</td></tr>' +
+      '<tr><td>Guest lock-out attendance</td><td class="muted">Not offered</td><td>' + rin('Club lock-out', 'club.lockout') + '</td></tr>' +
+      '<tr><td>Key holding</td><td class="muted">Not offered</td><td>Included</td></tr><tr><td>Minimum term</td><td class="muted">None</td><td>' + S().rates.club.term + ' months</td></tr></tbody></table></div></div>' +
+      '<div class="note-banner">' + HB.icon('alert', 18) + '<div><b>Points the owner needs to settle.</b> Call-out is £50 on one page and £54.99 General on another. Hourly is from £29.99 for everyone on one page and from £34.99 General on another. Changeover is £60 studio and £70 1-bed on one page but "from £64.99 General, £59.99 Club" on another. This prototype uses the detailed rate card for job pricing and the membership page for the General and Club columns.</div></div></div></section>';
+  }
+  HB.view('op.settings', {
+    title: () => 'Settings',
+    render() {
+      const st = S().settings;
+      return HB.pageHead('Settings', 'Connections, team and look.', 'Everything here is a sample. Switch the theme to see the whole product re-colour at once.') +
+        '<section><div class="sec-head"><h2>Appearance</h2></div><div class="themes" role="radiogroup" aria-label="Theme">' + THEMES.map((t) => '<button class="theme" role="radio" aria-checked="' + (st.theme === t[0]) + '" data-act="theme" data-t="' + t[0] + '"><span class="sw">' + t[3].map((c) => '<i style="background:' + c + '"></i>').join('') + '</span><b>' + t[1] + '</b><span class="muted">' + t[2] + '</span></button>').join('') + '</div>' +
+        '<div class="row wrap" style="margin-top:18px;gap:24px"><div><div class="eyebrow" style="margin-bottom:8px">Mode</div><div class="seg" role="group" aria-label="Mode">' + [['auto', 'Match my device'], ['light', 'Light'], ['dark', 'Dark']].map((m) => '<button data-act="mode" data-m="' + m[0] + '" aria-pressed="' + (st.mode === m[0]) + '">' + m[1] + '</button>').join('') + '</div></div><div><div class="eyebrow" style="margin-bottom:8px">Sidebar</div><div class="seg" role="group" aria-label="Sidebar">' + [['auto', 'Automatic'], ['dark', 'Dark'], ['light', 'Light']].map((m) => '<button data-act="sidebar" data-m="' + m[0] + '" aria-pressed="' + (st.sidebar === m[0]) + '">' + m[1] + '</button>').join('') + '</div></div></div></section>' +
+        rateCard() + '<div class="cols-2 section" style="gap:20px">' +
+        conn('stripe', 'Stripe', 'Takes card and Direct Debit payments for retainers and invoices, and pays out to your bank.', st.stripe, 'stripe', st.stripe ? '<p class="mono" style="margin-bottom:12px">Payouts to bank ••••4421</p>' : '') +
+        conn('calendar', 'Google Calendar', 'Two-way sync so jobs show on your phone and personal blocks keep you free.', st.gcal, 'gcal') +
+        conn('mail', 'Email', 'Owner emails become threads in the inbox. Replies go back by email.', st.mail, 'mail', '<p style="margin-bottom:12px">Inbox address <span class="todo">[email]</span></p>') +
+        '<section class="sheet pad conn"><div class="row" style="gap:14px;align-items:flex-start"><span class="s-ico">' + HB.icon('ical', 24) + '</span><div style="flex:1"><b style="font-size:16px">iCal booking feeds</b><ul class="hair" style="margin-top:10px">' + S().props.map((p) => '<li class="row" style="justify-content:space-between;padding:9px 0;gap:10px"><span>' + HB.esc(p.short) + '</span>' + (p.ical.status === 'synced' ? HB.chip('Synced ' + p.ical.last, 'ok') : HB.chip('Quiet ' + p.ical.last, 'warn')) + '</li>').join('') + '</ul></div></div></section></div>' +
+        '<div class="cols-2 section" style="gap:20px"><section class="sheet pad"><div class="sec-head"><h2>Team</h2><button class="btn btn-ghost btn-sm" data-act="team-add">' + HB.icon('plus', 16) + 'Invite</button></div><ul class="hair">' + S().team.map((m) => '<li class="row" style="padding:12px 0;gap:12px"><span class="avatar">' + HB.esc(HB.initials(m.name)) + '</span><div style="flex:1"><b>' + HB.esc(m.name) + '</b><br><span class="muted">' + HB.esc(m.role) + '</span></div>' + (m.invited ? HB.chip('Invited', 'brand') : HB.chip('Active', 'ok')) + '</li>').join('') + '</ul></section>' +
+        '<section class="sheet pad"><div class="sec-head"><h2>Notification rules</h2></div>' + RULES.map((r) => '<div class="switchrow"><div><b>' + r[1] + '</b><span class="muted">' + r[2] + '</span></div><button class="switch" role="switch" data-act="rule" data-k="' + r[0] + '" aria-checked="' + st.rules[r[0]] + '" aria-label="' + r[1] + '"></button></div>').join('') + '</section></div>';
+    }
+  });
+  HB.act('rate-set', (el) => { const path = el.dataset.p.split('.'); const v = Number(el.value); if (!(v >= 0)) return; HB.update((s) => { let o = s.rates; path.slice(0, -1).forEach((k) => { o = o[k]; }); o[path[path.length - 1]] = v; Object.keys(s.plans).forEach(HB.planSync); }); });
+  HB.act('theme', (el) => { HB.update((s) => { s.settings.theme = el.dataset.t; }); HB.saveSettings(); const n = { guest: 'Guest-Ready', sea: 'Seafront', work: 'Workshop' }[el.dataset.t]; HB.toast('Theme: ' + n, { icon: 'star' }); });
+  HB.act('mode', (el) => { HB.update((s) => { s.settings.mode = el.dataset.m; }); HB.saveSettings(); });
+  HB.act('sidebar', (el) => { HB.update((s) => { s.settings.sidebar = el.dataset.m; }); HB.saveSettings(); });
+  HB.act('rule', (el) => HB.update((s) => { s.settings.rules[el.dataset.k] = !s.settings.rules[el.dataset.k]; }));
+  HB.act('conn-toggle', (el) => { const k = el.dataset.k; const on = S().settings[k]; const name = { stripe: 'Stripe', gcal: 'Google Calendar', mail: 'Email' }[k]; HB.update((s) => { s.settings[k] = !on; }); HB.toast(name + (on ? ' disconnected' : ' connected')); });
+  HB.act('team-add', () => HB.modal({ title: 'Invite a teammate', body: '<div class="form-grid"><label class="fld">Name<input type="text" name="n"></label><label class="fld">Role<select name="r"><option>Field, turnovers and repairs</option><option>Office, quotes and billing</option></select></label></div>', confirm: 'Send invite', onConfirm: (dlg) => { const f = HB.formData(dlg); if (!f.n.trim()) { HB.toast('Add a name', { icon: 'alert' }); return false; } HB.update((s) => { s.team.push({ name: f.n.trim(), role: f.r, invited: true }); }); HB.toast('Invite sent to ' + f.n.trim()); } }));
+})();

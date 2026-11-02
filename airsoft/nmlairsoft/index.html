@@ -400,14 +400,14 @@ p{line-height:1.6}
 .hero .photo .stage video.film{filter:brightness(1.28) contrast(1.04) saturate(1.05)}
 .hero .photo .stage img.slide{filter:brightness(1.05) contrast(1.05) saturate(.95)}
 .hero .photocredit{position:absolute;right:14px;top:14px;z-index:3;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text);background:color-mix(in srgb,var(--sunk) 82%,transparent);padding:4px 8px}
-.hero .wrap{position:relative;z-index:2;padding-block:clamp(36px,6vh,96px) clamp(32px,5vh,64px);display:grid;grid-template-columns:minmax(0,42%) minmax(0,1fr);gap:clamp(24px,4cqi,64px);align-items:end}
-.hero .copy{max-width:none;min-width:0}
+.hero .wrap{position:relative;z-index:2;padding-block:clamp(28px,4vh,64px) clamp(32px,4vh,56px);display:grid;grid-template-columns:minmax(0,42%) minmax(0,1fr);gap:clamp(24px,4cqi,64px);align-items:start}
+.hero .copy{max-width:none;min-width:0;align-self:center}   /* the strip starts level with the headline, in the first screen; the copy centres beside it */
 .hero .wrap>.note{grid-column:1/-1}
 /* the strip: three tall frames of the client's own photographs, the middle one taller, over the film */
-.hero .strip{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:end;padding-top:28px;min-width:0}
+.hero .strip{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:start;padding:28px 0 10px;min-width:0;align-self:start}
 .hero .strip>.phtag{top:0;left:0}
-.hero .frame{margin:0;height:clamp(220px,36vh,440px);overflow:hidden;border-radius:12px;border:1px solid var(--line-strong);background:var(--sunk);box-shadow:var(--shadow)}
-.hero .frame.tall{height:clamp(250px,42vh,520px)}
+.hero .frame{margin:0;height:clamp(220px,40vh,460px);margin-top:28px;overflow:hidden;border-radius:12px;border:1px solid var(--line-strong);background:var(--sunk);box-shadow:var(--shadow)}
+.hero .frame.tall{height:clamp(250px,46vh,540px);margin-top:0}
 .hero .frame img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.06) saturate(.92)}
 .hero .place{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:clamp(28px,.3em,40px)}   /* the stencil face's glyphs run above the headline's line box */
 .hero .place .eyebrow{color:var(--text);white-space:nowrap;font-size:12px;letter-spacing:.16em;text-shadow:0 1px 12px rgba(0,0,0,.6)}
@@ -477,10 +477,10 @@ html.splat-done .hero .splat{animation:none}
 .count span{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3)}
 
 /* ---------- street signs: your facts as sign blocks, in your colours ---------- */
-.signs{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
+.signs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:22px}
 .sign{position:relative;background:var(--surface-2);color:var(--text);border:1px solid var(--line-strong);padding:18px 18px 16px}
 .sign::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--text)}
-.sign b{display:block;font-family:var(--display);font-size:clamp(22px,2.1cqi,30px);line-height:1;text-transform:uppercase;letter-spacing:.01em}
+.sign b{display:block;font-family:var(--display);font-size:clamp(20px,1.8cqi,26px);line-height:1.1;text-transform:none;letter-spacing:0;text-wrap:balance}
 .sign small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-top:8px;color:var(--text-3)}
 .sign.warn{background:var(--red);color:var(--on-red);border-color:var(--red)}
 .sign.warn::before{background:var(--on-red)}
@@ -866,12 +866,15 @@ footer.site ul button:hover{color:var(--red-ink)}
   #basketDrawer .choice{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){#basketDrawer,#basketScrim{transition:none}}
+@container page (max-width:960px){#app .footgrid{grid-template-columns:1fr 1fr}}
+@container page (max-width:640px){#app .footgrid{grid-template-columns:1fr}#app .signs{grid-template-columns:1fr 1fr}}
 h1,h2{text-shadow:none}
 
 /* ---------- street devices: the tagline strip, the grid ground ---------- */
 .ico{width:16px;height:16px;vertical-align:-3px;margin-right:6px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .tagband{position:relative;overflow:clip;background:var(--sunk);color:var(--text);border-block:6px solid transparent;border-image:var(--stripe) 6;padding:clamp(18px,2.2cqi,30px) 20px;text-align:center}
-.tagband p{font-family:var(--display);font-weight:400;font-size:clamp(20px,2.4cqi,34px);line-height:1.25;text-transform:none;letter-spacing:0;max-width:52ch;margin:0 auto;text-wrap:balance}
+.tagband p{font-family:var(--display);font-weight:400;font-size:clamp(20px,2.4cqi,34px);line-height:1.45;text-transform:none;letter-spacing:0;max-width:52ch;margin:0 auto;text-wrap:balance}
+.tagband p span,.tagband p em{display:inline-block;padding:.06em 0}
 .tagband p em{font-style:normal;color:var(--red-ink)}
 .tagband p.note{display:none;font-family:inherit;font-size:13.5px;line-height:1.45;text-align:left;text-wrap:auto;max-width:none;margin-top:10px}
 .notes-on .tagband p.note{display:flex}
@@ -1537,7 +1540,10 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         
         
         <div class="sign"><b>08:00 to 17:00</b><small>A game day</small></div>
-        <div class="sign warn"><b>The ground</b><small>Woodland, trenches, bunkers</small></div>
+        <div class="sign"><b>Game nights on Wednesdays and Fridays, game days on Saturdays and Sundays</b><small>When we play</small></div>
+        <div class="sign"><b>Saturdays 12:45, Sundays 09:45</b><small>Start times</small></div>
+        
+        <div class="sign warn"><b>Woodland, trenches, bunkers</b><small>The ground</small></div>
       </div>
       <p class="note"><b>Why</b><span>Four street signs, four facts, every word off your homepage. The sign is the device this whole design is built on: your arena's theme, rendered as the street furniture it would have. Nothing here is invented.</span></p>
     </div>
@@ -1805,9 +1811,9 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           <div class="enamel"><div class="pad">
             <p class="eyebrow">On Google today</p>
             <p class="bigfig" style="margin-top:8px"><em>4.9</em> from 75 reviews</p>
-            <p class="small muted" style="margin-top:12px">On Google, 2 Nov 2026 13:17.</p>
+            <p class="small muted" style="margin-top:12px">On Google, 2 Nov 2026 13:27.</p>
           </div></div>
-          <p class="note"><b>Why</b><span>Read from your Google Business Profile on 2 Nov 2026 13:17. The number is real; your site does not show it anywhere.</span></p>
+          <p class="note"><b>Why</b><span>Read from your Google Business Profile on 2 Nov 2026 13:27. The number is real; your site does not show it anywhere.</span></p>
         </div>
       </div>
     </div>
@@ -2370,7 +2376,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
     </div>
     <p style="margin-top:18px;font-family:var(--mono);font-size:13px"><a href="aoc/index.html" target="_blank" rel="noopener">Console: owners sign in</a></p>
     <div class="legal">
-      <span>Design proposal by ThinkWork for discussion with you at NML Airsoft. Hours, address, phone, email, prices, words and pictures are your own, taken from nmlairsoft.co.uk on 2 Nov 2026 13:17. Session prices are not published on your site and every one shown is sample, flagged in the toolbar's placeholder mode along with everything else awaiting your real figures. Not the live site. No live payments.</span>
+      <span>Design proposal by ThinkWork for discussion with you at NML Airsoft. Hours, address, phone, email, prices, words and pictures are your own, taken from nmlairsoft.co.uk on 2 Nov 2026 13:27. Session prices are not published on your site and every one shown is sample, flagged in the toolbar's placeholder mode along with everything else awaiting your real figures. Not the live site. No live payments.</span>
       <span class="mono">thinkwork.info</span>
     </div>
   </div>
@@ -2984,14 +2990,14 @@ const fmtShort=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
   const rows=DATES.filter(d=>!d.tba);
   $("#boardRows").innerHTML=rows.map((r,i)=>'<div class="r'+(i===0?" next":"")+'">'+
     '<div class="d">'+r.dt.toLocaleDateString("en-GB",{weekday:"short"})+(r.tba?'':' '+r.dt.getDate())+'<small>'+r.dt.toLocaleDateString("en-GB",{month:"long"})+'</small>'+(i===0?'<span class="status next">Next</span>':'')+'</div>'+
-    '<div class="n"><b>'+(r.prize?'<svg class="ico" aria-hidden="true"><use href="#i-trophy"/></svg>':'')+r.n+'</b>'+(r.tba?'Date to be announced':(r.left<20?r.left+' places left':'Places available'))+(r.price?' · '+gbp(r.price)+' entry':'')+'</div>'+
+    '<div class="n"><b>'+(r.prize?'<svg class="ico" aria-hidden="true"><use href="#i-trophy"/></svg>':'')+r.n+'</b>'+(r.tba?'Date to be announced':(r.left!=null&&r.cap!=null&&r.left<20?r.left+' places left':'Places available'))+(r.price?' · '+gbp(r.price)+' entry':'')+'</div>'+
     '<div class="times">'+(r.tba?'<span class="t"></span><span class="t"></span><span class="t"></span>':(r.t||SCHED.times).map(x=>'<span class="t">'+x+'</span>').join(""))+'</div>'+
     '<div class="a">'+(r.tba?'<span class="status tba">Date TBA</span>':'<button class="btn primary sm" data-book="'+DATES.indexOf(r)+'">Book</button>')+'</div>'+
   '</div>').join("");
   /* the next three as cards (TEMPLATES.md 19g: a dates section never opens as a heading and a lone button) */
   const nc=$("#nextCards");if(nc){nc.querySelectorAll("article").forEach(a=>a.remove());nc.insertAdjacentHTML("beforeend",rows.slice(0,3).map((r,i)=>'<article class="datecard'+(i===0?" next":"")+'">'+
     '<p class="eyebrow">'+(i===0?"Next game day":(r.kind||"Game day"))+'</p><b class="dd">'+r.dt.toLocaleDateString("en-GB",{weekday:"long"})+'</b><span class="dm">'+r.dt.getDate()+' '+r.dt.toLocaleDateString("en-GB",{month:"long"})+'</span>'+
-    '<p class="dn">'+r.n+(r.price?' · '+gbp(r.price):'')+'</p><p class="dt">'+(r.t||SCHED.times).join(' · ')+'</p><p class="dl">'+(r.left<20?r.left+' places left':'Places available')+'</p>'+
+    '<p class="dn">'+r.n+(r.price?' · '+gbp(r.price):'')+'</p><p class="dt">'+(r.t||SCHED.times).join(' · ')+'</p><p class="dl">'+(r.left!=null&&r.cap!=null&&r.left<20?r.left+' places left':'Places available')+'</p>'+
     '<button class="btn primary sm" data-book="'+DATES.indexOf(r)+'">Book this day</button></article>').join(""));}
   $("#acctNext").textContent=fmtLong(DATES[FIRST_SUN].dt);
   /* the ripped banners in the hero: the next date and what it costs, off the same list */
@@ -3007,7 +3013,7 @@ const fmtShort=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
 let filter="all";
 function renderDays(){
   $("#dayList").innerHTML=DATES.filter(d=>filter==="all"||d.kind===filter).map(d=>{
-    const low=d.left!==null&&d.left<20, pct=d.left===null?0:Math.round(100-d.left/d.cap*100);
+    const low=d.left!=null&&d.cap!=null&&d.left<20, pct=d.left==null||!d.cap?0:Math.round(100-d.left/d.cap*100);
     return '<article class="day">'+
       '<div class="date"><b>'+(d.tba?d.dt.toLocaleDateString("en-GB",{weekday:"short"}):d.dt.getDate())+'</b><span>'+(d.tba?d.dt.toLocaleDateString("en-GB",{month:"long"}):d.dt.toLocaleDateString("en-GB",{weekday:"short",month:"short"}))+'</span></div>'+
       '<div class="info"><div class="row" style="gap:8px"><h3>'+(d.prize?'<svg class="ico" aria-hidden="true"><use href="#i-trophy"/></svg>':'')+d.n+'</h3>'+(d.tba?'<span class="pill ph">Date TBA</span>':'')+'</div><p class="small muted" style="margin-top:4px">'+d.d+'</p></div>'+

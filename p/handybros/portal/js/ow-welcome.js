@@ -77,6 +77,19 @@
     return '<div class="sheet sa-qr"><img src="../stay/qr-' + slug + '.svg" alt="QR code that opens the welcome guide for this property"><div><b>QR for the front door</b><p class="u">' + HB.esc(SD.url(slug)) + '</p><div class="acts"><a class="btn btn-ghost btn-sm" href="../stay/print.html?p=' + slug + '" target="_blank" rel="noopener" id="wel-print">' + HB.icon('report', 15) + 'Print QR card</a><a class="btn btn-ghost btn-sm" href="../stay/qr-' + slug + '.png" download="welcome-qr-' + slug + '.png">' + HB.icon('download', 15) + 'PNG</a></div></div></div>';
   }
 
+  /* The link to the guest page, with the owner's saved details carried inside it. */
+  function shareLink() {
+    const SD = window.StayData; const u = new URL('../stay/index.html', location.href); u.search = ''; u.hash = '';
+    const d = SD.encodeShare(ui.slug, ui.draft);
+    return u.href + '?p=' + encodeURIComponent(ui.slug) + (d ? '&d=' + d : '');
+  }
+  function shareBox() {
+    return '<div class="sheet pad sa-share" id="wel-share"><b>Share the edited guide</b><p class="hint">Send guests a link that carries your edits, or open it on your own phone to check it.</p><div class="acts">' +
+      '<button class="btn btn-primary btn-sm" type="button" data-act="wel-copylink" id="wel-copylink">' + HB.icon('copy', 15) + 'Copy guest link</button>' +
+      '<button class="btn btn-ghost btn-sm" type="button" data-act="wel-phone" id="wel-phone">' + HB.icon('phone', 15) + 'Open on a phone</button></div>' +
+      '<p class="sa-honest">' + HB.icon('alert', 15) + '<span>Until there is a back end, the QR on the printed card always opens the saved sample guide. Shared links carry your edits inside the link, so anyone holding the link can read them, key safe code included.</span></p></div>';
+  }
+
   function state() { return '<span class="sa-state ' + (dirty() ? 'dirty' : '') + '" id="wel-state">' + (dirty() ? 'Unsaved changes' : 'Saved in this browser') + '</span>'; }
 
   HB.view('ow.welcome', {
@@ -92,8 +105,8 @@
       const head = HB.pageHead('Welcome book', 'What your guests see when they scan.', 'Fill in the house details once. Guests scan a QR code inside the front door and get a simple guide on their phone: wifi, arrival, bins, local tips and a way to report a problem.', actions);
       const form = '<form class="stack-l" id="wel-form" data-input="wel-in" data-submit="wel-save" novalidate>' + SD.SECTIONS.map(group).join('') +
         '<div class="sa-actions"><button class="btn btn-primary" type="submit" id="wel-save">' + HB.icon('check', 18) + 'Save</button><button class="btn btn-ghost" type="button" data-act="wel-reset">Reset to sample</button><span class="sp"></span>' + state() + '</div></form>';
-      const note = '<p class="note-banner" style="margin-bottom:22px">' + HB.icon('alert', 18) + '<span>In this prototype, Save keeps your changes in this browser only. In the full build, Save would publish to the guest page for every guest.</span></p>';
-      return head + picker + note + '<div class="cols">' + form + '<aside class="sa-side" aria-label="Preview and QR code"><div>' + meter() + '</div><div><div class="sec-head"><h2>Live preview</h2></div>' + mirror() + '</div>' + qrBox() + '</aside></div>';
+      const note = '<p class="note-banner" style="margin-bottom:22px">' + HB.icon('alert', 18) + '<span>In this prototype, Save keeps your changes in this browser only. Use Copy guest link to put the edited guide on a guest\'s phone. In the full build, Save would publish to the guest page for every guest.</span></p>';
+      return head + picker + note + '<div class="cols">' + form + '<aside class="sa-side" aria-label="Preview and QR code"><div>' + meter() + '</div><div><div class="sec-head"><h2>Live preview</h2></div>' + mirror() + '</div>' + qrBox() + shareBox() + '</aside></div>';
     }
   });
 
@@ -120,6 +133,47 @@
     HB.confirm('Reset to the sample guide?', 'This clears your saved changes for this property and puts the sample details back.', 'Reset', () => {
       window.StayData.clear(ui.slug); ui.draft = null; ui.pid = null; HB.renderView(true); HB.toast('Back to the sample guide');
     }, true);
+  });
+  function saveFirst() {
+    if (!dirty()) return true;
+    const ok = window.StayData.write(ui.slug, ui.draft);
+    if (ok) { ui.base = JSON.stringify(ui.draft); refresh(); }
+    return ok;
+  }
+  function copyText(t) {
+    return new Promise((res) => {
+      try { if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(t).then(() => res(true), () => res(false)); return; } } catch (e) { /* use the fallback */ }
+      res(false);
+    });
+  }
+  function linkModal(link) {
+    const n = link.length; const long = n > window.StayData.SHARE_MAX;
+    const body = '<p class="muted" style="margin-bottom:10px">Copy this link. It opens the guide with your details on any phone, with no sign-in.</p>' +
+      '<label class="fld">Guest link<textarea id="wel-link" rows="4" readonly style="font-family:var(--mono);font-size:12px">' + HB.esc(link) + '</textarea></label>' +
+      '<p class="muted" id="wel-linklen" style="font-size:13px;margin:8px 0 14px">' + n.toLocaleString('en-GB') + ' characters' + (link.indexOf('&d=') < 0 ? '. You have not changed anything from the sample yet, so this opens the same guide as the printed card.' : '') + (long ? '. This is a long link; some messaging apps may cut it short, so trim the longest answers.' : '.') + '</p>' +
+      '<div class="row wrap" style="gap:8px"><button class="btn btn-primary btn-sm" type="button" id="wel-copy2" data-act="wel-copy2">' + HB.icon('copy', 15) + 'Copy link</button>' +
+      '<a class="btn btn-ghost btn-sm" id="wel-here" href="' + HB.esc(link) + '" target="_blank" rel="noopener">' + HB.icon('phone', 15) + 'Open it here</a>' +
+      '<a class="btn btn-ghost btn-sm" id="wel-sms" href="sms:?&amp;body=' + encodeURIComponent('Your welcome guide: ' + link) + '">Text it to a phone</a>' +
+      '<a class="btn btn-ghost btn-sm" id="wel-mail" href="mailto:?subject=' + encodeURIComponent('Welcome guide') + '&amp;body=' + encodeURIComponent(link) + '">Email it</a></div>';
+    const m = HB.modal({ title: 'Open the guide on a phone', body, hideFooter: true });
+    const ta = HB.$('#wel-link'); if (ta) { ta.focus(); ta.select(); }
+    return m;
+  }
+  HB.act('wel-copylink', () => {
+    if (!ui.draft) return;
+    const had = dirty(); if (!saveFirst()) { HB.toast('This browser would not let us save, so the link may be missing your last edits.', { icon: 'alert' }); }
+    const link = shareLink();
+    copyText(link).then((ok) => {
+      if (ok) HB.toast((had ? 'Saved. ' : '') + 'Guest link copied (' + link.length.toLocaleString('en-GB') + ' characters).');
+      else linkModal(link);
+    });
+  });
+  HB.act('wel-phone', () => {
+    if (!ui.draft) return; saveFirst(); linkModal(shareLink());
+  });
+  HB.act('wel-copy2', () => {
+    const ta = HB.$('#wel-link'); if (!ta) return;
+    copyText(ta.value).then((ok) => { if (ok) HB.toast('Guest link copied'); else { ta.focus(); ta.select(); HB.toast('Press copy on your keyboard to copy the selected link', { icon: 'alert' }); } });
   });
   HB.act('wel-jump', (el) => { const t = document.getElementById(el.dataset.to); if (t) { t.scrollIntoView({ behavior: 'smooth', block: 'center' }); const i = HB.$('input,textarea', t); if (i) i.focus({ preventScroll: true }); } });
 })();

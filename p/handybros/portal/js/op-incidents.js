@@ -271,10 +271,13 @@
     render() {
       const list = st.incidents.slice().sort((a, b) => (a.raised.d + a.raised.t < b.raised.d + b.raised.t ? 1 : -1));
       const open = list.filter((i) => i.status === 'open').length, ins = list.filter((i) => i.insurance).length, unsent = list.filter((i) => !i.sent).length;
-      return HB.pageHead('Incidents', 'Proof, kept for as long as it is needed.', 'When something is found, the photos from the last visit and this visit are pinned to an incident report. Everything else is tidied away at the next visit so storage stays small.', '<button class="btn btn-primary" data-act="inc-new">' + HB.icon('plus', 18) + 'Raise an incident</button>') +
+      return HB.pageHead('Incidents', 'Proof, kept for as long as it is needed.', 'When something is found, the photos from the last visit and this visit are pinned to an incident report. Everything else is tidied away at the next visit so storage stays small.', '<button class="btn btn-primary" data-act="inc-new">' + HB.icon('plus', 18) + 'Raise an incident</button><button class="btn btn-ghost" id="inc-reset-demo" data-act="inc-reset-demo">' + HB.icon('refresh', 18) + 'Reset demo</button>') +
         '<section class="figures" style="margin-bottom:30px"><div><span class="eyebrow">Open</span><b class="fig">' + open + '</b></div><div><span class="eyebrow">Insurance relevant</span><b class="fig">' + ins + '</b></div><div><span class="eyebrow">Not sent to owner</span><b class="fig">' + unsent + '</b></div><div><span class="eyebrow">All time</span><b class="fig">' + list.length + '</b></div></section>' +
         '<section><div class="sec-head"><h2>Incident reports</h2><span class="mono muted">' + list.length + '</span></div><div class="inc-list">' + list.map(incRow).join('') + '</div></section>' + storagePanel();
     }
+  });
+  HB.act('inc-reset-demo', () => {
+    HB.confirm('Reset the demo?', 'This clears the photos, incidents, ticks and visits kept in this browser and puts the sample data back. The page reloads.', 'Reset demo', () => { if (HB.resetDemo) HB.resetDemo(); }, true);
   });
   HB.act('inc-new', () => {
     const rooms = ['Whole property', 'Kitchen', 'Living room', 'Bedroom 1', 'Bedroom 2', 'Bedroom 3', 'Bathroom', 'Hallway'];

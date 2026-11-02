@@ -105,3 +105,10 @@
   .sa-qr img { width: 96px; height: 96px; }
   .sa-actions { position: static; }
 }
+
+/* share box */
+.sa-share b { display: block; font-size: 15px; }
+.sa-share .hint { margin: 4px 0 0; color: var(--muted); font-size: 13.5px; }
+.sa-share .acts { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.sa-honest { display: flex; gap: 10px; align-items: flex-start; margin: 14px 0 0; padding: 10px 12px; border-radius: 10px; background: var(--accent-soft); color: var(--ink); font-size: 13px; line-height: 1.45; }
+.sa-honest svg { flex: none; margin-top: 2px; }

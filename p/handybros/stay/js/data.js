@@ -48,7 +48,7 @@
 
   var P = {
     'yellow-door': {
-      pid: 'p4', slug: 'yellow-door', town: 'Bexhill', name: 'The Yellow Door', address: '17 Samphire Street, Bexhill TN40', img: 'yellow-door.jpg',
+      pid: 'p4', slug: 'yellow-door', town: 'Bexhill', name: 'The Yellow Door', address: '17 Samphire Street, Bexhill TN40', img: 'yellow-door-stay.jpg',
       welcome: 'Welcome to the Yellow Door. We hope you have a restful stay by the sea. Everything you need for the house is on this page, and the rest is a tap away if you need a hand.',
       wifi: { ssid: 'YellowDoor17', pass: 'brass-letterbox-9' },
       times: { checkin: '18:00', checkout: '10:00' },
@@ -122,6 +122,72 @@
   STAY.load = function (slug) {
     var base = STAY.defaults(slug), saved = STAY.readSaved(slug);
     return saved && typeof saved === 'object' ? merge(base, saved) : base;
+  };
+
+  /* Shared links. The edited guide travels inside the link, in the d= parameter, as
+     "v1." plus base64url of compact JSON. Only fields that differ from the sample are sent.
+     Anything read from a link is checked field by field before it is used. */
+  var SHARE_MAX = 6000, FIELD_MAX = 1500;
+  STAY.SHARE_MAX = SHARE_MAX;
+  function b64u(str) {
+    var bytes = new TextEncoder().encode(str), bin = '';
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+  function unb64u(txt) {
+    var s = txt.replace(/-/g, '+').replace(/_/g, '/');
+    while (s.length % 4) s += '=';
+    var bin = atob(s), bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder('utf-8', { fatal: true }).decode(bytes);
+  }
+  function cleanField(path, v) {
+    if (typeof v !== 'string') return null;
+    v = v.replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, '').replace(/\r\n?/g, '\n');
+    if (v.length > FIELD_MAX) v = v.slice(0, FIELD_MAX);
+    if (path.indexOf('times.') === 0) return /^([01]\d|2[0-3]):[0-5]\d$/.test(v) || v === '' ? v : null;
+    if (/\.phone$/.test(path)) return /^[\d+()\s-]{0,24}$/.test(v) ? v : null;
+    return v;
+  }
+  STAY.cleanShared = function (raw) {
+    var out = {}, n = 0;
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null;
+    STAY.FIELDS.forEach(function (f) {
+      if (!Object.prototype.hasOwnProperty.call(raw, f.path)) return;
+      var v = cleanField(f.path, raw[f.path]);
+      if (v !== null) { STAY.set(out, f.path, v); n++; }
+    });
+    return n ? out : null;
+  };
+  /* The link text for a guide: '' when it matches the sample exactly. */
+  STAY.encodeShare = function (slug, obj) {
+    var base = STAY.defaults(slug), diff = {}, n = 0;
+    STAY.FIELDS.forEach(function (f) {
+      var v = STAY.get(obj, f.path), b = STAY.get(base, f.path);
+      v = v == null ? '' : String(v);
+      if (v !== String(b == null ? '' : b)) { diff[f.path] = v; n++; }
+    });
+    return n ? 'v1.' + b64u(JSON.stringify(diff)) : '';
+  };
+  /* Returns the cleaned partial object, or null for anything that is not a good link. */
+  STAY.decodeShare = function (txt) {
+    try {
+      if (typeof txt !== 'string' || txt.length < 4 || txt.length > 20000 || txt.indexOf('v1.') !== 0) return null;
+      var body = txt.slice(3);
+      if (!/^[A-Za-z0-9_-]+$/.test(body)) return null;
+      return STAY.cleanShared(JSON.parse(unb64u(body)));
+    } catch (e) { return null; }
+  };
+  /* Link first, then this browser's saved edits, then the sample. */
+  STAY.loadFor = function (slug, search) {
+    var token = null;
+    try { token = new URLSearchParams(search || '').get('d'); } catch (e) { token = null; }
+    if (token) {
+      var shared = STAY.decodeShare(token);
+      if (shared) return { data: merge(STAY.defaults(slug), shared), source: 'link' };
+    }
+    var saved = STAY.readSaved(slug);
+    return { data: STAY.load(slug), source: saved && typeof saved === 'object' ? 'saved' : 'sample' };
   };
 
   STAY.get = function (obj, path) {

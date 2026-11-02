@@ -62,7 +62,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer;background:none;border:0;padding:0}
 :where(a,button,input,select,summary,[tabindex]):focus-visible{outline:2px solid var(--red-ink);outline-offset:3px;border-radius:2px}
 .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
-.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-3);font-weight:500}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:var(--label-tracking,.18em);text-transform:uppercase;color:var(--text-3);font-weight:var(--label-weight,500)}
 .eyebrow.red{color:var(--red-ink)}
 .lede{font-size:clamp(17px,1.4cqi,21px);color:var(--text-2);max-width:58ch}
 .tnum{font-variant-numeric:tabular-nums}
@@ -213,12 +213,12 @@ nav.main button.on{color:var(--text);box-shadow:inset 0 -3px 0 var(--red-hi)}
    holds an icon, because inline-flex gap turns a bare text node plus a span into
    two spaced items. Reads no CONFIG. The hit-marker is hitmarker.css/.js. */
 /* ---------- buttons ---------- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--ui);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:14.5px;
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--ui);font-weight:700;text-transform:uppercase;letter-spacing:var(--btn-tracking,.06em);font-size:14.5px;
   padding:13px 20px;min-height:46px;border-radius:2px;border:2px solid transparent;white-space:nowrap;transition:transform .08s ease,background .15s}
 .btn:active{transform:translateY(1px)}
-.btn.primary{background:var(--red);color:var(--on-red);border-color:var(--red)}
+.btn.primary{background:var(--btn-primary-bg,var(--red));color:var(--btn-primary-fg,var(--on-red));border-color:var(--btn-primary-border,var(--red))}
 .btn.primary:hover{background:var(--red-2);border-color:var(--red-2)}
-.btn.ghost{border-color:var(--line-strong);color:var(--text)}
+.btn.ghost{border-color:var(--btn-ghost-border,var(--line-strong));color:var(--text)}
 .btn.ghost:hover{background:var(--surface-2)}
 .btn.quiet{color:var(--text-2);padding-inline:8px}
 .btn.quiet:hover{color:var(--text)}
@@ -325,7 +325,10 @@ h3{font-size:clamp(22px,2.1cqi,28px);line-height:1.1;margin-top:12px!important}
 .fold.open>*{overflow:visible;visibility:visible;transition-delay:0s}
 @media (prefers-reduced-motion:reduce){.fold{transition:none}}
 /* soft edges (Greg, 2 Nov): pill buttons, rounded cards and panels, nothing cut square but the hazard rule */
-#app .btn,#app .card,#app .enamel,#app .board,#app .day,#app .sign,#app .tile,#app .quotes blockquote,#app .count div,#app .lever,#app .tier,#app .hero-meta,#app input,#app select,#app textarea{border-radius:12px}
+#app .btn{border-radius:var(--btn-radius,12px)}
+#app .card,#app .enamel,#app .board,#app .day,#app .sign,#app .tile,#app .quotes blockquote,#app .count div,#app .lever,#app .tier,#app .hero-meta,#app input,#app select,#app textarea{border-radius:var(--card-radius,12px)}
+/* the brand's card shape: filled and rounded by default; "none" is content on the ground between hairlines (NML, 2 Nov) */
+#app .card,#app .enamel,#app .day,#app .sign,#app .datecard,#app .pricecard,#app .shophow .kv,#app .hero-meta,#app .board{background:var(--card-bg,var(--surface));border-color:var(--card-border,var(--line-strong))}
 #app .board .hd{border-radius:12px 12px 0 0}
 #app .filters button,#app .board .r .status,#app .pill{border-radius:999px}
 #app .lever button:first-child{border-radius:12px 0 0 12px}#app .lever button:last-child{border-radius:0 12px 12px 0}
@@ -345,7 +348,7 @@ p{line-height:1.6}
 #app img:not(.brandmark):not(.foot-mark):not([class*=mark]):not(.hero .stage img){filter:contrast(1.06) saturate(.9) brightness(.95)}
 /* ---------- the next three dates as cards (days.js fills #nextCards), the full board folded under them ---------- */
 .datecards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;position:relative}
-.datecard{position:relative;display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--line-strong);border-radius:12px;padding:20px 20px 18px;overflow:hidden}
+.datecard{position:relative;display:flex;flex-direction:column;gap:6px;background:var(--card-bg,var(--surface));border:1px solid var(--card-border,var(--line-strong));border-radius:var(--card-radius,12px);padding:20px 20px 18px;overflow:hidden}
 .datecard::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:var(--line-strong)}
 .datecard.next::before{background:var(--red)}
 .datecard .dd{font-family:var(--display);font-size:clamp(26px,2.4cqi,34px);line-height:1;text-transform:uppercase;margin-top:6px}
@@ -356,7 +359,7 @@ p{line-height:1.6}
 .datecard .btn{align-self:flex-start;margin-top:10px}
 /* ---------- the shop: a standalone screen ---------- */
 .shophow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:8px}
-.shophow .kv{display:block;border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:var(--surface)}
+.shophow .kv{display:block;border:1px solid var(--card-border,var(--line));border-radius:var(--card-radius,12px);padding:16px 18px;background:var(--card-bg,var(--surface))}
 .shophow .kv span{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px}
 .shophow .kv b{font-weight:600;font-size:15px;white-space:normal;display:block}
 #prodGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;position:relative}
@@ -365,7 +368,7 @@ p{line-height:1.6}
 #prodGrid article .btn{margin-top:auto!important}
 /* ---------- price cards: three across, a hazard band under the figure, bullets ---------- */
 .pricecards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:stretch;position:relative}
-.pricecard{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line-strong);border-radius:12px;overflow:hidden}
+.pricecard{display:flex;flex-direction:column;background:var(--card-bg,var(--surface));border:1px solid var(--card-border,var(--line-strong));border-radius:var(--card-radius,12px);overflow:hidden}
 .pricecard .top{padding:clamp(18px,2cqi,26px);border-bottom:2px solid var(--red)}
 .pricecard h3{margin:6px 0 0!important;font-size:clamp(22px,2.1cqi,28px)}
 .pricecard .price{font-family:var(--display);font-size:clamp(44px,4.4cqi,64px);line-height:1.1;color:var(--red-ink);margin-top:20px;padding-top:.1em;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}   /* a stencil face's figure runs above its line box: air over the title */
@@ -443,8 +446,8 @@ p{line-height:1.6}
 @media (min-height:900px){.hero{min-height:min(80vh,760px)}}
 .hero .photo{position:absolute;inset:0}
 .hero .photo .stage img.slide{filter:contrast(1.07) saturate(.92) brightness(.9)}
-.hero .photo .stage::after{background:linear-gradient(96deg,color-mix(in srgb,var(--bg) 90%,transparent) 0%,color-mix(in srgb,var(--bg) 84%,transparent) 30%,color-mix(in srgb,var(--bg) 46%,transparent) 46%,color-mix(in srgb,var(--bg) 16%,transparent) 62%,color-mix(in srgb,var(--bg) 8%,transparent) 100%),
-  linear-gradient(180deg,color-mix(in srgb,var(--bg) 24%,transparent) 0%,transparent 30%,color-mix(in srgb,var(--bg) 26%,transparent) 72%,color-mix(in srgb,var(--bg) 78%,transparent) 100%)}
+.hero .photo .stage::after{background:var(--hero-scrim,linear-gradient(96deg,color-mix(in srgb,var(--bg) 90%,transparent) 0%,color-mix(in srgb,var(--bg) 84%,transparent) 30%,color-mix(in srgb,var(--bg) 46%,transparent) 46%,color-mix(in srgb,var(--bg) 16%,transparent) 62%,color-mix(in srgb,var(--bg) 8%,transparent) 100%),
+  linear-gradient(180deg,color-mix(in srgb,var(--bg) 24%,transparent) 0%,transparent 30%,color-mix(in srgb,var(--bg) 26%,transparent) 72%,color-mix(in srgb,var(--bg) 78%,transparent) 100%))}
 /* the film reads as dusk, not black: exposure lifted under a scrim that leaves the right half open */
 .hero .photo .stage video.film{filter:var(--film-grade,brightness(1.28) contrast(1.04) saturate(1.05))}
 .hero .photo .stage img.slide{filter:var(--film-grade,brightness(1.05) contrast(1.05) saturate(.95))}
@@ -460,7 +463,7 @@ p{line-height:1.6}
 .hero .frame.tall{height:clamp(250px,46vh,540px);margin-top:0}
 .hero .frame img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.06) saturate(.92)}
 .hero .place{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:clamp(28px,.3em,40px)}   /* the stencil face's glyphs run above the headline's line box */
-.hero .place .eyebrow{color:var(--text);white-space:nowrap;font-size:12px;letter-spacing:.16em;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+.hero .place .eyebrow{color:var(--text);white-space:nowrap;font-size:12px;letter-spacing:var(--label-tracking,.16em);font-weight:500;text-shadow:0 1px 12px rgba(0,0,0,.6)}   /* over the film the kicker keeps weight whatever the brand's label weight */
 .hero .place .pair{display:inline-block;white-space:nowrap;border-left:1px solid var(--line-strong);padding-left:14px;line-height:1.3}   /* a rule, not a dot: wrapped to a new line it still reads as a divider */
 .hero .place .eyebrow+.eyebrow::before{content:"\00b7";color:var(--red-ink);margin:0 14px 0 4px}
 .hero h1{font-size:min(clamp(48px,6.6vw,104px),11vh);letter-spacing:.005em;max-width:13ch;text-shadow:0 2px 24px rgba(0,0,0,.45)}
@@ -517,8 +520,24 @@ html.splat-done .hero .splat{animation:none}
 
 /* ---------- street signs: your facts as sign blocks, in your colours ---------- */
 .signs{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:22px}
-.sign{position:relative;background:var(--surface-2);color:var(--text);border:1px solid var(--line-strong);padding:18px 18px 16px}
+.sign{position:relative;background:var(--card-bg,var(--surface-2));color:var(--text);border:1px solid var(--card-border,var(--line-strong));padding:18px 18px 16px}
 .sign::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--text)}
+.sign .ic{display:none;width:28px;height:28px;margin:0 auto 12px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+/* the brand with no cards (--card-hairline): the sign is a feature, centred: a line icon, the label, a dashed connector, the fact */
+:root[style*="--card-hairline"] .sign,.hairline .sign{text-align:center;padding:22px 14px 18px;border-width:0 1px 0 0;border-radius:0}
+:root[style*="--card-hairline"] .sign:last-child,.hairline .sign:last-child{border-right:0}
+:root[style*="--card-hairline"] .sign::before,.hairline .sign::before{content:none}
+:root[style*="--card-hairline"] .sign .ic,.hairline .sign .ic{display:block}
+:root[style*="--card-hairline"] .sign small,.hairline .sign small{order:-1;margin:0 0 10px;color:var(--text)}
+:root[style*="--card-hairline"] .sign b,.hairline .sign b{font-family:var(--ui);font-weight:400;font-size:15px;color:var(--text-2);text-transform:none;position:relative;padding-top:16px}
+:root[style*="--card-hairline"] .sign b::before,.hairline .sign b::before{content:"";position:absolute;left:50%;top:0;height:12px;border-left:1px dashed var(--text-3)}
+:root[style*="--card-hairline"] .sign,.hairline .sign{display:flex;flex-direction:column;align-items:center}
+.hairline .signs{gap:0}
+.hairline .sign.warn{background:transparent;color:var(--text);border-color:var(--card-border,var(--line-strong))}
+.hairline .sign.warn small{color:var(--text);opacity:1}
+/* a brand with no cards still needs a ground under a card that sits on a photograph (the parties quote, the shop vouchers) */
+#app.hairline .photoband .card,#app.hairline .photoband .enamel,#app.hairline .plate .card,#app.hairline .plate .enamel{background:color-mix(in srgb,var(--bg) 92%,transparent)}
+#app.hairline .eyebrow{color:var(--text-2)}   /* a light spaced label needs the brighter grey to read at 11px */
 .sign b{display:block;font-family:var(--display);font-size:clamp(20px,1.8cqi,26px);line-height:1.1;text-transform:none;letter-spacing:0;text-wrap:balance}
 .sign small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-top:8px;color:var(--text-3)}
 .sign.warn{background:var(--red);color:var(--on-red);border-color:var(--red)}
@@ -825,9 +844,10 @@ footer.site ul button:hover{color:var(--red-ink)}
    The basket drawer and the checkout step (TEMPLATES.md 19g). Tokens only: --bg --surface --surface-2 --sunk --line
    --line-strong --text --text-2 --text-3 --red --red-ink --on-red --ui --mono --display --shadow. Expects basket.js's DOM:
    #basketScrim, #basketDrawer (.lines, .line, .qty, .total, .checkout, .done), #basketPill in the site header. */
-#basketPill.hdr{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 14px;font-size:12.5px;cursor:pointer;border-radius:999px;background:var(--red);color:var(--on-red);border:0;font-family:var(--ui);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+#basketPill.hdr{display:inline-flex;align-items:center;gap:8px;min-height:38px;padding:0 12px 0 10px;font-size:12.5px;cursor:pointer;border-radius:var(--btn-radius,999px);background:var(--btn-primary-bg,var(--red));color:var(--btn-primary-fg,var(--on-red));border:1px solid var(--btn-primary-border,var(--red));font-family:var(--ui);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+#basketPill.hdr .bi{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 #basketPill.hdr[hidden]{display:none}
-#basketPill.hdr .n{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--on-red);color:var(--red);font-family:var(--mono);font-size:11px;font-weight:700}
+#basketPill.hdr .n{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--btn-primary-fg,var(--on-red));color:var(--btn-primary-bg,var(--red));font-family:var(--mono);font-size:11px;font-weight:700}
 #basketScrim{position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:opacity .3s;z-index:900}
 #basketScrim.open{opacity:1;pointer-events:auto}
 #basketDrawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--surface);color:var(--text);border-left:1px solid var(--line);box-shadow:var(--shadow);transform:translateX(102%);transition:transform .38s cubic-bezier(.2,.7,.2,1);z-index:901;display:flex;flex-direction:column;font-family:var(--ui)}
@@ -1377,20 +1397,20 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 @media (max-width:480px){.evprice{grid-template-columns:1fr}}
 .evtop .splat{display:none}
 #app .rip{position:relative;display:inline-block;transform:none;clip-path:none;margin:0;background:var(--surface-2);color:var(--text);border:2px solid var(--text);border-radius:0;padding:.4em .9em .42em;
-  font-family:var(--display);text-transform:uppercase;line-height:1;letter-spacing:.01em;font-size:clamp(24px,2.6cqi,38px);box-shadow:0 10px 24px -14px #000}
+  font-family:var(--display);text-transform:uppercase;line-height:1.15;letter-spacing:.01em;font-size:clamp(16px,1.7cqi,26px);display:block;width:fit-content;max-width:100%;white-space:normal;overflow-wrap:anywhere;box-shadow:0 10px 24px -14px #000}   /* a wide display face (Michroma) wraps inside its box, never over the poster */
 #app .rip.tilt{background:var(--red);color:var(--on-red);border-color:var(--red)}
 #app .rip.ink{background:var(--sunk);color:var(--text);border-color:var(--text)}
 #app .rip.sm{font-size:clamp(18px,1.8cqi,26px)}
 #app .evsub{margin-bottom:14px}   /* the sign restyle below zeroes the rip's margin; the stencil subtitle needs clear air above the date sign */
 .rip small{display:block;font-family:var(--mono);font-size:.3em;letter-spacing:.14em;font-weight:500;margin-top:10px;opacity:.92;text-transform:uppercase}   /* the stencil face's glyph box runs under its line box; the small line sat a quarter of the way into the figure above it */
-#app .rip span{font-weight:400;line-height:1.1}
+#app .rip span{font-weight:400;line-height:1.15;white-space:normal;display:inline}
 /* the events page in this layout: the kicker is set like every other heading, in the stencil, upright, one weight; no grit filter (that is another site's device) */
 #app .evkick{text-transform:uppercase;font-weight:400;font-size:clamp(44px,5cqi,80px);letter-spacing:.02em}
 #app .phead h3{filter:none;font-weight:400;color:var(--text)}
 </style>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black:wght@400;700;900&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black:wght@400;700;900&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap"></noscript>
-<style id="site-tokens">:root{--bg:#0A0A0A;--surface:#161616;--surface-2:#232323;--sunk:#070707;--line:#313131;--line-soft:#202020;--line-strong:#545454;--text:#FFFFFF;--text-2:#D3D3D3;--text-3:#9A9A9A;--brand-fill:#FFFFFF;--brand-fill-2:#FFFFFF;--brand-ink:#FFFFFF;--brand-hi:#FFFFFF;--brand-ghost:#404040;--on-red:#141312;--brand-scheme:dark;--display:"Archivo Black",var(--display-fallback,Impact,"Arial Narrow",sans-serif);--ui:"Barlow",ui-sans-serif,system-ui,sans-serif;--mono:"Barlow Condensed",ui-monospace,SFMono-Regular,Menlo,monospace;--film-grade:grayscale(.88) contrast(1.1) brightness(1.18);--photo-grade:grayscale(.7) contrast(1.08) brightness(1.02)}</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma:wght@400;700;900&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma:wght@400;700;900&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@300;400;500;600;700&display=swap"></noscript>
+<style id="site-tokens">:root{--bg:#0B0B0B;--surface:#171717;--surface-2:#232323;--sunk:#070707;--line:#323232;--line-soft:#212121;--line-strong:#545454;--text:#FFFFFF;--text-2:#D3D3D3;--text-3:#9A9A9A;--brand-fill:#FFFFFF;--brand-fill-2:#FFFFFF;--brand-ink:#FFFFFF;--brand-hi:#FFFFFF;--brand-ghost:#414141;--on-red:#141312;--brand-scheme:dark;--display:"Michroma",var(--display-fallback,Impact,"Arial Narrow",sans-serif);--ui:"Barlow",ui-sans-serif,system-ui,sans-serif;--mono:"Barlow Condensed",ui-monospace,SFMono-Regular,Menlo,monospace;--film-grade:brightness(1.12) contrast(1.03) saturate(1.02);--photo-grade:contrast(1.04) saturate(1);--hero-scrim:linear-gradient(96deg,color-mix(in srgb,#0B0B0B 90%,transparent) 0%,color-mix(in srgb,#0B0B0B 84%,transparent) 30%,color-mix(in srgb,#0B0B0B 40%,transparent) 50%,transparent 64%),linear-gradient(180deg,color-mix(in srgb,#0B0B0B 10%,transparent) 0%,color-mix(in srgb,#0B0B0B 4%,transparent) 30%,color-mix(in srgb,#0B0B0B 62%,transparent) 58%,color-mix(in srgb,#0B0B0B 92%,transparent) 80%,#0B0B0B 100%);--btn-radius:999px;--btn-tracking:.14em;--card-bg:transparent;--card-border:color-mix(in srgb,#FFFFFF 28%,transparent);--card-radius:0;--card-hairline:1;--label-tracking:.3em;--label-weight:300;--icon-style:line}</style>
 </head>
 <body>
 
@@ -1446,7 +1466,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
   <span id="brandNote" class="mono" style="font-size:11px;color:var(--text-3);flex-basis:100%"></span>
 </div>
 
-<div id="app">
+<div id="app" class="hairline">
 <!-- part: svgdefs.html
      The page's SVG defs, once, at the top of #app: the #grit displacement filter
      the display type and the headings run through, and the icon symbols the
@@ -1471,7 +1491,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
   <div class="wrap headrow">
     <a class="mark" href="#" data-go="home" aria-label="NML Airsoft home">
       <span class="brandmark" id="brandmark" role="img" aria-hidden="true"></span>
-      <span class="wordmark">NML Airsoft<small>Shafton &middot; Barnsley &middot; S72 8RE</small></span>
+      <span class="wordmark">NML Airsoft<small>Shafton, Barnsley</small></span>
     </a>
     <nav class="main" id="nav">
       <button data-go="days">Sessions</button>
@@ -1544,10 +1564,10 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
       <div class="signs">
         
         
-        <div class="sign"><b>08:00 to 17:00</b><small>A game day</small></div>
-        <div class="sign"><b>Saturdays 12:45, Sundays 09:45</b><small>Start times</small></div>
+        <div class="sign"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg><b>08:00 to 17:00</b><small>A game day</small></div>
+        <div class="sign"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg><b>Saturdays 12:45, Sundays 09:45</b><small>Start times</small></div>
         
-        <div class="sign warn"><b>Woodland, trenches, bunkers</b><small>The ground</small></div>
+        <div class="sign warn"><svg class="ic" aria-hidden="true"><use href="#i-pistol"/></svg><b>Woodland, trenches, bunkers</b><small>The ground</small></div>
       </div>
       <p class="note"><b>Why</b><span>Four street signs, four facts, every word off your homepage. The sign is the device this whole design is built on: your arena's theme, rendered as the street furniture it would have. Nothing here is invented.</span></p>
     </div>
@@ -1810,9 +1830,9 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           <div class="enamel"><div class="pad">
             <p class="eyebrow">On Google today</p>
             <p class="bigfig" style="margin-top:8px"><em>4.9</em> from 75 reviews</p>
-            <p class="small muted" style="margin-top:12px">On Google, 2 Nov 2026 15:29.</p>
+            <p class="small muted" style="margin-top:12px">On Google, 2 Nov 2026 18:14.</p>
           </div></div>
-          <p class="note"><b>Why</b><span>Read from your Google Business Profile on 2 Nov 2026 15:29. The number is real; your site does not show it anywhere.</span></p>
+          <p class="note"><b>Why</b><span>Read from your Google Business Profile on 2 Nov 2026 18:14. The number is real; your site does not show it anywhere.</span></p>
         </div>
       </div>
     </div>
@@ -2373,7 +2393,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
     </div>
     <p style="margin-top:18px;font-family:var(--mono);font-size:13px"><a href="aoc/index.html" target="_blank" rel="noopener">Console: owners sign in</a></p>
     <div class="legal">
-      <span>Design proposal by ThinkWork for discussion with you at NML Airsoft. Hours, address, phone, email, prices, words and pictures are your own, taken from nmlairsoft.co.uk on 2 Nov 2026 15:29. Session prices are not published on your site and every one shown is sample, flagged in the toolbar's placeholder mode along with everything else awaiting your real figures. Not the live site. No live payments.</span>
+      <span>Design proposal by ThinkWork for discussion with you at NML Airsoft. Hours, address, phone, email, prices, words and pictures are your own, taken from nmlairsoft.co.uk on 2 Nov 2026 18:14. Session prices are not published on your site and every one shown is sample, flagged in the toolbar's placeholder mode along with everything else awaiting your real figures. Not the live site. No live payments.</span>
       <span class="mono">thinkwork.info</span>
     </div>
   </div>
@@ -2405,7 +2425,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 /* One object, written by engine/build.mjs out of businesses/<slug>.json. Every
    engine part reads its business-specific values from here, so no part carries
    a client's name, price, date, copy or file name. */
-const CONFIG = {"slug":"nmlairsoft","layout":"midtown-grid","business":{"name":"NML Airsoft","short":"NML Airsoft","legalName":"NML Barnsley Ltd","kind":"Woodland airsoft site","site":"https://nmlairsoft.co.uk","domain":"nmlairsoft.co.uk","phone":"01226 885092","phoneE164":"+441226885092","street":"","town":"Shafton","county":"Barnsley","postcode":"S72 8RE","address":"Shafton, Barnsley, S72 8RE","address_short":"Shafton &middot; Barnsley &middot; S72 8RE","address_lines":"Shafton<br>Barnsley<br>S72 8RE","place":"Shafton, Barnsley","facebook":"https://www.facebook.com/profile.php?id=61573641615723","email":"info@nmlairsoft.co.uk","rating":"4.9","reviews":"75","geo":{"lat":"53.5812","lng":"-1.3979"},"addressLine":", Shafton, Barnsley, S72 8RE","postcodeUrl":"S72+8RE"},"design":{"hero":"photograph","map":{"spots":{"gate":{"x":46,"y":80},"safe":{"x":38,"y":64},"field":{"x":30,"y":44},"wood":{"x":56,"y":32},"trench":{"x":70,"y":58},"village":{"x":20,"y":50},"street":{"x":52,"y":52},"unit":{"x":50,"y":50}}},"accent":"#3182B5","notes":"Accent #3182B5 from the logo; the template's own palette otherwise."},"brand":{"palette":{"paper":"#0A0A0A","ink":"#FFFFFF","accent":"#FFFFFF","accent_ink":"#FFFFFF","muted":"#9A9A9A"},"type":{"display":"Archivo Black","body":"Barlow","source":"NML Armoury poster (Greg, 2 Nov) and https://www.nmlarmoury.co.uk","note":"the poster sets a heavy extended distressed display face in white caps, spaced condensed caps for subheads, a plain sans for body","label":"Barlow Condensed"},"mark":"img-1.png","tone":"monochrome: near-black ground, white type, white pill buttons with black ink, hairline white rules, line icons, no colour accent at all; the Armoury poster is the reference","made_by":null,"source":"Greg, 2 Nov: 'this is their brand', the NML Armoury Tech Services poster; nmlarmoury.co.uk is the shop's own site","reference":"businesses/nmlairsoft.assets/brand-reference-armoury-poster.png","checked":{"ink_on_paper":19.8,"accent_ink_on_paper":19.8,"muted_on_paper":7.04,"scheme":"dark"}},"assets":{"logo":"assets/img-1.png","logo-2":"assets/img-1.png","logo-3":"assets/img-1.png","photo-7":"assets/img-2.jpg","hero-3":"assets/img-3.jpg","photo-3":"assets/img-3.jpg","poster-2":"assets/img-4.jpg","hero-4":"assets/img-5.jpg","photo-4":"assets/img-5.jpg","hero-5":"assets/img-6.jpg","photo-5":"assets/img-6.jpg","hero-1":"assets/img-7.jpg","photo-1":"assets/img-7.jpg","hero-2":"assets/img-8.jpg","photo-2":"assets/img-8.jpg","aerial":"assets/img-9.jpg","poster-3":"assets/img-12.jpg","photo-6":"assets/img-14.jpg","poster-1":"assets/img-15.jpg","poster-4":"assets/img-16.jpg","hero-film":"assets/nml-film.mp4","hero-film-portrait":"assets/nml-film-portrait.mp4","hero-film-poster":"assets/nml-film.jpg","hero-film-poster-portrait":"assets/nml-film-portrait.jpg","img-1":"assets/img-1.png","img-1.png":"assets/img-1.png","img-2":"assets/img-2.jpg","img-2.jpg":"assets/img-2.jpg","img-3":"assets/img-3.jpg","img-3.jpg":"assets/img-3.jpg","img-4":"assets/img-4.jpg","img-4.jpg":"assets/img-4.jpg","img-5":"assets/img-5.jpg","img-5.jpg":"assets/img-5.jpg","img-6":"assets/img-6.jpg","img-6.jpg":"assets/img-6.jpg","img-7":"assets/img-7.jpg","img-7.jpg":"assets/img-7.jpg","img-8":"assets/img-8.jpg","img-8.jpg":"assets/img-8.jpg","img-9":"assets/img-9.jpg","img-9.jpg":"assets/img-9.jpg","img-10":"assets/img-10.jpg","img-10.jpg":"assets/img-10.jpg","img-11":"assets/img-11.jpg","img-11.jpg":"assets/img-11.jpg","img-12":"assets/img-12.jpg","img-12.jpg":"assets/img-12.jpg","img-13":"assets/img-13.jpg","img-13.jpg":"assets/img-13.jpg","img-14":"assets/img-14.jpg","img-14.jpg":"assets/img-14.jpg","img-15":"assets/img-15.jpg","img-15.jpg":"assets/img-15.jpg","img-16":"assets/img-16.jpg","img-16.jpg":"assets/img-16.jpg","nml-film":"assets/nml-film.mp4","nml-film.mp4":"assets/nml-film.mp4","nml-film-portrait":"assets/nml-film-portrait.mp4","nml-film-portrait.mp4":"assets/nml-film-portrait.mp4","nml-film.jpg":"assets/nml-film.jpg","nml-film-portrait.jpg":"assets/nml-film-portrait.jpg","shop-bb":"assets/shop-bb.jpg","shop-bb.jpg":"assets/shop-bb.jpg","shop-hpa":"assets/shop-hpa.jpg","shop-hpa.jpg":"assets/shop-hpa.jpg","shop-snood":"assets/shop-snood.jpg","shop-snood.jpg":"assets/shop-snood.jpg","shop-tracer":"assets/shop-tracer.jpg","shop-tracer.jpg":"assets/shop-tracer.jpg"},"siteUrl":"https://thinkwork.info/airsoft/nmlairsoft/","aocUrl":"aoc/index.html","consoleUrl":"aoc/index.html","fares":{"walkon":{"full":{"n":30,"m":30},"half":{"n":30,"m":30}},"hire":{"full":{"n":45,"m":45},"half":{"n":45,"m":45}}},"membership":{"price":40,"year":"January to December","yearEnd":"end of December","renewMonth":1,"note":"Sample membership until yours is confirmed."},"schedule":{"times":["08:30","10:00","16:00"],"lunch":"12:30","regular":{"day":0,"dayName":"Sunday","label":"Weekend game days","detail":"Saturdays from 12:45 and Sundays from 09:45. Gates 08:00, games end 17:00.","count":12},"extra":{"day":3,"dayName":"Wednesday","label":"Wednesday and Friday game nights","detail":"Midweek game nights every Wednesday and Friday. Times live in your booking platform.","fromMonth":0,"toMonth":11,"tba":true},"breakFrom":"12-24","breakTo":"01-02","cap":60},"events":[{"key":"night","name":"Night game","short":"Night game","iso":"2026-11-28","dayName":"Saturday","detail":"A night game on the last Saturday of the month: gates 16:00, games from dusk, torches and tracers. £25 entry, £10 deposit to secure.","times":["16:00"],"sample":true,"price":25,"deposit":10,"prize":false,"left":14,"cap":40,"where":"Shafton, Forest Lane, Shafton, AB1 2CD","tag":"Torches on. Tracers in."},{"key":"newyear","name":"New Year game day","short":"New Year","iso":"2027-01-03","dayName":"Sunday","detail":"The first Sunday of the year: 10% off game day fees and ten prizes on the day.","times":["08:30"],"sample":true,"off":0.9,"offLabel":"10% off game day fees","prizes":10,"tag":"Start the year in the wood."},{"key":"1v1","name":"1v1 tournament","short":"1v1","iso":"2026-12-05","dayName":"Saturday","detail":"One on one in the village. Your own gun, limited ammo. £30 entry, £10 deposit to secure. £50 to the winner.","times":["08:30","09:30","16:00"],"sample":true,"price":30,"deposit":10,"prize":true,"left":6,"cap":24,"tag":"One shot. One winner."},{"key":"anniversary","name":"Anniversary game day","short":"Ten years","iso":"2026-11-01","dayName":"Sunday","detail":"Anniversary game day. 10% off game day fees, ten prizes given away on the day, cake at lunch.","times":["08:30","10:00","16:00"],"sample":true,"off":0.9,"offLabel":"Ten years: 10% off game day fees","prizes":10,"tag":"Come and help us celebrate ten years."},{"key":"ev1","name":"Spring open day","short":"Open day","iso":"2027-04-11","dayName":"Sunday","detail":"An open day for new players: a taster session in the morning, a full game in the afternoon, hire kit included. Walk-on £25, hire £45 with the walk-on included.","times":["08:30","10:30","16:00"],"sample":true,"price":25,"deposit":5,"left":22,"cap":60,"where":"Shafton, Forest Lane, Shafton, AB1 2CD"},{"key":"ev2","name":"Autumn big game","short":"Big game","iso":"2027-10-10","dayName":"Sunday","detail":"The big game of the year: two sides, the whole site, the fort to take by four. Walk-on £25, hire £45 with the walk-on included.","times":["08:30","10:30","16:00"],"sample":true,"price":25,"deposit":5,"left":31,"cap":120,"where":"Shafton, Forest Lane, Shafton, AB1 2CD"}],"platform":{"api":"https://aoc.peerlab.ai","booking":"on","note":"demo tenant nmlairsoft on the platform, made 2 Nov (CONTRACT.md 18f); the sheet runs on the proposal"},"mode":"proposal","ref":"NA","copy":{"todayTake":"Sample take so far today.","breakEven":"Sample break-even line for a Sunday.","renewToast":"Sample: membership renewal reminder.","sumOwn":"Walk-on, own kit","lineOwn":"Bring your own rifle and protection.","sumMember":"Walk-on, member rate","lineMember":"Members pay less on every game day.","fareboard":{"sumOwn":"Walk-on","lineOwn":"Own kit, full day.","sumMember":"Member walk-on","lineMember":"The member rate."},"band1":"Veteran owned and run.","band2":"Trenches, bunkers and a village.","band3":"Wednesday and Friday nights, every weekend.","shop_title":"NML Armoury, now online","shop_line":"Our shop four minutes from the site: BBs and gas, kit, clothing and upgrades, to collect at the Armoury, on game day, or delivered."},"sample":{"spaces":[],"fares":{"price_nonmember_walkon_full":25,"price_member_walkon_full":20,"price_nonmember_hire_full":45,"price_member_hire_full":40,"price_nonmember_walkon_half":15,"price_member_walkon_half":12,"price_nonmember_hire_half":30,"price_member_hire_half":25,"price_walkon_full":25,"price_walkon_day":25,"price_hire":20,"price_rental_full":45,"price_rental_day":45,"price_nerf":15,"price_taster":20},"addons":[{"id":"ammo","n":"Extra 1000 BBs","s":"Top up between games","p":5,"per":false,"on":true},{"id":"gas","n":"Green gas refill","s":"For gas rifles and pistols","p":4,"per":false,"on":false},{"id":"lunch","n":"Hot lunch","s":"From the tuck shop at 12:30","p":6,"per":true,"on":false}],"block":{"price":200,"days":1,"dayRate":200,"label":"Private hire, up to 20 players","note":"Sample private hire price."},"products":[["BB pack, 0.20g, 2000",8,"BBs and gas","assets/shop-bb.jpg"],["HPA fill",3,"BBs and gas","assets/shop-hpa.jpg"],["Buff / snood",12,"Clothing","assets/shop-snood.jpg"],["Tracer BBs, 1000",10,"BBs and gas","assets/shop-tracer.jpg"]],"model":{"days":52,"addAvg":4,"groupAvg":6,"foodPer":6,"depositPct":20},"live":{"time":"11:00","day":"Sunday","game":2,"of":5,"next":"12:00","onSite":38,"inGate":4,"closed":""},"backend":{"names":["Alex Sample","Sam Sample","Jo Sample","Chris Sample","Pat Sample","Robin Sample","Ash Sample","Lee Sample"],"mix":[["walkon","full",false,4],["walkon","full",true,3],["hire","full",false,3]],"noWaiver":[2],"under18":[5],"pinName":"GATE-01","pre":{"lunch":{"n":10,"p":6,"label":"Hot lunch"},"bb":{"n":6,"p":5,"label":"Extra 1000 BBs"},"gas":{"n":3,"p":4,"label":"Green gas refill"}},"joinedToday":2,"lastYear":48,"lastYearPlayers":34,"walkups":3,"cardFees":1.5,"chronoTime":"09:15","bracketSize":8,"membersCount":60,"bookings":[],"members":[],"entrants":[],"moneyLines":[["Walk-on x24","£600"],["Hire x9","£405"],["Nerf x6","£90"]],"payouts":[["Top gun prize","£30"]],"annPost":"Posted to the gate noticeboard after each game day."}},"content":{"labels":{"walkon":"Walk-on","hire":"Hire","half":"Half day"},"jsonld":{"description":"NML Airsoft: airsoft game days near Shafton. Walk on with your own kit or hire a package; book your place online.","fareLabels":{"walkon":"Walk-on","hire":"Hire"}}},"cesiumToken":""};
+const CONFIG = {"slug":"nmlairsoft","layout":"midtown-grid","business":{"name":"NML Airsoft","short":"NML Airsoft","legalName":"NML Barnsley Ltd","kind":"Woodland airsoft site","site":"https://nmlairsoft.co.uk","domain":"nmlairsoft.co.uk","phone":"01226 885092","phoneE164":"+441226885092","street":"","town":"Shafton","county":"Barnsley","postcode":"S72 8RE","address":"Shafton, Barnsley, S72 8RE","address_short":"Shafton &middot; Barnsley &middot; S72 8RE","address_lines":"Shafton<br>Barnsley<br>S72 8RE","place":"Shafton, Barnsley","facebook":"https://www.facebook.com/profile.php?id=61573641615723","email":"info@nmlairsoft.co.uk","rating":"4.9","reviews":"75","geo":{"lat":"53.5812","lng":"-1.3979"},"addressLine":", Shafton, Barnsley, S72 8RE","postcodeUrl":"S72+8RE"},"design":{"hero":"photograph","map":{"spots":{"gate":{"x":46,"y":80},"safe":{"x":38,"y":64},"field":{"x":30,"y":44},"wood":{"x":56,"y":32},"trench":{"x":70,"y":58},"village":{"x":20,"y":50},"street":{"x":52,"y":52},"unit":{"x":50,"y":50}}},"accent":"#3182B5","notes":"Accent #3182B5 from the logo; the template's own palette otherwise."},"brand":{"palette":{"paper":"#0B0B0B","ink":"#FFFFFF","accent":"#FFFFFF","accent_ink":"#FFFFFF","muted":"#9A9A9A"},"type":{"display":"Michroma","label":"Barlow Condensed","body":"Barlow","source":"NML Armoury poster (Greg, 2 Nov) and https://www.nmlarmoury.co.uk","note":"display: a wide squared techno face in white caps with a distressed edge (TECH SERVICES); Michroma is the closest Google face; label: light spaced caps at .3em tracking (REPAIRS, MAINTENANCE & UPGRADES); body: bold condensed caps for statements (EXPERT TECH WORK WITH A 21 DAY TURNAROUND), regular for prose","label_style":"light spaced caps at .3em tracking"},"mark":"img-1.png","tone":"black ground, colour photographs under a black gradient, white type in a wide techno display face, spaced caps labels, pill buttons, hairline rules, line icons, centred compositions with generous space","made_by":null,"source":"Greg, 2 Nov: 'this is their brand', the NML Armoury Tech Services poster; nmlarmoury.co.uk is the shop's own site","reference":"businesses/nmlairsoft.assets/brand-reference-armoury-poster.png","checked":{"ink_on_paper":19.8,"accent_ink_on_paper":19.8,"muted_on_paper":7.04,"scheme":"dark"},"image":{"treatment":"colour photographs and film as shot, under a black gradient that rises from the bottom (solid black at the foot, clear at the top third); never desaturated or cold-graded","source":"the poster","grade":"colour","scrim":"foot"},"shape":{"button":"full pill, black fill, 1px white border, white spaced caps; secondary: the same outline with no fill","card":"no filled cards: content sits on the black ground separated by hairline white rules and space; a feature is an icon, a bold condensed label, a short dashed vertical connector, then the line of copy","corner":"999px on buttons, 0 on panels","buttons":"pill","button_fill":"paper","cards":"none"},"icons":"white line icons on the black ground, one per feature, 48px"},"assets":{"logo":"assets/img-1.png","logo-2":"assets/img-1.png","logo-3":"assets/img-1.png","photo-7":"assets/img-2.jpg","hero-3":"assets/img-3.jpg","photo-3":"assets/img-3.jpg","poster-2":"assets/img-4.jpg","hero-4":"assets/img-5.jpg","photo-4":"assets/img-5.jpg","hero-5":"assets/img-6.jpg","photo-5":"assets/img-6.jpg","hero-1":"assets/img-7.jpg","photo-1":"assets/img-7.jpg","hero-2":"assets/img-8.jpg","photo-2":"assets/img-8.jpg","aerial":"assets/img-9.jpg","poster-3":"assets/img-12.jpg","photo-6":"assets/img-14.jpg","poster-1":"assets/img-15.jpg","poster-4":"assets/img-16.jpg","hero-film":"assets/nml-film.mp4","hero-film-portrait":"assets/nml-film-portrait.mp4","hero-film-poster":"assets/nml-film.jpg","hero-film-poster-portrait":"assets/nml-film-portrait.jpg","img-1":"assets/img-1.png","img-1.png":"assets/img-1.png","img-2":"assets/img-2.jpg","img-2.jpg":"assets/img-2.jpg","img-3":"assets/img-3.jpg","img-3.jpg":"assets/img-3.jpg","img-4":"assets/img-4.jpg","img-4.jpg":"assets/img-4.jpg","img-5":"assets/img-5.jpg","img-5.jpg":"assets/img-5.jpg","img-6":"assets/img-6.jpg","img-6.jpg":"assets/img-6.jpg","img-7":"assets/img-7.jpg","img-7.jpg":"assets/img-7.jpg","img-8":"assets/img-8.jpg","img-8.jpg":"assets/img-8.jpg","img-9":"assets/img-9.jpg","img-9.jpg":"assets/img-9.jpg","img-10":"assets/img-10.jpg","img-10.jpg":"assets/img-10.jpg","img-11":"assets/img-11.jpg","img-11.jpg":"assets/img-11.jpg","img-12":"assets/img-12.jpg","img-12.jpg":"assets/img-12.jpg","img-13":"assets/img-13.jpg","img-13.jpg":"assets/img-13.jpg","img-14":"assets/img-14.jpg","img-14.jpg":"assets/img-14.jpg","img-15":"assets/img-15.jpg","img-15.jpg":"assets/img-15.jpg","img-16":"assets/img-16.jpg","img-16.jpg":"assets/img-16.jpg","nml-film":"assets/nml-film.mp4","nml-film.mp4":"assets/nml-film.mp4","nml-film-portrait":"assets/nml-film-portrait.mp4","nml-film-portrait.mp4":"assets/nml-film-portrait.mp4","nml-film.jpg":"assets/nml-film.jpg","nml-film-portrait.jpg":"assets/nml-film-portrait.jpg","shop-bb":"assets/shop-bb.jpg","shop-bb.jpg":"assets/shop-bb.jpg","shop-hpa":"assets/shop-hpa.jpg","shop-hpa.jpg":"assets/shop-hpa.jpg","shop-snood":"assets/shop-snood.jpg","shop-snood.jpg":"assets/shop-snood.jpg","shop-tracer":"assets/shop-tracer.jpg","shop-tracer.jpg":"assets/shop-tracer.jpg"},"siteUrl":"https://thinkwork.info/airsoft/nmlairsoft/","aocUrl":"aoc/index.html","consoleUrl":"aoc/index.html","fares":{"walkon":{"full":{"n":30,"m":30},"half":{"n":30,"m":30}},"hire":{"full":{"n":45,"m":45},"half":{"n":45,"m":45}}},"membership":{"price":40,"year":"January to December","yearEnd":"end of December","renewMonth":1,"note":"Sample membership until yours is confirmed."},"schedule":{"times":["08:30","10:00","16:00"],"lunch":"12:30","regular":{"day":0,"dayName":"Sunday","label":"Weekend game days","detail":"Saturdays from 12:45 and Sundays from 09:45. Gates 08:00, games end 17:00.","count":12},"extra":{"day":3,"dayName":"Wednesday","label":"Wednesday and Friday game nights","detail":"Midweek game nights every Wednesday and Friday. Times live in your booking platform.","fromMonth":0,"toMonth":11,"tba":true},"breakFrom":"12-24","breakTo":"01-02","cap":60},"events":[{"key":"night","name":"Night game","short":"Night game","iso":"2026-11-28","dayName":"Saturday","detail":"A night game on the last Saturday of the month: gates 16:00, games from dusk, torches and tracers. £25 entry, £10 deposit to secure.","times":["16:00"],"sample":true,"price":25,"deposit":10,"prize":false,"left":14,"cap":40,"where":"Shafton, Forest Lane, Shafton, AB1 2CD","tag":"Torches on. Tracers in."},{"key":"newyear","name":"New Year game day","short":"New Year","iso":"2027-01-03","dayName":"Sunday","detail":"The first Sunday of the year: 10% off game day fees and ten prizes on the day.","times":["08:30"],"sample":true,"off":0.9,"offLabel":"10% off game day fees","prizes":10,"tag":"Start the year in the wood."},{"key":"1v1","name":"1v1 tournament","short":"1v1","iso":"2026-12-05","dayName":"Saturday","detail":"One on one in the village. Your own gun, limited ammo. £30 entry, £10 deposit to secure. £50 to the winner.","times":["08:30","09:30","16:00"],"sample":true,"price":30,"deposit":10,"prize":true,"left":6,"cap":24,"tag":"One shot. One winner."},{"key":"anniversary","name":"Anniversary game day","short":"Ten years","iso":"2026-11-01","dayName":"Sunday","detail":"Anniversary game day. 10% off game day fees, ten prizes given away on the day, cake at lunch.","times":["08:30","10:00","16:00"],"sample":true,"off":0.9,"offLabel":"Ten years: 10% off game day fees","prizes":10,"tag":"Come and help us celebrate ten years."},{"key":"ev1","name":"Spring open day","short":"Open day","iso":"2027-04-11","dayName":"Sunday","detail":"An open day for new players: a taster session in the morning, a full game in the afternoon, hire kit included. Walk-on £25, hire £45 with the walk-on included.","times":["08:30","10:30","16:00"],"sample":true,"price":25,"deposit":5,"left":22,"cap":60,"where":"Shafton, Forest Lane, Shafton, AB1 2CD"},{"key":"ev2","name":"Autumn big game","short":"Big game","iso":"2027-10-10","dayName":"Sunday","detail":"The big game of the year: two sides, the whole site, the fort to take by four. Walk-on £25, hire £45 with the walk-on included.","times":["08:30","10:30","16:00"],"sample":true,"price":25,"deposit":5,"left":31,"cap":120,"where":"Shafton, Forest Lane, Shafton, AB1 2CD"}],"platform":{"api":"https://aoc.peerlab.ai","booking":"on","note":"demo tenant nmlairsoft on the platform, made 2 Nov (CONTRACT.md 18f); the sheet runs on the proposal"},"mode":"proposal","ref":"NA","copy":{"todayTake":"Sample take so far today.","breakEven":"Sample break-even line for a Sunday.","renewToast":"Sample: membership renewal reminder.","sumOwn":"Walk-on, own kit","lineOwn":"Bring your own rifle and protection.","sumMember":"Walk-on, member rate","lineMember":"Members pay less on every game day.","fareboard":{"sumOwn":"Walk-on","lineOwn":"Own kit, full day.","sumMember":"Member walk-on","lineMember":"The member rate."},"band1":"Veteran owned and run.","band2":"Trenches, bunkers and a village.","band3":"Wednesday and Friday nights, every weekend.","shop_title":"NML Armoury, now online","shop_line":"Our shop four minutes from the site: BBs and gas, kit, clothing and upgrades, to collect at the Armoury, on game day, or delivered."},"sample":{"spaces":[],"fares":{"price_nonmember_walkon_full":25,"price_member_walkon_full":20,"price_nonmember_hire_full":45,"price_member_hire_full":40,"price_nonmember_walkon_half":15,"price_member_walkon_half":12,"price_nonmember_hire_half":30,"price_member_hire_half":25,"price_walkon_full":25,"price_walkon_day":25,"price_hire":20,"price_rental_full":45,"price_rental_day":45,"price_nerf":15,"price_taster":20},"addons":[{"id":"ammo","n":"Extra 1000 BBs","s":"Top up between games","p":5,"per":false,"on":true},{"id":"gas","n":"Green gas refill","s":"For gas rifles and pistols","p":4,"per":false,"on":false},{"id":"lunch","n":"Hot lunch","s":"From the tuck shop at 12:30","p":6,"per":true,"on":false}],"block":{"price":200,"days":1,"dayRate":200,"label":"Private hire, up to 20 players","note":"Sample private hire price."},"products":[["BB pack, 0.20g, 2000",8,"BBs and gas","assets/shop-bb.jpg"],["HPA fill",3,"BBs and gas","assets/shop-hpa.jpg"],["Buff / snood",12,"Clothing","assets/shop-snood.jpg"],["Tracer BBs, 1000",10,"BBs and gas","assets/shop-tracer.jpg"]],"model":{"days":52,"addAvg":4,"groupAvg":6,"foodPer":6,"depositPct":20},"live":{"time":"11:00","day":"Sunday","game":2,"of":5,"next":"12:00","onSite":38,"inGate":4,"closed":""},"backend":{"names":["Alex Sample","Sam Sample","Jo Sample","Chris Sample","Pat Sample","Robin Sample","Ash Sample","Lee Sample"],"mix":[["walkon","full",false,4],["walkon","full",true,3],["hire","full",false,3]],"noWaiver":[2],"under18":[5],"pinName":"GATE-01","pre":{"lunch":{"n":10,"p":6,"label":"Hot lunch"},"bb":{"n":6,"p":5,"label":"Extra 1000 BBs"},"gas":{"n":3,"p":4,"label":"Green gas refill"}},"joinedToday":2,"lastYear":48,"lastYearPlayers":34,"walkups":3,"cardFees":1.5,"chronoTime":"09:15","bracketSize":8,"membersCount":60,"bookings":[],"members":[],"entrants":[],"moneyLines":[["Walk-on x24","£600"],["Hire x9","£405"],["Nerf x6","£90"]],"payouts":[["Top gun prize","£30"]],"annPost":"Posted to the gate noticeboard after each game day."}},"content":{"labels":{"walkon":"Walk-on","hire":"Hire","half":"Half day"},"jsonld":{"description":"NML Airsoft: airsoft game days near Shafton. Walk on with your own kit or hire a package; book your place online.","fareLabels":{"walkon":"Walk-on","hire":"Hire"}}},"cesiumToken":""};
 /* ---- part: store.js ----
    The demo's shared state. The site and its console are the same origin, so one localStorage record carries what the
    owner changes and what a visitor books between them: book on the site and it is in the console; publish an event or
@@ -3482,10 +3502,9 @@ document.addEventListener("click",e=>{const j=e.target.closest("[data-join]");if
    The Shop section, driven by the platform (TEMPLATES.md 19e; booking-platform CONTRACT.md 18b). The template owns
    the cards and the button; the platform owns the basket, the payment and the order.
    - On a live site (store.js found the platform: STORE_API), /store/site/<slug> carries `shop` ("on" | "off") and
-     `products`. Off: the Shop screen and its nav buttons go. On: the products are drawn into #prodGrid, "sold out" at
-     stock 0, and Add to basket dispatches twshop:add {detail: {id, name, price, qty: 1, collect}} for the platform's
-     flow (store.js takes the line into the basket and opens it when booking is on); with booking off, or no flow, the
-     Book screen opens.
+     `products`. Off: the Shop screen and its nav buttons go (a proposal keeps the sample shop). On: the products are drawn
+     into #prodGrid, "sold out" at stock 0, and Add to basket puts the line in the shop's own basket (basket.js), never in
+     the booking sheet (Greg, 2 Nov): the booking flow's pre-order upsell is its own step inside the flow.
    - On a proposal (no platform behind the page) calculators.js has drawn the template's sample products; the chip
      over them says they are placeholders: "Your products, from your console".
    A product: {id, name, price (pounds, a number) or price_pence, picture (url) or image, category, stock (a number or
@@ -3530,27 +3549,31 @@ document.addEventListener("click",e=>{const j=e.target.closest("[data-join]");if
       ||'<p class="small muted">Nothing in the shop just now.</p>';
     grid.removeAttribute("data-ph");
   }
-  if(live){
-    const on=S.shop===undefined?!!(S.products&&S.products.length):(S.shop===true||S.shop==="on");
-    if(!on){hideShop();return;}
+  const shopOn=live&&(S.shop===undefined?!!(S.products&&S.products.length):(S.shop===true||S.shop==="on"))&&!!(S.products&&S.products.length);
+  /* a proposal whose platform has its shop off or empty keeps the Shop screen with the template's sample products (19i, 2 Nov:
+     NML's demo tenant answered shop off and the screen vanished); a live page hides it as before */
+  const proposal=typeof CONFIG!=="undefined"&&CONFIG.mode!=="live";
+  if(live&&!shopOn&&!proposal){hideShop();return;}
+  if(live&&shopOn){
     render(S);headerPill();
     document.addEventListener("click",(e)=>{const b=e.target.closest("[data-shop-add]");if(!b||b.disabled)return;
       const p=(S.products||[]).find((x)=>String(x.id)===b.dataset.shopAdd);if(!p)return;
+      /* the shop is its own thing (Greg, 2 Nov): the line goes to the shop's own basket (basket.js), never to the booking sheet */
+      if(window.twBasket){window.twBasket.add(p.id,1);b.textContent="Added";b.classList.add("primary");return;}
       const line={id:p.id,name:p.name,price:pounds(p),qty:1,collect:p.collect||"game_day",kind:"product"};
       const ev=new CustomEvent("twshop:add",{detail:line,cancelable:true});
-      const taken=!dispatchEvent(ev)||ev.defaultPrevented||ev.detail.taken;   /* the platform's flow says it took the line */
-      count++;pillCount();
-      b.textContent="Added";b.classList.add("primary");
+      const taken=!dispatchEvent(ev)||ev.defaultPrevented||ev.detail.taken;
+      count++;pillCount();b.textContent="Added";b.classList.add("primary");
       if(!taken&&typeof go==="function")go("book");});
     /* the platform's own refresh after a booking carries the stock down with it */
     addEventListener("twflow:booked",()=>{setTimeout(()=>{if(SRC&&SRC.S)render(SRC.S);},800);});
   } else {
-    /* a proposal, or a live page whose platform is unreachable: the sample products stand as placeholders */
+    /* a proposal (with or without a platform behind it), or a live page whose platform is unreachable: the sample products stand as placeholders */
     const chip=grid.querySelector(":scope>.phtag"); if(chip)chip.textContent="Your products, from your console";
     dressCards();   /* the basket drawer (basket.js) owns the header count and the adds from here */
   }
   /* for the platform's own tests and the gates: redraw from a payload */
-  window.twShopRender=(data)=>{if(data&&(data.shop==="off"||data.shop===false)){hideShop();return;}render(data||{});};
+  window.twShopRender=(data)=>{if(data&&(data.shop==="off"||data.shop===false)){if(!proposal)hideShop();return;}render(data||{});};
 })();
 /* ---- part: basket.js ----
    The basket drawer and the checkout (TEMPLATES.md 19g): lines with pictures, quantities and remove, the total, then
@@ -3564,10 +3587,12 @@ document.addEventListener("click",e=>{const j=e.target.closest("[data-join]");if
 (function(){
   const grid=document.getElementById("prodGrid");if(!grid)return;
   const live=typeof STORE_SERVER!=="undefined"&&STORE_SERVER&&STORE_SERVER.S;
+  /* the platform's shop is on with products: its products are the grid; otherwise (a proposal with the shop off or empty) the sample products stand */
+  const liveShop=!!(live&&(STORE_SERVER.S.shop===undefined?!!(STORE_SERVER.S.products&&STORE_SERVER.S.products.length):(STORE_SERVER.S.shop===true||STORE_SERVER.S.shop==="on"))&&STORE_SERVER.S.products&&STORE_SERVER.S.products.length);
   const esc=(s)=>String(s==null?"":s).replace(/[&<>"]/g,(c)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
   const gbp=(n)=>"£"+(Number.isInteger(n)?n:n.toFixed(2));
   const num=(p)=>typeof p.price==="number"?p.price:typeof p.price_pence==="number"?p.price_pence/100:parseFloat(String(p.price||"").replace(/[^\d.]/g,""))||0;
-  const products=()=>live?(STORE_SERVER.S.products||[]).map((p)=>({id:String(p.id),name:p.name,price:num(p),pic:p.picture||p.image||"",cat:p.category||"",collect:p.collect||"both"}))
+  const products=()=>liveShop?(STORE_SERVER.S.products||[]).map((p)=>({id:String(p.id),name:p.name,price:num(p),pic:p.picture||p.image||"",cat:p.category||"",collect:p.collect||"both"}))
     :((typeof CONFIG!=="undefined"&&CONFIG.sample&&CONFIG.sample.products)||[]).map((p,i)=>({id:"s"+i,name:p[0],price:+p[1]||0,pic:typeof p[3]==="string"?p[3]:cardPic(i),cat:p[2]||"",collect:"both"}));
   /* a sample product with no shot of its own wears what its card wears (shop.js dressed it from the template's photographs) */
   function cardPic(i){const a=grid.querySelectorAll("article")[i],im=a&&a.querySelector(".shot img");return im?im.getAttribute("src"):"";}
@@ -3597,10 +3622,13 @@ document.addEventListener("click",e=>{const j=e.target.closest("[data-join]");if
   const close=()=>{dr.classList.remove("open");scrim.classList.remove("open");dr.setAttribute("aria-hidden","true");document.body.style.overflow="";closing=setTimeout(()=>{dr.hidden=true;scrim.hidden=true;},420);};
 
   /* the header count */
+  let seen=false;
+  const ICON='<svg class="bi" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h18l-1.6 9.2a2 2 0 0 1-2 1.8H6.6a2 2 0 0 1-2-1.8L3 9z"/><path d="M8 9l3-6M16 9l-3-6M9 13v3M15 13v3"/></svg>';
   function pill(){let p=document.getElementById("basketPill");const cta=document.querySelector("#head .headcta");
     if(!p){p=document.createElement("button");p.id="basketPill";}
     if(p.tagName!=="BUTTON"){const b=document.createElement("button");b.id="basketPill";p.replaceWith(b);p=b;}
-    p.type="button";p.className="pill hdr";p.innerHTML='Basket <span class="n">'+count()+'</span>';p.hidden=count()===0;
+    if(count()>0)seen=true;
+    p.type="button";p.className="pill hdr";p.setAttribute("aria-label","Your basket, "+count()+" item"+(count()===1?"":"s"));p.innerHTML=ICON+'<span class="n">'+count()+'</span>';p.hidden=!seen;
     if(cta&&!cta.contains(p))cta.prepend(p);}
   function render(){
     const ps=products();
@@ -3620,8 +3648,9 @@ document.addEventListener("click",e=>{const j=e.target.closest("[data-join]");if
   function remove(id){lines.delete(id);render();}
 
   /* adds: the sample grid's [data-add] (calculators.js) and, on a live page, a twshop:add the platform did not take */
-  document.addEventListener("click",(e)=>{const b=e.target.closest("#prodGrid [data-add]");if(!b||live)return;e.preventDefault();add("s"+b.dataset.add,1);b.textContent="Added";});
-  addEventListener("twshop:add",(e)=>{if(e.defaultPrevented||!e.detail||e.detail.taken)return;e.preventDefault();e.detail.taken=true;add(e.detail.id,e.detail.qty||1);});
+  /* the shop is its own thing (Greg, 2 Nov): an add goes to the shop's basket, never to the booking sheet; the booking flow's
+     pre-order upsell is a step of its own inside the flow and nowhere else */
+  document.addEventListener("click",(e)=>{const b=e.target.closest("#prodGrid [data-add]");if(!b||liveShop)return;e.preventDefault();add("s"+b.dataset.add,1);b.textContent="Added";});
   document.addEventListener("click",(e)=>{if(e.target.closest("#basketPill")){e.preventDefault();show("lines");render();open();}});
   dr.addEventListener("click",(e)=>{
     if(e.target.closest("[data-basket-close]"))return close();
@@ -3633,9 +3662,26 @@ document.addEventListener("click",e=>{const j=e.target.closest("[data-join]");if
         const name=form.name.value.trim(),email=form.email.value.trim();
         if(!name||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){(!name?form.name:form.email).focus();note.textContent="A name and an email, so the order has a home.";return;}
         const order={ref:"TW-"+Date.now().toString(36).slice(-6).toUpperCase(),collect:form.collect.value,name,email,lines:[...lines].map(([id,q])=>{const p=byId(id);return {id,name:p&&p.name,qty:q,price:p&&p.price,kind:"product"};}),total:total()};
-        if(live){const ev=new CustomEvent("twshop:checkout",{detail:order,cancelable:true});const taken=!dispatchEvent(ev)||ev.defaultPrevented||ev.detail.taken;if(!taken){close();if(typeof go==="function")go("book");return;}}
-        done.innerHTML='<div class="tick">&#10003;</div><h4>Order placed</h4><span class="ref">'+esc(order.ref)+'</span><p>'+order.lines.length+' line'+(order.lines.length===1?"":"s")+', '+gbp(order.total)+', '+(order.collect==="shop"?"to collect at the shop":order.collect==="delivery"?"to be delivered":"to collect on game day")+'.</p><p>A confirmation goes to '+esc(email)+'.</p>'+(live?"":'<p class="small muted">'+proposalNote+'</p>');
-        lines.clear();show("done");pill();$("[data-total]").textContent=gbp(order.total);return;}
+        /* a platform behind the page takes the order: POST <api>/store/orders/<slug> {ref, collect, name, email, lines:[{id,qty}], total}
+           (CONTRACT.md 18b). 201 brings the platform's ref, lines and total, and on a real tenant a payment object for the sheet's card
+           step; 400/404/409 bring refusals [{code,message}] shown as sentences; no answer (the platform not deployed yet, or no network)
+           confirms locally as a proposal does. */
+        const finish=(o,extra)=>{done.innerHTML='<div class="tick">&#10003;</div><h4>Order placed</h4><span class="ref">'+esc(o.ref)+'</span><p>'+o.lines.length+' line'+(o.lines.length===1?"":"s")+', '+gbp(o.total)+', '+(o.collect==="shop"?"to collect at the shop":o.collect==="delivery"?"to be delivered":"to collect on game day")+'.</p><p>A confirmation goes to '+esc(email)+'.</p>'+(extra||'');
+          lines.clear();show("done");pill();$("[data-total]").textContent=gbp(o.total);};
+        if(live&&typeof STORE_SERVER!=="undefined"&&STORE_SERVER&&STORE_SERVER.base){
+          nextBtn.disabled=true;note.textContent="Placing the order…";
+          const body={ref:order.ref,collect:order.collect,name,email,lines:order.lines.map((l)=>({id:l.id,qty:l.qty})),total:order.total};
+          fetch(String(STORE_SERVER.base).replace(/\/+$/,"")+"/store/orders/"+encodeURIComponent((typeof CONFIG!=="undefined"&&CONFIG.slug)||""),{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(body)})
+            .then(async(r)=>{const j=await r.json().catch(()=>({}));nextBtn.disabled=false;
+              if(r.ok&&j&&j.ok!==false){const o={ref:j.ref||order.ref,collect:j.collect||order.collect,total:typeof j.total==="number"?j.total:order.total,lines:Array.isArray(j.lines)&&j.lines.length?j.lines:order.lines};
+                if(j.payment){const ev=new CustomEvent("twshop:pay",{detail:{payment:j.payment,order:o},cancelable:true});const taken=!dispatchEvent(ev)||ev.defaultPrevented||ev.detail.taken;   /* the sheet's card step takes it (store.js) */
+                  finish(o,taken?'<p class="small muted">The card step is open to take payment.</p>':'<p class="small muted">Payment is taken at the card step; the shop confirms by email.</p>');return;}
+                finish(o,j.demo?'<p class="small muted">A demo order: nothing is charged.</p>':'<p class="small muted">The shop confirms your order by email.</p>');return;}
+              const why=(j&&Array.isArray(j.refusals)&&j.refusals.length)?j.refusals.map((x)=>x.message).join(" "):"The shop could not take the order just now.";
+              note.textContent=why;})
+            .catch(()=>{nextBtn.disabled=false;finish(order,'<p class="small muted">The shop confirms your order by email before anything is charged.</p>');});
+          return;}
+        finish(order,'<p class="small muted">'+proposalNote+'</p>');return;}
     }
   });
   scrim.addEventListener("click",close);

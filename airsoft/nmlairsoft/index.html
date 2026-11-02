@@ -4175,8 +4175,11 @@ h1{line-height:.92;letter-spacing:-.01em}
 (function(){
   function hideRip(){var r=document.getElementById('ripDate');if(!r)return;var el=r.closest('.rip');if(!el)return;el.style.display='none';
     var w=el.parentElement;if(w&&(w.hasAttribute('data-ph')||/\bph\b/.test(w.className))&&w.children.length<=2)w.style.display='none';}
-  function pics(){var g=document.getElementById('prodGrid');if(!g)return;var pics=['assets/img-2.jpg','assets/img-14.jpg','assets/img-6.jpg','assets/img-2.jpg'];var i=0;
-    g.querySelectorAll(':scope>*:not(.phtag)').forEach(function(c){if(c.querySelector('img.shop-pic'))return;var im=document.createElement('img');im.className='shop-pic';im.alt='';im.src=pics[i++%pics.length];c.insertBefore(im,c.firstChild);});}
+  function pick(t){t=t.toLowerCase();if(/tracer/.test(t))return 'assets/shop-tracer.jpg';if(/hpa|gas|fill/.test(t))return 'assets/shop-hpa.jpg';if(/buff|snood|mask|face/.test(t))return 'assets/shop-snood.jpg';if(/\bbb|pellet|0\.2/.test(t))return 'assets/shop-bb.jpg';if(/rental|hire|rifle|kit/.test(t))return 'assets/img-2.jpg';return 'assets/shop-bb.jpg';}
+  function pics(){var g=document.getElementById('prodGrid');if(!g)return;
+    g.querySelectorAll(':scope>*:not(.phtag)').forEach(function(c){var h=c.querySelector('h4,h3,b');var src=pick(h?h.textContent:c.textContent);var im=c.querySelector('img.shop-pic');if(!im){im=document.createElement('img');im.className='shop-pic';im.alt='';c.insertBefore(im,c.firstChild);}if(im.getAttribute('src')!==src)im.src=src;});}
+  function tidy(){document.querySelectorAll('.hero-meta.ph-strip').forEach(function(e){e.style.display='none';});document.querySelectorAll('.sign').forEach(function(s){if(/sky bridges/i.test(s.textContent))s.style.display='none';});}
+  setTimeout(tidy,0);setTimeout(tidy,900);
   function go(){hideRip();pics();}
   if(document.readyState==='complete')go();else window.addEventListener('load',go);
   setTimeout(go,800);setTimeout(pics,2500);document.addEventListener('click',function(){setTimeout(pics,300);});
@@ -4201,5 +4204,13 @@ h1{line-height:.92;letter-spacing:-.01em}
   if(document.readyState==='complete')go();else window.addEventListener('load',go);setTimeout(go,900);
 })();
 </script>
+<style id="meeting-mobile">
+@media (max-width:700px){
+  .hero.plate .copy{transform:translateY(-190px);margin-bottom:-190px}
+  .tagline.plate p{font-size:1.15rem;line-height:1.35;text-transform:none;letter-spacing:0}
+  .hero-meta.ph-strip{display:none!important}
+}
+.hero-meta.ph-strip{display:none!important}
+</style>
 </body>
 </html>

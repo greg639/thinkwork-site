@@ -52,7 +52,7 @@
 /* Page heads */
 .eyebrow { font: 500 11.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 .page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 28px; }
-.page-head h1 { font-size: clamp(28px, 4.2vw, 46px); font-weight: 520; letter-spacing: -.035em; line-height: 1.02; margin-top: 10px; }
+.page-head h1 { font-size: clamp(28px, 4.2vw, 46px); font-weight: 800; letter-spacing: -.03em; line-height: 1.02; margin-top: 10px; }
 .page-head .lede { color: var(--muted); max-width: 60ch; margin-top: 10px; font-size: 16px; }
 .head-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0 0 14px; }

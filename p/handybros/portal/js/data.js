@@ -297,7 +297,7 @@
     templates: [{ id: 'tpl1', name: 'Seafront flat, 1-2 bed', items: [{ text: 'Check balcony door and leave key on hook', freq: 'every' }, { text: 'Wipe salt spray from windows and sills', freq: 'every' }, { text: 'Refill diffuser or air freshener', freq: 'every' }] }, { id: 'tpl2', name: 'Family house, 3 bed', items: [{ text: 'Check stair gate and garden gate latch', freq: 'every' }, { text: 'Count kids\' cutlery and cups', freq: 'every' }, { text: 'Sweep path and empty outside bin', freq: 'every' }] }],
     lockout: { status: 'incoming', pid: 'p5', received: '14:18', channel: 'Booking.com message', guest: 'Guest at Flat 1, Kestrel House', note: 'Key safe cover will not slide, guest outside with luggage and a child. Phone battery at 12 percent.', steps: [false, false, false, false, false, false] },
     approvals: {}, notifs: [],
-    rates, settings: { theme: 'guest', mode: 'auto', sidebar: 'auto', reminder: { d60: true, d30: true, d7: true, email: true, sms: true }, rules: { lockout: true, issue: true, report: true, quote: true, lowstock: true, ical: false }, stripe: true, gcal: true, mail: true },
+    rates, settings: { theme: 'sea', mode: 'auto', sidebar: 'auto', reminder: { d60: true, d30: true, d7: true, email: true, sms: true }, rules: { lockout: true, issue: true, report: true, quote: true, lowstock: true, ical: false }, stripe: true, gcal: true, mail: true },
     reminderLog: [], messages: []
   };
 })();

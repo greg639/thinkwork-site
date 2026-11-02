@@ -1,6 +1,7 @@
 /* Tokens, themes and reset */
 :root {
-  --font: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font: 'Hanken Grotesk', 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --head: 'Bricolage Grotesque', 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
   --mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   --r-s: 8px; --r-m: 12px; --r-l: 18px;
   --ease: cubic-bezier(.2, .7, .2, 1);
@@ -11,65 +12,32 @@
 }
 
 /* Theme: Guest-Ready (default) */
-:root, :root[data-theme="guest"] {
-  --bg: #F3EEE4; --surface: #FFFCF6; --surface-2: #F8F3EA; --ink: #0B1E2D;
-  --primary: #0B1E2D; --on-primary: #F7F1E6;
-  --accent: #C8964B; --on-accent: #0B1E2D; --accent-text: #7A4F12;
-  --nav-bg: #0B1E2D; --nav-ink: #EAE3D3;
-  --ok: #26734F; --warn: #9A5A06; --bad: #AE3128; --info: #2A5F82;
-}
-:root[data-theme="sea"] {
+:root, :root[data-theme="sea"] {
   --bg: #FBF5EA; --surface: #FFFDF8; --surface-2: #F6EEDF; --ink: #12303F;
   --primary: #2B6E8F; --on-primary: #FFFFFF;
   --accent: #F0A39B; --on-accent: #3A1511; --accent-text: #A23C2B;
   --nav-bg: #17394A; --nav-ink: #F2EADB;
   --ok: #26734F; --warn: #9A5A06; --bad: #AE3128; --info: #2B6E8F;
 }
-:root[data-theme="work"] {
-  --bg: #F1F0EA; --surface: #FFFFFC; --surface-2: #EAE9E1; --ink: #151515;
-  --primary: #17171A; --on-primary: #FFD500;
-  --accent: #FFD500; --on-accent: #151515; --accent-text: #6B5900;
-  --nav-bg: #121212; --nav-ink: #EDEBE3;
-  --ok: #26734F; --warn: #8F5600; --bad: #AE3128; --info: #2A5F82;
-}
 
 /* Dark: follows the system unless the user picked light */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-mode="light"]), :root[data-theme="guest"]:not([data-mode="light"]) {
-    --bg: #08141D; --surface: #0F2433; --surface-2: #132C3E; --ink: #F1EBDD;
-    --primary: #C8964B; --on-primary: #0B1E2D; --accent: #C8964B; --on-accent: #0B1E2D; --accent-text: #E3B872;
-    --nav-bg: #050E15; --nav-ink: #E6DFCF;
-    --ok: #62C79A; --warn: #E3A94E; --bad: #F08A80; --info: #7FB6D6; color-scheme: dark;
-    --shadow-s: 0 1px 2px rgb(0 0 0 / .4); --shadow-m: 0 10px 30px -10px rgb(0 0 0 / .6);
-  }
-  :root[data-theme="sea"]:not([data-mode="light"]) {
+  :root:not([data-mode="light"]) {
     --bg: #0C202C; --surface: #132F40; --surface-2: #183A4E; --ink: #F6EFE2;
     --primary: #7DBBD9; --on-primary: #06222F; --accent: #F0A39B; --on-accent: #3A1511; --accent-text: #F2B1AA;
     --nav-bg: #081821; --nav-ink: #EFE7D8;
-  }
-  :root[data-theme="work"]:not([data-mode="light"]) {
-    --bg: #0D0D0E; --surface: #171718; --surface-2: #202021; --ink: #F4F2EA;
-    --primary: #FFD500; --on-primary: #111111; --accent: #FFD500; --on-accent: #111; --accent-text: #FFD500;
-    --nav-bg: #050505; --nav-ink: #EDEBE3;
+    --ok: #62C79A; --warn: #E3A94E; --bad: #F08A80; --info: #7FB6D6; color-scheme: dark;
+    --shadow-s: 0 1px 2px rgb(0 0 0 / .4); --shadow-m: 0 10px 30px -10px rgb(0 0 0 / .6);
   }
 }
 :root[data-mode="dark"] {
-  --bg: #08141D; --surface: #0F2433; --surface-2: #132C3E; --ink: #F1EBDD;
-  --primary: #C8964B; --on-primary: #0B1E2D; --accent: #C8964B; --on-accent: #0B1E2D; --accent-text: #E3B872;
-  --nav-bg: #050E15; --nav-ink: #E6DFCF;
-  --ok: #62C79A; --warn: #E3A94E; --bad: #F08A80; --info: #7FB6D6; color-scheme: dark;
-  --shadow-s: 0 1px 2px rgb(0 0 0 / .4); --shadow-m: 0 10px 30px -10px rgb(0 0 0 / .6);
-}
-:root[data-mode="dark"][data-theme="sea"] {
   --bg: #0C202C; --surface: #132F40; --surface-2: #183A4E; --ink: #F6EFE2;
   --primary: #7DBBD9; --on-primary: #06222F; --accent: #F0A39B; --on-accent: #3A1511; --accent-text: #F2B1AA;
   --nav-bg: #081821; --nav-ink: #EFE7D8;
+  --ok: #62C79A; --warn: #E3A94E; --bad: #F08A80; --info: #7FB6D6; color-scheme: dark;
+  --shadow-s: 0 1px 2px rgb(0 0 0 / .4); --shadow-m: 0 10px 30px -10px rgb(0 0 0 / .6);
 }
-:root[data-mode="dark"][data-theme="work"] {
-  --bg: #0D0D0E; --surface: #171718; --surface-2: #202021; --ink: #F4F2EA;
-  --primary: #FFD500; --on-primary: #111111; --accent: #FFD500; --on-accent: #111; --accent-text: #FFD500;
-  --nav-bg: #050505; --nav-ink: #EDEBE3;
-}
+
 /* Derived tokens (follow whichever theme is active) */
 :root {
   --ink-2: color-mix(in srgb, var(--ink) 78%, var(--bg));
@@ -97,7 +65,7 @@ body {
   font-feature-settings: 'ss01', 'cv11'; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
 }
 h1, h2, h3, h4, p { margin: 0; }
-h1, h2, h3, h4 { font-weight: 600; letter-spacing: -.015em; line-height: 1.15; text-wrap: balance; }
+h1, h2, h3, h4 { font-family: var(--head); font-weight: 700; letter-spacing: -.015em; line-height: 1.15; text-wrap: balance; }
 p { text-wrap: pretty; }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; background: none; border: 0; padding: 0; }

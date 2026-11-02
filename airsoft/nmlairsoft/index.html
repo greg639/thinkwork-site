@@ -4173,8 +4173,8 @@ h1{line-height:.92;letter-spacing:-.01em}
 </style>
 <script id="meeting-polish-js">
 (function(){
-  function hideRip(){var r=document.getElementById('ripDate');if(!r)return;var el=r.closest('.rip')||r.parentElement;var hero=document.getElementById('hero')||document.querySelector('.hero');
-    if(el&&hero&&hero.contains(el)){var top=el;while(top.parentElement&&top.parentElement!==hero)top=top.parentElement;top.style.display='none';}}
+  function hideRip(){var r=document.getElementById('ripDate');if(!r)return;var el=r.closest('.rip');if(!el)return;el.style.display='none';
+    var w=el.parentElement;if(w&&(w.hasAttribute('data-ph')||/\bph\b/.test(w.className))&&w.children.length<=2)w.style.display='none';}
   function pics(){var g=document.getElementById('prodGrid');if(!g)return;var pics=['assets/img-2.jpg','assets/img-14.jpg','assets/img-6.jpg','assets/img-2.jpg'];var i=0;
     g.querySelectorAll(':scope>*:not(.phtag)').forEach(function(c){if(c.querySelector('img.shop-pic'))return;var im=document.createElement('img');im.className='shop-pic';im.alt='';im.src=pics[i++%pics.length];c.insertBefore(im,c.firstChild);});}
   function go(){hideRip();pics();}

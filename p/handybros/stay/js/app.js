@@ -8,7 +8,8 @@
   var params = new URLSearchParams(location.search);
   var slug = params.get('p') || 'yellow-door';
   if (!D.has(slug)) slug = 'yellow-door';
-  var d = D.load(slug);
+  var loaded = D.loadFor(slug, location.search);
+  var d = loaded.data;
   var isBexhill = d.town === 'Bexhill';
   var geo = D.COORDS[d.town] || D.COORDS.Bexhill;
 
@@ -381,6 +382,7 @@
   }
 
   build();
+  if (loaded.source === 'link') { var fe = $('#foot-edit'); if (fe) fe.textContent = 'Your host keeps this guide up to date. You are viewing the details they shared in this link.'; }
   loadWx();
   watchSections();
   if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {

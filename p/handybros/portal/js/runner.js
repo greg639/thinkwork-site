@@ -303,4 +303,111 @@
     });
     U.screen = 'pick'; HB.emit(); HB.toast('Turnover reset for the demo');
   });
+  /* ---------- keep the demo state in this browser ----------
+     Photos, incidents, ticks and visits survive a reload. Pictures you add are shrunk to at most
+     800px on the long side (JPEG, quality 0.6) before they are stored; sample pictures are kept
+     by file name. Every storage call is guarded, so a blocked or full store never breaks the page. */
+  (function () {
+    const KEY = 'hb.demo.state.v1', CAP = 3400000, KEYS = ['field', 'run', 'turn', 'invoices', 'tasks', 'reports', 'todos', 'notifs', 'docs', 'inventory'];
+    const FIXED = new Date(2026, 9, 29, 14, 20, 0).getTime();
+    const bootAt = () => Date.now() - (HB.now().getTime() - FIXED);
+    const SCREENS = ['pick', 'job', 'done'];
+    const HOLD = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"><rect width="400" height="300" fill="#e7e2d6"/><text x="200" y="154" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#5a6670">Photo not kept</text></svg>');
+    let off = false, timer = 0, lastOut = '', warned = false;
+    const cache = Object.create(null), busy = Object.create(null);
+    const seedFp = () => JSON.stringify([S().props.map((p) => p.id), S().field.photos.length, S().field.incidents.length, S().field.visits.length]);
+    const fp = seedFp();
+    const ls = { get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }, set(v) { try { localStorage.setItem(KEY, v); return true; } catch (e) { return false; } }, del() { try { localStorage.removeItem(KEY); } catch (e) { /* ignore */ } } };
+
+    /* ---- shrink a picture the user added ---- */
+    function shrink(url) {
+      return fetch(url).then((r) => r.blob()).then((b) => (window.createImageBitmap ? createImageBitmap(b) : new Promise((ok, no) => { const im = new Image(); im.onload = () => ok(im); im.onerror = no; im.src = url; }))).then((im) => {
+        const w = im.width || im.naturalWidth, h = im.height || im.naturalHeight; const k = Math.min(1, 800 / Math.max(w, h, 1));
+        const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(w * k)); c.height = Math.max(1, Math.round(h * k));
+        const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.drawImage(im, 0, 0, c.width, c.height);
+        const out = c.toDataURL('image/jpeg', 0.6); return out && out.length > 40 ? out : HOLD;
+      }).catch(() => HOLD);
+    }
+    function want(url) {
+      if (cache[url] !== undefined || busy[url]) return;
+      busy[url] = true;
+      shrink(url).then((v) => { cache[url] = v; delete busy[url]; schedule(); });
+    }
+
+    /* ---- write ---- */
+    function build() {
+      const snap = { v: 1, fp, boot: bootAt(), s: {}, fld: { pid: HB.ui.fld.pid, pending: HB.ui.fld.pending, uploads: HB.ui.fld.uploads }, rn: { screen: U.screen, pid: U.pid, tab: U.tab, open: U.open } };
+      KEYS.forEach((k) => { if (S()[k] !== undefined) snap.s[k] = S()[k]; });
+      let waiting = false; const table = [], at = Object.create(null);
+      const json = JSON.stringify(snap, (k, v) => {
+        if (typeof v !== 'string') return v;
+        if (v.indexOf('blob:') === 0) { if (cache[v] === undefined) { waiting = true; want(v); return null; } v = cache[v]; }
+        if (v.indexOf('data:image/') === 0 && v.length > 200) { if (at[v] === undefined) { at[v] = table.length; table.push(v); } return '@@img:' + at[v]; }
+        return v;
+      });
+      if (waiting) return null;
+      return { json, table };
+    }
+    function pack(b, drop) { return JSON.stringify({ t: b.table.map((x, i) => (i < drop ? HOLD : x)), d: b.json }); }
+    function save() {
+      timer = 0; if (off) return;
+      try {
+        const b = build(); if (!b) return;
+        let drop = 0, out = pack(b, 0);
+        while (out.length > CAP && drop < b.table.length) { drop++; out = pack(b, drop); }
+        if (out === lastOut) return;
+        if (ls.set(out)) { lastOut = out; return; }
+        if (drop < b.table.length && ls.set(pack(b, b.table.length))) { lastOut = out; return; }
+        if (!warned) { warned = true; try { HB.toast('This browser has no room to keep your changes after a reload.', { icon: 'alert' }); } catch (e) { /* ignore */ } }
+      } catch (e) { /* never block the page */ }
+    }
+    function schedule() { if (off) return; clearTimeout(timer); timer = setTimeout(save, 350); }
+    HB.subs.push(schedule);
+    const flush = () => { if (timer) { clearTimeout(timer); save(); } };
+    window.addEventListener('pagehide', flush);
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') flush(); });
+
+    /* a stored picture becomes an object URL again, so every screen treats it like a fresh upload */
+    const blobOf = Object.create(null);
+    function toBlob(d) {
+      if (blobOf[d]) return blobOf[d];
+      try {
+        const i = d.indexOf(','), head = d.slice(5, i), body = d.slice(i + 1); let bytes;
+        if (/;base64/.test(head)) { const bin = atob(body); bytes = new Uint8Array(bin.length); for (let n = 0; n < bin.length; n++) bytes[n] = bin.charCodeAt(n); }
+        else bytes = new TextEncoder().encode(decodeURIComponent(body));
+        const u = URL.createObjectURL(new Blob([bytes], { type: head.split(';')[0] })); cache[u] = d; blobOf[d] = u; return u;
+      } catch (e) { return d; }
+    }
+
+    /* ---- read, in place so earlier references stay valid ---- */
+    const put = (cur, val) => {
+      if (Array.isArray(cur) && Array.isArray(val)) { cur.length = 0; val.forEach((x) => cur.push(x)); return cur; }
+      if (cur && typeof cur === 'object' && !Array.isArray(cur) && val && typeof val === 'object' && !Array.isArray(val)) { Object.keys(cur).forEach((x) => { delete cur[x]; }); Object.assign(cur, val); return cur; }
+      return val;
+    };
+    function restore() {
+      let raw = ls.get(); if (!raw) return;
+      try {
+        const w = JSON.parse(raw); const inner = JSON.parse(w.d); if (!inner || inner.v !== 1 || inner.fp !== fp) { ls.del(); return; }
+        const delta = bootAt() - (Number(inner.boot) || bootAt());
+        const fix = (x) => {
+          if (typeof x === 'string') { const m = /^@@img:(\d+)$/.exec(x); return m ? toBlob(w.t[Number(m[1])] || HOLD) : x; }
+          if (typeof x === 'number') return x > 1e12 ? x + delta : x;
+          if (Array.isArray(x)) return x.map(fix);
+          if (x && typeof x === 'object') { const o = {}; Object.keys(x).forEach((k) => { o[k] = fix(x[k]); }); return o; }
+          return x;
+        };
+        const data = fix(inner);
+        KEYS.forEach((k) => { if (data.s && data.s[k] !== undefined && S()[k] !== undefined) S()[k] = put(S()[k], data.s[k]); });
+        if (data.fld) { const f = HB.ui.fld; if (typeof data.fld.pid === 'string' && HB.prop(data.fld.pid)) f.pid = data.fld.pid; put(f.pending, data.fld.pending || {}); put(f.uploads, data.fld.uploads || {}); }
+        const r = data.rn;
+        if (r && SCREENS.indexOf(r.screen) >= 0 && (r.screen === 'pick' || (typeof r.pid === 'string' && S().run[r.pid]))) { U.screen = r.screen; U.pid = r.screen === 'pick' ? null : r.pid; if (typeof r.tab === 'string') U.tab = r.tab; U.open = typeof r.open === 'string' ? r.open : null; }
+        lastOut = raw;
+      } catch (e) { ls.del(); }
+    }
+    restore();
+
+    /* ---- clear everything and start again from the sample data ---- */
+    HB.resetDemo = () => { off = true; clearTimeout(timer); ls.del(); try { location.reload(); } catch (e) { off = false; } };
+  })();
 })();

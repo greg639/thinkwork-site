@@ -2,6 +2,8 @@
 (function () {
   const S = () => HB.S;
   const r2 = (n) => Math.round(n * 100) / 100;
+  /* the turnover checklists as first loaded: the starting point for every property */
+  const BASE = JSON.parse(JSON.stringify(S().checklist || {}));
   if (!document.getElementById('walk-css')) {
     const l = document.createElement('link'); l.id = 'walk-css'; l.rel = 'stylesheet'; l.href = 'css/walk.css'; document.head.appendChild(l);
   }
@@ -61,7 +63,7 @@
   }
 
   function seedProperty(pid) {
-    const clean = (S().checklist[pid] || []).map((r) => room(r.name, r.tasks.map((t) => Object.assign({}, t, { freq: 'every', kind: 'clean', incl: true, price: 0, sched: 'together' })), r.id));
+    const clean = (BASE[pid] || S().checklist[pid] || []).map((r) => room(r.name, r.tasks.map((t) => Object.assign({}, t, { freq: 'every', kind: 'clean', incl: true, price: 0, sched: 'together' })), r.id));
     const check = [room('High-burn items', [
       mk('check')('Test the kettle, toaster and air fryer; descale and clear crumbs'),
       mk('check')('Check the TV and every remote; replace batteries'),
@@ -133,6 +135,42 @@
     const visitCharge = OV > 0 ? (OV * (Number(L.meta.visit) || 0)) / 12 : 0;
     return { V, OV, together, own, perVisit, inclN, extraN, byFreq, extras, base, extraMonthly: r2(extraMonthly + visitCharge), taskExtraMonthly: r2(extraMonthly), visitCharge: r2(visitCharge), total: all.length, noPrice: all.filter((x) => !x.t.incl && !(Number(x.t.price) > 0)).length };
   }
+
+  /* ---------- sync to the phone runner ----------
+     Cleaning tasks that are due every booking become the runner's rooms and tasks for the property.
+     Ids are kept, so ticks already made on a turnover survive an edit. Edits made to the turnover
+     template on the property page are folded back into the cleaning list first. */
+  const synced = {};
+  const shape = (rs) => JSON.stringify(rs.map((r) => [r.id, r.name, r.tasks.map((t) => [t.id, t.text])]));
+  const taskMap = (rs) => { const m = {}; rs.forEach((r) => r.tasks.forEach((t) => { m[t.id] = { room: r.id, name: r.name, text: t.text }; })); return m; };
+  function foldIn(L, cl, prev) {
+    const now = taskMap(cl);
+    Object.keys(now).forEach((id) => {
+      if (prev[id]) {
+        if (prev[id].text !== now[id].text) L.clean.forEach((r) => r.tasks.forEach((t) => { if (t.id === id) t.text = now[id].text; }));
+        return;
+      }
+      let rm = L.clean.find((r) => r.id === now[id].room);
+      if (!rm) { rm = room(now[id].name, [], now[id].room); L.clean.push(rm); }
+      rm.tasks.push(mk('clean')(now[id].text, { id }));
+    });
+    Object.keys(prev).forEach((id) => { if (!now[id]) L.clean.forEach((r) => { r.tasks = r.tasks.filter((t) => t.id !== id); }); });
+  }
+  function syncRunner() {
+    try {
+      S().props.forEach((p) => {
+        const cl = S().checklist[p.id]; if (!cl) return;
+        const L = get(p.id);
+        if (synced[p.id] && shape(cl) !== synced[p.id].sig) foldIn(L, cl, synced[p.id].map);
+        const rooms = L.clean.map((r) => ({ id: r.id, name: r.name, tasks: r.tasks.filter((t) => t.kind === 'clean' && t.freq === 'every').map((t) => ({ id: t.id, text: t.text })) })).filter((r) => r.tasks.length);
+        if (shape(rooms) !== shape(cl)) { cl.length = 0; rooms.forEach((r) => cl.push(r)); }
+        synced[p.id] = { sig: shape(rooms), map: taskMap(rooms) };
+      });
+    } catch (e) { console.error(e); }
+  }
+  HB.syncChecklist = syncRunner;
+  HB.subs.unshift(syncRunner);
+  syncRunner();
 
   HB.cl = { FREQ, FQ, PC, BURN, info, get, stats, fromWalk, basePrice, bedKey, mk };
 

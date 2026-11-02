@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital welcome guide, how it looks in your property</title>
+<meta name="description" content="A sample of the HandyBros digital welcome guide and the printed QR card that goes in your property.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  :root { --ink: #0B1E2D; --door: #E0A92B; --paper: #FFFCF6; --plaster: #E7DFCF; --wood: #6B4A2E; --wood2: #4E331E; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--ink); color: #F3EEE4; font: 400 16px/1.55 'Geist', ui-sans-serif, system-ui, sans-serif; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--door); outline-offset: 3px; }
+  .wrap { width: min(1120px, 100% - 32px); margin: 0 auto; }
+  .tag { display: inline-block; font: 500 12px/1 'Geist Mono', monospace; letter-spacing: .14em; text-transform: uppercase; padding: 6px 10px; border: 1px dashed rgb(243 238 228 / .5); border-radius: 999px; }
+  header { padding: 28px 0 8px; }
+  h1 { font: 500 clamp(34px, 6vw, 62px)/1.02 'Fraunces', Georgia, serif; letter-spacing: -.02em; margin: 18px 0 0; max-width: 16ch; text-wrap: balance; font-variation-settings: 'opsz' 144; }
+  .lede { max-width: 56ch; margin: 16px 0 0; font-size: 18px; color: #D9D2C3; }
+  .go { display: grid; grid-template-columns: 1fr; gap: 20px; margin: 28px 0 0; }
+  @media (min-width: 820px) { .go { grid-template-columns: 1.15fr .85fr; align-items: stretch; } }
+  .panel { background: #12293B; border: 1px solid rgb(243 238 228 / .14); border-radius: 20px; padding: 24px; }
+  .panel h2 { font: 500 12px/1 'Geist Mono', monospace; letter-spacing: .14em; text-transform: uppercase; margin: 0 0 14px; color: var(--door); }
+  .btns { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; padding: 0 22px; border-radius: 12px; border: 1.5px solid transparent; font: 600 16px/1 'Geist', sans-serif; text-decoration: none; cursor: pointer; }
+  .btn-p { background: var(--door); color: var(--ink); }
+  .btn-g { background: transparent; color: #F3EEE4; border-color: rgb(243 238 228 / .5); }
+  .link { margin: 16px 0 0; padding: 12px 14px; background: #0B1E2D; border-radius: 10px; font: 500 14px/1.4 'Geist Mono', monospace; word-break: break-all; border: 1px solid rgb(243 238 228 / .14); }
+  .note { margin: 12px 0 0; font-size: 14px; color: #B9B3A5; }
+  .scan { display: flex; gap: 18px; align-items: center; }
+  .scan img { width: 150px; height: 150px; background: #fff; padding: 8px; border-radius: 10px; flex: none; image-rendering: pixelated; }
+  .scan p { margin: 0; font-size: 15px; color: #D9D2C3; }
+  .scan b { color: #fff; }
+
+  .scene { margin: 36px 0 0; display: grid; grid-template-columns: 1fr; gap: 0; border-radius: 22px; overflow: hidden; }
+  @media (min-width: 900px) { .scene { grid-template-columns: 1.1fr .9fr; } }
+  .wall { background:
+      radial-gradient(120% 80% at 30% 0%, rgb(255 255 255 / .35), transparent 60%),
+      repeating-linear-gradient(90deg, rgb(0 0 0 / .018) 0 2px, transparent 2px 5px),
+      var(--plaster);
+    color: var(--ink); padding: 40px 20px 36px; display: grid; justify-items: center; align-content: start; gap: 18px; }
+  .frame { padding: 16px; background: linear-gradient(135deg, var(--wood), var(--wood2)); border-radius: 3px; box-shadow: 0 2px 0 rgb(255 255 255 / .12) inset, 0 28px 40px -18px rgb(30 20 10 / .6), 0 6px 10px -4px rgb(30 20 10 / .45); }
+  .mat { padding: 20px; background: #F6F1E6; box-shadow: 0 0 0 1px rgb(0 0 0 / .12) inset, 0 3px 8px rgb(0 0 0 / .25) inset; }
+  .door-label { font: 500 12px/1 'Geist Mono', monospace; letter-spacing: .12em; text-transform: uppercase; opacity: .7; }
+  .table { background:
+      linear-gradient(180deg, rgb(0 0 0 / .0) 0, rgb(0 0 0 / .18) 100%),
+      repeating-linear-gradient(90deg, #8A6440 0 46px, #82603C 46px 92px);
+    padding: 40px 20px 36px; display: grid; justify-items: center; align-content: start; gap: 18px; position: relative; color: #F6EEDC; }
+  .tent { width: 210px; background: var(--paper); color: var(--ink); border-radius: 6px 6px 3px 3px; padding: 14px 14px 18px; text-align: center; transform: perspective(700px) rotateX(-4deg); box-shadow: 0 24px 24px -14px rgb(0 0 0 / .6), 0 2px 0 #fff inset; border-bottom: 5px solid var(--door); }
+  .tent b { display: block; font: 500 17px/1.1 'Fraunces', Georgia, serif; }
+  .tent img { width: 130px; height: 130px; margin: 10px auto 6px; display: block; background: #fff; padding: 5px; border: 1px solid var(--ink); image-rendering: pixelated; }
+  .tent span { font: 500 10px/1.3 'Geist Mono', monospace; letter-spacing: .08em; }
+  .cap { text-align: center; max-width: 36ch; margin: 0; font-size: 14.5px; }
+  .wall .cap { color: #3a3a35; } .table .cap { color: #F6EEDC; }
+
+  /* the printed card, same artwork as the print page */
+  .card { width: 148mm; height: 210mm; background: var(--paper); position: relative; padding: 10mm; zoom: .62; color: var(--ink); }
+  @media (max-width: 520px) { .card { zoom: .42; } .frame { padding: 10px; } .mat { padding: 12px; } }
+  .cf { height: 100%; border: 1.2mm solid var(--ink); outline: .5mm solid var(--ink); outline-offset: 1.6mm; position: relative; display: flex; flex-direction: column; align-items: center; padding: 9mm 7mm 6mm; text-align: center; }
+  .cf::before, .cf::after { content: ''; position: absolute; left: 50%; width: 22mm; height: 3mm; margin-left: -11mm; background: var(--door); }
+  .cf::before { top: -2.1mm; } .cf::after { bottom: -2.1mm; }
+  .mark { display: inline-grid; place-items: center; width: 10mm; height: 10mm; border-radius: 2mm; background: var(--door); color: var(--ink); font: 500 9pt/1 'Geist Mono', monospace; }
+  .eb { font: 500 7.5pt/1 'Geist Mono', monospace; letter-spacing: .16em; text-transform: uppercase; margin-top: 4mm; }
+  .card h2 { font: 500 31pt/1.02 'Fraunces', Georgia, serif; letter-spacing: -.02em; margin: 6mm 0 0; text-wrap: balance; color: var(--ink); }
+  .qr { width: 78mm; height: 78mm; margin: 8mm 0 0; padding: 3mm; background: #fff; border: .4mm solid var(--ink); }
+  .qr img { width: 100%; height: 100%; display: block; image-rendering: pixelated; }
+  .nm { font: 500 19pt/1.1 'Fraunces', Georgia, serif; margin: 8mm 0 0; }
+  .ht { margin: 2.5mm 0 0; font-size: 10.5pt; }
+  .wf { margin-top: auto; font: 500 8.5pt/1.4 'Geist Mono', monospace; padding: 2.5mm 4mm; border: .35mm dashed var(--ink); border-radius: 2mm; }
+
+  .inc { margin: 36px 0 0; display: grid; grid-template-columns: 1fr; gap: 14px; }
+  @media (min-width: 760px) { .inc { grid-template-columns: repeat(3, 1fr); } }
+  .inc div { border-top: 2px solid var(--door); padding-top: 14px; }
+  .inc h3 { margin: 0 0 6px; font: 500 22px/1.15 'Fraunces', Georgia, serif; }
+  .inc p { margin: 0; color: #D9D2C3; }
+  footer { padding: 36px 0 56px; color: #B9B3A5; font-size: 14px; }
+  .todo { display: inline-block; padding: 1px 8px; border: 1px dashed currentColor; border-radius: 6px; font: 500 12px/1.5 'Geist Mono', monospace; }
+  @media (prefers-reduced-motion: no-preference) { .btn { transition: transform .15s; } .btn:hover { transform: translateY(-2px); } }
+</style>
+</head>
+<body>
+<header class="wrap">
+  <span class="tag">Demo for HandyBros, sample property</span>
+  <h1>The welcome guide, in your guest's hand in two seconds</h1>
+  <p class="lede">Guests scan a code inside the property and the guide opens on their phone: wifi, bins, weather and where to eat nearby. You fill it in once. We print it and put it where you want it.</p>
+</header>
+
+<main class="wrap">
+  <section class="go" aria-label="Try the guide">
+    <div class="panel">
+      <h2>Try it now</h2>
+      <div class="btns">
+        <a class="btn btn-p" id="open" href="index.html?p=yellow-door">Open the guide</a>
+        <button class="btn btn-g" type="button" id="copy">Copy the link</button>
+        <a class="btn btn-g" href="print.html">Print the card</a>
+      </div>
+      <p class="link" id="url">https://thinkwork.info/p/handybros/stay/?p=yellow-door</p>
+      <p class="note" id="copied" aria-live="polite">Send that link to any phone, or scan the code. Both open the same guide.</p>
+    </div>
+    <div class="panel">
+      <h2>Or scan it</h2>
+      <div class="scan">
+        <img src="qr-yellow-door.svg" alt="QR code that opens the sample welcome guide" width="150" height="150">
+        <p><b>Point your phone camera at this code.</b> It is the same code that is printed on the card below.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene" aria-label="How the printed card looks in a property">
+    <div class="wall">
+      <span class="door-label">Framed, inside the front door</span>
+      <div class="frame"><div class="mat">
+        <article class="card" aria-label="Printed welcome card">
+          <div class="cf">
+            <span class="mark" aria-hidden="true">HB</span>
+            <div class="eb">Welcome</div>
+            <h2>Scan for your welcome guide</h2>
+            <div class="qr"><img src="qr-yellow-door.svg" alt="QR code on the printed card"></div>
+            <div class="nm">The Yellow Door</div>
+            <p class="ht">Point your phone camera at the code.</p>
+            <div class="wf">The wifi details are in the guide</div>
+          </div>
+        </article>
+      </div></div>
+      <p class="cap">Printed on quality card and framed, so it looks like part of the house.</p>
+    </div>
+    <div class="table">
+      <span class="door-label">Or on the coffee table, with the welcome hamper</span>
+      <div class="tent" aria-label="Table card">
+        <b>Scan for your welcome guide</b>
+        <img src="qr-yellow-door.svg" alt="QR code on the table card">
+        <span>THE YELLOW DOOR</span>
+      </div>
+      <p class="cap">A table card for the coffee table, kitchen or bedside.</p>
+    </div>
+  </section>
+
+  <section class="inc" aria-label="What is included">
+    <div><h3>Printed and presented</h3><p>We include the printed cards as part of your onboarding, nicely presented and ready to place.</p></div>
+    <div><h3>Wherever you want them</h3><p>Framed by the front door, on a table, with the welcome hamper. You choose where each one goes.</p></div>
+    <div><h3>You keep it accurate</h3><p>You type in the details for each property from your portal, so the guide always says what you want it to say.</p></div>
+  </section>
+</main>
+
+<footer class="wrap">Sample property and sample content. Nothing on this page is sent anywhere. <span class="todo">frame and card styles: to be chosen with you</span></footer>
+
+<script>
+  (function () {
+    var url = 'https://thinkwork.info/p/handybros/stay/?p=yellow-door';
+    var el = document.getElementById('url'), note = document.getElementById('copied');
+    try { if (location.protocol.indexOf('http') === 0) url = new URL('index.html?p=yellow-door', location.href).href; } catch (e) {}
+    el.textContent = url;
+    document.getElementById('copy').addEventListener('click', function () {
+      function ok() { note.textContent = 'Link copied. Paste it into a message to any phone.'; }
+      function manual() { note.textContent = 'Select the link above and copy it.'; var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+      try { navigator.clipboard.writeText(url).then(ok, manual); } catch (e) { manual(); }
+    });
+  })();
+</script>
+</body>
+</html>

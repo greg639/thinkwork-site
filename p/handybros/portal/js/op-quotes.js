@@ -28,11 +28,11 @@
 
   const ensureQuote = (r) => { if (!r.quote) r.quote = { lines: [], note: '', sentAt: null, approvedAt: null }; return r.quote; };
 
-  HB.ui.pf = { rid: null, type: 'hourly', beds: '2', linen: false, oven: false, same: false, up: 'none', hours: 2, mode: 'hours', callout: true };
+  HB.ui.pf = { rid: null, type: 'hourly', beds: '2', zones: 6, linen: false, oven: false, same: false, up: 'none', hours: 2, mode: 'hours', callout: true };
   const bedLabel = (b) => (b === 'studio' ? 'studio' : b + '-bed');
   function pfState(r) {
     const f = HB.ui.pf;
-    if (f.rid !== r.id) { const p = r.pid ? HB.prop(r.pid) : null; Object.assign(f, { rid: r.id, type: r.kind === 'eot' ? 'eot' : 'hourly', beds: p ? String(Math.min(p.beds, 5)) : '2', linen: false, oven: false, same: false, up: 'none', hours: 2, mode: 'hours', callout: true }); }
+    if (f.rid !== r.id) { const p = r.pid ? HB.prop(r.pid) : null; Object.assign(f, { rid: r.id, type: r.kind === 'eot' ? 'eot' : 'hourly', beds: p ? String(Math.min(p.beds, 5)) : '2', zones: p ? HB.zonesOf(p) : 6, linen: false, oven: false, same: false, up: 'none', hours: 2, mode: 'hours', callout: true }); }
     return f;
   }
   function prefillPanel(r) {
@@ -40,35 +40,37 @@
     const sel = (k, opts) => '<select data-change="pf-set" data-f="' + k + '" data-sync>' + opts.map((o) => '<option value="' + o[0] + '"' + (String(f[k]) === String(o[0]) ? ' selected' : '') + '>' + HB.esc(o[1]) + '</option>').join('') + '</select>';
     const ck = (k, label) => '<label class="chk"><input type="checkbox" data-change="pf-set" data-f="' + k + '"' + (f[k] ? ' checked' : '') + '>' + label + '</label>';
     const beds = [['studio', 'Studio'], ['1', '1 bed'], ['2', '2 bed'], ['3', '3 bed'], ['4', '4 bed'], ['5', '5+ bed (from)']];
-    return '<div class="prefill"><div class="row wrap" style="justify-content:space-between"><b>Prefill from the rate card</b>' + HB.rateChip + '</div><div class="form-grid"><label class="fld">Job type' + sel('type', [['turnover', 'Turnover (changeover)'], ['eot', 'End of tenancy / void'], ['hourly', 'Handyman, hourly']]) + '</label>' + (f.type !== 'hourly' ? '<label class="fld">Bedrooms' + sel('beds', beds) + '</label>' : '<label class="fld">Charge by' + sel('mode', [['hours', 'Hourly'], ['half', 'Half day, ' + HB.money(R.half)], ['full', 'Full day, ' + HB.money(R.full)]]) + '</label>') + '</div>' +
+    return '<div class="prefill"><div class="row wrap" style="justify-content:space-between"><b>Prefill from the rate card</b>' + (f.type === 'hourly' && f.up === 'none' ? '' : HB.rateChip) + '</div><div class="form-grid"><label class="fld">Job type' + sel('type', [['turnover', 'Turnover (changeover)'], ['eot', 'End of tenancy / void'], ['hourly', 'Handyman, hourly']]) + '</label>' + (f.type === 'eot' ? '<label class="fld">Bedrooms' + sel('beds', beds) + '</label>' : f.type === 'turnover' ? '<label class="fld">Zones <small>a room, hallway or stairs</small><input type="number" min="1" max="30" step="1" value="' + f.zones + '" data-input="pf-set" data-f="zones"></label>' : '<label class="fld">Charge by' + sel('mode', [['hours', 'Hourly'], ['half', 'Half day, ' + HB.money(R.half)], ['full', 'Full day, ' + HB.money(R.full)]]) + '</label>') + '</div>' +
       (f.type === 'turnover' ? '<div class="row wrap">' + ck('linen', 'Linen, ' + HB.money(R.linen) + ' a bed') + ck('oven', 'Oven clean, ' + HB.money(R.oven)) + ck('same', 'Same-day, +' + R.sameDay + '%') + '</div>' : '') +
       (f.type === 'hourly' ? '<div class="form-grid">' + (f.mode === 'hours' ? '<label class="fld">Hours<input type="number" min="0.5" step="0.5" value="' + f.hours + '" data-input="pf-set" data-f="hours"></label>' : '<span></span>') + '<div>' + ck('callout', 'Add call-out, ' + HB.money(R.callout)) + '</div></div>' : '') +
       '<label class="fld">Evenings and weekends' + sel('up', [['none', 'Normal hours'], ['min', 'Uplift +' + R.upMin + '%'], ['max', 'Uplift +' + R.upMax + '%']]) + '</label>' +
-      '<div class="row wrap" style="justify-content:space-between"><span class="muted" style="font-size:13px">' + (club ? 'Priority Club property: club discount lines are added.' : r.pid ? 'This property is on General rates.' : 'Not a managed property: General rates.') + '</span><button class="btn btn-primary btn-sm" data-act="pf-apply" data-id="' + r.id + '">Prefill lines</button></div></div>';
+      '<div class="row wrap" style="justify-content:space-between"><span class="muted" style="font-size:13px">' + (club ? 'Priority Club property: the retained discount of ' + HB.discPct() + '% (example) is added to maintenance lines. ' + HB.discChip : r.pid ? 'This property is on General rates.' : 'Not a managed property: General rates.') + '</span><button class="btn btn-primary btn-sm" data-act="pf-apply" data-id="' + r.id + '">Prefill lines</button></div></div>';
   }
-  HB.act('pf-set', (el) => { const f = HB.ui.pf; f[el.dataset.f] = el.type === 'checkbox' ? el.checked : el.dataset.f === 'hours' ? Number(el.value) || 0 : el.value; HB.emit(); });
+  HB.act('pf-set', (el) => { const f = HB.ui.pf; f[el.dataset.f] = el.type === 'checkbox' ? el.checked : el.dataset.f === 'hours' || el.dataset.f === 'zones' ? Number(el.value) || 0 : el.value; HB.emit(); });
   HB.act('pf-apply', (el) => {
     const r = HB.req(el.dataset.id); const f = pfState(r); const R = S().rates; const club = r.pid && HB.onClub(r.pid); const out = []; const r2 = HB.r2;
     const L2 = (d, k, q, rt) => out.push({ id: HB.uid('ln'), desc: d, kind: k, qty: q, rate: rt });
     let base = 0; const nb = f.beds === 'studio' ? 1 : Number(f.beds);
     if (f.type === 'turnover') {
-      const price = R.changeover[f.beds]; L2('Holiday-let changeover, ' + bedLabel(f.beds) + (f.beds === '5' ? ' (from)' : '') + ': full clean, beds remade, sanitise, inspection', 'labour', 1, price); base += price;
+      const zn = Math.max(1, Math.round(f.zones) || 1); const price = HB.zonePrice(zn); L2('Holiday-let changeover, ' + HB.zoneSum(zn) + ': full clean, beds remade, sanitise, inspection', 'labour', zn, R.zone); base += price;
       if (f.linen) L2('Linen supply, per bed', 'materials', nb, R.linen);
       if (f.oven) { L2('Oven clean', 'labour', 1, R.oven); base += R.oven; }
       if (f.same) { const x = r2(price * R.sameDay / 100); L2('Same-day turnaround, +' + R.sameDay + '%', 'labour', 1, x); base += x; }
-      if (club) L2('Priority Club discount on changeover', 'labour', 1, -r2(R.general.changeover - R.club.changeover));
     } else if (f.type === 'eot') {
       const key = Math.min(nb, 3); const price = R.eot[key]; L2('End of tenancy / void: clean, void check and reinstatement look, ' + bedLabel(String(key)) + (nb > 3 ? ' (4+ bed quoted on the visit)' : ' (from)'), 'labour', 1, price); base += price;
       if (f.oven) { L2('Oven clean', 'labour', 1, R.oven); base += R.oven; }
     } else {
-      if (f.callout) { L2('Call-out', 'labour', 1, R.callout); base += R.callout; if (club) L2('Priority Club discount on call-out', 'labour', 1, -r2(R.callout - R.club.callout)); }
-      if (f.mode === 'half') { L2('Half day', 'labour', 1, R.half); base += R.half; } else if (f.mode === 'full') { L2('Full day', 'labour', 1, R.full); base += R.full; }
-      else { L2('Handyman, per hour', 'labour', f.hours || 1, R.hourly); base += (f.hours || 1) * R.hourly; if (club && R.hourly > R.club.hourly) L2('Priority Club hourly rate', 'labour', f.hours || 1, -r2(R.hourly - R.club.hourly)); }
+      if (f.callout) { L2('Call-out', 'labour', 1, R.callout); base += R.callout; }
+      let lab = 0;
+      if (f.mode === 'half') { L2('Maintenance, half day', 'labour', 1, R.half); lab = R.half; } else if (f.mode === 'full') { L2('Maintenance, full day', 'labour', 1, R.full); lab = R.full; }
+      else { L2('Maintenance, per hour', 'labour', f.hours || 1, R.hourly); lab = r2((f.hours || 1) * R.hourly); }
+      base += lab;
+      if (club && HB.discPct() > 0) { L2('Retained client discount, ' + HB.discPct() + '% of maintenance (example, owner to confirm)', 'labour', 1, -HB.retainedOff(lab)); base -= HB.retainedOff(lab); }
     }
     if (f.up !== 'none') { const pct = f.up === 'min' ? R.upMin : R.upMax; L2('Evening / weekend uplift, +' + pct + '%', 'labour', 1, r2(base * pct / 100)); }
-    HB.update(() => { ensureQuote(r).lines = r.quote.lines.concat(out); }); HB.toast(HB.plural(out.length, 'line') + ' added from the draft rate card', { icon: 'list' });
+    HB.update(() => { ensureQuote(r).lines = r.quote.lines.concat(out); }); HB.toast(HB.plural(out.length, 'line') + ' added from the rate card', { icon: 'list' });
   });
-  const PRESETS = [['Call-out and assessment', 'labour', 1, 40], ['Labour, per hour', 'labour', 1, 55], ['Materials and fixings', 'materials', 1, 20], ['Paint and sundries', 'materials', 1, 60]];
+  const PRESETS = [['Call-out and assessment', 'labour', 1, 50], ['Labour, per hour', 'labour', 1, 34.99], ['Materials and fixings', 'materials', 1, 20], ['Paint and sundries', 'materials', 1, 60]];
 
   HB.view('op.quote', {
     title: (p) => (HB.req(p.id) ? HB.req(p.id).title : 'Request'),

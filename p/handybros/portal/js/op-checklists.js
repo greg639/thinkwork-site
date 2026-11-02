@@ -14,8 +14,7 @@
   const SCHED = { together: 'With the cleaning visit', own: 'Own check visit' };
   const KINDS = [['clean', 'Cleaning'], ['check', 'Property check']];
   const BURN = /kettle|toaster|air ?fryer|\btv\b|television|remote|batter/i;
-  const bedKey = (b) => (Number(b) === 0 ? 'studio' : Math.min(5, Number(b) || 1));
-  const basePrice = (beds) => S().rates.changeover[bedKey(beds)];
+  const basePrice = (zones) => HB.zonePrice(zones);
 
   /* ---------- seeded content ---------- */
   const mk = (kind) => (text, o) => Object.assign({ id: HB.uid('t'), text, freq: 'every', kind, incl: true, price: 0, sched: 'together' }, o || {});
@@ -108,7 +107,7 @@
   S().prospects = S().prospects || [];
   function info(pid) {
     const p = S().props.find((x) => x.id === pid);
-    if (p) return { id: p.id, name: p.name, short: p.short, town: p.town, beds: p.beds, img: p.img, owner: HB.owner(p.ownerId).name, ownerId: p.ownerId, prospect: false };
+    if (p) return { id: p.id, name: p.name, short: p.short, town: p.town, beds: p.beds, zones: HB.zonesOf(p), img: p.img, owner: HB.owner(p.ownerId).name, ownerId: p.ownerId, prospect: false };
     const w = S().prospects.find((x) => x.id === pid);
     return w ? Object.assign({ prospect: true, ownerId: null }, w) : null;
   }
@@ -131,7 +130,7 @@
       byFreq[x.t.freq] = (byFreq[x.t.freq] || 0) + 1;
       if (x.t.incl) inclN++; else { extraN++; if (Number(x.t.price) > 0) { extraMonthly += (Number(x.t.price) * o) / 12; extras.push({ t: x.t, room: x.room, occ: o, list: x.list }); } }
     });
-    const base = basePrice(inf.beds) * L.meta.cpm;
+    const base = basePrice(HB.zonesOf(inf)) * L.meta.cpm;
     const visitCharge = OV > 0 ? (OV * (Number(L.meta.visit) || 0)) / 12 : 0;
     return { V, OV, together, own, perVisit, inclN, extraN, byFreq, extras, base, extraMonthly: r2(extraMonthly + visitCharge), taskExtraMonthly: r2(extraMonthly), visitCharge: r2(visitCharge), total: all.length, noPrice: all.filter((x) => !x.t.incl && !(Number(x.t.price) > 0)).length };
   }
@@ -172,7 +171,7 @@
   HB.subs.unshift(syncRunner);
   syncRunner();
 
-  HB.cl = { FREQ, FQ, PC, BURN, info, get, stats, fromWalk, basePrice, bedKey, mk };
+  HB.cl = { FREQ, FQ, PC, BURN, info, get, stats, fromWalk, basePrice, mk };
 
   /* ---------- UI state ---------- */
   HB.ui.cl = { pid: null, kind: 'clean', open: null, filter: 'all', collapsed: {}, draft: {}, rename: null, newRoom: '', lastReq: null, tplClose: null };
@@ -246,7 +245,7 @@
       '<p class="muted ck-hint" style="margin-top:10px">A typical cleaning visit is ' + HB.plural(st.perVisit, 'task') + ', plus the monthly, quarterly and yearly jobs as they fall due.</p>' +
       '<hr class="divider">' +
       '<div class="sec-head" style="margin-bottom:6px"><h2>Each month</h2></div>' +
-      row('Included package', HB.money(st.base), L.meta.cpm + ' changeovers at ' + HB.money(basePrice(inf.beds))) +
+      row('Included package', HB.money(st.base), L.meta.cpm + ' changeovers at ' + HB.money(basePrice(HB.zonesOf(inf))) + ' (' + HB.zoneSum(HB.zonesOf(inf)) + ')') +
       row('Extras', HB.money(st.extraMonthly), HB.plural(st.extraN, 'extra task') + (st.visitCharge ? ' and check visits' : '')) +
       '<div class="ck-split" role="img" aria-label="Share of the monthly total that is included and extra"><i class="a" style="width:' + Math.round(st.base / tot * 100) + '%"></i><i class="b" style="width:' + Math.round(st.extraMonthly / tot * 100) + '%"></i></div>' +
       '<div class="ck-leg"><span><i class="dot a"></i>Included ' + Math.round(st.base / tot * 100) + '%</span><span><i class="dot b"></i>Extra ' + Math.round(st.extraMonthly / tot * 100) + '%</span></div>' +
@@ -254,7 +253,7 @@
       '<button class="btn btn-primary btn-block" style="margin-top:16px" data-act="cl-quote"' + (st.extras.length || st.OV ? '' : ' aria-disabled="true"') + '>' + HB.icon('quote', 18) + 'Extras to quote' + (st.extras.length ? ' (' + st.extras.length + ')' : '') + '</button>' +
       (st.noPrice ? '<p class="ck-warnline">' + HB.icon('alert', 15) + HB.plural(st.noPrice, 'extra task') + ' still need a price.</p>' : '') +
       (u.lastReq && HB.req(u.lastReq) ? '<a class="ck-link" href="#/op/quotes/' + u.lastReq + '">' + HB.icon('arrow-r', 15) + 'Open the quote request</a>' : '') +
-      '<p class="footnote" style="margin-top:12px">' + HB.rateChip + ' Extra prices for gutters and decking are the hourly rate times an estimated time. All of this is a draft until the owner confirms the rate card.</p></aside>';
+      '<p class="footnote" style="margin-top:12px">Extra prices for gutters and decking are the hourly rate (' + HB.money(S().rates.hourly) + ') times an estimated time of 2 and 3 hours, <span class="todo">time estimate, owner to confirm</span>.</p></aside>';
   }
   function chooser() {
     const all = S().props.map((p) => info(p.id)).concat(S().prospects.map((p) => info(p.id)));

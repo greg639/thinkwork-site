@@ -54,23 +54,31 @@
     $('#whenLede').textContent = wt ? 'Pick a day for your free walk-through. We visit, build your inventory and a custom to-do list, then quote.' : 'Choose the day that suits you best over the next four weeks.';
   }
 
-  /* draft changeover estimate by bedroom count */
-  var BASE = { 'Studio': [60, 1, false], '1': [70, 1, false], '2': [80, 2, false], '3': [105, 3, false], '4': [135, 4, false], '5': [160, 5, true], '6 or more': [160, 6, true] };
-  var estText = '';
+  /* changeover estimate: zones times the per-zone price. A zone is a room, or a hallway or stairs. */
+  var ZONE = 20;
+  var estText = '', extraTouched = false;
   function estimate() {
-    var box = $('#est'), v = $('#beds').value, r = BASE[v];
-    if (!r) { box.hidden = true; estText = ''; return; }
-    var total = r[0];
+    var box = $('#est'), v = $('#beds').value, bt = $('#baths').value;
+    if (!v || !bt) { box.hidden = true; estText = ''; return; }
+    var studio = v === 'Studio', more = v === '6 or more';
+    var beds = studio ? 1 : more ? 6 : parseInt(v, 10);
+    if (!extraTouched) $('#extra').value = studio ? '1' : '3';
+    var extra = parseInt($('#extra').value, 10) || 0, baths = parseInt(bt, 10) || 1;
+    var zones = beds + baths + extra;
+    var total = zones * ZONE;
     var adds = $$('input[name=addon]:checked').map(function (x) { return x.value; });
-    if (adds.indexOf('linen') > -1) total += 15 * r[1];
+    if (adds.indexOf('linen') > -1) total += 15 * (studio ? 1 : beds);
     if (adds.indexOf('oven') > -1) total += 30;
-    if (adds.indexOf('sameday') > -1) total = Math.round(total * 1.2);
-    var label = 'from \u00a3' + total + (r[2] && adds.length === 0 ? '+' : '') + ' a changeover, draft';
-    $('#estPrice').textContent = label.charAt(0).toUpperCase() + label.slice(1);
-    estText = label + (adds.length ? ' (with ' + adds.join(', ').replace('sameday', 'same-day').replace('oven', 'oven clean') + ')' : '') + '. Draft rate, owner to confirm';
+    if (adds.indexOf('sameday') > -1) total = Math.round(total + zones * ZONE * 0.2);
+    var sum = zones + ' zones \u00d7 \u00a3' + ZONE + ' = \u00a3' + (zones * ZONE);
+    $('#estPrice').textContent = 'From \u00a3' + total + ' a changeover' + (more ? '+' : '');
+    $('#estSum').textContent = sum + (adds.length ? ', plus add-ons' : '') + '. Final price set at the free walk-through.';
+    estText = 'from \u00a3' + total + ' a changeover, ' + sum + (adds.length ? ' (with ' + adds.join(', ').replace('sameday', 'same-day').replace('oven', 'oven clean') + ', add-on prices are drafts)' : '') + ', final price set at the free walk-through';
     box.hidden = false;
   }
-  $('#beds').addEventListener('change', estimate);
+  $('#beds').addEventListener('change', function () { extraTouched = false; estimate(); });
+  $('#baths').addEventListener('change', estimate);
+  $('#extra').addEventListener('change', function () { extraTouched = true; estimate(); });
   $$('input[name=addon]').forEach(function (a) { a.addEventListener('change', estimate); });
 
   /* validation per step */
@@ -93,7 +101,9 @@
       var d = $('#desc');
       if (care) {
         var b = $('#beds'), k = $('#keys');
+        var bt = $('#baths');
         if (!b.value) { setErr('beds', 'Choose the number of bedrooms.', b); bad(b); } else setErr('beds', '', b);
+        if (!bt.value) { setErr('baths', 'Choose the number of bathrooms.', bt); bad(bt); } else setErr('baths', '', bt);
         if (!k.value) { setErr('keys', 'Tell us about spare keys.', k); bad(k); } else setErr('keys', '', k);
         if (!$$('input[name=platform]:checked').length) { setErr('platform', 'Pick at least one platform.'); bad($('input[name=platform]')); } else setErr('platform', '');
         setErr('desc', '', d);
@@ -205,7 +215,7 @@
     var d = pcv.replace(/\s/g, '').match(/^([A-Z]{1,2}[0-9][A-Z0-9]?)/);
     h += row('Where', esc(pcv) + (d && COVER[d[1]] ? ' (' + COVER[d[1]] + ')' : ''));
     if (care) {
-      h += row('Property', esc($('#beds').value) + ' bedroom' + ($('#beds').value === '1' ? '' : 's') + (isNaN(parseInt($('#beds').value, 10)) ? '' : '') );
+      h += row('Property', esc($('#beds').value) + ' bedroom' + ($('#beds').value === '1' ? '' : 's') +  + ', ' + esc($('#baths').value) + ' bathroom' + ($('#baths').value === '1' ? '' : 's') + ', ' + esc($('#extra').value) + ' other zone' + ($('#extra').value === '1' ? '' : 's'));
       h += row('Listed on', esc($$('input[name=platform]:checked').map(function (x) { return x.value; }).join(', ')));
       h += row('Check-in / out', esc($('#cin').value || 'varies') + ' / ' + esc($('#cout').value || 'varies'));
       h += row('Spare key', esc($('#keys').value));
@@ -231,7 +241,7 @@
   });
   $('#back').addEventListener('click', function () { if (cur > 1) { cur--; render(); } });
   $('#again').addEventListener('click', function () {
-    form.reset(); estimate(); photos.forEach(function (p) { URL.revokeObjectURL(p.url); }); photos = []; drawThumbs(); pickedDay = null; buildCal(); cur = 1; render();
+    form.reset(); extraTouched = false; estimate(); photos.forEach(function (p) { URL.revokeObjectURL(p.url); }); photos = []; drawThumbs(); pickedDay = null; buildCal(); cur = 1; render();
   });
   /* choosing a type moves on, so the first step is one tap */
   $$('input[name=kind]').forEach(function (r) { r.addEventListener('change', function () { setErr('kind', ''); }); });

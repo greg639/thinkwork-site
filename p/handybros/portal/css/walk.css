@@ -300,3 +300,7 @@ label.fld.bad input, label.fld.bad select, .wk-ld.bad input, .wk-lq.bad input, .
 }
 .wk-body :is(input, select, textarea, button, label, summary), .wk-paper :is(input, select, button, label) { scroll-margin-block: 96px; }
 .wk-paper { scroll-padding-bottom: 80px; }
+.wk-zone { display: flex; align-items: flex-start; gap: 10px; margin-top: 14px; min-height: 44px; font-size: 14px; }
+.wk-zone input { margin-top: 3px; }
+.wk-zsum { margin-left: auto; color: var(--ink); }
+.wk-zadd .btn { min-height: 44px; }

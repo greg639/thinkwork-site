@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Welcome guide · demo for HandyBros</title>
+<meta name="description" content="A demo digital welcome guide for a holiday let. Sample content only.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0B1E2D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/stay.css">
+</head>
+<body>
+<a class="skip" href="#guide">Skip to the guide</a>
+<div class="demo-strip" role="note"><span class="hb-mark" aria-hidden="true">HB</span><span>Demo guide for HandyBros. Sample content, nothing here is sent anywhere.</span></div>
+
+<div class="shell">
+  <header class="hero" id="top" aria-labelledby="prop-name">
+    <div class="hero-img"><img id="hero-img" alt="" width="800" height="1000" decoding="async"></div>
+    <div class="hero-in">
+      <span class="tag">Demo property</span>
+      <div class="hero-t">
+        <p class="eyebrow" id="prop-addr"></p>
+        <h1 id="prop-name">Welcome</h1>
+      </div>
+    </div>
+  </header>
+
+  <nav class="chips" id="chips" aria-label="Sections"></nav>
+
+  <main id="guide" tabindex="-1">
+    <noscript><p class="card pad">This guide needs JavaScript to show your host's details.</p></noscript>
+  </main>
+
+  <footer class="foot">
+    <p>Demo page built for HandyBros. The property, wifi details and contact list are sample content.</p>
+    <p class="foot-2" id="foot-edit">Your host keeps this guide up to date.</p>
+  </footer>
+</div>
+
+<div class="sheet-root" id="sheet-root" hidden>
+  <div class="sheet-scrim" data-close></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" id="sheet" tabindex="-1">
+    <div class="sheet-grab" aria-hidden="true"></div>
+    <div id="sheet-body"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

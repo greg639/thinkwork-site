@@ -159,7 +159,9 @@
     ['/op/billing', 'op.billing'], ['/op/inbox/:tab?', 'op.inbox'], ['/op/reports', 'op.reports'], ['/op/reports/:id', 'op.report'], ['/op/settings', 'op.settings'],
     ['/ow/overview', 'ow.overview'], ['/ow/properties', 'ow.properties'], ['/ow/properties/:id/:tab?', 'ow.property'], ['/ow/request', 'ow.request'],
     ['/ow/quotes', 'ow.quotes'], ['/ow/compliance', 'ow.compliance'], ['/ow/billing', 'ow.billing'], ['/ow/messages', 'ow.messages'],
-    ['/ow/reports', 'ow.reports'], ['/ow/reports/:id', 'ow.report'], ['/runner', 'runner']
+    ['/ow/reports', 'ow.reports'], ['/ow/reports/:id', 'ow.report'], ['/runner', 'runner'],
+    ['/op/walkthrough', 'op.walkthrough'], ['/op/checklists/:id?', 'op.checklists'], ['/op/incidents', 'op.incidents'], ['/op/incidents/:id', 'op.incident'], ['/op/roadmap', 'op.roadmap'],
+    ['/ow/gallery', 'ow.gallery'], ['/ow/incidents', 'ow.incidents'], ['/ow/incidents/:id', 'ow.incident'], ['/ow/welcome/:id?', 'ow.welcome']
   ].map(([p, k]) => {
     const names = []; const re = p.replace(/\/:(\w+)(\?)?/g, (_, n, o) => { names.push(n); return o ? '(?:/([^/]+))?' : '/([^/]+)'; });
     return { re: new RegExp('^' + re + '/?$'), names, key: k, path: p };
@@ -179,13 +181,15 @@
       { l: 'Keys', i: 'key', p: '/op/keys', b: () => (HB.S.lockout.status === 'incoming' ? 1 : 0) },
       { l: 'Retainers & billing', i: 'card', p: '/op/billing' },
       { l: 'Inbox', i: 'inbox', p: '/op/inbox', b: () => HB.S.threads.filter((t) => t.unreadOp).length },
-      { l: 'Reports', i: 'report', p: '/op/reports' }, { l: 'Settings', i: 'sliders', p: '/op/settings' }
+      { l: 'Walk-through quote', i: 'pin', p: '/op/walkthrough' }, { l: 'Checklists', i: 'list', p: '/op/checklists' }, { l: 'Incidents', i: 'alert', p: '/op/incidents' },
+      { l: 'Reports', i: 'report', p: '/op/reports' }, { l: 'Roadmap', i: 'map', p: '/op/roadmap' }, { l: 'Settings', i: 'sliders', p: '/op/settings' }
     ],
     ow: [
       { l: 'Overview', i: 'sunrise', p: '/ow/overview' }, { l: 'My properties', i: 'home', p: '/ow/properties' }, { l: 'Request something', i: 'camera', p: '/ow/request' },
       { l: 'Quotes', i: 'quote', p: '/ow/quotes', b: () => HB.S.requests.filter((r) => r.ownerId === HB.S.ownerId && r.status === 'Quoted').length },
       { l: 'Compliance vault', i: 'shield', p: '/ow/compliance' }, { l: 'Retainer & billing', i: 'card', p: '/ow/billing' },
       { l: 'Messages', i: 'inbox', p: '/ow/messages', b: () => HB.S.threads.filter((t) => t.ownerId === HB.S.ownerId && t.unreadOw).length },
+      { l: 'Photo gallery', i: 'camera', p: '/ow/gallery' }, { l: 'Incidents', i: 'alert', p: '/ow/incidents' }, { l: 'Welcome book', i: 'wifi', p: '/ow/welcome' },
       { l: 'Reports', i: 'report', p: '/ow/reports' }
     ]
   };

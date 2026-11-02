@@ -74,6 +74,7 @@
     undo: '<path d="M8 8.500H15a4.500 4.500 0 0 1 0 9H9M8 8.500l3-3M8 8.500l3 3"/>'
   };
   window.HB = window.HB || {};
+  HB.addIcons = function (o) { Object.assign(P, o); };
   HB.icon = function (n, s, cls) {
     s = s || 20;
     return '<svg class="ic ' + (cls || '') + '" width="' + s + '" height="' + s + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (P[n] || P.spark) + '</svg>';

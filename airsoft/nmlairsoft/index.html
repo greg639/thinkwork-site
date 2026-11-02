@@ -27,20 +27,14 @@
   --red:var(--brand-fill,#F5C400); --red-2:var(--brand-fill-2,#FFD633);
   --red-ink:var(--brand-ink,#F5C400); --red-hi:var(--brand-hi,#F5C400);
   --red-ghost:var(--brand-ghost,#3A3208); --on-red:#141312;
-  --sign:#1E6B3C; --sign-ink:#FFFFFF;
   --ph:#F0B15A; --ph-ghost:#3A2A12; --on-ph:#141312;
   --go:#7FD39A; --go-ghost:#173022;
   --shadow:0 1px 0 rgba(0,0,0,.4), 0 24px 48px -28px #000;
-  --stripe:repeating-linear-gradient(135deg,#F5C400 0 14px,#141312 14px 28px);
+  --stripe:repeating-linear-gradient(135deg,var(--red) 0 14px,var(--on-red) 14px 28px);
   --cut-top:0;--cut-bottom:0;--cut-width:0;--cut-min-h:0;--cut-top-p:0;--cut-h-p:0;--cut-w-p:0;
   color-scheme:dark;
 }
-.plate{--bg:#0F1114;--surface:#1E2228;--surface-2:#282D35;--sunk:#0A0B0D;
-  --line:#33393F;--line-soft:#272C33;--line-strong:#4C545C;
-  --text:#F4F4F1;--text-2:#CDD1D6;--text-3:#A9B0BA;
-  --red:#F5C400;--red-2:#FFD633;--red-ink:#F5C400;--red-hi:#F5C400;--red-ghost:#3A3208;--on-red:#141312;
-  --ph:#F0B15A;--ph-ghost:#3A2A12;--on-ph:#141312;--go:#7FD39A;--go-ghost:#173022;
-  background:var(--bg);color:var(--text)}
+.plate{background:var(--sunk);color:var(--text)}
 
 /* ---- part: base.css ----
    Base: the reset, the type scale, the focus ring and the small text utilities every
@@ -299,17 +293,30 @@ body.ph-on .tiles,body.ph-on .cols2[data-ph]{padding-top:12px}
 .tile.sq{aspect-ratio:1}
 .aerial{margin:0}
 
-/* the shared buttons read --red as their fill; on hazard yellow the label is ink, not white */
+/* ---------- MIDTOWN GRID, lifted to the 19f bar: function and layout are the template's, every colour and face is a token ---------- */
+/* the shared buttons read --red as their fill; on a light accent the label is ink, not white */
 .btn.primary{color:var(--on-red)}
 .wordmark{font-weight:400}
 h1,h2,h3,h4,.bigfig,.fare tbody th,.tt .t,.day .date b,.board .r .d,.tier .price{font-weight:400}
-/* Saira Stencil One carries tall ascent and descent metrics, so every display line box is opened up and every heading gets clear air above and below */
-h1{line-height:1}h2{line-height:1.08;margin-top:16px!important;margin-bottom:14px!important}h3{line-height:1.12;margin-top:12px!important}
-.bigfig,.tt .t,.day .date b,.board .r .d,.fare tbody th,.fare td.p,.tier .price,.sign b,.feat b,.icons b,.tt h4,.chrono td b,.rip{line-height:1.1}
-.rip{margin-top:28px}   /* the stencil face's line box runs past its glyphs; the date rip sat a third of the way into the event title */
-.tt h4{margin-bottom:12px;line-height:1.4}.tt p{margin-top:6px}.tt li{padding-block:18px}.bigfig{margin-top:24px!important;line-height:1.15}html{scroll-padding-top:140px}.icons .l{margin-top:6px}
+/* the type scale: one display face, uppercase, tight; a stencil face carries tall metrics, so every display line box is opened up */
+h1{line-height:.94}
+h2{font-size:clamp(36px,4.6cqi,68px);line-height:.95;margin-top:16px!important;margin-bottom:14px!important;max-width:18ch}
+h3{font-size:clamp(22px,2.1cqi,28px);line-height:1.1;margin-top:12px!important}
+.bigfig,.tt .t,.day .date b,.board .r .d,.fare tbody th,.fare td.p,.tier .price,.sign b,.feat b,.tt h4,.chrono td b,.rip{line-height:1.1}
+.rip{margin-top:28px}
+.tt h4{margin-bottom:12px;line-height:1.4}.tt p{margin-top:6px}.tt li{padding-block:18px}.bigfig{margin-top:24px!important;line-height:1.15}html{scroll-padding-top:140px}
 .eyebrow.red{color:var(--red-ink)}
-/* ---------- hero: split. Type on asphalt, your slider photograph on the right behind a hazard edge, the star as a watermark ---------- */
+/* the rhythm: sections breathe, a hairline between them, the content column at 1160 */
+#app .wrap{width:min(1160px,100%);padding-inline:clamp(16px,4vw,40px)}
+#app .band{padding-block:clamp(64px,8cqi,120px)}
+#app .band.tight{padding-block:clamp(44px,5cqi,80px)}
+#app .band+.band,#app .band+.tagline,#app .tagline+.band{border-top:1px solid var(--line-soft)}
+.sechead{display:flex;flex-direction:column;gap:12px;max-width:62ch;margin-bottom:clamp(28px,3cqi,44px)}
+.sechead p{color:var(--text-2);font-size:18px;line-height:1.55;max-width:56ch}
+p{line-height:1.6}
+/* one grade on every picture: the client's photographs span years and phones */
+#app img:not(.brandmark):not(.foot-mark):not([class*=mark]):not(.hero .stage img){filter:contrast(1.06) saturate(.9) brightness(.95)}
+/* ---------- hero: the film or the slides full-bleed, the type on flat ground at the left, one action ---------- */
 /* ---- part: hero-motion.css ----
    The opening screen moves. A stage of the business's own pictures behind the type: each slide holds
    (--hold, 5s) with a slow push-in and crossfades to the next; slide k waits k times --hold before its
@@ -345,6 +352,11 @@ h1{line-height:1}h2{line-height:1.08;margin-top:16px!important;margin-bottom:14p
 .hero .stage svg.bolt path.glow{stroke:#CFE0FF;stroke-width:12;opacity:.45;filter:blur(3px)}
 .hero .stage .flash{position:absolute;inset:0;background:#EAF2FF;opacity:0;pointer-events:none}
 .hero.strike .stage img.slide{filter:saturate(.7) contrast(1.18) brightness(1.5)}
+/* the film (TEMPLATES.md 19f): a short clip over the slides and under the scrim, faded in once it plays; the slides
+   stand in until then, and when there is no film at all. hero-motion.js picks the portrait cut on a tall viewport. */
+.hero .stage video.film{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 40%);opacity:0;transition:opacity 1.2s linear;z-index:1}
+.hero .stage video.film.on{opacity:1}
+.hero .stage::after{z-index:2}
 /* the scrim: the type column is flat ground, the picture lives top right, the lower half fades to the page */
 .hero .stage::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(90deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 94%,transparent) 20%,color-mix(in srgb,var(--bg) 80%,transparent) 36%,color-mix(in srgb,var(--bg) 46%,transparent) 52%,color-mix(in srgb,var(--bg) 18%,transparent) 68%,color-mix(in srgb,var(--bg) 4%,transparent) 100%),
@@ -355,21 +367,39 @@ h1{line-height:1}h2{line-height:1.08;margin-top:16px!important;margin-bottom:14p
   @keyframes stage-drift{from{transform:translateY(0)}to{transform:translateY(14%)}}
 }}
 @media (prefers-reduced-motion:reduce){
+  .hero .stage video.film{display:none}
   .hero .stage img.slide{animation:none;opacity:0}
   .hero .stage img.slide:first-of-type{opacity:1}
   .hero .stage canvas.rain,.hero .stage svg.bolt,.hero .stage .flash{display:none}
 }
-.hero{position:relative;overflow:clip;border-bottom:6px solid transparent;border-image:var(--stripe) 1}
-/* the stage is the right-hand photograph: the split hero keeps its asphalt column, the pictures move on the right */
-.hero .photo::before{display:none}
-.hero .photo .stage::after{background:linear-gradient(90deg,#15181D 0%,rgba(21,24,29,.46) 20%,rgba(21,24,29,.06) 54%,rgba(21,24,29,.26) 100%),linear-gradient(180deg,rgba(21,24,29,.06) 0%,rgba(21,24,29,0) 46%,rgba(21,24,29,.72) 86%,#15181D 100%)}
-.hero .photo{position:absolute;inset:0 0 0 46%;background:url(assets/img-7.jpg) 60% 40%/cover no-repeat;filter:saturate(.9) contrast(1.1) brightness(1.1)}
-.hero .photo::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#15181D 0%,rgba(21,24,29,.46) 20%,rgba(21,24,29,.06) 54%,rgba(21,24,29,.26) 100%),linear-gradient(180deg,rgba(21,24,29,.06) 0%,rgba(21,24,29,0) 46%,rgba(21,24,29,.72) 86%,#15181D 100%)}
-.hero::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:var(--stripe);z-index:3}
-.hero .photocredit{position:absolute;right:12px;top:12px;z-index:3;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#F4F4F1;background:#0F1114;padding:3px 7px;border-radius:2px}
-/* the star lands: your roundel at watermark scale, hits with an overshoot and holds. texture-lands.css animates it. */
-.hero .splat{position:absolute;left:-6%;bottom:-18%;width:min(44vw,560px);aspect-ratio:1;background:url(assets/img-1.png) center/contain no-repeat;opacity:.07;pointer-events:none;z-index:1;--rot:-12deg;transform:rotate(var(--rot));transform-origin:50% 50%;
-  animation:splat-in 320ms cubic-bezier(.3,1.6,.5,1) both,drip-down 900ms cubic-bezier(.25,.6,.3,1) 200ms both}
+.hero{position:relative;overflow:clip;display:flex;flex-direction:column;justify-content:center;border-bottom:1px solid var(--line-soft)}
+@media (min-height:900px){.hero{min-height:min(82vh,780px)}}
+.hero .photo{position:absolute;inset:0}
+.hero .photo .stage img.slide{filter:contrast(1.07) saturate(.92) brightness(.9)}
+.hero .photo .stage::after{background:linear-gradient(98deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 93%,transparent) 18%,color-mix(in srgb,var(--bg) 86%,transparent) 40%,color-mix(in srgb,var(--bg) 52%,transparent) 60%,color-mix(in srgb,var(--bg) 18%,transparent) 80%,color-mix(in srgb,var(--bg) 42%,transparent) 100%),
+  linear-gradient(180deg,color-mix(in srgb,var(--bg) 30%,transparent) 0%,transparent 34%,color-mix(in srgb,var(--bg) 40%,transparent) 68%,var(--bg) 100%)}
+.hero .photocredit{position:absolute;right:14px;top:14px;z-index:3;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text);background:color-mix(in srgb,var(--sunk) 82%,transparent);padding:4px 8px}
+.hero .wrap{position:relative;z-index:2;padding-block:clamp(36px,6vh,110px) clamp(32px,5vh,72px)}
+.hero .copy{max-width:min(70%,900px)}
+.hero .place{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:clamp(28px,.3em,40px)}   /* the stencil face's glyphs run above the headline's line box */
+.hero .place .eyebrow{color:var(--text);white-space:nowrap;font-size:12px;letter-spacing:.16em;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+.hero .place .pair{display:inline;white-space:nowrap}
+.hero .place .eyebrow+.pair::before{content:"\00b7";color:var(--red-ink);margin:0 14px 0 4px}
+@media (max-width:640px){.hero .place .eyebrow+.pair::before{content:none}.hero .place .pair{display:block;margin-top:4px;white-space:normal}}
+.hero .place .eyebrow+.eyebrow::before{content:"\00b7";color:var(--red-ink);margin:0 14px 0 4px}
+.hero h1{font-size:min(clamp(52px,7.4vw,118px),11vh);letter-spacing:.005em;max-width:14ch;text-shadow:0 2px 24px rgba(0,0,0,.45)}
+.hero h1 em{font-style:normal;color:var(--red-hi)}
+.hero .lede{color:var(--text-2);margin-top:clamp(12px,1.6vh,22px);max-width:46ch;font-size:clamp(17px,1.5cqi,21px);line-height:1.5}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin:clamp(18px,2.6vh,28px) 0 0}
+.hero .btn.lg{padding:15px 24px;font-size:15.5px;min-height:52px}
+.hero .brandmark{display:none}
+/* the meta row: the next date, the price, the gates, on a hairline */
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px clamp(28px,3cqi,48px);margin-top:clamp(28px,3cqi,44px);padding-top:18px;border-top:1px solid var(--line-strong);position:relative;max-width:760px}
+.hero-meta .m span{display:block;font-family:var(--display);font-size:clamp(20px,1.9cqi,26px);text-transform:uppercase;line-height:1.1;letter-spacing:.01em}
+.hero-meta .m small{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);margin-top:5px}
+@media (max-height:820px){
+  .hero-meta{margin-top:18px;padding-top:12px}
+}
 /* ---- part: texture-lands.css ----
    The brand texture landing, once, on first paint: the blot hits at scale with an
    overshoot, then the drips run down out of it, then it holds. A route change
@@ -383,29 +413,12 @@ h1{line-height:1}h2{line-height:1.08;margin-top:16px!important;margin-bottom:14p
 @keyframes drip-down{from{clip-path:inset(0 0 58% 0)}to{clip-path:inset(0 0 0 0)}}
 html.splat-done .hero .splat{animation:none}
 @media (prefers-reduced-motion:reduce){.hero .splat{animation:none}}
-.hero .wrap{position:relative;z-index:2;padding-block:clamp(22px,2.6cqi,40px) clamp(28px,3.4cqi,56px)}
-.hero .copy{max-width:min(62%,780px)}
-.hero .place{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:24px}
-.hero .place .eyebrow{color:var(--text);white-space:nowrap}
-.hero .place .pair{display:inline;white-space:nowrap}
-.hero .place .eyebrow+.pair::before{content:"\00b7";color:var(--red-ink);margin:0 14px 0 4px}
-@media (max-width:640px){.hero .place .eyebrow+.pair::before{content:none}.hero .place .pair{display:block;margin-top:4px;white-space:normal}}
-.hero .place .eyebrow+.eyebrow::before{content:"\00b7";color:var(--red-ink);margin:0 14px 0 4px}
-.hero h1{font-size:min(80px,5cqi,7.6vh);letter-spacing:.005em}
-.hero h1 em{font-style:normal;color:var(--red-hi)}
-.hero .lede{color:var(--text-2);margin-top:22px;max-width:52ch}
-.hero .brandmark{width:72px;height:72px;margin-bottom:10px;filter:drop-shadow(0 6px 18px rgba(0,0,0,.6))}
-@media (max-height:820px){
-  .hero .wrap{padding-block:14px clamp(28px,3.4cqi,56px)}
-  .hero .brandmark{width:56px;height:56px;margin-bottom:6px}
-  .hero .place{margin-bottom:8px}
-  .hero .lede{margin-top:10px}
-  .hero h1{font-size:min(76px,5cqi,7.2vh)}
-}
-.board{margin-top:clamp(26px,3cqi,40px);border:1px solid var(--line-strong);border-radius:3px;background:rgba(15,17,20,.9);backdrop-filter:blur(6px);position:relative;z-index:2}
-.board .hd{display:grid;grid-template-columns:150px 1fr 96px 96px 96px 150px;gap:0;padding:8px 16px;border-bottom:1px solid var(--line-strong);background:rgba(30,34,40,.9)}
+.hero .splat{display:none}
+/* ---------- the sessions board: the next game days from the booking platform ---------- */
+.board{border:1px solid var(--line-strong);background:var(--surface);position:relative}
+.board .hd{display:grid;grid-template-columns:150px 1fr 96px 96px 96px 150px;gap:0;padding:10px 18px;border-bottom:1px solid var(--line-strong);background:var(--surface-2)}
 .board .hd span{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3)}
-.board .r{display:grid;grid-template-columns:150px 1fr 96px 96px 96px 150px;gap:0;padding:12px 16px;border-bottom:1px solid var(--line-soft);align-items:center}
+.board .r{display:grid;grid-template-columns:150px 1fr 96px 96px 96px 150px;gap:0;padding:16px 18px;border-bottom:1px solid var(--line-soft);align-items:center}
 .board .r:last-child{border-bottom:0}
 .board .r .d{font-family:var(--display);font-size:26px;line-height:1;letter-spacing:.01em;text-transform:uppercase}
 .board .r .d small{display:block;font-family:var(--mono);font-weight:500;font-size:10px;letter-spacing:.14em;color:var(--text-3);margin-top:5px}
@@ -414,71 +427,72 @@ html.splat-done .hero .splat{animation:none}
 .board .r .t{font-family:var(--mono);font-size:15px;font-weight:500;font-variant-numeric:tabular-nums}
 .board .r .a{text-align:right}
 .board .r .times{display:contents}
-.board .r.next{background:rgba(245,196,0,.1)}
+.board .r.next{background:var(--red-ghost);box-shadow:inset 3px 0 0 var(--red)}
 .board .r.next .d{color:var(--red-ink)}
-.board .r .status{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:3px 7px;border:1px solid currentColor;border-radius:2px;display:inline-block}
+.board .r .status{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:3px 7px;border:1px solid currentColor;display:inline-block}
 .board .r .status.open{color:var(--go)}
 .board .r .status.tba{color:var(--ph)}
 .board .r .status.next{color:var(--red-ink);margin-top:6px}
 .count{display:flex;gap:6px;margin-top:10px}
-.count div{flex:1;border:1px solid var(--line);border-radius:2px;padding:8px 4px;text-align:center;background:var(--sunk)}
+.count div{flex:1;border:1px solid var(--line);padding:8px 4px;text-align:center;background:var(--sunk)}
 .count b{display:block;font-family:var(--mono);font-size:24px;font-weight:600;line-height:1}
 .count span{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3)}
 
-/* ---------- street signs: your facts on US street-sign blocks under a hazard rule ---------- */
+/* ---------- street signs: your facts as sign blocks, in your colours ---------- */
 .signs{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
-.sign{position:relative;background:var(--sign);color:var(--sign-ink);border:3px solid #fff;border-radius:4px;padding:14px 16px 12px;box-shadow:0 10px 24px -14px #000}
-.sign::before{content:"";position:absolute;left:12px;right:12px;top:-8px;height:6px;background:#fff;border-radius:3px;opacity:.9}
+.sign{position:relative;background:var(--surface-2);color:var(--text);border:1px solid var(--line-strong);padding:18px 18px 16px}
+.sign::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--text)}
 .sign b{display:block;font-family:var(--display);font-size:clamp(22px,2.1cqi,30px);line-height:1;text-transform:uppercase;letter-spacing:.01em}
-.sign small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-top:6px;opacity:.9}
-.sign.warn{background:#F5C400;color:#141312;border-color:#141312}
-.sign.warn::before{background:#141312}
-.rule-stripe{height:8px;background:var(--stripe);margin:0}
+.sign small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-top:8px;color:var(--text-3)}
+.sign.warn{background:var(--red);color:var(--on-red);border-color:var(--red)}
+.sign.warn::before{background:var(--on-red)}
+.sign.warn small{color:var(--on-red);opacity:.8}
+.rule-stripe{height:4px;background:var(--stripe);margin:0}
 
 /* ---------- fare board ---------- */
 .farewrap{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(24px,3.4cqi,56px);align-items:start}
 .fare{width:100%;border-collapse:separate;border-spacing:0}
-.fare th,.fare td{padding:16px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
-.fare thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);font-weight:500;border-bottom:2px solid var(--red-hi)}
+.fare th,.fare td{padding:20px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+.fare thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);font-weight:500;border-bottom:2px solid var(--text);padding-block:10px}
 .fare tbody th{font-family:var(--display);font-size:28px;text-transform:uppercase;letter-spacing:.01em;line-height:1}
-.fare tbody th small{display:block;font-family:var(--ui);font-weight:400;font-size:14px;text-transform:none;letter-spacing:0;color:var(--text-3);margin-top:5px}
-.fare td.p{text-align:right;font-family:var(--display);font-size:42px;font-variant-numeric:tabular-nums;white-space:nowrap;width:1%;line-height:1}
+.fare tbody th small{display:block;font-family:var(--ui);font-weight:400;font-size:14px;text-transform:none;letter-spacing:0;color:var(--text-3);margin-top:6px}
+.fare td.p{text-align:right;font-family:var(--display);font-size:clamp(36px,3.4cqi,48px);font-variant-numeric:tabular-nums;white-space:nowrap;width:1%;line-height:1}
 .fare td.p s{display:block;font-family:var(--mono);font-size:12px;font-weight:400;color:var(--text-3);text-decoration:line-through;margin-top:4px}
 .fare td.p s:empty{display:none}
 .fare tr:last-child td,.fare tr:last-child th{border-bottom:0}
 .flap{display:inline-block;transform-origin:50% 50%;transition:transform .13s ease-in}
 .flap.turn{transform:scaleY(0)}
-.lever{display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--text);border-radius:3px;overflow:hidden;background:var(--surface)}
+.lever{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--text);overflow:hidden;background:var(--surface)}
 .lever button{padding:14px 12px;min-height:56px;font-family:var(--ui);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:15px;color:var(--text-2)}
 .lever button small{display:block;font-family:var(--mono);font-weight:500;font-size:10px;letter-spacing:.12em;margin-top:3px;text-transform:uppercase;color:var(--text-3)}
 .lever button[aria-pressed="true"]{background:var(--text);color:var(--bg)}
 .lever button[aria-pressed="true"] small{color:var(--bg);opacity:.8}
 .bigfig{font-family:var(--display);font-size:clamp(38px,4.6cqi,66px);line-height:.95;text-transform:uppercase}
 .bigfig em{font-style:normal;color:var(--red-hi)}
-.enamel.ink{background:#0A0B0D;color:#F4F4F1;border-color:#3A3208}
+.enamel{border-radius:0;box-shadow:none}
+.enamel.ink{background:var(--sunk);color:var(--text);border-color:var(--line-strong)}
 .starpanel{position:relative;overflow:hidden}
-.starpanel::after{content:"";position:absolute;right:-22%;bottom:-30%;width:70%;aspect-ratio:1;background:url(assets/img-1.png) center/contain no-repeat;opacity:.08;pointer-events:none;transform:rotate(14deg)}
+.starpanel::after{content:"";position:absolute;right:-22%;bottom:-30%;width:70%;aspect-ratio:1;background:url(assets/img-1.png) center/contain no-repeat;opacity:.06;pointer-events:none;transform:rotate(-8deg)}
 .starpanel>*{position:relative;z-index:1}
 
 /* ---------- feature list ---------- */
 .feat{list-style:none;margin:0;padding:0;display:grid;gap:0}
-.feat li{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.feat li{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:18px 0;border-bottom:1px solid var(--line)}
 .feat li:last-child{border-bottom:0}
 .feat .k{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--red-ink);font-weight:600;padding-top:5px}
-.feat b{display:block;font-family:var(--display);font-size:22px;text-transform:uppercase;line-height:1;margin-bottom:5px}
+.feat b{display:block;font-family:var(--display);font-size:22px;text-transform:uppercase;line-height:1;margin-bottom:6px}
 .feat p{color:var(--text-2);font-size:16px}
 
 /* ---------- working timetable ---------- */
-.tt{list-style:none;margin:0;padding:0;border-left:3px solid var(--text)}
+.tt{list-style:none;margin:0;padding:0;border-left:2px solid var(--text)}
 .tt li{display:grid;grid-template-columns:120px 1fr;gap:18px;padding:16px 0 16px 22px;border-bottom:1px solid var(--line);position:relative}
-.tt li::before{content:"";position:absolute;left:-8px;top:24px;width:13px;height:13px;border-radius:50%;background:var(--bg);border:3px solid var(--text)}
+.tt li::before{content:"";position:absolute;left:-7px;top:24px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--text)}
 .tt li.real::before{background:var(--red-hi);border-color:var(--red-hi)}
 .tt li:last-child{border-bottom:0}
 .tt .t{font-family:var(--display);font-size:36px;line-height:1;font-variant-numeric:tabular-nums}
 .tt .t small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);font-weight:500;margin-top:6px}
 .tt h4{font-family:var(--display);font-size:22px;text-transform:uppercase;line-height:1;margin-bottom:5px}
 .tt p{color:var(--text-2);font-size:16px}
-/* the chrono table: your three limits, as a range card */
 .chrono{width:100%;border-collapse:collapse;font-family:var(--mono)}
 .chrono th,.chrono td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;font-size:14px}
 .chrono th{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);font-weight:500}
@@ -499,8 +513,11 @@ html.splat-done .hero .splat{animation:none}
 .faq .ans{padding:0 0 18px;color:var(--text-2);max-width:72ch}
 
 /* ---------- sessions list ---------- */
-.days{display:grid;gap:10px}
-.day{display:grid;grid-template-columns:110px 1fr 220px 150px;gap:18px;align-items:center;border:1px solid var(--line);background:var(--surface);border-radius:3px;padding:16px 18px}
+.days{display:grid;gap:12px}
+.day{display:grid;grid-template-columns:110px 1fr 220px 150px;gap:18px;align-items:center;border:1px solid var(--line);background:var(--surface);padding:22px 24px;position:relative;transition:transform .25s ease,border-color .25s ease}
+.day::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--red);opacity:0;transition:opacity .25s ease}
+.day:hover{transform:translateY(-3px);border-color:var(--line-strong)}
+.day:hover::before{opacity:1}
 .day .date b{display:block;font-family:var(--display);font-size:38px;line-height:.95;text-transform:uppercase}
 .day .date span{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3)}
 .day h3{font-size:20px;font-weight:700}
@@ -508,7 +525,7 @@ html.splat-done .hero .splat{animation:none}
 .day .price b{font-family:var(--display);font-size:28px}
 .day .price span{display:block;font-size:12px;color:var(--text-3)}
 .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
-.filters button{font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;padding:9px 12px;min-height:40px;border:1px solid var(--line-strong);border-radius:2px;color:var(--text-2)}
+.filters button{font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;padding:9px 12px;min-height:40px;border:1px solid var(--line-strong);color:var(--text-2)}
 .filters button[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
 
 /* ---- part: booking.css ----
@@ -562,7 +579,7 @@ html.splat-done .hero .splat{animation:none}
 /* ---------- tiers ---------- */
 .tiers{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:16px;align-items:start}
 .tier{display:flex;flex-direction:column}
-.tier .price{font-family:var(--display);font-size:54px;line-height:1;margin-top:18px}   /* the stencil face's line box runs past its glyphs; the price sat 30% into the plan name's box */
+.tier .price{font-family:var(--display);font-size:54px;line-height:1;margin-top:18px}
 .tier .price small{font-family:var(--ui);font-size:15px;font-weight:400;color:var(--text-3);text-transform:none}
 .tier ul{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:9px;flex:1}
 .tier li{position:relative;padding-left:22px;font-size:15.5px;color:var(--text-2)}
@@ -589,31 +606,32 @@ html.splat-done .hero .splat{animation:none}
 .checklist.x li::before,.checklist.x li::after{content:"";position:absolute;left:1px;top:10px;width:13px;height:2px;border:0;background:var(--ph);transform:rotate(45deg)}
 .checklist.x li::after{transform:rotate(-45deg)}
 
-/* ---------- photo bands ---------- */
-.photoband{position:relative;overflow:clip}
-.photoband::before{content:"";position:absolute;inset:0;background:var(--band-img) var(--band-pos,center)/cover no-repeat;filter:saturate(.7)}
-.photoband::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,17,20,.96) 0%,rgba(15,17,20,.9) 45%,rgba(15,17,20,.6) 100%);pointer-events:none}
-.photoband .wrap{position:relative;z-index:1}
+/* ---------- photo bands: full bleed, one flat scrim ---------- */
+.photoband{position:relative;overflow:clip;min-height:clamp(300px,36vw,460px);display:flex;align-items:center}
+.photoband::before{content:"";position:absolute;inset:0;background:var(--band-img) var(--band-pos,center)/cover no-repeat;filter:contrast(1.06) saturate(.85) brightness(.9)}
+.photoband::after{content:"";position:absolute;inset:0;background:linear-gradient(92deg,color-mix(in srgb,var(--bg) 92%,transparent) 0%,color-mix(in srgb,var(--bg) 78%,transparent) 46%,color-mix(in srgb,var(--bg) 36%,transparent) 100%);pointer-events:none}
+.photoband .wrap{position:relative;z-index:1;width:100%}
 .photoband.optic{--band-img:url(assets/img-3.jpg);--band-pos:center 40%}
 .photoband.brief{--band-img:url(assets/img-5.jpg);--band-pos:center 30%}
 .photoband.kit{--band-img:url(assets/img-8.jpg);--band-pos:center 50%}
 
-/* ---------- testimonials: your About page, verbatim ---------- */
+/* ---------- testimonials: your reviews, verbatim ---------- */
 .quotes{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.quotes blockquote{margin:0;border-left:4px solid var(--red);background:var(--surface);padding:18px 20px;font-size:17px;line-height:1.45;color:var(--text-2)}
-.quotes blockquote footer{margin-top:10px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--red-ink)}
+.quotes blockquote{margin:0;border-left:3px solid var(--red);background:var(--surface);padding:22px 24px;font-size:17px;line-height:1.5;color:var(--text-2)}
+.quotes blockquote footer{margin-top:12px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--red-ink)}
 .quotes blockquote p::before{content:"\201C";color:var(--red-ink);font-family:var(--display);font-size:30px;line-height:0;vertical-align:-8px;margin-right:4px}
 
-/* ---------- footer ---------- */
-footer.site{border-top:6px solid transparent;border-image:var(--stripe) 1;padding-block:48px 28px}
-.footgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:28px}
-footer.site h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);font-weight:500;margin-bottom:12px}
-footer.site ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:15.5px;color:var(--text-2)}
-footer.site ul button{font-size:15.5px;color:var(--text-2);text-align:left;min-height:28px}
+/* ---------- footer: three weights, one rule, the hazard line as the only flourish ---------- */
+footer.site{border-top:1px solid var(--line);position:relative;padding-block:64px 36px;background:var(--sunk)}
+footer.site::before{content:"";position:absolute;left:0;right:0;top:-1px;height:4px;background:var(--stripe)}
+.footgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+footer.site h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);font-weight:500;margin-bottom:14px}
+footer.site ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;font-size:15px;color:var(--text-2)}
+footer.site ul button{font-size:15px;color:var(--text-2);text-align:left;min-height:28px}
 footer.site ul button:hover{color:var(--red-ink)}
-.foot-mark{width:88px;height:88px;margin-bottom:12px}
-.legal{margin-top:28px;padding-top:18px;border-top:1px solid var(--line);font-size:13.5px;color:var(--text-3);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;line-height:1.5}
-.ribbon{background:#F5C400;color:#141312;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:7px 12px}
+.foot-mark{width:64px;height:64px;margin-bottom:12px}
+.legal{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-size:13.5px;color:var(--text-3);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;line-height:1.5}
+.ribbon{background:var(--red);color:var(--on-red);font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:7px 12px}
 .brandrow{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
 .brandrow img{height:44px;width:auto;display:block}
 .brandrow .mark-star{height:54px}
@@ -634,10 +652,11 @@ footer.site ul button:hover{color:var(--red-ink)}
   .day{grid-template-columns:90px 1fr;grid-template-areas:"d i" "c c" "a a";row-gap:12px}
   .day .date{grid-area:d}.day .info{grid-area:i}.day .cap{grid-area:c}.day .act{grid-area:a}
   .day .price{text-align:left}
-  .hero .wrap{padding-top:24px}
   .hero .copy{max-width:100%}
-  .hero .photo{inset:0;opacity:.35}
-  .hero .splat{width:60vw;left:auto;right:-20%;bottom:auto;top:-10%;opacity:.06}
+  /* a narrow page: the picture holds the top third clear, the type sits on solid ground beneath it */
+  .hero .wrap{padding-top:min(34vh,300px)}
+  .hero .photo .stage::after{background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 18%,transparent) 0%,color-mix(in srgb,var(--bg) 10%,transparent) 22%,color-mix(in srgb,var(--bg) 92%,transparent) 36%,var(--bg) 46%)}
+  .hero .photo .stage img.slide,.hero .photo .stage video.film{object-position:50% 22%}
 }
 @container page (max-width:1140px){
   nav.main{display:none}
@@ -654,7 +673,7 @@ footer.site ul button:hover{color:var(--red-ink)}
   .footgrid{grid-template-columns:1fr}
   .signs{grid-template-columns:1fr 1fr;gap:10px}
   .sign b{font-size:19px}
-  .fare th,.fare td{padding:12px 8px}
+  .fare th,.fare td{padding:14px 8px}
   .fare tbody th{font-size:20px}
   .fare td.p{font-size:30px}
   .tt li{grid-template-columns:86px 1fr;gap:12px;padding-left:18px}
@@ -674,9 +693,12 @@ footer.site ul button:hover{color:var(--red-ink)}
   .tiles{grid-template-columns:1fr}
   .tiles .tile{aspect-ratio:4/5}
   .tiles>figure:first-of-type{grid-column:auto;grid-row:auto;aspect-ratio:4/5}
-  .hero .wrap{padding-top:22px}
-  .hero .brandmark{width:60px;height:60px}
-  .hero h1{font-size:38px}
+  .hero .wrap{padding-bottom:32px}
+  .hero .place{margin-bottom:22px}
+  .hero h1{font-size:clamp(44px,13vw,56px)}
+  .hero .cta .btn{flex:1 1 100%}
+  .hero-meta{gap:10px 22px}
+  .hero-meta .m span{font-size:19px}
   .brandrow img{height:32px}
   .brandrow .mark-star{height:40px}
   .rip{font-size:22px}
@@ -697,33 +719,25 @@ footer.site ul button:hover{color:var(--red-ink)}
    Reads no CONFIG. */
 @media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}.tile:hover img{transform:none}}
 
-h1,h2{text-shadow:0 2px 0 rgba(0,0,0,.45)}
+h1,h2{text-shadow:none}
 
-/* ---------- street devices: the sign block the next date sits on, icon rows, the tagline strip ---------- */
-.ripstack{display:flex;flex-wrap:wrap;gap:14px 18px;align-items:flex-start;margin:22px 0 8px;padding-block:6px}
-.icons{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:12px 30px}
-.icons li{display:flex;align-items:center;gap:12px;background:color-mix(in srgb,var(--bg) 88%,transparent);padding:6px 12px 6px 6px;border-radius:4px}   /* the essentials sit on the flat ground, whatever picture the stage shows behind them */
-.icons .ic{flex:none;width:46px;height:46px;border-radius:4px;background:#F5C400;border:0;display:grid;place-items:center;color:#141312;box-shadow:0 4px 14px rgba(0,0,0,.5)}
-.icons .ic svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-.icons b{display:block;font-family:var(--display);font-size:22px;line-height:.95;text-transform:uppercase;white-space:nowrap}
-.icons b em{font-style:normal;color:var(--red-hi)}
-.icons .l{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-top:4px;white-space:nowrap}
+/* ---------- street devices: the tagline strip, the grid ground ---------- */
 .ico{width:16px;height:16px;vertical-align:-3px;margin-right:6px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.tagline{position:relative;overflow:clip;background:#0A0B0D;color:#F4F4F1;border-block:6px solid transparent;border-image:var(--stripe) 1;padding:18px 20px 16px;text-align:center}
+.tagline{position:relative;overflow:clip;background:var(--sunk);color:var(--text);border-block:1px solid var(--line);padding:clamp(28px,3.4cqi,52px) 20px;text-align:center}
 .tagline>*{position:relative}
-.tagline p{font-family:var(--display);font-size:clamp(22px,3cqi,42px);line-height:1;text-transform:uppercase;letter-spacing:.02em;display:inline-block;text-wrap:balance}
+.tagline p{font-family:var(--display);font-size:clamp(24px,3.2cqi,46px);line-height:1;text-transform:uppercase;letter-spacing:.02em;display:inline-block;text-wrap:balance;max-width:24ch}
 .tagline p em{font-style:normal;color:var(--red-hi)}
-.tagline .tiny{display:block;margin-top:8px;color:#A9B0BA}
+.tagline .tiny{display:block;margin-top:8px;color:var(--text-3)}
 .tagline p.note{display:none;font-family:inherit;font-size:13.5px;line-height:1.45;text-transform:none;letter-spacing:0;text-align:left;text-wrap:auto}
 .notes-on .tagline p.note{display:flex}
 .band.grid{position:relative;overflow:clip;background:var(--bg)}
-.band.grid::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+.band.grid::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
 .band.grid>*{position:relative}
 .deskbar{display:none;margin-left:auto;align-items:center;gap:12px}
 body[data-screen="back"] nav.main,body[data-screen="back"] .headcta{display:none}
 body[data-screen="back"] .deskbar{display:flex}
 .deskbar .eyebrow{color:var(--red-ink);white-space:nowrap}
-.bandcredit{position:absolute;top:10px;right:10px;z-index:3;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#F4F4F1;background:#0F1114;padding:3px 7px;border-radius:2px}
+.bandcredit{position:absolute;top:10px;right:10px;z-index:3;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text);background:color-mix(in srgb,var(--sunk) 82%,transparent);padding:4px 8px}
 /* @@EXTRA-CSS */
 /* ---- part: map.css ----
    The ground from above: the client's own aerial photograph as a map you can drag
@@ -1197,10 +1211,10 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
    half a 390px screen and cannot wrap, so it ran 65px past the right edge on one site's events page (26 Sep). */
 @media (max-width:480px){.evprice{grid-template-columns:1fr}}
 .evtop .splat{display:none}
-#app .rip{position:relative;display:inline-block;transform:none;clip-path:none;margin:0;background:var(--sign);color:#fff;border:3px solid #fff;border-radius:4px;padding:.4em .9em .42em;
+#app .rip{position:relative;display:inline-block;transform:none;clip-path:none;margin:0;background:var(--surface-2);color:var(--text);border:2px solid var(--text);border-radius:0;padding:.4em .9em .42em;
   font-family:var(--display);text-transform:uppercase;line-height:1;letter-spacing:.01em;font-size:clamp(24px,2.6cqi,38px);box-shadow:0 10px 24px -14px #000}
-#app .rip.tilt{background:#F5C400;color:#141312;border-color:#141312}
-#app .rip.ink{background:#0A0B0D;color:#F4F4F1;border-color:#F4F4F1}
+#app .rip.tilt{background:var(--red);color:var(--on-red);border-color:var(--red)}
+#app .rip.ink{background:var(--sunk);color:var(--text);border-color:var(--text)}
 #app .rip.sm{font-size:clamp(18px,1.8cqi,26px)}
 #app .evsub{margin-bottom:14px}   /* the sign restyle below zeroes the rip's margin; the stencil subtitle needs clear air above the date sign */
 .rip small{display:block;font-family:var(--mono);font-size:.3em;letter-spacing:.14em;font-weight:500;margin-top:10px;opacity:.92;text-transform:uppercase}   /* the stencil face's glyph box runs under its line box; the small line sat a quarter of the way into the figure above it */
@@ -1237,6 +1251,9 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 .prop-foot{margin-top:26px;opacity:.7}
 @media (max-width:640px){.prop-wrap{padding-top:28px}.prop-lede{font-size:16px}}
 </style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700;900&family=Roboto+Condensed:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700;900&family=Roboto+Condensed:wght@400;500;600;700&display=swap"></noscript>
+<style id="site-tokens">:root{--bg:#141416;--surface:#1F1F21;--surface-2:#2A2A2C;--sunk:#0D0D0E;--line:#383839;--line-soft:#28282A;--line-strong:#575758;--text:#F4F4F1;--text-2:#CCCCCA;--text-3:#969695;--brand-fill:#3182B5;--brand-fill-2:#468FBC;--brand-ink:#3585B6;--brand-hi:#3585B6;--brand-ghost:#1A2C39;--on-red:#FFFFFF;--brand-scheme:dark;--display:"Oswald",var(--display-fallback,Impact,"Arial Narrow",sans-serif);--ui:"Roboto Condensed",ui-sans-serif,system-ui,sans-serif}</style>
 </head>
 <body>
 
@@ -1255,7 +1272,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
   <span class="tag" style="color:#fff">View</span>
   <div class="seg" role="group" aria-label="View">
     <button id="viewSite" aria-pressed="true">Site</button>
-    <a id="viewBack" href="https://aoc.peerlab.ai/auth/login" target="_blank" rel="noopener" aria-pressed="false">Console</a>
+    <a id="viewBack" href="aoc/index.html" target="_blank" rel="noopener" aria-pressed="false">Console</a>
     <button id="viewProp" aria-pressed="false">Proposal</button>
   </div>
   <div class="seg" role="group" aria-label="Device">
@@ -1286,7 +1303,10 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
   <span class="mono" style="font-size:11px;color:var(--text-3)">Drop in the real identity. Preview only, nothing is uploaded.</span>
   <label for="logoFile">Logo <input type="file" id="logoFile" accept="image/*"></label>
   <label for="accentPick">Brand colour <input type="color" id="accentPick" value="#3182B5"></label>
+  <label for="paperPick">Ground <input type="color" id="paperPick"></label>
+  <label for="inkPick">Ink <input type="color" id="inkPick"></label>
   <button class="btn ghost sm" id="brandReset">Reset</button>
+  <span id="brandNote" class="mono" style="font-size:11px;color:var(--text-3);flex-basis:100%"></span>
 </div>
 
 <div id="app">
@@ -1322,7 +1342,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
       <button data-go="events">Events</button>
       <button data-go="members">Prices &amp; membership</button>
       <button data-go="parties">Parties &amp; groups</button>
-      <button data-go="onsite">On site</button>
+      <button data-go="onsite">Shop</button>
       <button data-go="account">My account</button>
     </nav>
     <div class="headcta">
@@ -1339,51 +1359,45 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
   <div class="hero plate">
     <div class="photo" aria-hidden="true">
       <div class="stage n4" data-stage aria-hidden="true">
-        <img class="slide" src="assets/img-7.jpg" alt="" fetchpriority="high" decoding="async" style="--at:0s;--pos:50% 40%" data-credit="Their photograph" data-rain=".3">
-        <img class="slide" src="assets/img-8.jpg" alt="" decoding="async" style="--at:5s;--pos:50% 40%" data-credit="Their photograph" data-rain=".55">
-        <img class="slide" src="assets/img-3.jpg" alt="" decoding="async" style="--at:10s;--pos:50% 40%" data-credit="Their photograph" data-rain=".4">
-        <img class="slide" src="assets/img-5.jpg" alt="" decoding="async" style="--at:15s;--pos:50% 40%" data-credit="Their photograph" data-rain=".2">
-        <canvas class="rain" aria-hidden="true"></canvas>
-        <svg class="bolt" aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none"><path class="glow" d=""/><path class="core" d=""/></svg>
-        <div class="flash" aria-hidden="true"></div>
+        <img class="slide" src="assets/img-7.jpg" alt="" fetchpriority="high" decoding="async" style="--at:0s;--pos:50% 40%" data-credit="Their photograph">
+        <img class="slide" src="assets/img-8.jpg" alt="" decoding="async" style="--at:5s;--pos:50% 40%" data-credit="Their photograph">
+        <img class="slide" src="assets/img-3.jpg" alt="" decoding="async" style="--at:10s;--pos:50% 40%" data-credit="Their photograph">
+        <img class="slide" src="assets/img-5.jpg" alt="" decoding="async" style="--at:15s;--pos:50% 40%" data-credit="Their photograph">
+        
       </div>
     </div>
     <span class="photocredit" data-stage-credit>Their photograph</span>
-    <div class="splat" aria-hidden="true"></div>
     <!-- @@HERO-DOG -->
     <div class="wrap">
       <div class="copy">
-        <span class="brandmark hero-mark" role="img" aria-label="NML Airsoft: the star"></span>
         <div class="place">
           <span class="eyebrow">Address to confirm, Shafton</span>
           <span class="pair"><span class="eyebrow">Woodland, trenches, bunkers</span>
           </span>
         </div>
-        <h1>NML Airsoft.<br><em>Trenches, bunkers and woodland. Veteran run.</em></h1>
+        <h1>NML Airsoft.<br><em>Trenches. Bunkers. Woodland.</em></h1>
         <p class="lede">Barnsley's veteran owned woodland site: a trench network, bunkers, underground sections and a village to fight through. Game nights Wednesday and Friday, game days every weekend, free camping Friday and Saturday nights.</p>
-        <div class="row" style="margin:18px 0 22px">
-          <button class="btn primary" data-go="book">Book a session</button>
-          <button class="btn ghost" data-go="members">Prices and membership</button>
+        <div class="row cta">
+          <button class="btn primary lg" data-go="book">Book a session</button>
+          <button class="btn ghost lg" data-go="members">Prices and membership</button>
+        </div>
+        <div class="hero-meta" id="heroRips" data-ph="1"><span class="phtag">Next date and price are sample: which days run and what they cost live in your booking platform</span>
+          <div class="m"><span id="ripDate">Next session</span><small id="ripKind">Open session</small></div>
+          <div class="m"><span id="ripPrice">&pound;30 own kit</span><small id="ripNote">Members &pound;30 &middot; rental &pound;45</small></div>
+          <div class="m"><span>08:00</span><small>Gates open</small></div>
         </div>
       </div>
-
-      <div class="ripstack" id="heroRips" data-ph="1"><span class="phtag">Next date and price are sample: which days run and what they cost live in your booking platform</span>
-        <span class="rip"><span id="ripDate">Next session</span><small id="ripKind">Open session</small></span>
-        <span class="rip tilt"><span id="ripPrice">&pound;30 own kit</span><small id="ripNote">Members &pound;30 &middot; rental &pound;45</small></span>
-      </div>
-      <ul class="icons" aria-label="The essentials">
-        <li><span class="ic"><svg aria-hidden="true"><use href="#i-cal"/></svg></span><div><b>7 days</b><span class="l">10am to 10pm, when booked</span></div></li>
-        <li><span class="ic"><svg aria-hidden="true"><use href="#i-clock"/></svg></span><div><b>Call first</b><span class="l">Open when events are booked</span></div></li>
-        <li><span class="ic"><svg aria-hidden="true"><use href="#i-pistol"/></svg></span><div><b>Rental <em>on site</em></b><span class="l">Own gear or ours</span></div></li>
-        <li><span class="ic"><svg aria-hidden="true"><use href="#i-bullet"/></svg></span><div><b>Under 18s</b><span class="l">Full face protection</span></div></li>
-      </ul>
-
-      <div class="board" id="board" data-ph="1"><span class="phtag">Sample calendar: your your booking platform availability replaces every row</span>
+      <p class="note"><b>Why</b><span>Your opening screen is your own identity: your film or your photographs full width, your colours and your face on the type, where you are, and one button.
+        Nothing on it is ours: the next date and the price come from your booking platform the day the site is live.</span></p>
+    </div>
+  </div>
+  <div class="band tight sessions">
+    <div class="wrap">
+      <div class="sechead"><span class="eyebrow">The next game days</span><h2>Book a place</h2></div>
+      <div class="board" id="board" data-ph="1"><span class="phtag">Sample calendar: your booking platform's availability replaces every row</span>
         <div class="hd"><span>Day</span><span>Session</span><span>Doors</span><span>Brief</span><span>Endex</span><span></span></div>
         <div id="boardRows"></div>
       </div>
-      <p class="note"><b>Why</b><span>Your opening screen is your own identity pushed harder: the star, your stencil, black and one hazard yellow, and the street. Your homepage today opens on a stock slider with three slogans and no address;
-        this opens on what you are (your arena, indoors, in Shafton), where you are, and a button. The photograph is slide 1 of your own slider, labelled as such because it is stock, not your arena. Send one frame of the real street and it goes here.</span></p>
     </div>
   </div>
   <div class="tagline plate"><p>Experience NML Airsoft in Barnsley, epic trench warfare, CQB battles, and woodland action all in one place. Perfect for beginners and pros. Book your game today</p><p class="note"><b>Why</b><span>Your line, word for word off your homepage.</span></p></div>
@@ -1391,12 +1405,12 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
   <!-- street signs -->
   <div class="band tight grid">
     <div class="wrap">
-      <p class="eyebrow">The arena, in our own words</p>
+      <p class="eyebrow">The site, in our own words</p>
       <div class="signs">
         
         
         <div class="sign"><b>Sky bridges</b><small>Rated awesome</small></div>
-        <div class="sign warn"><b>Blind corners</b><small>You will have to work for that line of fire</small></div>
+        <div class="sign warn"><b>The ground</b><small>Woodland, trenches, bunkers</small></div>
       </div>
       <p class="note"><b>Why</b><span>Four street signs, four facts, every word off your homepage. The sign is the device this whole design is built on: your arena's theme, rendered as the street furniture it would have. Nothing here is invented.</span></p>
     </div>
@@ -1454,22 +1468,22 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
     </div>
   </div>
 
-  <!-- the arena -->
+  <!-- the ground: the client's pictures of their site -->
   <div class="band sunk">
     <div class="wrap">
       <div class="row" style="justify-content:space-between;align-items:flex-end;margin-bottom:22px;gap:20px">
-        <div><p class="eyebrow red">The arena</p></div>
-        <p class="lede" style="max-width:46ch;margin:0">Blind corners and alleys, so you will have to work for that line of fire. Lots of props including vehicles. Dual play markers as standard.</p>
+        <div><p class="eyebrow red">The site</p></div>
+        <p class="lede" style="max-width:46ch;margin:0">A trench network, bunkers, underground sections and a village, all across one woodland site</p>
       </div>
       <div class="tiles" data-ph="1"><span class="phtag">Illustrative, generated, not your arena</span>
         <figure class="tile"><img src="assets/img-6.jpg" alt="Illustrative: a street set with a sky bridge inside a warehouse" width="1024" height="683" loading="lazy" decoding="async"><span class="credit">Illustrative</span>
           <figcaption class="cap"><span class="k">01</span><b>The street</b></figcaption></figure>
         <figure class="tile"><img src="assets/img-14.jpg" alt="Illustrative: a plywood alley with tyre stacks under warehouse lights" width="1024" height="683" loading="lazy" decoding="async"><span class="credit">Illustrative</span>
-          <figcaption class="cap"><span class="k">02</span><b>The alleys</b><p>Plenty of blind corners. No minimum engagement distance; a surrender offer is allowed, not required.</p></figcaption></figure>
+          <figcaption class="cap"><span class="k">02</span><b>The ground</b><p>Veteran owned and run, in the woods outside Barnsley</p></figcaption></figure>
         <figure class="tile"><img src="assets/img-2.jpg" alt="Illustrative: a rack of rental rifles and full face masks" width="1024" height="1024" loading="lazy" decoding="async"><span class="credit">Illustrative</span>
           <figcaption class="cap"><span class="k">03</span><b>Rental and tactical gear</b><p>No gear? Choose a rental when you book. Tactical gear provided so you really delve into the military simulation.</p></figcaption></figure>
       </div>
-      <p class="note"><b>Why</b><span>The headline and the captions are your words off your homepage, your Who We Are page and your rules page. The three pictures are generated, stamped on the picture and outlined here, because your site carries no photograph of the arena itself. Three frames of the real street, an alley and the rental rack replace them the day you send them.</span></p>
+      <p class="note"><b>Why</b><span>The headline and the captions are your words off your homepage, your Who We Are page and your rules page. The three pictures are generated, stamped on the picture and outlined here, because your site carries no photograph of the ground itself. Three frames of the real street, an alley and the rental rack replace them the day you send them.</span></p>
     </div>
   </div>
 
@@ -1549,7 +1563,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <div class="kv"><span>Borough</span><b>Barnsley</b></div>
             <div class="kv"><span>Postcode</span><b>S72 8RE</b></div>
             <div class="kv"><span>Phone</span><b><a href="tel:+441226885092">01226 885092</a></b></div>
-            <div class="kv"><span>Open</span><b>7 days, 10am to 10pm, when booked</b></div>
+            <div class="kv"><span>Open</span><b>Saturdays 12:45, Sundays 09:45</b></div>
             <a class="btn primary wide" style="margin-top:14px" href="https://www.google.com/maps/dir/?api=1&amp;destination=S72+8RE" target="_blank" rel="noopener">Directions</a>
             <p class="tiny" style="margin-top:8px">Opens Google Maps in a new tab with S72 8RE as the destination.</p>
           </div>
@@ -1568,13 +1582,13 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <div>
           <p class="eyebrow">A session</p>
           <h2 style="margin:10px 0 18px">Doors to endex</h2>
-          <div data-ph="1" style="margin-top:26px"><span class="phtag">Sample timetable: your 10am opening is real, the rest is a shape</span><ul class="tt">
-            <li class="real"><div class="t">10:00<small>Published</small></div><div><h4>Doors</h4><p>Our hours: 7 days, 10am to 10pm, when events are booked. Sign in, waiver checked, rental issued.</p></div></li>
+          <div data-ph="1" style="margin-top:26px"><span class="phtag">Sample timetable: your gates time is yours, the rest is a shape</span><ul class="tt">
+            <li class="real"><div class="t">10:00<small>Published</small></div><div><h4>Doors</h4><p>Our hours: 08:00 to 17:00. Sign in, waiver checked, rental issued.</p></div></li>
             <li><div class="t">10:30<small>Proposed</small></div><div><h4>Chrono and safety brief</h4><p>Own guns over the chrono with your BBs. Everyone through the brief; the marshals can remove anyone who did not listen.</p></div></li>
             <li><div class="t">11:00<small>Proposed</small></div><div><h4>Games</h4><p>Elimination, capture the flag, hidden objects, defend the point, attack the enemy zone.</p></div></li>
             <li><div class="t">14:00<small>Proposed</small></div><div><h4>Endex</h4></div></li>
           </ul></div>
-          <p class="note"><b>Why</b><span>10am is yours. The rest of the timetable is proposed because your site publishes hours, not a session shape. The game list is your wording.</span></p>
+          <p class="note"><b>Why</b><span>The gates time is yours. The rest of the timetable is proposed because your site publishes hours, not a session shape. The game list is your wording.</span></p>
           <div class="card pad" style="margin-top:14px">
             <p class="eyebrow">Our rules, as published</p>
             <div class="kv"><span>18 and over</span><b>Approved eye protection</b></div>
@@ -1600,10 +1614,10 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           </div>
           <div class="card pad">
             <p class="eyebrow">When we open</p>
-            <h3 style="margin:8px 0 12px">7 days, 10am to 10pm</h3>
-            <div class="kv"><span>Days</span><b>7 days</b></div>
-            <div class="kv"><span>Hours</span><b>10am to 10pm</b></div>
-            <div class="kv"><span>Condition</span><b>Dependent on bookings</b></div>
+            <h3 style="margin:8px 0 12px">Game nights on Wednesdays and Fridays, game days on Saturdays and Sundays</h3>
+            <div class="kv"><span>Days</span><b>Saturdays 12:45, Sundays 09:45</b></div>
+            <div class="kv"><span>Hours</span><b>08:00 to 17:00</b></div>
+            <div class="kv"><span>Ends</span><b>Games end at 17:00</b></div>
             
             <button class="btn ghost wide" style="margin-top:14px" data-go="days">See the sessions</button>
             <p class="note"><b>Why</b><span>Quoted from your contact page. Which days actually run is not published, so the calendar on this site is sample and says so: your your booking platform availability is what would feed it.</span></p>
@@ -1662,9 +1676,9 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           <div class="enamel"><div class="pad">
             <p class="eyebrow">On Google today</p>
             <p class="bigfig" style="margin-top:8px"><em>4.9</em> from 75 reviews</p>
-            <p class="small muted" style="margin-top:12px">On Google, 24 September 2026.</p>
+            <p class="small muted" style="margin-top:12px">On Google, 2 Nov 2026 11:47.</p>
           </div></div>
-          <p class="note"><b>Why</b><span>Read from your Google Business Profile on 24 September 2026. The number is real; your site does not show it anywhere.</span></p>
+          <p class="note"><b>Why</b><span>Read from your Google Business Profile on 2 Nov 2026 11:47. The number is real; your site does not show it anywhere.</span></p>
         </div>
       </div>
     </div>
@@ -1679,7 +1693,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <details open><summary>Where is NML Airsoft?</summary>
           <div class="ans">Address to confirm, Shafton, Barnsley, S72 8RE. <span>Phone 01226 885092. </span>Email info@nmlairsoft.co.uk.</div></details>
         <details><summary>When is NML Airsoft open?</summary>
-          <div class="ans">7 days, 10am to 10pm, dependent on bookings. Please call before visiting, as the arena only opens when events are booked.</div></details>
+          <div class="ans">Game nights on Wednesdays and Fridays, game days on Saturdays and Sundays. Saturdays 12:45, Sundays 09:45.</div></details>
         
         <details><summary>How much does a session at NML Airsoft cost?</summary>
           <div class="ans"><span class="ph">Session prices show inside the booking window once you press the booking button.</span></div></details>
@@ -1705,7 +1719,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
     <div class="wrap">
       <p class="eyebrow">Calendar</p>
       <h2 style="margin:10px 0 10px">Sessions</h2>
-      <p class="lede" style="margin-bottom:22px">7 days, 10am to 10pm, when events are booked. <span class="ph">This calendar is a sample shape; live availability comes from your booking platform.</span></p>
+      <p class="lede" style="margin-bottom:22px">Game nights on Wednesdays and Fridays, game days on Saturdays and Sundays. <span class="ph">This calendar is a sample shape; live availability comes from your booking platform.</span></p>
       <div class="filters" id="dayFilters">
         <button data-f="all" aria-pressed="true">All</button>
         <button data-f="Saturday" aria-pressed="false">Saturdays</button>
@@ -1740,7 +1754,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <div class="rip"><span>Saturday 24 October</span></div>
             <ul class="evrows">
               <li><i class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></i>
-                <div><b>18:00 to 22:00</b><span>Sample times; we close at 10pm</span></div></li>
+                <div><b>18:00 to 22:00</b><span>Sample times; your booking platform sets the real ones</span></div></li>
               <li><i class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M2 7h19v4h-9l-2 9H6l2-9H2z"/></svg></i>
                 <div><b>Own kit or rental</b><span>Over the chrono, three weights</span></div></li>
               <li><i class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.6 5.8 21l1.4-7L2 9.3l7-.8z"/></svg></i>
@@ -1914,7 +1928,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             </div>
             <hr class="rule">
             <h3 style="margin:18px 0 8px">Safety declaration</h3>
-            <label class="check"><input type="checkbox" checked><span>I have read the site rules, I will wear eye protection at all times in the arena, I will not blind fire, and I will call my hits.</span></label>
+            <label class="check"><input type="checkbox" checked><span>I have read the site rules, I will wear eye protection at all times on site, I will not blind fire, and I will call my hits.</span></label>
             <label class="check"><input type="checkbox" checked><span>I am 18 or over, or a parent or guardian is signing for any player under 18 on this booking, who will wear full face protection. A 12 to 17 year old dropped off alone has a parent or guardian number on this booking.</span></label>
             <label class="check"><input type="checkbox"><span>Photos of me on site may be used on NML Airsoft social channels. Optional.</span></label>
             <div class="field" style="margin-top:12px;max-width:340px"><label for="sig">Type your full name to sign the waiver</label><input id="sig" placeholder="Full name"></div>
@@ -2083,7 +2097,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <button class="btn primary wide" style="margin-top:14px" id="qBook">Hold this date</button>
             <p class="eyebrow" id="qMsg" style="margin-top:8px;color:var(--go)"></p>
           </div></div>
-          <p class="note"><b>&pound;</b><span>Group work is the highest-margin thing you sell, and you only open when events are booked, so it is the thing that opens the doors. A quote on screen at 11pm on a Tuesday, with a deposit button next to it, converts the organiser while they are still in the group chat.</span></p>
+          <p class="note"><b>&pound;</b><span>Group work is the highest-margin thing you sell. A quote on screen at 11pm on a Tuesday, with a deposit button next to it, converts the organiser while they are still in the group chat.</span></p>
         </div>
       </div>
     </div>
@@ -2095,7 +2109,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
   <div class="band tight">
     <div class="wrap">
       <div class="row" style="justify-content:space-between;align-items:flex-end;margin-bottom:8px">
-        <div><p class="eyebrow">On site</p><h2 style="margin-top:10px">Order now, collect at the desk</h2></div>
+        <div><p class="eyebrow">Online shop</p><h2 style="margin-top:10px">Order online, collect at the shop or on game day</h2></div>
         <span class="pill red" id="basketPill">Basket: 0 items</span>
       </div>
       <p class="lede" style="margin-bottom:22px">HPA refills are &pound;1 a fill on site, free for members. <span class="ph">Pre-order here and it is waiting with your name on.</span></p>
@@ -2200,7 +2214,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 <!-- the proposal lives in the operator console (AOC): Proposal in the toolbar opens it -->
 
 <!-- ============ FOOTER ============ -->
-<div class="tagline plate alt"><p>17,000 square feet. Blind corners. <em>Work for that line of fire.</em></p><p class="note"><b>Why</b><span>Ours, cut from your own homepage line. Swap it for your own in a minute.</span></p></div>
+<div class="tagline plate alt"><p>Woodland, trenches, bunkers. <em>Veteran owned and run, in the woods outside Barnsley.</em></p><p class="note"><b>Why</b><span>Your own words, from your site. Swap them in a minute.</span></p></div>
 <footer class="site plate">
   <div class="wrap">
     <div class="footgrid">
@@ -2217,18 +2231,18 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <li><button data-go="book">Book a session</button></li>
         <li><button data-go="members">Prices and membership</button></li>
         <li><button data-go="parties">Parties and groups</button></li>
-        <li><button data-go="onsite">On site</button></li></ul></div>
-      <div><h4>The arena</h4><ul>
+        <li><button data-go="onsite">Shop</button></li></ul></div>
+      <div><h4>The site</h4><ul>
         <li>Don't forget to fill out a waiver upon arrival, especially for players under 18, who will need a parent or guardian to sign</li></ul></div>
       <div><h4>Open</h4><ul>
-        <li>7 days, 10am to 10pm</li><li>Dependent on bookings</li><li>Please call before visiting</li><li>Membership &pound;60 for 12 months</li><li>HPA &pound;1 a fill, free for members</li></ul>
+        <li>Game nights on Wednesdays and Fridays, game days on Saturdays and Sundays</li><li>Saturdays 12:45, Sundays 09:45</li><li>08:00 to 17:00</li></ul>
         <h4 style="margin-top:18px">Follow</h4>
         <ul><li><a href="https://www.facebook.com/profile.php?id=61573641615723" style="text-decoration:none;color:var(--text-2)">Facebook</a></li><li><a href="http://instagram.com/ams_no_mans_land" style="text-decoration:none;color:var(--text-2)">Instagram</a></li></ul>
       </div>
     </div>
-    <p style="margin-top:18px;font-family:var(--mono);font-size:13px"><a href="https://aoc.peerlab.ai/auth/login" target="_blank" rel="noopener">Console: owners sign in</a></p>
+    <p style="margin-top:18px;font-family:var(--mono);font-size:13px"><a href="aoc/index.html" target="_blank" rel="noopener">Console: owners sign in</a></p>
     <div class="legal">
-      <span>Design proposal by ThinkWork for discussion with you at NML Airsoft. Membership, hours, arena, rules, chrono limits, address, phone, email, star, fonts and testimonials are your own, taken from nmlairsoft.co.uk on 24 September 2026. Session prices are not published on your site and every one shown is sample, flagged in the toolbar's placeholder mode along with everything else awaiting your real figures. Not the live site. No live payments.</span>
+      <span>Design proposal by ThinkWork for discussion with you at NML Airsoft. Hours, address, phone, email, prices, words and pictures are your own, taken from nmlairsoft.co.uk on 2 Nov 2026 11:47. Session prices are not published on your site and every one shown is sample, flagged in the toolbar's placeholder mode along with everything else awaiting your real figures. Not the live site. No live payments.</span>
       <span class="mono">thinkwork.info</span>
     </div>
   </div>
@@ -2272,7 +2286,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
     <ol class="prop-steps prop-why"><li>The plan costs £99 a month. That is four walk-ons a month at £30: the first few online bookings cover it, and every booking after that is money in before the day.</li><li>A paid booking is a kept place. A no-show on a paid booking is a kept deposit, not an empty slot on the day.</li><li>Members pay less and renew online, so the membership sells itself at the moment it saves someone money, instead of by hand.</li><li>A calendar of real dates with real prices is what Google and the assistants quote when someone near Shafton asks where to play. A product page is not.</li><li>Every booking, waiver and member sits in one console you own, so a repeat booker never fills in a form twice and you can message the lot of them before a quiet date.</li></ol>
 
     <h3 class="prop-h3">Taking the money</h3>
-    <p class="prop-p">Book now on the live site goes through our booking console: the deposit or the full fare is taken online, the balance at the gate if that is how you run it, and every booking, waiver and membership sits in one place you sign into at <a href="https://aoc.peerlab.ai/auth/login" target="_blank" rel="noopener">the console</a>. The platform keeps 2% of each payment, and the card payment itself costs roughly 1.5% plus 20p per payment, at Stripe's published rate. Refunds return the platform fee.</p>
+    <p class="prop-p">Book now on the live site goes through our booking console: the deposit or the full fare is taken online, the balance at the gate if that is how you run it, and every booking, waiver and membership sits in one place you sign into at <a href="aoc/index.html" target="_blank" rel="noopener">the console</a>. The platform keeps 2% of each payment, and the card payment itself costs roughly 1.5% plus 20p per payment, at Stripe's published rate. Refunds return the platform fee.</p>
 
     <h3 class="prop-h3">The three plans</h3>
     <div class="prop-tiers">
@@ -2318,7 +2332,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 /* One object, written by engine/build.mjs out of businesses/<slug>.json. Every
    engine part reads its business-specific values from here, so no part carries
    a client's name, price, date, copy or file name. */
-const CONFIG = {"slug":"nmlairsoft","layout":"midtown-grid","business":{"name":"NML Airsoft","short":"NML Airsoft","legalName":"NML Barnsley Ltd","kind":"Woodland airsoft site","site":"https://nmlairsoft.co.uk","domain":"nmlairsoft.co.uk","phone":"01226 885092","phoneE164":"+441226885092","street":"Address to confirm","town":"Shafton","county":"Barnsley","postcode":"S72 8RE","facebook":"https://www.facebook.com/profile.php?id=61573641615723","email":"info@nmlairsoft.co.uk","rating":"4.9","reviews":"75","geo":{"lat":"53.5812","lng":"-1.3979"},"addressLine":"Address to confirm, Shafton, Barnsley, S72 8RE","postcodeUrl":"S72+8RE"},"design":{"hero":"photograph","map":{"spots":{"gate":{"x":46,"y":80},"safe":{"x":38,"y":64},"field":{"x":30,"y":44},"wood":{"x":56,"y":32},"trench":{"x":70,"y":58},"village":{"x":20,"y":50},"street":{"x":52,"y":52},"unit":{"x":50,"y":50}}},"accent":"#3182B5","notes":"Accent #3182B5 from the logo; the template's own palette otherwise."},"assets":{"logo":"assets/img-1.png","logo-2":"assets/img-1.png","logo-3":"assets/img-1.png","photo-7":"assets/img-2.jpg","hero-3":"assets/img-3.jpg","photo-3":"assets/img-3.jpg","poster-2":"assets/img-4.jpg","hero-4":"assets/img-5.jpg","photo-4":"assets/img-5.jpg","hero-5":"assets/img-6.jpg","photo-5":"assets/img-6.jpg","hero-1":"assets/img-7.jpg","photo-1":"assets/img-7.jpg","hero-2":"assets/img-8.jpg","photo-2":"assets/img-8.jpg","aerial":"assets/img-9.jpg","poster-3":"assets/img-12.jpg","photo-6":"assets/img-14.jpg","poster-1":"assets/img-15.jpg","poster-4":"assets/img-16.jpg","img-1":"assets/img-1.png","img-1.png":"assets/img-1.png","img-2":"assets/img-2.jpg","img-2.jpg":"assets/img-2.jpg","img-3":"assets/img-3.jpg","img-3.jpg":"assets/img-3.jpg","img-4":"assets/img-4.jpg","img-4.jpg":"assets/img-4.jpg","img-5":"assets/img-5.jpg","img-5.jpg":"assets/img-5.jpg","img-6":"assets/img-6.jpg","img-6.jpg":"assets/img-6.jpg","img-7":"assets/img-7.jpg","img-7.jpg":"assets/img-7.jpg","img-8":"assets/img-8.jpg","img-8.jpg":"assets/img-8.jpg","img-9":"assets/img-9.jpg","img-9.jpg":"assets/img-9.jpg","img-10":"assets/img-10.jpg","img-10.jpg":"assets/img-10.jpg","img-11":"assets/img-11.jpg","img-11.jpg":"assets/img-11.jpg","img-12":"assets/img-12.jpg","img-12.jpg":"assets/img-12.jpg","img-13":"assets/img-13.jpg","img-13.jpg":"assets/img-13.jpg","img-14":"assets/img-14.jpg","img-14.jpg":"assets/img-14.jpg","img-15":"assets/img-15.jpg","img-15.jpg":"assets/img-15.jpg","img-16":"assets/img-16.jpg","img-16.jpg":"assets/img-16.jpg"},"siteUrl":"https://thinkwork.info/airsoft/nmlairsoft/","aocUrl":"","consoleUrl":"https://aoc.peerlab.ai/auth/login","fares":{"walkon":{"full":{"n":30,"m":30},"half":{"n":30,"m":30}},"hire":{"full":{"n":45,"m":45},"half":{"n":45,"m":45}}},"membership":{"price":40,"year":"January to December","yearEnd":"end of December","renewMonth":1,"note":"Sample membership until yours is confirmed."},"schedule":{"times":["08:30","10:00","16:00"],"lunch":"12:30","regular":{"day":0,"dayName":"Sunday","label":"Weekend game days","detail":"Saturdays from 12:45 and Sundays from 09:45. Gates 08:00, games end 17:00.","count":12},"extra":{"day":3,"dayName":"Wednesday","label":"Wednesday and Friday game nights","detail":"Midweek game nights every Wednesday and Friday. Times live in your booking platform.","fromMonth":0,"toMonth":11,"tba":true},"breakFrom":"12-24","breakTo":"01-02","cap":60},"events":[{"key":"night","name":"Night game","short":"Night game","iso":"2026-11-28","dayName":"Saturday","detail":"A night game on the last Saturday of the month: gates 16:00, games from dusk, torches and tracers. £25 entry, £10 deposit to secure.","times":["16:00"],"sample":true,"price":25,"deposit":10,"prize":false,"left":14,"cap":40,"where":"Shafton, Forest Lane, Shafton, AB1 2CD","tag":"Torches on. Tracers in."},{"key":"newyear","name":"New Year game day","short":"New Year","iso":"2027-01-03","dayName":"Sunday","detail":"The first Sunday of the year: 10% off game day fees and ten prizes on the day.","times":["08:30"],"sample":true,"off":0.9,"offLabel":"10% off game day fees","prizes":10,"tag":"Start the year in the wood."},{"key":"1v1","name":"1v1 tournament","short":"1v1","iso":"2026-12-05","dayName":"Saturday","detail":"One on one in the village. Your own gun, limited ammo. £30 entry, £10 deposit to secure. £50 to the winner.","times":["08:30","09:30","16:00"],"sample":true,"price":30,"deposit":10,"prize":true,"left":6,"cap":24,"tag":"One shot. One winner."},{"key":"anniversary","name":"Anniversary game day","short":"Ten years","iso":"2026-11-01","dayName":"Sunday","detail":"Anniversary game day. 10% off game day fees, ten prizes given away on the day, cake at lunch.","times":["08:30","10:00","16:00"],"sample":true,"off":0.9,"offLabel":"Ten years: 10% off game day fees","prizes":10,"tag":"Come and help us celebrate ten years."},{"key":"ev1","name":"Spring open day","short":"Open day","iso":"2027-04-11","dayName":"Sunday","detail":"An open day for new players: a taster session in the morning, a full game in the afternoon, hire kit included. Walk-on £25, hire £45 with the walk-on included.","times":["08:30","10:30","16:00"],"sample":true,"price":25,"deposit":5,"left":22,"cap":60,"where":"Shafton, Forest Lane, Shafton, AB1 2CD"},{"key":"ev2","name":"Autumn big game","short":"Big game","iso":"2027-10-10","dayName":"Sunday","detail":"The big game of the year: two sides, the whole site, the fort to take by four. Walk-on £25, hire £45 with the walk-on included.","times":["08:30","10:30","16:00"],"sample":true,"price":25,"deposit":5,"left":31,"cap":120,"where":"Shafton, Forest Lane, Shafton, AB1 2CD"}],"mode":"proposal","ref":"NA","copy":{"todayTake":"Sample take so far today.","breakEven":"Sample break-even line for a Sunday.","renewToast":"Sample: membership renewal reminder.","sumOwn":"Walk-on, own kit","lineOwn":"Bring your own rifle and protection.","sumMember":"Walk-on, member rate","lineMember":"Members pay less on every game day.","fareboard":{"sumOwn":"Walk-on","lineOwn":"Own kit, full day.","sumMember":"Member walk-on","lineMember":"The member rate."}},"sample":{"spaces":[],"fares":{"price_nonmember_walkon_full":25,"price_member_walkon_full":20,"price_nonmember_hire_full":45,"price_member_hire_full":40,"price_nonmember_walkon_half":15,"price_member_walkon_half":12,"price_nonmember_hire_half":30,"price_member_hire_half":25,"price_walkon_full":25,"price_walkon_day":25,"price_hire":20,"price_rental_full":45,"price_rental_day":45,"price_nerf":15,"price_taster":20},"addons":[{"id":"ammo","n":"Extra 1000 BBs","s":"Top up between games","p":5,"per":false,"on":true},{"id":"gas","n":"Green gas refill","s":"For gas rifles and pistols","p":4,"per":false,"on":false},{"id":"lunch","n":"Hot lunch","s":"From the tuck shop at 12:30","p":6,"per":true,"on":false}],"block":{"price":200,"days":1,"dayRate":200,"label":"Private hire, up to 20 players","note":"Sample private hire price."},"products":[["BB pack, 0.20g, 2000",8,"Sample item"],["HPA fill",3,"Sample item"],["Buff / snood",12,"Sample item"],["Tracer BBs, 1000",10,"Sample item"]],"model":{"days":52,"addAvg":4,"groupAvg":6,"foodPer":6,"depositPct":20},"live":{"time":"11:00","day":"Sunday","game":2,"of":5,"next":"12:00","onSite":38,"inGate":4,"closed":""},"backend":{"names":["Alex Sample","Sam Sample","Jo Sample","Chris Sample","Pat Sample","Robin Sample","Ash Sample","Lee Sample"],"mix":[["walkon","full",false,4],["walkon","full",true,3],["hire","full",false,3]],"noWaiver":[2],"under18":[5],"pinName":"GATE-01","pre":{"lunch":{"n":10,"p":6,"label":"Hot lunch"},"bb":{"n":6,"p":5,"label":"Extra 1000 BBs"},"gas":{"n":3,"p":4,"label":"Green gas refill"}},"joinedToday":2,"lastYear":48,"lastYearPlayers":34,"walkups":3,"cardFees":1.5,"chronoTime":"09:15","bracketSize":8,"membersCount":60,"bookings":[],"members":[],"entrants":[],"moneyLines":[["Walk-on x24","£600"],["Hire x9","£405"],["Nerf x6","£90"]],"payouts":[["Top gun prize","£30"]],"annPost":"Posted to the gate noticeboard after each game day."}},"content":{"labels":{"walkon":"Walk-on","hire":"Hire","half":"Half day"},"jsonld":{"description":"NML Airsoft: airsoft game days near Shafton. Walk on with your own kit or hire a package; book your place online.","fareLabels":{"walkon":"Walk-on","hire":"Hire"}}},"cesiumToken":""};
+const CONFIG = {"slug":"nmlairsoft","layout":"midtown-grid","business":{"name":"NML Airsoft","short":"NML Airsoft","legalName":"NML Barnsley Ltd","kind":"Woodland airsoft site","site":"https://nmlairsoft.co.uk","domain":"nmlairsoft.co.uk","phone":"01226 885092","phoneE164":"+441226885092","street":"Address to confirm","town":"Shafton","county":"Barnsley","postcode":"S72 8RE","facebook":"https://www.facebook.com/profile.php?id=61573641615723","email":"info@nmlairsoft.co.uk","rating":"4.9","reviews":"75","geo":{"lat":"53.5812","lng":"-1.3979"},"addressLine":"Address to confirm, Shafton, Barnsley, S72 8RE","postcodeUrl":"S72+8RE"},"design":{"hero":"photograph","map":{"spots":{"gate":{"x":46,"y":80},"safe":{"x":38,"y":64},"field":{"x":30,"y":44},"wood":{"x":56,"y":32},"trench":{"x":70,"y":58},"village":{"x":20,"y":50},"street":{"x":52,"y":52},"unit":{"x":50,"y":50}}},"accent":"#3182B5","notes":"Accent #3182B5 from the logo; the template's own palette otherwise."},"brand":{"palette":{"paper":"#141416","ink":"#F4F4F1","accent":"#3182B5","accent_ink":"#3585B6","muted":"#969695"},"type":{"display":"Oswald","body":"Roboto Condensed","source":"https://nmlairsoft.co.uk","as_painted":{"display":"pacifica-w00-condensed","body":"nimbus-sans-tw01con"}},"mark":"img-1.png","tone":"dark ground, one accent, a condensed sans for the headlines","made_by":null,"source":"https://nmlairsoft.co.uk: ground and ink as painted, accent from the site's headings, faces Oswald and Roboto Condensed as the page sets them","notes":["the logo is a light mark on a dark ground, so the page is dark: the site's white page was its builder's default"],"checked":{"ink_on_paper":16.7,"accent_ink_on_paper":4.52,"muted_on_paper":6.21,"scheme":"dark"}},"assets":{"logo":"assets/img-1.png","logo-2":"assets/img-1.png","logo-3":"assets/img-1.png","photo-7":"assets/img-2.jpg","hero-3":"assets/img-3.jpg","photo-3":"assets/img-3.jpg","poster-2":"assets/img-4.jpg","hero-4":"assets/img-5.jpg","photo-4":"assets/img-5.jpg","hero-5":"assets/img-6.jpg","photo-5":"assets/img-6.jpg","hero-1":"assets/img-7.jpg","photo-1":"assets/img-7.jpg","hero-2":"assets/img-8.jpg","photo-2":"assets/img-8.jpg","aerial":"assets/img-9.jpg","poster-3":"assets/img-12.jpg","photo-6":"assets/img-14.jpg","poster-1":"assets/img-15.jpg","poster-4":"assets/img-16.jpg","img-1":"assets/img-1.png","img-1.png":"assets/img-1.png","img-2":"assets/img-2.jpg","img-2.jpg":"assets/img-2.jpg","img-3":"assets/img-3.jpg","img-3.jpg":"assets/img-3.jpg","img-4":"assets/img-4.jpg","img-4.jpg":"assets/img-4.jpg","img-5":"assets/img-5.jpg","img-5.jpg":"assets/img-5.jpg","img-6":"assets/img-6.jpg","img-6.jpg":"assets/img-6.jpg","img-7":"assets/img-7.jpg","img-7.jpg":"assets/img-7.jpg","img-8":"assets/img-8.jpg","img-8.jpg":"assets/img-8.jpg","img-9":"assets/img-9.jpg","img-9.jpg":"assets/img-9.jpg","img-10":"assets/img-10.jpg","img-10.jpg":"assets/img-10.jpg","img-11":"assets/img-11.jpg","img-11.jpg":"assets/img-11.jpg","img-12":"assets/img-12.jpg","img-12.jpg":"assets/img-12.jpg","img-13":"assets/img-13.jpg","img-13.jpg":"assets/img-13.jpg","img-14":"assets/img-14.jpg","img-14.jpg":"assets/img-14.jpg","img-15":"assets/img-15.jpg","img-15.jpg":"assets/img-15.jpg","img-16":"assets/img-16.jpg","img-16.jpg":"assets/img-16.jpg"},"siteUrl":"https://thinkwork.info/airsoft/nmlairsoft/","aocUrl":"","consoleUrl":"aoc/index.html","fares":{"walkon":{"full":{"n":30,"m":30},"half":{"n":30,"m":30}},"hire":{"full":{"n":45,"m":45},"half":{"n":45,"m":45}}},"membership":{"price":40,"year":"January to December","yearEnd":"end of December","renewMonth":1,"note":"Sample membership until yours is confirmed."},"schedule":{"times":["08:30","10:00","16:00"],"lunch":"12:30","regular":{"day":0,"dayName":"Sunday","label":"Weekend game days","detail":"Saturdays from 12:45 and Sundays from 09:45. Gates 08:00, games end 17:00.","count":12},"extra":{"day":3,"dayName":"Wednesday","label":"Wednesday and Friday game nights","detail":"Midweek game nights every Wednesday and Friday. Times live in your booking platform.","fromMonth":0,"toMonth":11,"tba":true},"breakFrom":"12-24","breakTo":"01-02","cap":60},"events":[{"key":"night","name":"Night game","short":"Night game","iso":"2026-11-28","dayName":"Saturday","detail":"A night game on the last Saturday of the month: gates 16:00, games from dusk, torches and tracers. £25 entry, £10 deposit to secure.","times":["16:00"],"sample":true,"price":25,"deposit":10,"prize":false,"left":14,"cap":40,"where":"Shafton, Forest Lane, Shafton, AB1 2CD","tag":"Torches on. Tracers in."},{"key":"newyear","name":"New Year game day","short":"New Year","iso":"2027-01-03","dayName":"Sunday","detail":"The first Sunday of the year: 10% off game day fees and ten prizes on the day.","times":["08:30"],"sample":true,"off":0.9,"offLabel":"10% off game day fees","prizes":10,"tag":"Start the year in the wood."},{"key":"1v1","name":"1v1 tournament","short":"1v1","iso":"2026-12-05","dayName":"Saturday","detail":"One on one in the village. Your own gun, limited ammo. £30 entry, £10 deposit to secure. £50 to the winner.","times":["08:30","09:30","16:00"],"sample":true,"price":30,"deposit":10,"prize":true,"left":6,"cap":24,"tag":"One shot. One winner."},{"key":"anniversary","name":"Anniversary game day","short":"Ten years","iso":"2026-11-01","dayName":"Sunday","detail":"Anniversary game day. 10% off game day fees, ten prizes given away on the day, cake at lunch.","times":["08:30","10:00","16:00"],"sample":true,"off":0.9,"offLabel":"Ten years: 10% off game day fees","prizes":10,"tag":"Come and help us celebrate ten years."},{"key":"ev1","name":"Spring open day","short":"Open day","iso":"2027-04-11","dayName":"Sunday","detail":"An open day for new players: a taster session in the morning, a full game in the afternoon, hire kit included. Walk-on £25, hire £45 with the walk-on included.","times":["08:30","10:30","16:00"],"sample":true,"price":25,"deposit":5,"left":22,"cap":60,"where":"Shafton, Forest Lane, Shafton, AB1 2CD"},{"key":"ev2","name":"Autumn big game","short":"Big game","iso":"2027-10-10","dayName":"Sunday","detail":"The big game of the year: two sides, the whole site, the fort to take by four. Walk-on £25, hire £45 with the walk-on included.","times":["08:30","10:30","16:00"],"sample":true,"price":25,"deposit":5,"left":31,"cap":120,"where":"Shafton, Forest Lane, Shafton, AB1 2CD"}],"mode":"proposal","ref":"NA","copy":{"todayTake":"Sample take so far today.","breakEven":"Sample break-even line for a Sunday.","renewToast":"Sample: membership renewal reminder.","sumOwn":"Walk-on, own kit","lineOwn":"Bring your own rifle and protection.","sumMember":"Walk-on, member rate","lineMember":"Members pay less on every game day.","fareboard":{"sumOwn":"Walk-on","lineOwn":"Own kit, full day.","sumMember":"Member walk-on","lineMember":"The member rate."}},"sample":{"spaces":[],"fares":{"price_nonmember_walkon_full":25,"price_member_walkon_full":20,"price_nonmember_hire_full":45,"price_member_hire_full":40,"price_nonmember_walkon_half":15,"price_member_walkon_half":12,"price_nonmember_hire_half":30,"price_member_hire_half":25,"price_walkon_full":25,"price_walkon_day":25,"price_hire":20,"price_rental_full":45,"price_rental_day":45,"price_nerf":15,"price_taster":20},"addons":[{"id":"ammo","n":"Extra 1000 BBs","s":"Top up between games","p":5,"per":false,"on":true},{"id":"gas","n":"Green gas refill","s":"For gas rifles and pistols","p":4,"per":false,"on":false},{"id":"lunch","n":"Hot lunch","s":"From the tuck shop at 12:30","p":6,"per":true,"on":false}],"block":{"price":200,"days":1,"dayRate":200,"label":"Private hire, up to 20 players","note":"Sample private hire price."},"products":[["BB pack, 0.20g, 2000",8,"Sample item"],["HPA fill",3,"Sample item"],["Buff / snood",12,"Sample item"],["Tracer BBs, 1000",10,"Sample item"]],"model":{"days":52,"addAvg":4,"groupAvg":6,"foodPer":6,"depositPct":20},"live":{"time":"11:00","day":"Sunday","game":2,"of":5,"next":"12:00","onSite":38,"inGate":4,"closed":""},"backend":{"names":["Alex Sample","Sam Sample","Jo Sample","Chris Sample","Pat Sample","Robin Sample","Ash Sample","Lee Sample"],"mix":[["walkon","full",false,4],["walkon","full",true,3],["hire","full",false,3]],"noWaiver":[2],"under18":[5],"pinName":"GATE-01","pre":{"lunch":{"n":10,"p":6,"label":"Hot lunch"},"bb":{"n":6,"p":5,"label":"Extra 1000 BBs"},"gas":{"n":3,"p":4,"label":"Green gas refill"}},"joinedToday":2,"lastYear":48,"lastYearPlayers":34,"walkups":3,"cardFees":1.5,"chronoTime":"09:15","bracketSize":8,"membersCount":60,"bookings":[],"members":[],"entrants":[],"moneyLines":[["Walk-on x24","£600"],["Hire x9","£405"],["Nerf x6","£90"]],"payouts":[["Top gun prize","£30"]],"annPost":"Posted to the gate noticeboard after each game day."}},"content":{"labels":{"walkon":"Walk-on","hire":"Hire","half":"Half day"},"jsonld":{"description":"NML Airsoft: airsoft game days near Shafton. Walk on with your own kit or hire a package; book your place online.","fareLabels":{"walkon":"Walk-on","hire":"Hire"}}},"cesiumToken":""};
 /* ---- part: store.js ----
    The demo's shared state. The site and its console are the same origin, so one localStorage record carries what the
    owner changes and what a visitor books between them: book on the site and it is in the console; publish an event or
@@ -2568,6 +2582,26 @@ document.addEventListener("click",e=>{const b=e.target.closest(".btn");if(!b||re
     seq.forEach((el,i)=>el.animate([{opacity:0,transform:"translateY(26px)"},{opacity:1,transform:"none"}],{duration:620,delay:55*i,easing:"cubic-bezier(.2,.7,.2,1)",fill:"backwards"}));
     hero.querySelectorAll("h1 em").forEach((el,i)=>el.animate([{textShadow:"0 0 0 rgba(255,222,150,0)"},{textShadow:"0 0 30px rgba(255,222,150,.8)",offset:.45},{textShadow:"0 0 0 rgba(255,222,150,0)"}],{duration:760,delay:55*(3+i)+560,easing:"ease-out"}));
   }
+  /* 1a. the fold (19f): a long headline, a tall chrome or a short window, and the first action slips under the fold; the
+     headline steps down (never under 44px) until the actions sit inside the first screen, unscrolled. Fonts first. */
+  const fit=()=>{const h1=hero.querySelector("h1"),cta=hero.querySelector(".cta,.row");if(!h1||!cta||scrollY>8)return;
+    let size=parseFloat(getComputedStyle(h1).fontSize),n=0;
+    while(n++<24&&size>44&&cta.getBoundingClientRect().bottom>innerHeight-12){size=Math.max(44,size-4);h1.style.fontSize=size+"px";}};
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);else fit();
+  addEventListener("resize",()=>{const h1=hero.querySelector("h1");if(h1)h1.style.fontSize="";fit();});
+  /* 1b. the film (19f): the clip plays over the slides once it can, pauses off screen and in a hidden tab, and a tall
+     viewport gets the portrait cut. Under reduced motion it never loads: the first slide stands. */
+  hero.querySelectorAll("video.film").forEach(v=>{
+    if(reduce)return;
+    const portrait=matchMedia("(orientation:portrait)").matches||innerWidth<640;
+    const src=(portrait&&v.dataset.srcPortrait)||v.dataset.src;if(!src)return;
+    const poster=(portrait&&v.dataset.posterPortrait)||v.dataset.poster;if(poster)v.poster=poster;
+    v.muted=true;v.loop=true;v.playsInline=true;v.setAttribute("playsinline","");v.preload="auto";v.src=src;
+    const on=()=>{v.play().then(()=>v.classList.add("on")).catch(()=>{});};
+    v.addEventListener("canplay",on,{once:true});
+    if("IntersectionObserver" in window)new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){if(v.paused)on();}else v.pause();}),{threshold:.1}).observe(v);
+    document.addEventListener("visibilitychange",()=>{if(document.hidden)v.pause();else on();});
+  });
   /* a layout with one stage per world (data-world on each .stage, CSS shows the one html[data-world] names) runs each
      stage on its own clock; a hidden stage has no size, so its rain is an empty loop until it is shown */
   stages.forEach(stage=>{
@@ -3437,6 +3471,23 @@ function applyAccent(hex){
   st.setProperty("--brand-ghost","hsl("+h+" "+Math.min(s,50)+"% 14%)");
 }
 $("#accentPick").addEventListener("input",e=>applyAccent(e.target.value));
+/* the ground and the ink (19f): the same shared tokens engine/brand.mjs writes at build time, set inline here so a pick wins */
+const mixHex=(a,b,t)=>{const p=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));const A=p(a),B=p(b);return "#"+A.map((v,i)=>Math.round(v+(B[i]-v)*t).toString(16).padStart(2,"0")).join("");};
+const lumHex=h=>{const [r,g,b]=[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)/255);return .2126*r+.7152*g+.0722*b;};
+const GROUND=["--bg","--surface","--surface-2","--sunk","--line","--line-soft","--line-strong","--text","--text-2","--text-3","color-scheme"];
+function applyGround(){
+  const paper=$("#paperPick").value,ink=$("#inkPick").value,st=root.style,dark=lumHex(paper)<.3;
+  st.setProperty("--bg",paper);st.setProperty("--surface",mixHex(paper,ink,.05));st.setProperty("--surface-2",mixHex(paper,ink,.1));st.setProperty("--sunk",mixHex(paper,dark?"#000000":"#ffffff",.35));
+  st.setProperty("--line",mixHex(paper,ink,.16));st.setProperty("--line-soft",mixHex(paper,ink,.09));st.setProperty("--line-strong",mixHex(paper,ink,.3));
+  st.setProperty("--text",ink);st.setProperty("--text-2",mixHex(ink,paper,.18));st.setProperty("--text-3",mixHex(ink,paper,.42));st.setProperty("color-scheme",dark?"dark":"light");
+}
+{ const B=(CONFIG.brand&&CONFIG.brand.palette)||{},cs=getComputedStyle(root),asHex=v=>/^#[0-9a-f]{6}$/i.test(v)?v:null;
+  $("#paperPick").value=B.paper||asHex(cs.getPropertyValue("--bg").trim())||"#15181d";
+  $("#inkPick").value=B.ink||asHex(cs.getPropertyValue("--text").trim())||"#f4f4f1";
+  if(B.accent)$("#accentPick").value=B.accent;
+  const note=$("#brandNote");if(note)note.textContent=CONFIG.brand?(CONFIG.brand.made_by?"A brand made for this site by "+CONFIG.brand.made_by+": "+(CONFIG.brand.source||""):"Their own brand: "+(CONFIG.brand.source||"")):"The template's own brand: no brand block in the config yet.";
+}
+$("#paperPick").addEventListener("input",applyGround);$("#inkPick").addEventListener("input",applyGround);
 $("#logoFile").addEventListener("change",e=>{
   const f=e.target.files&&e.target.files[0];if(!f)return;
   const fr=new FileReader();
@@ -3444,8 +3495,9 @@ $("#logoFile").addEventListener("change",e=>{
   fr.readAsDataURL(f);
 });
 $("#brandReset").addEventListener("click",()=>{
-  ["--brand-fill","--brand-fill-2","--brand-ink","--brand-hi","--brand-ghost","--logo"].forEach(p=>root.style.removeProperty(p));
-  $("#brandmark").classList.remove("has");$("#logoFile").value="";$("#accentPick").value=CONFIG.design.accent;
+  ["--brand-fill","--brand-fill-2","--brand-ink","--brand-hi","--brand-ghost","--logo",...GROUND].forEach(p=>root.style.removeProperty(p));
+  $("#brandmark").classList.remove("has");$("#logoFile").value="";$("#accentPick").value=(CONFIG.brand&&CONFIG.brand.palette&&CONFIG.brand.palette.accent)||CONFIG.design.accent;
+  const cs=getComputedStyle(root);$("#paperPick").value=cs.getPropertyValue("--bg").trim()||"#15181d";$("#inkPick").value=cs.getPropertyValue("--text").trim()||"#f4f4f1";
 });
 
 /* @@EXTRA-JS */

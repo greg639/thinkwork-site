@@ -4182,5 +4182,24 @@ h1{line-height:.92;letter-spacing:-.01em}
   setTimeout(go,800);setTimeout(pics,2500);document.addEventListener('click',function(){setTimeout(pics,300);});
 })();
 </script>
+
+<style id="meeting-collapse">
+.tw-fold{overflow:hidden;max-height:0;opacity:0;transition:max-height .45s ease,opacity .3s ease}
+.tw-fold.open{max-height:4000px;opacity:1}
+.tw-foldbtn{display:inline-flex;align-items:center;gap:8px;margin:6px 0 14px;padding:10px 16px;border-radius:999px;border:1px solid currentColor;background:transparent;color:inherit;font:inherit;font-size:.9rem;letter-spacing:.04em;text-transform:uppercase;cursor:pointer}
+.tw-foldbtn::after{content:"";width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .3s;margin-top:-4px}
+.tw-foldbtn[aria-expanded="true"]::after{transform:rotate(-135deg);margin-top:4px}
+@media (max-width:700px){#board .hd{display:none}}
+</style>
+<script id="meeting-collapse-js">
+(function(){
+  function fold(id,label){var el=document.getElementById(id);if(!el||el.dataset.twFolded)return;el.dataset.twFolded='1';
+    var btn=document.createElement('button');btn.type='button';btn.className='tw-foldbtn';btn.setAttribute('aria-expanded','false');btn.textContent=label;
+    el.classList.add('tw-fold');el.parentNode.insertBefore(btn,el);
+    btn.addEventListener('click',function(){var o=el.classList.toggle('open');btn.setAttribute('aria-expanded',o?'true':'false');btn.textContent=o?'Hide the dates':label;});}
+  function go(){fold('board','Show the next game days');fold('dayList','Show every date');}
+  if(document.readyState==='complete')go();else window.addEventListener('load',go);setTimeout(go,900);
+})();
+</script>
 </body>
 </html>

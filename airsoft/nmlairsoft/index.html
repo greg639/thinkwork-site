@@ -312,16 +312,15 @@ h3{font-size:clamp(22px,2.1cqi,28px);line-height:1.1;margin-top:12px!important}
 #app .band.tight{padding-block:clamp(36px,4.4cqi,64px)}
 /* a folded block (fold.js): closed by default, opens on a pill button with a grid transition */
 .fold{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.2,.7,.2,1)}
-.fold>*{overflow:hidden;min-height:0}
+.fold>*{overflow:hidden;min-height:0;visibility:hidden;transition:visibility 0s .45s}   /* folded content is out of the page for a reader and a gate alike */
 .fold.open{grid-template-rows:1fr}
-.fold.open>*{overflow:visible}
+.fold.open>*{overflow:visible;visibility:visible;transition-delay:0s}
 @media (prefers-reduced-motion:reduce){.fold{transition:none}}
 /* soft edges (Greg, 2 Nov): pill buttons, rounded cards and panels, nothing cut square but the hazard rule */
 #app .btn,#app .card,#app .enamel,#app .board,#app .day,#app .sign,#app .tile,#app .quotes blockquote,#app .count div,#app .lever,#app .tier,#app .hero-meta,#app input,#app select,#app textarea{border-radius:12px}
 #app .board .hd{border-radius:12px 12px 0 0}
 #app .filters button,#app .board .r .status,#app .pill{border-radius:999px}
 #app .lever button:first-child{border-radius:12px 0 0 12px}#app .lever button:last-child{border-radius:0 12px 12px 0}
-#app .pill.hdr{display:inline-flex;align-items:center;min-height:34px;padding:0 12px;font-size:12px}
 /* sentence case below the display headings: the stencil face stays for h1 and h2 and the big figures, the rest reads in the body face */
 h3,h4,.feat b,.tt h4,.day h3,.tier h3{font-family:var(--ui);font-weight:700;text-transform:none;letter-spacing:0}
 h3{font-size:clamp(20px,1.9cqi,25px);line-height:1.2}
@@ -722,7 +721,7 @@ footer.site ul button:hover{color:var(--red-ink)}
   #app .band{padding-block:40px}
   #app .band.tight{padding-block:24px}
   .sechead{margin-bottom:24px;gap:8px}
-  h2{font-size:clamp(30px,9cqi,38px);margin-top:0!important;margin-bottom:12px!important}
+  h2{font-size:clamp(30px,9cqi,38px);margin-top:14px!important;margin-bottom:12px!important}   /* the display face's glyphs run above the line box: air over an eyebrow */
   h3{font-size:19px}
   .days{gap:12px}.day{padding:18px}
   .signs{gap:10px}
@@ -752,6 +751,67 @@ footer.site ul button:hover{color:var(--red-ink)}
    Reads no CONFIG. */
 @media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}.tile:hover img{transform:none}}
 
+/* ---- part: basket.css ----
+   The basket drawer and the checkout step (TEMPLATES.md 19g). Tokens only: --bg --surface --surface-2 --sunk --line
+   --line-strong --text --text-2 --text-3 --red --red-ink --on-red --ui --mono --display --shadow. Expects basket.js's DOM:
+   #basketScrim, #basketDrawer (.lines, .line, .qty, .total, .checkout, .done), #basketPill in the site header. */
+#basketPill.hdr{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 14px;font-size:12.5px;cursor:pointer;border-radius:999px;background:var(--red);color:var(--on-red);border:0;font-family:var(--ui);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+#basketPill.hdr[hidden]{display:none}
+#basketPill.hdr .n{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--on-red);color:var(--red);font-family:var(--mono);font-size:11px;font-weight:700}
+#basketScrim{position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:opacity .3s;z-index:900}
+#basketScrim.open{opacity:1;pointer-events:auto}
+#basketDrawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--surface);color:var(--text);border-left:1px solid var(--line);box-shadow:var(--shadow);transform:translateX(102%);transition:transform .38s cubic-bezier(.2,.7,.2,1);z-index:901;display:flex;flex-direction:column;font-family:var(--ui)}
+#basketDrawer.open{transform:none}
+#basketDrawer[hidden],#basketScrim[hidden]{display:none}
+#basketDrawer>header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 22px;border-bottom:1px solid var(--line)}
+#basketDrawer>header h3{margin:0;font-family:var(--display);font-size:24px;text-transform:uppercase;letter-spacing:.01em;line-height:1}
+#basketDrawer>header .eyebrow{display:block;margin-top:4px}
+#basketDrawer .x{width:40px;height:40px;border-radius:999px;border:1px solid var(--line-strong);background:transparent;color:var(--text);font-size:20px;line-height:1;display:grid;place-items:center;cursor:pointer}
+#basketDrawer .x:hover{background:var(--surface-2)}
+#basketDrawer .body{flex:1;overflow:auto;padding:8px 22px}
+#basketDrawer .empty{padding:40px 0;text-align:center;color:var(--text-3)}
+#basketDrawer .line{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line-soft)}
+#basketDrawer .line .pic{width:64px;height:64px;border-radius:10px;background:var(--sunk);overflow:hidden}
+#basketDrawer .line .pic img{width:100%;height:100%;object-fit:cover;display:block}
+#basketDrawer .line b{display:block;font-weight:700;font-size:15px;line-height:1.3}
+#basketDrawer .line .each{display:block;color:var(--text-3);font-size:13px;margin-top:2px;font-family:var(--mono)}
+#basketDrawer .line .sum{font-family:var(--mono);font-weight:600;font-size:15px;text-align:right;min-width:64px}
+#basketDrawer .qty{display:inline-flex;align-items:center;border:1px solid var(--line-strong);border-radius:999px;margin-top:8px;overflow:hidden}
+#basketDrawer .qty button{width:34px;height:32px;border:0;background:transparent;color:var(--text);font-size:18px;cursor:pointer;line-height:1}
+#basketDrawer .qty button:hover{background:var(--surface-2)}
+#basketDrawer .qty span{min-width:28px;text-align:center;font-family:var(--mono);font-size:14px}
+#basketDrawer .rm{background:none;border:0;color:var(--text-3);font-size:12.5px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:0;margin:8px 0 0 10px;font-family:var(--ui)}
+#basketDrawer .rm:hover{color:var(--red-ink)}
+#basketDrawer>footer{padding:16px 22px 22px;border-top:1px solid var(--line);background:var(--surface)}
+#basketDrawer .total{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
+#basketDrawer .total span{color:var(--text-2)}
+#basketDrawer .total b{font-family:var(--display);font-size:28px;line-height:1}
+#basketDrawer .note{font-size:12.5px;color:var(--text-3);margin-top:10px;line-height:1.45}
+#basketDrawer .checkout{display:grid;gap:14px;padding:16px 0 6px}
+#basketDrawer .checkout label{display:grid;gap:6px;font-size:13px;color:var(--text-2)}
+#basketDrawer .checkout input[type=text],#basketDrawer .checkout input[type=email]{min-height:46px;border:1px solid var(--line-strong);border-radius:12px;background:var(--sunk);color:var(--text);padding:0 14px;font:inherit;font-size:15px}
+#basketDrawer .checkout input:focus{outline:2px solid var(--red);outline-offset:1px}
+#basketDrawer .choice{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#basketDrawer .choice label{display:flex;align-items:center;gap:10px;border:1px solid var(--line-strong);border-radius:12px;padding:12px 14px;cursor:pointer;color:var(--text);font-size:14px}
+#basketDrawer .choice label:has(input:checked){border-color:var(--red);background:color-mix(in srgb,var(--red) 12%,transparent)}
+#basketDrawer .choice input{accent-color:var(--red)}
+#basketDrawer .done{padding:32px 0 10px;text-align:center}
+#basketDrawer .done .tick{width:56px;height:56px;border-radius:999px;background:var(--red);color:var(--on-red);display:grid;place-items:center;margin:0 auto 16px;font-size:26px}
+#basketDrawer .done h4{margin:0 0 8px;font-family:var(--display);font-size:26px;text-transform:uppercase;line-height:1}
+#basketDrawer .done p{color:var(--text-2);font-size:15px;line-height:1.5;margin:0 0 6px}
+#basketDrawer .done .ref{font-family:var(--mono);font-size:18px;letter-spacing:.08em;color:var(--red-ink);display:block;margin:10px 0 14px}
+/* the product grid: categories as pills, cards on one radius */
+.shopcats{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.shopcats button{font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;padding:9px 14px;min-height:38px;border:1px solid var(--line-strong);border-radius:999px;color:var(--text-2);background:transparent;cursor:pointer}
+.shopcats button[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+#prodGrid article[hidden]{display:none}
+#prodGrid article{overflow:hidden}
+@container page (max-width:640px){
+  #basketDrawer{width:100%}
+  #basketDrawer .line{grid-template-columns:56px 1fr auto}
+  #basketDrawer .choice{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){#basketDrawer,#basketScrim{transition:none}}
 h1,h2{text-shadow:none}
 
 /* ---------- street devices: the tagline strip, the grid ground ---------- */
@@ -1470,7 +1530,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           </div>
           <div class="lever" style="margin-top:14px" role="group" aria-label="Member or not">
             <button id="levNon" aria-pressed="true">Not a member<small>Pay as you play</small></button>
-            <button id="levMem" aria-pressed="false">Member<small>&pound;60 for 12 months</small></button>
+            <button id="levMem" aria-pressed="false">Member<small>&pound;40 for 12 months</small></button>
           </div>
           <p id="fareNote" class="tiny" style="margin-top:10px">Sample figures. Our published price is the one the booking platform shows at checkout.</p>
           <p class="note"><b>Why</b><span>Your site prints no session price anywhere: the number appears only inside the booking window, after a visitor has pressed the booking button. A price on the page is the first thing a parent or a first-timer looks for, and the first thing an assistant quotes. These eight figures are sample and outlined amber; drop in yours and the board, the checkout and the structured data all follow.</span></p>
@@ -1478,18 +1538,18 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <div>
           <div class="enamel ink starpanel">
             <div class="pad">
-              <span class="rip sm" style="margin:-4px 0 14px -6px">&pound;60<small>For 12 months</small></span>
+              <span class="rip sm" style="margin:-4px 0 14px -6px">&pound;40<small>For 12 months</small></span>
               <p class="eyebrow" style="color:#CDD1D6">The sum</p>
               <p class="bigfig" style="margin-top:8px" id="sumFig">Sample prices.<br>Our live prices are on our booking platform.</p>
               <p style="margin-top:14px;font-size:16px;opacity:.92" id="sumLine">Members get discounts on field fees; by how much is not yet published. These are sample figures so the board has a shape; our live ladder is in your booking platform.</p>
             </div>
           </div>
           <div class="card pad" style="margin-top:14px">
-            <div class="kv"><span>Membership</span><b>&pound;60 for 12 months</b></div>
-            <div class="kv"><span>HPA refills</span><b>&pound;1 a fill, free for members</b></div>
+            <div class="kv"><span>Membership</span><b>&pound;40 for 12 months</b></div>
+            
             <div class="kv"><span>Booking today</span><b style="color:var(--ph)">Wix</b></div>
             <div class="kv"><span>Booking proposed</span><b style="color:var(--go)">Our own checkout, one account</b></div>
-            <button class="btn primary wide" style="margin-top:14px" data-go="members">Join for &pound;60</button>
+            <button class="btn primary wide" style="margin-top:14px" data-go="members">Join for &pound;40</button>
           </div>
           
         </div>
@@ -1627,20 +1687,6 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           </div>
         </div>
         <div>
-          <div class="card pad" style="margin-bottom:14px">
-            <p class="eyebrow">Chrono limits</p>
-            <h3 style="margin:8px 0 10px">Three weights, three limits, not targets</h3>
-            <table class="chrono">
-              <thead><tr><th>BB weight</th><th>Limit</th><th></th></tr></thead>
-              <tbody>
-                <tr><td>0.20g</td><td><b>350</b> fps</td><td class="tiny">One over and it stays in the bag</td></tr>
-                <tr><td>0.25g</td><td><b>313</b> fps</td><td class="tiny">Chrono'd with your own BBs</td></tr>
-                <tr><td>0.28g</td><td><b>296</b> fps</td><td class="tiny">HPA: tournament lock</td></tr>
-              </tbody>
-            </table>
-            <p class="tiny" style="margin-top:8px">We only allow these three BB weights.</p>
-            <p class="note"><b>Why</b><span>Every figure is off your Rules and Waivers page. Most sites bury the chrono; yours is clear, so it goes on the front page and into the FAQ an assistant reads.</span></p>
-          </div>
           <div class="card pad">
             <p class="eyebrow">When we open</p>
             <h3 style="margin:8px 0 12px">Game nights on Wednesdays and Fridays, game days on Saturdays and Sundays</h3>
@@ -1663,17 +1709,17 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
       <div class="split" style="align-items:center">
         <div>
           <p class="eyebrow red">Membership</p>
-          <h2 style="margin:10px 0 14px">&pound;60 for 12 months.<br>Six perks and free HPA.</h2>
+          <h2 style="margin:10px 0 14px">Membership, &pound;40<br>for 12 months.</h2>
           
           <button class="btn primary" style="margin-top:22px" data-go="members">Prices and membership</button>
         </div>
         <div class="card pad">
           <p class="eyebrow">Today, on our membership page</p>
           
-          <p class="note"><b>Why</b><span>Your words. The &pound;60 is right and the perks are generous; what is missing is a button.</span></p>
+          <p class="note"><b>Why</b><span>Your words. The &pound;40 is right and the perks are generous; what is missing is a button.</span></p>
         </div>
       </div>
-      <p class="note"><b>&pound;</b><span>The background is slide 2 of your own slider. Nothing on this band is invented except the button: the price, the six perks and the free HPA are all off your membership and rules pages. Twelve months from the day of joining, so renewals roll rather than land on one date.</span></p>
+      <p class="note"><b>&pound;</b><span>The price and the perks are read from your membership page where you publish them; anything you do not publish is shown as a sample until you give it.</span></p>
     </div>
   </div>
 
@@ -1705,9 +1751,9 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           <div class="enamel"><div class="pad">
             <p class="eyebrow">On Google today</p>
             <p class="bigfig" style="margin-top:8px"><em>4.9</em> from 75 reviews</p>
-            <p class="small muted" style="margin-top:12px">On Google, 2 Nov 2026 12:21.</p>
+            <p class="small muted" style="margin-top:12px">On Google, 2 Nov 2026 12:37.</p>
           </div></div>
-          <p class="note"><b>Why</b><span>Read from your Google Business Profile on 2 Nov 2026 12:21. The number is real; your site does not show it anywhere.</span></p>
+          <p class="note"><b>Why</b><span>Read from your Google Business Profile on 2 Nov 2026 12:37. The number is real; your site does not show it anywhere.</span></p>
         </div>
       </div>
     </div>
@@ -1727,14 +1773,10 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <details><summary>How much does a session at NML Airsoft cost?</summary>
           <div class="ans"><span class="ph">Session prices show inside the booking window once you press the booking button.</span></div></details>
         
-        <details><summary>What are the FPS limits at NML Airsoft?</summary>
-          <div class="ans">0.20g at 350 fps, 0.25g at 313 fps and 0.28g at 296 fps. Only those three BB weights are allowed.</div></details>
         <details><summary>Do under-18s need full face protection at NML Airsoft?</summary>
           <div class="ans">Yes. Anyone under 18 must wear full face protection. Players 18 and over must wear approved eye protection. Minors aged 12 to 17 may be dropped off by a parent or guardian and left to play, with a contact phone number.</div></details>
         <details><summary>Can I rent a gun at NML Airsoft?</summary>
           <div class="ans">Yes. If you do not have your own gear and require an airsoft rental, choose a rental when you book. <span class="ph">Pre-booking the rental online so it is on the rack when you arrive is proposed.</span></div></details>
-        <details><summary>Do you do HPA refills at NML Airsoft?</summary>
-          <div class="ans">Yes. Refills cost &pound;1 per fill, and are free with a site membership.</div></details>
         
       </div>
       <p class="note"><b>AI</b><span>Each question is phrased the way people type it, answered in the first sentence, and published as FAQPage structured data. Only the verified answers go into the structured data; the proposed sentences are kept out of it so nothing an assistant quotes is invented. The price answer is a placeholder: your price is not printed on your site today, it shows inside the your booking platform window. Put it here and an assistant can quote it. The price question has no verified answer, so it carries none.</span></p>
@@ -1828,7 +1870,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             </ul>
             <div class="evprice">
               <div class="entry"><b>10<small class="in">%</small></b><small>Off, sample</small></div>
-              <div class="dep"><b>&pound;60</b><small>Membership, real</small></div>
+              <div class="dep"><b>&pound;40</b><small>Membership, real</small></div>
             </div>
             <div class="row" style="margin-top:24px">
               <button class="btn primary" data-ev-book="members">Book the night</button>
@@ -1934,8 +1976,8 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             </label>
             <div class="upsell" id="upsell" data-ph="1"><span class="phtag">Proposed: membership sold in the basket</span>
               <h4 id="upTitle">Join today and this booking costs less</h4>
-              <p class="small" style="margin-top:6px" id="upLine">&pound;60 for 12 months. Applied to this booking straight away.</p>
-              <button class="btn primary sm" style="margin-top:10px" id="upBtn">Add membership, &pound;60</button>
+              <p class="small" style="margin-top:6px" id="upLine">&pound;40 for 12 months. Applied to this booking straight away.</p>
+              <button class="btn primary sm" style="margin-top:10px" id="upBtn">Add membership, &pound;40</button>
             </div>
             <p class="note"><b>&pound;</b><span>Offering the membership at the moment it saves money, to someone with their card out, is the highest-converting
               place on the site. The sum is shown, not explained. What your rental package contains is not published on your site, so the rental ticket does not list it; one for you to confirm.</span></p>
@@ -1946,7 +1988,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <h3 style="margin-bottom:6px">Anything else before you arrive?</h3>
             <p class="small muted" style="margin-bottom:16px">Pre-ordered, paid, and waiting with your name on it at the desk.</p>
             <div class="grid" id="addonList" style="gap:8px" data-ph="1"><span class="phtag">Proposed pre-orders &middot; sample prices</span></div>
-            <p class="note"><b>&pound;</b><span>Your HPA at &pound;1 and your rental are real and on your rules page, and sell nothing online. Pre-ordered, they are money in your account before anyone arrives and a rack count on Friday night.</span></p>
+            <p class="note"><b>&pound;</b><span>Pre-ordered consumables and hire are money in your account before anyone arrives, and a rack count on Friday night.</span></p>
           </div>
 
           <!-- step 3 -->
@@ -2038,8 +2080,8 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <div class="enamel tier"><div class="pad">
           <div class="row" style="justify-content:space-between"><p class="eyebrow">Your membership today</p><span class="pill ok">Verified</span></div>
           <h3 style="margin-top:8px">Member</h3>
-          <p class="price">&pound;60<small> for 12 months</small></p>
-          <p class="small muted" style="margin-top:8px">Discounts on field fees. HPA refills free.</p>
+          <p class="price">&pound;40<small> for 12 months</small></p>
+          
           <ul>
             <li>Retailer discounts</li>
             
@@ -2048,7 +2090,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             
             <li class="ph">Bought online, card, in under a minute</li>
           </ul>
-          <button class="btn primary wide" style="margin-top:16px" data-join="Membership">Join for &pound;60</button>
+          <button class="btn primary wide" style="margin-top:16px" data-join="Membership">Join for &pound;40</button>
         </div></div>
         <div class="card tier pad" data-ph="1"><span class="phtag">Proposed &middot; you set the price</span>
           <p class="eyebrow">Pay once</p>
@@ -2087,13 +2129,13 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           </div>
           <div>
             <div class="kv"><span>Pay on the day, &pound;30 each</span><b id="mPayg">&pound;0</b></div>
-            <div class="kv"><span>Member, &pound;60 plus &pound;30 each</span><b id="mMem">&pound;0</b></div>
+            <div class="kv"><span>Member, &pound;40 plus &pound;30 each</span><b id="mMem">&pound;0</b></div>
             <div class="kv"><span>Member plus ten-session block</span><b id="mBlk">&pound;0</b></div>
             <p class="eyebrow" style="margin-top:12px;color:var(--go)" id="mBest"></p>
           </div>
         </div>
       </div>
-      <p class="note"><b>&pound;</b><span>The &pound;60 and the perks are yours. Everything with a pound sign beside a session is sample, because your site does not print a session price. Set the member gap and this panel sells the membership on arithmetic, not on a paragraph.</span></p>
+      <p class="note"><b>&pound;</b><span>The &pound;40 and the perks are yours. Everything with a pound sign beside a session is sample, because your site does not print a session price. Set the member gap and this panel sells the membership on arithmetic, not on a paragraph.</span></p>
     </div>
   </div>
 </section>
@@ -2147,13 +2189,13 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <div><p class="eyebrow">Online shop</p><h2 style="margin-top:10px">Order online, collect at the shop or on game day</h2></div>
         <span class="pill red" id="basketPill">Basket: 0 items</span>
       </div>
-      <p class="lede" style="margin-bottom:22px">HPA refills are &pound;1 a fill on site, free for members. <span class="ph">Pre-order here and it is waiting with your name on.</span></p>
-      <p class="note" style="margin:-10px 0 22px"><b>Why</b><span>HPA at &pound;1 is real and on your rules page; the three BB weights are real and on your rules page. What is proposed is that they are paid for before anyone arrives. No shop is invented: your site does not mention one, and "Ask to see our range of weaponry" is the only retail line you have.</span></p>
+      <p class="lede" style="margin-bottom:22px">Consumables and hire add-ons, paid for before game day. <span class="ph">Pre-order here and it is waiting with your name on.</span></p>
+      <p class="note" style="margin:-10px 0 22px"><b>Why</b><span>Nothing is sold that you do not sell: the products come from your console, and until then the cards are samples and say so.</span></p>
       <div class="cols2" style="gap:12px;margin-bottom:14px" data-ph="1"><span class="phtag">Illustrative images, generated and your slider</span>
         <figure class="tile" style="aspect-ratio:16/9"><img src="assets/img-2.jpg" alt="Illustrative: a rack of rental rifles and full face masks" width="1024" height="1024" loading="lazy" decoding="async"><span class="credit">Illustrative</span><figcaption class="cap"><span class="k">On site</span><b>Hire a package</b></figcaption></figure>
         <figure class="tile" style="aspect-ratio:16/9"><img src="assets/img-8.jpg" alt="A rifle on camouflage: slide 3 of the homepage slider" width="1600" height="1066" loading="lazy" decoding="async"><span class="credit">Your slider photograph</span><figcaption class="cap"><span class="k">On site</span><b>Hire</b><p>Rental/hire packages are non refundable if you do not turn up on the date</p></figcaption></figure>
       </div>
-      <div class="cols2" style="gap:14px" id="prodGrid" data-ph="1" data-pictures="assets/img-6.jpg,assets/img-14.jpg,assets/img-2.jpg,assets/img-8.jpg"><span class="phtag">Proposed pre-order &middot; HPA price real, the rest sample</span></div>
+      <div class="cols2" style="gap:14px" id="prodGrid" data-ph="1" data-pictures="assets/img-6.jpg,assets/img-14.jpg,assets/img-2.jpg,assets/img-8.jpg"><span class="phtag">Proposed pre-order &middot; sample products until yours come from your console</span></div>
       <div class="card pad" style="margin-top:22px" data-ph="1"><span class="phtag">Proposed, switched off</span>
         <div class="split">
           <div>
@@ -2162,20 +2204,20 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
             <p class="small muted">Emailed instantly, valid twelve months, redeemable against any session, rental or membership.</p>
             <div class="row" style="gap:8px;margin-top:14px">
               <button class="btn ghost sm" data-v="25">&pound;25</button>
-              <button class="btn primary sm" data-v="60">&pound;60 (a membership)</button>
+              <button class="btn primary sm" data-v="60">&pound;40 (a membership)</button>
               <button class="btn ghost sm" data-v="0">Other</button>
             </div>
           </div>
           <div>
             <p class="eyebrow">Real and on site today</p>
             <div class="kv"><span>Rental gear</span><b style="color:var(--go)">On site today</b></div>
-            <div class="kv"><span>HPA refills, &pound;1</span><b style="color:var(--go)">On site today</b></div>
+            
             <div class="kv"><span>Tactical gear</span><b style="color:var(--go)">On site today</b></div>
             <div class="kv"><span>Pre-order and pay online</span><b style="color:var(--ph)">Proposed</b></div>
             <div class="kv"><span>A shop</span><b style="color:var(--text-3)">Not claimed</b></div>
           </div>
         </div>
-        <p class="note"><b>&pound;</b><span>Vouchers are cash up front, some are never redeemed, and every one that is brings a new player through the door. A &pound;60 voucher that is also a membership is the neatest version.</span></p>
+        <p class="note"><b>&pound;</b><span>Vouchers are cash up front, some are never redeemed, and every one that is brings a new player through the door. A &pound;40 voucher that is also a membership is the neatest version.</span></p>
       </div>
     </div>
   </div>
@@ -2209,16 +2251,16 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
               <tr><td class="mono">29 Aug</td><td>Saturday</td><td>1 own kit, full</td><td class="num">&pound;30</td></tr>
               <tr><td class="mono">15 Aug</td><td>Saturday</td><td>1 own kit, full</td><td class="num">&pound;30</td></tr>
               <tr><td class="mono">1 Aug</td><td>Saturday</td><td>1 own kit, full</td><td class="num">&pound;30</td></tr>
-              <tr><td class="mono">3 Mar</td><td>Membership</td><td>12 months</td><td class="num">&pound;60</td></tr>
+              <tr><td class="mono">3 Mar</td><td>Membership</td><td>12 months</td><td class="num">&pound;40</td></tr>
             </table></div>
           </div>
         </div>
         <div class="stack" style="gap:14px">
           <div class="enamel"><div class="pad">
             <p class="eyebrow">Membership</p>
-            <h3 style="margin:8px 0 10px">Four sessions in, HPA free every time</h3>
+            <h3 style="margin:8px 0 10px">Four sessions in</h3>
             <div class="meter"><i style="width:33%"></i></div>
-            <p class="small muted" style="margin-top:10px">Four sessions as a member. At the sample gap the &pound;60 pays back on the twelfth; the perks are yours from day one.</p>
+            <p class="small muted" style="margin-top:10px">Four sessions as a member. At the sample gap the &pound;40 pays back on the twelfth; the perks are yours from day one.</p>
           </div></div>
           <div class="card pad">
             <p class="eyebrow">On file</p>
@@ -2277,7 +2319,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
     </div>
     <p style="margin-top:18px;font-family:var(--mono);font-size:13px"><a href="aoc/index.html" target="_blank" rel="noopener">Console: owners sign in</a></p>
     <div class="legal">
-      <span>Design proposal by ThinkWork for discussion with you at NML Airsoft. Hours, address, phone, email, prices, words and pictures are your own, taken from nmlairsoft.co.uk on 2 Nov 2026 12:21. Session prices are not published on your site and every one shown is sample, flagged in the toolbar's placeholder mode along with everything else awaiting your real figures. Not the live site. No live payments.</span>
+      <span>Design proposal by ThinkWork for discussion with you at NML Airsoft. Hours, address, phone, email, prices, words and pictures are your own, taken from nmlairsoft.co.uk on 2 Nov 2026 12:37. Session prices are not published on your site and every one shown is sample, flagged in the toolbar's placeholder mode along with everything else awaiting your real figures. Not the live site. No live payments.</span>
       <span class="mono">thinkwork.info</span>
     </div>
   </div>
@@ -2317,11 +2359,6 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
 
     <h3 class="prop-h3">What today's Wix site cannot do</h3><ol class="prop-steps prop-cannot"><li>Show a phone number or an email address anywhere, so a first-timer cannot ask a question.</li><li>Show a game calendar: booking is a product page, with a £15 deposit beside "events charged in full", and no way to tell which days run.</li><li>Show member prices at the point of booking, so the membership has nothing to sell itself with.</li><li>Take a waiver before the day: it is paper at the gate, every time, for every player.</li><li>Sell anything from NML Armoury online: the shop page says coming soon.</li><li>Keep its own pages full: the kids' Gel Blaster and Weekender '27 pages are empty, and the price list is dated April 2025.</li><li>Match the brand: the Instagram handle is ams_no_mans_land, the site says NML.</li></ol>
 
-    <div class="prop-card" style="margin:26px 0 30px;padding:22px 24px;border-radius:14px">
-      <p class="prop-k">The full proposal</p>
-      <p class="prop-p" style="margin:8px 0 14px">The revenue model with your own figures on sliders, the six revenue opportunities, what today's set-up cannot do, what is yours and what is sample, the delivery plan and the price and terms, all in the console built for you.</p>
-      <a class="btn primary" href="aoc/index.html?screen=proposal" target="_blank" rel="noopener" style="display:inline-block;border-radius:999px;padding:12px 22px">Open the full proposal</a>
-    </div>
     <h3 class="prop-h3">Why it pays for itself</h3>
     <ol class="prop-steps prop-why"><li>The plan costs £99 a month. That is four walk-ons a month at £30: the first few online bookings cover it, and every booking after that is money in before the day.</li><li>A paid booking is a kept place. A no-show on a paid booking is a kept deposit, not an empty slot on the day.</li><li>Members pay less and renew online, so the membership sells itself at the moment it saves someone money, instead of by hand.</li><li>A calendar of real dates with real prices is what Google and the assistants quote when someone near Shafton asks where to play. A product page is not.</li><li>Every booking, waiver and member sits in one console you own, so a repeat booker never fills in a form twice and you can message the lot of them before a quiet date.</li></ol>
 
@@ -3497,11 +3534,108 @@ document.addEventListener("click",e=>{const j=e.target.closest("[data-join]");if
   } else {
     /* a proposal, or a live page whose platform is unreachable: the sample products stand as placeholders */
     const chip=grid.querySelector(":scope>.phtag"); if(chip)chip.textContent="Your products, from your console";
-    dressCards();headerPill();
-    document.addEventListener("click",(e)=>{const b=e.target.closest("#prodGrid [data-add]");if(!b)return;count++;pillCount();});
+    dressCards();   /* the basket drawer (basket.js) owns the header count and the adds from here */
   }
   /* for the platform's own tests and the gates: redraw from a payload */
   window.twShopRender=(data)=>{if(data&&(data.shop==="off"||data.shop===false)){hideShop();return;}render(data||{});};
+})();
+/* ---- part: basket.js ----
+   The basket drawer and the checkout (TEMPLATES.md 19g): lines with pictures, quantities and remove, the total, then
+   collect at the shop or on game day, a name, an email and Pay. In proposal mode Pay confirms with an order number and
+   takes no money. On a live site the platform's flow owns the basket (store.js takes twshop:add into the booking
+   basket when booking is on); this drawer steps in only for a line the platform did not take, and its Pay hands the
+   order to the platform (twshop:checkout) or opens the Book screen.
+   Products: live from STORE_SERVER.S.products (shop.js's shape); proposal from CONFIG.sample.products
+   ([name, price, category, picture]). Categories become pills over the grid. Expects #prodGrid, #basketPill,
+   #head .headcta; builds #basketScrim and #basketDrawer itself. Styles: basket.css. */
+(function(){
+  const grid=document.getElementById("prodGrid");if(!grid)return;
+  const live=typeof STORE_SERVER!=="undefined"&&STORE_SERVER&&STORE_SERVER.S;
+  const esc=(s)=>String(s==null?"":s).replace(/[&<>"]/g,(c)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const gbp=(n)=>"£"+(Number.isInteger(n)?n:n.toFixed(2));
+  const num=(p)=>typeof p.price==="number"?p.price:typeof p.price_pence==="number"?p.price_pence/100:parseFloat(String(p.price||"").replace(/[^\d.]/g,""))||0;
+  const products=()=>live?(STORE_SERVER.S.products||[]).map((p)=>({id:String(p.id),name:p.name,price:num(p),pic:p.picture||p.image||"",cat:p.category||"",collect:p.collect||"both"}))
+    :((typeof CONFIG!=="undefined"&&CONFIG.sample&&CONFIG.sample.products)||[]).map((p,i)=>({id:"s"+i,name:p[0],price:+p[1]||0,pic:typeof p[3]==="string"?p[3]:cardPic(i),cat:p[2]||"",collect:"both"}));
+  /* a sample product with no shot of its own wears what its card wears (shop.js dressed it from the template's photographs) */
+  function cardPic(i){const a=grid.querySelectorAll("article")[i],im=a&&a.querySelector(".shot img");return im?im.getAttribute("src"):"";}
+  const byId=(id)=>products().find((p)=>p.id===String(id));
+  const lines=new Map();   /* id -> qty */
+  const count=()=>[...lines.values()].reduce((a,b)=>a+b,0);
+  const total=()=>[...lines].reduce((a,[id,q])=>{const p=byId(id);return a+(p?p.price*q:0);},0);
+
+  /* the drawer */
+  const scrim=document.createElement("div");scrim.id="basketScrim";
+  const dr=document.createElement("aside");dr.id="basketDrawer";dr.setAttribute("aria-hidden","true");dr.setAttribute("aria-label","Your basket");
+  dr.innerHTML='<header><div><h3>Basket</h3><span class="eyebrow" data-sub>Collect at the shop or on game day</span></div><button class="x" data-basket-close aria-label="Close the basket">&times;</button></header>'
+    +'<div class="body"><div class="lines"></div><form class="checkout" hidden novalidate>'
+    +'<div class="choice"><label><input type="radio" name="collect" value="game_day" checked> Bag it for game day</label><label><input type="radio" name="collect" value="shop"> Collect at the shop</label></div>'
+    +'<label>Your name<input type="text" name="name" autocomplete="name" required></label>'
+    +'<label>Email for the order<input type="email" name="email" autocomplete="email" required></label></form>'
+    +'<div class="done" hidden></div></div>'
+    +'<footer><div class="total"><span>Total</span><b data-total>£0</b></div><button class="btn primary wide" data-basket-next>Checkout</button><p class="note" data-note></p></footer>';
+  document.body.append(scrim,dr);
+  const $=(s)=>dr.querySelector(s);
+  const form=$(".checkout"),done=$(".done"),linesEl=$(".lines"),nextBtn=$("[data-basket-next]"),note=$("[data-note]");
+  let step="lines";
+  const proposalNote="Prototype: nothing is charged. Live, the card step is the platform's and the order reaches your console.";
+  /* closed, the drawer is hidden (display none), not parked off the right edge: a parked panel is overflow to the phone gate and a reader */
+  dr.hidden=true;scrim.hidden=true;let closing=0;
+  const open=()=>{clearTimeout(closing);dr.hidden=false;scrim.hidden=false;requestAnimationFrame(()=>requestAnimationFrame(()=>{dr.classList.add("open");scrim.classList.add("open");}));dr.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";};
+  const close=()=>{dr.classList.remove("open");scrim.classList.remove("open");dr.setAttribute("aria-hidden","true");document.body.style.overflow="";closing=setTimeout(()=>{dr.hidden=true;scrim.hidden=true;},420);};
+
+  /* the header count */
+  function pill(){let p=document.getElementById("basketPill");const cta=document.querySelector("#head .headcta");
+    if(!p){p=document.createElement("button");p.id="basketPill";}
+    if(p.tagName!=="BUTTON"){const b=document.createElement("button");b.id="basketPill";p.replaceWith(b);p=b;}
+    p.type="button";p.className="pill hdr";p.innerHTML='Basket <span class="n">'+count()+'</span>';p.hidden=count()===0;
+    if(cta&&!cta.contains(p))cta.prepend(p);}
+  function render(){
+    const ps=products();
+    if(!lines.size){linesEl.innerHTML='<p class="empty">Nothing in the basket yet.</p>';}
+    else linesEl.innerHTML=[...lines].map(([id,q])=>{const p=ps.find((x)=>x.id===id);if(!p)return "";
+      return '<div class="line" data-line="'+esc(id)+'"><div class="pic">'+(p.pic?'<img src="'+esc(p.pic)+'" alt="">':'')+'</div><div><b>'+esc(p.name)+'</b><span class="each">'+gbp(p.price)+' each</span>'
+        +'<div><span class="qty"><button type="button" data-q="-1" aria-label="One fewer">&minus;</button><span>'+q+'</span><button type="button" data-q="1" aria-label="One more">+</button></span><button type="button" class="rm" data-rm>Remove</button></div></div><div class="sum">'+gbp(p.price*q)+'</div></div>';}).join("");
+    $("[data-total]").textContent=gbp(total());
+    nextBtn.disabled=!lines.size;
+    pill();
+  }
+  function show(which){step=which;linesEl.hidden=which!=="lines";form.hidden=which!=="checkout";done.hidden=which!=="done";
+    nextBtn.hidden=which==="done";nextBtn.textContent=which==="lines"?"Checkout":"Pay "+gbp(total());
+    $("[data-sub]").textContent=which==="lines"?"Collect at the shop or on game day":which==="checkout"?"Where to collect, and who for":"Order placed";
+    note.textContent=which==="checkout"?(live?"The card step is the platform's.":proposalNote):"";}
+  function add(id,qty){const p=byId(id);if(!p)return;lines.set(p.id,(lines.get(p.id)||0)+(qty||1));show("lines");render();open();}
+  function remove(id){lines.delete(id);render();}
+
+  /* adds: the sample grid's [data-add] (calculators.js) and, on a live page, a twshop:add the platform did not take */
+  document.addEventListener("click",(e)=>{const b=e.target.closest("#prodGrid [data-add]");if(!b||live)return;e.preventDefault();add("s"+b.dataset.add,1);b.textContent="Added";});
+  addEventListener("twshop:add",(e)=>{if(e.defaultPrevented||!e.detail||e.detail.taken)return;e.preventDefault();e.detail.taken=true;add(e.detail.id,e.detail.qty||1);});
+  document.addEventListener("click",(e)=>{if(e.target.closest("#basketPill")){e.preventDefault();show("lines");render();open();}});
+  dr.addEventListener("click",(e)=>{
+    if(e.target.closest("[data-basket-close]"))return close();
+    const q=e.target.closest("[data-q]");if(q){const id=q.closest(".line").dataset.line;const n=(lines.get(id)||0)+ +q.dataset.q;if(n<=0)remove(id);else{lines.set(id,n);render();}return;}
+    if(e.target.closest("[data-rm]")){remove(e.target.closest(".line").dataset.line);return;}
+    if(e.target.closest("[data-basket-next]")){
+      if(step==="lines"){show("checkout");form.querySelector("[name=name]").focus();return;}
+      if(step==="checkout"){
+        const name=form.name.value.trim(),email=form.email.value.trim();
+        if(!name||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){(!name?form.name:form.email).focus();note.textContent="A name and an email, so the order has a home.";return;}
+        const order={ref:"TW-"+Date.now().toString(36).slice(-6).toUpperCase(),collect:form.collect.value,name,email,lines:[...lines].map(([id,q])=>{const p=byId(id);return {id,name:p&&p.name,qty:q,price:p&&p.price,kind:"product"};}),total:total()};
+        if(live){const ev=new CustomEvent("twshop:checkout",{detail:order,cancelable:true});const taken=!dispatchEvent(ev)||ev.defaultPrevented||ev.detail.taken;if(!taken){close();if(typeof go==="function")go("book");return;}}
+        done.innerHTML='<div class="tick">&#10003;</div><h4>Order placed</h4><span class="ref">'+esc(order.ref)+'</span><p>'+order.lines.length+' line'+(order.lines.length===1?"":"s")+', '+gbp(order.total)+', '+(order.collect==="shop"?"to collect at the shop":"bagged for game day")+'.</p><p>A confirmation goes to '+esc(email)+'.</p>'+(live?"":'<p class="small muted">'+proposalNote+'</p>');
+        lines.clear();show("done");pill();$("[data-total]").textContent=gbp(order.total);return;}
+    }
+  });
+  scrim.addEventListener("click",close);
+  document.addEventListener("keydown",(e)=>{if(e.key==="Escape"&&dr.classList.contains("open"))close();});
+
+  /* categories over the grid, from the products themselves */
+  function cats(){const ps=products();const names=[...new Set(ps.map((p)=>p.cat).filter(Boolean))];if(names.length<2||grid.previousElementSibling&&grid.previousElementSibling.classList.contains("shopcats"))return;
+    const row=document.createElement("div");row.className="shopcats";row.innerHTML='<button aria-pressed="true" data-cat="">All</button>'+names.map((n)=>'<button aria-pressed="false" data-cat="'+esc(n)+'">'+esc(n)+'</button>').join("");
+    grid.before(row);
+    row.addEventListener("click",(e)=>{const b=e.target.closest("[data-cat]");if(!b)return;row.querySelectorAll("button").forEach((x)=>x.setAttribute("aria-pressed",x===b?"true":"false"));
+      const want=b.dataset.cat;[...grid.querySelectorAll("article")].forEach((a,i)=>{const p=ps[i];a.hidden=!!want&&!!p&&p.cat!==want;});});}
+  cats();render();
+  window.twBasket={add,open,close,lines:()=>[...lines],render};
 })();
 /* ---- part: fold.js ----
    A folded block behind a pill button (Greg, 2 Nov: the dates tables are closed by default, especially on phones).

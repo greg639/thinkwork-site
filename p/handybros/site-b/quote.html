@@ -108,6 +108,14 @@
                 <div class="fld"><label for="beds">Bedrooms</label>
                   <select class="inp" id="beds" name="beds" aria-describedby="e-beds"><option value="">Choose</option><option>Studio</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6 or more</option></select>
                   <p class="err" id="e-beds" role="alert"></p></div>
+                <div class="fld"><label for="baths">Bathrooms</label>
+                  <select class="inp" id="baths" name="baths" aria-describedby="e-baths"><option value="">Choose</option><option>1</option><option>2</option><option>3</option><option>4</option></select>
+                  <p class="err" id="e-baths" role="alert"></p></div>
+              </div>
+              <div class="two">
+                <div class="fld"><label for="extra">Other zones</label>
+                  <select class="inp" id="extra" name="extra" aria-describedby="h-extra"><option>0</option><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option></select>
+                  <p class="hint" id="h-extra">We assume a kitchen, a living room and a hallway or stairs. Change it if your property differs.</p></div>
                 <div class="fld"><label for="keys">Do you or anyone else hold a spare key?</label>
                   <select class="inp" id="keys" name="keys" aria-describedby="e-keys"><option value="">Choose</option><option>Yes, there is a spare</option><option>No spare yet</option><option>There is a key safe</option><option>Not sure</option></select>
                   <p class="err" id="e-keys" role="alert"></p></div>
@@ -116,12 +124,13 @@
                 <span id="estH" class="sr">Changeover estimate</span>
                 <span class="hint" style="margin:0">Changeover estimate for your property</span>
                 <b id="estPrice" aria-live="polite"></b>
+                <p id="estSum" aria-live="polite"></p>
                 <div class="chips" id="addons" role="group" aria-label="Add-ons">
                   <label><input type="checkbox" name="addon" value="linen"><span>Linen supplied (from £15 a bed)</span></label>
                   <label><input type="checkbox" name="addon" value="oven"><span>Oven clean (£30)</span></label>
                   <label><input type="checkbox" name="addon" value="sameday"><span>Same-day (+20%)</span></label>
                 </div>
-                <p><span class="todo">draft rate, owner to confirm</span> The real quote comes after your free walk-through.</p>
+                <p>A zone is a room, or a hallway or stairs. At £20 a zone. The final price is set at the free walk-through. <span class="todo">add-on prices: draft rate, owner to confirm</span></p>
               </div>
               <fieldset class="fld">
                 <legend>Where are you listed?</legend>

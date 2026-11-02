@@ -97,6 +97,8 @@
     p5: {}, p6: { 'Kitchen|Saucepans': { qty: 2, last: 3 } }
   };
   const rooms = (beds) => ['Kitchen', 'Living room'].concat(Array.from({ length: beds }, (_, i) => 'Bedroom ' + (i + 1)), ['Bathroom', 'Hallway']);
+  /* Zones: each bedroom, bathroom, kitchen, living room and hallway or stairs is one zone. A studio's open-plan room is one zone. */
+  props.forEach((p) => { p.zones = rooms(p.beds).length; });
   const inventory = {};
   props.forEach((p) => {
     let n = 0; inventory[p.id] = rooms(p.beds).map((room) => {
@@ -149,7 +151,7 @@
     { id: 'r1', ownerId: 'o1', pid: 'p1', who: 'Priya Nair', title: 'Kitchen hot tap is dripping', desc: 'Hot tap drips overnight even when turned off hard. A guest mentioned it in their review. Under the sink is dry so I think it is the cartridge.', urgency: 'This week', day: d(2), slot: 'AM', photos: ['tap-repair.jpg'], status: 'New', at: min(130), kind: 'maintenance', quote: null },
     { id: 'r2', ownerId: 'o2', pid: 'p4', who: 'Tom & Elise Hartley', title: 'Repaint the hallway after scuffs', desc: 'Suitcases have marked the walls along the hallway. Same sage green as before if you can match it.', urgency: 'Whenever', day: d(6), slot: 'AM', photos: ['painter-sage.jpg'], status: 'Scheduled', at: min(60 * 24 * 6), kind: 'decorating', quote: { lines: [L('Emulsion and sundries (supply)', 'materials', 1, 85), L('Decorator, per day', 'labour', 2, 160)], note: 'Two coats, walls and woodwork touched up. Furniture protected.', sentAt: min(60 * 24 * 5), approvedAt: min(60 * 24 * 4) }, eventIds: ['e-d1', 'e-d2'] },
     { id: 'r3', ownerId: 'o2', pid: 'p3', who: 'Tom & Elise Hartley', title: 'Replace the hallway smoke alarm', desc: 'Raised by Sam during today\'s turnover: the hallway alarm head fails the button test and chirps. Needs replacing before tonight\'s guest.', urgency: 'Urgent', day: d(0), slot: 'PM', photos: ['smoke-alarm-test.jpg'], status: 'Quoted', at: min(28), kind: 'maintenance', quote: { lines: [L('Interlinked smoke alarm head (supply)', 'materials', 1, 34), L('Fit and test (labour)', 'labour', 1, 45), L('Call-out and alarm test record', 'labour', 1, 17)], note: 'Can fit this afternoon before the 17:00 check-in.', sentAt: min(14), approvedAt: null } },
-    { id: 'r4', ownerId: 'o1', pid: 'p2', who: 'Priya Nair', title: 'Re-seal the shower screen', desc: 'Sealant along the base of the shower screen has gone black and is lifting. Would like it stripped and redone before the weekend guests.', urgency: 'This week', day: d(3), slot: 'AM', photos: ['toolkit-flatlay.jpg'], status: 'Quoted', at: min(60 * 26), kind: 'maintenance', quote: { lines: [L('Sanitary sealant and cleaner (supply)', 'materials', 1, 22), L('Strip, clean and re-seal, per hour', 'labour', 2, 55), L('Floor protection and disposal', 'materials', 1, 13)], note: 'Sealant needs 24 hours before use, so the bathroom is out of action until the day after.', sentAt: min(60 * 22), approvedAt: null } },
+    { id: 'r4', ownerId: 'o1', pid: 'p2', who: 'Priya Nair', title: 'Re-seal the shower screen', desc: 'Sealant along the base of the shower screen has gone black and is lifting. Would like it stripped and redone before the weekend guests.', urgency: 'This week', day: d(3), slot: 'AM', photos: ['toolkit-flatlay.jpg'], status: 'Quoted', at: min(60 * 26), kind: 'maintenance', quote: { lines: [L('Sanitary sealant and cleaner (supply)', 'materials', 1, 22), L('Strip, clean and re-seal, per hour', 'labour', 2, 34.99), L('Floor protection and disposal', 'materials', 1, 13)], note: 'Sealant needs 24 hours before use, so the bathroom is out of action until the day after.', sentAt: min(60 * 22), approvedAt: null } },
     { id: 'r5', ownerId: 'o1', pid: 'p2', who: 'Priya Nair', title: 'Back garden gate latch loose', desc: 'The latch on the garden gate has come away from the post.', urgency: 'Whenever', day: d(2), slot: 'AM', photos: ['yellow-door.jpg'], status: 'Scheduled', at: min(60 * 24 * 4), kind: 'maintenance', quote: { lines: [L('Gate latch and fixings (supply)', 'materials', 1, 14), L('Fit and adjust (labour)', 'labour', 1, 46)], note: '', sentAt: min(60 * 24 * 3), approvedAt: min(60 * 24 * 3 - 90) }, eventIds: ['e-m1'] },
     { id: 'r6', ownerId: 'o3', pid: 'p6', who: 'Marcus Oyelaran', title: 'Re-hang the bathroom door', desc: 'Door catches on the frame and will not latch.', urgency: 'Whenever', day: d(-3), slot: 'AM', photos: ['toolkit-flatlay.jpg'], status: 'Done', at: min(60 * 24 * 9), kind: 'maintenance', quote: { lines: [L('Hinges and screws (supply)', 'materials', 1, 18), L('Re-hang and plane (labour)', 'labour', 1, 52)], note: '', sentAt: min(60 * 24 * 8), approvedAt: min(60 * 24 * 7) }, eventIds: ['e-m3'] },
     { id: 'r7', ownerId: null, pid: null, who: 'Sample customer, Bexhill TN39', title: 'Wobbly fence panel in back garden', desc: 'One panel has come loose from the posts after the wind. Sent by photo from the quote page.', urgency: 'This week', day: d(0), slot: 'PM', photos: ['toolkit-flatlay.jpg'], status: 'New', at: min(60 * 5), kind: 'maintenance', quote: null, public: true },
@@ -243,17 +245,20 @@
 
   /* ---------- billing ---------- */
   const rates = {
-    changeover: { studio: 60, 1: 70, 2: 80, 3: 105, 4: 135, 5: 160 },
+    /* Owner's own figures: changeovers are priced per zone, maintenance by the hour, half day or full day. */
+    zone: 20,
+    hourly: 34.99, half: 119.99, full: 219.99, callout: 50,
+    retainedDiscountPct: 10,
+    /* Draft figures, not yet confirmed by the owner. */
     linen: 15, oven: 30, sameDay: 20,
     eot: { 1: 190, 2: 260, 3: 340 },
-    hourly: 29.99, callout: 50, half: 110, full: 200, upMin: 25, upMax: 50,
-    general: { monthly: 0, callout: 54.99, hourly: 34.99, changeover: 64.99 },
-    club: { monthly: 29.99, callout: 29.99, hourly: 29.99, changeover: 59.99, lockout: 29.99, term: 6 }
+    upMin: 25, upMax: 50,
+    club: { monthly: 29.99, lockout: 29.99, term: 6 }
   };
   const plans = {
-    o1: { tier: 'club', enrolled: ['p1', 'p2'], start: '2026-07-01', status: 'active', usage: { lockouts: 1, hours: 1.5, checks: 1 } },
-    o2: { tier: 'club', enrolled: ['p3', 'p4'], start: '2026-06-02', status: 'active', usage: { lockouts: 0, hours: 2, checks: 2 } },
-    o3: { tier: 'general', enrolled: [], start: null, status: 'active', usage: { lockouts: 0, hours: 0, checks: 1 } }
+    o1: { tier: 'club', enrolled: ['p1', 'p2'], start: '2026-07-01', status: 'active', usage: { lockouts: 1, hours: 1.5, checks: 1, chg: { p1: 3, p2: 2 } } },
+    o2: { tier: 'club', enrolled: ['p3', 'p4'], start: '2026-06-02', status: 'active', usage: { lockouts: 0, hours: 2, checks: 2, chg: { p3: 4, p4: 3 } } },
+    o3: { tier: 'general', enrolled: [], start: null, status: 'active', usage: { lockouts: 0, hours: 0, checks: 1, chg: { p5: 2, p6: 3 } } }
   };
   const invoices = []; let inv = 1030;
   const extras = { o1: { 3: [['Gate and fence repairs', 120]], 5: [['Extractor fan swap', 85]], 6: [['Turnover supplies top-up', 64]] }, o2: { 2: [['Hallway touch-up paint', 140]], 4: [['Blind cord and fixings', 38]], 6: [['Alarm head and fitting', 96]] }, o3: { 4: [['Door re-hang', 70]], 6: [['Key safe replacement', 52]] } };

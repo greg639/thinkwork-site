@@ -54,18 +54,22 @@
   }
   const stepper = (k, label, v, mn, mx) => '<div class="fld"><span id="sl-' + k + '">' + label + '</span><div class="stepper" role="group" aria-labelledby="sl-' + k + '"><button type="button" data-act="wk-step" data-k="' + k + '" data-d="-1" data-min="' + mn + '" data-max="' + mx + '" aria-label="Fewer: ' + esc(label) + '">' + HB.icon('minus', 16) + '</button><output aria-live="polite">' + v + '</output><button type="button" data-act="wk-step" data-k="' + k + '" data-d="1" data-min="' + mn + '" data-max="' + mx + '" aria-label="More: ' + esc(label) + '">' + HB.icon('plus', 16) + '</button></div></div>';
   const bedsName = (b) => (Number(b) === 0 ? 'studio' : b + '-bed');
+  /* a zone is a room, or a hallway or stairs; each room counts as one unless switched off */
+  const isZone = (r) => r.zone !== false;
+  const zq = (w) => { if (w.over && w.over.changeover) delete w.over.changeover.qty; };
+  const nzones = (w) => (w.rooms.length ? w.rooms.filter(isZone).length : Math.max(1, Number(w.prop.beds) || 0) + (Number(w.prop.baths) || 1) + (Number(w.prop.beds) === 0 ? 1 : 3));
 
   /* ---------- quote model ---------- */
   function genLines(w) {
-    const R = S().rates; const s = w.svc; const beds = w.prop.beds; const out = []; const base = HB.cl.basePrice(beds);
+    const R = S().rates; const s = w.svc; const beds = w.prop.beds; const out = []; const zn = nzones(w); const base = HB.zonePrice(zn); const hr = HB.maintRate('hourly', s.club);
     const add = (key, desc, qty, price, per, incl) => out.push({ key, desc, qty, price, per, incl });
     if (s.changeover) {
-      add('changeover', 'Changeover clean, ' + bedsName(beds) + (beds >= 5 ? ' (from)' : '') + ': full clean, beds remade, sanitise, inspection', 1, base, 'visit', true);
+      add('changeover', 'Changeover clean, ' + HB.zoneSum(zn) + ': full clean, beds remade, sanitise, inspection', zn, R.zone, 'visit', true);
       if (s.inv) add('inv', 'Inventory check against the list at every changeover', 1, 0, 'visit', true);
     }
     if (s.check === 'with') add('check', 'Property check alongside every changeover', 1, 0, 'visit', true);
-    if (s.check === 'monthly') add('check', 'Separate property check visit, monthly (about an hour)', 1, R.hourly, 'month', false);
-    if (s.check === 'quarterly') add('check', 'Separate property check visit, quarterly (about an hour)', 1, R.hourly, 'quarter', false);
+    if (s.check === 'monthly') add('check', 'Separate property check visit, monthly (about an hour' + (s.club ? ', retained rate' : '') + ')', 1, hr, 'month', false);
+    if (s.check === 'quarterly') add('check', 'Separate property check visit, quarterly (about an hour' + (s.club ? ', retained rate' : '') + ')', 1, hr, 'quarter', false);
     if (s.check !== 'none' && s.damage) add('damage', 'Pre-clean damage check: bed slats, seats, hardware and hiding places', 1, 0, s.check === 'with' ? 'visit' : 'once', true);
     if (s.check !== 'none' && s.util) add('util', 'Utility protection: heating at 18 degrees, windows locked, trickle vents open', 1, 0, s.check === 'with' ? 'visit' : 'once', true);
     if (s.linen) add('linen', 'Linen supply, per bed', Math.max(1, beds), R.linen, 'visit', false);
@@ -131,8 +135,9 @@
 
   /* ---------- generated rooms ---------- */
   function autoRooms(w) {
-    const mk = (name) => ({ id: HB.uid('rm'), name, notes: '', items: [] });
-    const out = [mk('Hallway'), mk('Kitchen'), mk('Living room')];
+    const studio = Number(w.prop.beds) === 0;
+    const mk = (name, zone) => ({ id: HB.uid('rm'), name, notes: '', items: [], zone: zone !== false });
+    const out = [mk('Hallway'), mk('Kitchen', !studio), mk('Living room', !studio)];
     for (let i = 1; i <= Math.max(1, w.prop.beds); i++) out.push(mk(w.prop.beds === 0 ? 'Studio room' : 'Bedroom ' + i));
     for (let i = 1; i <= Math.max(1, w.prop.baths); i++) out.push(mk(w.prop.baths > 1 ? 'Bathroom ' + i : 'Bathroom'));
     return out;
@@ -191,32 +196,34 @@
       '<form class="wk-addroom" data-submit="wk-radd"><label class="sr" for="wk-nr">New room</label><input id="wk-nr" type="text" ' + fa('wk-nr') + ' value="' + esc(w.newRoom || '') + '" data-input="wk-nr" placeholder="Add a room" maxlength="60" autocomplete="off"><button class="btn btn-ghost btn-icon" type="submit" aria-label="Add room">' + HB.icon('plus', 18) + '</button></form></nav>' +
       '<div class="stack-l" style="gap:16px"><section class="sheet pad wk-sec" aria-label="' + esc(r.name) + '"><div class="row wrap" style="gap:10px;align-items:flex-end"><label class="fld" style="flex:1;min-width:200px' + '"><span>Room ' + (idx + 1) + ' of ' + w.rooms.length + (err('room.' + r.id) ? ' <small class="wk-err">' + esc(err('room.' + r.id)) + '</small>' : '') + '</span><input type="text" ' + fa('rmn-' + r.id) + ' value="' + esc(r.name) + '" data-input="wk-rn" data-r="' + r.id + '" maxlength="60"></label>' +
       '<button class="ck-ib" data-act="wk-rmove" data-r="' + r.id + '" data-d="-1" aria-label="Move this room earlier"' + (idx === 0 ? ' disabled' : '') + '>' + HB.icon('arrow-up', 16) + '</button><button class="ck-ib" data-act="wk-rmove" data-r="' + r.id + '" data-d="1" aria-label="Move this room later"' + (idx === w.rooms.length - 1 ? ' disabled' : '') + '>' + HB.icon('arrow-down', 16) + '</button><button class="ck-ib" data-act="wk-rdel" data-r="' + r.id + '" aria-label="Remove this room">' + HB.icon('trash', 16) + '</button></div>' +
-      '<label class="fld" style="margin-top:14px"><span>What you noticed here <small>optional</small></span><input type="text" ' + fa('rmo-' + r.id) + ' value="' + esc(r.notes) + '" data-input="wk-rno" data-r="' + r.id + '" placeholder="Damp patch by the window, wobbly shelf" maxlength="140"></label></section>' +
+      '<label class="fld" style="margin-top:14px"><span>What you noticed here <small>optional</small></span><input type="text" ' + fa('rmo-' + r.id) + ' value="' + esc(r.notes) + '" data-input="wk-rno" data-r="' + r.id + '" placeholder="Damp patch by the window, wobbly shelf" maxlength="140"></label>' +
+      '<label class="chk wk-zone"><input type="checkbox" data-change="wk-zone" data-r="' + r.id + '"' + (isZone(r) ? ' checked' : '') + '><span><b>Counts as a zone</b> <span class="muted">' + (isZone(r) ? 'Priced at ' + HB.money(S().rates.zone) + ' a changeover.' : 'Not priced, for example a kitchen area inside an open-plan room.') + '</span></span></label></section>' +
       '<section class="sheet pad wk-sec"><div class="sec-head"><h2>Inventory</h2><span class="mono muted">' + HB.plural(r.items.length, 'line') + '</span></div>' +
       (r.items.length ? '<div class="wk-ih" aria-hidden="true"><span>Item</span><span>Qty</span><span>Condition</span><span>Age</span><span></span></div><ul class="wk-items">' + r.items.map((i) => itemRow(r, i)).join('') + '</ul>' : '<p class="muted" style="padding:6px 0 12px">Nothing listed in this room yet. Add items below, or fill in the usual ones for a ' + esc(keyOf(r.name) === 'bed' ? 'bedroom' : keyOf(r.name) === 'other' ? 'room' : keyOf(r.name)) + '.</p>') +
       '<form class="ck-add" data-submit="wk-iadd"><label class="sr" for="wk-ni">Add an inventory item</label><input id="wk-ni" type="text" ' + fa('wk-ni') + ' value="' + esc(w.newItem || '') + '" data-input="wk-ni" placeholder="Add an item, press Enter" maxlength="60" autocomplete="off"><button class="btn btn-ghost btn-sm" type="submit">' + HB.icon('plus', 16) + 'Add</button></form>' +
       '<div class="wk-quick"><span class="wk-ql">High-burn items, tap to add</span><div class="row wrap" style="gap:8px">' + burnChips + '</div>' +
       (typical ? '<div class="row wrap" style="margin-top:10px"><button class="btn btn-ghost btn-sm" data-act="wk-typical">' + HB.icon('list', 16) + 'Fill in the usual items for this room</button></div>' : '') + '</div></section></div></div>' +
       '<p class="footnote" style="margin-top:14px">High-burn means used hard and replaced often: kettle, toaster, air fryer, TV and remotes, batteries. They go on the property-check list so they are tested every visit.</p>' +
-      '<div class="wk-tally" aria-label="Totals so far"><span><b class="mono">' + c.rooms + '</b> rooms</span><span><b class="mono">' + c.items + '</b> items</span><span><b class="mono">' + c.burn + '</b> high-burn</span><span><b class="mono">' + c.worn + '</b> worn or damaged</span></div>';
+      '<div class="wk-tally" aria-label="Totals so far"><span><b class="mono">' + c.rooms + '</b> rooms</span><span><b class="mono">' + c.items + '</b> items</span><span><b class="mono">' + c.burn + '</b> high-burn</span><span><b class="mono">' + c.worn + '</b> worn or damaged</span><span class="wk-zsum"><b class="mono">' + nzones(w) + '</b> zones × ' + HB.money(S().rates.zone) + ' = <b class="mono">' + HB.money(HB.zonePrice(nzones(w))) + '</b> a changeover</span></div>' +
+      '<div class="row wrap wk-zadd" style="margin-top:10px;gap:8px"><span class="muted" style="font-size:13px">A zone is a room, or a hallway or stairs.</span><button class="btn btn-ghost btn-sm" data-act="wk-zadd" data-n="Hallway">' + HB.icon('plus', 16) + 'Add a hallway as a zone</button><button class="btn btn-ghost btn-sm" data-act="wk-zadd" data-n="Stairs">' + HB.icon('plus', 16) + 'Add stairs as a zone</button></div>';
   }
   function step2(w) {
-    const s = w.svc; const R = S().rates; const beds = w.prop.beds; const base = HB.cl.basePrice(beds);
+    const s = w.svc; const R = S().rates; const beds = w.prop.beds; const zn = nzones(w); const base = HB.zonePrice(zn);
     const sw = (k, label, sub, price, on, dis) => '<label class="wk-svc' + (on ? ' on' : '') + (dis ? ' dis' : '') + '"><input type="checkbox" data-change="wk-svc" data-k="' + k + '"' + (on ? ' checked' : '') + (dis ? ' disabled' : '') + '><span class="wk-tick">' + HB.icon('check', 14) + '</span><span class="wk-st"><b>' + label + '</b><span>' + sub + '</span></span><span class="wk-sp mono">' + price + '</span></label>';
     const radio = (v, label, sub) => '<label class="wk-opt"><input type="radio" name="svc.check" value="' + v + '" data-change="wk-radio" data-k="svc.check"' + (s.check === v ? ' checked' : '') + '><span><b>' + label + '</b><span>' + sub + '</span></span></label>';
     return (err('svc') ? '<div class="note-banner bad" role="alert">' + HB.icon('alert', 18) + '<div>' + esc(err('svc')) + '</div></div>' : '') +
-      '<div class="row wrap" style="justify-content:space-between;margin-bottom:6px"><p class="muted">Prices come from the draft rate card for a ' + bedsName(beds) + '. Change any of them on the next step.</p>' + HB.rateChip + '</div>' +
-      '<section class="sheet pad wk-sec"><div class="sec-head"><h2>Changeover clean</h2></div>' + sw('changeover', 'Changeover clean, ' + bedsName(beds) + (beds >= 5 ? ' (from)' : ''), 'Full clean, beds remade, sanitise and inspection between guests.', HB.money(base) + ' a visit', s.changeover) +
+      '<div class="row wrap" style="justify-content:space-between;margin-bottom:6px"><p class="muted">Changeovers are the owner\'s own price: ' + HB.zoneSum(zn) + ' for this ' + bedsName(beds) + ', counted on the Rooms step. Linen, oven, same-day and Priority Club are still drafts. Change any price on the next step.</p>' + HB.rateChip + '</div>' +
+      '<section class="sheet pad wk-sec"><div class="sec-head"><h2>Changeover clean</h2></div>' + sw('changeover', 'Changeover clean, ' + HB.zoneSum(zn), 'Full clean, beds remade, sanitise and inspection between guests.', HB.money(base) + ' a visit', s.changeover) +
       (s.changeover ? sw('inv', 'Inventory check every changeover', 'Counted against the list from this walk-through. Included in the visit price.', 'Included', s.inv) : '') + '</section>' +
       '<section class="sheet pad wk-sec"><div class="sec-head"><h2>Property checks</h2></div><div class="wk-opts" role="radiogroup" aria-label="How property checks run">' +
-      radio('with', 'With every changeover', 'The crew check as they clean. Included in the visit price.') + radio('monthly', 'Own visit, monthly', 'A separate hour on site. Extra, at the hourly rate until you set it.') + radio('quarterly', 'Own visit, quarterly', 'A separate hour on site each quarter. Extra.') + radio('none', 'No property checks', 'Cleaning and inventory only.') + '</div>' +
+      radio('with', 'With every changeover', 'The crew check as they clean. Included in the visit price.') + radio('monthly', 'Own visit, monthly', 'A separate hour on site. Extra, at the hourly rate (' + HB.money(HB.maintRate('hourly', s.club)) + (s.club ? ', retained' : '') + ').') + radio('quarterly', 'Own visit, quarterly', 'A separate hour on site each quarter. Extra.') + radio('none', 'No property checks', 'Cleaning and inventory only.') + '</div>' +
       (s.check !== 'none' ? '<div class="wk-sub">' + sw('damage', 'Pre-clean damage check', 'Bed slats, seats, hardware and the places a guest could hide damage.', 'Included', s.damage) + sw('util', 'Utility protection round', 'Heating at 18 degrees, windows locked with trickle vents open.', 'Included', s.util) + '</div>' : '') + '</section>' +
       '<section class="sheet pad wk-sec"><div class="sec-head"><h2>Extras</h2></div><div class="stack" style="gap:10px">' +
       sw('linen', 'Linen supply', 'Fresh sets for every bed, supplied and laundered.', 'from ' + HB.money(R.linen) + ' a bed', s.linen) +
       sw('oven', 'Oven clean', 'A proper oven clean on the schedule you choose.', HB.money(R.oven), s.oven) +
       (s.oven ? '<label class="fld wk-ovf">How often<select data-change="wk-set" data-k="svc.ovenFreq" data-t="text" data-sync><option value="visit"' + (s.ovenFreq === 'visit' ? ' selected' : '') + '>Every changeover</option><option value="month"' + (s.ovenFreq === 'month' ? ' selected' : '') + '>Monthly</option><option value="quarter"' + (s.ovenFreq === 'quarter' ? ' selected' : '') + '>Quarterly</option></select></label>' : '') +
       sw('sameDay', 'Same-day turnaround', 'For back-to-back bookings. Added to each changeover.', '+' + R.sameDay + '%', s.sameDay && s.changeover, !s.changeover) +
-      sw('club', 'Priority Club membership', 'Key holding, priority response and lock-out attendance. Six-month minimum.', HB.money(R.club.monthly) + ' a month', s.club) + '</div></section>';
+      sw('club', 'Priority Club membership', 'Key holding, priority response, lock-out attendance and the retained discount on maintenance, ' + HB.discPct() + '% as an example. Six-month minimum.', HB.money(R.club.monthly) + ' a month', s.club) + '</div></section>';
   }
   const PERS = [['visit', 'Per changeover'], ['month', 'Per month'], ['quarter', 'Per quarter'], ['year', 'Per year'], ['once', 'One-off']];
   function lineRow(l, custom) {
@@ -277,9 +284,9 @@
   /* ---------- aside ---------- */
   function aside(w) {
     const c = counts(w); const t = totals(w); const show = w.seen >= 2 || w.step >= 2;
-    const rows = [['Owner', w.owner.name.trim() || '<span class="muted">Not entered</span>'], ['Property', w.prop.name.trim() ? esc(w.prop.name) : '<span class="muted">Not entered</span>'], ['Size', bedsName(w.prop.beds) + ', sleeps ' + w.prop.sleeps], ['Rooms and items', c.rooms + ' and ' + c.items], ['High-burn', String(c.burn)]];
+    const rows = [['Owner', w.owner.name.trim() || '<span class="muted">Not entered</span>'], ['Property', w.prop.name.trim() ? esc(w.prop.name) : '<span class="muted">Not entered</span>'], ['Size', bedsName(w.prop.beds) + ', sleeps ' + w.prop.sleeps], ['Rooms and items', c.rooms + ' and ' + c.items], ['Zones', nzones(w) + ' × ' + HB.money(S().rates.zone)], ['High-burn', String(c.burn)]];
     return '<aside class="wk-side sheet pad" aria-label="Walk-through so far"><div class="sec-head"><h2>So far</h2><span class="tag">Step ' + (w.step + 1) + ' of 5</span></div><dl class="wk-so">' + rows.map((r) => '<div><dt>' + r[0] + '</dt><dd>' + (r[0] === 'Owner' ? esc(w.owner.name.trim()) || r[1] : r[1]) + '</dd></div>').join('') + '</dl>' +
-      (show ? '<hr class="divider"><dl class="wk-so"><div><dt>Each changeover</dt><dd class="mono">' + HB.money(t.visit) + '</dd></div><div><dt>Each month</dt><dd class="mono">' + HB.money(t.monthly) + '</dd></div><div><dt>First invoice</dt><dd class="mono">' + HB.money(t.first) + '</dd></div><div><dt>Deposit</dt><dd>' + (w.dep.status === 'secured' ? '<span class="ck-chip inc">Secured ' + HB.money(w.dep.paid) + '</span>' : HB.money(t.dep) + ' to take') + '</dd></div></dl><p class="footnote" style="margin-top:10px">Draft rates, owner to confirm.</p>' : '<p class="footnote" style="margin-top:12px">Your quote builds as you go. It saves in this session, so you can leave this page and come back.</p>') + '</aside>';
+      (show ? '<hr class="divider"><dl class="wk-so"><div><dt>Each changeover</dt><dd class="mono">' + HB.money(t.visit) + '</dd></div><div><dt>Each month</dt><dd class="mono">' + HB.money(t.monthly) + '</dd></div><div><dt>First invoice</dt><dd class="mono">' + HB.money(t.first) + '</dd></div><div><dt>Deposit</dt><dd>' + (w.dep.status === 'secured' ? '<span class="ck-chip inc">Secured ' + HB.money(w.dep.paid) + '</span>' : HB.money(t.dep) + ' to take') + '</dd></div></dl><p class="footnote" style="margin-top:10px">Changeover price is the owner\'s own. Linen, oven, same-day and club prices are drafts. ' + HB.rateChip + '</p>' : '<p class="footnote" style="margin-top:12px">Your quote builds as you go. It saves in this session, so you can leave this page and come back.</p>') + '</aside>';
   }
 
   /* ---------- view ---------- */
@@ -324,10 +331,15 @@
   const room = (id) => W().rooms.find((r) => r.id === id);
   HB.act('wk-room', (el) => { HB.update(() => { W().cur = el.dataset.r; }); });
   HB.act('wk-nr', (el) => { W().newRoom = el.value; });
-  HB.act('wk-auto', () => { const w = W(); HB.update(() => { w.rooms = autoRooms(w); w.roomsInit = true; w.cur = w.rooms[0].id; delete w.errors.rooms; }); });
+  HB.act('wk-auto', () => { const w = W(); HB.update(() => { w.rooms = autoRooms(w); w.roomsInit = true; w.cur = w.rooms[0].id; delete w.errors.rooms; zq(w); }); });
   HB.act('wk-radd', () => {
     const w = W(); const v = (w.newRoom || '').trim(); if (!v) { HB.toast('Name the room first', { icon: 'alert' }); return; }
-    const r = { id: HB.uid('rm'), name: v, notes: '', items: [] }; HB.update(() => { w.rooms.push(r); w.cur = r.id; w.newRoom = ''; delete w.errors.rooms; }); refocus('[data-fid="wk-ni"]');
+    const r = { id: HB.uid('rm'), name: v, notes: '', items: [], zone: true }; HB.update(() => { w.rooms.push(r); w.cur = r.id; w.newRoom = ''; delete w.errors.rooms; zq(w); }); refocus('[data-fid="wk-ni"]');
+  });
+  HB.act('wk-zone', (el) => { const r = room(el.dataset.r); if (r) HB.update(() => { r.zone = el.checked; zq(W()); }); });
+  HB.act('wk-zadd', (el) => {
+    const w = W(); const base = el.dataset.n; const taken = w.rooms.filter((x) => x.name.indexOf(base) === 0).length;
+    const r = { id: HB.uid('rm'), name: taken ? base + ' ' + (taken + 1) : base, notes: '', items: [], zone: true }; HB.update(() => { w.rooms.push(r); w.cur = r.id; delete w.errors.rooms; zq(w); });
   });
   HB.act('wk-rn', (el) => { const r = room(el.dataset.r); if (r) { r.name = el.value; delete W().errors['room.' + r.id]; HB.emit(); } });
   HB.act('wk-rno', (el) => { const r = room(el.dataset.r); if (r) r.notes = el.value; });
@@ -337,7 +349,7 @@
   });
   HB.act('wk-rdel', (el) => {
     const w = W(); const r = room(el.dataset.r); if (!r) return;
-    HB.confirm('Remove ' + (r.name || 'this room') + '?', 'This removes the room and its ' + HB.plural(r.items.length, 'inventory line') + '.', 'Remove room', () => { HB.update(() => { w.rooms = w.rooms.filter((x) => x.id !== r.id); w.cur = w.rooms.length ? w.rooms[0].id : null; }); HB.toast('Room removed', { icon: 'trash' }); }, true);
+    HB.confirm('Remove ' + (r.name || 'this room') + '?', 'This removes the room and its ' + HB.plural(r.items.length, 'inventory line') + '.', 'Remove room', () => { HB.update(() => { w.rooms = w.rooms.filter((x) => x.id !== r.id); w.cur = w.rooms.length ? w.rooms[0].id : null; zq(w); }); HB.toast('Room removed', { icon: 'trash' }); }, true);
   });
   const item = (el) => { const r = room(el.dataset.r); return r ? { r, i: r.items.find((x) => x.id === el.dataset.i) } : { r: null, i: null }; };
   HB.act('wk-it', (el) => {
@@ -441,7 +453,7 @@
     const w = W(); const pid = 'w-' + w.id.replace(/^w-/, '');
     HB.update((s) => {
       s.lists[pid] = HB.cl.fromWalk(w);
-      const rec = { id: pid, name: w.prop.name.trim(), short: w.prop.name.trim(), town: w.prop.town, beds: w.prop.beds, img: w.prop.type === 'House' || w.prop.type === 'Cottage' ? 'seafront-terraces.jpg' : 'flats-dusk.jpg', owner: w.owner.name.trim() };
+      const rec = { id: pid, name: w.prop.name.trim(), short: w.prop.name.trim(), town: w.prop.town, beds: w.prop.beds, zones: nzones(w), img: w.prop.type === 'House' || w.prop.type === 'Cottage' ? 'seafront-terraces.jpg' : 'flats-dusk.jpg', owner: w.owner.name.trim() };
       const i = s.prospects.findIndex((p) => p.id === pid); if (i >= 0) s.prospects[i] = rec; else s.prospects.push(rec);
       w.pid = pid; w.handoff = { pid, at: Date.now() };
     });

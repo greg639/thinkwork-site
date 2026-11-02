@@ -91,20 +91,30 @@
   const S = () => HB.S;
   /* rate card and Priority Club */
   HB.r2 = (n) => Math.round(n * 100) / 100;
+  /* zones and maintenance rates */
+  HB.zonesOf = (p) => Math.max(1, Number(p && p.zones) || 1);
+  HB.zonePrice = (zones) => HB.r2((Number(zones) || 0) * (Number(S().rates.zone) || 0));
+  HB.zoneSum = (zones) => zones + (zones === 1 ? ' zone' : ' zones') + ' × ' + HB.money(S().rates.zone);
+  HB.discPct = () => Math.max(0, Math.min(100, Number(S().rates.retainedDiscountPct) || 0));
+  HB.retainedOff = (amount) => HB.r2((Number(amount) || 0) * HB.discPct() / 100);
+  HB.retainedRate = (kind) => HB.r2(S().rates[kind] - HB.retainedOff(S().rates[kind]));
+  HB.maintRate = (kind, retained) => (retained ? HB.retainedRate(kind) : S().rates[kind]);
   HB.planSync = (oid) => {
     const p = S().plans[oid]; const R = S().rates; const club = p.tier === 'club';
     p.name = club ? 'Priority Club' : 'General'; p.monthly = HB.r2(p.enrolled.length * R.club.monthly);
     p.termEnd = club && p.start ? HB.addMonths(p.start, R.club.term) : null; p.next = '2026-11-01';
-    p.includes = club ? ['Key holding included', 'Lock-out attendance from ' + HB.money(R.club.lockout) + ' (priority)', 'Priority response', 'Club rates on jobs: hourly from ' + HB.money(R.club.hourly) + ', changeovers from ' + HB.money(R.club.changeover), 'Compliance reminders and booking']
-      : ['Pay as you go, no monthly fee', 'Call-out ' + HB.money(R.general.callout) + ', hourly from ' + HB.money(R.general.hourly), 'Changeovers from ' + HB.money(R.general.changeover), 'No key holding or lock-out cover'];
+    p.includes = club ? ['Key holding included', 'Lock-out attendance from ' + HB.money(R.club.lockout) + ' (priority)', 'Priority response', 'Retained rates on maintenance: hourly ' + HB.money(HB.retainedRate('hourly')) + ' (example discount of ' + HB.discPct() + '%)', 'Changeovers at ' + HB.money(R.zone) + ' a zone', 'Compliance reminders and booking']
+      : ['Pay as you go, no monthly fee', 'Call-out ' + HB.money(R.callout) + ', hourly ' + HB.money(R.hourly), 'Changeovers at ' + HB.money(R.zone) + ' a zone', 'No key holding or lock-out cover'];
   };
   HB.onClub = (pid) => { const o = HB.prop(pid); const p = o && S().plans[o.ownerId]; return !!(p && p.tier === 'club' && p.status === 'active' && p.enrolled.includes(pid)); };
   HB.usageRows = (pl) => {
     const R = S().rates; const u = pl.usage; const club = pl.tier === 'club';
-    return [['Lock-out attendances', u.lockouts, club ? u.lockouts + ' × ' + HB.money(R.club.lockout) : 'Not offered'], ['Handyman hours', u.hours, u.hours + ' h at ' + HB.money(club ? R.club.hourly : R.general.hourly)], ['Condition checks', u.checks, u.checks + ' this month']];
+    const chg = u.chg || {}; const ids = Object.keys(chg); const n = ids.reduce((a, k) => a + chg[k], 0); const amt = ids.reduce((a, k) => a + chg[k] * HB.zonePrice(HB.zonesOf(HB.prop(k))), 0);
+    return [['Changeovers', n, n ? n + ' this month, ' + HB.money(amt) + ' at ' + HB.money(R.zone) + ' a zone' : 'None this month'], ['Lock-out attendances', u.lockouts, club ? u.lockouts + ' × ' + HB.money(R.club.lockout) : 'Not offered'], ['Handyman hours', u.hours, u.hours + ' h at ' + HB.money(HB.maintRate('hourly', club)) + (club ? ' retained' : '')], ['Condition checks', u.checks, u.checks + ' this month']];
   };
   HB.usageHTML = (pl) => '<ul class="usage">' + HB.usageRows(pl).map((r) => '<li><span>' + r[0] + '</span><b class="mono">' + HB.esc(r[2]) + '</b></li>').join('') + '</ul>';
   HB.rateChip = '<span class="todo">draft rate, owner to confirm</span>';
+  HB.discChip = '<span class="todo">discount to confirm</span>';
   HB.addMonths = (iso, n) => { const d = HB.parse(iso); d.setMonth(d.getMonth() + n); return HB.iso(d); };
   Object.keys(S().plans).forEach(HB.planSync);
 })();

@@ -1140,7 +1140,7 @@ function shell(inst){
   /* which build is this? The version alone cannot answer it: 0.10.2 looked identical before and after three
      config changes in one day. The stamp is written by the builder; it is wrapped so a hash can normalise it out. */
   const P=inst.opts.account;
-  rail+=P?'<div class="aoc-railfoot">AOC by ThinkWork</div>':'<div class="aoc-railfoot">AOC '+VERSION+'<br><span class="aoc-build" data-build="2 Nov 2026 12:47">built 2 Nov 2026 12:47 UK</span><br>by ThinkWork</div>';
+  rail+=P?'<div class="aoc-railfoot">AOC by ThinkWork</div>':'<div class="aoc-railfoot">AOC '+VERSION+'<br><span class="aoc-build" data-build="2 Nov 2026 12:51">built 2 Nov 2026 12:51 UK</span><br>by ThinkWork</div>';
   const roles=Object.keys(ROLES).map(k=>'<button data-aoc-role="'+k+'" aria-pressed="'+(k===inst.role)+'">'+ROLES[k].label+'</button>').join("");
   /* the console as a product (opts.account, from the booking server): who is signed in, the next day, the brand
      switcher where a tenant has more than one brand, the brand's own site, and an account menu with the dark-mode

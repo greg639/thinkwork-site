@@ -1366,7 +1366,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
   <div class="seg" role="group" aria-label="View">
     <button id="viewSite" aria-pressed="true">Site</button>
     <a id="viewBack" href="aoc/index.html" target="_blank" rel="noopener" aria-pressed="false">Console</a>
-    <button id="viewProp" aria-pressed="false">Proposal</button>
+    <a id="viewProp" href="aoc/index.html?screen=proposal" target="_blank" rel="noopener" aria-pressed="false" onclick="window.open(this.href,'_blank');return false;">Proposal</a>
   </div>
   <div class="seg" role="group" aria-label="Device">
     <button id="devDesk" aria-pressed="true">Desktop</button>
@@ -1456,7 +1456,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
         <img class="slide" src="assets/img-8.jpg" alt="" decoding="async" style="--at:5s;--pos:50% 40%" data-credit="Their photograph">
         <img class="slide" src="assets/img-3.jpg" alt="" decoding="async" style="--at:10s;--pos:50% 40%" data-credit="Their photograph">
         <img class="slide" src="assets/img-5.jpg" alt="" decoding="async" style="--at:15s;--pos:50% 40%" data-credit="Their photograph">
-        <video class="film" data-src="assets/nml-film.mp4" data-src-portrait="assets/nml-film-portrait.mp4" data-poster="assets/nml-film.jpg" data-poster-portrait="assets/nml-film-portrait.jpg" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
+        <video class="film" data-src="assets/nml-film.mp4" data-src-portrait="assets/nml-film-portrait.mp4" data-poster="assets/nml-film.jpg" data-poster-portrait="assets/nml-film-portrait.jpg" data-credit="Film made for NML Airsoft from their own site" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
       </div>
     </div>
     <span class="photocredit" data-stage-credit>Their photograph</span>
@@ -1751,9 +1751,9 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
           <div class="enamel"><div class="pad">
             <p class="eyebrow">On Google today</p>
             <p class="bigfig" style="margin-top:8px"><em>4.9</em> from 75 reviews</p>
-            <p class="small muted" style="margin-top:12px">On Google, 2 Nov 2026 12:37.</p>
+            <p class="small muted" style="margin-top:12px">On Google, 2 Nov 2026 12:51.</p>
           </div></div>
-          <p class="note"><b>Why</b><span>Read from your Google Business Profile on 2 Nov 2026 12:37. The number is real; your site does not show it anywhere.</span></p>
+          <p class="note"><b>Why</b><span>Read from your Google Business Profile on 2 Nov 2026 12:51. The number is real; your site does not show it anywhere.</span></p>
         </div>
       </div>
     </div>
@@ -2319,7 +2319,7 @@ body[data-screen]:not([data-screen="home"]) .livestrip{display:none}
     </div>
     <p style="margin-top:18px;font-family:var(--mono);font-size:13px"><a href="aoc/index.html" target="_blank" rel="noopener">Console: owners sign in</a></p>
     <div class="legal">
-      <span>Design proposal by ThinkWork for discussion with you at NML Airsoft. Hours, address, phone, email, prices, words and pictures are your own, taken from nmlairsoft.co.uk on 2 Nov 2026 12:37. Session prices are not published on your site and every one shown is sample, flagged in the toolbar's placeholder mode along with everything else awaiting your real figures. Not the live site. No live payments.</span>
+      <span>Design proposal by ThinkWork for discussion with you at NML Airsoft. Hours, address, phone, email, prices, words and pictures are your own, taken from nmlairsoft.co.uk on 2 Nov 2026 12:51. Session prices are not published on your site and every one shown is sample, flagged in the toolbar's placeholder mode along with everything else awaiting your real figures. Not the live site. No live payments.</span>
       <span class="mono">thinkwork.info</span>
     </div>
   </div>
@@ -2678,7 +2678,8 @@ document.addEventListener("click",e=>{const b=e.target.closest(".btn");if(!b||re
     const src=(portrait&&v.dataset.srcPortrait)||v.dataset.src;if(!src)return;
     const poster=(portrait&&v.dataset.posterPortrait)||v.dataset.poster;if(poster)v.poster=poster;
     v.muted=true;v.loop=true;v.playsInline=true;v.setAttribute("playsinline","");v.preload="auto";v.src=src;
-    const on=()=>{v.play().then(()=>v.classList.add("on")).catch(()=>{});};
+    const credit=hero.querySelector("[data-stage-credit]");
+    const on=()=>{v.play().then(()=>{v.classList.add("on");if(credit&&v.dataset.credit){credit.textContent=v.dataset.credit;credit.dataset.film="1";}}).catch(()=>{});};
     v.addEventListener("canplay",on,{once:true});
     if("IntersectionObserver" in window)new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){if(v.paused)on();}else v.pause();}),{threshold:.1}).observe(v);
     document.addEventListener("visibilitychange",()=>{if(document.hidden)v.pause();else on();});
@@ -2695,7 +2696,7 @@ document.addEventListener("click",e=>{const b=e.target.closest(".btn");if(!b||re
   const idx=()=>reduce?0:Math.floor(((at()/hold)%n+n)%n);
   /* 2. the credit follows the slide: the credit that names this stage's world, else the hero's one credit */
   const credit=(stage.dataset.world&&hero.querySelector('[data-stage-credit][data-world="'+stage.dataset.world+'"]'))||hero.querySelector("[data-stage-credit]");let shown=-1;
-  const syncCredit=()=>{const i=idx();if(i!==shown){shown=i;if(credit)credit.textContent=slides[i].dataset.credit||"";}};
+  const syncCredit=()=>{const i=idx();if(i!==shown){shown=i;if(credit&&!credit.dataset.film)credit.textContent=slides[i].dataset.credit||"";}};   /* the film's credit stands while the film plays */
   syncCredit();if(reduce)return;setInterval(syncCredit,250);
   /* 3. rain */
   const canvas=stage.querySelector("canvas.rain"),ctx=canvas&&canvas.getContext("2d");

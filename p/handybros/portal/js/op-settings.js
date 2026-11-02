@@ -4,6 +4,7 @@
   S().team = [{ name: 'Alex', role: 'Operator, admin', on: true }, { name: 'Sam', role: 'Field, turnovers and repairs', on: true }];
   HB.saveSettings = () => { try { localStorage.setItem('hb-portal-settings', JSON.stringify({ theme: S().settings.theme, mode: S().settings.mode, sidebar: S().settings.sidebar })); } catch (e) { /* storage unavailable */ } };
   try { const saved = JSON.parse(localStorage.getItem('hb-portal-settings') || 'null'); if (saved) Object.assign(S().settings, saved); } catch (e) { /* ignore */ }
+  S().settings.theme = 'sea';
 
   const THEMES = [
     ['guest', 'Guest-Ready', 'Deep navy, brass and paper', ['#0B1E2D', '#C8964B', '#F3EEE4']],
@@ -34,8 +35,8 @@
     title: () => 'Settings',
     render() {
       const st = S().settings;
-      return HB.pageHead('Settings', 'Connections, team and look.', 'Everything here is a sample. Switch the theme to see the whole product re-colour at once.') +
-        '<section><div class="sec-head"><h2>Appearance</h2></div><div class="themes" role="radiogroup" aria-label="Theme">' + THEMES.map((t) => '<button class="theme" role="radio" aria-checked="' + (st.theme === t[0]) + '" data-act="theme" data-t="' + t[0] + '"><span class="sw">' + t[3].map((c) => '<i style="background:' + c + '"></i>').join('') + '</span><b>' + t[1] + '</b><span class="muted">' + t[2] + '</span></button>').join('') + '</div>' +
+      return HB.pageHead('Settings', 'Connections, team and look.', 'Everything here is a sample. Light, dark or match the device.') +
+        '<section><div class="sec-head"><h2>Appearance</h2></div>' +
         '<div class="row wrap" style="margin-top:18px;gap:24px"><div><div class="eyebrow" style="margin-bottom:8px">Mode</div><div class="seg" role="group" aria-label="Mode">' + [['auto', 'Match my device'], ['light', 'Light'], ['dark', 'Dark']].map((m) => '<button data-act="mode" data-m="' + m[0] + '" aria-pressed="' + (st.mode === m[0]) + '">' + m[1] + '</button>').join('') + '</div></div><div><div class="eyebrow" style="margin-bottom:8px">Sidebar</div><div class="seg" role="group" aria-label="Sidebar">' + [['auto', 'Automatic'], ['dark', 'Dark'], ['light', 'Light']].map((m) => '<button data-act="sidebar" data-m="' + m[0] + '" aria-pressed="' + (st.sidebar === m[0]) + '">' + m[1] + '</button>').join('') + '</div></div></div></section>' +
         rateCard() + '<div class="cols-2 section" style="gap:20px">' +
         conn('stripe', 'Stripe', 'Takes card and Direct Debit payments for retainers and invoices, and pays out to your bank.', st.stripe, 'stripe', st.stripe ? '<p class="mono" style="margin-bottom:12px">Payouts to bank ••••4421</p>' : '') +

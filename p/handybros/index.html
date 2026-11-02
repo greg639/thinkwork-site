@@ -1,37 +1,49 @@
 <!doctype html>
-<html lang="en-GB"><head><meta charset="utf-8">
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HandyBros concept</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HandyBros, the concept</title>
+<meta name="description" content="A concept for HandyBros: the website, the back end for you and your property owners, and the digital welcome guide.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Hanken+Grotesk:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0e1116;--ink:#f3f1ea;--mute:#9aa3ad;--card:#171b22;--line:#2a313b}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-main{max-width:1040px;margin:0 auto;padding:48px 16px 64px}
-.k{font:600 12px/1 ui-monospace,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
-h1{font-size:clamp(34px,6vw,60px);line-height:1.05;margin:12px 0 12px;letter-spacing:-.02em}
-p.l{color:var(--mute);max-width:56ch;margin:0 0 36px}
-.g{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
-a.c{display:block;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;color:inherit;text-decoration:none;transition:transform .2s,border-color .2s}
-a.c:hover,a.c:focus-visible{transform:translateY(-3px);border-color:var(--ink);outline:none}
-a.c img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
-a.c div{padding:16px 18px 20px}a.c b{display:block;font-size:19px;margin-bottom:4px}a.c span{color:var(--mute);font-size:14px}
-.p{margin-top:14px}.p a.c{display:grid;grid-template-columns:minmax(0,260px) 1fr;align-items:center}
-.p a.c img{height:100%;aspect-ratio:auto;min-height:150px}
-@media(max-width:560px){.p a.c{grid-template-columns:1fr}.p a.c img{aspect-ratio:16/10;height:auto}}
-small{display:block;margin-top:34px;color:var(--mute);max-width:70ch}
-</style></head><body><main>
-<div class="k">Concept for HandyBros, Eastbourne and Bexhill</div>
-<h1>Your website and your back end.</h1>
-<p class="l">Three directions for the website, and a working prototype of the platform behind it: your side, and a login for each property owner. Open each one and click around.</p>
-<div class="k" style="margin-bottom:12px">The website, three directions</div>
-<div class="g">
-<a class="c" href="site-a/"><img src="assets/img/bedroom-hero.jpg" alt="A freshly made seaside bedroom"><div><b>A. Guest-Ready</b><span>Premium and calm. Reads like a boutique hotel's housekeeping team.</span></div></a>
-<a class="c" href="site-b/"><img src="assets/img/seafront-terraces.jpg" alt="Pastel seafront terraces"><div><b>B. Seafront</b><span>Warm and local. Two doors: the holiday let, and the home.</span></div></a>
-<a class="c" href="site-c/"><img src="assets/img/toolkit-flatlay.jpg" alt="Yellow tools on a workbench"><div><b>C. Workshop</b><span>Bold and graphic. Job tickets, hi-vis yellow, no mistaking the trade.</span></div></a>
-</div>
-<div class="k" style="margin:34px 0 12px">The platform, clickable prototype</div>
-<div class="p"><a class="c" href="portal/"><img src="assets/img/inventory-kitchen.jpg" alt="Checking an inventory on a tablet"><div><b>Operator console and owner portal</b><span>Switch between your view and a property owner's view at the top. Calendar, inventories, checklists, quotes, compliance reminders, keys, retainers and invoices, plus a phone view for running a turnover. Tick something in the phone view, then switch to the owner portal to watch it appear.</span></div>
-<div class="p"><a class="c" href="stay/demo.html"><img src="assets/img/yellow-door.jpg" alt="A yellow front door by the sea"><div><b>Guest welcome guide: scan it, or open the link</b><span>The digital version of the printed welcome book, opened from the QR in the frame by the front door. Wifi, bins, weather, and where to eat in Bexhill, with a table-booking demo. Owners fill it in themselves from the portal.</span></div></a></div>
-</a></div>
-<small>Concept only. Photos are illustrations, all names and amounts in the platform are sample data, and prices are drafts for you to confirm. Nothing here takes payments or stores anything.</small>
-</main></body></html>
+:root{--cream:#FFF6E6;--paper:#FFFBF2;--sea:#2B6E8F;--sea-dark:#1C5570;--coral:#F0A39B;--butter:#F4D27A;--ink:#15303D;--soft:#3B5461;--head:"Bricolage Grotesque","Hanken Grotesk",system-ui,sans-serif;--body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font:400 1.0625rem/1.58 var(--body)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px;box-shadow:0 0 0 6px var(--butter);border-radius:6px}
+main{width:min(1120px,100% - 32px);margin:0 auto;padding:48px 0 72px}
+.eyebrow{font:700 .8rem/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--sea-dark);display:flex;align-items:center;gap:.6rem;margin:0 0 1rem}
+.eyebrow::before{content:"";width:28px;height:3px;background:var(--coral);border-radius:3px}
+h1{font:800 clamp(2.4rem,6vw,4.6rem)/1 var(--head);letter-spacing:-.025em;margin:0 0 .4em;max-width:14ch;text-wrap:balance}
+.lede{font-size:clamp(1.1rem,1.6vw,1.3rem);color:var(--soft);max-width:40em;margin:0 0 2.4rem}
+.grid{display:grid;grid-template-columns:1fr;gap:26px}
+@media(min-width:880px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{display:flex;flex-direction:column;background:var(--paper);border:3px solid var(--ink);border-radius:20px;box-shadow:5px 5px 0 var(--ink);overflow:hidden;text-decoration:none;transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+.card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border-bottom:3px solid var(--ink)}
+.card div{padding:20px 20px 24px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card b{font:800 1.5rem/1.1 var(--head);letter-spacing:-.01em}
+.card span{color:var(--soft)}
+.card em{margin-top:auto;padding-top:10px;font:700 .95rem/1 var(--body);font-style:normal;color:var(--sea-dark)}
+.note{margin:2.4rem 0 0;padding:14px 18px;border:2px dashed var(--ink);border-radius:14px;background:rgba(255,255,255,.5);color:var(--soft);max-width:60em}
+@media(prefers-reduced-motion:reduce){.card{transition:none}}
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">A concept for HandyBros</p>
+  <h1>Looked after, from the front door to the invoice</h1>
+  <p class="lede">Three things, built to work together: the website where hosts and neighbours find you, the back end you and your property owners run the business from, and the digital welcome guide guests scan when they arrive.</p>
+  <div class="grid">
+    <a class="card" href="site-b/"><img src="assets/img/seafront-terraces.jpg" alt="Pastel seafront terraces on a bright morning"><div><b>The website</b><span>Two doors: holiday-let care and everyday handyman work. Quote by photo, book a free walk-through.</span><em>Open the website</em></div></a>
+    <a class="card" href="portal/"><img src="assets/img/inventory-kitchen.jpg" alt="Checking an inventory on a tablet in a kitchen"><div><b>The back end</b><span>Your console and each owner's login. Walk-through quotes, checklists, photos, incident reports, keys, retainers and invoices, plus a phone view for the crew.</span><em>Open the back end</em></div></a>
+    <a class="card" href="stay/demo.html"><img src="assets/img/yellow-door-stay.jpg" alt="A mustard-yellow front door by the sea"><div><b>The welcome guide</b><span>Scan the code, or open the link. Wifi, bins, weather and where to eat in Bexhill. Shown framed and on the coffee table.</span><em>Open the welcome guide</em></div></a>
+  </div>
+  <p class="note">Concept only. The names, photos, prices and sample data are placeholders for you to review. Every price is a draft rate for you to confirm.</p>
+</main>
+</body>
+</html>

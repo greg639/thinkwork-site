@@ -117,6 +117,16 @@
     acts += '<a class="link" href="' + esc(D.directions(r)) + '" target="_blank" rel="noopener">' + ico('pin', 18) + 'Directions<span class="sr"> to ' + esc(r.name) + ' (opens in a new tab)</span></a>';
     return '<li class="card place" data-place="' + esc(r.id) + '" data-name="' + esc(r.name) + '"><div class="place-top"><span class="rank" aria-hidden="true">' + (i + 1) + '</span><div><h4>' + esc(r.name) + '</h4><p class="meta">' + cuisine + ' · ' + esc(r.street) + ', Bexhill</p></div></div><div class="acts">' + acts + '</div></li>';
   }
+  function secTopPick() {
+    if (!isBexhill) return '';
+    var r = restaurant('shiplu'); if (!r) return '';
+    return '<section class="sec pick" id="top-pick" aria-labelledby="pick-h"><figure class="pick-img"><img src="../assets/img/shiplu-hero.jpg" alt="A tandoori mixed grill with naan and chutneys, illustrative photo" loading="lazy"><span class="pick-badge">Our top pick in Bexhill</span><figcaption>Illustrative photo. Shiplu Tandoori\'s own photos go here.</figcaption></figure>' +
+      '<div class="pick-body"><h2 id="pick-h">Shiplu Tandoori</h2><p class="meta">Indian &middot; 109 London Road, Bexhill TN39 3LB</p>' +
+      '<p class="pick-line">Eat in or take away. Book a table or place a takeaway order from this page.</p>' +
+      '<p class="pick-todo"><span class="todo">Tiffin Cup runner-up, 2015: to confirm with the restaurant</span></p>' +
+      '<div class="acts"><button type="button" class="btn btn-door" data-book="shiplu">Book a table</button><button type="button" class="btn" data-order="shiplu">Order takeaway</button>' +
+      '<a class="link" href="' + esc(D.directions(r)) + '" target="_blank" rel="noopener">' + ico('pin', 18) + 'Directions<span class="sr"> to Shiplu Tandoori (opens in a new tab)</span></a></div></div></section>';
+  }
   function secEat() {
     if (!isBexhill) return '';
     return '<section class="sec" id="eat" aria-labelledby="eat-h">' + head('04', 'Eat and drink', 'eat') +
@@ -174,7 +184,7 @@
 
   /* ---------- build page ---------- */
   var NAV = [['wifi', 'Wifi'], ['arrival', 'Arriving'], ['house', 'The house'], ['weather', 'Weather']];
-  if (isBexhill) NAV.push(['eat', 'Eat and drink']);
+  if (isBexhill) NAV.push(['eat', 'More places to eat']);
   NAV.push(['nearby', 'Nearby'], ['help', 'Help']);
 
   function build() {
@@ -187,7 +197,7 @@
     img.src = '../assets/img/' + (D.defaults(slug).img || 'yellow-door.jpg');
     $('#chips').innerHTML = NAV.map(function (n) { return '<a href="#' + n[0] + '">' + esc(n[1]) + '</a>'; }).join('');
     var welcome = has(d.welcome) ? '<p class="welcome" id="welcome">' + esc(d.welcome) + '</p>' : '<p class="welcome" id="welcome">' + todo('welcome message to be added') + '</p>';
-    $('#guide').innerHTML = welcome + secQuick() + secArrival() + secHouse() + secWeather() + secEat() + secNearby() + secHelp();
+    $('#guide').innerHTML = welcome + secTopPick() + secQuick() + secArrival() + secHouse() + secWeather() + secEat() + secNearby() + secHelp();
   }
 
   /* ---------- weather ---------- */

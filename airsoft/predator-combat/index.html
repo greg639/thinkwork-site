@@ -731,6 +731,13 @@ body[data-screen="back"] .deskbar{display:flex}
   .hero .herologo{height:48px}
   h1{font-size:40px}
   .hero .essentials{grid-template-columns:1fr 1fr}
+  /* the lighter orange was not enough on its own in the live build. With no prototype toolbar above it the header
+     is not pushed down, so this row sits about sixty pixels higher, on a brighter band of the stage, and the price
+     measured 4.17:1 where the standard asks 4.5:1. The doors over the same photograph already answer this with a
+     dark ground of their own (.hero .gpanel .gl): the same ground, at the same weight, under the row that carries
+     the prices. The colour is unchanged and the photograph is still behind it. Airsoft only, as the adventure
+     world reads light and has its own ground. */
+  .hero .essentials[data-w="airsoft"]{background:rgba(11,14,5,.88);border-radius:3px;padding:12px 14px}
   .hero .essentials li b em{color:var(--yel-hi)}   /* the 20px price over the dimmed stage read 4.3:1 on a phone; the lighter orange clears it */
    /* the line under each price sat at 3.98:1 over the same stage: the price was lifted here and its description
       was not. --text-2 clears 4.5:1 in both brands. */
@@ -1624,12 +1631,12 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
           </ul>
           <p class="note"><b>Why</b><span>Your two brands as two worlds on one site. The page opens in the world the address asks for, so predator-combat.com can point at the dark side and activate-outdoor-adventure.com at the bright one. Press the Outdoor adventure door and the page turns to daylight: Activate's roundel takes the header, its red and gold take the buttons, rounded family type replaces the military capitals, a scalloped gold edge replaces the hazard tape, the activities take the menu, the doors become Climb, Paddle and a door back to Predator, and the stage behind the type becomes your ridge, your climber and your kayaks with no rain. Press that third door and it is Predator's woods again: your badge as the watermark, the hi-vis orange of your marshal vests, the storm over your own field. Every picture is your own and says where it came from.</span></p>
         </div>
-        <div class="games" role="group" aria-label="Choose your game" data-ph="1" data-ph-kind="photo" data-w="airsoft"><span class="phtag">Your own photographs</span>
+        <div class="games" role="group" aria-label="Choose your game" data-ph="1" data-w="airsoft"><span class="phtag">Your own photographs</span>
           <button class="gpanel" data-game="airsoft" aria-pressed="false"><img src="assets/door-airsoft.jpg" width="1600" height="1067" alt="Three players at the timber structure, from our gallery" loading="lazy" decoding="async"><span class="gl"><b>Airsoft</b><span>Walk-on &pound;25 &middot; rental &pound;45</span></span></button>
           <button class="gpanel" data-game="laser" aria-pressed="false"><img src="assets/door-nerf.jpg" width="1600" height="1067" alt="A youth group on a game day, from our gallery" loading="lazy" decoding="async"><span class="gl"><b>Nerf Wars</b><span>Ages 7 and up &middot; &pound;15 a player</span></span></button>
           <button class="gpanel" data-game="paintball" aria-pressed="false"><img src="assets/door-adventure.jpg" width="800" height="600" alt="Abseiling, from our team building page" loading="lazy" decoding="async"><span class="gl"><b>Outdoor adventure</b><span>Climb, paddle, shoot a bow &middot; Activate Outdoor Adventure</span></span></button>
         </div>
-        <div class="games" role="group" aria-label="Choose your adventure" data-ph="1" data-ph-kind="photo" data-w="adventure"><span class="phtag">Your own photographs</span>
+        <div class="games" role="group" aria-label="Choose your adventure" data-ph="1" data-w="adventure"><span class="phtag">Your own photographs</span>
           <button class="gpanel" data-game="climb" aria-pressed="false"><img src="assets/home-activate.jpg" width="800" height="534" alt="A climber on the rock, from our homepage" loading="lazy" decoding="async"><span class="gl"><b>Climb</b><span>Rock climbing &middot; abseiling</span></span></button>
           <button class="gpanel" data-game="paddle" aria-pressed="false"><img src="assets/kids-kayak.jpg" width="800" height="600" alt="Kids kayaking, from our outdoor activities page" loading="lazy" decoding="async"><span class="gl"><b>Paddle</b><span>Canoeing &middot; kayaking</span></span></button>
           <button class="gpanel" data-game="airsoft" aria-pressed="false"><img src="assets/door-airsoft.jpg" width="1600" height="1067" alt="Three players at the timber structure, from our gallery" loading="lazy" decoding="async"><span class="gl"><b>Airsoft &amp; Nerf</b><span>With Predator</span></span></button>
@@ -1834,7 +1841,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
         <p class="lede" style="max-width:46ch;margin:0">Every Saturday and Sunday: gates 09:00, brief 10:15, off the field at 16:30. Book a place and it is held with your name on it.</p>
       </div>
       <p class="nextday"><b>Next: <span id="ripDate">next game day</span></b> <span><span id="ripKind">Game day</span> &middot; <span id="ripPrice"></span> &middot; <span id="ripNote"></span></span></p>
-      <div class="board" id="board" data-ph="1" data-ph-kind="unconfirmed"><span class="phtag">The days and the running order are yours. The places left are sample</span>
+      <div class="board" id="board" data-ph="1"><span class="phtag">The days and the running order are yours. The places left are sample</span>
         <div class="hd"><span>Day</span><span>Running</span><span>Gates</span><span>Games</span><span>Endex</span><span></span></div>
         <div id="boardRows"></div>
       </div>
@@ -1987,7 +1994,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
       <p class="eyebrow">What people say</p>
       <h2 style="margin:10px 0 8px"><span data-w="airsoft">What players and groups say on Google</span><span data-w="adventure">What groups say on Google</span></h2>
       <p class="lede" style="margin-bottom:20px">Google reviews drop in here, exactly as they were written.</p>
-      <div class="grid" data-ph="1" data-ph-kind="copy"><span class="phtag">Where your Google reviews land</span>
+      <div class="grid" data-ph="1"><span class="phtag">Where your Google reviews land</span>
         <blockquote class="card pad" style="margin:0"><p class="eyebrow">Slot 1</p>
           <p style="margin-top:8px;color:var(--text-3)">The most recent Google review lands here, word for word, with the reviewer's name and their star rating as Google holds it.</p></blockquote>
         <blockquote class="card pad" style="margin:0"><p class="eyebrow">Slot 2</p>
@@ -2068,7 +2075,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
         <button data-f="Sunday" aria-pressed="false">Sundays</button>
         <button data-f="Saturday" aria-pressed="false">Saturdays</button>
       </div>
-      <div class="days" id="dayList" data-ph="1" data-ph-kind="unconfirmed"><span class="phtag">Days are yours, places left are sample</span></div>
+      <div class="days" id="dayList" data-ph="1"><span class="phtag">Days are yours, places left are sample</span></div>
       <p class="note"><b>&pound;</b><span>Every date is its own page and its own Event record in the structured data, with a price. That is what puts one of your Sundays into Google's event results and into an assistant's answer to "airsoft near Belfast this weekend". The start times are sample until you give us the clock.</span></p>
     </div>
   </div>
@@ -2117,7 +2124,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
               <input type="checkbox" id="bkMember">
               <span><b>I am a member.</b> Member prices apply to every player on this booking. <span class="tiny">Membership number is checked against your account, so no card at sign-in.</span></span>
             </label>
-            <div class="upsell" id="upsell" data-ph="1" data-ph-kind="unconfirmed"><span class="phtag">Proposed: membership sold in the basket</span>
+            <div class="upsell" id="upsell" data-ph="1"><span class="phtag">Proposed: membership sold in the basket</span>
               <h4 id="upTitle">Join today and this booking costs &pound;5 less</h4>
               <p class="small" style="margin-top:6px" id="upLine">&pound;25 for the year. Applied to this booking straight away.</p>
               <button class="btn primary sm" style="margin-top:10px" id="upBtn">Add membership, &pound;25</button>
@@ -2129,7 +2136,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
           <div class="card pad" data-step="2" hidden>
             <h3 style="margin-bottom:6px">Anything else before the day?</h3>
             <p class="small muted" style="margin-bottom:16px">Boot hire, pre-booked so the pair is set out at sign-in.</p>
-            <div class="grid" id="addonList" style="gap:8px" data-ph="1" data-ph-kind="unconfirmed"><span class="phtag">Proposed: your published boot hire, pre-booked</span></div>
+            <div class="grid" id="addonList" style="gap:8px" data-ph="1"><span class="phtag">Proposed: your published boot hire, pre-booked</span></div>
             <div class="field" id="shoeRow" hidden style="margin-top:12px;max-width:260px"><label for="shoeSize">Boot size</label>
               <select id="shoeSize"><option value="">Pick a size</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option></select></div>
             
@@ -2138,7 +2145,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
           <!-- step 3 -->
           <div class="card pad" data-step="3" hidden>
             <h3 style="margin-bottom:12px">Who is playing</h3>
-            <div id="playerList" data-ph="1" data-ph-kind="fabricated"><span class="phtag">Sample players</span></div>
+            <div id="playerList" data-ph="1"><span class="phtag">Sample players</span></div>
             <div class="row" style="gap:8px;margin:14px 0 18px">
               <button class="btn ghost sm" id="addMate">Invite another player</button>
               <button class="btn ghost sm" id="copyLink">Copy pay-your-own-share link</button>
@@ -2285,7 +2292,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
             </select></div>
           <div class="field"><label for="evSize">Group size: <span id="evSizeOut" class="mono">12</span> players</label>
             <input class="slider" type="range" id="evSize" min="4" max="40" value="12" data-base="4"></div>
-          <div class="field" data-ph="1" data-ph-kind="unconfirmed"><span class="phtag">Proposed: slots are sample</span><label for="evDate">Preferred date</label><input id="evDate" type="date">
+          <div class="field" data-ph="1"><span class="phtag">Proposed: slots are sample</span><label for="evDate">Preferred date</label><input id="evDate" type="date">
             <div class="choice choice4" style="margin-top:8px" id="evSess" role="group" aria-label="Session">
               <button data-sess="full" aria-pressed="true">Full day<small>Arrive 09:30</small></button>
               <button data-sess="morning" aria-pressed="false">Morning<small>Arrive 09:30</small></button>
@@ -2295,7 +2302,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
           <p class="tiny" id="evRule" style="margin-top:10px"></p>
         </div>
         <div>
-          <div class="enamel"><div class="pad" data-ph="1" data-ph-kind="unconfirmed"><span class="phtag">Places left are sample</span>
+          <div class="enamel"><div class="pad" data-ph="1"><span class="phtag">Places left are sample</span>
             <div class="kv"><span>Players</span><b id="qSize">12</b></div>
             <div class="kv"><span>Session</span><b id="qPack">&pound;480</b></div>
             <div class="kv" id="qDiscRow" hidden><span>Group discount</span><b id="qFood">&pound;0</b></div>
@@ -2562,24 +2569,24 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
   </div>
 </section>
 
-<section data-screen="account" data-world="airsoft" hidden>
+<section data-screen="account" data-world="airsoft" hidden data-ph-kind="fabricated">
   <div class="band tight">
     <div class="wrap">
       <div class="row" style="justify-content:space-between;align-items:flex-end;margin-bottom:18px">
-        <div><p class="eyebrow">Signed in, sample member</p><h2 style="margin-top:10px">Sample member</h2></div>
+        <div><p class="eyebrow" data-ph-kind="copy">Signed in, sample member</p><h2 style="margin-top:10px">Sample member</h2></div>
         <span class="pill red" hidden data-phase="2">Member &middot; twelve months from 1 March</span>
       </div>
-      <div class="split" data-ph="1" data-ph-kind="fabricated"><span class="phtag">Sample member data</span>
+      <div class="split" data-ph="1"><span class="phtag">Sample member data</span>
         <div class="stack" style="gap:14px">
           <div class="card pad">
             <div class="row" style="justify-content:space-between"><p class="eyebrow">Next booking</p><span class="pill ok">Paid</span></div>
             <h3 style="margin:8px 0 4px" id="acctNext"></h3>
-            <p class="small muted">1 walk-on, Sunday &middot; Ref PC-4K7Q</p>
+            <p class="small muted">1 walk-on, Sunday &middot; Ref NL-4K7Q</p>
             <div class="row" style="gap:8px;margin-top:14px">
               <button class="btn ghost sm" id="passBtn">Show entry pass</button>
               <button class="btn ghost sm" id="chgBtn">Change date</button>
             </div>
-            <div id="acctPass" hidden><div class="row" style="gap:20px;align-items:flex-start;margin-top:16px"><canvas id="acctQr" width="33" height="33" aria-label="Entry QR code"></canvas><div><p class="eyebrow">Entry pass</p><p class="mono" style="font-size:24px;font-weight:600">PC-4K7Q</p><p class="small muted" style="max-width:36ch;margin-top:6px">Show this at sign-in. It works with no signal.</p></div></div></div>
+            <div id="acctPass" hidden><div class="row" style="gap:20px;align-items:flex-start;margin-top:16px"><canvas id="acctQr" width="33" height="33" aria-label="Entry QR code"></canvas><div><p class="eyebrow">Entry pass</p><p class="mono" style="font-size:24px;font-weight:600">NL-4K7Q</p><p class="small muted" style="max-width:36ch;margin-top:6px">Show this at sign-in. It works with no signal.</p></div></div></div>
           </div>
           <div class="card pad">
             <p class="eyebrow">History</p>
@@ -2620,11 +2627,11 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
           <div>
             <p class="eyebrow red">Your desk. Not a public page.</p>
             <h2 style="margin-top:8px">Predator Combat</h2>
-            <p class="small muted" style="margin-top:8px;max-width:64ch">This is what you see on a Sunday morning and on a Tuesday night once the site takes the money. Every number on it is sample: it shows the shape of the thing, not your real figures.</p>
+            <p class="small muted" style="margin-top:8px;max-width:64ch" data-ph-kind="copy">This is what you see on a Sunday morning and on a Tuesday night once the site takes the money. Every number on it is sample: it shows the shape of the thing, not your real figures.</p>
           </div>
         </div>
         <div class="row" style="gap:8px;align-self:flex-start">
-          <span class="pill ph">Sample data throughout</span>
+          <span class="pill ph" data-ph-kind="copy">Sample data throughout</span>
         </div>
       </header>
       <p class="note"><b>Why</b><span>The public site is half the proposal. The other half is this: the manifest before you open the doors, the hire rifles counted the night before, the group deposits held, the membership renewals sent in one go, and the money landing in your bank without anyone taking a card at the desk.</span></p>
@@ -2641,7 +2648,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
         <div class="bk-panels">
 
           <!-- 1. TODAY -->
-          <div class="bk-panel" data-panel="today" data-ph="1" data-ph-kind="copy"><span class="phtag">Sample data</span>
+          <div class="bk-panel" data-panel="today" data-ph="1"><span class="phtag">Sample data</span>
             <div class="bk-head">
               <div>
                 <p class="eyebrow">Manifest</p>
@@ -2730,7 +2737,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
           </div>
 
           <!-- 2. BOOKINGS -->
-          <div class="bk-panel" data-panel="bookings" hidden data-ph="1" data-ph-kind="copy"><span class="phtag">Sample data</span>
+          <div class="bk-panel" data-panel="bookings" hidden data-ph="1"><span class="phtag">Sample data</span>
             <div class="bk-head">
               <div>
                 <p class="eyebrow">Bookings</p>
@@ -2750,7 +2757,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
           </div>
 
           <!-- 3. MEMBERS -->
-          <div class="bk-panel" data-panel="members" hidden data-ph="1" data-ph-kind="copy"><span class="phtag">Sample data</span>
+          <div class="bk-panel" data-panel="members" hidden data-ph="1"><span class="phtag">Sample data</span>
             <div class="bk-head">
               <div>
                 <p class="eyebrow">Members</p>
@@ -2800,7 +2807,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
           </div>
 
           <!-- 4. MONEY -->
-          <div class="bk-panel" data-panel="money" hidden data-ph="1" data-ph-kind="copy"><span class="phtag">Sample data</span>
+          <div class="bk-panel" data-panel="money" hidden data-ph="1"><span class="phtag">Sample data</span>
             <div class="bk-head">
               <div>
                 <p class="eyebrow">Money</p>
@@ -2833,7 +2840,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
           </div>
 
           <!-- 5. SETTINGS -->
-          <div class="bk-panel" data-panel="settings" hidden data-ph="1" data-ph-kind="unconfirmed"><span class="phtag">Sample data, prefilled with your published fares</span>
+          <div class="bk-panel" data-panel="settings" hidden data-ph="1"><span class="phtag">Sample data, prefilled with your published fares</span>
             <div class="bk-head">
               <div>
                 <p class="eyebrow">Settings</p>
@@ -2946,8 +2953,8 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
       </div>
     </div>
     <div class="legal">
-      <span>Design proposal by ThinkWork, for discussion with you. Your prices, ages, running order, activities, team building and Phoenix wording, address, numbers, emails and colours are your own, taken from predator-combat.com and activate-outdoor-adventure.com on 2 October 2026 and from our calls of 13 and 16 October. Every photograph is yours and says which page it came from. Anything in amber is sample content waiting for your figures. Not the live site, and no live payments.</span>
-      <span class="mono">thinkwork.info &middot; built 5 Nov 2026 11:39 UK</span>
+      <span data-ph-kind="copy">Design proposal by ThinkWork, for discussion with you. Your prices, ages, running order, activities, team building and Phoenix wording, address, numbers, emails and colours are your own, taken from predator-combat.com and activate-outdoor-adventure.com on 2 October 2026 and from our calls of 13 and 16 October. Every photograph is yours and says which page it came from. Anything in amber is sample content waiting for your figures. Not the live site, and no live payments.</span>
+      <span class="mono">thinkwork.info &middot; built 5 Nov 2026 16:16 UK</span>
     </div>
   </div>
 </footer>
@@ -3387,6 +3394,8 @@ document.addEventListener("click",e=>{const b=e.target.closest(".btn");if(!b||re
 /* ---------- routing ---------- */
 let lastSite="home";
 function go(name){
+  /* a live build hides the proposal's screens (the desk, the proposal view, a fabricated account) and marks them data-live-hidden: no button and no ?screen= opens one (19h) */
+  {const sec=document.querySelector('section[data-screen="'+name+'"]');if(sec&&sec.hasAttribute("data-live-hidden"))return;}
   $$("section[data-screen]").forEach(s=>s.hidden=(s.dataset.screen!==name));
   $$("nav.main button").forEach(b=>b.classList.toggle("on",b.dataset.go===name));
   const prop=name==="prop", back=name==="back";
@@ -3852,11 +3861,11 @@ function paintShoe(){const w=$("#shoeRow");if(!w)return;const on=ADDONS.some(a=>
 function renderPlayers(){const host=$("#playerList");if(!host)return;
   const n=Math.max(1,players()), extra=state.invited||0;
   const row=(name,note,pill,ok)=>'<div class="kv"><span><b>'+name+'</b> &middot; '+note+'</span><span class="pill'+(ok?" ok":"")+'">'+pill+'</span></div>';
-  let out='<span class="phtag">Sample players</span>'+row("You","paying now","Declaration signed",true);
+  let out=(BLOCK_OFF?'':'<span class="phtag">Sample players</span>')+row("You","paying now","Declaration signed",true);   /* no amber label on a live page (19h) */
   for(let i=2;i<=n;i++)out+=row("Player "+i,i<=1+extra?"invited by link":"on this booking","Covered by your declaration",true);
   host.innerHTML=out;}
 function renderAddons(){
-  $("#addonList").innerHTML='<span class="phtag">Proposed pre-orders · sample prices</span>'+ADDONS.map(a=>{const on=state.add[a.id];
+  $("#addonList").innerHTML=(BLOCK_OFF?'':'<span class="phtag">Proposed pre-orders · sample prices</span>')+ADDONS.map(a=>{const on=state.add[a.id];
     return '<label class="addon'+(on?" sel":"")+'" data-a="'+a.id+'"><input type="checkbox"'+(on?" checked":"")+'><span><b>'+a.n+'</b><br><span class="small muted">'+a.s+'</span></span><span class="p">+'+gbp(a.p)+(a.per?' each':'')+'</span></label>';}).join("");
 }
 /* ---- the rental kit is a real inventory ----
@@ -4157,7 +4166,8 @@ const PRODS=CONFIG.sample.products;
 let basket=0;
 /* a build with no pre-order screen (the first tenant, phase one) has no grid to fill: a missing node must not throw,
    because everything after this line stops if it does */
-if($("#prodGrid"))$("#prodGrid").innerHTML='<span class="phtag">Proposed pre-order · sample prices</span>'+PRODS.map((p,i)=>'<article class="card pad"><p class="eyebrow">'+p[2]+'</p><h4 style="margin-top:6px;font-family:var(--display);font-size:22px;text-transform:uppercase">'+p[0]+'</h4><p class="mono" style="font-size:20px;margin-top:8px;font-weight:600">'+gbp2(p[1])+'</p><button class="btn ghost sm wide" style="margin-top:12px" data-add="'+i+'">Add to '+SCHED.regular.dayName+'</button></article>').join("");
+const LIVE_PAGE=(CONFIG.sample||{}).live===true||CONFIG.mode==="live";   /* no amber label on a live page (19h) */
+if($("#prodGrid"))$("#prodGrid").innerHTML=(LIVE_PAGE?'':'<span class="phtag">Proposed pre-order · sample prices</span>')+PRODS.map((p,i)=>'<article class="card pad"><p class="eyebrow">'+p[2]+'</p><h4 style="margin-top:6px;font-family:var(--display);font-size:22px;text-transform:uppercase">'+p[0]+'</h4><p class="mono" style="font-size:20px;margin-top:8px;font-weight:600">'+gbp2(p[1])+'</p><button class="btn ghost sm wide" style="margin-top:12px" data-add="'+i+'">Add to '+SCHED.regular.dayName+'</button></article>').join("");
 document.addEventListener("click",e=>{const b=e.target.closest("[data-add]");if(!b)return;basket++;if($("#basketPill"))$("#basketPill").textContent="Basket: "+basket+" item"+(basket===1?"":"s");b.textContent="Added, collect "+fmtShort(DATES[FIRST_SUN].dt);b.classList.add("primary");});
 document.addEventListener("click",e=>{const v=e.target.closest("[data-v]");if(!v)return;$$("[data-v]").forEach(x=>{x.classList.remove("primary");x.classList.add("ghost");});v.classList.add("primary");v.classList.remove("ghost");});
 document.addEventListener("click",e=>{const j=e.target.closest("[data-join]");if(!j)return;if(j.dataset.join==="Membership"){state.joined=true;state.member=false;}else{if(BLOCK_OFF)return;state.block=true;state.joined=true;state.member=false;}draw();go("book");toast(j.dataset.join+" added to your booking. Pick a day, then pay once at step 4.");});

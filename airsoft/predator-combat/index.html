@@ -1620,9 +1620,9 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
             <button class="btn ghost" data-go="team" data-w="adventure">Team building</button>
           </div>
           <ul class="essentials" aria-label="The essentials" data-w="airsoft">
-            <li><b>Walk-on <em>&pound;25</em></b><span>Full day, your own kit</span></li>
-            <li><b>Rental <em>&pound;45</em></b><span>Full day, rifle, mask and 3,000 BBs</span></li>
-            <li><b>Nerf Wars <em>&pound;15</em></b><span>Per player, ages 7 and over</span></li>
+            <li><b>Walk-on <em data-price="walkon-day">&pound;25</em></b><span>Full day, your own kit</span></li>
+            <li><b>Rental <em data-price="rental-day">&pound;45</em></b><span>Full day, rifle, mask and 3,000 BBs</span></li>
+            <li><b>Nerf Wars <em data-price="nerf">&pound;15</em></b><span>Per player, ages 7 and over</span></li>
           </ul>
           <ul class="essentials" aria-label="What we do" data-w="adventure">
             <li><b>Climb <em>&amp; abseil</em></b><span>Rock climbing, abseiling, archery</span></li>
@@ -1656,7 +1656,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
       </div>
       <div class="slabs">
         <div class="slab">
-          <div class="top"><p class="eyebrow">Airsoft</p><h3 style="margin-top:6px">Game day</h3><p class="price"><span data-fare="hire.full"><span class="flap">&pound;45</span></span><small>rental package, full day</small><span class="alt">Walk-on <span data-fare="walkon.full"><span class="flap">&pound;25</span></span>; morning, afternoon or evening too</span></p></div>
+          <div class="top"><p class="eyebrow">Airsoft</p><h3 style="margin-top:6px">Game day</h3><p class="price"><span data-fare="hire.full" data-price="rental-day"><span class="flap">&pound;45</span></span><small>rental package, full day</small><span class="alt">Walk-on <span data-fare="walkon.full" data-price="walkon-day"><span class="flap">&pound;25</span></span>; morning, afternoon or evening too</span></p></div>
           <ul>
             <li>Gates 09:00, brief 10:15, games 10:30 to 16:30</li><li>Electric 1:1 replica rifle</li><li>3,000 rounds</li><li>Full face protection for every rental player</li><li>Boot hire &pound;15 if you need it</li><li>Lunch break at the base</li>
           </ul>
@@ -1806,10 +1806,10 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
                 <tbody>
                   <tr><th scope="row">Walk-on<small>Your own kit</small></th>
                     <td class="p" data-fare="walkon.half"><span class="flap">&pound;25</span><s></s></td>
-                    <td class="p" data-fare="walkon.full"><span class="flap">&pound;25</span><s></s></td></tr>
+                    <td class="p" data-fare="walkon.full" data-price="walkon-day"><span class="flap">&pound;25</span><s></s></td></tr>
                   <tr><th scope="row">Rental package<small>Rifle, 3,000 rounds, full face</small></th>
-                    <td class="p" data-fare="hire.half"><span class="flap">&pound;35</span><s></s></td>
-                    <td class="p" data-fare="hire.full"><span class="flap">&pound;45</span><s></s></td></tr>
+                    <td class="p" data-fare="hire.half" data-price="rental-half"><span class="flap">&pound;35</span><s></s></td>
+                    <td class="p" data-fare="hire.full" data-price="rental-day"><span class="flap">&pound;45</span><s></s></td></tr>
                 </tbody>
               </table>
             </div>
@@ -1818,7 +1818,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
             <button id="levNon" aria-pressed="true">Not a member<small>Published price</small></button>
             <button id="levMem" aria-pressed="false">Member<small>&pound;40 a year</small></button>
           </div></div>
-          <p id="fareNote" class="tiny" style="margin-top:10px">Prices as published on our booking page. A half day is a morning or an afternoon. An evening is <span data-fare="walkon.evening"><span class="flap">&pound;25</span></span> walk-on or <span data-fare="hire.evening"><span class="flap">&pound;35</span></span> rental; boot hire is &pound;15.</p>
+          <p id="fareNote" class="tiny" style="margin-top:10px">Prices as published on our booking page. A half day is a morning or an afternoon. An evening is <span data-fare="walkon.evening" data-price="evening"><span class="flap">&pound;25</span></span> walk-on or <span data-fare="hire.evening" data-price="rental-evening"><span class="flap">&pound;35</span></span> rental; boot hire is &pound;15.</p>
           <p class="note"><b>Why</b><span>Every price here is off your booking page, and every one of them is printed from the same place, so a price you change in the console changes on this page too and the two can never drift apart. The half day comes first because you told us it is the popular one. No member column: phase one keeps your prices exactly as they are.</span></p>
         </div>
         <div>
@@ -2013,7 +2013,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
       <h2 style="margin:10px 0 20px">Questions people type<br>into a search box</h2>
       <div class="faq" id="faq" data-w="airsoft">
         <details open><summary>How much is a game day at Predator Combat?</summary>
-          <div class="ans">A walk-on with your own kit is <span data-fare="walkon.full"><span class="flap">&pound;25</span></span>, the same for a full day, a morning or an afternoon, and <span data-fare="walkon.evening"><span class="flap">&pound;25</span></span> for an evening. A rental package is <span data-fare="hire.full"><span class="flap">&pound;45</span></span> for the full day, <span data-fare="hire.half"><span class="flap">&pound;35</span></span> for a morning or an afternoon and <span data-fare="hire.evening"><span class="flap">&pound;35</span></span> for an evening: Electric Gun 1:1 replica rifle, 3000rds Ammunition each, with full face protection for each rental player. Boot hire is &pound;15 and we will ask for your size.</div></details>
+          <div class="ans">A walk-on with your own kit is <span data-fare="walkon.full" data-price="walkon-day"><span class="flap">&pound;25</span></span>, the same for a full day, a morning or an afternoon, and <span data-fare="walkon.evening" data-price="evening"><span class="flap">&pound;25</span></span> for an evening. A rental package is <span data-fare="hire.full" data-price="rental-day"><span class="flap">&pound;45</span></span> for the full day, <span data-fare="hire.half" data-price="rental-half"><span class="flap">&pound;35</span></span> for a morning or an afternoon and <span data-fare="hire.evening" data-price="rental-evening"><span class="flap">&pound;35</span></span> for an evening: Electric Gun 1:1 replica rifle, 3000rds Ammunition each, with full face protection for each rental player. Boot hire is &pound;15 and we will ask for your size.</div></details>
         <details><summary>How much is Nerf Wars?</summary>
           <div class="ans">&pound;15 per participating player, from age 7, in sessions of ninety minutes. Ten players minimum and no real maximum. Nerf runs in its own part of the site, so it can run while an airsoft game day is on.</div></details>
         <details><summary>What days do you run?</summary>
@@ -2112,12 +2112,12 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
             <p class="tiny warn" id="bkWarn" hidden style="margin:-6px 0 14px"></p>
             <div class="ticket">
               <div><h4 id="tkWalkH">Walk-on</h4><p id="tkWalkP">Your own kit, nothing hired.</p></div>
-              <div class="row" style="gap:14px"><span class="pr" data-pr="walkon">&pound;25</span>
+              <div class="row" style="gap:14px"><span class="pr" data-pr="walkon" data-price="walkon-day">&pound;25</span>
                 <div class="stepper" data-t="walkon"><button data-d="-1" aria-label="fewer">&minus;</button><output>1</output><button data-d="1" aria-label="more">+</button></div></div>
             </div>
             <div class="ticket" id="hireRow">
               <div><h4>Rental package</h4><p>Electric 1:1 replica rifle, 3,000 rounds, full face protection.</p></div>
-              <div class="row" style="gap:14px"><span class="pr" data-pr="hire">&pound;45</span>
+              <div class="row" style="gap:14px"><span class="pr" data-pr="hire" data-price="rental-day">&pound;45</span>
                 <div class="stepper" data-t="hire"><button data-d="-1" aria-label="fewer">&minus;</button><output>0</output><button data-d="1" aria-label="more">+</button></div></div>
             </div>
             <div hidden data-phase="2"><label class="check" id="memberRow" style="margin-top:12px;border-top:1px solid var(--line);padding-top:14px">
@@ -2954,7 +2954,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
     </div>
     <div class="legal">
       <span data-ph-kind="copy">Design proposal by ThinkWork, for discussion with you. Your prices, ages, running order, activities, team building and Phoenix wording, address, numbers, emails and colours are your own, taken from predator-combat.com and activate-outdoor-adventure.com on 2 October 2026 and from our calls of 13 and 16 October. Every photograph is yours and says which page it came from. Anything in amber is sample content waiting for your figures. Not the live site, and no live payments.</span>
-      <span class="mono">thinkwork.info &middot; built 5 Nov 2026 16:16 UK</span>
+      <span class="mono">thinkwork.info &middot; built 5 Nov 2026 17:30 UK</span>
     </div>
   </div>
 </footer>
@@ -3212,22 +3212,42 @@ function storeApplyPrices(){if(typeof CONFIG==="undefined"||!CONFIG.fares)return
     if(typeof P["team"]==="number"&&P["team"]>0)AD.teamPrice=P["team"];
   }}
 storeApplyPrices();
+/* The website's prices come from the platform (booking-platform CONTRACT.md milestone 18i): a price is typed once, in
+   the console, and every surface reads it. On a live site every element marked data-price="<offering key>" takes the
+   feed's figure for that key, and data-price-from="<world>" the lowest published price in that world, written the way
+   the mark already reads it (a pound sign kept, a bare numeral kept bare, pence shown only when there are any). A mark
+   whose key the feed does not know keeps its built text and is reported, once a load, so the console's Website card can
+   say so. A node the feed writes is stamped data-price-fed, and the page's own repaint below leaves those alone; a mark
+   the feed did not reach (no platform, or one that is down) is still repainted the old way, from the console's saved
+   prices, so nothing is ever left with no writer, and the built text stands only where nobody has a newer figure. */
+function storeFillPrices(){if(!STORE_SERVER||!STORE_SERVER.S||!STORE_SERVER.S.priceFeed)return;const F=STORE_SERVER.S.priceFeed,unknown=[];
+  const fmt=(el,v)=>{const box=el.querySelector(".flap")||el,had=(box.textContent||"").trim(),bare=!/£/.test(had),n=Number(v);if(!isFinite(n))return;
+    const txt=(n%1?n.toFixed(2):Math.round(n).toLocaleString("en-GB"));box.textContent=bare?txt:"£"+txt;el.setAttribute("data-price-fed","1");};
+  document.querySelectorAll("[data-price]").forEach(el=>{const k=el.getAttribute("data-price"),x=F.byKey&&F.byKey[k];if(x&&typeof x.pounds==="number")fmt(el,x.pounds);else if(unknown.indexOf(k)<0)unknown.push(k);});
+  document.querySelectorAll("[data-price-from]").forEach(el=>{const w=el.getAttribute("data-price-from"),v=F.from&&F.from[w];if(typeof v==="number")fmt(el,v);else if(unknown.indexOf("from:"+w)<0)unknown.push("from:"+w);});
+  if(unknown.length)try{fetch(STORE_SERVER.base+"/store/site/"+encodeURIComponent((typeof CONFIG!=="undefined"&&CONFIG.platform&&CONFIG.platform.api)?CONFIG.slug:storeSlug())+"/prices-seen",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({unknown,page:location.pathname})}).catch(()=>{});}catch(e){}
+  return unknown;}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",storeFillPrices);else storeFillPrices();
 /* the figures printed into the page at build time are repainted once every part has loaded, so a price saved in the
    console shows on the fare board, in the hero and in the checkout within the same walkthrough */
 setTimeout(function(){try{
   const P=(storeRead().prices)||{};if(!Object.keys(P).length)return;
   if(typeof setMember==="function")setMember(false);
   const F=CONFIG.fares||{},money=n=>"£"+Math.round(n).toLocaleString("en-GB");
-  const put=(sel,v)=>{const el=document.querySelector(sel);if(el&&typeof v==="number")el.textContent=money(v);};
+  /* a node the platform's feed has WRITTEN (storeFillPrices stamps it data-price-fed) is the feed's: these leave it
+     alone. A mark the feed did not reach (a prototype with no platform, a platform that is down) is still theirs to
+     write, so a console price reaches the fare board as it always did (the Predator session's gate, 5 Nov). */
+  const marked=el=>!!(el&&el.closest&&el.closest("[data-price-fed]"));
+  const put=(sel,v)=>{const el=document.querySelector(sel);if(el&&!marked(el)&&typeof v==="number")el.textContent=money(v);};
   put('.hero .essentials li:nth-child(1) b em',F.walkon&&F.walkon.full&&F.walkon.full.n);
   put('.hero .essentials li:nth-child(2) b em',F.hire&&F.hire.full&&F.hire.full.n);
-  document.querySelectorAll('[data-fare]').forEach(td=>{const k=td.dataset.fare.split("."),v=F[k[0]]&&F[k[0]][k[1]]&&F[k[0]][k[1]].n;
+  document.querySelectorAll('[data-fare]').forEach(td=>{if(marked(td))return;const k=td.dataset.fare.split("."),v=F[k[0]]&&F[k[0]][k[1]]&&F[k[0]][k[1]].n;
     const flap=td.querySelector(".flap");if(flap&&typeof v==="number")flap.textContent=money(v);});
   /* the second brand's printed figures, by name rather than by position, so a price saved in the console shows on the
      cards and in the footer within the same walkthrough. Bare numerals: the pound sign is already in the markup. */
   const AD=CONFIG.adventure||{}, AP=AD.prices||{},
         adv={half:AP.half,full:AP.full,team:AD.teamPrice};
-  document.querySelectorAll('[data-adv]').forEach(el=>{const v=adv[el.dataset.adv];
+  document.querySelectorAll('[data-adv]').forEach(el=>{if(marked(el))return;const v=adv[el.dataset.adv];
     if(typeof v==="number"&&v>0)el.textContent=Math.round(v).toLocaleString("en-GB");});
 }catch(e){ /* a page without a fare board */ }},0);
 /* ---- part: toolbar.js ----

@@ -76,7 +76,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer;background:none;border:0;padding:0}
 :where(a,button,input,select,summary,[tabindex]):focus-visible{outline:2px solid var(--red-ink);outline-offset:3px;border-radius:2px}
 .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
-.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-3);font-weight:500}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:var(--label-tracking,.18em);text-transform:uppercase;color:var(--text-3);font-weight:var(--label-weight,500)}
 .eyebrow.red{color:var(--red-ink)}
 .lede{font-size:clamp(17px,1.4cqi,21px);color:var(--text-2);max-width:58ch}
 .tnum{font-variant-numeric:tabular-nums}
@@ -100,13 +100,13 @@ hr.rule{border:0;border-top:1px solid var(--line);margin:0}
    Reads no CONFIG. Behaviour is toolbar.js. */
 /* ---------- prototype toolbar (not part of the site) ---------- */
 #bar{position:sticky;top:0;z-index:60;background:#111;color:#ddd;border-bottom:1px solid #333;
-  padding:8px 16px;padding-top:calc(8px + env(safe-area-inset-top,0px));display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  padding:8px 16px;padding-top:calc(8px + env(safe-area-inset-top,0px));display:flex;gap:10px;align-items:center;flex-wrap:wrap;min-height:51px}
 #bar .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#9a9a9a}
 #bar .tag b{color:#fff;font-weight:600}
 .seg{display:flex;border:1px solid #444;border-radius:3px;overflow:hidden;background:#1c1c1c}
-.seg button{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;min-height:32px;color:#cfcfcf;border-right:1px solid #444}
-.seg button:last-child{border-right:0}
-.seg button[aria-pressed="true"]{background:#f2ece3;color:#111}
+.seg button,.seg a{text-decoration:none;display:inline-flex;align-items:center;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;min-height:32px;color:#cfcfcf;border-right:1px solid #444}
+.seg button:last-child,.seg a:last-child{border-right:0}
+.seg button[aria-pressed="true"],.seg a[aria-pressed="true"]{background:#f2ece3;color:#111}
 #bar .spacer{flex:1 1 auto;min-width:0}
 #phLegend{background:#3A2A12;color:#F6E7D2;border-bottom:1px solid #F0B15A;padding:8px 16px;font-size:13.5px;line-height:1.45}
 #phLegend p{margin:0}
@@ -194,7 +194,7 @@ body.ph-on .ph{border-bottom:1.5px dashed var(--ph);padding-bottom:1px}
    responsive block, because it depends on how many nav items the layout has.
    Tokens read: --logo (the layout points it at CONFIG.assets.logo). No CONFIG. */
 /* ---------- site header ---------- */
-#head{position:sticky;top:0;z-index:40;border-bottom:3px solid var(--red)}
+#head{position:sticky;top:var(--bar-h,0px);z-index:40;border-bottom:3px solid var(--red)}
 #app.mobile #head{position:static}
 .headrow{display:flex;align-items:center;gap:18px;padding-block:10px;min-height:68px}
 .mark{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
@@ -227,12 +227,12 @@ nav.main button.on{color:var(--text);box-shadow:inset 0 -3px 0 var(--red-hi)}
    holds an icon, because inline-flex gap turns a bare text node plus a span into
    two spaced items. Reads no CONFIG. The hit-marker is hitmarker.css/.js. */
 /* ---------- buttons ---------- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--ui);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:14.5px;
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--ui);font-weight:700;text-transform:uppercase;letter-spacing:var(--btn-tracking,.06em);font-size:14.5px;
   padding:13px 20px;min-height:46px;border-radius:2px;border:2px solid transparent;white-space:nowrap;transition:transform .08s ease,background .15s}
 .btn:active{transform:translateY(1px)}
-.btn.primary{background:var(--red);color:var(--on-red);border-color:var(--red)}
+.btn.primary{background:var(--btn-primary-bg,var(--red));color:var(--btn-primary-fg,var(--on-red));border-color:var(--btn-primary-border,var(--red))}
 .btn.primary:hover{background:var(--red-2);border-color:var(--red-2)}
-.btn.ghost{border-color:var(--line-strong);color:var(--text)}
+.btn.ghost{border-color:var(--btn-ghost-border,var(--line-strong));color:var(--text)}
 .btn.ghost:hover{background:var(--surface-2)}
 .btn.quiet{color:var(--text-2);padding-inline:8px}
 .btn.quiet:hover{color:var(--text)}
@@ -379,6 +379,11 @@ html.splat-done .hero .splat{animation:none}
 .hero .stage svg.bolt path.glow{stroke:#CFE0FF;stroke-width:12;opacity:.45;filter:blur(3px)}
 .hero .stage .flash{position:absolute;inset:0;background:#EAF2FF;opacity:0;pointer-events:none}
 .hero.strike .stage img.slide{filter:saturate(.7) contrast(1.18) brightness(1.5)}
+/* the film (TEMPLATES.md 19f): a short clip over the slides and under the scrim, faded in once it plays; the slides
+   stand in until then, and when there is no film at all. hero-motion.js picks the portrait cut on a tall viewport. */
+.hero .stage video.film{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 40%);opacity:0;transition:opacity 1.2s linear;z-index:1}
+.hero .stage video.film.on{opacity:1}
+.hero .stage::after{z-index:2}
 /* the scrim: the type column is flat ground, the picture lives top right, the lower half fades to the page */
 .hero .stage::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(90deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 94%,transparent) 20%,color-mix(in srgb,var(--bg) 80%,transparent) 36%,color-mix(in srgb,var(--bg) 46%,transparent) 52%,color-mix(in srgb,var(--bg) 18%,transparent) 68%,color-mix(in srgb,var(--bg) 4%,transparent) 100%),
@@ -389,6 +394,7 @@ html.splat-done .hero .splat{animation:none}
   @keyframes stage-drift{from{transform:translateY(0)}to{transform:translateY(14%)}}
 }}
 @media (prefers-reduced-motion:reduce){
+  .hero .stage video.film{display:none}
   .hero .stage img.slide{animation:none;opacity:0}
   .hero .stage img.slide:first-of-type{opacity:1}
   .hero .stage canvas.rain,.hero .stage svg.bolt,.hero .stage .flash{display:none}
@@ -1420,6 +1426,34 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
 .mapframe .mapstage{position:relative;border:1px solid var(--line-strong);border-radius:3px;overflow:hidden}
 .livestrip{background:var(--sunk)}
 </style>
+<style>
+/* ---- part: proposal.css ----
+   The proposal screen's own styles (TEMPLATES.md 19d). It inherits the template's type and page colours and draws
+   its own cards with borders alone, so it reads on a dark or a light template; amber (the placeholder colour) marks
+   the money. No template variable is required: every one has a fallback. */
+.prop{padding:0 0 64px}
+.prop-wrap{max-width:1100px;margin:0 auto;padding:40px 16px 0}
+.prop-eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.75;margin:0 0 10px}
+.prop-h{font-size:clamp(26px,3.6vw,40px);line-height:1.1;margin:0 0 14px}
+.prop-h3{font-size:clamp(18px,2.2vw,22px);margin:34px 0 10px}
+.prop-lede{font-size:17px;line-height:1.55;max-width:70ch;margin:0 0 26px}
+.prop-p{font-size:15.5px;line-height:1.6;max-width:72ch;margin:0}
+.prop-p a{color:inherit;text-decoration:underline}
+.prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.prop-card{border:1px solid var(--line, rgba(128,128,128,.4));border-radius:6px;padding:18px 18px 16px;background:var(--surface, transparent)}
+.prop-money{border-left:5px solid var(--ph, #F0B15A)}
+.prop-k{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.8;margin:0 0 6px}
+.prop-big{font-size:clamp(30px,4vw,44px);line-height:1;margin:0 0 10px;font-weight:700}
+.prop-mid{font-size:clamp(22px,3vw,30px);line-height:1;margin:0 0 8px;font-weight:700}
+.prop-big small,.prop-mid small{font-size:.42em;font-weight:400;opacity:.8}
+.prop-s{font-size:14px;line-height:1.5;margin:0;opacity:.9}
+.prop-tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.prop-tier{border:1px solid var(--line, rgba(128,128,128,.4));border-radius:6px;padding:16px}
+.prop-steps{margin:0;padding-left:22px;font-size:15.5px;line-height:1.6;max-width:72ch}
+.prop-steps li{margin:0 0 6px}
+.prop-foot{margin-top:26px;opacity:.7}
+@media (max-width:640px){.prop-wrap{padding-top:28px}.prop-lede{font-size:16px}}
+</style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Teko:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Teko:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap"></noscript>
 <style id="site-tokens">:root{--display:"Teko", "Barlow Condensed", Impact, sans-serif;--ui:"Barlow", "Arial Narrow", ui-sans-serif, system-ui, sans-serif;--mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;--bg:#12170A;--surface:#1A2110;--surface-2:#232C16;--sunk:#0B0E05;--line:#2E381A;--line-soft:#232C16;--line-strong:#4F5E2A;--text:#F3F1E8;--text-2:#CFCDBF;--text-3:#A3A594;--red:#FF5A1F;--red-2:#FF7A45;--red-hi:#FF7A45;--red-ink:#FF7A45;--red-ghost:#2E1408;--on-red:#141206;--yel:#FF5A1F;--yel-hi:#FF7A45;--on-yel:#141206;--yel-2:#D9481A;--crim:#F2C14D;--crim-hi:#FFD56A;--on-crim:#141206;--ph:#F0B15A;--ph-ghost:#3A2A12;--on-ph:#141312;--go:#7FD39A;--go-ghost:#173022;--hazard:repeating-linear-gradient(135deg,#FF5A1F 0 14px,#0B0E05 14px 28px);--tex-1:repeating-linear-gradient(135deg,rgba(255,90,31,.9) 0 14px,transparent 14px 28px);--tex-2:repeating-linear-gradient(45deg,rgba(255,90,31,.7) 0 10px,transparent 10px 20px);--tex-3:repeating-linear-gradient(135deg,rgba(255,90,31,.5) 0 22px,transparent 22px 44px);--plate-bg:#0B0E05;--plate-surface:#1A2110;--plate-surface-2:#232C16;--plate-sunk:#070904;--plate-line:#2E381A;--plate-line-soft:#232C16;--plate-line-strong:#4F5E2A;--plate-text:#F3F1E8;--plate-text-2:#CFCDBF;--plate-text-3:#A3A594;--door-k:#FFB36B}</style>
@@ -1430,7 +1464,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
 <!-- ============ PROTOTYPE TOOLBAR (not part of the site) ============ -->
 <!-- part: toolbar.html
      The prototype toolbar: what the proposal is shown in, not part of the site.
-     The view switch (Site / Back end / Proposal), the device toggle, and the
+     The view switch (Site / Console / Proposal; Console is the platform's login, one console for every site), the device toggle, and the
      Placeholders, Brand, Notes and Live switches. The @@TOOLBAR-LIVE marker is
      where a parallel builder splices its own toolbar buttons.
      Styled by toolbar.css, driven by toolbar.js (and live.js for Live).
@@ -1442,7 +1476,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
   <span class="tag" style="color:#fff">View</span>
   <div class="seg" role="group" aria-label="View">
     <button id="viewSite" aria-pressed="true">Site</button>
-    <button id="viewBack" aria-pressed="false">Back end</button>
+    <a id="viewBack" href="https://aoc.peerlab.ai/auth/login" target="_blank" rel="noopener" aria-pressed="false">Console</a>
     <button id="viewProp" aria-pressed="false">Proposal</button>
   </div>
   <div class="seg" role="group" aria-label="Device">
@@ -1470,10 +1504,16 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
      identity on it. Nothing is uploaded. Behaviour is brand.js.
      Token: the design accent, the brand colour the Reset goes back to. -->
 <div id="brandPanel" hidden>
-  <span class="mono" style="font-size:11px;color:var(--text-3)">Drop in the real identity. Preview only, nothing is uploaded.</span>
+  <span class="mono" style="font-size:11px;color:var(--text-3)">Drop in the real identity: colours, logo, shapes, picture grade. Preview only, nothing is uploaded.</span>
   <label for="logoFile">Logo <input type="file" id="logoFile" accept="image/*"></label>
   <label for="accentPick">Brand colour <input type="color" id="accentPick" value="#FF5A1F"></label>
+  <label for="paperPick">Ground <input type="color" id="paperPick"></label>
+  <label for="inkPick">Ink <input type="color" id="inkPick"></label>
+  <label for="btnShape">Buttons <select id="btnShape"><option value="">as built</option><option value="pill">pill</option><option value="rounded">rounded</option><option value="square">square</option></select></label>
+  <label for="cardShape">Cards <select id="cardShape"><option value="">as built</option><option value="filled">filled</option><option value="outlined">outlined</option><option value="hairline">hairline</option></select></label>
+  <label for="imgGrade">Pictures <select id="imgGrade"><option value="">as built</option><option value="colour">colour</option><option value="mono">mono</option></select></label>
   <button class="btn ghost sm" id="brandReset">Reset</button>
+  <span id="brandNote" class="mono" style="font-size:11px;color:var(--text-3);flex-basis:100%"></span>
 </div>
 
 <div id="app">
@@ -1584,12 +1624,12 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
           </ul>
           <p class="note"><b>Why</b><span>Your two brands as two worlds on one site. The page opens in the world the address asks for, so predator-combat.com can point at the dark side and activate-outdoor-adventure.com at the bright one. Press the Outdoor adventure door and the page turns to daylight: Activate's roundel takes the header, its red and gold take the buttons, rounded family type replaces the military capitals, a scalloped gold edge replaces the hazard tape, the activities take the menu, the doors become Climb, Paddle and a door back to Predator, and the stage behind the type becomes your ridge, your climber and your kayaks with no rain. Press that third door and it is Predator's woods again: your badge as the watermark, the hi-vis orange of your marshal vests, the storm over your own field. Every picture is your own and says where it came from.</span></p>
         </div>
-        <div class="games" role="group" aria-label="Choose your game" data-ph="1" data-w="airsoft"><span class="phtag">Your own photographs</span>
+        <div class="games" role="group" aria-label="Choose your game" data-ph="1" data-ph-kind="photo" data-w="airsoft"><span class="phtag">Your own photographs</span>
           <button class="gpanel" data-game="airsoft" aria-pressed="false"><img src="assets/door-airsoft.jpg" width="1600" height="1067" alt="Three players at the timber structure, from our gallery" loading="lazy" decoding="async"><span class="gl"><b>Airsoft</b><span>Walk-on &pound;25 &middot; rental &pound;45</span></span></button>
           <button class="gpanel" data-game="laser" aria-pressed="false"><img src="assets/door-nerf.jpg" width="1600" height="1067" alt="A youth group on a game day, from our gallery" loading="lazy" decoding="async"><span class="gl"><b>Nerf Wars</b><span>Ages 7 and up &middot; &pound;15 a player</span></span></button>
           <button class="gpanel" data-game="paintball" aria-pressed="false"><img src="assets/door-adventure.jpg" width="800" height="600" alt="Abseiling, from our team building page" loading="lazy" decoding="async"><span class="gl"><b>Outdoor adventure</b><span>Climb, paddle, shoot a bow &middot; Activate Outdoor Adventure</span></span></button>
         </div>
-        <div class="games" role="group" aria-label="Choose your adventure" data-ph="1" data-w="adventure"><span class="phtag">Your own photographs</span>
+        <div class="games" role="group" aria-label="Choose your adventure" data-ph="1" data-ph-kind="photo" data-w="adventure"><span class="phtag">Your own photographs</span>
           <button class="gpanel" data-game="climb" aria-pressed="false"><img src="assets/home-activate.jpg" width="800" height="534" alt="A climber on the rock, from our homepage" loading="lazy" decoding="async"><span class="gl"><b>Climb</b><span>Rock climbing &middot; abseiling</span></span></button>
           <button class="gpanel" data-game="paddle" aria-pressed="false"><img src="assets/kids-kayak.jpg" width="800" height="600" alt="Kids kayaking, from our outdoor activities page" loading="lazy" decoding="async"><span class="gl"><b>Paddle</b><span>Canoeing &middot; kayaking</span></span></button>
           <button class="gpanel" data-game="airsoft" aria-pressed="false"><img src="assets/door-airsoft.jpg" width="1600" height="1067" alt="Three players at the timber structure, from our gallery" loading="lazy" decoding="async"><span class="gl"><b>Airsoft &amp; Nerf</b><span>With Predator</span></span></button>
@@ -1771,7 +1811,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
             <button id="levNon" aria-pressed="true">Not a member<small>Published price</small></button>
             <button id="levMem" aria-pressed="false">Member<small>&pound;40 a year</small></button>
           </div></div>
-          <p id="fareNote" class="tiny" style="margin-top:10px">Prices as published on our booking page. A half day is a morning or an afternoon. An evening is <span data-fare="walkon.evening"><span class="flap">&pound;20</span></span> walk-on or <span data-fare="hire.evening"><span class="flap">&pound;35</span></span> rental; boot hire is &pound;15.</p>
+          <p id="fareNote" class="tiny" style="margin-top:10px">Prices as published on our booking page. A half day is a morning or an afternoon. An evening is <span data-fare="walkon.evening"><span class="flap">&pound;25</span></span> walk-on or <span data-fare="hire.evening"><span class="flap">&pound;35</span></span> rental; boot hire is &pound;15.</p>
           <p class="note"><b>Why</b><span>Every price here is off your booking page, and every one of them is printed from the same place, so a price you change in the console changes on this page too and the two can never drift apart. The half day comes first because you told us it is the popular one. No member column: phase one keeps your prices exactly as they are.</span></p>
         </div>
         <div>
@@ -1779,7 +1819,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
             <div class="pad">
               <p class="eyebrow" style="color:var(--text-3)">How it works</p>
               <p class="bigfig" style="margin-top:8px" id="sumFig">Half day or full day,<br>walk-on or rental.</p>
-              <p style="margin-top:14px;font-size:15px;opacity:.92" id="sumLine">Walk-on is £25 whether you play a full day or a half day, and £20 for an evening. The rental package is £45 for a full day and £35 for a morning, afternoon or evening.</p>
+              <p style="margin-top:14px;font-size:15px;opacity:.92" id="sumLine">Walk-on is £25 whether you play a full day or a half day, and £25 for an evening. The rental package is £45 for a full day and £35 for a morning, afternoon or evening.</p>
             </div>
           </div>        </div>
       </div>
@@ -1794,7 +1834,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
         <p class="lede" style="max-width:46ch;margin:0">Every Saturday and Sunday: gates 09:00, brief 10:15, off the field at 16:30. Book a place and it is held with your name on it.</p>
       </div>
       <p class="nextday"><b>Next: <span id="ripDate">next game day</span></b> <span><span id="ripKind">Game day</span> &middot; <span id="ripPrice"></span> &middot; <span id="ripNote"></span></span></p>
-      <div class="board" id="board" data-ph="1"><span class="phtag">The days and the running order are yours. The places left are sample</span>
+      <div class="board" id="board" data-ph="1" data-ph-kind="unconfirmed"><span class="phtag">The days and the running order are yours. The places left are sample</span>
         <div class="hd"><span>Day</span><span>Running</span><span>Gates</span><span>Games</span><span>Endex</span><span></span></div>
         <div id="boardRows"></div>
       </div>
@@ -1947,7 +1987,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
       <p class="eyebrow">What people say</p>
       <h2 style="margin:10px 0 8px"><span data-w="airsoft">What players and groups say on Google</span><span data-w="adventure">What groups say on Google</span></h2>
       <p class="lede" style="margin-bottom:20px">Google reviews drop in here, exactly as they were written.</p>
-      <div class="grid" data-ph="1"><span class="phtag">Where your Google reviews land</span>
+      <div class="grid" data-ph="1" data-ph-kind="copy"><span class="phtag">Where your Google reviews land</span>
         <blockquote class="card pad" style="margin:0"><p class="eyebrow">Slot 1</p>
           <p style="margin-top:8px;color:var(--text-3)">The most recent Google review lands here, word for word, with the reviewer's name and their star rating as Google holds it.</p></blockquote>
         <blockquote class="card pad" style="margin:0"><p class="eyebrow">Slot 2</p>
@@ -1966,7 +2006,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
       <h2 style="margin:10px 0 20px">Questions people type<br>into a search box</h2>
       <div class="faq" id="faq" data-w="airsoft">
         <details open><summary>How much is a game day at Predator Combat?</summary>
-          <div class="ans">A walk-on with your own kit is <span data-fare="walkon.full"><span class="flap">&pound;25</span></span>, the same for a full day, a morning or an afternoon, and <span data-fare="walkon.evening"><span class="flap">&pound;20</span></span> for an evening. A rental package is <span data-fare="hire.full"><span class="flap">&pound;45</span></span> for the full day, <span data-fare="hire.half"><span class="flap">&pound;35</span></span> for a morning or an afternoon and <span data-fare="hire.evening"><span class="flap">&pound;35</span></span> for an evening: Electric Gun 1:1 replica rifle, 3000rds Ammunition each, with full face protection for each rental player. Boot hire is &pound;15 and we will ask for your size.</div></details>
+          <div class="ans">A walk-on with your own kit is <span data-fare="walkon.full"><span class="flap">&pound;25</span></span>, the same for a full day, a morning or an afternoon, and <span data-fare="walkon.evening"><span class="flap">&pound;25</span></span> for an evening. A rental package is <span data-fare="hire.full"><span class="flap">&pound;45</span></span> for the full day, <span data-fare="hire.half"><span class="flap">&pound;35</span></span> for a morning or an afternoon and <span data-fare="hire.evening"><span class="flap">&pound;35</span></span> for an evening: Electric Gun 1:1 replica rifle, 3000rds Ammunition each, with full face protection for each rental player. Boot hire is &pound;15 and we will ask for your size.</div></details>
         <details><summary>How much is Nerf Wars?</summary>
           <div class="ans">&pound;15 per participating player, from age 7, in sessions of ninety minutes. Ten players minimum and no real maximum. Nerf runs in its own part of the site, so it can run while an airsoft game day is on.</div></details>
         <details><summary>What days do you run?</summary>
@@ -2028,7 +2068,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
         <button data-f="Sunday" aria-pressed="false">Sundays</button>
         <button data-f="Saturday" aria-pressed="false">Saturdays</button>
       </div>
-      <div class="days" id="dayList" data-ph="1"><span class="phtag">Days are yours, places left are sample</span></div>
+      <div class="days" id="dayList" data-ph="1" data-ph-kind="unconfirmed"><span class="phtag">Days are yours, places left are sample</span></div>
       <p class="note"><b>&pound;</b><span>Every date is its own page and its own Event record in the structured data, with a price. That is what puts one of your Sundays into Google's event results and into an assistant's answer to "airsoft near Belfast this weekend". The start times are sample until you give us the clock.</span></p>
     </div>
   </div>
@@ -2077,7 +2117,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
               <input type="checkbox" id="bkMember">
               <span><b>I am a member.</b> Member prices apply to every player on this booking. <span class="tiny">Membership number is checked against your account, so no card at sign-in.</span></span>
             </label>
-            <div class="upsell" id="upsell" data-ph="1"><span class="phtag">Proposed: membership sold in the basket</span>
+            <div class="upsell" id="upsell" data-ph="1" data-ph-kind="unconfirmed"><span class="phtag">Proposed: membership sold in the basket</span>
               <h4 id="upTitle">Join today and this booking costs &pound;5 less</h4>
               <p class="small" style="margin-top:6px" id="upLine">&pound;25 for the year. Applied to this booking straight away.</p>
               <button class="btn primary sm" style="margin-top:10px" id="upBtn">Add membership, &pound;25</button>
@@ -2089,7 +2129,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
           <div class="card pad" data-step="2" hidden>
             <h3 style="margin-bottom:6px">Anything else before the day?</h3>
             <p class="small muted" style="margin-bottom:16px">Boot hire, pre-booked so the pair is set out at sign-in.</p>
-            <div class="grid" id="addonList" style="gap:8px" data-ph="1"><span class="phtag">Proposed: your published boot hire, pre-booked</span></div>
+            <div class="grid" id="addonList" style="gap:8px" data-ph="1" data-ph-kind="unconfirmed"><span class="phtag">Proposed: your published boot hire, pre-booked</span></div>
             <div class="field" id="shoeRow" hidden style="margin-top:12px;max-width:260px"><label for="shoeSize">Boot size</label>
               <select id="shoeSize"><option value="">Pick a size</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option></select></div>
             
@@ -2098,7 +2138,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
           <!-- step 3 -->
           <div class="card pad" data-step="3" hidden>
             <h3 style="margin-bottom:12px">Who is playing</h3>
-            <div id="playerList" data-ph="1"><span class="phtag">Sample players</span></div>
+            <div id="playerList" data-ph="1" data-ph-kind="fabricated"><span class="phtag">Sample players</span></div>
             <div class="row" style="gap:8px;margin:14px 0 18px">
               <button class="btn ghost sm" id="addMate">Invite another player</button>
               <button class="btn ghost sm" id="copyLink">Copy pay-your-own-share link</button>
@@ -2173,7 +2213,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
     <div class="wrap">
       <p class="eyebrow">Fares</p>
       <h2 style="margin:10px 0 10px">Walk on, or take the rental package</h2>
-      <p class="lede" style="margin-bottom:26px">Walk-on &pound;25 with your own kit, the same for a half day or a full day, and &pound;20 for an evening. The rental package is &pound;35 for a morning, afternoon or evening and &pound;45 for the full day.</p>
+      <p class="lede" style="margin-bottom:26px">Walk-on &pound;25 with your own kit, the same for a half day or a full day, and &pound;25 for an evening. The rental package is &pound;35 for a morning, afternoon or evening and &pound;45 for the full day.</p>
       <div class="tiers" style="grid-template-columns:1fr 1fr">
         <div class="card tier pad">
           <p class="eyebrow">Your own kit</p>
@@ -2245,7 +2285,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
             </select></div>
           <div class="field"><label for="evSize">Group size: <span id="evSizeOut" class="mono">12</span> players</label>
             <input class="slider" type="range" id="evSize" min="4" max="40" value="12" data-base="4"></div>
-          <div class="field" data-ph="1"><span class="phtag">Proposed: slots are sample</span><label for="evDate">Preferred date</label><input id="evDate" type="date">
+          <div class="field" data-ph="1" data-ph-kind="unconfirmed"><span class="phtag">Proposed: slots are sample</span><label for="evDate">Preferred date</label><input id="evDate" type="date">
             <div class="choice choice4" style="margin-top:8px" id="evSess" role="group" aria-label="Session">
               <button data-sess="full" aria-pressed="true">Full day<small>Arrive 09:30</small></button>
               <button data-sess="morning" aria-pressed="false">Morning<small>Arrive 09:30</small></button>
@@ -2255,7 +2295,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
           <p class="tiny" id="evRule" style="margin-top:10px"></p>
         </div>
         <div>
-          <div class="enamel"><div class="pad" data-ph="1"><span class="phtag">Places left are sample</span>
+          <div class="enamel"><div class="pad" data-ph="1" data-ph-kind="unconfirmed"><span class="phtag">Places left are sample</span>
             <div class="kv"><span>Players</span><b id="qSize">12</b></div>
             <div class="kv"><span>Session</span><b id="qPack">&pound;480</b></div>
             <div class="kv" id="qDiscRow" hidden><span>Group discount</span><b id="qFood">&pound;0</b></div>
@@ -2529,17 +2569,17 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
         <div><p class="eyebrow">Signed in, sample member</p><h2 style="margin-top:10px">Sample member</h2></div>
         <span class="pill red" hidden data-phase="2">Member &middot; twelve months from 1 March</span>
       </div>
-      <div class="split" data-ph="1"><span class="phtag">Sample member data</span>
+      <div class="split" data-ph="1" data-ph-kind="fabricated"><span class="phtag">Sample member data</span>
         <div class="stack" style="gap:14px">
           <div class="card pad">
             <div class="row" style="justify-content:space-between"><p class="eyebrow">Next booking</p><span class="pill ok">Paid</span></div>
             <h3 style="margin:8px 0 4px" id="acctNext"></h3>
-            <p class="small muted">1 walk-on, Sunday &middot; Ref NL-4K7Q</p>
+            <p class="small muted">1 walk-on, Sunday &middot; Ref PC-4K7Q</p>
             <div class="row" style="gap:8px;margin-top:14px">
               <button class="btn ghost sm" id="passBtn">Show entry pass</button>
               <button class="btn ghost sm" id="chgBtn">Change date</button>
             </div>
-            <div id="acctPass" hidden><div class="row" style="gap:20px;align-items:flex-start;margin-top:16px"><canvas id="acctQr" width="33" height="33" aria-label="Entry QR code"></canvas><div><p class="eyebrow">Entry pass</p><p class="mono" style="font-size:24px;font-weight:600">NL-4K7Q</p><p class="small muted" style="max-width:36ch;margin-top:6px">Show this at sign-in. It works with no signal.</p></div></div></div>
+            <div id="acctPass" hidden><div class="row" style="gap:20px;align-items:flex-start;margin-top:16px"><canvas id="acctQr" width="33" height="33" aria-label="Entry QR code"></canvas><div><p class="eyebrow">Entry pass</p><p class="mono" style="font-size:24px;font-weight:600">PC-4K7Q</p><p class="small muted" style="max-width:36ch;margin-top:6px">Show this at sign-in. It works with no signal.</p></div></div></div>
           </div>
           <div class="card pad">
             <p class="eyebrow">History</p>
@@ -2601,7 +2641,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
         <div class="bk-panels">
 
           <!-- 1. TODAY -->
-          <div class="bk-panel" data-panel="today" data-ph="1"><span class="phtag">Sample data</span>
+          <div class="bk-panel" data-panel="today" data-ph="1" data-ph-kind="copy"><span class="phtag">Sample data</span>
             <div class="bk-head">
               <div>
                 <p class="eyebrow">Manifest</p>
@@ -2690,7 +2730,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
           </div>
 
           <!-- 2. BOOKINGS -->
-          <div class="bk-panel" data-panel="bookings" hidden data-ph="1"><span class="phtag">Sample data</span>
+          <div class="bk-panel" data-panel="bookings" hidden data-ph="1" data-ph-kind="copy"><span class="phtag">Sample data</span>
             <div class="bk-head">
               <div>
                 <p class="eyebrow">Bookings</p>
@@ -2710,7 +2750,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
           </div>
 
           <!-- 3. MEMBERS -->
-          <div class="bk-panel" data-panel="members" hidden data-ph="1"><span class="phtag">Sample data</span>
+          <div class="bk-panel" data-panel="members" hidden data-ph="1" data-ph-kind="copy"><span class="phtag">Sample data</span>
             <div class="bk-head">
               <div>
                 <p class="eyebrow">Members</p>
@@ -2760,7 +2800,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
           </div>
 
           <!-- 4. MONEY -->
-          <div class="bk-panel" data-panel="money" hidden data-ph="1"><span class="phtag">Sample data</span>
+          <div class="bk-panel" data-panel="money" hidden data-ph="1" data-ph-kind="copy"><span class="phtag">Sample data</span>
             <div class="bk-head">
               <div>
                 <p class="eyebrow">Money</p>
@@ -2793,7 +2833,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
           </div>
 
           <!-- 5. SETTINGS -->
-          <div class="bk-panel" data-panel="settings" hidden data-ph="1"><span class="phtag">Sample data, prefilled with your published fares</span>
+          <div class="bk-panel" data-panel="settings" hidden data-ph="1" data-ph-kind="unconfirmed"><span class="phtag">Sample data, prefilled with your published fares</span>
             <div class="bk-head">
               <div>
                 <p class="eyebrow">Settings</p>
@@ -2899,7 +2939,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
       <div><h4>Two brands, one site</h4><ul>
         <li>Predator Airsoft: Ireland's oldest airsoft field</li><li>More than twenty years of airsoft events</li><li>Activate Outdoor Adventure: climbing, paddling, bushcraft, team building</li><li>Woodland site, Ballynahinch</li><li>Thirty minutes from Belfast</li></ul></div>
       <div><h4>The prices</h4><ul data-w="airsoft">
-        <li>Walk-on &pound;25, rental &pound;45, full day</li><li>Evening &pound;20 walk-on, &pound;35 rental</li><li>Boot hire &pound;15</li><li>Nerf Wars &pound;15 a player, ages 7 and over</li><li>Membership &pound;40 a year, sold at the store</li><li>Airsoft from age 12</li></ul>
+        <li>Walk-on &pound;25, rental &pound;45, full day</li><li>Evening &pound;25 walk-on, &pound;35 rental</li><li>Boot hire &pound;15</li><li>Nerf Wars &pound;15 a player, ages 7 and over</li><li>Membership &pound;40 a year, sold at the store</li><li>Airsoft from age 12</li></ul>
         <ul data-w="adventure">
           <li>Activity day &pound;<span data-adv="full">40</span> a person, half day &pound;<span data-adv="half">30</span></li><li>Eight people or more, any day of the week</li><li>Deposit 30 per cent, the balance on the day</li><li>Team building from &pound;60 a head, twelve to forty</li><li>Activities from age 4, archery from age 10</li><li>With an adult until 16</li>
         </ul>
@@ -2907,11 +2947,69 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
     </div>
     <div class="legal">
       <span>Design proposal by ThinkWork, for discussion with you. Your prices, ages, running order, activities, team building and Phoenix wording, address, numbers, emails and colours are your own, taken from predator-combat.com and activate-outdoor-adventure.com on 2 October 2026 and from our calls of 13 and 16 October. Every photograph is yours and says which page it came from. Anything in amber is sample content waiting for your figures. Not the live site, and no live payments.</span>
-      <span class="mono">thinkwork.info &middot; built 27 Oct 2026 10:56 UK</span>
+      <span class="mono">thinkwork.info &middot; built 5 Nov 2026 11:39 UK</span>
     </div>
   </div>
 </footer>
 <div class="bk-toast" id="bkToast" role="status" aria-live="polite"></div>
+<!-- part: proposal.html
+     The proposal screen (TEMPLATES.md 19d): what the client is looking at and what it costs, in the owner's words,
+     from /root/thinkwork/studio/pricing.json through the price.* tokens. Only a proposal-mode build carries it; the
+     Proposal tab in the toolbar opens it. Nothing here is part of the public site. Tokens: name, price.*, consoleUrl. -->
+<section data-screen="prop" hidden class="prop">
+  <div class="prop-wrap">
+    <p class="prop-eyebrow">For Predator Combat. Not part of the public site.</p>
+    <h2 class="prop-h">A website that takes the bookings, and what it costs</h2>
+    <p class="prop-lede">This is your site as it would go live, built from your own words, prices and pictures. The tabs along the top are ours, for looking: Site is the page itself, Mobile shows it on a phone, Placeholders marks in amber what we filled with sample content until you give us the real figure, Notes shows our working. Say yes and the tabs go, the site goes live at your own address, and bookings come straight to you.</p>
+
+    <div class="prop-grid">
+      <div class="prop-card prop-money">
+        <p class="prop-k">To build it</p>
+        <p class="prop-big"><s>£1,200</s> £650</p>
+        <p class="prop-s">£650 to build if you say yes by 5 December 2026, 30 days from this proposal; £1,200 after that. The £650 to build it is paid up front. Your monthly plan starts the day the site goes live.</p>
+      </div>
+      <div class="prop-card prop-money">
+        <p class="prop-k">Then, each month: Growth</p>
+        <p class="prop-big">£99<small> a month</small></p>
+        <p class="prop-s">+ booking, memberships, referral systems, growth loops. Replaces + Calendly / Eventbrite / membership tools.</p>
+      </div>
+      <div class="prop-card">
+        <p class="prop-k">Minimum term</p>
+        <p class="prop-big">12 months</p>
+        <p class="prop-s">Every monthly plan carries a minimum term, to protect the build from churn right after go-live.</p>
+      </div>
+      <div class="prop-card">
+        <p class="prop-k">You own it</p>
+        <p class="prop-s">You own it. Your domain stays registered to you; we manage the DNS and the hosting.</p>
+      </div>
+    </div>
+
+    
+
+    <h3 class="prop-h3">Why it pays for itself</h3>
+    <ol class="prop-steps prop-why"><li>The plan costs £99 a month. That is four walk-ons a month at £25: the first few online bookings cover it, and every booking after that is money in before the day.</li><li>A paid booking is a kept place. A no-show on a paid booking is a kept deposit, not an empty slot on the day.</li><li>Members pay less and renew online, so the membership sells itself at the moment it saves someone money, instead of by hand.</li><li>A calendar of real dates with real prices is what Google and the assistants quote when someone near Ballynahinch asks where to play. A product page is not.</li><li>Every booking, waiver and member sits in one console you own, so a repeat booker never fills in a form twice and you can message the lot of them before a quiet date.</li></ol>
+
+    <h3 class="prop-h3">Taking the money</h3>
+    <p class="prop-p">Book now on the live site goes through our booking console: the deposit or the full fare is taken online, the balance at the gate if that is how you run it, and every booking, waiver and membership sits in one place you sign into at <a href="https://aoc.peerlab.ai/auth/login" target="_blank" rel="noopener">the console</a>. The platform keeps 2% of each payment, and the card payment itself costs roughly 1.5% plus 20p per payment, at Stripe's published rate. Refunds return the platform fee.</p>
+
+    <h3 class="prop-h3">The three plans</h3>
+    <div class="prop-tiers">
+      <div class="prop-tier"><p class="prop-k">Starter</p><p class="prop-mid">£35<small> a month</small></p><p class="prop-s">Mobile-friendly, easy-to-buy website, hosting, edits</p></div>
+      <div class="prop-tier"><p class="prop-k">Growth</p><p class="prop-mid">£99<small> a month</small></p><p class="prop-s">+ booking, memberships, referral systems, growth loops</p></div>
+      <div class="prop-tier"><p class="prop-k">Premium</p><p class="prop-mid">£199<small> a month</small></p><p class="prop-s">+ AI discoverability, AI content, AI chat agents, custom systems</p></div>
+    </div>
+
+    <h3 class="prop-h3">When you say yes</h3>
+    <ol class="prop-steps">
+      <li>We turn it on: the tabs and the amber marks go, and the site is the same site, live.</li>
+      <li>It goes to your own web address. Your domain stays registered to you; we look after the hosting.</li>
+      <li>Book now takes real money to your account from the first day, through the console.</li>
+      <li>Anything marked in amber today you give us in a sentence, and we put it in.</li>
+    </ol>
+    <p class="prop-s prop-foot">Prices in pounds, as at the date on the footer of this page. Nothing here is a contract until we both sign one.</p>
+  </div>
+</section>
+
 </div><!-- /#app -->
 
 <script type="application/ld+json">
@@ -2926,7 +3024,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
 "makesOffer":[
  {"@type":"Offer","name":"Airsoft game day, walk-on with your own kit, full day","price":"25.00","priceCurrency":"GBP"},
  {"@type":"Offer","name":"Airsoft game day, walk-on with your own kit, half day","price":"25.00","priceCurrency":"GBP"},
- {"@type":"Offer","name":"Airsoft game day, walk-on with your own kit, evening day","price":"20.00","priceCurrency":"GBP"},
+ {"@type":"Offer","name":"Airsoft game day, walk-on with your own kit, evening day","price":"25.00","priceCurrency":"GBP"},
  {"@type":"Offer","name":"Airsoft game day with the rental package, full day","price":"45.00","priceCurrency":"GBP"},
  {"@type":"Offer","name":"Airsoft game day with the rental package, half day","price":"35.00","priceCurrency":"GBP"},
  {"@type":"Offer","name":"Airsoft game day with the rental package, evening day","price":"35.00","priceCurrency":"GBP"},
@@ -2934,7 +3032,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
- {"@type":"Question","name":"How much is a game day at Predator Combat?","acceptedAnswer":{"@type":"Answer","text":"A walk-on with your own kit is £25 for the full day, morning or afternoon, and £20 for an evening. A rental package is £45 for the full day or £35 for a morning, afternoon or evening: an electric 1:1 replica rifle, 3,000 rounds and full face protection. Boot hire is £15."}},
+ {"@type":"Question","name":"How much is a game day at Predator Combat?","acceptedAnswer":{"@type":"Answer","text":"A walk-on with your own kit is £25 for the full day, morning or afternoon, and £25 for an evening. A rental package is £45 for the full day or £35 for a morning, afternoon or evening: an electric 1:1 replica rifle, 3,000 rounds and full face protection. Boot hire is £15."}},
  {"@type":"Question","name":"What time does a game day run?","acceptedAnswer":{"@type":"Answer","text":"Gates open at 9:00 am, the shop at 9:30 am, sign-in and chrono 9:30 to 10:15 am, safety brief 10:15 am, morning games 10:30 am to 1:00 pm, lunch 1:00 to 2:00 pm, afternoon games 2:00 to 4:30 pm."}},
  {"@type":"Question","name":"What days does Predator Combat run?","acceptedAnswer":{"@type":"Answer","text":"Game days run every Saturday and Sunday. Gates open at 9:00 am, safety brief 10:15 am, afternoon games end at 4:30 pm."}},
  {"@type":"Question","name":"How old do you have to be to play airsoft at Predator Combat?","acceptedAnswer":{"@type":"Answer","text":"Airsoft is for players aged 12 and above. Nerf Wars are for ages 7 and above, six to sixteen players."}},
@@ -2950,7 +3048,7 @@ html[data-world="adventure"] .mapembed{background-image:url(assets/hero-ridge-1.
 /* One object, written by engine/build.mjs out of businesses/<slug>.json. Every
    engine part reads its business-specific values from here, so no part carries
    a client's name, price, date, copy or file name. */
-const CONFIG = {"slug":"predator-combat","layout":"two-worlds","business":{"name":"Predator Combat","short":"Predator","legalName":"Predator Combat Games","kind":"outdoor airsoft field, Nerf Wars and adventure activity centre in County Down, two brands on one site","site":"https://www.predator-combat.com/","domain":"predator-combat.com","phone":"028 9756 5651","phoneE164":"+442897565651","street":"Predator Combat","town":"Ballynahinch","county":"County Down","postcode":"BT24 8NF","facebook":"https://www.facebook.com/PredCG/?locale=en_GB","email":"info@predator-combat.com","rating":"","reviews":"","geo":{"lat":"54.4036","lng":"-5.8891"},"addressLine":"Predator Combat, Ballynahinch, County Down, BT24 8NF","postcodeUrl":"BT24+8NF"},"design":{"display":"Teko","body":"Barlow","mono":"IBM Plex Mono","accent":"#FF5A1F","hero":"the three doors over a moving stage of your own photographs: the storm over the field in the airsoft world, daylight on the ridge in the adventure world","images":"Yours, all of it, both brands.","tokens":{"--display":"\"Teko\", \"Barlow Condensed\", Impact, sans-serif","--ui":"\"Barlow\", \"Arial Narrow\", ui-sans-serif, system-ui, sans-serif","--mono":"\"IBM Plex Mono\", ui-monospace, SFMono-Regular, Menlo, monospace","--bg":"#12170A","--surface":"#1A2110","--surface-2":"#232C16","--sunk":"#0B0E05","--line":"#2E381A","--line-soft":"#232C16","--line-strong":"#4F5E2A","--text":"#F3F1E8","--text-2":"#CFCDBF","--text-3":"#A3A594","--red":"#FF5A1F","--red-2":"#FF7A45","--red-hi":"#FF7A45","--red-ink":"#FF7A45","--red-ghost":"#2E1408","--on-red":"#141206","--yel":"#FF5A1F","--yel-hi":"#FF7A45","--on-yel":"#141206","--yel-2":"#D9481A","--crim":"#F2C14D","--crim-hi":"#FFD56A","--on-crim":"#141206","--ph":"#F0B15A","--ph-ghost":"#3A2A12","--on-ph":"#141312","--go":"#7FD39A","--go-ghost":"#173022","--hazard":"repeating-linear-gradient(135deg,#FF5A1F 0 14px,#0B0E05 14px 28px)","--tex-1":"repeating-linear-gradient(135deg,rgba(255,90,31,.9) 0 14px,transparent 14px 28px)","--tex-2":"repeating-linear-gradient(45deg,rgba(255,90,31,.7) 0 10px,transparent 10px 20px)","--tex-3":"repeating-linear-gradient(135deg,rgba(255,90,31,.5) 0 22px,transparent 22px 44px)","--plate-bg":"#0B0E05","--plate-surface":"#1A2110","--plate-surface-2":"#232C16","--plate-sunk":"#070904","--plate-line":"#2E381A","--plate-line-soft":"#232C16","--plate-line-strong":"#4F5E2A","--plate-text":"#F3F1E8","--plate-text-2":"#CFCDBF","--plate-text-3":"#A3A594","--door-k":"#FFB36B"},"fonts":["Teko:wght@500;600;700","Barlow:wght@400;500;600;700","IBM Plex Mono:wght@400;500;600","Fredoka:wght@500;600;700","Nunito:wght@400;600;700;800"],"map":{"spots":{"unit":{"x":50,"y":52}}},"worlds":{"adventure":{"name":"Activate Outdoor Adventure","note":"Daylight and family: a pale ground, Activate's red and gold off the roundel, dark ink, Fredoka rounded display with Nunito, sentence-case labels, a scalloped gold edge instead of tape, rounded cards, no rain.","tokens":{"--bg":"#F7F3EA","--surface":"#FFFFFF","--surface-2":"#EFE9DC","--sunk":"#ECE5D5","--line":"#DDD5C3","--line-soft":"#E8E1D2","--line-strong":"#B8AD93","--text":"#1C1710","--text-2":"#3E3930","--text-3":"#605A4E","--red":"#94121E","--red-2":"#B0182A","--red-hi":"#B0182A","--red-ink":"#94121E","--red-ghost":"#F6E4E5","--on-red":"#FFFFFF","--yel":"#94121E","--yel-hi":"#B0182A","--on-yel":"#FFFFFF","--yel-2":"#6E0D16","--crim":"#F2C14D","--crim-hi":"#FFD56A","--on-crim":"#1C1710","--ph":"#7A4A00","--ph-ghost":"#F7E8CF","--on-ph":"#FFFFFF","--go":"#1F6B3A","--go-ghost":"#DDEFE3","--shadow":"0 1px 0 rgba(0,0,0,.06), 0 24px 48px -28px rgba(40,30,10,.35)","--hazard":"repeating-linear-gradient(135deg,#F2C14D 0 14px,#94121E 14px 28px)","--tex-1":"repeating-linear-gradient(135deg,rgba(148,18,30,.6) 0 14px,transparent 14px 28px)","--tex-2":"repeating-linear-gradient(45deg,rgba(242,193,77,.7) 0 10px,transparent 10px 20px)","--tex-3":"radial-gradient(circle,rgba(242,193,77,.55) 0 3px,transparent 3.6px) 0 0/18px 18px","--plate-bg":"#FFFFFF","--plate-surface":"#F7F3EA","--plate-surface-2":"#EFE9DC","--plate-sunk":"#ECE5D5","--plate-line":"#DDD5C3","--plate-line-soft":"#E8E1D2","--plate-line-strong":"#B8AD93","--plate-text":"#1C1710","--plate-text-2":"#3E3930","--plate-text-3":"#5C564A","--door-k":"#F2C14D","--display":"\"Fredoka\", \"Nunito\", \"Trebuchet MS\", sans-serif","--ui":"\"Nunito\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif","--mono":"\"Nunito\", ui-sans-serif, system-ui, sans-serif"}}},"worldLabels":{"airsoft":"Predator Airsoft","adventure":"Activate Outdoor Adventure"}},"assets":{"logo":"assets/logo.png","logo.png":"assets/logo.png","logo-activate":"assets/logo-activate.png","logo-activate.png":"assets/logo-activate.png","field-run":"assets/field-run.jpg","field-run.jpg":"assets/field-run.jpg","fort-window":"assets/fort-window.jpg","fort-window.jpg":"assets/fort-window.jpg","smoke-base":"assets/smoke-base.jpg","smoke-base.jpg":"assets/smoke-base.jpg","group-base":"assets/group-base.jpg","group-base.jpg":"assets/group-base.jpg","door-airsoft":"assets/door-airsoft.jpg","door-airsoft.jpg":"assets/door-airsoft.jpg","door-nerf":"assets/door-nerf.jpg","door-nerf.jpg":"assets/door-nerf.jpg","door-adventure":"assets/door-adventure.jpg","door-adventure.jpg":"assets/door-adventure.jpg","rental-players":"assets/rental-players.jpg","rental-players.jpg":"assets/rental-players.jpg","big-game-day":"assets/big-game-day.jpg","big-game-day.jpg":"assets/big-game-day.jpg","site-group":"assets/site-group.jpg","site-group.jpg":"assets/site-group.jpg","kids-kayak":"assets/kids-kayak.jpg","kids-kayak.jpg":"assets/kids-kayak.jpg","team-build":"assets/team-build.jpg","team-build.jpg":"assets/team-build.jpg","rocks-group":"assets/rocks-group.jpg","rocks-group.jpg":"assets/rocks-group.jpg","bushcraft":"assets/bushcraft.jpg","bushcraft.jpg":"assets/bushcraft.jpg","poster-all-out-war":"assets/poster-all-out-war.jpg","poster-all-out-war.jpg":"assets/poster-all-out-war.jpg","aerial":"assets/aerial.jpg","aerial.jpg":"assets/aerial.jpg","wall-group-base":"assets/wall-group-base.jpg","wall-group-base.jpg":"assets/wall-group-base.jpg","wall-saloon":"assets/wall-saloon.jpg","wall-saloon.jpg":"assets/wall-saloon.jpg","wall-laugh":"assets/wall-laugh.jpg","wall-laugh.jpg":"assets/wall-laugh.jpg","wall-marshal":"assets/wall-marshal.jpg","wall-marshal.jpg":"assets/wall-marshal.jpg","wall-window":"assets/wall-window.jpg","wall-window.jpg":"assets/wall-window.jpg","wall-squad-trees":"assets/wall-squad-trees.jpg","wall-squad-trees.jpg":"assets/wall-squad-trees.jpg","wall-barricade":"assets/wall-barricade.jpg","wall-barricade.jpg":"assets/wall-barricade.jpg","wall-group-vests":"assets/wall-group-vests.jpg","wall-group-vests.jpg":"assets/wall-group-vests.jpg","wall-trail":"assets/wall-trail.jpg","wall-trail.jpg":"assets/wall-trail.jpg","wall-smoke":"assets/wall-smoke.jpg","wall-smoke.jpg":"assets/wall-smoke.jpg","hero-ridge-1":"assets/hero-ridge-1.jpg","hero-ridge-1.jpg":"assets/hero-ridge-1.jpg","hero-ridge-2":"assets/hero-ridge-2.jpg","hero-ridge-2.jpg":"assets/hero-ridge-2.jpg","home-activate":"assets/home-activate.jpg","home-activate.jpg":"assets/home-activate.jpg","phoenix-2":"assets/phoenix-2.jpg","phoenix-2.jpg":"assets/phoenix-2.jpg","phoenix-3":"assets/phoenix-3.jpg","phoenix-3.jpg":"assets/phoenix-3.jpg","canoeing-illustration":"assets/canoeing-illustration.jpg","canoeing-illustration.jpg":"assets/canoeing-illustration.jpg","orienteering-illustration":"assets/orienteering-illustration.jpg","orienteering-illustration.jpg":"assets/orienteering-illustration.jpg","archery-illustration":"assets/archery-illustration.jpg","archery-illustration.jpg":"assets/archery-illustration.jpg"},"siteUrl":"https://thinkwork.info/airsoft/predator-combat/","aocUrl":"aoc/index.html","fares":{"walkon":{"full":{"n":25,"m":25},"half":{"n":25,"m":25},"evening":{"n":20,"m":20}},"hire":{"full":{"n":45,"m":45},"half":{"n":35,"m":45},"evening":{"n":35,"m":35}}},"membership":{"price":40,"year":"January to December","yearEnd":"the end of December","renewMonth":"January","hidden":true,"note":"Taken off the site on 15 October 2026 at your request until January; the prices and the benefits are kept here so they can be switched back on."},"schedule":{"times":["09:00","10:15","16:30"],"timesSample":false,"lunch":"13:00","regular":{"day":0,"dayName":"Sunday","label":"Game day","detail":"Every Sunday: walk-on gates 09:00, rental sign-in from 09:30, chrono to 10:15, safety brief 10:15, morning games 10:30 to 13:00, afternoon games 14:00 to 16:30.","count":8,"sess":"full"},"extra":{"day":6,"dayName":"Saturday","label":"Game day","detail":"Every Saturday, the same running order.","weekly":true,"sess":"full"},"sessions":{"full":{"label":"Full day","arrive":"09:30","start":"10:10","end":"16:30","tier":"full","world":"airsoft"},"morning":{"label":"Morning","arrive":"09:30","start":"10:10","end":"13:00","tier":"half","world":"airsoft"},"afternoon":{"label":"Afternoon","arrive":"13:30","start":"14:00","end":"16:30","tier":"half","world":"airsoft"},"evening":{"label":"Evening","arrive":"18:30","start":"19:00","end":"21:30","tier":"evening","note":"On a Saturday or Sunday an evening takes any number. On any other date it runs for ten or more.","world":"airsoft"}},"closed":["12-24","12-25","12-31","01-01"],"minOffDay":10,"minPlayers":{"nerf":10,"offDay":10}},"adventure":{"minPlayers":8,"prices":{"half":30,"full":40},"depositPct":0.3,"refundDays":14,"sessions":{"full":{"label":"Full day","arrive":"09:30","start":"10:00","end":"16:30","picks":4,"world":"adventure"},"morning":{"label":"Morning","arrive":"09:30","start":"10:00","end":"13:00","picks":2,"world":"adventure"},"afternoon":{"label":"Afternoon","arrive":"13:30","start":"14:00","end":"16:30","picks":2,"world":"adventure"}},"ageMin":4,"adultTo":16,"activities":[{"key":"climb","n":"Rock climbing","whole":true,"note":"Off site, so it takes a whole session"},{"key":"abseil","n":"Abseiling","whole":true,"note":"Off site, so it takes a whole session"},{"key":"hill","n":"Hill and mountain walking","whole":true,"note":"Off site, so it takes a whole session"},{"key":"canoe","n":"Canoeing","whole":true,"note":"On the water, so it takes a whole session"},{"key":"kayak","n":"Kayaking"},{"key":"archery","n":"Archery","ageMin":10},{"key":"orient","n":"Orienteering"},{"key":"bushcraft","n":"Bushcraft"}],"callback":{"to":"{{fact.email_activate}}","note":"Name, email and telephone, emailed to you."}},"events":[{"key":"halloween-2026","name":"Halloween: relic hunters","short":"Halloween","iso":"2026-10-24","dayName":"Saturday","world":"airsoft","detail":"An Indiana Jones night game. One team hunts the mythical relics and keeps them safe, the other means to take over the world. Arrive from 17:00, briefing, and we are on the field from 18:00 until 23:00.","times":{"arrive":"17:00","start":"18:00","end":"23:00"},"price":35,"lock":{"sess":"evening","arrive":"17:00","start":"18:00","end":"23:00","label":"Evening, 18:00 to 23:00"},"prices":{"walkon":35,"hire":50},"groups":false,"sample":false,"confirmed":true,"srcLabel":"Times, theme and prices as you gave them on 15 October; the poster is yours to send"},{"key":"boxing-day-2026","name":"Boxing Day game day","short":"Boxing Day","iso":"2026-12-26","dayName":"Saturday","world":"airsoft","detail":"A Boxing Day game for the kit that arrived on Christmas morning. Normal game day prices, full day, and we open it once ten players are booked.","times":{"arrive":"09:00","start":"10:10","end":"16:30"},"minPlayers":10,"fullDayOnly":true,"sample":false,"srcLabel":"Proposed by us on 15 October at your normal prices: ten players opens the day","prices":{"walkon":25,"hire":45}}],"ref":"PC","copy":{"todayTake":"a booking form, paid in advance","fareboard":{"sumOwn":"Full day or half day,<br>walk-on or rental.","sumMember":"","lineOwn":"Walk-on is £25 whether you play a full day or a half day, and £20 for an evening. The rental package is £45 for a full day and £35 for a morning, afternoon or evening.","lineMember":""},"breakEven":"At a £5 gap a £40 membership pays back on the eighth game day. The figures are yours to set.","renewToast":"Renewal opens in December: one pay link, January to December, proposed.","adventure":{"headline":"Climb. Paddle. Breathe.","strap":"Rock climbing, abseiling, archery, canoeing, kayaking, orienteering and bushcraft in County Down, for families, schools, groups and companies."},"years":"more than twenty years","activityPartner":"Activate Outdoor Adventure"},"sample":{"spaces":[31,14,38,22,9,35,19,40,12,27,33,16],"addons":[{"id":"boot","n":"Boot hire","s":"Your published £15. Tell us the size and the pair is set out.","p":15,"per":true,"on":false}],"block":{"n":6,"p":130,"s":"Six walk-on days for the price of five, proposed."},"products":[["Predator patch",6,"Store"],["BBs, 3,000 bag",12,"Consumables"],["Green gas",9,"Consumables"],["Warhammer, 10% off",0,"Store"]],"model":{"days":52,"addAvg":7,"groupAvg":420,"foodPer":0,"depositPct":0.3,"platformFeePct":0},"live":{"time":"11:02","game":2,"of":5,"next":"11:30","onSite":38,"closed":"09:30"},"backend":{"annPost":"Halloween game day, Saturday 24 October. Gates 09:00, brief 10:15. Book on the site.","bookings":[["PC-7K2D","Ciaran Magee"]]},"names":["Ciaran Magee","Aoife Donnelly","Ryan McKee","Niamh Gallagher","Conor Mulholland","Shannon Reilly","Darragh Boyle","Megan Hanna","Jack Mullan","Eimear Quinn","Odhran Walsh","Caitlin Doherty"],"group":{"discountPct":10,"discountFrom":12,"appliesTo":"hire","note":"Ten per cent off rental bookings of twelve or more. No group discount on walk-ons."}},"content":{"jsonld":{"description":"Predator Combat and Activate Outdoor Adventure, Ballynahinch, County Down: airsoft game days (walk-on £25, rental £45), Nerf Wars parties (£15 per player) and outdoor adventure activities, thirty minutes from Belfast.","faq":[{"q":"How much is a game day at Predator Combat?","a":"A walk-on with your own kit is £25 for the full day, morning or afternoon, and £20 for an evening. A rental package is £45 for the full day or £35 for a morning, afternoon or evening: an electric 1:1 replica rifle, 3,000 rounds and full face protection. Boot hire is £15."},{"q":"What time does a game day run?","a":"Gates open at 9:00 am, the shop at 9:30 am, sign-in and chrono 9:30 to 10:15 am, safety brief 10:15 am, morning games 10:30 am to 1:00 pm, lunch 1:00 to 2:00 pm, afternoon games 2:00 to 4:30 pm."},{"q":"What days does Predator Combat run?","a":"Game days run every Saturday and Sunday. Gates open at 9:00 am, safety brief 10:15 am, afternoon games end at 4:30 pm."},{"q":"How old do you have to be to play airsoft at Predator Combat?","a":"Airsoft is for players aged 12 and above. Nerf Wars are for ages 7 and above, six to sixteen players."},{"q":"How much are Nerf Wars?","a":"£15 per participating player, from age 7, in sessions of ninety minutes. Ten players minimum and no real maximum."},{"q":"What outdoor activities does Activate offer?","a":"Rock climbing, hill and mountain walking, abseiling, archery, canoeing, kayaking, orienteering and bushcraft and survival skills, for individuals and groups. Adventure boot camps, corporate training and kids’ outdoor activities are also run, but as programmes rather than activity sessions, so they are arranged on a call rather than booked at the activity price."},{"q":"Is there a membership?","a":"Predator Membership is £40 for January to December, £25 from September to December, sold at the store. It includes UKARA registration, discounts in the shop, free members days, a loyalty card and discounts on some big game days. There is no discount on the game fee itself at the moment."},{"q":"Where is Predator Combat?","a":"Ballynahinch, County Down, BT24 8NF, thirty minutes from Belfast. Phone 028 9756 5651 or 07825 169 631."},{"q":"What should I wear?","a":"Outdoor footwear is essential; boot hire is £15 if you do not have suitable footwear for the conditions. Rental players get full face protection."}],"fareLabels":{"walkon":"Airsoft game day, walk-on with your own kit","hire":"Airsoft game day with the rental package"}}},"cesiumToken":""};
+const CONFIG = {"slug":"predator-combat","layout":"two-worlds","business":{"name":"Predator Combat","short":"Predator","legalName":"Predator Combat Games","kind":"outdoor airsoft field, Nerf Wars and adventure activity centre in County Down, two brands on one site","site":"https://www.predator-combat.com/","domain":"predator-combat.com","phone":"028 9756 5651","phoneE164":"+442897565651","street":"Predator Combat","town":"Ballynahinch","county":"County Down","postcode":"BT24 8NF","address":"Predator Combat, Ballynahinch, County Down, BT24 8NF","address_short":"Predator Combat &middot; Ballynahinch &middot; BT24 8NF","address_lines":"Predator Combat<br>Ballynahinch<br>County Down<br>BT24 8NF","place":"Predator Combat, Ballynahinch","facebook":"https://www.facebook.com/PredCG/?locale=en_GB","email":"info@predator-combat.com","rating":"","reviews":"","geo":{"lat":"54.4036","lng":"-5.8891"},"addressLine":"Predator Combat, Ballynahinch, County Down, BT24 8NF","postcodeUrl":"BT24+8NF"},"design":{"display":"Teko","body":"Barlow","mono":"IBM Plex Mono","accent":"#FF5A1F","hero":"the three doors over a moving stage of your own photographs: the storm over the field in the airsoft world, daylight on the ridge in the adventure world","images":"Yours, all of it, both brands.","tokens":{"--display":"\"Teko\", \"Barlow Condensed\", Impact, sans-serif","--ui":"\"Barlow\", \"Arial Narrow\", ui-sans-serif, system-ui, sans-serif","--mono":"\"IBM Plex Mono\", ui-monospace, SFMono-Regular, Menlo, monospace","--bg":"#12170A","--surface":"#1A2110","--surface-2":"#232C16","--sunk":"#0B0E05","--line":"#2E381A","--line-soft":"#232C16","--line-strong":"#4F5E2A","--text":"#F3F1E8","--text-2":"#CFCDBF","--text-3":"#A3A594","--red":"#FF5A1F","--red-2":"#FF7A45","--red-hi":"#FF7A45","--red-ink":"#FF7A45","--red-ghost":"#2E1408","--on-red":"#141206","--yel":"#FF5A1F","--yel-hi":"#FF7A45","--on-yel":"#141206","--yel-2":"#D9481A","--crim":"#F2C14D","--crim-hi":"#FFD56A","--on-crim":"#141206","--ph":"#F0B15A","--ph-ghost":"#3A2A12","--on-ph":"#141312","--go":"#7FD39A","--go-ghost":"#173022","--hazard":"repeating-linear-gradient(135deg,#FF5A1F 0 14px,#0B0E05 14px 28px)","--tex-1":"repeating-linear-gradient(135deg,rgba(255,90,31,.9) 0 14px,transparent 14px 28px)","--tex-2":"repeating-linear-gradient(45deg,rgba(255,90,31,.7) 0 10px,transparent 10px 20px)","--tex-3":"repeating-linear-gradient(135deg,rgba(255,90,31,.5) 0 22px,transparent 22px 44px)","--plate-bg":"#0B0E05","--plate-surface":"#1A2110","--plate-surface-2":"#232C16","--plate-sunk":"#070904","--plate-line":"#2E381A","--plate-line-soft":"#232C16","--plate-line-strong":"#4F5E2A","--plate-text":"#F3F1E8","--plate-text-2":"#CFCDBF","--plate-text-3":"#A3A594","--door-k":"#FFB36B"},"fonts":["Teko:wght@500;600;700","Barlow:wght@400;500;600;700","IBM Plex Mono:wght@400;500;600","Fredoka:wght@500;600;700","Nunito:wght@400;600;700;800"],"map":{"spots":{"unit":{"x":50,"y":52}}},"worlds":{"adventure":{"name":"Activate Outdoor Adventure","note":"Daylight and family: a pale ground, Activate's red and gold off the roundel, dark ink, Fredoka rounded display with Nunito, sentence-case labels, a scalloped gold edge instead of tape, rounded cards, no rain.","tokens":{"--bg":"#F7F3EA","--surface":"#FFFFFF","--surface-2":"#EFE9DC","--sunk":"#ECE5D5","--line":"#DDD5C3","--line-soft":"#E8E1D2","--line-strong":"#B8AD93","--text":"#1C1710","--text-2":"#3E3930","--text-3":"#605A4E","--red":"#94121E","--red-2":"#B0182A","--red-hi":"#B0182A","--red-ink":"#94121E","--red-ghost":"#F6E4E5","--on-red":"#FFFFFF","--yel":"#94121E","--yel-hi":"#B0182A","--on-yel":"#FFFFFF","--yel-2":"#6E0D16","--crim":"#F2C14D","--crim-hi":"#FFD56A","--on-crim":"#1C1710","--ph":"#7A4A00","--ph-ghost":"#F7E8CF","--on-ph":"#FFFFFF","--go":"#1F6B3A","--go-ghost":"#DDEFE3","--shadow":"0 1px 0 rgba(0,0,0,.06), 0 24px 48px -28px rgba(40,30,10,.35)","--hazard":"repeating-linear-gradient(135deg,#F2C14D 0 14px,#94121E 14px 28px)","--tex-1":"repeating-linear-gradient(135deg,rgba(148,18,30,.6) 0 14px,transparent 14px 28px)","--tex-2":"repeating-linear-gradient(45deg,rgba(242,193,77,.7) 0 10px,transparent 10px 20px)","--tex-3":"radial-gradient(circle,rgba(242,193,77,.55) 0 3px,transparent 3.6px) 0 0/18px 18px","--plate-bg":"#FFFFFF","--plate-surface":"#F7F3EA","--plate-surface-2":"#EFE9DC","--plate-sunk":"#ECE5D5","--plate-line":"#DDD5C3","--plate-line-soft":"#E8E1D2","--plate-line-strong":"#B8AD93","--plate-text":"#1C1710","--plate-text-2":"#3E3930","--plate-text-3":"#5C564A","--door-k":"#F2C14D","--display":"\"Fredoka\", \"Nunito\", \"Trebuchet MS\", sans-serif","--ui":"\"Nunito\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif","--mono":"\"Nunito\", ui-sans-serif, system-ui, sans-serif"}}},"worldLabels":{"airsoft":"Predator Airsoft","adventure":"Activate Outdoor Adventure"}},"brand":null,"assets":{"logo":"assets/logo.png","logo.png":"assets/logo.png","logo-activate":"assets/logo-activate.png","logo-activate.png":"assets/logo-activate.png","field-run":"assets/field-run.jpg","field-run.jpg":"assets/field-run.jpg","fort-window":"assets/fort-window.jpg","fort-window.jpg":"assets/fort-window.jpg","smoke-base":"assets/smoke-base.jpg","smoke-base.jpg":"assets/smoke-base.jpg","group-base":"assets/group-base.jpg","group-base.jpg":"assets/group-base.jpg","door-airsoft":"assets/door-airsoft.jpg","door-airsoft.jpg":"assets/door-airsoft.jpg","door-nerf":"assets/door-nerf.jpg","door-nerf.jpg":"assets/door-nerf.jpg","door-adventure":"assets/door-adventure.jpg","door-adventure.jpg":"assets/door-adventure.jpg","rental-players":"assets/rental-players.jpg","rental-players.jpg":"assets/rental-players.jpg","big-game-day":"assets/big-game-day.jpg","big-game-day.jpg":"assets/big-game-day.jpg","site-group":"assets/site-group.jpg","site-group.jpg":"assets/site-group.jpg","kids-kayak":"assets/kids-kayak.jpg","kids-kayak.jpg":"assets/kids-kayak.jpg","team-build":"assets/team-build.jpg","team-build.jpg":"assets/team-build.jpg","rocks-group":"assets/rocks-group.jpg","rocks-group.jpg":"assets/rocks-group.jpg","bushcraft":"assets/bushcraft.jpg","bushcraft.jpg":"assets/bushcraft.jpg","poster-all-out-war":"assets/poster-all-out-war.jpg","poster-all-out-war.jpg":"assets/poster-all-out-war.jpg","aerial":"assets/aerial.jpg","aerial.jpg":"assets/aerial.jpg","wall-group-base":"assets/wall-group-base.jpg","wall-group-base.jpg":"assets/wall-group-base.jpg","wall-saloon":"assets/wall-saloon.jpg","wall-saloon.jpg":"assets/wall-saloon.jpg","wall-laugh":"assets/wall-laugh.jpg","wall-laugh.jpg":"assets/wall-laugh.jpg","wall-marshal":"assets/wall-marshal.jpg","wall-marshal.jpg":"assets/wall-marshal.jpg","wall-window":"assets/wall-window.jpg","wall-window.jpg":"assets/wall-window.jpg","wall-squad-trees":"assets/wall-squad-trees.jpg","wall-squad-trees.jpg":"assets/wall-squad-trees.jpg","wall-barricade":"assets/wall-barricade.jpg","wall-barricade.jpg":"assets/wall-barricade.jpg","wall-group-vests":"assets/wall-group-vests.jpg","wall-group-vests.jpg":"assets/wall-group-vests.jpg","wall-trail":"assets/wall-trail.jpg","wall-trail.jpg":"assets/wall-trail.jpg","wall-smoke":"assets/wall-smoke.jpg","wall-smoke.jpg":"assets/wall-smoke.jpg","hero-ridge-1":"assets/hero-ridge-1.jpg","hero-ridge-1.jpg":"assets/hero-ridge-1.jpg","hero-ridge-2":"assets/hero-ridge-2.jpg","hero-ridge-2.jpg":"assets/hero-ridge-2.jpg","home-activate":"assets/home-activate.jpg","home-activate.jpg":"assets/home-activate.jpg","phoenix-2":"assets/phoenix-2.jpg","phoenix-2.jpg":"assets/phoenix-2.jpg","phoenix-3":"assets/phoenix-3.jpg","phoenix-3.jpg":"assets/phoenix-3.jpg","canoeing-illustration":"assets/canoeing-illustration.jpg","canoeing-illustration.jpg":"assets/canoeing-illustration.jpg","orienteering-illustration":"assets/orienteering-illustration.jpg","orienteering-illustration.jpg":"assets/orienteering-illustration.jpg","archery-illustration":"assets/archery-illustration.jpg","archery-illustration.jpg":"assets/archery-illustration.jpg"},"siteUrl":"https://thinkwork.info/airsoft/predator-combat/","aocUrl":"","consoleUrl":"https://aoc.peerlab.ai/auth/login","fares":{"walkon":{"full":{"n":25,"m":25},"half":{"n":25,"m":25},"evening":{"n":25,"m":25}},"hire":{"full":{"n":45,"m":45},"half":{"n":35,"m":45},"evening":{"n":35,"m":35}}},"membership":{"price":40,"year":"January to December","yearEnd":"the end of December","renewMonth":"January","hidden":true,"note":"Taken off the site on 15 October 2026 at your request until January; the prices and the benefits are kept here so they can be switched back on."},"schedule":{"times":["09:00","10:15","16:30"],"timesSample":false,"lunch":"13:00","regular":{"day":0,"dayName":"Sunday","label":"Game day","detail":"Every Sunday: walk-on gates 09:00, rental sign-in from 09:30, chrono to 10:15, safety brief 10:15, morning games 10:30 to 13:00, afternoon games 14:00 to 16:30.","count":8,"sess":"full"},"extra":{"day":6,"dayName":"Saturday","label":"Game day","detail":"Every Saturday, the same running order.","weekly":true,"sess":"full"},"sessions":{"full":{"label":"Full day","arrive":"09:30","start":"10:10","end":"16:30","tier":"full","world":"airsoft"},"morning":{"label":"Morning","arrive":"09:30","start":"10:10","end":"13:00","tier":"half","world":"airsoft"},"afternoon":{"label":"Afternoon","arrive":"13:30","start":"14:00","end":"16:30","tier":"half","world":"airsoft"},"evening":{"label":"Evening","arrive":"18:30","start":"19:00","end":"21:30","tier":"evening","note":"On a Saturday or Sunday an evening takes any number. On any other date it runs for ten or more.","world":"airsoft"}},"closed":["12-24","12-25","12-31","01-01"],"minOffDay":10,"minPlayers":{"nerf":10,"offDay":10}},"adventure":{"minPlayers":8,"prices":{"half":35,"full":45},"depositPct":0.3,"refundDays":14,"sessions":{"full":{"label":"Full day","arrive":"09:30","start":"10:00","end":"16:30","picks":4,"world":"adventure"},"morning":{"label":"Morning","arrive":"09:30","start":"10:00","end":"13:00","picks":2,"world":"adventure"},"afternoon":{"label":"Afternoon","arrive":"13:30","start":"14:00","end":"16:30","picks":2,"world":"adventure"}},"ageMin":4,"adultTo":16,"activities":[{"key":"climb","n":"Rock climbing","whole":true,"note":"Off site, so it takes a whole session"},{"key":"abseil","n":"Abseiling","whole":true,"note":"Off site, so it takes a whole session"},{"key":"hill","n":"Hill and mountain walking","whole":true,"note":"Off site, so it takes a whole session"},{"key":"canoe","n":"Canoeing","whole":true,"note":"On the water, so it takes a whole session"},{"key":"kayak","n":"Kayaking"},{"key":"archery","n":"Archery","ageMin":10},{"key":"orient","n":"Orienteering"},{"key":"bushcraft","n":"Bushcraft"}],"callback":{"to":"{{fact.email_activate}}","note":"Name, email and telephone, emailed to you."}},"events":[{"key":"halloween-2026","name":"Halloween: relic hunters","short":"Halloween","iso":"2026-10-24","dayName":"Saturday","world":"airsoft","detail":"An Indiana Jones night game. One team hunts the mythical relics and keeps them safe, the other means to take over the world. Arrive from 17:00, briefing, and we are on the field from 18:00 until 23:00.","times":{"arrive":"17:00","start":"18:00","end":"23:00"},"price":35,"lock":{"sess":"evening","arrive":"17:00","start":"18:00","end":"23:00","label":"Evening, 18:00 to 23:00"},"prices":{"walkon":35,"hire":50},"groups":false,"sample":false,"confirmed":true,"srcLabel":"Times, theme and prices as you gave them on 15 October; the poster is yours to send"},{"key":"boxing-day-2026","name":"Boxing Day game day","short":"Boxing Day","iso":"2026-12-26","dayName":"Saturday","world":"airsoft","detail":"A Boxing Day game for the kit that arrived on Christmas morning. Normal game day prices, full day, and we open it once ten players are booked.","times":{"arrive":"09:00","start":"10:10","end":"16:30"},"minPlayers":10,"fullDayOnly":true,"sample":false,"srcLabel":"Proposed by us on 15 October at your normal prices: ten players opens the day","prices":{"walkon":25,"hire":45}}],"mode":"proposal","ref":"PC","copy":{"todayTake":"a booking form, paid in advance","fareboard":{"sumOwn":"Full day or half day,<br>walk-on or rental.","sumMember":"","lineOwn":"Walk-on is £25 whether you play a full day or a half day, and £25 for an evening. The rental package is £45 for a full day and £35 for a morning, afternoon or evening.","lineMember":""},"breakEven":"At a £5 gap a £40 membership pays back on the eighth game day. The figures are yours to set.","renewToast":"Renewal opens in December: one pay link, January to December, proposed.","adventure":{"headline":"Climb. Paddle. Breathe.","strap":"Rock climbing, abseiling, archery, canoeing, kayaking, orienteering and bushcraft in County Down, for families, schools, groups and companies."},"years":"more than twenty years","activityPartner":"Activate Outdoor Adventure","band1":"","band2":"","band3":"","shop_title":"Our shop, now online","shop_line":"Consumables, kit and clothing: collect at the shop, on game day, or have it delivered."},"sample":{"spaces":[31,14,38,22,9,35,19,40,12,27,33,16],"addons":[{"id":"boot","n":"Boot hire","s":"Your published £15. Tell us the size and the pair is set out.","p":15,"per":true,"on":false}],"block":{"n":6,"p":130,"s":"Six walk-on days for the price of five, proposed."},"products":[["Predator patch",6,"Store"],["BBs, 3,000 bag",12,"Consumables"],["Green gas",9,"Consumables"],["Warhammer, 10% off",0,"Store"]],"model":{"days":52,"addAvg":7,"groupAvg":420,"foodPer":0,"depositPct":0.3,"platformFeePct":0},"live":{"time":"11:02","game":2,"of":5,"next":"11:30","onSite":38,"closed":"09:30"},"backend":{"annPost":"Halloween game day, Saturday 24 October. Gates 09:00, brief 10:15. Book on the site.","bookings":[["PC-7K2D","Ciaran Magee"]]},"names":["Ciaran Magee","Aoife Donnelly","Ryan McKee","Niamh Gallagher","Conor Mulholland","Shannon Reilly","Darragh Boyle","Megan Hanna","Jack Mullan","Eimear Quinn","Odhran Walsh","Caitlin Doherty"],"group":{"discountPct":10,"discountFrom":12,"appliesTo":"hire","note":"Ten per cent off rental bookings of twelve or more. No group discount on walk-ons."}},"content":{"jsonld":{"description":"Predator Combat and Activate Outdoor Adventure, Ballynahinch, County Down: airsoft game days (walk-on £25, rental £45), Nerf Wars parties (£15 per player) and outdoor adventure activities, thirty minutes from Belfast.","faq":[{"q":"How much is a game day at Predator Combat?","a":"A walk-on with your own kit is £25 for the full day, morning or afternoon, and £25 for an evening. A rental package is £45 for the full day or £35 for a morning, afternoon or evening: an electric 1:1 replica rifle, 3,000 rounds and full face protection. Boot hire is £15."},{"q":"What time does a game day run?","a":"Gates open at 9:00 am, the shop at 9:30 am, sign-in and chrono 9:30 to 10:15 am, safety brief 10:15 am, morning games 10:30 am to 1:00 pm, lunch 1:00 to 2:00 pm, afternoon games 2:00 to 4:30 pm."},{"q":"What days does Predator Combat run?","a":"Game days run every Saturday and Sunday. Gates open at 9:00 am, safety brief 10:15 am, afternoon games end at 4:30 pm."},{"q":"How old do you have to be to play airsoft at Predator Combat?","a":"Airsoft is for players aged 12 and above. Nerf Wars are for ages 7 and above, six to sixteen players."},{"q":"How much are Nerf Wars?","a":"£15 per participating player, from age 7, in sessions of ninety minutes. Ten players minimum and no real maximum."},{"q":"What outdoor activities does Activate offer?","a":"Rock climbing, hill and mountain walking, abseiling, archery, canoeing, kayaking, orienteering and bushcraft and survival skills, for individuals and groups. Adventure boot camps, corporate training and kids’ outdoor activities are also run, but as programmes rather than activity sessions, so they are arranged on a call rather than booked at the activity price."},{"q":"Is there a membership?","a":"Predator Membership is £40 for January to December, £25 from September to December, sold at the store. It includes UKARA registration, discounts in the shop, free members days, a loyalty card and discounts on some big game days. There is no discount on the game fee itself at the moment."},{"q":"Where is Predator Combat?","a":"Ballynahinch, County Down, BT24 8NF, thirty minutes from Belfast. Phone 028 9756 5651 or 07825 169 631."},{"q":"What should I wear?","a":"Outdoor footwear is essential; boot hire is £15 if you do not have suitable footwear for the conditions. Rental players get full face protection."}],"fareLabels":{"walkon":"Airsoft game day, walk-on with your own kit","hire":"Airsoft game day with the rental package"}}},"cesiumToken":""};
 /* ---- part: helpers.js ----
    The four things every other part uses: $ and $$, the money formatters, the
    toast, and the two page-level constants (`root`, and `reduce` for
@@ -2983,14 +3081,20 @@ const STORE_KEY="tw:"+storeSlug()+":v1";
    The one thing localStorage never had to do is take money, so on these sites the Book screen is the booking server's
    own flow, mounted below. */
 const STORE_SITES={"predator-combat":"https://aoc.peerlab.ai"};
-const STORE_API=(function(){const P=(typeof CONFIG!=="undefined"&&CONFIG.platform)||{};const base=P.api||STORE_SITES[storeSlug()];
+const STORE_SERVER=(function(){const P=(typeof CONFIG!=="undefined"&&CONFIG.platform)||{};const base=P.api||STORE_SITES[storeSlug()];
   if(!base)return null;
   try{const x=new XMLHttpRequest();x.open("GET",base.replace(/\/+$/,"")+"/store/site/"+encodeURIComponent(P.api?CONFIG.slug:storeSlug()),false);x.send();
     if(x.status!==200)return null;const S=JSON.parse(x.responseText);return {base:base.replace(/\/+$/,""),S};}
   catch(e){return null; /* the server is unreachable: the page still works as the published prototype */}})();
+/* Online booking on this site (booking platform milestone 18): the platform's switch (/store/site's booking) wins, then
+   the config's CONFIG.platform.booking, then on. "off": the Book buttons stay and open the prototype's own booking in
+   this browser, nothing live; an address: every Book button goes there instead; "on": the platform's flow below. */
+const STORE_BOOKING=(function(){const v=(STORE_SERVER&&STORE_SERVER.S&&STORE_SERVER.S.booking)||(typeof CONFIG!=="undefined"&&CONFIG.platform&&CONFIG.platform.booking)||"on";
+  return /^https?:\/\//i.test(String(v))?String(v):(v==="off"?"off":"on");})();
+const STORE_API=STORE_BOOKING==="off"?null:STORE_SERVER;
 /* On the real system the page's days and times are the database's: the session times, the regular day's times, and
    how many weeks the calendar runs, folded into CONFIG here, before days.js builds the dates from it. */
-if(STORE_API&&typeof CONFIG!=="undefined"&&CONFIG.schedule){try{const D=STORE_API.S,SC=CONFIG.schedule;
+if(STORE_SERVER&&typeof CONFIG!=="undefined"&&CONFIG.schedule){try{const D=STORE_SERVER.S,SC=CONFIG.schedule;
   if(D.sessions&&SC.sessions)for(const k in D.sessions)if(SC.sessions[k])Object.assign(SC.sessions[k],D.sessions[k]);
   const F=D.sessions&&D.sessions.full;if(F&&Array.isArray(SC.times))SC.times=[F.arrive||SC.times[0],F.start||SC.times[1],F.end||SC.times[2]];
   if(Array.isArray(D.days)&&D.days.length&&SC.regular&&typeof SC.regular.day==="number"){
@@ -3024,7 +3128,9 @@ if(STORE_API)(function(){
   const idle=window.requestIdleCallback||(f=>setTimeout(f,1500));
   idle(()=>{load().catch(()=>{});days();});
   function brand(){const w=document.documentElement.dataset.world,S=A.S;return (w&&S.worlds&&S.worlds[w])||S.brand;}
-  function open(link){
+  function open(link,shop,extra){
+    /* booking sent elsewhere: every Book goes to that address (booking platform milestone 18) */
+    if(STORE_BOOKING!=="on"){location.href=STORE_BOOKING;return;}
     prevFocus=document.activeElement;
     /* the sheet is on screen the moment Book is pressed, in the page's own colours, saying what it is doing */
     if(sheet)sheet.remove();
@@ -3036,7 +3142,7 @@ if(STORE_API)(function(){
     Promise.all([load(),days()]).then(([,d])=>{
       if(sheet!==mine)return;   /* closed while it loaded */
       sheet.innerHTML="";
-      TWFlow.mount(sheet,Object.assign({api:A.base,brand:brand(),deepLink:link||{},onClose:()=>{if(pushed)history.back();else close();}},d?{data:d}:{}));
+      TWFlow.mount(sheet,Object.assign({api:A.base,brand:brand(),deepLink:link||{},shop:shop||[],onClose:()=>{if(pushed)history.back();else close();},onResume:()=>open({})},d?{data:d}:{},extra||{}));   /* the Resume booking pill opens this same sheet (booking-platform milestone 17a) */
       const f=sheet.querySelector(".twf-h,button,input");if(f)f.focus({preventScroll:true});
     }).catch(()=>{location.href=A.base+"/book/"+encodeURIComponent(brand())+(link&&link.date?"?date="+link.date:"");});
   }
@@ -3057,6 +3163,12 @@ if(STORE_API)(function(){
   function wrap(){if(typeof go!=="function"||go.twFlow)return;const go0=go;
     go=function(name){if(skipGo){skipGo=false;return;}if(name==="book"){if(!booting)open({});return;}return go0.apply(this,arguments);};go.twFlow=1;}
   wrap();if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",wrap);
+  /* the site's Shop (engine/parts/shop.js; booking-platform milestone 18b): Add to basket puts the line in the flow's
+     basket and opens it there, to collect at the shop or to go with a booking */
+  addEventListener("twshop:add",e=>{if(STORE_BOOKING!=="on"||!e.detail)return;e.preventDefault();e.detail.taken=true;open({},[e.detail]);});
+  /* the shop drawer's order on a real tenant (booking platform, 2 Nov): its card payment is taken in the sheet's card step,
+     as the no-booking order of 18b is; untaken (booking off here), the drawer says so itself */
+  addEventListener("twshop:pay",e=>{if(STORE_BOOKING!=="on"||!e.detail||!e.detail.payment)return;e.preventDefault();e.detail.taken=true;open({},[],{pay:e.detail});});
   /* ?screen=book (a link in an email, a QR code) opens it once the page is up */
   try{const u=new URL(location.href);if(u.searchParams.get("screen")==="book"){booting=true;const link={date:u.searchParams.get("date")||undefined,session:u.searchParams.get("session")||undefined};
     setTimeout(()=>{booting=false;if(document.body.dataset.screen==="book"&&typeof go==="function")go("home");open(link);},0);}}catch(e){}
@@ -3124,7 +3236,8 @@ const notesBtn=$("#notesBtn"), app=$("#app");
 notesBtn.addEventListener("click",()=>{const on=document.body.classList.toggle("notes-on");notesBtn.setAttribute("aria-pressed",on);});
 document.body.classList.add("ph-on");
 /* the prototype toolbar is sticky too: the site header must park beneath it, not behind it */
-function parkHead(){const b=$("#bar"),h=$("#head");if(b&&h)h.style.top=b.offsetHeight+"px";}
+/* the offset lives in a variable, not an inline top: the gates reset a sticky header's inline top for their capture, and a late re-park on a resize had slid the header 51px under its measured place (steel-city, 30 Oct) */
+function parkHead(){const b=$("#bar"),h=$("#head");if(b&&h)document.documentElement.style.setProperty("--bar-h",b.offsetHeight+"px");}
 parkHead(); addEventListener("resize",parkHead); setTimeout(parkHead,600);
 /* the placeholder legend is a paragraph of body copy. On a phone that is the
    whole first screen, so below 640px it collapses to its first line and a
@@ -3187,10 +3300,40 @@ document.addEventListener("click",e=>{const b=e.target.closest(".btn");if(!b||re
     seq.forEach((el,i)=>el.animate([{opacity:0,transform:"translateY(26px)"},{opacity:1,transform:"none"}],{duration:620,delay:55*i,easing:"cubic-bezier(.2,.7,.2,1)",fill:"backwards"}));
     hero.querySelectorAll("h1 em").forEach((el,i)=>el.animate([{textShadow:"0 0 0 rgba(255,222,150,0)"},{textShadow:"0 0 30px rgba(255,222,150,.8)",offset:.45},{textShadow:"0 0 0 rgba(255,222,150,0)"}],{duration:760,delay:55*(3+i)+560,easing:"ease-out"}));
   }
+  /* 1a. the fold (19f): a long headline, a tall chrome or a short window, and the first action slips under the fold; the
+     headline steps down (never under 44px) until the actions sit inside the first screen, unscrolled. Fonts first. */
+  const fit=()=>{const h1=hero.querySelector("h1"),cta=hero.querySelector(".cta")||hero.querySelector(".row");if(!h1||!cta||scrollY>8)return;
+    h1.style.fontSize="";let size=parseFloat(getComputedStyle(h1).fontSize),n=0;
+    /* the budget is the window less whatever sits above the site (a proposal's toolbar): measured from the page's own header */
+    const head=document.getElementById("head"),top=head?Math.max(0,head.getBoundingClientRect().top):0;
+    while(n++<30&&size>44&&cta.getBoundingClientRect().bottom-top>innerHeight-12){size=Math.max(44,size-4);h1.style.fontSize=size+"px";}
+    /* and no line of its own for a single word (Greg, 2 Nov): each <br>-separated segment of the headline holds on one line */
+    const segs=h1.innerHTML.split(/<br\s*\/?>/i).length;
+    const lines=()=>{const r=document.createRange();r.selectNodeContents(h1);const tops=new Set();for(const b of r.getClientRects()){if(b.width>2)tops.add(Math.round(b.top/4));}return tops.size;};
+    n=0;while(n++<30&&size>44&&lines()>segs){size=Math.max(44,size-3);h1.style.fontSize=size+"px";}};
+  /* the faces land after the page (their stylesheet is media=print until it loads), so the fit runs again as they do */
+  fit();if(document.fonts){document.fonts.ready.then(fit);document.fonts.addEventListener("loadingdone",fit);}
+  setTimeout(fit,900);setTimeout(fit,2200);setTimeout(fit,4000);
+  addEventListener("resize",fit);
+  /* 1b. the film (19f): the clip plays over the slides once it can, pauses off screen and in a hidden tab, and a tall
+     viewport gets the portrait cut. Under reduced motion it never loads: the first slide stands. */
+  hero.querySelectorAll("video.film").forEach(v=>{
+    if(reduce)return;
+    const portrait=matchMedia("(orientation:portrait)").matches||innerWidth<640;
+    const src=(portrait&&v.dataset.srcPortrait)||v.dataset.src;if(!src)return;
+    const poster=(portrait&&v.dataset.posterPortrait)||v.dataset.poster;if(poster)v.poster=poster;
+    v.muted=true;v.loop=true;v.playsInline=true;v.setAttribute("playsinline","");v.preload="auto";v.src=src;
+    const credit=hero.querySelector("[data-stage-credit]");
+    const on=()=>{v.play().then(()=>{v.classList.add("on");if(credit&&v.dataset.credit){credit.textContent=v.dataset.credit;credit.dataset.film="1";}}).catch(()=>{});};
+    v.addEventListener("canplay",on,{once:true});
+    if("IntersectionObserver" in window)new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){if(v.paused)on();}else v.pause();}),{threshold:.1}).observe(v);
+    document.addEventListener("visibilitychange",()=>{if(document.hidden)v.pause();else on();});
+  });
   /* a layout with one stage per world (data-world on each .stage, CSS shows the one html[data-world] names) runs each
      stage on its own clock; a hidden stage has no size, so its rain is an empty loop until it is shown */
   stages.forEach(stage=>{
   const slides=[...stage.querySelectorAll("img.slide")],n=slides.length||1;
+  if(!slides.length)return;   /* a site with no photographs yet: the stage stands empty and nothing after this line is harmed (NML, 30 Oct) */
   const hold=parseFloat(getComputedStyle(hero).getPropertyValue("--hold"))||5;
   /* the clock is the first slide's own animation (delay 0), so the credit and the lightning follow what is on screen */
   const t0=performance.now();
@@ -3198,7 +3341,7 @@ document.addEventListener("click",e=>{const b=e.target.closest(".btn");if(!b||re
   const idx=()=>reduce?0:Math.floor(((at()/hold)%n+n)%n);
   /* 2. the credit follows the slide: the credit that names this stage's world, else the hero's one credit */
   const credit=(stage.dataset.world&&hero.querySelector('[data-stage-credit][data-world="'+stage.dataset.world+'"]'))||hero.querySelector("[data-stage-credit]");let shown=-1;
-  const syncCredit=()=>{const i=idx();if(i!==shown){shown=i;if(credit)credit.textContent=slides[i].dataset.credit||"";}};
+  const syncCredit=()=>{const i=idx();if(i!==shown){shown=i;if(credit&&!credit.dataset.film)credit.textContent=slides[i].dataset.credit||"";}};   /* the film's credit stands while the film plays */
   syncCredit();if(reduce)return;setInterval(syncCredit,250);
   /* 3. rain */
   const canvas=stage.querySelector("canvas.rain"),ctx=canvas&&canvas.getContext("2d");
@@ -3247,7 +3390,7 @@ function go(name){
   $$("section[data-screen]").forEach(s=>s.hidden=(s.dataset.screen!==name));
   $$("nav.main button").forEach(b=>b.classList.toggle("on",b.dataset.go===name));
   const prop=name==="prop", back=name==="back";
-  $("#viewProp").setAttribute("aria-pressed",prop); $("#viewBack").setAttribute("aria-pressed",back); $("#viewSite").setAttribute("aria-pressed",!prop&&!back);
+  press("#viewProp",prop); press("#viewBack",back); press("#viewSite",!prop&&!back);
   if(!prop&&!back) lastSite=name;
   document.body.dataset.screen=name;
   const sec=$('section[data-screen="'+name+'"]'); if(sec&&sec.dataset.world) setWorld(sec.dataset.world);   /* a screen that belongs to a world opens in it */
@@ -3300,14 +3443,21 @@ function showConsole(query){
   if(f.getAttribute("src")!==src) f.setAttribute("src",src);
   $("#consoleWrap").hidden=false; document.documentElement.classList.add("console-open"); placeConsole();
   const prop=!!query; document.body.dataset.screen=prop?"prop":"back";
-  $("#viewProp").setAttribute("aria-pressed",prop); $("#viewBack").setAttribute("aria-pressed",!prop); $("#viewSite").setAttribute("aria-pressed",false);
+  press("#viewProp",prop); press("#viewBack",!prop); press("#viewSite",false);
   window.scrollTo({top:0,behavior:"auto"});
 }
 function hideConsole(){ const w=$("#consoleWrap"); if(w) w.hidden=true; document.documentElement.classList.remove("console-open"); }
 window.addEventListener("resize",placeConsole);
-$("#viewSite").addEventListener("click",()=>{ hideConsole(); go(lastSite); });
-$("#viewBack").addEventListener("click",()=>{ if(CONFIG.aocUrl){ showConsole(""); return; } if($('section[data-screen="back"]')) go("back"); });
-$("#viewProp").addEventListener("click",()=>{ if(CONFIG.aocUrl && CONFIG.aocProposal!==false){ showConsole("proposal"); return; } if($('section[data-screen="prop"]')) go("prop"); });   /* the proposal lives in the console; a build without one has no proposal screen to fall back to */   /* the Proposal lives in the console too, once the console exists */
+/* the toolbar is proposal chrome: a plain build (proposal:false) has none of these, and the site routes the same without them */
+function press(sel,on){const b=$(sel); if(b) b.setAttribute("aria-pressed",on);}
+const bar=(sel,ev,fn)=>{const b=$(sel); if(b) b.addEventListener(ev,fn);};
+bar("#viewSite","click",()=>{ hideConsole(); go(lastSite); });
+/* Console in the toolbar is a link to the platform's login (CONFIG.consoleUrl) unless a config embeds a console of its own (aocUrl);
+   only a page with neither opens the in-page back end */
+bar("#viewBack","click",e=>{ if(CONFIG.aocUrl){ e.preventDefault(); showConsole(""); return; } if(CONFIG.consoleUrl) return; e.preventDefault(); if($('section[data-screen="back"]')) go("back"); });
+bar("#viewProp","click",()=>{ if(CONFIG.aocUrl && CONFIG.aocProposal!==false){ showConsole("proposal"); return; } if($('section[data-screen="prop"]')) go("prop"); });
+/* a proposal lived in the embedded console; a page with no console of its own and no in-page proposal has nothing to open, so the button goes */
+if(!(CONFIG.aocUrl && CONFIG.aocProposal!==false) && !$('section[data-screen="prop"]') && $("#viewProp")) $("#viewProp").hidden=true;   /* the proposal lives in the console; a build without one has no proposal screen to fall back to */   /* the Proposal lives in the console too, once the console exists */
 $("#burger").addEventListener("click",()=>{const n=$("#nav");const o=n.classList.toggle("open");$("#burger").setAttribute("aria-expanded",o);});
 
 /* ---------- this layout's own behaviour: the three doors, the two worlds, the headline ---------- */
@@ -3388,13 +3538,14 @@ function nextRegular(n){
   while(out.length<n){if(!isBreak(d))out.push(new Date(d));d.setDate(d.getDate()+7);}
   return out;
 }
-const SPACES=CONFIG.sample.spaces;
+const SPACES=(CONFIG.sample&&CONFIG.sample.spaces)||[];   /* empty on a live page (19h): no count is printed until a real capacity is set */
+const spaceAt=(i)=>SPACES.length?SPACES[i%SPACES.length]:undefined;
 const DATES=[];
 /* the days they are shut: Christmas Eve and Day, New Year's Eve and Day. A closed date never reaches the picker,
    the board or the structured data. schedule.closed holds them as MM-DD. */
 const CLOSED=(SCHED.closed||[]).map(String);
 const isClosed=d=>CLOSED.indexOf(String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"))>=0;
-nextRegular(SCHED.regular.count).filter(dt=>!isClosed(dt)).forEach((dt,i)=>DATES.push({dt,kind:SCHED.regular.dayName,n:SCHED.regular.label,d:SCHED.regular.detail,left:SPACES[i%SPACES.length],cap:SCHED.cap,tba:false,sess:SCHED.regular.sess}));
+nextRegular(SCHED.regular.count).filter(dt=>!isClosed(dt)).forEach((dt,i)=>DATES.push({dt,kind:SCHED.regular.dayName,n:SCHED.regular.label,d:SCHED.regular.detail,left:spaceAt(i),cap:SCHED.cap,tba:false,sess:SCHED.regular.sess}));
 /* ---------- an event may be a date, or a pattern ----------
    A one-off carries iso. A repeating one carries repeat:{every,weekday,nth,day,interval,from,until,count,skip} and is
    expanded here into real dates inside the booking horizon, skipping the days they are closed and anything the owner
@@ -3503,7 +3654,7 @@ if(MIN_OFF&&typeof storeRead==="function"){
     const d=new Date();d.setHours(8,0,0,0);let add=(7+X.day-d.getDay())%7;if(add===0&&Date.now()>d.getTime()+8*3600e3)add=7;d.setDate(d.getDate()+add);
     /* an event already on that date IS that day: a second weekly row printed the same Saturday twice in the picker */
     let i=0;while(d<=lastReg.dt){const taken=DATES.some(x=>x.dt.toDateString()===d.toDateString());
-      if(!isBreak(d)&&!taken&&!isClosed(d))DATES.push({dt:new Date(d),kind:X.dayName,n:X.label,d:X.detail,left:SPACES[(i+5)%SPACES.length],cap:X.cap||SCHED.cap,tba:false,sess:X.sess});d.setDate(d.getDate()+7);i++;}
+      if(!isBreak(d)&&!taken&&!isClosed(d))DATES.push({dt:new Date(d),kind:X.dayName,n:X.label,d:X.detail,left:spaceAt(i+5),cap:X.cap||SCHED.cap,tba:false,sess:X.sess});d.setDate(d.getDate()+7);i++;}
     return;
   }
   const horizon=lastReg.dt.getFullYear()*12+lastReg.dt.getMonth();
@@ -3529,10 +3680,15 @@ const fmtShort=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
   const rows=DATES.filter(d=>!d.tba);
   $("#boardRows").innerHTML=rows.map((r,i)=>'<div class="r'+(i===0?" next":"")+'">'+
     '<div class="d">'+r.dt.toLocaleDateString("en-GB",{weekday:"short"})+(r.tba?'':' '+r.dt.getDate())+'<small>'+r.dt.toLocaleDateString("en-GB",{month:"long"})+'</small>'+(i===0?'<span class="status next">Next</span>':'')+'</div>'+
-    '<div class="n"><b>'+(r.prize?'<svg class="ico" aria-hidden="true"><use href="#i-trophy"/></svg>':'')+r.n+'</b>'+(r.tba?'Date to be announced':(r.left<20?r.left+' places left':'Places available'))+(r.price?' · '+gbp(r.price)+' entry':'')+'</div>'+
+    '<div class="n"><b>'+(r.prize?'<svg class="ico" aria-hidden="true"><use href="#i-trophy"/></svg>':'')+r.n+'</b>'+(r.tba?'Date to be announced':(r.left!=null&&r.cap!=null&&r.left<20?r.left+' places left':'Places available'))+(r.price?' · '+gbp(r.price)+' entry':'')+'</div>'+
     '<div class="times">'+(r.tba?'<span class="t"></span><span class="t"></span><span class="t"></span>':(r.t||SCHED.times).map(x=>'<span class="t">'+x+'</span>').join(""))+'</div>'+
     '<div class="a">'+(r.tba?'<span class="status tba">Date TBA</span>':'<button class="btn primary sm" data-book="'+DATES.indexOf(r)+'">Book</button>')+'</div>'+
   '</div>').join("");
+  /* the next three as cards (TEMPLATES.md 19g: a dates section never opens as a heading and a lone button) */
+  const nc=$("#nextCards");if(nc){nc.querySelectorAll("article").forEach(a=>a.remove());nc.insertAdjacentHTML("beforeend",rows.slice(0,3).map((r,i)=>'<article class="datecard'+(i===0?" next":"")+'">'+
+    '<p class="eyebrow">'+(i===0?"Next game day":(r.kind||"Game day"))+'</p><b class="dd">'+r.dt.toLocaleDateString("en-GB",{weekday:"long"})+'</b><span class="dm">'+r.dt.getDate()+' '+r.dt.toLocaleDateString("en-GB",{month:"long"})+'</span>'+
+    '<p class="dn">'+r.n+(r.price?' · '+gbp(r.price):'')+'</p><p class="dt">'+(r.t||SCHED.times).join(' · ')+'</p><p class="dl">'+(r.left!=null&&r.cap!=null&&r.left<20?r.left+' places left':'Places available')+'</p>'+
+    '<button class="btn primary sm" data-book="'+DATES.indexOf(r)+'">Book this day</button></article>').join(""));}
   $("#acctNext").textContent=fmtLong(DATES[FIRST_SUN].dt);
   /* the ripped banners in the hero: the next date and what it costs, off the same list */
   const nx=DATES[0];
@@ -3547,7 +3703,7 @@ const fmtShort=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
 let filter="all";
 function renderDays(){
   $("#dayList").innerHTML=DATES.filter(d=>filter==="all"||d.kind===filter).map(d=>{
-    const low=d.left!==null&&d.left<20, pct=d.left===null?0:Math.round(100-d.left/d.cap*100);
+    const low=d.left!=null&&d.cap!=null&&d.left<20, pct=d.left==null||!d.cap?0:Math.round(100-d.left/d.cap*100);
     return '<article class="day">'+
       '<div class="date"><b>'+(d.tba?d.dt.toLocaleDateString("en-GB",{weekday:"short"}):d.dt.getDate())+'</b><span>'+(d.tba?d.dt.toLocaleDateString("en-GB",{month:"long"}):d.dt.toLocaleDateString("en-GB",{weekday:"short",month:"short"}))+'</span></div>'+
       '<div class="info"><div class="row" style="gap:8px"><h3>'+(d.prize?'<svg class="ico" aria-hidden="true"><use href="#i-trophy"/></svg>':'')+d.n+'</h3>'+(d.tba?'<span class="pill ph">Date TBA</span>':'')+'</div><p class="small muted" style="margin-top:4px">'+d.d+'</p></div>'+
@@ -3625,6 +3781,9 @@ $("#levNon").addEventListener("click",()=>setMember(false));
 /* ---------- booking ---------- */
 const ADDONS=CONFIG.sample.addons;
 const BLOCK=CONFIG.sample.block.price;
+/* the prepaid block is sample content, so a live site never offers or prices it (TEMPLATES.md 19h). The build takes
+   its row off the page, so the figure is not written and the option cannot reach the basket. */
+const BLOCK_OFF=CONFIG.sample.live===true||CONFIG.mode==="live";
 const state={date:FIRST_SUN,step:1,sess:"full",member:false,joined:false,block:false,q:{walkon:1,hire:0},add:Object.fromEntries(ADDONS.map(a=>[a.id,a.on]))};
 /* a poster date is a deposit booking: the hot lunch starts unticked so the button's £10 is exactly what is charged */
 /* ---------- sessions ----------
@@ -3676,7 +3835,7 @@ function totals(){
       lines.push({n:n+" × "+LBL[k]+", "+sl.toLowerCase(),v:u*n});saved+=n*(listPrice(k)-u);}}
   if(ev.off&&players())lines.push({n:ev.offLabel,v:null});
   if(state.joined){sub+=MEMBERSHIP;lines.push({n:"Membership, "+CONFIG.membership.year,v:MEMBERSHIP});}
-  if(state.block){sub+=BLOCK;lines.push({n:CONFIG.sample.block.label,v:BLOCK});}
+  if(state.block&&!BLOCK_OFF){sub+=BLOCK;lines.push({n:CONFIG.sample.block.label,v:BLOCK});}
   /* their own group rule: ten per cent off a rental booking of twelve or more, nothing off walk-ons */
   const GD=(CONFIG.sample||{}).group;
   if(GD&&GD.discountPct&&state.q.hire>=(GD.discountFrom||12)){
@@ -3879,9 +4038,11 @@ function mCalc(){
   const g=+$("#mSlider").value;
   $("#mGames").textContent=g+" full day"+(g===1?"":"s");
   const payg=g*FARE.walkon.full.n, mem=MEMBERSHIP+g*FARE.walkon.full.m;
-  const BLK=CONFIG.sample.block;
-  let blk=MEMBERSHIP+Math.min(g,BLK.days)*BLK.dayRate+Math.max(0,g-BLK.days)*FARE.walkon.full.m;
-  $("#mPayg").textContent=gbp(payg);$("#mMem").textContent=gbp(mem);$("#mBlk").textContent=gbp(blk);
+  const BLK=CONFIG.sample.block, blkEl=$("#mBlk");
+  /* a live site compares only the two figures that are real, pay on the day against membership; Infinity keeps the
+     block out of the best-value line without a second copy path, and the element is gone from a live page. */
+  const blk=BLOCK_OFF?Infinity:MEMBERSHIP+Math.min(g,BLK.days)*BLK.dayRate+Math.max(0,g-BLK.days)*FARE.walkon.full.m;
+  $("#mPayg").textContent=gbp(payg);$("#mMem").textContent=gbp(mem);if(blkEl&&!BLOCK_OFF)blkEl.textContent=gbp(blk);
   const best=Math.min(payg,mem,blk);
   $("#mBest").textContent=best===payg?"At "+g+" day"+(g===1?"":"s")+" a year, pay on the day. "+CONFIG.copy.breakEven:
     "Best value: "+(best===mem?"membership":"membership plus the block")+". You save "+gbp(payg-best)+" a year against paying on the day.";
@@ -3999,7 +4160,7 @@ let basket=0;
 if($("#prodGrid"))$("#prodGrid").innerHTML='<span class="phtag">Proposed pre-order · sample prices</span>'+PRODS.map((p,i)=>'<article class="card pad"><p class="eyebrow">'+p[2]+'</p><h4 style="margin-top:6px;font-family:var(--display);font-size:22px;text-transform:uppercase">'+p[0]+'</h4><p class="mono" style="font-size:20px;margin-top:8px;font-weight:600">'+gbp2(p[1])+'</p><button class="btn ghost sm wide" style="margin-top:12px" data-add="'+i+'">Add to '+SCHED.regular.dayName+'</button></article>').join("");
 document.addEventListener("click",e=>{const b=e.target.closest("[data-add]");if(!b)return;basket++;if($("#basketPill"))$("#basketPill").textContent="Basket: "+basket+" item"+(basket===1?"":"s");b.textContent="Added, collect "+fmtShort(DATES[FIRST_SUN].dt);b.classList.add("primary");});
 document.addEventListener("click",e=>{const v=e.target.closest("[data-v]");if(!v)return;$$("[data-v]").forEach(x=>{x.classList.remove("primary");x.classList.add("ghost");});v.classList.add("primary");v.classList.remove("ghost");});
-document.addEventListener("click",e=>{const j=e.target.closest("[data-join]");if(!j)return;if(j.dataset.join==="Membership"){state.joined=true;state.member=false;}else{state.block=true;state.joined=true;state.member=false;}draw();go("book");toast(j.dataset.join+" added to your booking. Pick a day, then pay once at step 4.");});
+document.addEventListener("click",e=>{const j=e.target.closest("[data-join]");if(!j)return;if(j.dataset.join==="Membership"){state.joined=true;state.member=false;}else{if(BLOCK_OFF)return;state.block=true;state.joined=true;state.member=false;}draw();go("book");toast(j.dataset.join+" added to your booking. Pick a day, then pay once at step 4.");});
 
 /* ---------- revenue model ---------- */
 /* copy.todayTake names how the money is taken today ("cash and bank transfer" when unset) */
@@ -4033,6 +4194,40 @@ function applyAccent(hex){
   st.setProperty("--brand-ghost","hsl("+h+" "+Math.min(s,50)+"% 14%)");
 }
 $("#accentPick").addEventListener("input",e=>applyAccent(e.target.value));
+/* the ground and the ink (19f): the same shared tokens engine/brand.mjs writes at build time, set inline here so a pick wins */
+const mixHex=(a,b,t)=>{const p=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));const A=p(a),B=p(b);return "#"+A.map((v,i)=>Math.round(v+(B[i]-v)*t).toString(16).padStart(2,"0")).join("");};
+const lumHex=h=>{const [r,g,b]=[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)/255);return .2126*r+.7152*g+.0722*b;};
+const GROUND=["--bg","--surface","--surface-2","--sunk","--line","--line-soft","--line-strong","--text","--text-2","--text-3","color-scheme"];
+function applyGround(){
+  const paper=$("#paperPick").value,ink=$("#inkPick").value,st=root.style,dark=lumHex(paper)<.3;
+  st.setProperty("--bg",paper);st.setProperty("--surface",mixHex(paper,ink,.05));st.setProperty("--surface-2",mixHex(paper,ink,.1));st.setProperty("--sunk",mixHex(paper,dark?"#000000":"#ffffff",.35));
+  st.setProperty("--line",mixHex(paper,ink,.16));st.setProperty("--line-soft",mixHex(paper,ink,.09));st.setProperty("--line-strong",mixHex(paper,ink,.3));
+  st.setProperty("--text",ink);st.setProperty("--text-2",mixHex(ink,paper,.18));st.setProperty("--text-3",mixHex(ink,paper,.42));st.setProperty("color-scheme",dark?"dark":"light");
+}
+{ const B=(CONFIG.brand&&CONFIG.brand.palette)||{},cs=getComputedStyle(root),asHex=v=>/^#[0-9a-f]{6}$/i.test(v)?v:null;
+  $("#paperPick").value=B.paper||asHex(cs.getPropertyValue("--bg").trim())||"#15181d";
+  $("#inkPick").value=B.ink||asHex(cs.getPropertyValue("--text").trim())||"#f4f4f1";
+  if(B.accent)$("#accentPick").value=B.accent;
+  const note=$("#brandNote");if(note)note.textContent=CONFIG.brand?(CONFIG.brand.made_by?"A brand made for this site by "+CONFIG.brand.made_by+": "+(CONFIG.brand.source||""):"Their own brand: "+(CONFIG.brand.source||"")):"The template's own brand: no brand block in the config yet.";
+}
+$("#paperPick").addEventListener("input",applyGround);$("#inkPick").addEventListener("input",applyGround);
+/* the shapes and the picture grade (19j): the same tokens engine/brand.mjs writes from the brand block, set inline here */
+const SHAPE=["--btn-radius","--card-bg","--card-border","--card-radius","--photo-grade","--film-grade"],appEl=document.getElementById("app");
+function applyShape(){
+  const st=root.style,b=$("#btnShape").value,c=$("#cardShape").value,g=$("#imgGrade").value;
+  SHAPE.forEach(p=>st.removeProperty(p));if(appEl)appEl.classList.toggle("hairline",c?c==="hairline":!!(CONFIG.brand&&CONFIG.brand.shape&&/none|hairline/.test(CONFIG.brand.shape.cards||CONFIG.brand.shape.card||"")));
+  if(b)st.setProperty("--btn-radius",b==="pill"?"999px":b==="rounded"?"12px":"2px");
+  if(c==="filled"){st.setProperty("--card-bg","var(--surface)");st.setProperty("--card-border","var(--line-strong)");}
+  if(c==="outlined"){st.setProperty("--card-bg","transparent");st.setProperty("--card-border","var(--line-strong)");}
+  if(c==="hairline"){st.setProperty("--card-bg","transparent");st.setProperty("--card-border","var(--line)");st.setProperty("--card-radius","0px");}
+  if(g){const f=g==="mono"?"grayscale(1) contrast(1.05)":"contrast(1.04) saturate(1)";st.setProperty("--photo-grade",f);st.setProperty("--film-grade",f);}
+}
+["#btnShape","#cardShape","#imgGrade"].forEach(id=>$(id).addEventListener("change",applyShape));
+{ const S=(CONFIG.brand&&CONFIG.brand.shape)||{},I=(CONFIG.brand&&CONFIG.brand.image)||{};
+  if(S.buttons&&$("#btnShape").querySelector('[value="'+S.buttons+'"]'))$("#btnShape").value=S.buttons;
+  const cardWord=S.card||(S.cards==="none"?"hairline":S.cards?"filled":"");if(cardWord&&$("#cardShape").querySelector('[value="'+cardWord+'"]'))$("#cardShape").value=cardWord;
+  if(I.grade&&$("#imgGrade").querySelector('[value="'+I.grade+'"]'))$("#imgGrade").value=I.grade;
+}
 $("#logoFile").addEventListener("change",e=>{
   const f=e.target.files&&e.target.files[0];if(!f)return;
   const fr=new FileReader();
@@ -4040,8 +4235,10 @@ $("#logoFile").addEventListener("change",e=>{
   fr.readAsDataURL(f);
 });
 $("#brandReset").addEventListener("click",()=>{
-  ["--brand-fill","--brand-fill-2","--brand-ink","--brand-hi","--brand-ghost","--logo"].forEach(p=>root.style.removeProperty(p));
-  $("#brandmark").classList.remove("has");$("#logoFile").value="";$("#accentPick").value=CONFIG.design.accent;
+  ["--brand-fill","--brand-fill-2","--brand-ink","--brand-hi","--brand-ghost","--logo",...GROUND,...SHAPE].forEach(p=>root.style.removeProperty(p));
+  ["#btnShape","#cardShape","#imgGrade"].forEach(id=>{$(id).value="";});applyShape();
+  $("#brandmark").classList.remove("has");$("#logoFile").value="";$("#accentPick").value=(CONFIG.brand&&CONFIG.brand.palette&&CONFIG.brand.palette.accent)||CONFIG.design.accent;
+  const cs=getComputedStyle(root);$("#paperPick").value=cs.getPropertyValue("--bg").trim()||"#15181d";$("#inkPick").value=cs.getPropertyValue("--text").trim()||"#f4f4f1";
 });
 
 /* ---------- the adventure booking: their other brand, their other rules ----------

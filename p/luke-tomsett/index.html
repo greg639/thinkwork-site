@@ -223,50 +223,208 @@ footer.foot{background:var(--ink);padding:44px 0 60px;color:var(--dim);font-size
 footer.foot .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 footer.foot b{color:#fff;font-family:var(--disp);font-weight:800;font-size:1.1rem}
 
-/* back end (moved out of the site by the shell, shown on its own tab) */
+/* back end: the coaching console (lifted out of the site by the shell, shown on its own tab) */
 #tw-backend{display:none}
-.be{background:#F2EFF7;color:#1A1424;min-height:80vh;padding:34px 0 80px;font:400 15px/1.5 var(--body)}
-.be .wrap{max-width:1300px}
-.be h2{font:800 clamp(1.8rem,3vw,2.8rem)/1 var(--disp);margin:0 0 6px}
-.be .sub{color:#5C5170;margin-bottom:6px}
-.be .hs-proposed-chip{margin-bottom:18px!important}
-.be-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
-.bp{background:#fff;border:1px solid #D8CFE8;padding:22px}
-.bp.full{grid-column:1/-1}
-.bp h3{font:800 1.15rem/1.1 var(--disp);margin:0 0 14px;letter-spacing:-.01em}
-.bp h3 small{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#5C5170;margin-left:8px}
-.bl{list-style:none;margin:0;padding:0}
-.bl li{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:12px 0;border-top:1px solid #E6DFF2}
-.bl li:first-child{border-top:0}
-.bl .who{font-weight:700}
-.bl .meta{display:block;color:#5C5170;font-size:.9rem;font-weight:400}
-.bl li.done .who{text-decoration:line-through;color:#7A6F8E}
-.mini{min-height:38px;padding:0 14px;border:1.5px solid #1A1424;background:transparent;color:#1A1424;font:700 13px var(--body);border-radius:2px;cursor:pointer;white-space:nowrap}
+.be{--bi:#0D0A14;--bp:#F3F0F8;--bl:#DDD5EC;--bl2:#EBE5F4;--bt:#1A1424;--bd:#5C5170;--bv:#5A2DDB;--bvl:#EDE6FF;
+  background:var(--bp);color:var(--bt);font:400 15px/1.5 var(--body);min-height:calc(100vh - var(--twh,46px))}
+.be[data-tw-hidden]{overflow:hidden;min-height:calc(100vh - var(--twh,46px))!important}
+.be *{box-sizing:border-box}
+.be button{font-family:var(--body)}
+.be-app{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:calc(100vh - var(--twh,46px))}
+.be-side{background:var(--bi);color:#F4F1F8;padding:24px 14px 20px;position:sticky;top:var(--twh,46px);height:calc(100vh - var(--twh,46px));display:flex;flex-direction:column;overflow:auto}
+.be-brand{font:800 20px/1.05 var(--disp);letter-spacing:-.03em;padding:0 10px}
+.be-brand small{display:block;font:500 10.5px/1.6 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#A184FF;margin-top:7px}
+.be-nav{display:flex;flex-direction:column;gap:2px;margin-top:26px}
+.be-nav button{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px;padding:0 12px;border:0;background:transparent;color:#CFC7DE;font:600 15px var(--body);text-align:left;border-radius:4px;cursor:pointer;white-space:nowrap}
+.be-nav button:hover{background:#1B1430;color:#fff}
+.be-nav button[aria-selected=true]{background:#2A1F4A;color:#fff;box-shadow:inset 3px 0 0 #A184FF}
+.be-nav b{font:500 11px/1 var(--mono);background:#A184FF;color:#0D0A14;padding:4px 7px;border-radius:99px;min-width:22px;text-align:center}
+.be-nav b:empty{display:none}
+.be-side .note{margin-top:auto;font-size:12.5px;line-height:1.5;color:#B9B0CC;padding:14px 10px 0;border-top:1px solid rgba(244,241,248,.16)}
+.be-main{padding:26px clamp(16px,3vw,40px) 90px;min-width:0}
+.be-top{display:flex;align-items:flex-end;justify-content:space-between;gap:14px 18px;flex-wrap:wrap;margin-bottom:8px}
+.be-top h2{font:800 clamp(1.7rem,2.6vw,2.4rem)/1 var(--disp);letter-spacing:-.035em;margin:0}
+.be .lab{font:500 11px/1.5 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--bd);display:block}
+.be-top .lab{margin-bottom:8px}
+.be-chip{margin:0 0 18px}
+.be-chip .hs-proposed-chip{margin:0!important}
+.be-scr{display:none}
+.be-scr.on{display:block;animation:bein .25s ease-out}
+@keyframes bein{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}
+.bgrid{display:grid;gap:16px;margin-bottom:16px}
+.g2{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);align-items:start}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.stack{display:grid;gap:16px}
+.bc{background:#fff;border:1px solid var(--bl);border-radius:4px;padding:20px}
+.bc h3{font:800 1.1rem/1.15 var(--disp);letter-spacing:-.02em;margin:0 0 14px;display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.bc h3 small{font:500 11px/1.4 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--bd)}
+.kpi{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--bl);border-radius:4px;padding:16px 18px;cursor:pointer;color:var(--bt);font:inherit;transition:border-color .15s,transform .15s}
+.kpi:hover{border-color:var(--bv);transform:translateY(-2px)}
+.kpi .n{font:800 2.4rem/1.05 var(--disp);letter-spacing:-.04em;display:block;margin-top:8px}
+.kpi .s{font-size:13px;color:var(--bd);display:block;margin-top:4px}
+.kpi.hot{background:var(--bi);border-color:var(--bi);color:#fff}
+.kpi.hot .lab,.kpi.hot .s{color:#CFC7DE}
+.q{list-style:none;margin:0;padding:0}
+.q li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--bl2)}
+.q li:first-child{border-top:0;padding-top:0}
+.q li:last-child{padding-bottom:0}
+.av{width:36px;height:36px;border-radius:50%;background:var(--bvl);color:#3D1B9E;display:grid;place-items:center;font:700 12.5px var(--body)}
+.who{font-weight:700;display:block}
+.meta{display:block;color:var(--bd);font-size:13.5px}
+.q li.done .who{text-decoration:line-through;color:#6F6584}
+.q .empty,.empty{color:var(--bd);padding:6px 0}
+.mini{min-height:38px;padding:0 14px;border:1.5px solid #1A1424;background:transparent;color:#1A1424;font:700 13px var(--body);border-radius:3px;cursor:pointer;white-space:nowrap}
 .mini:hover{background:#1A1424;color:#fff}
 .mini.solid{background:#5A2DDB;border-color:#5A2DDB;color:#fff}
 .mini.solid:hover{background:#1A1424;border-color:#1A1424}
-.tag2{display:inline-block;padding:3px 8px;font:500 10.5px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;border-radius:2px}
-.tag2.ok{background:#DCEFD9;color:#1F4A1F}
-.tag2.due{background:#E7DEFA;color:#3D1B9E}
-.tag2.late{background:#FADDE2;color:#8A1530}
-.tag2.paid{background:#DCEFD9;color:#1F4A1F}
+.mini[disabled]{border-color:#B9ACD3;background:#F3F0F8;color:#5C5170;cursor:default}
+.tag2{display:inline-block;padding:4px 8px;font:500 10.5px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;border-radius:2px;white-space:nowrap}
+.tag2.ok,.tag2.paid{background:#DCEFD9;color:#1F4A1F}
+.tag2.due,.tag2.review,.tag2.build{background:#E7DEFA;color:#3D1B9E}
+.tag2.late,.tag2.failed{background:#FADDE2;color:#8A1530}
 .tag2.hold{background:#EEE9F6;color:#5C5170}
-.filters{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
-.filters button{min-height:36px;padding:0 14px;border:1.5px solid #B9ACD3;background:transparent;color:#1A1424;font:600 13px var(--body);border-radius:2px;cursor:pointer}
-.filters button[aria-pressed=true]{background:#1A1424;border-color:#1A1424;color:#fff}
-.ct{width:100%;border-collapse:collapse}
-.ct th{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#5C5170;text-align:left;padding:0 10px 10px 0;font-weight:500}
-.ct td{padding:12px 10px 12px 0;border-top:1px solid #E6DFF2;vertical-align:middle}
-.ct tr.late td:first-child{box-shadow:inset 3px 0 0 #8A1530;padding-left:12px}
-.wkbar{display:grid;grid-template-columns:repeat(12,1fr);gap:2px;width:120px}
-.wkbar i{height:8px;background:#DCD4EA;display:block}
-.wkbar i.on{background:#5A2DDB}
-.edit{display:grid;gap:12px}
-.edit .er{display:grid;grid-template-columns:1fr 130px;gap:12px;align-items:center}
-.edit label{font-weight:700}
-.edit input{min-height:42px;padding:0 12px;font:600 16px var(--body);border:1.5px solid #B9ACD3;background:#fff;color:#1A1424;border-radius:2px;width:100%}
-.pay li span:last-child{font:800 1.05rem var(--disp)}
 .toast{margin-top:14px;font-weight:700;color:#3D1B9E;min-height:1.4em}
+.be .toast:empty{display:none}
+.inl .mini{min-height:42px}
+.filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.filters button{min-height:38px;padding:0 14px;border:1.5px solid #B9ACD3;background:#fff;color:#1A1424;font:600 13.5px var(--body);border-radius:3px;cursor:pointer}
+.filters button[aria-pressed=true]{background:#1A1424;border-color:#1A1424;color:#fff}
+.filters .grow{flex:1 1 160px;min-width:0}
+.be select,.be input[type=text],.be input[type=number],.be input[type=search],.be textarea{min-height:42px;padding:0 12px;font:600 15px var(--body);border:1.5px solid #B9ACD3;background:#fff;color:#1A1424;border-radius:3px;max-width:100%}
+.be textarea{padding:10px 12px;width:100%;min-height:110px;font-weight:400;line-height:1.5;resize:vertical}
+.be input:focus,.be select:focus,.be textarea:focus{outline:2px solid #5A2DDB;outline-offset:1px}
+.rt{width:100%;border-collapse:collapse}
+.rt th{font:500 11px/1 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--bd);text-align:left;padding:0 12px 10px 0;white-space:nowrap}
+.rt td{padding:11px 12px 11px 0;border-top:1px solid var(--bl2);vertical-align:middle}
+.rt tbody tr{cursor:pointer}
+.rt tbody tr:hover td{background:#FAF8FD}
+.rt .rowb{border:0;background:none;padding:0;font:700 15px var(--body);color:#1A1424;cursor:pointer;text-align:left}
+.rt .rowb:hover{color:#5A2DDB}
+.pb{display:inline-block;width:60px;height:6px;background:#E4DDF0;border-radius:3px;vertical-align:middle;margin-right:8px;overflow:hidden}
+.pb i{display:block;height:100%;background:#5A2DDB}
+.pb.lo i{background:#B4234A}
+.spark{vertical-align:middle;margin-right:8px}
+.dr-back{position:fixed;inset:0;background:rgba(13,10,20,.55);z-index:60;display:none}
+.dr-back.on{display:block}
+.dr{position:fixed;top:var(--twh,46px);right:0;bottom:0;width:min(640px,100vw);background:#fff;z-index:61;display:none;overflow:auto;padding:24px 28px 44px;box-shadow:-20px 0 60px rgba(13,10,20,.3)}
+.dr.on{display:block;animation:drin .28s cubic-bezier(.2,.8,.2,1)}
+@keyframes drin{from{transform:translateX(60px);opacity:.3}to{transform:none;opacity:1}}
+.dr-h{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:18px}
+.dr-h h3{font:800 1.9rem/1 var(--disp);letter-spacing:-.035em;margin:0 0 8px}
+.dr h4{font:800 1rem/1.2 var(--disp);letter-spacing:-.01em;margin:24px 0 10px}
+.dr .x{width:40px;height:40px;border:1.5px solid #B9ACD3;background:#fff;border-radius:3px;cursor:pointer;font:700 16px var(--body);color:#1A1424;flex:none}
+.stat{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.stat div{background:var(--bp);border-radius:4px;padding:12px}
+.stat .v{font:800 1.35rem/1.1 var(--disp);letter-spacing:-.03em;display:block;margin-top:6px}
+.stat .d{font-size:12.5px;color:var(--bd);display:block;margin-top:2px}
+.chart{width:100%;height:auto;display:block}
+.rows{list-style:none;margin:0;padding:0}
+.rows li{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-top:1px solid var(--bl2);align-items:center}
+.rows li:first-child{border-top:0}
+.rows .r{white-space:nowrap;font-weight:700}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.form{display:grid;gap:14px}
+.form label{display:grid;gap:6px;font-weight:700}
+.form input,.form select{width:100%}
+.bbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.seg{display:inline-flex;border:1.5px solid #1A1424;border-radius:3px;overflow:hidden}
+.seg button{min-height:40px;padding:0 16px;border:0;background:#fff;font:700 14px var(--body);color:#1A1424;cursor:pointer}
+.seg button[aria-pressed=true]{background:#1A1424;color:#fff}
+.bw{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:start}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-bottom:18px}
+.week button{min-height:78px;padding:10px 9px;border:1.5px solid var(--bl);background:#fff;border-radius:4px;text-align:left;cursor:pointer;color:#1A1424;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start}
+.week button b{display:block;font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--bd)}
+.week button span{display:block;font-weight:700;font-size:13.5px;line-height:1.2;margin-top:9px}
+.week button.rest span{color:var(--bd);font-weight:500}
+.week button[aria-pressed=true]{border-color:#5A2DDB;background:var(--bvl);box-shadow:inset 0 -3px 0 #5A2DDB}
+.ex{width:100%;border-collapse:collapse}
+.ex th{font:500 11px/1 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--bd);text-align:left;padding:0 8px 8px 0}
+.ex td{padding:7px 8px 7px 0;border-top:1px solid var(--bl2);vertical-align:middle}
+.ex td:first-child{font-weight:700}
+.ex input{width:70px;min-height:38px!important;text-align:center;padding:0 6px!important}
+.ex input.wide{width:150px;text-align:left;padding:0 10px!important}
+.ex .x{width:36px;height:36px;border:1.5px solid #D3C9E6;background:#fff;border-radius:3px;cursor:pointer;color:#5C5170;font:700 15px var(--body)}
+.ex .x:hover{border-color:#8A1530;color:#8A1530}
+.sum{display:flex;gap:18px;flex-wrap:wrap;margin:14px 0 0;font-weight:700}
+.sum span{color:var(--bd);font-weight:400}
+.lib{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.lib button{min-height:36px;padding:0 12px;border:1.5px dashed #9C8CBC;background:#fff;border-radius:99px;font:600 13px var(--body);color:#1A1424;cursor:pointer}
+.lib button:hover{border-style:solid;border-color:#5A2DDB;color:#5A2DDB}
+.tpl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.tpl button{padding:16px;border:1.5px solid var(--bl);background:#fff;border-radius:4px;text-align:left;cursor:pointer;color:#1A1424}
+.tpl button:hover{border-color:#5A2DDB;background:var(--bvl)}
+.tpl b{display:block;font:800 1.05rem/1.15 var(--disp);letter-spacing:-.02em}
+.tpl span{display:block;color:var(--bd);font-size:13.5px;margin-top:6px}
+.ph-cap{margin:0 0 10px;text-align:center}
+.ph{background:var(--bi);border-radius:34px;padding:11px;box-shadow:0 30px 60px -24px rgba(13,10,20,.6)}
+.ph-wrap{position:sticky;top:calc(var(--twh,46px) + 18px)}
+.ph-in{background:#151022;color:#F4F1F8;border-radius:25px;min-height:500px;padding:24px 18px 20px;font-size:14px;line-height:1.4}
+.ph-in .lab{color:#A184FF}
+.ph-in h4{font:800 1.4rem/1.05 var(--disp);letter-spacing:-.03em;margin:6px 0 14px;color:#fff}
+.ph-in ul{list-style:none;margin:0;padding:0}
+.ph-in li{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid rgba(244,241,248,.16)}
+.ph-in li span:last-child{font:500 12px/1.6 var(--mono);color:#CFC7DE;white-space:nowrap}
+.ph-in .big{font:800 2.3rem/1 var(--disp);letter-spacing:-.04em;display:block;color:#fff}
+.ph-in .mrow{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:14px 0 6px}
+.ph-in .mrow div{background:#221A38;border-radius:6px;padding:9px 8px;text-align:center;font-weight:700;color:#fff}
+.ph-in .mrow small{display:block;font:500 10px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#CFC7DE}
+.ph-in .foot{margin-top:16px;color:#CFC7DE;font-size:12.5px}
+.nt{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.nt label{display:grid;gap:6px}
+.nt select,.nt input{width:100%}
+.kc{display:flex;align-items:flex-end;gap:10px 22px;flex-wrap:wrap}
+.kc .n{font:800 3.2rem/.95 var(--disp);letter-spacing:-.045em}
+.kc .n small{font:600 15px var(--body);letter-spacing:0;color:var(--bd);margin-left:6px}
+.kc .adj{flex:1 1 220px;min-width:0}
+.kc input[type=range]{width:100%;accent-color:#5A2DDB;min-height:28px}
+.mac{display:grid;gap:10px;margin:18px 0 4px}
+.mac .r{display:grid;grid-template-columns:78px minmax(0,1fr) 124px;gap:12px;align-items:center}
+.mac .r b{font-weight:700}
+.mac .t{height:12px;background:#E4DDF0;border-radius:6px;overflow:hidden}
+.mac .t i{display:block;height:100%;background:#5A2DDB;transition:width .3s}
+.mac .r:nth-child(2) .t i{background:#1A1424}
+.mac .r:nth-child(3) .t i{background:#A184FF}
+.mac .g{text-align:right;color:var(--bd);font-size:13.5px;white-space:nowrap}
+.mac .g b{color:#1A1424}
+.ci{display:grid;grid-template-columns:290px minmax(0,1fr);gap:16px;align-items:start}
+.ci-list button{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:center;width:100%;text-align:left;border:1px solid var(--bl);background:#fff;padding:12px;border-radius:4px;margin-bottom:8px;cursor:pointer;color:#1A1424}
+.ci-list button[aria-pressed=true]{border-color:#5A2DDB;box-shadow:inset 3px 0 0 #5A2DDB}
+.ans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:18px}
+.ans div{background:var(--bp);border-radius:4px;padding:12px}
+.ans .v{font:800 1.35rem/1.1 var(--disp);letter-spacing:-.03em;display:block;margin-top:6px}
+.ans .d{font-size:12.5px;color:var(--bd);display:block;margin-top:2px}
+.say{border-left:3px solid #5A2DDB;padding:1px 0 1px 14px;margin:6px 0 16px}
+.goal{background:var(--bi);color:#fff;border-radius:4px;padding:16px 18px;display:flex;gap:14px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+.goal .mini{border-color:#A184FF;background:#A184FF;color:#0D0A14}
+.goal .mini:hover{background:#fff;border-color:#fff;color:#0D0A14}
+.goal .mini[disabled]{background:#2A1F4A;border-color:#2A1F4A;color:#CFC7DE}
+.saved{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}
+.prem{font-size:13px;color:var(--bd);margin-top:12px}
+.prem b{font:500 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;background:#1A1424;color:#fff;padding:4px 7px;border-radius:2px;margin-right:8px}
+.pks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.pkc{background:#fff;border:1px solid var(--bl);border-radius:4px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.pkc h4{font:800 1.2rem/1.1 var(--disp);letter-spacing:-.02em;margin:0}
+.pkc p{color:var(--bd);font-size:13.5px;line-height:1.45}
+.pkc .pr{display:flex;align-items:center;gap:8px;font-weight:700}
+.pkc .pr input{width:92px;font:800 1.25rem var(--disp);padding:0 10px}
+.pkc dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:5px 10px;font-size:14px}
+.pkc dt{color:var(--bd)}
+.pkc dd{margin:0;font-weight:700;text-align:right}
+.sw{display:inline-flex;align-items:center;gap:10px;border:0;background:none;padding:0;cursor:pointer;font:600 13.5px var(--body);color:#1A1424;min-height:38px;margin-top:auto;text-align:left}
+.sw i{width:40px;height:22px;border-radius:11px;background:#B9ACD3;position:relative;flex:none;transition:background .2s}
+.sw i::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .2s}
+.sw[aria-pressed=true] i{background:#5A2DDB}
+.sw[aria-pressed=true] i::after{transform:translateX(18px)}
+.inl{display:flex;gap:10px 18px;flex-wrap:wrap;align-items:flex-end}
+.inl label{display:grid;gap:6px;font-weight:700}
+.inl input{width:110px}
+.mrr{font:800 clamp(2.8rem,5vw,4.2rem)/.95 var(--disp);letter-spacing:-.05em;display:block;margin:8px 0 6px}
+.split{display:grid;gap:10px}
+.split .r{display:grid;grid-template-columns:118px minmax(0,1fr) 150px;gap:12px;align-items:center}
+.split .t{height:12px;background:#E4DDF0;border-radius:6px;overflow:hidden}
+.split .t i{display:block;height:100%;background:#5A2DDB;transition:width .3s}
+.split .g{text-align:right;white-space:nowrap;font-weight:700}
+.split .g span{color:var(--bd);font-weight:400}
 
 body .hs-proposed-chip{white-space:normal;line-height:1.35;max-width:100%}
 .nb{white-space:nowrap}
@@ -300,11 +458,37 @@ body .hs-proposed-chip{white-space:normal;line-height:1.35;max-width:100%}
   .strip .gap{display:none}
   .res .pair{grid-template-columns:1fr 1fr}
   .res img,.res .ed img{height:320px}
-  .be-grid{grid-template-columns:1fr}
-  .ct thead{display:none}
-  .ct tr{display:block;padding:12px 0;border-top:1px solid #E6DFF2}
-  .ct td{display:flex;justify-content:space-between;gap:12px;border:0;padding:4px 0}
-  .ct td::before{content:attr(data-l);font:500 11px/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#5C5170}
+  .be-app{grid-template-columns:minmax(0,1fr)}
+  .be-side{position:sticky;top:var(--twh,46px);height:auto;z-index:5;flex-direction:row;padding:8px 10px;overflow-x:auto}
+  .be-brand,.be-side .note{display:none}
+  .be-nav{flex-direction:row;margin:0;gap:4px}
+  .be-nav button{min-height:42px;padding:0 12px;font-size:14px}
+  .be-nav button[aria-selected=true]{box-shadow:inset 0 -3px 0 #A184FF}
+  .g2,.bw,.ci,.nt,.tpl{grid-template-columns:minmax(0,1fr)}
+  .g4,.pks,.stat{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ph-wrap{position:static;max-width:320px;margin:0 auto}
+  .week{gap:4px}
+  .week button{min-height:48px;padding:8px 2px;align-items:center;justify-content:center}
+  .week button span{display:none}
+  .rt thead,.ex thead{display:none}
+  .rt tr,.ex tr{display:block;padding:12px 0;border-top:1px solid #EBE5F4}
+  .rt tr:first-child,.ex tr:first-child{border-top:0;padding-top:0}
+  .rt td,.ex td{display:flex;justify-content:space-between;align-items:center;gap:12px;border:0;padding:4px 0}
+  .rt td::before,.ex td::before{content:attr(data-l);font:500 11px/1.6 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:#5C5170}
+  .rt td:first-child::before,.ex td:first-child::before,.ex td:last-child::before{content:none}
+  .ex tr{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px 8px;align-items:end}
+  .ex td{flex-direction:column;align-items:stretch;gap:2px;padding:0}
+  .ex td:first-child{grid-column:1/4;font-size:16px;align-self:center}
+  .ex td:last-child{grid-column:4;grid-row:1;align-items:flex-end}
+  .ex td:nth-child(2){grid-column:1;grid-row:2}
+  .ex td:nth-child(3){grid-column:2;grid-row:2}
+  .ex td:nth-child(5){grid-column:3/5;grid-row:2}
+  .ex td:nth-child(4){grid-column:1/-1;grid-row:3}
+  .ex input,.ex input.wide{width:100%;text-align:center;padding:0 4px!important}
+  .mac .r{grid-template-columns:64px minmax(0,1fr) 112px;gap:8px}
+  .split .r{grid-template-columns:minmax(0,1fr) auto}
+  .split .t{grid-column:1/-1;grid-row:2}
+  .dr{padding:20px 18px 40px}
   table.plan,.plan thead,.plan tbody,.plan tfoot,.plan tr,.plan th,.plan td{display:block}
   .plan thead{display:none}
   .plan tr{border-bottom:12px solid var(--paper)}
@@ -324,7 +508,9 @@ body .hs-proposed-chip{white-space:normal;line-height:1.35;max-width:100%}
   .cells{gap:2px}
   .dayrow b{left:52%;transform:translateX(-50%)}
   .res .pair{grid-template-columns:1fr}
-  .edit .er{grid-template-columns:1fr}
+  .pks,.tpl{grid-template-columns:minmax(0,1fr)}
+  .ans{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .be-top h2{font-size:1.6rem}
 }
 @media (prefers-reduced-motion:reduce){.cell,.frame img{transition:none}}
 </style>
@@ -371,18 +557,18 @@ body.tw-view-back #tw-backend{display:block}
    The templates size themselves with media queries, which read the VIEWPORT,
    so narrowing a div would only squash the desktop layout. An iframe has a
    viewport of its own, so the phone breakpoints actually fire. */
-#tw-phone{
+#tw-phone, .tw-phone{
   display:block; margin:26px auto; width:412px; height:min(860px,82vh);
   border:10px solid #16150f; border-radius:26px; background:#fff;
   box-shadow:0 22px 60px -28px rgba(0,0,0,.6);
 }
-body.tw-device-mob #tw-app{background:#e8e6de; min-height:60vh}
+body.tw-device-mob #tw-app, body.tw-device-mob #tw-backend{background:#e8e6de; min-height:60vh}
 
 @media (max-width:720px){
   #tw-bar{padding:6px 10px; gap:7px}
   #tw-bar .tw-tag{display:none}
   .tw-seg button{padding:6px 9px; font-size:11px}
-  #tw-phone{width:100%; border-width:0; border-radius:0; margin:0; height:80vh}
+  #tw-phone, .tw-phone{width:100%; border-width:0; border-radius:0; margin:0; height:80vh}
 }
 @media (prefers-reduced-motion:reduce){#tw-bar *{transition:none!important}}
 
@@ -756,69 +942,106 @@ body.tw-device-mob #tw-app{background:#e8e6de; min-height:60vh}
 
 <!--hs:proposed backend-->
 <section id="tw-backend" class="be" aria-label="Back end">
-  <div class="wrap">
-    <span class="hs-proposed-chip" data-hs-proposed="backend"><span class="hs-proposed-dot" aria-hidden="true"></span>Proposed feature - back end for callbacks, bookings, check-ins and prices</span>
-    <h2>Your back end</h2>
-    <p class="sub">Everything that arrives from the site lands here. The names and amounts below are example data.</p>
-    <div class="be-grid">
-      <div class="bp">
-        <h3>To ring back <small id="rbCount"></small></h3>
-        <ul class="bl" id="rb">
-          <li><div><span class="who">Jordan K.</span><span class="meta">07700 900101 &middot; drop body fat &middot; this morning</span></div><button class="mini solid" type="button">Mark rung</button></li>
-          <li><div><span class="who">Priya S.</span><span class="meta">07700 900102 &middot; improve my health &middot; lunchtime</span></div><button class="mini solid" type="button">Mark rung</button></li>
-          <li><div><span class="who">Callum D.</span><span class="meta">07700 900103 &middot; perform better &middot; evening</span></div><button class="mini solid" type="button">Mark rung</button></li>
-        </ul>
+  <div class="be-app">
+    <aside class="be-side">
+      <div class="be-brand">Luke Tomsett<small>Coaching console</small></div>
+      <div class="be-nav" role="tablist" aria-label="Back end screens">
+        <button type="button" role="tab" data-go="today" aria-selected="true">Today <b data-n="today"></b></button>
+        <button type="button" role="tab" data-go="clients" aria-selected="false">Clients <b data-n="clients"></b></button>
+        <button type="button" role="tab" data-go="builder" aria-selected="false">Plan builder <b data-n="builder"></b></button>
+        <button type="button" role="tab" data-go="checkins" aria-selected="false">Check-ins <b data-n="checkins"></b></button>
+        <button type="button" role="tab" data-go="packages" aria-selected="false">Packages <b data-n="packages"></b></button>
+        <button type="button" role="tab" data-go="money" aria-selected="false">Money</button>
       </div>
-      <div class="bp">
-        <h3>Consultations <small>this week</small></h3>
-        <ul class="bl">
-          <li><div><span class="who">Thu 10:30 &middot; Marcus T.</span><span class="meta">Build muscle</span></div><span class="tag2 paid">&pound;25 paid</span></li>
-          <li><div><span class="who">Thu 18:00 &middot; Hannah R.</span><span class="meta">Drop body fat</span></div><span class="tag2 paid">&pound;25 paid</span></li>
-          <li><div><span class="who">Sat 09:30 &middot; Ollie P.</span><span class="meta">Perform better</span></div><span class="tag2 hold">Awaiting payment</span></li>
-        </ul>
+      <p class="note">Example data throughout. None of these clients are real people, and nothing here sends a message or takes a payment.</p>
+    </aside>
+    <div class="be-main">
+      <div class="be-top">
+        <div><span class="lab" id="beWhen">Your back end</span><h2 id="beTitle">Today</h2></div>
+        <button class="mini solid" type="button" id="beAdd">Add a client</button>
       </div>
-      <div class="bp full">
-        <h3>Clients <small>who is due a check-in</small></h3>
-        <div class="filters" id="flt" role="group" aria-label="Filter clients">
-          <button type="button" data-f="all" aria-pressed="true">Everyone</button>
-          <button type="button" data-f="due" aria-pressed="false">Due today</button>
-          <button type="button" data-f="late" aria-pressed="false">Overdue</button>
+      <div class="be-chip"><span class="hs-proposed-chip" data-hs-proposed="backend"><span class="hs-proposed-dot" aria-hidden="true"></span>Proposed feature - back end for clients, training and nutrition plans, check-ins, packages and payments</span></div>
+
+      <div class="be-scr on" data-scr="today">
+        <div class="bgrid g4" id="tdKpi"></div>
+        <div class="bgrid g2">
+          <div class="bc"><h3>Needs you today <small id="tdCount"></small></h3><ul class="q" id="tdQ"></ul><p class="toast" id="tdMsg" aria-live="polite"></p></div>
+          <div class="stack">
+            <div class="bc"><h3>Callbacks from your website <small id="cbCount"></small></h3><ul class="q" id="cbQ"></ul></div>
+            <div class="bc"><h3>Consultations booked <small>this week</small></h3><ul class="rows" id="coQ"></ul></div>
+            <div class="bc"><h3>Sessions done this week <small>all clients</small></h3><div id="tdWeek"></div></div>
+          </div>
         </div>
-        <table class="ct">
-          <thead><tr><th>Client</th><th>Package</th><th>Their month</th><th>Last check-in</th><th>Status</th><th></th></tr></thead>
-          <tbody id="cl">
-            <tr data-s="late"><td data-l="Client">Dana W.</td><td data-l="Package">Coaching</td><td data-l="Their month"><div class="wkbar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div></td><td data-l="Last check-in">9 days ago</td><td data-l="Status"><span class="tag2 late">Overdue</span></td><td><button class="mini" type="button" data-nudge="Dana">Send nudge</button></td></tr>
-            <tr data-s="due"><td data-l="Client">Sam B.</td><td data-l="Package">Performance</td><td data-l="Their month"><div class="wkbar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></td><td data-l="Last check-in">3 days ago</td><td data-l="Status"><span class="tag2 due">Due today</span></td><td><button class="mini" type="button" data-nudge="Sam">Send nudge</button></td></tr>
-            <tr data-s="due"><td data-l="Client">Lee M.</td><td data-l="Package">Coaching</td><td data-l="Their month"><div class="wkbar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></td><td data-l="Last check-in">7 days ago</td><td data-l="Status"><span class="tag2 due">Due today</span></td><td><button class="mini" type="button" data-nudge="Lee">Send nudge</button></td></tr>
-            <tr data-s="ok"><td data-l="Client">Aisha N.</td><td data-l="Package">Foundation</td><td data-l="Their month"><div class="wkbar"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></td><td data-l="Last check-in">5 days ago</td><td data-l="Status"><span class="tag2 ok">On track</span></td><td><button class="mini" type="button" data-nudge="Aisha">Send nudge</button></td></tr>
-            <tr data-s="ok"><td data-l="Client">Tom H.</td><td data-l="Package">Coaching</td><td data-l="Their month"><div class="wkbar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div></td><td data-l="Last check-in">2 days ago</td><td data-l="Status"><span class="tag2 ok">On track</span></td><td><button class="mini" type="button" data-nudge="Tom">Send nudge</button></td></tr>
-            <tr data-s="ok"><td data-l="Client">Grace L.</td><td data-l="Package">Performance</td><td data-l="Their month"><div class="wkbar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></div></td><td data-l="Last check-in">Yesterday</td><td data-l="Status"><span class="tag2 ok">On track</span></td><td><button class="mini" type="button" data-nudge="Grace">Send nudge</button></td></tr>
-          </tbody>
-        </table>
-        <p class="toast" id="toast" aria-live="polite"></p>
       </div>
-      <div class="bp">
-        <h3>Packages and prices</h3>
-        <div class="edit">
-          <div class="er"><label for="pf">Foundation, a month</label><input id="pf" value="&pound;99"></div>
-          <div class="er"><label for="pc">Coaching, a month</label><input id="pc" value="&pound;179"></div>
-          <div class="er"><label for="pp">Performance, a month</label><input id="pp" value="&pound;299"></div>
-          <div class="er"><label for="px">Consultation fee</label><input id="px" value="&pound;25"></div>
+
+      <div class="be-scr" data-scr="clients">
+        <div class="bc">
+          <div class="filters" id="clF" role="group" aria-label="Filter clients">
+            <button type="button" data-f="all" aria-pressed="true">Everyone</button>
+            <button type="button" data-f="review" aria-pressed="false">To review</button>
+            <button type="button" data-f="due" aria-pressed="false">Due today</button>
+            <button type="button" data-f="late" aria-pressed="false">Overdue</button>
+            <button type="button" data-f="ok" aria-pressed="false">On track</button>
+            <input class="grow" type="search" id="clS" placeholder="Find a client" aria-label="Find a client">
+          </div>
+          <table class="rt">
+            <thead><tr><th>Client</th><th>Package</th><th>Week</th><th>Training</th><th>Food</th><th>Weight</th><th>Last check-in</th><th>Status</th></tr></thead>
+            <tbody id="clT"></tbody>
+          </table>
+          <p class="empty" id="clE" hidden>Nobody matches that.</p>
         </div>
-        <div style="margin-top:16px"><button class="mini solid" type="button" id="saveP">Update the website</button></div>
-        <p class="toast" id="saveMsg" aria-live="polite"></p>
       </div>
-      <div class="bp">
-        <h3>This month <small>example</small></h3>
-        <ul class="bl pay">
-          <li><span>Monthly packages billed</span><span>&pound;1,142</span></li>
-          <li><span>Consultations paid</span><span>&pound;150</span></li>
-          <li><span>Credited against packages</span><span>&pound;100</span></li>
-          <li><span>Payments that failed and are being chased</span><span>1</span></li>
-        </ul>
+
+      <div class="be-scr" data-scr="builder">
+        <div class="bbar">
+          <select id="bdC" aria-label="Client"></select>
+          <div class="seg" id="bdTab" role="group" aria-label="Plan part">
+            <button type="button" data-t="train" aria-pressed="true">Training</button>
+            <button type="button" data-t="food" aria-pressed="false">Nutrition</button>
+          </div>
+          <button class="mini solid" type="button" id="bdSend">Send plan</button>
+        </div>
+        <p class="toast" id="bdMsg" aria-live="polite" style="margin:0 0 14px"></p>
+        <div class="bw">
+          <div id="bdEd"></div>
+          <div class="ph-wrap"><p class="lab ph-cap" id="phCap"></p><div class="ph"><div class="ph-in" id="phIn"></div></div></div>
+        </div>
+      </div>
+
+      <div class="be-scr" data-scr="checkins">
+        <div class="ci"><div class="ci-list" id="ciL"></div><div class="bc" id="ciD"></div></div>
+      </div>
+
+      <div class="be-scr" data-scr="packages">
+        <div class="pks" id="pkC"></div>
+        <div class="bc" style="margin-bottom:16px">
+          <h3>Also on your website</h3>
+          <div class="inl">
+            <label>Consultation fee<input type="text" inputmode="numeric" id="pkFee" value="25"></label>
+            <label>Refer-a-friend credit, each<input type="text" inputmode="numeric" id="pkRef" value="25"></label>
+            <button class="mini solid" type="button" id="pkSave">Update the website</button>
+          </div>
+          <p class="toast" id="pkMsg" aria-live="polite"></p>
+        </div>
+        <div class="bgrid g2">
+          <div class="bc"><h3>Payments coming up <small>next 7 days</small></h3><ul class="rows" id="pkR"></ul></div>
+          <div class="bc"><h3>Referrals <small>who sent whom</small></h3><ul class="rows" id="pkF"></ul></div>
+        </div>
+      </div>
+
+      <div class="be-scr" data-scr="money">
+        <div class="bgrid g2">
+          <div class="bc"><span class="lab">Recurring revenue this month</span><span class="mrr" id="moN"></span><p class="meta" id="moS"></p><div id="moC" style="margin-top:18px"></div></div>
+          <div class="stack">
+            <div class="bc"><h3>By package</h3><div class="split" id="moP"></div></div>
+            <div class="bc"><h3>Also this month</h3><ul class="rows" id="moO"></ul></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+  <div class="dr-back" id="drB"></div>
+  <div class="dr" id="dr" role="dialog" aria-modal="true" aria-label="Client"></div>
 </section>
 <!--hs:/proposed-->
 
@@ -909,20 +1132,416 @@ body.tw-device-mob #tw-app{background:#e8e6de; min-height:60vh}
     dlg.addEventListener("click",function(e){if(e.target===dlg&&dlg.close)dlg.close()});
   }
 
-  /* back end */
-  var rb=$("#rb");
-  if(rb){
-    function count(){var n=$$("li:not(.done)",rb).length;$("#rbCount").textContent=n?n+" waiting":"all done"}
-    count();
-    rb.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var li=b.closest("li");li.classList.add("done");b.textContent="Rung";b.disabled=true;count()});
-    $("#flt").addEventListener("click",function(e){
-      var b=e.target.closest("button");if(!b)return;
-      $$("#flt button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
-      $$("#cl tr").forEach(function(r){r.hidden=!(b.dataset.f==="all"||r.dataset.s===b.dataset.f)});
+  /* back end: one set of example data, every screen drawn from it */
+  var be=$("#tw-backend");
+  if(be){(function(){
+    var q=function(s){return be.querySelector(s)}, qa=function(s){return [].slice.call(be.querySelectorAll(s))};
+    var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})};
+    var gbp=function(n){return "£"+Math.round(n).toLocaleString("en-GB")};
+    var kg=function(n){return n.toFixed(1)+" kg"};
+    var first=function(c){return c.n.split(" ")[0]};
+    var ini=function(n){var p=n.split(" ");return esc((p[0].charAt(0)+(p[1]?p[1].charAt(0):"")).toUpperCase())};
+    var DAY=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], DAYL=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    var MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], MONL=["January","February","March","April","May","June","July","August","September","October","November","December"];
+    var WD=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+    var now=new Date(), todayI=(now.getDay()+6)%7;
+    function dplus(n){var d=new Date(now.getFullYear(),now.getMonth(),now.getDate()+n);return DAY[d.getDay()]+" "+d.getDate()+" "+MON[d.getMonth()]}
+    function setH(){var b=document.getElementById("tw-bar");document.documentElement.style.setProperty("--twh",(b?b.offsetHeight:0)+"px")}
+    var narrow=function(){return window.innerWidth<700};
+    setH();window.addEventListener("resize",setH);window.addEventListener("load",setH);
+
+    var PK={
+      foundation:{n:"Foundation",p:99,d:"The plan and a steady nudge."},
+      coaching:{n:"Coaching",p:179,d:"Coached closely, week by week."},
+      performance:{n:"Performance",p:299,d:"A specific result by a date."},
+      maintenance:{n:"Maintenance",p:49,d:"Offered to clients when they hit their goal, so they stay with you. Not on the public site."}
+    };
+    var PKO=["foundation","coaching","performance","maintenance"], FEE=25, REF=25;
+    var C=[
+      {id:"dana",n:"Dana W.",g:"Lose fat",pk:"coaching",wk:7,w0:84.6,ch:-4.1,tr:62,nu:58,last:9,st:"late",ren:5,pay:"ok"},
+      {id:"sam",n:"Sam B.",g:"Perform better",pk:"performance",wk:4,w0:79.2,ch:-1.2,tr:94,nu:81,last:7,st:"due",ren:12,pay:"ok"},
+      {id:"lee",n:"Lee M.",g:"Lose fat",pk:"coaching",wk:9,w0:93.0,ch:-6.9,tr:96,nu:88,last:0,st:"review",ren:3,pay:"ok"},
+      {id:"aisha",n:"Aisha N.",g:"Improve health",pk:"foundation",wk:3,w0:71.4,ch:-1.1,tr:83,nu:79,last:5,st:"ok",ren:19,pay:"ok"},
+      {id:"tom",n:"Tom H.",g:"Build muscle",pk:"coaching",wk:10,w0:76.2,ch:2.7,tr:88,nu:74,last:0,st:"review",ren:6,pay:"ok"},
+      {id:"grace",n:"Grace L.",g:"Lose fat",pk:"performance",wk:6,w0:68.9,ch:-3.4,tr:91,nu:90,last:1,st:"ok",ren:15,pay:"ok"},
+      {id:"marcus",n:"Marcus T.",g:"Build muscle",pk:"coaching",wk:0,w0:81.5,ch:0,tr:0,nu:0,last:-1,st:"build",ren:29,pay:"ok"},
+      {id:"hannah",n:"Hannah R.",g:"Lose fat",pk:"foundation",wk:12,w0:72.8,ch:-8.8,tr:93,nu:92,last:0,st:"review",ren:2,pay:"ok",goal:true},
+      {id:"ollie",n:"Ollie P.",g:"Stay lean",pk:"maintenance",wk:20,w0:88.0,ch:-9.6,tr:85,nu:80,last:6,st:"ok",ren:9,pay:"ok"},
+      {id:"priya",n:"Priya S.",g:"Lose fat",pk:"coaching",wk:5,w0:66.3,ch:-2.2,tr:79,nu:71,last:7,st:"due",ren:21,pay:"ok"},
+      {id:"callum",n:"Callum D.",g:"Perform better",pk:"performance",wk:2,w0:90.4,ch:-0.6,tr:100,nu:86,last:4,st:"ok",ren:24,pay:"ok"},
+      {id:"jordan",n:"Jordan K.",g:"Stay lean",pk:"maintenance",wk:30,w0:95.1,ch:-12.3,tr:71,nu:69,last:3,st:"ok",ren:0,pay:"failed"}
+    ];
+    var STL={review:"Check-in to review",build:"Plan to build",due:"Due today",late:"Overdue",ok:"On track"};
+    var CI={
+      lee:{at:"07:12",sess:"4 of 4",steps:"9,400",sleep:"7h 10m",hunger:"2 of 5",energy:"4 of 5",win:"Hit every session and prepped lunches on Sunday for the first time.",hard:"Friday night out. Had the meal I planned, but three more drinks than I meant to."},
+      tom:{at:"08:40",sess:"3 of 4",steps:"7,100",sleep:"6h 20m",hunger:"3 of 5",energy:"3 of 5",win:"Bench went up again.",hard:"Missed Thursday because work ran late. Sleep has been poor all week."},
+      hannah:{at:"09:05",sess:"3 of 3",steps:"11,200",sleep:"7h 40m",hunger:"2 of 5",energy:"5 of 5",win:"I am at the weight we set in week one.",hard:"Not sure what happens now."}
+    };
+    var CB=[{n:"Ryan F.",t:"07700 900101",w:"Drop body fat",when:"this morning"},{n:"Mei C.",t:"07700 900102",w:"Improve my health",when:"at lunchtime"},{n:"Dev A.",t:"07700 900103",w:"Perform better",when:"this evening"}];
+    var CO=[{n:"Beth O.",w:"Build muscle",d:0,t:"18:00",paid:true},{n:"Nico V.",w:"Drop body fat",d:1,t:"10:30",paid:true},{n:"Zara M.",w:"Perform better",d:3,t:"09:30",paid:false}];
+    var RF=[["tom","callum"],["grace","priya"]];
+    var HIST=[1074,1253,1432,1611,1909];
+    var by=function(id){for(var i=0;i<C.length;i++)if(C[i].id===id)return C[i];return C[0]};
+    var mrr=function(){return C.reduce(function(a,c){return a+PK[c.pk].p},0)};
+    var lastL=function(c){return c.last<0?"None yet":c.last===0?"Today":c.last===1?"Yesterday":c.last+" days ago"};
+    function weights(c){
+      if(c.w0==null)return [];
+      var a=[],i,n=c.wk;
+      if(!n)return [c.w0];
+      for(i=0;i<=n;i++){a.push(Math.round((c.w0+c.ch*Math.pow(i/n,.8)+(i>0&&i<n?Math.sin(i*2.3+c.w0)*.35:0))*10)/10)}
+      return a;
+    }
+    var nowW=function(c){var w=weights(c);return w.length?w[w.length-1]:null};
+    function chg(v){return v===0?"no change":(v<0?"down ":"up ")+Math.abs(v).toFixed(1)+" kg"}
+    function spark(v,w,h){
+      if(v.length<2)return "";
+      var mn=Math.min.apply(null,v),mx=Math.max.apply(null,v),r=mx-mn||1;
+      var p=v.map(function(y,i){return (i*(w-4)/(v.length-1)+2).toFixed(1)+","+(h-3-(y-mn)/r*(h-6)).toFixed(1)}).join(" ");
+      return '<svg class="spark" width="'+w+'" height="'+h+'" viewBox="0 0 '+w+" "+h+'" aria-hidden="true"><polyline points="'+p+'" fill="none" stroke="#5A2DDB" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>';
+    }
+    function chart(v){
+      var W=narrow()?340:560,H=170,l=44,r=14,t=14,b=26,mn=Math.min.apply(null,v),mx=Math.max.apply(null,v),pad2=(mx-mn)*.15||1;
+      mn-=pad2;mx+=pad2;
+      var X=function(i){return l+i*(W-l-r)/(v.length-1)},Y=function(y){return t+(mx-y)/(mx-mn)*(H-t-b)};
+      var pts=v.map(function(y,i){return X(i).toFixed(1)+","+Y(y).toFixed(1)}).join(" ");
+      var s='<svg class="chart" viewBox="0 0 '+W+" "+H+'" role="img" aria-label="Weight by week">';
+      [0,.5,1].forEach(function(f){var val=mx-(mx-mn)*f,y=t+f*(H-t-b);s+='<line x1="'+l+'" x2="'+(W-r)+'" y1="'+y+'" y2="'+y+'" stroke="#E4DDF0"/><text x="'+(l-8)+'" y="'+(y+4)+'" text-anchor="end" font-size="11" fill="#5C5170" font-family="ui-monospace,monospace">'+val.toFixed(0)+"</text>"});
+      s+='<polygon points="'+l+","+(H-b)+" "+pts+" "+(W-r)+","+(H-b)+'" fill="#EDE6FF"/><polyline points="'+pts+'" fill="none" stroke="#5A2DDB" stroke-width="2.5" stroke-linejoin="round"/>';
+      s+='<circle cx="'+X(v.length-1)+'" cy="'+Y(v[v.length-1])+'" r="4.5" fill="#5A2DDB"/>';
+      s+='<text x="'+l+'" y="'+(H-7)+'" font-size="11" fill="#5C5170" font-family="ui-monospace,monospace">WEEK 0</text><text x="'+(W-r)+'" y="'+(H-7)+'" text-anchor="end" font-size="11" fill="#5C5170" font-family="ui-monospace,monospace">WEEK '+(v.length-1)+"</text></svg>";
+      return s;
+    }
+    function bars(vals,labs,hot){
+      var sm=narrow(),W=sm?340:560,H=190,b=26,t=22,n=vals.length,gp=sm?6:14,mx=Math.max.apply(null,vals)||1,bw=(W-(n-1)*gp)/n,s='<svg class="chart" viewBox="0 0 '+W+" "+H+'" role="img" aria-label="Recurring revenue by month">';
+      vals.forEach(function(v,i){var h=(H-b-t)*v/mx,x=i*(bw+gp),y=H-b-h;
+        s+='<rect x="'+x+'" y="'+y+'" width="'+bw+'" height="'+h+'" rx="3" fill="'+(i===hot?"#5A2DDB":"#CFC2EC")+'"/>';
+        s+='<text x="'+(x+bw/2)+'" y="'+(y-7)+'" text-anchor="middle" font-size="'+(sm?11:12)+'" font-weight="700" fill="#1A1424" font-family="system-ui,sans-serif">'+gbp(v)+"</text>";
+        s+='<text x="'+(x+bw/2)+'" y="'+(H-8)+'" text-anchor="middle" font-size="11" fill="#5C5170" font-family="ui-monospace,monospace">'+labs[i].toUpperCase()+"</text>"});
+      return s+"</svg>";
+    }
+
+    /* plans */
+    var X=function(n,s,r,e,rest){return {n:n,s:s,r:r,e:e,rest:rest}};
+    var T={
+      fat4:{n:"Fat loss, 4 days",d:"Four lifting days and a daily step target.",w:[
+        ["Upper push",[X("Incline dumbbell press",4,"8","2 in reserve",120),X("Seated shoulder press",3,"10","2 in reserve",90),X("Cable fly",3,"12","1 in reserve",60),X("Lateral raise",3,"15","1 in reserve",45),X("Triceps pushdown",3,"12","1 in reserve",45)]],
+        ["Lower",[X("Back squat",4,"6","2 in reserve",150),X("Romanian deadlift",3,"8","2 in reserve",120),X("Walking lunge",3,"12 each","1 in reserve",75),X("Leg curl",3,"12","1 in reserve",60),X("Calf raise",3,"15","Last good rep",45)]],
+        ["Rest and steps",[]],
+        ["Upper pull",[X("Lat pulldown",4,"10","2 in reserve",90),X("Chest-supported row",4,"10","2 in reserve",90),X("Face pull",3,"15","1 in reserve",45),X("Incline curl",3,"12","1 in reserve",45),X("Plank",3,"45 sec","Steady",45)]],
+        ["Full body and conditioning",[X("Trap bar deadlift",3,"6","2 in reserve",150),X("Push-up",3,"Max good reps","1 in reserve",60),X("Goblet squat",3,"12","1 in reserve",60),X("Sled push",6,"20 m","Hard",60)]],
+        ["Long walk",[]],["Rest",[]]]},
+      build5:{n:"Build muscle, 5 days",d:"Five lifting days, each muscle trained twice a week.",w:[
+        ["Chest and triceps",[X("Bench press",4,"6","2 in reserve",150),X("Incline dumbbell press",3,"10","1 in reserve",90),X("Cable fly",3,"12","1 in reserve",60),X("Dips",3,"10","1 in reserve",90),X("Overhead triceps extension",3,"12","1 in reserve",60)]],
+        ["Back and biceps",[X("Pull-up",4,"8","2 in reserve",120),X("Barbell row",4,"8","2 in reserve",120),X("Seated cable row",3,"12","1 in reserve",75),X("Incline curl",3,"12","1 in reserve",60),X("Hammer curl",3,"12","1 in reserve",45)]],
+        ["Legs",[X("Back squat",4,"6","2 in reserve",180),X("Leg press",3,"10","1 in reserve",120),X("Romanian deadlift",3,"8","2 in reserve",120),X("Leg extension",3,"15","Last good rep",60),X("Calf raise",4,"12","Last good rep",45)]],
+        ["Rest",[]],
+        ["Shoulders and arms",[X("Seated shoulder press",4,"8","2 in reserve",120),X("Lateral raise",4,"15","1 in reserve",45),X("Face pull",3,"15","1 in reserve",45),X("Triceps pushdown",3,"12","1 in reserve",45),X("Cable curl",3,"12","1 in reserve",45)]],
+        ["Legs and glutes",[X("Hip thrust",4,"8","2 in reserve",120),X("Bulgarian split squat",3,"10 each","1 in reserve",90),X("Leg curl",3,"12","1 in reserve",60),X("Walking lunge",3,"12 each","1 in reserve",75)]],
+        ["Rest",[]]]},
+      home3:{n:"At home, 3 days",d:"Three full-body sessions with a pair of dumbbells.",w:[
+        ["Full body A",[X("Goblet squat",3,"12","2 in reserve",75),X("Dumbbell floor press",3,"12","2 in reserve",75),X("One-arm row",3,"12 each","2 in reserve",60),X("Plank",3,"40 sec","Steady",45)]],
+        ["Steps",[]],
+        ["Full body B",[X("Dumbbell Romanian deadlift",3,"12","2 in reserve",75),X("Push-up",3,"Max good reps","1 in reserve",60),X("Split squat",3,"10 each","2 in reserve",60),X("Dumbbell curl",3,"12","1 in reserve",45)]],
+        ["Steps",[]],
+        ["Full body C",[X("Dumbbell thruster",3,"10","2 in reserve",75),X("Bent-over row",3,"12","2 in reserve",60),X("Glute bridge",3,"15","1 in reserve",45),X("Dead bug",3,"10 each","Steady",45)]],
+        ["Long walk",[]],["Rest",[]]]}
+    };
+    var TO=["fat4","build5","home3"];
+    var LIB={Push:["Bench press","Dumbbell shoulder press","Dips","Cable fly"],Pull:["Pull-up","Barbell row","Seated cable row","Hammer curl"],Legs:["Leg press","Bulgarian split squat","Hip thrust","Leg extension"],Core:["Hanging knee raise","Cable crunch","Pallof press"],Conditioning:["Incline walk","Bike intervals","Rowing intervals"]};
+    var PLAN={},NU={};
+    function useT(id,k){PLAN[id]={t:k,w:JSON.parse(JSON.stringify(T[k].w))}}
+    C.forEach(function(c){if(c.wk>0)useT(c.id,c.g==="Build muscle"?"build5":c.g==="Improve health"?"home3":"fat4")});
+    function nu(c){
+      if(!NU[c.id])NU[c.id]={w:nowW(c)||80,goal:c.g==="Build muscle"?"build":(c.g==="Lose fat"?"lose":"hold"),act:"mid",adj:0,m:[0,0,0,0]};
+      return NU[c.id];
+    }
+    function macros(n){
+      var k=Math.round(({low:29,mid:32,high:35}[n.act]*n.w*({lose:.8,hold:1,build:1.1}[n.goal])+n.adj)/10)*10;
+      var p=Math.round(2*n.w),f=Math.round(.8*n.w),cb=Math.max(0,Math.round((k-4*p-9*f)/4));
+      return {k:k,p:p,f:f,c:cb};
+    }
+    var MEALS=[
+      ["Breakfast",.25,["Greek yoghurt, oats and berries","Eggs on toast with spinach","Protein smoothie and a banana"]],
+      ["Lunch",.3,["Chicken, rice and greens","Tuna jacket potato and salad","Turkey wrap and fruit"]],
+      ["Dinner",.3,["Salmon, potatoes and veg","Lean beef chilli and rice","Chicken stir fry and noodles"]],
+      ["Snack",.15,["Protein shake and an apple","Cottage cheese and rice cakes","Skyr and a handful of nuts"]]
+    ];
+    function mins(ex){var s=ex.reduce(function(a,e){return a+(+e.s||0)*((+e.rest||60)+40)},0);return Math.max(5,Math.round(s/60/5)*5)}
+
+    /* navigation */
+    var TITLE={today:"Today",clients:"Clients",builder:"Plan builder",checkins:"Check-ins",packages:"Packages and memberships",money:"Money"};
+    var draw={};
+    function counts(){
+      var n={review:0,build:0,late:0,failed:0};
+      C.forEach(function(c){if(n[c.st]!=null)n[c.st]++;if(c.pay==="failed")n.failed++});
+      var set=function(k,v){var b=q('[data-n="'+k+'"]');if(b)b.textContent=v?v:""};
+      set("today",n.review+n.build+n.late+n.failed);set("clients",C.length);set("builder",n.build);set("checkins",n.review);set("packages",n.failed);
+      return n;
+    }
+    function go(s){
+      setH();
+      qa(".be-nav button").forEach(function(b){var on=b.dataset.go===s;b.setAttribute("aria-selected",on?"true":"false");if(on&&narrow()){var sd=q(".be-side");sd.scrollLeft=Math.max(0,b.offsetLeft-60)}});
+      qa(".be-scr").forEach(function(x){x.classList.toggle("on",x.dataset.scr===s)});
+      q("#beTitle").textContent=TITLE[s];
+      if(s==="builder")pickDay();
+      draw[s]();counts();window.scrollTo(0,0);
+    }
+    q(".be-nav").addEventListener("click",function(e){var b=e.target.closest("[data-go]");if(b)go(b.dataset.go)});
+    q("#beWhen").textContent=DAYL[now.getDay()]+" "+now.getDate()+" "+MONL[now.getMonth()];
+
+    /* today */
+    var cbDone={},nudged={};
+    draw.today=function(){
+      var n=counts();
+      var k=[["checkins","Check-ins to review",n.review,n.review?"Arrived this morning":"All answered"],["builder","Plans to build",n.build,n.build?"Paid and waiting on you":"Every client has a plan"],["packages","Payments to chase",n.failed,n.failed?"Card declined":"All collected"],["money","Recurring this month",gbp(mrr()),"From "+C.length+" clients"]];
+      q("#tdKpi").innerHTML=k.map(function(x,i){return '<button type="button" class="kpi'+(i===3?" hot":"")+'" data-go="'+x[0]+'"><span class="lab">'+x[1]+'</span><span class="n">'+x[2]+'</span><span class="s">'+x[3]+"</span></button>"}).join("");
+      var h="",cnt=0;
+      var row=function(c,meta,btn){cnt++;return '<li><span class="av">'+ini(c.n)+'</span><div><span class="who">'+esc(c.n)+'</span><span class="meta">'+meta+"</span></div>"+btn+"</li>"};
+      C.forEach(function(c){if(c.st==="review")h+=row(c,"Check-in arrived "+CI[c.id].at+(c.goal?" · reached goal weight":""),'<button class="mini solid" type="button" data-act="review" data-id="'+c.id+'">Review</button>')});
+      C.forEach(function(c){if(c.st==="build")h+=row(c,(c.mine?"Added by you":"Bought "+PK[c.pk].n+" on your website")+" · no plan yet",'<button class="mini solid" type="button" data-act="build" data-id="'+c.id+'">Build plan</button>')});
+      C.forEach(function(c){if(c.st==="late")h+=row(c,"No check-in for "+c.last+" days",nudged[c.id]?'<button class="mini" type="button" disabled>Nudged</button>':'<button class="mini" type="button" data-act="nudge" data-id="'+c.id+'">Send nudge</button>')});
+      C.forEach(function(c){if(c.pay==="failed")h+=row(c,"Card declined for "+gbp(PK[c.pk].p)+" "+PK[c.pk].n,'<button class="mini" type="button" data-act="retry" data-id="'+c.id+'">Retry payment</button>')});
+      var due=C.filter(function(c){return c.st==="due"}).map(function(c){return esc(c.n)});
+      q("#tdQ").innerHTML=(h||'<li class="empty" style="display:block">Nothing is waiting on you.</li>')+(due.length?'<li style="display:block"><span class="meta">Due in today: '+due.join(", ")+" Reminders go out automatically at 6pm.</span></li>":"");
+      q("#tdCount").textContent=cnt?cnt+" to do":"all done";
+      var left=CB.filter(function(c){return !cbDone[c.n]}).length;
+      q("#cbCount").textContent=left?left+" to ring":"all rung";
+      q("#cbQ").innerHTML=CB.map(function(c){var d=cbDone[c.n];return '<li'+(d?' class="done"':"")+'><span class="av">'+ini(c.n)+'</span><div><span class="who">'+c.n+'</span><span class="meta">'+c.t+" · "+c.w+" · ring "+c.when+"</span></div>"+(d?'<button class="mini" type="button" disabled>Rung</button>':'<button class="mini" type="button" data-cb="'+c.n+'">Mark rung</button>')+"</li>"}).join("");
+      q("#coQ").innerHTML=CO.map(function(c){return '<li><div><span class="who">'+(c.d===0?"Today":dplus(c.d))+" "+c.t+" · "+c.n+'</span><span class="meta">'+c.w+'</span></div><span class="tag2 '+(c.paid?"paid":"hold")+'">'+(c.paid?gbp(FEE)+" paid":"Awaiting payment")+"</span></li>"}).join("");
+      var pl=[9,8,5,9,8,4,2],miss=[0,1,0,2,1,0,0],dn=pl.map(function(v,i){return i<todayI?v-miss[i]:i===todayI?Math.floor(v/2):0});
+      var W=narrow()?300:420,H=120,bw=narrow()?34:44,gap=(W-7*bw)/6,s='<svg class="chart" viewBox="0 0 '+W+" "+H+'" role="img" aria-label="Sessions done against sessions planned, by day">',td=0,tp=0;
+      pl.forEach(function(v,i){var x=i*(bw+gap),hp=v*9,hd=dn[i]*9;if(i<=todayI){td+=dn[i];tp+=v}
+        s+='<rect x="'+x+'" y="'+(96-hp)+'" width="'+bw+'" height="'+hp+'" rx="3" fill="#E4DDF0"/><rect x="'+x+'" y="'+(96-hd)+'" width="'+bw+'" height="'+hd+'" rx="3" fill="#5A2DDB"/>';
+        s+='<text x="'+(x+bw/2)+'" y="114" text-anchor="middle" font-size="11" fill="'+(i===todayI?"#1A1424":"#5C5170")+'" font-weight="'+(i===todayI?700:500)+'" font-family="ui-monospace,monospace">'+WD[i].toUpperCase()+"</text>"});
+      q("#tdWeek").innerHTML=s+'</svg><p class="meta" style="margin-top:8px">'+td+" of "+tp+" planned sessions logged so far this week.</p>";
+    };
+    q('[data-scr="today"]').addEventListener("click",function(e){
+      var g=e.target.closest(".kpi");if(g){if(g.dataset.go==="builder"){var bc=C.filter(function(c){return c.st==="build"})[0];if(bc)bd.c=bc.id}go(g.dataset.go);return}
+      var cb=e.target.closest("[data-cb]");if(cb){cbDone[cb.dataset.cb]=1;draw.today();return}
+      var b=e.target.closest("[data-act]");if(!b)return;var c=by(b.dataset.id),a=b.dataset.act,msg="";
+      if(a==="review"){ciSel=c.id;go("checkins");return}
+      if(a==="build"){bd.c=c.id;bd.tab="train";go("builder");return}
+      if(a==="nudge"){nudged[c.id]=1;msg="Demo only. "+first(c)+" would get a check-in reminder by text now. Nothing has been sent."}
+      if(a==="retry"){c.pay="ok";c.ren=30;msg="Demo only. The card would be tried again and "+first(c)+" told if it fails. Shown here as paid."}
+      draw.today();counts();q("#tdMsg").textContent=msg;
     });
-    $("#cl").addEventListener("click",function(e){var b=e.target.closest("[data-nudge]");if(!b)return;$("#toast").textContent="Demo only. A check-in message would go to "+b.dataset.nudge+" now. Nothing has been sent."});
-    $("#saveP").addEventListener("click",function(){$("#saveMsg").textContent="Demo only. The packages table and the consultation fee on the site would update to these prices straight away."});
-  }
+
+    /* clients */
+    var clF="all";
+    draw.clients=function(){
+      var term=q("#clS").value.trim().toLowerCase(),n=0;
+      q("#clT").innerHTML=C.map(function(c){
+        if(!(clF==="all"||c.st===clF)||(term&&c.n.toLowerCase().indexOf(term)<0))return "";
+        n++;var w=weights(c),lo=function(v){return v&&v<70?" lo":""};
+        var wt=w.length>1?spark(w,70,24)+chg(w[w.length-1]-w[0]):(w.length?kg(w[0]):"None yet");
+        var bar=function(v){return c.wk?'<span class="pb'+lo(v)+'"><i style="width:'+v+'%"></i></span>'+v+"%":"Not started"};
+        return '<tr data-id="'+c.id+'"><td><button type="button" class="rowb">'+esc(c.n)+'</button><span class="meta">'+esc(c.g)+'</span></td><td data-l="Package">'+PK[c.pk].n+'</td><td data-l="Week">'+(c.wk||"New")+'</td><td data-l="Training">'+bar(c.tr)+'</td><td data-l="Food">'+bar(c.nu)+'</td><td data-l="Weight">'+wt+'</td><td data-l="Last check-in">'+lastL(c)+'</td><td data-l="Status"><span class="tag2 '+c.st+'">'+STL[c.st]+"</span></td></tr>";
+      }).join("");
+      q("#clE").hidden=n>0;
+    };
+    q("#clF").addEventListener("click",function(e){var b=e.target.closest("[data-f]");if(!b)return;clF=b.dataset.f;qa("#clF button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});draw.clients()});
+    q("#clS").addEventListener("input",draw.clients);
+    q("#clT").addEventListener("click",function(e){var r=e.target.closest("tr");if(r)openC(r.dataset.id)});
+
+    /* client drawer */
+    var dr=q("#dr"),drB=q("#drB");
+    function shut(){dr.classList.remove("on");drB.classList.remove("on")}
+    function show(h){setH();dr.innerHTML=h;dr.scrollTop=0;dr.classList.add("on");drB.classList.add("on");var x=dr.querySelector(".x");if(x)x.focus()}
+    drB.addEventListener("click",shut);
+    document.addEventListener("keydown",function(e){if(e.key==="Escape")shut()});
+    function openC(id){
+      var c=by(id),w=weights(c),m=macros(nu(c)),p=PLAN[c.id],mo=Math.max(1,Math.ceil(c.wk/4.345));
+      var h='<div class="dr-h"><div><span class="lab">'+PK[c.pk].n+" · "+(c.wk?"week "+c.wk:"new client")+" · "+esc(c.g)+'</span><h3>'+esc(c.n)+'</h3><span class="tag2 '+c.st+'">'+STL[c.st]+'</span></div><button class="x" type="button" aria-label="Close">&times;</button></div>';
+      h+='<div class="stat"><div><span class="lab">Start</span><span class="v">'+(w.length?kg(w[0]):"None yet")+'</span><span class="d">'+(c.wk?c.wk+" weeks ago":"First weigh-in")+'</span></div><div><span class="lab">Now</span><span class="v">'+(w.length?kg(w[w.length-1]):"None yet")+'</span><span class="d">'+(w.length>1?chg(w[w.length-1]-w[0]):"No change yet")+'</span></div><div><span class="lab">Training</span><span class="v">'+(c.wk?c.tr+"%":"New")+'</span><span class="d">sessions done</span></div><div><span class="lab">Food</span><span class="v">'+(c.wk?c.nu+"%":"New")+'</span><span class="d">days on target</span></div></div>';
+      h+="<h4>Weight</h4>"+(w.length>2?chart(w):'<p class="empty">No check-ins yet. The line starts with the first one.</p>');
+      h+="<h4>This week's training</h4>";
+      if(p){h+='<ul class="rows">'+p.w.map(function(d,i){if(!d[1].length)return "";var stt=i<todayI?(c.tr<70&&i===1?["late","Missed"]:["ok","Done"]):i===todayI?["due","Today"]:["hold","To do"];return '<li><span><b>'+WD[i]+"</b> · "+esc(d[0])+'</span><span class="tag2 '+stt[0]+'">'+stt[1]+"</span></li>"}).join("")+"</ul>"}
+      else h+='<p class="empty">No plan yet. Build one and it lands on the phone straight away.</p>';
+      h+='<h4>Daily targets</h4><ul class="rows"><li><span>Calories</span><span class="r">'+m.k.toLocaleString("en-GB")+'</span></li><li><span>Protein</span><span class="r">'+m.p+' g</span></li><li><span>Carbs</span><span class="r">'+m.c+' g</span></li><li><span>Fat</span><span class="r">'+m.f+" g</span></li></ul>";
+      h+='<h4>Billing</h4><ul class="rows"><li><span>'+PK[c.pk].n+', monthly</span><span class="r">'+gbp(PK[c.pk].p)+'</span></li><li><span>Next payment</span><span class="r">'+(c.pay==="failed"?'<span class="tag2 failed">Card declined</span>':dplus(c.ren))+'</span></li><li><span>Paid so far</span><span class="r">'+(c.wk?gbp(mo*PK[c.pk].p)+" over "+mo+(mo>1?" months":" month"):gbp(PK[c.pk].p))+"</span></li></ul>";
+      h+='<div class="acts"><button class="mini solid" type="button" data-d="plan">'+(p?"Open the plan":"Build the plan")+"</button>"+(c.st==="review"?'<button class="mini" type="button" data-d="review">Review check-in</button>':"")+'<button class="mini" type="button" data-d="msg">Message '+esc(first(c))+'</button></div><p class="toast" aria-live="polite"></p>';
+      dr.dataset.id=c.id;show(h);
+    }
+    function openAdd(){
+      var o=function(a){return a.map(function(x){return "<option"+(x[2]?" selected":"")+' value="'+x[0]+'">'+x[1]+"</option>"}).join("")};
+      show('<div class="dr-h"><div><span class="lab">New client</span><h3>Add a client</h3></div><button class="x" type="button" aria-label="Close">&times;</button></div><div class="form"><label>Name<input type="text" id="adN" autocomplete="off"></label><label>Goal<select id="adG">'+o([["Lose fat","Lose fat"],["Build muscle","Build muscle"],["Perform better","Perform better"],["Improve health","Improve health"]])+'</select></label><label>Package<select id="adP">'+o(PKO.map(function(k){return [k,PK[k].n+", "+gbp(PK[k].p)+" a month",k==="coaching"]}))+'</select></label></div><div class="acts"><button class="mini solid" type="button" data-d="add">Add client</button></div><p class="toast" aria-live="polite"></p>');
+      var i=dr.querySelector("#adN");if(i)i.focus();
+    }
+    q("#beAdd").addEventListener("click",openAdd);
+    dr.addEventListener("click",function(e){
+      if(e.target.closest(".x")){shut();return}
+      var b=e.target.closest("[data-d]");if(!b)return;var a=b.dataset.d,c=by(dr.dataset.id),t=dr.querySelector(".toast");
+      if(a==="plan"){bd.c=c.id;bd.tab="train";shut();go("builder")}
+      if(a==="review"){ciSel=c.id;shut();go("checkins")}
+      if(a==="msg")t.textContent="Demo only. This opens a message to "+first(c)+" by text or email. Nothing has been sent.";
+      if(a==="add"){
+        var nm=dr.querySelector("#adN").value.trim();
+        if(!nm){t.textContent="Give them a name first.";return}
+        var id="c"+C.length;C.push({id:id,n:nm,g:dr.querySelector("#adG").value,pk:dr.querySelector("#adP").value,wk:0,w0:null,ch:0,tr:0,nu:0,last:-1,st:"build",ren:30,pay:"ok",mine:true});
+        shut();clF="all";qa("#clF button").forEach(function(x){x.setAttribute("aria-pressed",x.dataset.f==="all"?"true":"false")});q("#clS").value="";go("clients");
+      }
+    });
+
+    /* plan builder */
+    var bd={c:"lee",tab:"train",day:todayI,lib:"Push"};
+    function pickDay(){var p=PLAN[bd.c],i;if(!p)return;if(p.w[todayI][1].length){bd.day=todayI;return}for(i=0;i<7;i++)if(p.w[i][1].length){bd.day=i;return}}
+    function phone(){
+      var c=by(bd.c),p=PLAN[c.id],h="";
+      q("#phCap").textContent="What "+first(c)+" sees on the phone";
+      if(bd.tab==="train"){
+        if(!p)h='<span class="lab">'+esc(first(c))+'</span><h4>Your plan is being built</h4><p class="foot">It lands here the moment your coach sends it.</p>';
+        else{var d=p.w[bd.day];h='<span class="lab">'+WD[bd.day]+" · week "+(c.wk||1)+'</span><h4>'+esc(d[0])+"</h4>";
+          h+=d[1].length?"<ul>"+d[1].map(function(e){return "<li><span>"+esc(e.n)+"</span><span>"+esc(e.s)+" x "+esc(e.r)+"</span></li>"}).join("")+'</ul><p class="foot">About '+mins(d[1])+" minutes. Tick each set off as you go.</p>":'<p class="foot">No lifting today. Hit your steps, eat to plan and get to bed on time.</p>'}
+      }else{
+        var n=nu(c),m=macros(n);
+        h='<span class="lab">Daily targets</span><span class="big">'+m.k.toLocaleString("en-GB")+'</span><span class="foot" style="margin:2px 0 0;display:block">calories</span><div class="mrow"><div>'+m.p+" g<small>Protein</small></div><div>"+m.c+" g<small>Carbs</small></div><div>"+m.f+" g<small>Fat</small></div></div><ul>"+MEALS.map(function(x,i){return "<li><span>"+x[2][n.m[i]]+"</span><span>"+Math.round(x[1]*m.k/10)*10+"</span></li>"}).join("")+"</ul>";
+      }
+      q("#phIn").innerHTML=h;
+    }
+    function tplBtns(){return TO.map(function(k){return '<button type="button" data-tpl="'+k+'"><b>'+T[k].n+"</b><span>"+T[k].d+"</span></button>"}).join("")}
+    function dayHtml(d){
+      var h="";
+      if(d[1].length){
+        h+='<table class="ex"><thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Effort</th><th>Rest, sec</th><th></th></tr></thead><tbody>'+d[1].map(function(e,i){return '<tr><td>'+esc(e.n)+'</td><td data-l="Sets"><input type="text" inputmode="numeric" data-i="'+i+'" data-k="s" value="'+esc(e.s)+'" aria-label="Sets"></td><td data-l="Reps"><input type="text" data-i="'+i+'" data-k="r" value="'+esc(e.r)+'" aria-label="Reps"></td><td data-l="Effort"><input class="wide" type="text" data-i="'+i+'" data-k="e" value="'+esc(e.e)+'" aria-label="Effort"></td><td data-l="Rest, sec"><input type="text" inputmode="numeric" data-i="'+i+'" data-k="rest" value="'+esc(e.rest)+'" aria-label="Rest in seconds"></td><td data-l="Remove"><button type="button" class="x" data-rm="'+i+'" aria-label="Remove '+esc(e.n)+'">&times;</button></td></tr>'}).join("")+"</tbody></table>";
+        h+='<p class="sum" id="bdSum"></p>';
+      }else h+='<p class="empty">Nothing to lift on '+WD[bd.day]+". Add an exercise below to turn it into a session.</p>";
+      h+='<span class="lab" style="margin-top:20px">Add from your exercise library</span><div class="filters" style="margin:8px 0 0" id="bdLib">'+Object.keys(LIB).map(function(k){return '<button type="button" data-lib="'+k+'" aria-pressed="'+(k===bd.lib)+'">'+k+"</button>"}).join("")+'</div><div class="lib">'+LIB[bd.lib].map(function(n){return '<button type="button" data-add="'+n+'">+ '+n+"</button>"}).join("")+"</div>";
+      return h;
+    }
+    function sum(){var c=by(bd.c),p=PLAN[c.id],el=q("#bdSum");if(!p||!el)return;var d=p.w[bd.day][1];el.innerHTML=d.length+" exercises <span>·</span> "+d.reduce(function(a,e){return a+(+e.s||0)},0)+" sets <span>·</span> about "+mins(d)+" minutes";}
+    draw.builder=function(){
+      var c=by(bd.c),p=PLAN[c.id],sel=q("#bdC"),h="";
+      sel.innerHTML=C.map(function(x){return '<option value="'+x.id+'"'+(x.id===c.id?" selected":"")+">"+esc(x.n)+" · "+esc(x.g)+"</option>"}).join("");
+      qa("#bdTab button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.t===bd.tab?"true":"false")});
+      if(bd.tab==="train"){
+        if(!p)h='<div class="bc"><h3>Start '+esc(first(c))+' from a template</h3><p class="meta" style="margin:-6px 0 16px">'+esc(c.g)+". Pick the closest week, then change anything in it.</p><div class=\"tpl\">"+tplBtns()+"</div></div>";
+        else{
+          h='<div class="bc"><h3>'+esc(first(c))+"'s week <small>"+T[p.t].n+'</small></h3><div class="week">'+p.w.map(function(d,i){return '<button type="button" data-day="'+i+'" aria-pressed="'+(i===bd.day)+'" class="'+(d[1].length?"":"rest")+'"><b>'+WD[i]+"</b><span>"+esc(d[0])+"</span></button>"}).join("")+'</div><span class="lab">'+WD[bd.day]+'</span><h3 style="margin:4px 0 14px">'+esc(p.w[bd.day][0])+"</h3>"+dayHtml(p.w[bd.day])+"</div>";
+          h+='<div class="bc" style="margin-top:16px"><h3>Swap the whole week <small>replaces what is above</small></h3><div class="tpl">'+tplBtns()+"</div></div>";
+        }
+      }else{
+        var n=nu(c),m=macros(n),tot=4*m.p+4*m.c+9*m.f||1,o=function(v,a){return a.map(function(x){return '<option value="'+x[0]+'"'+(x[0]===v?" selected":"")+">"+x[1]+"</option>"}).join("")};
+        h='<div class="bc"><h3>'+esc(first(c))+"'s targets <small>worked out from your rules</small></h3><div class=\"nt\"><label><span class=\"lab\">Body weight, kg</span><input type=\"text\" inputmode=\"decimal\" id=\"nuW\" value=\""+n.w+'"></label><label><span class="lab">Goal</span><select id="nuG">'+o(n.goal,[["lose","Lose fat"],["hold","Hold steady"],["build","Build muscle"]])+'</select></label><label><span class="lab">Day to day</span><select id="nuA">'+o(n.act,[["low","Mostly sitting"],["mid","On their feet a fair bit"],["high","Very active"]])+"</select></label></div>";
+        h+='<div class="kc"><span class="n" id="nuK">'+m.k.toLocaleString("en-GB")+'<small>calories a day</small></span><label class="adj"><span class="lab" id="nuAl">Your adjustment: '+(n.adj>0?"+":"")+n.adj+'</span><input type="range" id="nuAdj" min="-300" max="300" step="50" value="'+n.adj+'"></label></div>';
+        h+='<div class="mac" id="nuM">'+[["Protein",m.p,4],["Carbs",m.c,4],["Fat",m.f,9]].map(function(x){return '<div class="r"><b>'+x[0]+'</b><span class="t"><i style="width:'+Math.round(x[1]*x[2]/tot*100)+'%"></i></span><span class="g"><b>'+x[1]+" g</b> · "+Math.round(x[1]*x[2]/tot*100)+"%</span></div>"}).join("")+"</div></div>";
+        h+='<div class="bc" style="margin-top:16px"><h3>An example day <small>scaled to the targets</small></h3><ul class="rows" id="nuMeals">'+MEALS.map(function(x,i){return '<li><div><span class="lab">'+x[0]+'</span><span class="who">'+x[2][n.m[i]]+'</span><span class="meta">'+Math.round(x[1]*m.k/10)*10+" calories · "+Math.round(x[1]*m.p)+' g protein</span></div><button class="mini" type="button" data-swap="'+i+'">Swap</button></li>'}).join("")+"</ul></div>";
+      }
+      q("#bdEd").innerHTML=h;q("#bdSend").textContent="Send plan to "+first(c);sum();phone();
+    };
+    q("#bdC").addEventListener("change",function(){bd.c=this.value;q("#bdMsg").textContent="";pickDay();draw.builder()});
+    q("#bdTab").addEventListener("click",function(e){var b=e.target.closest("[data-t]");if(b){bd.tab=b.dataset.t;draw.builder()}});
+    q("#bdSend").addEventListener("click",function(){
+      var c=by(bd.c);
+      if(!PLAN[c.id]){q("#bdMsg").textContent="Pick a template for "+first(c)+" first.";return}
+      if(c.st==="build")c.st="ok";counts();
+      q("#bdMsg").textContent="Demo only. "+first(c)+" would get the training week and the food targets by text and email now. Nothing has been sent.";
+    });
+    q("#bdEd").addEventListener("click",function(e){
+      var c=by(bd.c),p=PLAN[c.id],b;
+      if((b=e.target.closest("[data-tpl]"))){useT(c.id,b.dataset.tpl);pickDay();draw.builder();return}
+      if((b=e.target.closest("[data-day]"))){bd.day=+b.dataset.day;draw.builder();return}
+      if((b=e.target.closest("[data-lib]"))){bd.lib=b.dataset.lib;draw.builder();return}
+      if((b=e.target.closest("[data-add]"))&&p){var d=p.w[bd.day];if(!d[1].length&&/rest|walk|steps/i.test(d[0]))d[0]="Extra session";d[1].push(X(b.dataset.add,3,"10","2 in reserve",75));draw.builder();return}
+      if((b=e.target.closest("[data-rm]"))&&p){p.w[bd.day][1].splice(+b.dataset.rm,1);draw.builder();return}
+      if((b=e.target.closest("[data-swap]"))){var n=nu(c),i=+b.dataset.swap;n.m[i]=(n.m[i]+1)%3;draw.builder()}
+    });
+    function food(){
+      var c=by(bd.c),n=nu(c),m=macros(n),tot=4*m.p+4*m.c+9*m.f||1,rows=qa("#nuM .r"),vals=[[m.p,4],[m.c,4],[m.f,9]];
+      q("#nuK").firstChild.nodeValue=m.k.toLocaleString("en-GB");
+      q("#nuAl").textContent="Your adjustment: "+(n.adj>0?"+":"")+n.adj;
+      rows.forEach(function(r,i){var pc=Math.round(vals[i][0]*vals[i][1]/tot*100);r.querySelector("i").style.width=pc+"%";r.querySelector(".g").innerHTML="<b>"+vals[i][0]+" g</b> · "+pc+"%"});
+      qa("#nuMeals .meta").forEach(function(el,i){el.textContent=Math.round(MEALS[i][1]*m.k/10)*10+" calories · "+Math.round(MEALS[i][1]*m.p)+" g protein"});
+      phone();
+    }
+    q("#bdEd").addEventListener("input",function(e){
+      var t=e.target,c=by(bd.c),p=PLAN[c.id],n;
+      if(t.dataset.k&&p){p.w[bd.day][1][+t.dataset.i][t.dataset.k]=t.value;sum();phone();return}
+      n=nu(c);
+      if(t.id==="nuW"){var v=parseFloat(t.value);if(v>=35&&v<=250){n.w=v;food()}}
+      if(t.id==="nuAdj"){n.adj=+t.value;food()}
+    });
+    q("#bdEd").addEventListener("change",function(e){
+      var t=e.target,n=nu(by(bd.c));
+      if(t.id==="nuG"){n.goal=t.value;food()}
+      if(t.id==="nuA"){n.act=t.value;food()}
+    });
+
+    /* check-ins */
+    var ciSel="",offered={};
+    var SAVED=[["Strong week","Great week, {n}. Everything we planned got done. Same plan again, and add one set to your first lift in each session."],["Hold steady","Solid, {n}. One wobble does not undo the week. Keep the plan exactly as it is and we look again at your next check-in."],["Change the plan","Thanks, {n}. I am changing a couple of things so the plan fits the week you actually had. The new version will be on your phone today."]];
+    draw.checkins=function(flash){
+      var L=C.filter(function(c){return c.st==="review"});
+      if(!L.some(function(c){return c.id===ciSel}))ciSel=L.length?L[0].id:"";
+      q("#ciL").innerHTML=L.map(function(c){return '<button type="button" data-ci="'+c.id+'" aria-pressed="'+(c.id===ciSel)+'"><span class="av">'+ini(c.n)+'</span><span><span class="who">'+esc(c.n)+'</span><span class="meta">'+CI[c.id].at+" · week "+c.wk+" · "+PK[c.pk].n+"</span></span></button>"}).join("")||'<p class="empty">No check-ins waiting.</p>';
+      var f=flash?'<p class="toast" style="margin:0 0 14px">'+flash+"</p>":"";
+      if(!ciSel){q("#ciD").innerHTML=f+'<h3>All reviewed</h3><p class="meta">Nothing is waiting for you. The next check-ins are due in today and land here as they arrive.</p>';return}
+      var c=by(ciSel),x=CI[c.id],w=weights(c),wk=w[w.length-1]-w[w.length-2];
+      var h=f+'<h3>'+esc(c.n)+" <small>week "+c.wk+" · arrived "+x.at+"</small></h3>";
+      if(c.goal)h+='<div class="goal"><div><b>'+esc(first(c))+" has reached the goal you set together.</b><br>Offer Maintenance at "+gbp(PK.maintenance.p)+" a month so they stay with you.</div>"+(offered[c.id]?'<button class="mini" type="button" disabled>Offered</button>':'<button class="mini" type="button" data-offer="'+c.id+'">Offer Maintenance</button>')+"</div>";
+      h+='<div class="ans">'+[["Weight",kg(w[w.length-1]),chg(wk)+" on last week"],["Sessions",x.sess,"this week"],["Steps",x.steps,"a day on average"],["Sleep",x.sleep,"a night on average"],["Hunger",x.hunger,"lower is easier"],["Energy",x.energy,"higher is better"]].map(function(a){return '<div><span class="lab">'+a[0]+'</span><span class="v">'+a[1]+'</span><span class="d">'+a[2]+"</span></div>"}).join("")+"</div>";
+      h+='<span class="lab">What went well</span><p class="say">'+x.win+'</p><span class="lab">What was hard</span><p class="say">'+x.hard+"</p>";
+      h+='<span class="lab" style="margin-bottom:8px">Your reply</span><div class="saved">'+SAVED.map(function(s,i){return '<button class="mini" type="button" data-saved="'+i+'">'+s[0]+"</button>"}).join("")+'</div><textarea id="ciT" aria-label="Your reply" placeholder="Write to '+esc(first(c))+', or start from a saved reply."></textarea>';
+      h+='<div class="acts" style="margin-top:12px"><button class="mini solid" type="button" data-send="1">Send reply</button><button class="mini" type="button" data-plan="1">Change '+esc(first(c))+"'s plan</button></div><p class=\"toast\" id=\"ciM\" aria-live=\"polite\"></p>";
+      h+='<p class="prem"><b>Premium</b>A first draft of this reply, written for you from the check-in, is part of the AI layer on the Premium plan.</p>';
+      q("#ciD").innerHTML=h;
+    };
+    q("#ciL").addEventListener("click",function(e){var b=e.target.closest("[data-ci]");if(b){ciSel=b.dataset.ci;draw.checkins()}});
+    q("#ciD").addEventListener("click",function(e){
+      var c=by(ciSel),b;
+      if((b=e.target.closest("[data-saved]"))){q("#ciT").value=SAVED[+b.dataset.saved][1].replace("{n}",first(c));q("#ciM").textContent="";return}
+      if((b=e.target.closest("[data-offer]"))){offered[c.id]=1;var keep=q("#ciT").value;draw.checkins();q("#ciT").value=keep;q("#ciM").textContent="Demo only. "+first(c)+" would get the Maintenance offer with one button to accept. Nothing has been sent.";return}
+      if(e.target.closest("[data-plan]")){bd.c=c.id;bd.tab="train";go("builder");return}
+      if(e.target.closest("[data-send]")){
+        if(!q("#ciT").value.trim()){q("#ciM").textContent="Write a reply first, or pick a saved one.";return}
+        c.st="ok";c.last=0;var nm=first(c);ciSel="";draw.checkins("Demo only. "+esc(nm)+" would get your reply now. Nothing has been sent.");counts();
+      }
+    });
+
+    /* packages */
+    function pkNums(){
+      PKO.forEach(function(k){var n=C.filter(function(c){return c.pk===k}).length;var a=q('[data-pkn="'+k+'"]'),b=q('[data-pkv="'+k+'"]');if(a)a.textContent=n;if(b)b.textContent=gbp(n*PK[k].p)});
+      var up=C.filter(function(c){return c.ren<=7}).sort(function(a,b){return a.ren-b.ren});
+      q("#pkR").innerHTML=up.map(function(c){return '<li><div><span class="who">'+esc(c.n)+'</span><span class="meta">'+PK[c.pk].n+" · "+(c.pay==="failed"?"card declined today":dplus(c.ren))+'</span></div><span style="display:flex;gap:10px;align-items:center"><span class="r">'+gbp(PK[c.pk].p)+"</span>"+(c.pay==="failed"?'<button class="mini" type="button" data-retry="'+c.id+'">Retry</button>':"")+"</span></li>"}).join("")||'<li class="empty">Nothing due in the next 7 days.</li>';
+      var tot=0;
+      q("#pkF").innerHTML=RF.map(function(r){var a=by(r[0]),b=by(r[1]);tot+=PK[b.pk].p;return '<li><div><span class="who">'+a.n+" sent "+b.n+'</span><span class="meta">'+PK[b.pk].n+" · "+gbp(REF)+' credit each, applied</span></div><span class="r">'+gbp(PK[b.pk].p)+" a month</span></li>"}).join("")+'<li><span class="meta">Clients who came from a referral</span><span class="r">'+gbp(tot)+" a month</span></li>";
+    }
+    draw.packages=function(){
+      q("#pkC").innerHTML=PKO.map(function(k){var p=PK[k];return '<div class="pkc"><h4>'+p.n+"</h4><p>"+p.d+'</p><label class="pr">£<input type="text" inputmode="numeric" data-pk="'+k+'" value="'+p.p+'" aria-label="'+p.n+' price a month"> a month</label><dl><dt>Clients</dt><dd data-pkn="'+k+'"></dd><dt>Each month</dt><dd data-pkv="'+k+'"></dd></dl></div>'}).join("");
+      q("#pkFee").value=FEE;q("#pkRef").value=REF;pkNums();
+    };
+    q('[data-scr="packages"]').addEventListener("input",function(e){
+      var t=e.target,v=parseInt(String(t.value).replace(/[^0-9]/g,""),10);
+      if(!(v>0&&v<100000))return;
+      if(t.dataset.pk){PK[t.dataset.pk].p=v;pkNums();counts()}
+      if(t.id==="pkFee")FEE=v;
+      if(t.id==="pkRef"){REF=v;pkNums()}
+    });
+    q('[data-scr="packages"]').addEventListener("click",function(e){
+      var b=e.target.closest("[data-retry]");
+      if(b){var c=by(b.dataset.retry);c.pay="ok";c.ren=30;pkNums();counts();q("#pkMsg").textContent="Demo only. The card would be tried again and "+first(c)+" told if it fails. Shown here as paid.";return}
+      if(e.target.closest("#pkSave")){
+        PKO.forEach(function(k){var nm=PK[k].n;
+          $$('.pk td[data-t="'+nm+'"] .price').forEach(function(el){if(el.firstChild&&el.firstChild.nodeType===3)el.firstChild.nodeValue="£"+PK[k].p});
+          $$('[data-start="'+nm+'"]').forEach(function(x){x.dataset.price=PK[k].p});
+        });
+        q("#pkMsg").textContent="Done. Open the Site tab and look at your packages: the three prices there now match these. The consultation fee and the referral credit are not wired up in this demo.";
+      }
+    });
+
+    /* money */
+    draw.money=function(){
+      var m=mrr(),labs=[],i,d;
+      for(i=5;i>=0;i--){d=new Date(now.getFullYear(),now.getMonth()-i,1);labs.push(MON[d.getMonth()])}
+      q("#moN").textContent=gbp(m);
+      q("#moS").textContent="Billed automatically to "+C.length+" clients. "+gbp(m*12)+" a year at this rate.";
+      q("#moC").innerHTML=bars(HIST.concat([m]),labs,5);
+      q("#moP").innerHTML=PKO.map(function(k){var n=C.filter(function(c){return c.pk===k}).length,v=n*PK[k].p;return '<div class="r"><b>'+PK[k].n+'</b><span class="t"><i style="width:'+Math.round(v/(m||1)*100)+'%"></i></span><span class="g">'+gbp(v)+" <span>· "+n+(n===1?" client":" clients")+"</span></span></div>"}).join("");
+      var fail=C.filter(function(c){return c.pay==="failed"}).reduce(function(a,c){return a+PK[c.pk].p},0),mt=C.filter(function(c){return c.pk==="maintenance"}).length;
+      q("#moO").innerHTML=[["Consultations paid","6 at "+gbp(FEE),gbp(6*FEE)],["Credited against a first package","4 of those became clients",gbp(4*FEE)],["Payments being chased",fail?"Retried automatically, then flagged to you":"Nothing outstanding",fail?gbp(fail):"None"],["Kept after reaching their goal",mt+" on Maintenance",gbp(mt*PK.maintenance.p)+" a month"]].map(function(x){return '<li><div><span class="who">'+x[0]+'</span><span class="meta">'+x[1]+'</span></div><span class="r">'+x[2]+"</span></li>"}).join("");
+    };
+
+    draw.today();counts();
+  })();}
 })();
 </script>
 
@@ -955,11 +1574,12 @@ body.tw-device-mob #tw-app{background:#e8e6de; min-height:60vh}
       <div class="tw-band" data-tw-band="growth">
         <header>
           <h3>Growth <span>£99 a month</span></h3>
-          <p class="tw-band-title">Your back end: bookings, billing and recurring revenue</p>
+          <p class="tw-band-title">Your back end: clients, plans, billing and recurring revenue</p>
         </header>
         <p class="tw-plus">Everything in Starter, plus:</p>
         <ul class="tw-lines">
-          <li><b>The back end you saw on the Back end tab</b><span>Callbacks to ring, consultations booked and clients due a check-in, in one place, so nobody goes quiet without you noticing.</span></li>
+          <li><b>The coaching console on the Back end tab</b><span>Every client, their training week, their food targets, their check-ins and their payments in one place, so you can carry more clients and nobody goes quiet without you noticing.</span></li>
+          <li><b>A plan builder for training and nutrition</b><span>Start from your own templates, change anything, and send it to the client&#39;s phone. Building a plan takes minutes, which is what lets you take on the next client.</span></li>
           <li><b>Paid consultation booking in your calendar</b><span>A small fee holds the slot and comes off the first package: fewer no-shows, and a card already on file when they say yes.</span></li>
           <li><b>Packages bought and billed monthly online</b><span>Recurring revenue collected automatically each month, with failed payments chased for you.</span></li>
           <li><b>A maintenance membership for clients who have hit their goal</b><span>A lower-priced plan that keeps them paying and accountable after the transformation, instead of leaving.</span></li>
@@ -974,7 +1594,7 @@ body.tw-device-mob #tw-app{background:#e8e6de; min-height:60vh}
         </header>
         <p class="tw-plus">Everything in Growth, plus:</p>
         <ul class="tw-lines">
-          <li><b>A client portal built for how you coach</b><span>Each client&#39;s plan, check-in form and progress photos in one place, in place of documents and message threads. It lets you carry more clients without more hours.</span></li>
+          <li><b>A client app in your name</b><span>Clients log sessions, weigh-ins and progress photos themselves and it all flows into your console, in place of forms and message threads.</span></li>
           <li><b>AI content</b><span>Blog posts and captions drafted from your own posts and client results, for you to approve, so the site keeps bringing in searches while you coach.</span></li>
           <li><b>An AI chat agent</b><span>Answers the questions you answer every day and books the consultation, at eleven at night when people actually decide.</span></li>
           <li><b>Custom AI systems</b><span>For example, a weekly read of every check-in that tells you which clients need you first.</span></li>
@@ -1061,7 +1681,12 @@ body.tw-device-mob #tw-app{background:#e8e6de; min-height:60vh}
   if (bare) {
     if (bar) bar.remove();
     if (prop) prop.remove();
-    if (back) back.remove();
+    if (back && /[?&]twv=backend/.test(location.search)) {
+      // The back end's own phone: this same file, showing only that view.
+      var siteBox = doc.getElementById('tw-app');
+      if (siteBox && siteBox.parentNode) siteBox.parentNode.insertBefore(back, siteBox.nextSibling);
+      doc.body.classList.add('tw-view-back');
+    } else if (back) back.remove();
     return;
   }
   if (!bar) return;
@@ -1094,35 +1719,47 @@ body.tw-device-mob #tw-app{background:#e8e6de; min-height:60vh}
     press(site, !onProp && !onBack);
     press(proposal, onProp);
     press(backBtn, onBack);
+    // Mobile was already on when the back end was opened: give it its phone.
+    if (onBack && body.classList.contains('tw-device-mob')) frame(back, 'back', true);
     window.scrollTo(0, 0);
   }
 
-  var phone = null;
+  // One phone per view: the site's, and the back end's when a template has one.
+  // Each is this same file marked bare, so the phone shows that view and
+  // nothing else. The back end's is only loaded once somebody asks for it.
+  var phones = {};
+  function frame(box, kind, onMob) {
+    if (!box) return;
+    var ph = phones[kind];
+    if (onMob) {
+      if (!ph) {
+        ph = doc.createElement('iframe');
+        if (kind === 'site') ph.id = 'tw-phone';
+        ph.className = 'tw-phone';
+        ph.title = 'Phone preview';
+        ph.loading = 'eager';
+        var u = location.pathname + (location.search ? location.search + '&' : '?') + 'tw=bare'
+          + (kind === 'back' ? '&twv=backend' : '');
+        ph.src = u + location.hash;
+        phones[kind] = ph;
+      }
+      box.setAttribute('data-tw-hidden', '');
+      [].forEach.call(box.children, function (c) { if (c !== ph) c.style.display = 'none'; });
+      box.appendChild(ph);
+      ph.style.display = 'block';
+    } else if (ph) {
+      ph.style.display = 'none';
+      box.removeAttribute('data-tw-hidden');
+      [].forEach.call(box.children, function (c) { if (c !== ph) c.style.display = ''; });
+    }
+  }
   function device(which) {
     var onMob = which === 'mob';
     body.classList.toggle('tw-device-mob', onMob);
     press(desk, !onMob);
     press(mob, onMob);
-    if (!app) return;
-    if (onMob) {
-      if (!phone) {
-        phone = doc.createElement('iframe');
-        phone.id = 'tw-phone';
-        phone.title = 'Phone preview';
-        phone.loading = 'eager';
-        // Same file, marked bare, so the phone shows the site and nothing else.
-        var u = location.pathname + (location.search ? location.search + '&' : '?') + 'tw=bare';
-        phone.src = u + location.hash;
-      }
-      app.setAttribute('data-tw-hidden', '');
-      [].forEach.call(app.children, function (c) { if (c !== phone) c.style.display = 'none'; });
-      app.appendChild(phone);
-      phone.style.display = 'block';
-    } else if (phone) {
-      phone.style.display = 'none';
-      app.removeAttribute('data-tw-hidden');
-      [].forEach.call(app.children, function (c) { if (c !== phone) c.style.display = ''; });
-    }
+    frame(app, 'site', onMob);
+    if (back && (phones.back || body.classList.contains('tw-view-back'))) frame(back, 'back', onMob);
     window.scrollTo(0, 0);
   }
 
